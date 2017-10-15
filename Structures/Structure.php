@@ -10,5 +10,13 @@
 namespace CharlotteDunois\NekoCord\Structures;
 
 class Structure { //TODO
+    protected $client;
     
+    function __construct($client) {
+        $this->client = $client;
+    }
+    
+    function client() {
+        return $this->client;
+    }
 }

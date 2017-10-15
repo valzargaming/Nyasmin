@@ -12,7 +12,9 @@ namespace CharlotteDunois\NekoCord\Structures;
 class ClientUser extends User { //TODO
     private $data = array();
     
-    function __construct($user) {
+    function __construct($client, $user) {
+        parent::__construct($client);
+        
         $this->data = $user;
     }
     

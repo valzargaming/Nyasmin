@@ -16,7 +16,9 @@ class User extends Structure { //TODO
     protected $tag;
     protected $verified;
     
-    function __construct($user) {
+    function __construct($client, $user) {
+        parent::__construct($client);
+        
         $this->id = $user['id'];
         $this->username = $user['username'];
         $this->discriminator = $user['discriminator'];
