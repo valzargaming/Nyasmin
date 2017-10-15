@@ -13,7 +13,7 @@ class ClientUser extends User { //TODO
     private $data = array();
     
     function __construct($client, $user) {
-        parent::__construct($client);
+        parent::__construct($client, $user);
         
         $this->data = $user;
     }

@@ -18,7 +18,7 @@ class Ready {
     
     function handle($data) { //TODO
         var_dump($data);
-        $this->client->setClientUser($this->client, $data['user']);
+        $this->client->setClientUser($data['user']);
         $this->client->wsmanager()->setSessionID($data['session_id']);
         
         $this->client->wsmanager()->emit('ready');

@@ -73,7 +73,7 @@ class Client extends \League\Event\Emitter {
         $this->token = $token;
         
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $connect = $this->ws->connect('wss://gateway.discord.gg/?v=6&encoding=json');
+            $connect = $this->ws->connect(\CharlotteDunois\NekoCord\Constants::$ws['url']);
             if(!$connect) {
                 echo 'WARNING: WSManager::connect returned falsy value'.PHP_EOL;
             } else {
@@ -89,7 +89,7 @@ class Client extends \League\Event\Emitter {
     }
     
     function setClientUser(array $user) {
-        $this->user = new \CharlotteDunois\NekoCord\Structures\ClientUser($user);
+        $this->user = new \CharlotteDunois\NekoCord\Structures\ClientUser($this, $user);
     }
     
     function _pong($end) {

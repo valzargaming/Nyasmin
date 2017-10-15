@@ -40,7 +40,15 @@ class WSManager extends \League\Event\Emitter {
     function getWSHandler() {
         return $this->wshandler;
     }
+    
+    function status() {
+        if(!$this->ws) {
+            return -1;
+        }
         
+        
+    }
+    
     function connect($gateway = null) {
         if(!$gateway && !$this->gateway) {
             throw new \Exception('Can not connect to unknown gateway');
@@ -143,8 +151,6 @@ class WSManager extends \League\Event\Emitter {
             return $this->heartFailure();
         }
         
-        echo 'Sending heartbeat'.PHP_EOL;
-        
         $this->wsHeartbeat['ack'] = false;
         $this->wsHeartbeat['dateline'] = microtime(true);
         
@@ -155,7 +161,6 @@ class WSManager extends \League\Event\Emitter {
     }
     
     function heartbeatAck() {
-        echo 'Heartbeat ACK'.PHP_EOL;
         $this->_send(array(
             'op' => \CharlotteDunois\NekoCord\Constants::$opcodes['HEARTBEAT_ACK'],
             'd' => null

@@ -27,9 +27,56 @@ class Constants {
     );
     static public $opcodesNumber = array();
     
+    static public $cdn;
+    
+    static public $http = array(
+        'baseurl' => 'https://discordapp.com/api/',
+        'url' => '',
+        'version' => 6
+    );
+    
+    static public $ws = array(
+        'baseurl' => 'wss://gateway.discord.gg/',
+        'encoding' => 'json',
+        'version' => 6,
+        'url' => ''
+    );
+    
     static public $endpoints = array(
-        
+        'users' => array(
+            
+        ),
     );
 }
 
 Constants::$opcodesNumber = array_flip(Constants::$opcodes);
+
+Constants::$cdn = array(
+    'url' => 'https://cdn.discordapp.com/',
+    'emojis' => function ($id) {
+        return 'emojis/'.$id.'.png';
+    },
+    'icons' => function ($id, $hash) {
+        return 'icons/'.$id.'/'.$hash.'.png';
+    },
+    'splashs' => function ($id, $splash) {
+        return 'splashes/'.$id.'/'.$splash.'.png';
+    },
+    'defaultavatars' => function ($modulo) {
+        return 'embed/avatars/'.$modulo.'.png';
+    },
+    'avatars' => function ($id, $hash, $format) {
+        if(empty($format)) {
+            $format = (strpos($hash, 'a_') === 0 ? 'gif' : 'webp');
+        }
+        
+        return 'avatars/'.$id.'/'.$hash.'.'.$format;
+    },
+    'appicons' => function ($id, $icon) {
+        return 'app-icons/'.$id.'/'.$icon.'.png';
+    }
+);
+
+Constants::$http['url'] = Constants::$http['baseurl'].Constants::$http['version'];
+
+Constants::$ws['url'] = Constants::$ws['baseurl'].'?v='.Constants::$ws['version'].'&encoding='.Constants::$ws['encoding'];

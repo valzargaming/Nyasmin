@@ -31,8 +31,11 @@ $client->on('raw', function ($event) {
     $packet = $event->getParam(0);
     echo 'RAW: '.$packet['op'].' ('.\CharlotteDunois\NekoCord\Constants::$opcodesNumber[$packet['op']].') '.($packet['t'] ?? '').PHP_EOL;
 });
-$client->on('ready', function () {
+$client->on('ready', function () use($client) {
     echo 'We are ready!'.PHP_EOL;
+    
+    $user = $client->getClientUser();
+    echo 'Logged in as '.$user->tag.' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
 });
 $client->on('disconnect', function () {
     echo 'Disconnected!'.PHP_EOL;
@@ -45,6 +48,11 @@ $client->login($token)->done(function () use ($client) {
     $client->getLoop()->addPeriodicTimer(60, function () use($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
+});
+
+$client->getLoop()->addTimer(180, function () use ($client) {
+    $client->wsmanager()->disconnect();
+    $client->getLoop()->stop();
 });
 
 $client->getLoop()->run();
