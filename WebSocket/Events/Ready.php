@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord\WebSocket\Events;
+namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 class Ready {
     protected $client;
@@ -17,7 +17,6 @@ class Ready {
     }
     
     function handle($data) { //TODO
-        var_dump($data);
         $this->client->setClientUser($data['user']);
         $this->client->wsmanager()->setSessionID($data['session_id']);
         

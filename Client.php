@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord;
+namespace CharlotteDunois\Yasmin;
 
 if(file_exists(__DIR__.'/vendor/autoload.php')) {
     include_once(__DIR__.'/vendor/autoload.php');
@@ -33,7 +33,7 @@ class Client extends \League\Event\Emitter {
         }
         
         $this->loop = $loop;
-        $this->ws = new \CharlotteDunois\NekoCord\WebSocket\WSManager($this);
+        $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
         $this->channels = \CharlotteDunois\Collect\Collection::create(array());
         $this->guilds = \CharlotteDunois\Collect\Collection::create(array());
@@ -73,10 +73,8 @@ class Client extends \League\Event\Emitter {
         $this->token = $token;
         
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $connect = $this->ws->connect(\CharlotteDunois\NekoCord\Constants::$ws['url']);
-            if(!$connect) {
-                echo 'WARNING: WSManager::connect returned falsy value'.PHP_EOL;
-            } else {
+            $connect = $this->ws->connect(\CharlotteDunois\Yasmin\Constants::$ws['url']);
+            if($connect) {
                 $connect->then($resolve, $reject);
                 $resolve = function () { };
             }
@@ -89,7 +87,7 @@ class Client extends \League\Event\Emitter {
     }
     
     function setClientUser(array $user) {
-        $this->user = new \CharlotteDunois\NekoCord\Structures\ClientUser($this, $user);
+        $this->user = new \CharlotteDunois\Yasmin\Structures\ClientUser($this, $user);
     }
     
     function _pong($end) {
@@ -110,7 +108,7 @@ class Client extends \League\Event\Emitter {
     }
     
     function emit($name, ...$args) {
-        $event = new \CharlotteDunois\NekoCord\Event($name, ...$args);
+        $event = new \CharlotteDunois\Yasmin\Event($name, ...$args);
         $event->setEmitter($this);
         return parent::emit($event);
     }

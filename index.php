@@ -1,6 +1,6 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
@@ -12,8 +12,8 @@ $token = file_get_contents("Z:\\Eigene Dokumente\\Discord Bots\\Charuru Commando
 define('IN_DIR', str_replace('\\', '/', __DIR__));
 
 spl_autoload_register(function ($name) {
-    if(strpos($name, 'CharlotteDunois\\NekoCord') === 0) {
-        $name = str_replace('CharlotteDunois\\NekoCord\\', '', $name);
+    if(strpos($name, 'CharlotteDunois\\Yasmin') === 0) {
+        $name = str_replace('CharlotteDunois\\Yasmin\\', '', $name);
         $name = str_replace('\\', '/', $name);
         
         //echo IN_DIR.'/'.$name.'.php '.(file_exists(IN_DIR.'/'.$name.'.php') ? '(true)' : '(false)').PHP_EOL;
@@ -25,12 +25,16 @@ spl_autoload_register(function ($name) {
 });
 require_once(IN_DIR.'/vendor/autoload.php');
 
-$client = new \CharlotteDunois\NekoCord\Client();
+$client = new \CharlotteDunois\Yasmin\Client();
 
+$client->on('debug', function ($event) {
+    echo $event->getParam(0).PHP_EOL;
+});
 $client->on('raw', function ($event) {
     $packet = $event->getParam(0);
-    echo 'RAW: '.$packet['op'].' ('.\CharlotteDunois\NekoCord\Constants::$opcodesNumber[$packet['op']].') '.($packet['t'] ?? '').PHP_EOL;
+    echo 'RAW: '.$packet['op'].' ('.\CharlotteDunois\Yasmin\Constants::$opcodesNumber[$packet['op']].') '.($packet['t'] ?? '').PHP_EOL;
 });
+
 $client->on('ready', function () use($client) {
     echo 'We are ready!'.PHP_EOL;
     

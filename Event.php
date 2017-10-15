@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord;
+namespace CharlotteDunois\Yasmin;
 
 class Event implements \League\Event\EventInterface {
     

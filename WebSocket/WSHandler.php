@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord\WebSocket;
+namespace CharlotteDunois\Yasmin\WebSocket;
 
 class WSHandler {
     private $handlers = array();
@@ -17,17 +17,17 @@ class WSHandler {
     function __construct($wsmanager) {
         $this->wsmanager = $wsmanager;
         
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['DISPATCH'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\Dispatch');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['HEARTBEAT'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\Heartbeat');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['PRESENCE'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\Presence');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['VOICE_STATE_UPDATE'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\VoiceStateUpdate');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['VOICE_SERVER_PING'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\VoiceServerPing');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['RECONNECT'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\Reconnect');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['REQUEST_GUILD_MEMBERS'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\RequestGuildMembers');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['INVALIDATE_SESSION'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\InvalidateSession');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['HELLO'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\Hello');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['HEARTBEAT_ACK'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\HeartbeatAck');
-        $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['GUILD_SYNC'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\GuildSync');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['DISPATCH'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Dispatch');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Heartbeat');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['PRESENCE'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Presence');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['VOICE_STATE_UPDATE'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\VoiceStateUpdate');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['VOICE_SERVER_PING'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\VoiceServerPing');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['RECONNECT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['REQUEST_GUILD_MEMBERS'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\RequestGuildMembers');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['INVALIDATE_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidateSession');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HELLO'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Hello');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT_ACK'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\HeartbeatAck');
+        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['GUILD_SYNC'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\GuildSync');
     }
     
     function client() {

@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord\Structures;
+namespace CharlotteDunois\Yasmin\Structures;
 
 class User extends Structure { //TODO
     protected $id;
@@ -44,7 +44,7 @@ class User extends Structure { //TODO
     }
     
     function getDefaultAvatarURL($size = 256) {
-        return \CharlotteDunois\NekoCord\Constants::$cdn['url'].(\CharlotteDunois\NekoCord\Constants::$cdn['defaultavatars'])(($this->discriminator % 5)).'?size='.$size;
+        return \CharlotteDunois\Yasmin\Constants::$cdn['url'].(\CharlotteDunois\Yasmin\Constants::$cdn['defaultavatars'])(($this->discriminator % 5)).'?size='.$size;
     }
     
     function getAvatarURL($size = 256, $format = '') {
@@ -52,7 +52,7 @@ class User extends Structure { //TODO
             return NULL;
         }
         
-        return \CharlotteDunois\NekoCord\Constants::$cdn['url'].(\CharlotteDunois\NekoCord\Constants::$cdn['avatars'])($this->id, $this->avatar, $format).'?size='.$size;
+        return \CharlotteDunois\Yasmin\Constants::$cdn['url'].(\CharlotteDunois\Yasmin\Constants::$cdn['avatars'])($this->id, $this->avatar, $format).'?size='.$size;
     }
     
     function getDisplayAvatarURL($size = 256, $format = '') {

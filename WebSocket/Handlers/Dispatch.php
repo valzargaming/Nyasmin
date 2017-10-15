@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord\WebSocket\Handlers;
+namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
 
 class Dispatch {
     private $wsevents = array();
@@ -16,8 +16,8 @@ class Dispatch {
     function __construct($wshandler) {
         $this->wshandler = $wshandler;
         
-        $this->register('READY', '\CharlotteDunois\NekoCord\WebSocket\Events\Ready');
-        $this->register('RESUMED', '\CharlotteDunois\NekoCord\WebSocket\Events\Resumed');
+        $this->register('READY', '\CharlotteDunois\Yasmin\WebSocket\Events\Ready');
+        $this->register('RESUMED', '\CharlotteDunois\Yasmin\WebSocket\Events\Resumed');
     }
     
     function getEvent($name) {

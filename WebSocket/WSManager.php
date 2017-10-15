@@ -1,13 +1,13 @@
 <?php
 /**
- * Neko Cord
+ * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
  * License: MIT
 */
 
-namespace CharlotteDunois\NekoCord\WebSocket;
+namespace CharlotteDunois\Yasmin\WebSocket;
 
 class WSManager extends \League\Event\Emitter {
     public $client;
@@ -30,7 +30,7 @@ class WSManager extends \League\Event\Emitter {
     
     function __construct($client) {
         $this->client = $client;
-        $this->wshandler = new \CharlotteDunois\NekoCord\WebSocket\WSHandler($this);
+        $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
     }
     
     function client() {
@@ -61,10 +61,13 @@ class WSManager extends \League\Event\Emitter {
         $this->gateway = $gateway;
         
         $connector = new \Ratchet\Client\Connector($this->client->getLoop());
+        $this->client->emit('debug', 'Connecting to WS '.$gateway);
+        
         return $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) {
             $this->ws = &$conn;
             
             $this->emit('open');
+            $this->client->emit('debug', 'Connected to WS');
             
             $ratelimits = &$this->ratelimits;
             $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer(60, function () use($ratelimits) {
@@ -72,8 +75,10 @@ class WSManager extends \League\Event\Emitter {
             });
             
             if($this->wsSessionID === NULL) {
+                $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
                 $this->sendIdentify('IDENTIFY');
             } else {
+                $this->client->emit('debug', 'Sending RESUME "'.$this->wsSessionID.'" packet to WS');
                 $this->sendIdentify('RESUME', $this->wsSessionID);
             }
             
@@ -89,17 +94,17 @@ class WSManager extends \League\Event\Emitter {
                 $this->client->emit('error', $error);
             });
             
-            $this->ws->on('close', function ($event) {
-                var_dump($event);
-                
+            $this->ws->on('close', function ($code) {
                 if($this->ratelimits['timer']) {
                     $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                 }
                 
-                $this->emit('close');
-                $this->client->emit('disconnect');
+                $this->emit('close', $code);
+                $this->client->emit('disconnect', $code);
                 
-                
+                if($event !== 1000) {
+                    $this->connect($this->gateway);
+                }
             });
             
             return \React\Promise\resolve();
@@ -107,6 +112,8 @@ class WSManager extends \League\Event\Emitter {
     }
     
     function disconnect() {
+        $this->client->emit('debug', 'Disconnecting from WS');
+        
         $this->wsSessionID = NULL;
         $this->ws->close(1000);
     }
@@ -121,7 +128,7 @@ class WSManager extends \League\Event\Emitter {
     
     function sendIdentify(string $opname, $sessionid = NULL) {
         $packet = array(
-            'op' => \CharlotteDunois\NekoCord\Constants::$opcodes[$opname],
+            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes[$opname],
             'd' => array(
                 'token' => $this->client->token,
                 'properties' => array(
@@ -151,29 +158,34 @@ class WSManager extends \League\Event\Emitter {
             return $this->heartFailure();
         }
         
+        $this->client->emit('debug', 'Sending heartbeat');
+        
         $this->wsHeartbeat['ack'] = false;
         $this->wsHeartbeat['dateline'] = microtime(true);
         
         $this->_send(array(
-            'op' => \CharlotteDunois\NekoCord\Constants::$opcodes['HEARTBEAT'],
+            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT'],
             'd' => $this->wshandler->getSequence()
         ));
     }
     
     function heartbeatAck() {
+        $this->client->emit('debug', 'Sending heartbeat ack');
         $this->_send(array(
-            'op' => \CharlotteDunois\NekoCord\Constants::$opcodes['HEARTBEAT_ACK'],
+            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT_ACK'],
             'd' => null
         ));
     }
     
     function heartFailure() {
+        $this->client->emit('debug', 'WS heart failure');
+        
         $this->ws->close(1006, 'No heartbeat ack received');
         $this->connect($this->gateway);
     }
     
     function _send(array $packet) {
-        var_dump($packet);
+        $this->client->emit('debug', 'Sending packet with OP code '.$packet['op']);
         return $this->ws->send(json_encode($packet));
     }
     
@@ -186,7 +198,7 @@ class WSManager extends \League\Event\Emitter {
     }
     
     function emit($name, ...$args) {
-        $event = new \CharlotteDunois\NekoCord\Event($name, ...$args);
+        $event = new \CharlotteDunois\Yasmin\Event($name, ...$args);
         $event->setEmitter($this);
         return parent::emit($event);
     }
