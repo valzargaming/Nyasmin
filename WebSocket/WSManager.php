@@ -10,7 +10,6 @@
 namespace CharlotteDunois\Yasmin\WebSocket;
 
 class WSManager extends \League\Event\Emitter {
-    public $client;
     public $ratelimits = array(
         'total' => 120,
         'time' => 60,
@@ -27,6 +26,8 @@ class WSManager extends \League\Event\Emitter {
     
     private $gateway;
     private $wsSessionID;
+    
+    private $client;
     private $wshandler;
     private $ws;
     
