@@ -38,9 +38,9 @@ class Constants {
     );
     
     static public $http = array(
-        'baseurl' => 'https://discordapp.com/api/',
-        'url' => '',
-        'version' => 6
+        'url' => 'https://discordapp.com/api/',
+        'version' => 7,
+        'invite' => 'https://discord.gg'
     );
     
     static public $ws = array(
@@ -177,4 +177,3 @@ class Constants {
 }
 
 Constants::$opcodesNumber = array_flip(Constants::$opcodes);
-Constants::$http['url'] = Constants::$http['baseurl'].Constants::$http['version'];
