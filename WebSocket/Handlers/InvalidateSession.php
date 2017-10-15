@@ -17,6 +17,8 @@ class InvalidateSession {
     }
     
     function handle($packet) {
-        $this->wshandler->getWSManager()->sendIdentify('IDENTIFY');
+        $this->wshandler->client()->getLoop()->addTimer(2, function () {
+            $this->wshandler->wsmanager()->sendIdentify('IDENTIFY');
+        });
     }
 }

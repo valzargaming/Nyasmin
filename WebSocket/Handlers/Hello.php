@@ -16,7 +16,7 @@ class Hello {
     function __construct($wshandler) {
         $this->wshandler = $wshandler;
         
-        $this->wshandler->getWSManager()->on('close', function () {
+        $this->wshandler->wsmanager()->on('close', function () {
             $this->close();
         });
     }
@@ -24,14 +24,14 @@ class Hello {
     function handle($packet) {
         $interval = $packet['d']['heartbeat_interval'] / 1000;
         
-        $this->heartbeat = $this->wshandler->getClient()->getLoop()->addPeriodicTimer($interval, function () {
-            $this->wshandler->getWSManager()->heartbeat();
+        $this->heartbeat = $this->wshandler->client()->getLoop()->addPeriodicTimer($interval, function () {
+            $this->wshandler->wsmanager()->heartbeat();
         });
     }
     
     private function close() {
         if($this->heartbeat !== NULL) {
-            $this->wshandler->getClient()->getLoop()->cancelTimer($this->heartbeat);
+            $this->wshandler->client()->getLoop()->cancelTimer($this->heartbeat);
             $this->heartbeat = NULL;
         }
     }

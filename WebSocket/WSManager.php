@@ -33,7 +33,7 @@ class WSManager extends \League\Event\Emitter {
         $this->wshandler = new \CharlotteDunois\NekoCord\WebSocket\WSHandler($this);
     }
     
-    function getClient() {
+    function client() {
         return $this->client;
     }
     
@@ -52,7 +52,8 @@ class WSManager extends \League\Event\Emitter {
         
         $this->gateway = $gateway;
         
-        return \Ratchet\Client\connect($gateway)->done(function (\Ratchet\Client\WebSocket $conn) {
+        $connector = new \Ratchet\Client\Connector($this->client->getLoop());
+        return $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) {
             $this->ws = &$conn;
             
             $this->emit('open');
@@ -80,17 +81,26 @@ class WSManager extends \League\Event\Emitter {
                 $this->client->emit('error', $error);
             });
             
-            $this->ws->on('close', function () {
+            $this->ws->on('close', function ($event) {
+                var_dump($event);
+                
                 if($this->ratelimits['timer']) {
                     $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                 }
                 
                 $this->emit('close');
                 $this->client->emit('disconnect');
+                
+                
             });
             
             return \React\Promise\resolve();
         });
+    }
+    
+    function disconnect() {
+        $this->wsSessionID = NULL;
+        $this->ws->close(1000);
     }
     
     function send(array $packet) {
@@ -159,9 +169,7 @@ class WSManager extends \League\Event\Emitter {
     
     function _send(array $packet) {
         var_dump($packet);
-        $rp = $this->ws->send(json_encode($packet));
-        var_dump($rp);
-        return $rp;
+        return $this->ws->send(json_encode($packet));
     }
     
     function on(...$args) {

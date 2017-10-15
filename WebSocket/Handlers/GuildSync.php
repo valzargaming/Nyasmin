@@ -16,7 +16,7 @@ class GuildSync {
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet) {
+    function handle($packet) { //TODO
         
     }
 }

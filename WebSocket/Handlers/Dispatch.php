@@ -17,6 +17,7 @@ class Dispatch {
         $this->wshandler = $wshandler;
         
         $this->register('READY', '\CharlotteDunois\NekoCord\WebSocket\Events\Ready');
+        $this->register('RESUMED', '\CharlotteDunois\NekoCord\WebSocket\Events\Resumed');
     }
     
     function getEvent($name) {
@@ -27,7 +28,7 @@ class Dispatch {
         throw new \Exception('Can not find WS event');
     }
     
-    function handle($packet) {
+    function handle($packet) { //TODO
         if(isset($this->wsevents[$packet['t']])) {
             try {
                 $this->wsevents[$packet['t']]->handle($packet['d']);
@@ -38,6 +39,6 @@ class Dispatch {
     }
     
     private function register($name, $class) {
-        $this->wsevents[$name] = new $class($this->wshandler->getClient());
+        $this->wsevents[$name] = new $class($this->wshandler->client());
     }
 }

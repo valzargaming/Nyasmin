@@ -18,9 +18,9 @@ class HeartbeatAck {
     
     function handle() {
         $end = microtime(true);
-        $this->wshandler->getWSManager()->getClient()->_pong($end);
+        $this->wshandler->client()->_pong($end);
         
-        $this->wshandler->getWSManager()->wsHeartbeat['ack'] = true;
-        $this->wshandler->getWSManager()->wsHeartbeat['dateline'] = 0;
+        $this->wshandler->wsmanager()->wsHeartbeat['ack'] = true;
+        $this->wshandler->wsmanager()->wsHeartbeat['dateline'] = 0;
     }
 }

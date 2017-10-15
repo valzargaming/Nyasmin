@@ -9,18 +9,14 @@
 
 namespace CharlotteDunois\NekoCord\WebSocket\Events;
 
-class Ready {
+class Resumed {
     protected $client;
     
     function __construct($client) {
         $this->client = $client;
     }
     
-    function handle($data) { //TODO
-        var_dump($data);
-        $this->client->setClientUser($data['user']);
-        $this->client->wsmanager()->setSessionID($data['session_id']);
-        
+    function handle($data) {
         $this->client->wsmanager()->emit('ready');
     }
 }

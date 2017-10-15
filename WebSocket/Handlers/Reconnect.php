@@ -16,7 +16,8 @@ class Reconnect {
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet) {
-        
+    function handle($packet) { //TODO
+        $this->wshandler->wsmanager()->disconnect();
+        $this->wshandler->wsmanager()->sendIdentify('IDENTIFY');
     }
 }

@@ -42,11 +42,9 @@ $client->on('reconnect', function () {
 });
 
 $client->login($token)->done(function () use ($client) {
-    $loop = $client->getLoop();
-    
-    $loop->addPeriodicTimer(60, function () use($client) {
+    $client->getLoop()->addPeriodicTimer(60, function () use($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
-    
-    $loop->run();
 });
+
+$client->getLoop()->run();

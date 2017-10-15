@@ -9,17 +9,19 @@
 
 namespace CharlotteDunois\NekoCord\Structures;
 
-class User {
+class User extends Structure { //TODO
     protected $id;
     protected $username;
     protected $discriminator;
     protected $tag;
+    protected $verified;
     
     function __construct($user) {
         $this->id = $user['id'];
         $this->username = $user['username'];
         $this->discriminator = $user['discriminator'];
         $this->tag = $this->username.'#'.$this->discriminator;
+        $this->verified = $user->verified;
     }
     
     function __get($name) {

@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\NekoCord\Structures;
 
-class ClientUser extends User {
+class ClientUser extends User { //TODO
     private $data = array();
     
     function __construct($user) {

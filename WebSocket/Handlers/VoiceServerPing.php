@@ -16,7 +16,7 @@ class VoiceServerPing {
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet) {
+    function handle($packet) { //TODO
         
     }
 }

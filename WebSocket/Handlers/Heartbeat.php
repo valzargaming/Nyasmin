@@ -18,6 +18,6 @@ class Heartbeat {
     }
     
     function handle($packet) {
-        $this->wshandler->getWSManager()->heartbeatAck();
+        $this->wshandler->wsmanager()->heartbeatAck();
     }
 }

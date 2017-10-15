@@ -40,16 +40,16 @@ class Client extends \League\Event\Emitter {
         $this->users = \CharlotteDunois\Collect\Collection::create(array());
     }
     
+    function wsmanager() {
+        return $this->ws;
+    }
+    
     function getLoop() {
         return $this->loop;
     }
     
     function getClientUser() {
         return $this->user;
-    }
-    
-    function getWSManager() {
-        return $this->ws;
     }
     
     function getOption($name, $default = NULL) {
@@ -93,7 +93,7 @@ class Client extends \League\Event\Emitter {
     }
     
     function _pong($end) {
-        $time = ceil(($end - $this->wsmanager->wsHeartbeat['dateline']) * 1000000);
+        $time = ceil(($end - $this->ws->wsHeartbeat['dateline']) * 1000);
         $this->pings[] = $time;
         
         if(count($this->pings) > 3) {

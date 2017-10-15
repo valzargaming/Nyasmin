@@ -30,11 +30,11 @@ class WSHandler {
         $this->register(\CharlotteDunois\NekoCord\Constants::$opcodes['GUILD_SYNC'], '\CharlotteDunois\NekoCord\WebSocket\Handlers\GuildSync');
     }
     
-    function getClient() {
-        return $this->wsmanager->getClient();
+    function client() {
+        return $this->wsmanager->client();
     }
     
-    function getWSManager() {
+    function wsmanager() {
         return $this->wsmanager;
     }
     
@@ -53,9 +53,7 @@ class WSHandler {
     function handle($message) {
         try {
             $packet = json_decode($message->getPayload(), true);
-            var_dump(isset($this->handlers[$packet['op']]));
-            
-            $this->wsmanager->client->emit('raw', $packet);
+            $this->wsmanager->client()->emit('raw', $packet);
             
             if($packet['s']) {
                 $this->sequence = $packet['s'];
