@@ -1,0 +1,26 @@
+{
+    "name": "charlottedunois/nekocord",
+    "description": "A new PHP library for Discord.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CharlotteDunois",
+            "email": "github@charuru.moe"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "league/event": "^2.1",
+        "ratchet/pawl": "^0.3.0",
+        "react/event-loop": "^0.4.3",
+        "react/promise": "^2.5",
+        "charlottedunois/collection": "^0.1.0"
+    },
+    "repositories": {
+        "packagist.neko.run": {
+            "type": "composer",
+            "url": "https://packagist.neko.run"
+        }
+    }
+}
