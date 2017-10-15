@@ -44,7 +44,7 @@ class User extends Structure { //TODO
     }
     
     function getDefaultAvatarURL($size = 256) {
-        return \CharlotteDunois\Yasmin\Constants::$cdn['url'].(\CharlotteDunois\Yasmin\Constants::$cdn['defaultavatars'])(($this->discriminator % 5)).'?size='.$size;
+        return \CharlotteDunois\Yasmin\Constants::$cdn['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::$cdn['defaultavatars'], ($this->discriminator % 5)).'?size='.$size;
     }
     
     function getAvatarURL($size = 256, $format = '') {
@@ -52,10 +52,18 @@ class User extends Structure { //TODO
             return NULL;
         }
         
-        return \CharlotteDunois\Yasmin\Constants::$cdn['url'].(\CharlotteDunois\Yasmin\Constants::$cdn['avatars'])($this->id, $this->avatar, $format).'?size='.$size;
+        if(empty($format)) {
+            $format = $this->getAvatarExtension();
+        }
+        
+        return \CharlotteDunois\Yasmin\Constants::$cdn['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::$cdn['avatars'], $this->id, $this->avatar, $format).'?size='.$size;
     }
     
     function getDisplayAvatarURL($size = 256, $format = '') {
         return ($this->avatar ? $this->getAvatarURL($format) : $this->getDefaultAvatarURL());
+    }
+    
+    private function getAvatarExtension() {
+        return (strpos($this->avatar, 'a_') === 0 ? 'gif' : 'webp');
     }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "charlottedunois/nekocord",
-    "description": "A new PHP library for Discord.",
+    "name": "charlottedunois/yasmin",
+    "description": "Possibly a PHP library for Discord.",
     "type": "library",
     "license": "MIT",
     "authors": [

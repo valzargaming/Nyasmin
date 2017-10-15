@@ -31,6 +31,13 @@ class Dispatch {
     function handle($packet) { //TODO
         if(isset($this->wsevents[$packet['t']])) {
             try {
+                $this->wshandler->client()->emit('debug', 'Received WS event '.$packet['t']);
+                
+                if(in_array($packet['t'], $this->wshandler->client()->getOption('disabledEvents', array()))) {
+                    $this->wshandler->client()->emit('debug', 'WS event '.$packet['t'].' is disabled, skipping...');
+                    return;
+                }
+                
                 $this->wsevents[$packet['t']]->handle($packet['d']);
             } catch(\Exception $e) {
                 var_dump($e->getMessage());

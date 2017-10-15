@@ -19,11 +19,7 @@ class WSHandler {
         
         $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['DISPATCH'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Dispatch');
         $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Heartbeat');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['PRESENCE'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Presence');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['VOICE_STATE_UPDATE'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\VoiceStateUpdate');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['VOICE_SERVER_PING'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\VoiceServerPing');
         $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['RECONNECT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['REQUEST_GUILD_MEMBERS'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\RequestGuildMembers');
         $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['INVALIDATE_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidateSession');
         $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HELLO'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Hello');
         $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT_ACK'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\HeartbeatAck');
@@ -53,7 +49,7 @@ class WSHandler {
     function handle($message) {
         try {
             $packet = json_decode($message->getPayload(), true);
-            $this->wsmanager->client()->emit('raw', $packet);
+            $this->client()->emit('raw', $packet);
             
             if($packet['s']) {
                 $this->sequence = $packet['s'];

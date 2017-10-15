@@ -18,6 +18,8 @@ class HeartbeatAck {
     
     function handle() {
         $end = microtime(true);
+        
+        $this->wshandler->client()->emit('debug', 'Received Heartbeat Ack');
         $this->wshandler->client()->_pong($end);
         
         $this->wshandler->wsmanager()->wsHeartbeat['ack'] = true;

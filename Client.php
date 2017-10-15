@@ -73,7 +73,9 @@ class Client extends \League\Event\Emitter {
         $this->token = $token;
         
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $connect = $this->ws->connect(\CharlotteDunois\Yasmin\Constants::$ws['url']);
+            $url = \CharlotteDunois\Yasmin\Constants::$ws['baseurl'].'?v='.\CharlotteDunois\Yasmin\Constants::$ws['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::$ws['encoding'];
+            
+            $connect = $this->ws->connect($url);
             if($connect) {
                 $connect->then($resolve, $reject);
                 $resolve = function () { };
@@ -108,6 +110,10 @@ class Client extends \League\Event\Emitter {
     }
     
     function emit($name, ...$args) {
+        if($this->getOption('disableDebugEvent', false) === true) {
+            return;
+        }
+        
         $event = new \CharlotteDunois\Yasmin\Event($name, ...$args);
         $event->setEmitter($this);
         return parent::emit($event);

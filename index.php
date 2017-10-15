@@ -30,10 +30,6 @@ $client = new \CharlotteDunois\Yasmin\Client();
 $client->on('debug', function ($event) {
     echo $event->getParam(0).PHP_EOL;
 });
-$client->on('raw', function ($event) {
-    $packet = $event->getParam(0);
-    echo 'RAW: '.$packet['op'].' ('.\CharlotteDunois\Yasmin\Constants::$opcodesNumber[$packet['op']].') '.($packet['t'] ?? '').PHP_EOL;
-});
 
 $client->on('ready', function () use($client) {
     echo 'We are ready!'.PHP_EOL;
@@ -41,20 +37,25 @@ $client->on('ready', function () use($client) {
     $user = $client->getClientUser();
     echo 'Logged in as '.$user->tag.' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
 });
-$client->on('disconnect', function () {
-    echo 'Disconnected!'.PHP_EOL;
+$client->on('disconnect', function ($event) {
+    $params = $event->getParams();
+    $code = $params[0];
+    $reason = $params[1] ?? '';
+    
+    echo 'Disconnected! (Code: '.$code.' | Reason: '.$reason.')'.PHP_EOL;
 });
 $client->on('reconnect', function () {
     echo 'Reconnect happening!'.PHP_EOL;
 });
 
 $client->login($token)->done(function () use ($client) {
-    $client->getLoop()->addPeriodicTimer(60, function () use($client) {
+    $client->getLoop()->addPeriodicTimer(60, function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
 });
 
 $client->getLoop()->addTimer(180, function () use ($client) {
+    echo 'Ending session'.PHP_EOL;
     $client->wsmanager()->disconnect();
     $client->getLoop()->stop();
 });

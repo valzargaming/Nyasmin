@@ -16,7 +16,9 @@ class WSManager extends \League\Event\Emitter {
         'time' => 60,
         'remaining' => 120,
         'timer' => NULL,
-        'dateline' => 0
+        'dateline' => 0,
+        'queue' => array(),
+        'running' => false
     );
     public $wsHeartbeat = array(
         'ack' => true,
@@ -46,7 +48,7 @@ class WSManager extends \League\Event\Emitter {
             return -1;
         }
         
-        
+        return 1;
     }
     
     function connect($gateway = null) {
@@ -70,8 +72,8 @@ class WSManager extends \League\Event\Emitter {
             $this->client->emit('debug', 'Connected to WS');
             
             $ratelimits = &$this->ratelimits;
-            $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer(60, function () use($ratelimits) {
-                $ratelimits['timer']['remaining'] = $ratelimits['timer']['total'];
+            $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer($ratelimits['time'], function () use($ratelimits) {
+                $ratelimits['remaining'] = $ratelimits['total'];
             });
             
             if($this->wsSessionID === NULL) {
@@ -94,15 +96,18 @@ class WSManager extends \League\Event\Emitter {
                 $this->client->emit('error', $error);
             });
             
-            $this->ws->on('close', function ($code) {
+            $this->ws->on('close', function ($code, $reason) {
                 if($this->ratelimits['timer']) {
                     $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                 }
                 
-                $this->emit('close', $code);
-                $this->client->emit('disconnect', $code);
+                $this->ratelimits['queue'] = array();
+                $this->ws = NULL;
                 
-                if($event !== 1000) {
+                $this->emit('close', $code, $reason);
+                $this->client->emit('disconnect', $code, $reason);
+                
+                if($code !== 1000) {
                     $this->connect($this->gateway);
                 }
             });
@@ -116,10 +121,43 @@ class WSManager extends \League\Event\Emitter {
         
         $this->wsSessionID = NULL;
         $this->ws->close(1000);
+        $this->ws = null;
     }
     
     function send(array $packet) {
-        return $this->_send($packet);
+        if($this->status() < 1) {
+            $this->client->emit('debug', 'Tried sending a WS message before a connection was made');
+            return false;
+        }
+        
+        $this->ratelimits['queue'][] = $packet;
+        
+        if($this->ratelimits['running'] === false) {
+            $this->client->getLoop()->addTimer(0.001, function () {
+                $this->processQueue();
+            });
+        }
+        
+        return true;
+    }
+    
+    function processQueue() {
+         if($this->ratelimits['remaining'] === 0) {
+             return;
+         } elseif(count($this->ratelimits['queue']) === 0) {
+             return;
+         }
+         
+         $this->ratelimits['running'] = true;
+         
+         while($this->ratelimits['remaining'] > 0 && count($this->ratelimits['queue']) > 0) {
+             $packet = array_shift($this->ratelimits['queue']);
+             $this->ratelimits['remaining']--;
+             
+             $this->_send($packet);
+         }
+         
+         $this->ratelimits['running'] = false;
     }
     
     function setSessionID(string $id) {
@@ -127,6 +165,11 @@ class WSManager extends \League\Event\Emitter {
     }
     
     function sendIdentify(string $opname, $sessionid = NULL) {
+        if(empty($this->client->token)) {
+            $this->client->emit('Debug', 'No client token to start with');
+            return;
+        }
+        
         $packet = array(
             'op' => \CharlotteDunois\Yasmin\Constants::$opcodes[$opname],
             'd' => array(
@@ -150,7 +193,7 @@ class WSManager extends \League\Event\Emitter {
             $packet['d']['session_id'] = $sessionid;
         }
         
-        $this->_send($packet);
+        $this->send($packet);
     }
     
     function heartbeat() {
@@ -163,7 +206,7 @@ class WSManager extends \League\Event\Emitter {
         $this->wsHeartbeat['ack'] = false;
         $this->wsHeartbeat['dateline'] = microtime(true);
         
-        $this->_send(array(
+        $this->send(array(
             'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT'],
             'd' => $this->wshandler->getSequence()
         ));
@@ -171,7 +214,7 @@ class WSManager extends \League\Event\Emitter {
     
     function heartbeatAck() {
         $this->client->emit('debug', 'Sending heartbeat ack');
-        $this->_send(array(
+        $this->send(array(
             'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT_ACK'],
             'd' => null
         ));
@@ -181,6 +224,8 @@ class WSManager extends \League\Event\Emitter {
         $this->client->emit('debug', 'WS heart failure');
         
         $this->ws->close(1006, 'No heartbeat ack received');
+        $this->ws = null;
+        
         $this->connect($this->gateway);
     }
     
