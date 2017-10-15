@@ -10,18 +10,12 @@
 namespace CharlotteDunois\Yasmin\Structures;
 
 class ClientUser extends User { //TODO
-    private $data = array();
-    
     function __construct($client, $user) {
         parent::__construct($client, $user);
-        
-        $this->data = $user;
     }
     
     function __get($name) {
-        if(isset($this->data[$name])) {
-            return $this->data[$name];
-        } elseif(property_exists($this, $name)) {
+        if(property_exists($this, $name)) {
             return $this->$name;
         }
         

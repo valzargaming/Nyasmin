@@ -9,8 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class Structure { //TODO
+class Structure implements \JsonSerializable, \Serializable { //TODO
     protected $client;
+    static public $serializeClient;
     
     function __construct($client) {
         $this->client = $client;
@@ -18,5 +19,17 @@ class Structure { //TODO
     
     function client() {
         return $this->client;
+    }
+    
+    function jsonSerialize() {
+        return get_object_vars($this);
+    }
+    
+    function serialize() {
+        return serialize(get_object_vars($this));
+    }
+    
+    function unserialize($data) {
+        $this->__construct($serializeClient, unserialize($data));
     }
 }

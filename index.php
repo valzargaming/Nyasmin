@@ -38,10 +38,7 @@ $client->on('ready', function () use($client) {
     echo 'Logged in as '.$user->tag.' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
 });
 $client->on('disconnect', function ($event) {
-    $params = $event->getParams();
-    $code = $params[0];
-    $reason = $params[1] ?? '';
-    
+    list($code, $reason) = $event->getParams();
     echo 'Disconnected! (Code: '.$code.' | Reason: '.$reason.')'.PHP_EOL;
 });
 $client->on('reconnect', function () {
