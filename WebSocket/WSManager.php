@@ -40,7 +40,7 @@ class WSManager extends \League\Event\Emitter {
         return $this->client;
     }
     
-    function getWSHandler() {
+    function wshandler() {
         return $this->wshandler;
     }
     
