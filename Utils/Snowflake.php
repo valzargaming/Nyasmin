@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Utils;
 
-class Snowflake { //TODO: Implementation
+class Snowflake { //TODO: Docs
     const EPOCH = 1420070400;
     static private $increment = 0;
     private $data = array();
@@ -45,7 +45,7 @@ class Snowflake { //TODO: Implementation
         $mtime = explode(' ', \microtime());
         $time = ((string) ((int) $mtime[1] - self::EPOCH)).\substr($mtime[0], 2, 5);
         
-        $binary = \str_pad($time, 42, 0, STR_PAD_LEFT).'0000100000'.\str_pad((self::$increment++), 12, 0, STR_PAD_LEFT);
+        $binary = \str_pad(self::convertBase($time, '0123456789', '01'), 42, 0, STR_PAD_LEFT).'0000100000'.\str_pad(self::convertBase((self::$increment++), '0123456789', '01'), 12, 0, STR_PAD_LEFT);
         return self::convertBase($binary, '01', '0123456789');
     }
     
