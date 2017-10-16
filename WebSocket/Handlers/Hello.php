@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
 
 class Hello {
-    public $heartbeat = NULL;
+    public $heartbeat = null;
     protected $wshandler;
     
     function __construct($wshandler) {
@@ -30,9 +30,9 @@ class Hello {
     }
     
     private function close() {
-        if($this->heartbeat !== NULL) {
+        if($this->heartbeat !== null) {
             $this->wshandler->client()->getLoop()->cancelTimer($this->heartbeat);
-            $this->heartbeat = NULL;
+            $this->heartbeat = null;
         }
     }
 }

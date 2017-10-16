@@ -14,7 +14,7 @@ class WSManager extends \League\Event\Emitter {
         'total' => 120,
         'time' => 60,
         'remaining' => 120,
-        'timer' => NULL,
+        'timer' => null,
         'dateline' => 0,
         'queue' => array(),
         'running' => false
@@ -77,7 +77,7 @@ class WSManager extends \League\Event\Emitter {
                 $ratelimits['remaining'] = $ratelimits['total'];
             });
             
-            if($this->wsSessionID === NULL) {
+            if($this->wsSessionID === null) {
                 $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
                 $this->sendIdentify('IDENTIFY');
             } else {
@@ -103,7 +103,7 @@ class WSManager extends \League\Event\Emitter {
                 }
                 
                 $this->ratelimits['queue'] = array();
-                $this->ws = NULL;
+                $this->ws = null;
                 
                 $this->emit('close', $code, $reason);
                 $this->client->emit('disconnect', $code, $reason);
@@ -120,7 +120,7 @@ class WSManager extends \League\Event\Emitter {
     function disconnect() {
         $this->client->emit('debug', 'Disconnecting from WS');
         
-        $this->wsSessionID = NULL;
+        $this->wsSessionID = null;
         $this->ws->close(1000);
         $this->ws = null;
     }
@@ -165,7 +165,7 @@ class WSManager extends \League\Event\Emitter {
         $this->wsSessionID = $id;
     }
     
-    function sendIdentify(string $opname, $sessionid = NULL) {
+    function sendIdentify(string $opname, $sessionid = null) {
         if(empty($this->client->token)) {
             $this->client->emit('Debug', 'No client token to start with');
             return;

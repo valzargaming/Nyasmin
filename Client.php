@@ -17,7 +17,7 @@ class Client extends \League\Event\Emitter {
     public $voiceConnections;
     
     public $pings = array();
-    public $readyTimestamp = NULL;
+    public $readyTimestamp = null;
     
     private $loop;
     private $options = array();
@@ -52,7 +52,7 @@ class Client extends \League\Event\Emitter {
         return $this->user;
     }
     
-    function getOption($name, $default = NULL) {
+    function getOption($name, $default = null) {
         if(isset($this->options[$name])) {
             return $this->options[$name];
         }

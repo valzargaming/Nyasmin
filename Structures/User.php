@@ -76,7 +76,7 @@ class User extends Structure
             break;
         }
         
-        return NULL;
+        return null;
     }
     
     function __toString() {
@@ -111,7 +111,7 @@ class User extends Structure
     
     function getAvatarURL($size = 256, $format = '') {
         if(!$this->avatar) {
-            return NULL;
+            return null;
         }
         
         if(empty($format)) {

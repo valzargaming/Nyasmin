@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket;
 
 class WSHandler {
     private $handlers = array();
-    private $sequence = NULL;
+    private $sequence = null;
     private $wsmanager;
     
     function __construct($wsmanager) {

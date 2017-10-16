@@ -31,6 +31,6 @@ class Game extends Structure { //TODO: Docs
             
         }
         
-        return NULL;
+        return null;
     }
 }

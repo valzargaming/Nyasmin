@@ -31,7 +31,7 @@ class GuildMember extends Structure
             
         }
         
-        return NULL;
+        return null;
     }
     
     function __toString() {

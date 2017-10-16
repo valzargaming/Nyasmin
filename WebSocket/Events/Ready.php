@@ -16,7 +16,7 @@ class Ready {
         $this->client = $client;
     }
     
-    function handle($data) {
+    function handle($data) { //TODO: Implementation completify
         $this->client->setClientUser($data['user']);
         $this->client->wsmanager()->setSessionID($data['session_id']);
         

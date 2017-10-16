@@ -30,7 +30,7 @@ class Event implements \League\Event\EventInterface {
     }
     
     function getParam($index) {
-        return $this->params[$index] ?? NULL;
+        return $this->params[$index] ?? null;
     }
     
     function isPropagationStopped() {

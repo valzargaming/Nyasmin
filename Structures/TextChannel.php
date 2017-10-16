@@ -28,7 +28,7 @@ class TextChannel extends Structure
             
         }
         
-        return NULL;
+        return null;
     }
     
     function acknowledge() {

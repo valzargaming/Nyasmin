@@ -62,7 +62,7 @@ class Guild extends Structure { //TODO: Implementation
         $this->splash = $guild['splash'];
         $this->unavailable = (!empty($guild['unavailable']));
         $this->ownerID = $guild['owner_id'];
-        $this->large = (isset($guild['large']) ? $guild['large'] : NULL);
+        $this->large = (isset($guild['large']) ? $guild['large'] : null);
         $this->memberCount = (!empty($guild['member_count']) ? $guild['member_count'] : 0);
         
         $this->defaultMessageNotifications = $guild['default_message_notifications'];

@@ -107,7 +107,7 @@ class Snowflake { //TODO: Implementation
             return $toBaseArr[$base10];
         }
         
-        while($base10 != '0'){
+        while($base10 != '0') {
             $retval = $toBaseArr[\bcmod($base10, $toLen)].$retval;
             $base10 = \bcdiv($base10, $toLen, 0);
         }

@@ -30,6 +30,6 @@ class Presence extends Structure { //TODO
             
         }
         
-        return NULL;
+        return null;
     }
 }
