@@ -13,6 +13,7 @@ interface TextChannelInterface { //TODO: Implementation //TODO: Docs
     function acknowledge();
     function awaitMessages(callable $filter, array $options = array());
     function bulkDelete($messages);
+    function search(array $options = array());
     
     function send(string $message, array $options = array());
     

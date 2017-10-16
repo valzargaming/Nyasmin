@@ -165,6 +165,15 @@ class User extends Structure
         return $channel->bulkDelete($messages);
     }
     
+    function search(array $options = array()) {
+        $channel = $this->__get('dmChannel');
+        if(!$channel) {
+            return \React\Promise\reject(new \Exception('You can not bulk delete inside a non-existing channel'));
+        }
+        
+        return $channel->search($options);
+    }
+    
     function send(string $message, array $options = array()) {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');

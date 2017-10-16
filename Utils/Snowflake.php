@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Utils;
 
-class Snowflake { //TODO: Implementation //TODO: Docs
+class Snowflake { //TODO: Implementation
     const EPOCH = 1420070400;
     static private $increment = 0;
     private $data = array();

@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\Structures;
 
 class TextChannel extends Structure
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO
+                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
         
     protected $type = 'text';
     
@@ -44,6 +44,12 @@ class TextChannel extends Structure
     }
     
     function bulkDelete($messages) {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            
+        });
+    }
+    
+    function search(array $options = array()) {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
         });
