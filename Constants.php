@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin;
 
 class Constants {
-    static public $opcodes = array(
+    const OPCODES = array(
         'DISPATCH' => 0,
         'HEARTBEAT' => 1,
         'IDENTIFY' => 2,
@@ -23,11 +23,24 @@ class Constants {
         'INVALIDATE_SESSION' => 9,
         'HELLO' => 10,
         'HEARTBEAT_ACK' => 11,
-        'GUILD_SYNC' => 12
+        'GUILD_SYNC' => 12,
+        
+        0 => 'DISPATCH',
+        1 => 'HEARTBEAT',
+        2 => 'IDENTIFY',
+        3 => 'STATUS_UPDATE',
+        4 => 'VOICE_STATE_UPDATE',
+        5 => 'VOICE_SERVER_PING',
+        6 => 'RESUME',
+        7 => 'RECONNECT',
+        8 => 'REQUEST_GUILD_MEMBERS',
+        9 => 'INVALIDATE_SESSION',
+        10 => 'HELLO',
+        11 => 'HEARTBEAT_ACK',
+        12 => 'GUILD_SYNC'
     );
-    static public $opcodesNumber = array();
     
-    static public $cdn = array(
+    const CDN = array(
         'url' => 'https://cdn.discordapp.com/',
         'emojis' => 'emojis/%s.png',
         'icons' => 'icons/%s/%s.png',
@@ -37,20 +50,20 @@ class Constants {
         'appicons' => 'app-icons/%s/%s.png'
     );
     
-    static public $http = array(
+    const HTTP = array(
         'url' => 'https://discordapp.com/api/',
         'version' => 7,
         'invite' => 'https://discord.gg'
     );
     
-    static public $ws = array(
+    const WS = array(
         'baseurl' => 'wss://gateway.discord.gg/',
         'encoding' => 'json',
         'version' => 6,
         'url' => ''
     );
     
-    static public $endpoints = array(
+    const ENDPOINTS = array(
         'channels' => array(
             'get' => 'channels/%s',
             'modify' => 'channels/%s',
@@ -171,9 +184,12 @@ class Constants {
         )
     );
     
+    const GAME_TYPES = array(
+        0 => 'Playing',
+        1 => 'Streaming'
+    );
+    
     static function format(string $endpoint, ...$args) {
         return sprintf($endpoint, ...$args);
     }
 }
-
-Constants::$opcodesNumber = array_flip(Constants::$opcodes);

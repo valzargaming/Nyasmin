@@ -30,6 +30,12 @@ class Structure implements \JsonSerializable, \Serializable { //TODO
     }
     
     function unserialize($data) {
-        $this->__construct($serializeClient, unserialize($data));
+        $this->__construct(\CharlotteDunois\Yasmin\Structures\Structure::$serializeClient, unserialize($data));
+    }
+    
+    function _patch(array $data) {
+        foreach($data as $key => $val) {
+            $this->$key = $val;
+        }
     }
 }

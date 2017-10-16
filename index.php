@@ -16,7 +16,6 @@ spl_autoload_register(function ($name) {
         $name = str_replace('CharlotteDunois\\Yasmin\\', '', $name);
         $name = str_replace('\\', '/', $name);
         
-        //echo IN_DIR.'/'.$name.'.php '.(file_exists(IN_DIR.'/'.$name.'.php') ? '(true)' : '(false)').PHP_EOL;
         if(file_exists(IN_DIR.'/'.$name.'.php')) {
             include_once(IN_DIR.'/'.$name.'.php');
             return true;
@@ -35,7 +34,7 @@ $client->on('ready', function () use($client) {
     echo 'We are ready!'.PHP_EOL;
     
     $user = $client->getClientUser();
-    echo 'Logged in as '.$user->tag.' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
+    echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
 });
 $client->on('disconnect', function ($event) {
     list($code, $reason) = $event->getParams();

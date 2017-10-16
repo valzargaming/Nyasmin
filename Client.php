@@ -12,7 +12,9 @@ namespace CharlotteDunois\Yasmin;
 class Client extends \League\Event\Emitter {
     public $channels;
     public $guilds;
+    public $presences;
     public $users;
+    public $voiceConnections;
     
     public $pings = array();
     public $readyTimestamp = NULL;
@@ -31,9 +33,11 @@ class Client extends \League\Event\Emitter {
         $this->loop = $loop;
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
-        $this->channels = \CharlotteDunois\Collect\Collection::create(array());
-        $this->guilds = \CharlotteDunois\Collect\Collection::create(array());
-        $this->users = \CharlotteDunois\Collect\Collection::create(array());
+        $this->channels = new \CharlotteDunois\Yasmin\Structures\ChannelStorage($this);
+        $this->guilds = new \CharlotteDunois\Yasmin\Structures\GuildStorage($this);
+        $this->presences = new \CharlotteDunois\Yasmin\Structures\PresenceStorage($this);
+        $this->users = new \CharlotteDunois\Yasmin\Structures\UserStorage($this);
+        $this->voiceConnections = new \CharlotteDunois\Yasmin\Structures\Collection();
     }
     
     function wsmanager() {
@@ -69,7 +73,7 @@ class Client extends \League\Event\Emitter {
         $this->token = $token;
         
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $url = \CharlotteDunois\Yasmin\Constants::$ws['baseurl'].'?v='.\CharlotteDunois\Yasmin\Constants::$ws['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::$ws['encoding'];
+            $url = \CharlotteDunois\Yasmin\Constants::WS['baseurl'].'?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
             
             $connect = $this->ws->connect($url);
             if($connect) {

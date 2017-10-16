@@ -172,13 +172,13 @@ class WSManager extends \League\Event\Emitter {
         }
         
         $packet = array(
-            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes[$opname],
+            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES[$opname],
             'd' => array(
                 'token' => $this->client->token,
                 'properties' => array(
                     '$os' => php_uname('s'),
-                    '$browser' => 'NekoCord',
-                    '$device' => 'NekoCord'
+                    '$browser' => 'Yasmin',
+                    '$device' => 'Yasmin'
                 ),
                 'compress' => (bool) $this->client->getOption('compress', false),
                 'large_threshold' => (int) $this->client->getOption('largeThreshold', 250),
@@ -208,7 +208,7 @@ class WSManager extends \League\Event\Emitter {
         $this->wsHeartbeat['dateline'] = microtime(true);
         
         $this->send(array(
-            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT'],
+            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT'],
             'd' => $this->wshandler->getSequence()
         ));
     }
@@ -216,7 +216,7 @@ class WSManager extends \League\Event\Emitter {
     function heartbeatAck() {
         $this->client->emit('debug', 'Sending heartbeat ack');
         $this->send(array(
-            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT_ACK'],
+            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT_ACK'],
             'd' => null
         ));
     }

@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
-class Ready {
+class GuildCreate {
     protected $client;
     
     function __construct($client) {
@@ -17,9 +17,7 @@ class Ready {
     }
     
     function handle($data) {
-        $this->client->setClientUser($data['user']);
-        $this->client->wsmanager()->setSessionID($data['session_id']);
-        
-        $this->client->wsmanager()->emit('ready');
+        const $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
+        $this->client->guilds->set($guild->id, $guild);
     }
 }

@@ -17,13 +17,13 @@ class WSHandler {
     function __construct($wsmanager) {
         $this->wsmanager = $wsmanager;
         
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['DISPATCH'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Dispatch');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Heartbeat');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['RECONNECT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['INVALIDATE_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidateSession');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HELLO'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Hello');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['HEARTBEAT_ACK'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\HeartbeatAck');
-        $this->register(\CharlotteDunois\Yasmin\Constants::$opcodes['GUILD_SYNC'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\GuildSync');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['DISPATCH'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Dispatch');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Heartbeat');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['RECONNECT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['INVALIDATE_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidateSession');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HELLO'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Hello');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT_ACK'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\HeartbeatAck');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['GUILD_SYNC'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\GuildSync');
     }
     
     function client() {

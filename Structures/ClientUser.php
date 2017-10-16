@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class ClientUser extends User { //TODO
+class ClientUser extends User { //TODO: Implementation
     function __construct($client, $user) {
         parent::__construct($client, $user);
     }
@@ -19,12 +19,19 @@ class ClientUser extends User { //TODO
             return $this->$name;
         }
         
-        return NULL;
+        return parent::__get($name);
     }
     
     function setGame(string $name, string $url = '') {
+        $status = null;
+        
+        $previous = $this->presence;
+        if($previous) {
+            $status = $previous->getStatus();
+        }
+        
         $presence = array(
-            'status' => '',
+            'status' => $status,
             'game' => array(
                 'name' => $name,
                 'type' => 0,
@@ -42,7 +49,7 @@ class ClientUser extends User { //TODO
     
     function setPresence(array $presence) {
         $packet = array(
-            'op' => \CharlotteDunois\Yasmin\Constants::$opcodes['STATUS_UPDATE'],
+            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['STATUS_UPDATE'],
             'd' => $presence
         );
         
