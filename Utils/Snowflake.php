@@ -26,9 +26,9 @@ class Snowflake { //TODO: Docs
 
         $this->data = array(
             'timestamp' => $timestamp,
-            'workerID' => (int) self::convertBase(\substr($binary, 42, 47), 2, 10),
-            'processID' => (int) self::convertBase(\substr($binary, 47, 52), 2, 10),
-            'increment' => (int) self::convertBase(\substr($binary, 52, 64), 2, 10),
+            'workerID' => (int) self::convertBase(\substr($binary, 42, 5), 2, 10),
+            'processID' => (int) self::convertBase(\substr($binary, 47, 5), 2, 10),
+            'increment' => (int) self::convertBase(\substr($binary, 52, 12), 2, 10),
             'binary' => $binary
         );
     }
