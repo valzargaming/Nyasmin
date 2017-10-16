@@ -25,6 +25,6 @@ class DMChannel extends TextChannel { //TODO: Implementation
             
         }
         
-        return NULL;
+        return parent::__get($name);
     }
 }
