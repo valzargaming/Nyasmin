@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin;
 
-class EventEmitter extends \League\Event\Emitter {
+class EventEmitter extends \League\Event\Emitter { //TODO: Docs
     function on($name, $listener) {
         return $this->addListener($name, $listener);
     }

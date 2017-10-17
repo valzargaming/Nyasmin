@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin;
 
-class Event implements \League\Event\EventInterface {
+class Event implements \League\Event\EventInterface { //TODO: Docs
     
     private $emitter = null;
     private $propagation = false;
