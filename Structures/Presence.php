@@ -12,22 +12,19 @@ namespace CharlotteDunois\Yasmin\Structures;
 class Presence extends Structure { //TODO
     protected $user;
     protected $game;
+    protected $status;
     
     function __construct($client, $presence) {
         parent::__construct($client);
         
         $this->user = $this->client->users->patch($presence['user']);
-        $this->game = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Structures\Game($presence['game'])) : null);
+        $this->game = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Structures\Game($client, $presence['game'])) : null);
         $this->status = $presence['status'];
     }
     
     function __get($name) {
-        if(property_exists($this, $name)) {
+        if(\property_exists($this, $name)) {
             return $this->$name;
-        }
-        
-        switch($name) {
-            
         }
         
         return null;

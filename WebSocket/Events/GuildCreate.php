@@ -17,7 +17,7 @@ class GuildCreate {
     }
     
     function handle($data) {
-        const $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
+        $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
         $this->client->guilds->set($guild->id, $guild);
     }
 }

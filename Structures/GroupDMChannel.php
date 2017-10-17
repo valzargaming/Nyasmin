@@ -9,15 +9,13 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class DMChannel extends TextBasedChannel { //TODO: Implementation
-    protected $ownerID;
-    protected $recipients;
+class GroupDMChannel extends DMChannel { //TODO: Implementation
+    protected $applicationID;
     
     function __construct($client, $channel) {
         parent::__construct($client, $channel);
         
-        $this->ownerID = $channel['owner_id'] ?? null;
-        $this->recipients = $channel['recipients'] ?? array();
+        $this->applicationID = $channel['application_id'] ?? null;
     }
     
     function __get($name) {
@@ -26,11 +24,7 @@ class DMChannel extends TextBasedChannel { //TODO: Implementation
         }
         
         switch($name) {
-            case 'owner':
-                if($this->client->users->has($this->ownerID)) {
-                    return $this->client->users->get($this->ownerID);
-                }
-            break;
+            
         }
         
         return parent::__get($name);

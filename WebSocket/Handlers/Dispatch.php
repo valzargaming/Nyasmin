@@ -18,6 +18,8 @@ class Dispatch {
         
         $this->register('READY', '\CharlotteDunois\Yasmin\WebSocket\Events\Ready');
         $this->register('RESUMED', '\CharlotteDunois\Yasmin\WebSocket\Events\Resumed');
+        
+        $this->register('GUILD_CREATE', '\CharlotteDunois\Yasmin\WebSocket\Events\GuildCreate');
     }
     
     function getEvent($name) {
@@ -31,10 +33,10 @@ class Dispatch {
     function handle($packet) { //TODO
         if(isset($this->wsevents[$packet['t']])) {
             try {
-                $this->wshandler->client()->emit('debug', 'Received WS event '.$packet['t']);
+                $this->wshandler->client->emit('debug', 'Received WS event '.$packet['t']);
                 
-                if(in_array($packet['t'], $this->wshandler->client()->getOption('disabledEvents', array()))) {
-                    $this->wshandler->client()->emit('debug', 'WS event '.$packet['t'].' is disabled, skipping...');
+                if(in_array($packet['t'], $this->wshandler->client->getOption('disabledEvents', array()))) {
+                    $this->wshandler->client->emit('debug', 'WS event '.$packet['t'].' is disabled, skipping...');
                     return;
                 }
                 
@@ -46,6 +48,6 @@ class Dispatch {
     }
     
     private function register($name, $class) {
-        $this->wsevents[$name] = new $class($this->wshandler->client());
+        $this->wsevents[$name] = new $class($this->wshandler->client);
     }
 }

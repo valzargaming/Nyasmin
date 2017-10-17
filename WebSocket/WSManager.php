@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\WebSocket;
 
-class WSManager extends \League\Event\Emitter {
+class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     public $ratelimits = array(
         'total' => 120,
         'time' => 60,
@@ -36,12 +36,17 @@ class WSManager extends \League\Event\Emitter {
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
     }
     
-    function client() {
-        return $this->client;
-    }
-    
-    function wshandler() {
-        return $this->wshandler;
+    function __get($name) {
+        switch($name) {
+            case 'client':
+                return $this->client;
+            break;
+            case 'wshandler':
+                return $this->wshandler;
+            break;
+        }
+        
+        return null;
     }
     
     function status() {
@@ -145,14 +150,14 @@ class WSManager extends \League\Event\Emitter {
     function processQueue() {
          if($this->ratelimits['remaining'] === 0) {
              return;
-         } elseif(count($this->ratelimits['queue']) === 0) {
+         } elseif(\count($this->ratelimits['queue']) === 0) {
              return;
          }
          
          $this->ratelimits['running'] = true;
          
-         while($this->ratelimits['remaining'] > 0 && count($this->ratelimits['queue']) > 0) {
-             $packet = array_shift($this->ratelimits['queue']);
+         while($this->ratelimits['remaining'] > 0 && \count($this->ratelimits['queue']) > 0) {
+             $packet = \array_shift($this->ratelimits['queue']);
              $this->ratelimits['remaining']--;
              
              $this->_send($packet);
@@ -176,7 +181,7 @@ class WSManager extends \League\Event\Emitter {
             'd' => array(
                 'token' => $this->client->token,
                 'properties' => array(
-                    '$os' => php_uname('s'),
+                    '$os' => \php_uname('s'),
                     '$browser' => 'Yasmin',
                     '$device' => 'Yasmin'
                 ),
@@ -230,22 +235,28 @@ class WSManager extends \League\Event\Emitter {
         $this->connect($this->gateway);
     }
     
+    function _pong($end) {
+        $time = \ceil(($end - $this->wsHeartbeat['dateline']) * 1000);
+        $this->client->pings[] = $time;
+        
+        if(\count($this->client->pings) > 3) {
+            $this->client->pings = \array_slice($this->client->pings, 0, 3);
+        }
+        
+        $this->wsHeartbeat['ack'] = true;
+        $this->wsHeartbeat['dateline'] = 0;
+    }
+    
     function _send(array $packet) {
         $this->client->emit('debug', 'Sending packet with OP code '.$packet['op']);
         return $this->ws->send(json_encode($packet));
     }
     
-    function on(...$args) {
-        return $this->addListener(...$args);
-    }
-    
-    function once(...$args) {
-        return $this->addOneTimeListener(...$args);
-    }
-    
     function emit($name, ...$args) {
-        $event = new \CharlotteDunois\Yasmin\Event($name, ...$args);
-        $event->setEmitter($this);
-        return parent::emit($event);
+        if($name === 'debug' && $this->client->getOption('disableDebugEvent', false) === true) {
+            return;
+        }
+        
+        return parent::emit($name, ...$args);
     }
 }

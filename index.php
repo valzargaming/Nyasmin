@@ -24,7 +24,7 @@ spl_autoload_register(function ($name) {
 });
 require_once(IN_DIR.'/vendor/autoload.php');
 
-$client = new \CharlotteDunois\Yasmin\Client();
+$client = new \CharlotteDunois\Yasmin\client;
 
 $client->on('debug', function ($event) {
     echo $event->getParam(0).PHP_EOL;

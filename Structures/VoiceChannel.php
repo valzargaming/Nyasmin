@@ -9,25 +9,28 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class TextChannel extends TextBasedChannel { //TODO: Implementation
+class VoiceChannel extends TextBasedChannel { //TODO: Implementation
     protected $guild;
     
+    protected $bitrate;
+    protected $members;
     protected $parentID;
-    protected $topic;
-    protected $nsfw;
     protected $position;
     protected $permissionsOverwrites;
+    protected $userLimit;
     
     function __construct($client, $guild, $channel) {
         parent::__construct($client, $channel);
         $this->guild = $guild;
         
+        $this->members = new \CharlotteDunois\Yasmin\Structures\Collection();
+        
+        $this->bitrate = $channel['bitrate'];
         $this->name = $channel['name'];
-        $this->topic = $channel['topic'];
-        $this->nsfw = $channel['nsfw'];
         $this->parentID = $channel['parent_id'] ?? null;
         $this->position = $channel['position'];
         $this->permissionsOverwrites = $channel['permissions_overwrites'];
+        $this->userLimit = $channel['user_limit'];
     }
     
     function __get($name) {

@@ -23,12 +23,8 @@ class Game extends Structure { //TODO: Docs
     }
     
     function __get($name) {
-        if(property_exists($this, $name)) {
+        if(\property_exists($this, $name)) {
             return $this->$name;
-        }
-        
-        switch($name) {
-            
         }
         
         return null;

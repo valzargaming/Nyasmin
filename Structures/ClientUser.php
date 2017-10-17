@@ -15,7 +15,7 @@ class ClientUser extends User { //TODO: Implementation
     }
     
     function __get($name) {
-        if(property_exists($this, $name)) {
+        if(\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -57,6 +57,6 @@ class ClientUser extends User { //TODO: Implementation
             $packet['d']['game'] = null;
         }
         
-        return $this->client()->wsmanager()->send($packet);
+        return $this->client->wsmanager()->send($packet);
     }
 }

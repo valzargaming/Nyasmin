@@ -17,8 +17,14 @@ class Structure implements \JsonSerializable, \Serializable { //TODO
         $this->client = $client;
     }
     
-    function client() {
-        return $this->client;
+    function __get($name) {
+        switch($name) {
+            case 'client':
+                return $this->client;
+            break;
+        }
+        
+        return null;
     }
     
     function jsonSerialize() {

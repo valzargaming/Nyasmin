@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin;
 
-class Client extends \League\Event\Emitter {
+class Client extends EventEmitter {
     public $channels;
     public $guilds;
     public $presences;
@@ -61,12 +61,12 @@ class Client extends \League\Event\Emitter {
     }
     
     function getPing() {
-        $cpings = count($this->pings);
+        $cpings = \count($this->pings);
         if($cpings === 0) {
             return \NAN;
         }
         
-        return ceil(array_sum($this->pings) / $cpings);
+        return \ceil(\array_sum($this->pings) / $cpings);
     }
     
     function login(string $token) {
@@ -92,30 +92,11 @@ class Client extends \League\Event\Emitter {
         $this->user = new \CharlotteDunois\Yasmin\Structures\ClientUser($this, $user);
     }
     
-    function _pong($end) {
-        $time = ceil(($end - $this->ws->wsHeartbeat['dateline']) * 1000);
-        $this->pings[] = $time;
-        
-        if(count($this->pings) > 3) {
-            $this->pings = array_slice($this->pings, 0, 3);
-        }
-    }
-    
-    function on($name, $listener) {
-        return $this->addListener($name, $listener);
-    }
-    
-    function once($name, $listener) {
-        return $this->addOneTimeListener($name, $listener);
-    }
-    
     function emit($name, ...$args) {
-        if($this->getOption('disableDebugEvent', false) === true) {
+        if($name === 'debug' && $this->getOption('disableDebugEvent', false) === true) {
             return;
         }
         
-        $event = new \CharlotteDunois\Yasmin\Event($name, ...$args);
-        $event->setEmitter($this);
-        return parent::emit($event);
+        return parent::emit($name, ...$args);
     }
 }

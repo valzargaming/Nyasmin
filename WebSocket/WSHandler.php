@@ -26,12 +26,17 @@ class WSHandler {
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['GUILD_SYNC'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\GuildSync');
     }
     
-    function client() {
-        return $this->wsmanager->client();
-    }
-    
-    function wsmanager() {
-        return $this->wsmanager;
+    function __get($name) {
+        switch($name) {
+            case 'client':
+                return $this->wsmanager->client;
+            break;
+            case 'wsmanager':
+                return $this->wsmanager;
+            break;
+        }
+        
+        return null;
     }
     
     function getSequence() {
@@ -48,8 +53,8 @@ class WSHandler {
     
     function handle($message) {
         try {
-            $packet = json_decode($message->getPayload(), true);
-            $this->client()->emit('raw', $packet);
+            $packet = \json_decode($message->getPayload(), true);
+            $this->client->emit('raw', $packet);
             
             if($packet['s']) {
                 $this->sequence = $packet['s'];
@@ -59,8 +64,7 @@ class WSHandler {
                 $this->handlers[$packet['op']]->handle($packet);
             }
         } catch(\Exception $e) {
-            var_dump($e->getMessage());
-            /* Continue regardless of error */
+            $this->wsmanager->client->emit('error', $e);
         }
     }
     

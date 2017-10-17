@@ -14,10 +14,17 @@ class UserStorage extends Collection { //TODO: Docs
     
     function __construct($client, array $data = null) {
         parent::__construct($data);
+        $this->client = $client;
     }
     
-    function client() {
-        return $this->client;
+    function __get($name) {
+        switch($name) {
+            case 'client':
+                return $this->client;
+            break;
+        }
+        
+        return null;
     }
     
     function resolve($user) {

@@ -3,7 +3,7 @@
  * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
- * Website => https =>//charuru.moe
+ * Website => https://charuru.moe
  * License => MIT
 */
 
@@ -61,6 +61,19 @@ class Constants {
         'encoding' => 'json',
         'version' => 6,
         'url' => ''
+    );
+    
+    const CHANNEL_TYPE = array(
+        0 => 'text',
+        1 => 'dm',
+        2 => 'voice',
+        3 => 'group',
+        4 => 'category',
+    );
+    
+    const GAME_TYPES = array(
+        0 => 'Playing',
+        1 => 'Streaming'
     );
     
     const ENDPOINTS = array(
@@ -182,11 +195,6 @@ class Constants {
         'voice' => array(
             'regions' => 'voice/regions'
         )
-    );
-    
-    const GAME_TYPES = array(
-        0 => 'Playing',
-        1 => 'Streaming'
     );
     
     static function format(string $endpoint, ...$args) {
