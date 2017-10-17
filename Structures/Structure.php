@@ -36,7 +36,21 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     }
     
     function unserialize($data) {
-        $this->__construct(\CharlotteDunois\Yasmin\Structures\Structure::$serializeClient, unserialize($data));
+        $exp = ReflectionMethod::export($this, '__construct', true);
+        preg_match('/Parameters \[(\d+)\]/', $exp, $count);
+        $count = $count[1];
+        
+        switch($count) {
+            default:
+                throw new \Exception('Can not unserialize a class with more than 2 arguments');
+            break;
+            case 1:
+                $this->__construct(unserialize($data));
+            break;
+            case 2:
+                $this->__construct(\CharlotteDunois\Yasmin\Structures\Structure::$serializeClient, unserialize($data));
+            break;
+        }
     }
     
     function _patch(array $data) {

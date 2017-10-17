@@ -63,6 +63,9 @@ class ChannelStorage extends Collection
         $guild = !empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null;
         
         switch($data['type']) {
+            default:
+                throw new \Exception('Unknown channel type');
+            break;
             case 0:
                 $channel = new \CharlotteDunois\Yasmin\Structures\TextChannel($this->client, $guild, $data);
             break;
@@ -80,12 +83,10 @@ class ChannelStorage extends Collection
             break;
         }
         
-        if(isset($channel)) {
-            $this->set($channel->id, $channel);
-            
-            if($channel->guild) {
-                $channel->guild->channels->set($channel->id, $channel);
-            }
+        $this->set($channel->id, $channel);
+        
+        if($guild) {
+            $guild->channels->set($channel->id, $channel);
         }
         
         return $channel;

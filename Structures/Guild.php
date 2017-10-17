@@ -111,7 +111,7 @@ class Guild extends Structure { //TODO: Implementation
         
         if(!empty($guild['voice_states'])) {
             foreach($guild['voice_states'] as $state) {
-                $this->voiceStates->set($state['user_id'], new \CharlotteDunois\Yasmin\Structures\VoiceState($state));
+                $this->voiceStates->set($state['user_id'], new \CharlotteDunois\Yasmin\Structures\VoiceState($this->client, $this->channels->get($state['channel_id']), $state));
             }
         }
         

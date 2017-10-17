@@ -42,8 +42,4 @@ class PermissionOverwite extends Structure { //TODO: Implementation
         
         return null;
     }
-    
-    function __toString() {
-        return '<@'.($this->nickname ? '!' : '').$this->id.'>';
-    }
 }

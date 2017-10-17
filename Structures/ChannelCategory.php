@@ -12,6 +12,7 @@ namespace CharlotteDunois\Yasmin\Structures;
 class ChannelCategory extends TextBasedChannel { //TODO: Implementation
     protected $guild;
     
+    protected $name;
     protected $parentID;
     protected $position;
     protected $permissionsOverwrites;

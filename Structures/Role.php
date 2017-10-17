@@ -51,6 +51,6 @@ class Role extends Structure { //TODO: Implementation
     }
     
     function __toString() {
-        return '<@'.($this->nickname ? '!' : '').$this->id.'>';
+        return '<@&'.$this->id.'>';
     }
 }

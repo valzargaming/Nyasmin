@@ -141,6 +141,11 @@ class User extends Structure
     }
     
     function acknowledge() {
+        $channel = $this->__get('dmChannel');
+        if(!$channel) {
+            return \React\Promise\resolve();
+        }
+        
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel) {
             
         });
@@ -154,9 +159,11 @@ class User extends Structure
             $channel = $this->createDM();
         }
         
-        return $channel->then(function ($dm) use ($filter, $options) {
-            return $dm->awaitMessages($filter, $options);
-        }, $reject);
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel) {
+            return $channel->then(function ($dm) use ($filter, $options) {
+                return $dm->awaitMessages($filter, $options)->then($resolve);
+            }, $reject);
+        });
     }
     
     function bulkDelete($messages) {
@@ -178,7 +185,7 @@ class User extends Structure
     }
     
     function send(string $message, array $options = array()) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
             $channel = $this->__get('dmChannel');
             if($channel) {
                 $channel = \React\Promise\resolve($channel);

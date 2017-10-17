@@ -84,7 +84,7 @@ class Permissions extends Structure { //TODO: Implementation
     }
     
     static function resolve($permission) {
-        if(\is_number($permission) && \array_search($permission, self::FLAGS, true) !== false) {
+        if(\is_int($permission) && \array_search($permission, self::FLAGS, true) !== false) {
             return $permission;
         } elseif(\is_string($permission) && isset(self::FLAGS[$permission])) {
             return self::FLAGS[$permission];
