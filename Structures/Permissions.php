@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class Permissions extends Structure { //TODO: Implementation
+class Permissions extends Structure { //TODO: Docs
     const FLAGS = array(
         'CREATE_INSTANT_INVITE' => 1 << 0,
         'KICK_MEMBERS' => 1 << 1,

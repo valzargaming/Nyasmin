@@ -42,7 +42,7 @@ class Snowflake { //TODO: Docs
             self::$increment = 0;
         }
         
-        $mtime = explode(' ', \microtime());
+        $mtime = \explode(' ', \microtime());
         $time = ((string) ((int) $mtime[1] - self::EPOCH)).\str_replace('.', '', \substr($mtime[0], 0, 3));
         
         $binary = \str_pad(self::convertBase($time, 10, 2), 42, 0, STR_PAD_LEFT).'0000100000'.\str_pad(self::convertBase((self::$increment++), 10, 2), 12, 0, STR_PAD_LEFT);
@@ -70,7 +70,7 @@ class Snowflake { //TODO: Docs
     }
     
     function isValid() {
-        return ($this->getTimestamp() < time() && $this->getWorkerID() >= 0 && $this->getProcessID() >= 0 && $this->getIncrement() >= 0 && $this->getIncrement() <= 4095);
+        return ($this->getTimestamp() < \time() && $this->getWorkerID() >= 0 && $this->getProcessID() >= 0 && $this->getIncrement() >= 0 && $this->getIncrement() <= 4095);
     }
     
     static function convertBase($input, $fromBase, $toBase) {
@@ -78,8 +78,8 @@ class Snowflake { //TODO: Docs
             return $input;
         }
         
-        $fromBaseArr = self::getBase($fromBase);
-        $toBaseArr = self::getBase($toBase);
+        $fromBaseArr = self::getBaseArray($fromBase);
+        $toBaseArr = self::getBaseArray($toBase);
         
         $numberLen = \strlen($input);
         $number = \str_split($input, 1);
@@ -113,7 +113,7 @@ class Snowflake { //TODO: Docs
         return $retval;
     }
     
-    static private function getBase($base) {
+    static private function getBaseArray($base) {
         switch((int) $base) {
             case 2:
                 return array(0, 1);
