@@ -159,9 +159,9 @@ class User extends Structure
             $channel = $this->createDM();
         }
         
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel) {
-            return $channel->then(function ($dm) use ($filter, $options) {
-                return $dm->awaitMessages($filter, $options)->then($resolve);
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel, $filter, $options) {
+            return $channel->then(function ($dm) use ($filter, $options, $resolve, $reject) {
+                return $dm->awaitMessages($filter, $options)->then($resolve, $reject);
             }, $reject);
         });
     }

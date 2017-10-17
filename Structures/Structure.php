@@ -36,7 +36,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     }
     
     function unserialize($data) {
-        $exp = ReflectionMethod::export($this, '__construct', true);
+        $exp = \ReflectionMethod::export($this, '__construct', true);
         preg_match('/Parameters \[(\d+)\]/', $exp, $count);
         $count = $count[1];
         
