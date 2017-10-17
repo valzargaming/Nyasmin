@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class Presence extends Structure { //TODO
+class Presence extends Structure { //TODO: Docs
     protected $user;
     protected $game;
     protected $status;

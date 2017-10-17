@@ -9,7 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class UserStorage extends Collection { //TODO: Docs
+class UserStorage extends Collection
+    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
+    
     protected $client;
     
     function __construct($client, array $data = null) {
@@ -32,7 +34,7 @@ class UserStorage extends Collection { //TODO: Docs
             return $user;
         }
         
-        if(is_string($user) && $this->has($user)) {
+        if(\is_string($user) && $this->has($user)) {
             return $this->get($user);
         }
         
@@ -48,10 +50,7 @@ class UserStorage extends Collection { //TODO: Docs
             return null;
         }
         
-        $user = new \CharlotteDunois\Yasmin\Structures\User($this->client, $user);
-        $this->set($user->id, $user);
-        
-        return $user;
+        return $this->factory($user);
     }
     
     function set($key, $value) {
@@ -70,5 +69,12 @@ class UserStorage extends Collection { //TODO: Docs
         }
         
         return $this;
+    }
+    
+    function factory(array $data) {
+        $user = new \CharlotteDunois\Yasmin\Structures\User($this->client, $data);
+        $this->set($user->id, $user);
+        
+        return $user;
     }
 }

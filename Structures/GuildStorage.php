@@ -9,7 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class GuildStorage extends Collection { //TODO: Docs
+class GuildStorage extends Collection
+    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
+    
     protected $client;
     
     function __construct($client, array $data = null) {
@@ -32,7 +34,7 @@ class GuildStorage extends Collection { //TODO: Docs
             return $guild;
         }
         
-        if(is_string($guild) && $this->has($guild)) {
+        if(\is_string($guild) && $this->has($guild)) {
             return $this->get($guild);
         }
         

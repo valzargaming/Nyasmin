@@ -9,7 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class PresenceStorage extends Collection { //TODO: Docs
+class PresenceStorage extends Collection
+    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
+    
     protected $client;
     
     function __construct($client, array $data = null) {
@@ -32,7 +34,7 @@ class PresenceStorage extends Collection { //TODO: Docs
             return $presence;
         }
         
-        if(is_string($presence) && $this->has($presence)) {
+        if(\is_string($presence) && $this->has($presence)) {
             return $this->get($presence);
         }
         
@@ -55,5 +57,11 @@ class PresenceStorage extends Collection { //TODO: Docs
         }
         
         return $this;
+    }
+    
+    function factory(array $data) {
+        $presence = new \CharlotteDunois\Yasmin\Structures\Presence($this->client, $data);
+        $this->set($data['user']['id'], $presence);
+        return $presence;
     }
 }

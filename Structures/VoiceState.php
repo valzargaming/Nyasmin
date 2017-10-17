@@ -15,9 +15,9 @@ class VoiceState extends Structure { //TODO: Implementation
     protected $id;
     protected $user;
     
-    function __construct($client, $guild, $voice) {
+    function __construct($client, $channel, $voice) {
         parent::__construct($client);
-        $this->guild = $guild;
+        $this->channel = $channel;
         
         $this->id = $voice['user_id'];
     }

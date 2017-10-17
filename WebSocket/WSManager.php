@@ -195,7 +195,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             )
         );
         
-        if(is_string($sessionid)) {
+        if(\is_string($sessionid)) {
             $packet['d']['session_id'] = $sessionid;
         }
         

@@ -9,7 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class RoleStorage extends Collection { //TODO: Docs
+class RoleStorage extends Collection
+    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
+    
     protected $client;
     
     function __construct($client, array $data = null) {
@@ -32,7 +34,7 @@ class RoleStorage extends Collection { //TODO: Docs
             return $role;
         }
         
-        if(is_string($role) && $this->has($role)) {
+        if(\is_string($role) && $this->has($role)) {
             return $this->get($role);
         }
         

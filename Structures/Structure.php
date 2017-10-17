@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class Structure implements \JsonSerializable, \Serializable { //TODO
+class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     protected $client;
     static public $serializeClient;
     
@@ -41,7 +41,20 @@ class Structure implements \JsonSerializable, \Serializable { //TODO
     
     function _patch(array $data) {
         foreach($data as $key => $val) {
-            $this->$key = $val;
+            if(\property_exists($this, $key)) {
+                if($this->$key instanceof \CharlotteDunois\Yasmin\Structures\Collection) {
+                    if(!\is_array($val)) {
+                        $val = array($val);
+                    }
+                    
+                    foreach($val as $element) {
+                        $instance = $this->$key->get($element['id']);
+                        $instance->_patch($element);
+                    }
+                } else {
+                    $this->$key = $val;
+                }
+            }
         }
     }
 }

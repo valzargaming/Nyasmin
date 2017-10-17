@@ -12,6 +12,7 @@ namespace CharlotteDunois\Yasmin\Structures;
 class VoiceChannel extends TextBasedChannel { //TODO: Implementation
     protected $guild;
     
+    protected $name;
     protected $bitrate;
     protected $members;
     protected $parentID;
@@ -24,13 +25,19 @@ class VoiceChannel extends TextBasedChannel { //TODO: Implementation
         $this->guild = $guild;
         
         $this->members = new \CharlotteDunois\Yasmin\Structures\Collection();
+        $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Structures\Collection();
         
-        $this->bitrate = $channel['bitrate'];
-        $this->name = $channel['name'];
-        $this->parentID = $channel['parent_id'] ?? null;
-        $this->position = $channel['position'];
-        $this->permissionsOverwrites = $channel['permissions_overwrites'];
-        $this->userLimit = $channel['user_limit'];
+        $this->name = $channel['name'] ?? $this->name ?? '';
+        $this->bitrate = $channel['bitrate'] ?? $this->bitrate ?? 0;
+        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
+        $this->position = $channel['position'] ?? $this->position ?? 0;
+        $this->userLimit = $channel['user_limit'] ?? $this->userLimit ?? 0;
+        
+        if(!empty($channel['permissions_overwrites'])) {
+            foreach($channel['permissions_overwrites'] as $permission) {
+                $this->permissionsOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Structures\PermissionOverwrite($client, $this, $permission));
+            }
+        }
     }
     
     function __get($name) {

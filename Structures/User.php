@@ -70,7 +70,10 @@ class User extends Structure
                 $guilds = $this->client->guilds->all();
                 foreach($guilds as $guild) {
                     if($guild->presences->has($this->id)) {
-                        return $guild->presences->get($this->id);
+                        $presence = $guild->presences->get($this->id);
+                        $this->client->presences->set($this->id, $presence);
+                        
+                        return $presence;
                     }
                 }
             break;

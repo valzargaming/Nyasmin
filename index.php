@@ -29,6 +29,9 @@ $client = new \CharlotteDunois\Yasmin\client;
 $client->on('debug', function ($event) {
     echo $event->getParam(0).PHP_EOL;
 });
+$client->on('error', function ($event) {
+    echo $event->getParam(0).PHP_EOL;
+});
 
 $client->on('ready', function () use($client) {
     echo 'We are ready!'.PHP_EOL;

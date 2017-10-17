@@ -9,7 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class ChannelStorage extends Collection { //TODO: Docs
+class ChannelStorage extends Collection
+    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
+    
     protected $client;
     
     function __construct($client, array $data = null) {
@@ -32,7 +34,7 @@ class ChannelStorage extends Collection { //TODO: Docs
             return $channel;
         }
         
-        if(is_string($channel) && $this->has($channel)) {
+        if(\is_string($channel) && $this->has($channel)) {
             return $this->get($channel);
         }
         
@@ -55,5 +57,37 @@ class ChannelStorage extends Collection { //TODO: Docs
         }
         
         return $this;
+    }
+    
+    function factory(array $data) {
+        $guild = !empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null;
+        
+        switch($data['type']) {
+            case 0:
+                $channel = new \CharlotteDunois\Yasmin\Structures\TextChannel($this->client, $guild, $data);
+            break;
+            case 1:
+                $channel = new \CharlotteDunois\Yasmin\Structures\DMChannel($this->client, $data);
+            break;
+            case 2:
+                $channel = new \CharlotteDunois\Yasmin\Structures\VoiceChannel($this->client, $guild, $data);
+            break;
+            case 3:
+                $channel = new \CharlotteDunois\Yasmin\Structures\GroupDMChannel($this->client, $data);
+            break;
+            case 4:
+                $channel = new \CharlotteDunois\Yasmin\Structures\ChannelCategory($this->client, $guild, $data);
+            break;
+        }
+        
+        if(isset($channel)) {
+            $this->set($channel->id, $channel);
+            
+            if($channel->guild) {
+                $channel->guild->channels->set($channel->id, $channel);
+            }
+        }
+        
+        return $channel;
     }
 }

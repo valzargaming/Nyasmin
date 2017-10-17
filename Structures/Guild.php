@@ -52,7 +52,7 @@ class Guild extends Structure { //TODO: Implementation
         
         $this->channels = new \CharlotteDunois\Yasmin\Structures\ChannelStorage($client);
         $this->emojis = new \CharlotteDunois\Yasmin\Structures\Collection();
-        $this->members = new \CharlotteDunois\Yasmin\Structures\GuildMemberStorage($client);
+        $this->members = new \CharlotteDunois\Yasmin\Structures\GuildMemberStorage($client, $this);
         $this->presences = new \CharlotteDunois\Yasmin\Structures\PresenceStorage($client);
         $this->roles = new \CharlotteDunois\Yasmin\Structures\RoleStorage($client);
         $this->voiceStates = new \CharlotteDunois\Yasmin\Structures\Collection();
@@ -63,8 +63,8 @@ class Guild extends Structure { //TODO: Implementation
         $this->splash = $guild['splash'];
         $this->unavailable = (!empty($guild['unavailable']));
         $this->ownerID = $guild['owner_id'];
-        $this->large =  $guild['large'] ?? false;
-        $this->memberCount = $guild['member_count']  ?? 0;
+        $this->large =  $guild['large'] ?? $this->large;
+        $this->memberCount = $guild['member_count']  ?? $this->memberCount;
         
         $this->defaultMessageNotifications = $guild['default_message_notifications'];
         $this->explicitContentFilter = $guild['explicit_content_filter'];
@@ -78,10 +78,10 @@ class Guild extends Structure { //TODO: Implementation
         $this->mfaLevel = $guild['mfa_level'];
         $this->applicationID = $guild['application_id'];
         
-        $this->embedEnabled = $guild['embed_enabled'] ?? null;
-        $this->embedChannelID = $guild['embed_channel_id'] ?? null;
-        $this->widgetEnabled = $guild['widget_enabled'] ?? null;
-        $this->widgetChannelID = $guild['widget_channel_id'] ?? null;
+        $this->embedEnabled = $guild['embed_enabled'] ?? $this->embedEnabled;
+        $this->embedChannelID = $guild['embed_channel_id'] ?? $this->embedChannelID;
+        $this->widgetEnabled = $guild['widget_enabled'] ?? $this->widgetEnabled;
+        $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
         
         foreach($guild['emojis'] as $emoji) {
             $this->emojis->set($emoji['id'], $emoji);
@@ -105,7 +105,7 @@ class Guild extends Structure { //TODO: Implementation
         
         if(!empty($guild['presences'])) {
             foreach($guild['presences'] as $presence) {
-                $this->presences->set($presence['user']['id'], new \CharlotteDunois\Yasmin\Structures\Presence($this->client, $presence));
+                $this->presences->factory($presence);
             }
         }
         
@@ -116,5 +116,17 @@ class Guild extends Structure { //TODO: Implementation
         }
         
         $this->createdTimestamp = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->getTimestamp();
+    }
+    
+    function __get($name) {
+        if(\property_exists($this, $name)) {
+            return $this->$name;
+        }
+        
+        switch($name) {
+            
+        }
+        
+        return null;
     }
 }

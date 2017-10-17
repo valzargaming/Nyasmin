@@ -17,7 +17,6 @@ class TextBasedChannel extends Structure
     
     protected $id;
     protected $type;
-    protected $name;
     protected $lastMessageID;
     
     protected $icon;

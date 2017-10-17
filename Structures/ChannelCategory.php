@@ -9,13 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class TextChannel extends TextBasedChannel { //TODO: Implementation
+class ChannelCategory extends TextBasedChannel { //TODO: Implementation
     protected $guild;
     
     protected $parentID;
-    protected $name;
-    protected $topic;
-    protected $nsfw;
     protected $position;
     protected $permissionsOverwrites;
     
@@ -26,8 +23,6 @@ class TextChannel extends TextBasedChannel { //TODO: Implementation
         $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Structures\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->topic = $channel['topic'] ?? $this->topic ?? '';
-        $this->nsfw = $channel['nsfw'] ?? $this->nsfw ?? false;
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
@@ -48,9 +43,5 @@ class TextChannel extends TextBasedChannel { //TODO: Implementation
         }
         
         return null;
-    }
-    
-    function __toString() {
-        return '<#'.$this->id.'>';
     }
 }
