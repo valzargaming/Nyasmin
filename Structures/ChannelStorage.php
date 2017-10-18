@@ -9,12 +9,15 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * @access private
+ */
 class ChannelStorage extends Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
     
-    function __construct($client, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($data);
         $this->client = $client;
     }
@@ -60,7 +63,7 @@ class ChannelStorage extends Collection
     }
     
     function factory(array $data) {
-        $guild = !empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null;
+        $guild = (!empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null);
         
         switch($data['type']) {
             default:

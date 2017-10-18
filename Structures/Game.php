@@ -18,9 +18,11 @@ class Game extends Structure {
     protected $url;
     
     /**
-     * @access private
+     * The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.
+     * @param \CharlotteDunois\Yasmin\Client  $client  The client this object is for.
+     * @param array                           $game    An array containing name, type (as int) and url (nullable).
      */
-    function __construct($client, $game) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $game) {
         parent::__construct($client);
         
         $this->name = $game['name'];
@@ -39,5 +41,17 @@ class Game extends Structure {
         }
         
         return null;
+    }
+    
+    /**
+     * @access private
+     */
+    function jsonSerialize() {
+        $type = \array_search($this->type, \CharlotteDunois\Yasmin\Constants::GAME_TYPES, true);
+        return array(
+            'name' => $this->name,
+            'type' => (\is_int($type) ? $type : 0),
+            'url' => $this->url
+        );
     }
 }

@@ -14,7 +14,7 @@ class GuildStorage extends Collection
     
     protected $client;
     
-    function __construct($client, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($data);
         $this->client = $client;
     }

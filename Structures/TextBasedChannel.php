@@ -21,7 +21,7 @@ class TextBasedChannel extends Structure
     
     protected $icon;
     
-    function __construct($client, $channel) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, $channel) {
         parent::__construct($client);
         
         $this->messages = new \CharlotteDunois\Yasmin\Structures\Collection();

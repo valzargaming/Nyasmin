@@ -20,7 +20,7 @@ class VoiceChannel extends TextBasedChannel { //TODO: Implementation
     protected $permissionsOverwrites;
     protected $userLimit;
     
-    function __construct($client, $guild, $channel) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild, array $channel) {
         parent::__construct($client, $channel);
         $this->guild = $guild;
         

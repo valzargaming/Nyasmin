@@ -17,7 +17,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     protected $client;
     static public $serializeClient;
     
-    function __construct($client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
     }
     
@@ -29,6 +29,12 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
         }
         
         return null;
+    }
+    
+    function __debugInfo() {
+        $vars = get_object_vars($this);
+        unset($vars['client']);
+        return $vars;
     }
     
     function jsonSerialize() {

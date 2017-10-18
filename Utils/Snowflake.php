@@ -14,28 +14,55 @@ namespace CharlotteDunois\Yasmin\Utils;
  */
 class Snowflake { //TODO: 64bit
     /**
-     * @var int  Time since UNIX epoch to Discord epoch.
+     * @var int Time since UNIX epoch to Discord epoch.
      */
     const EPOCH = 1420070400;
     
-    static private $increment = 0;
-    private $data = array();
+    static private $incrementIndex = 0;
+    
+    private $timestamp;
+    private $workerID;
+    private $processID;
+    private $increment;
+    private $binary;
     
     /**
-     * Loads a snowflake and returns some information about it.
      * @param string $snowflake
      */
     function __construct(string $snowflake) {
-        $binary = \str_pad(self::convertBase($snowflake, 10, 2), 64, 0, STR_PAD_LEFT);
-        $timestamp = (self::convertBase(\substr($binary, 0, 42), 2, 10) / 1000) + self::EPOCH;
-
-        $this->data = array(
-            'timestamp' => $timestamp,
-            'workerID' => (int) self::convertBase(\substr($binary, 42, 5), 2, 10),
-            'processID' => (int) self::convertBase(\substr($binary, 47, 5), 2, 10),
-            'increment' => (int) self::convertBase(\substr($binary, 52, 12), 2, 10),
-            'binary' => $binary
-        );
+        $this->binary = \str_pad(self::convertBase($snowflake, 10, 2), 64, 0, STR_PAD_LEFT);
+        
+        $time = self::convertBase(\substr($this->binary, 0, 42), 2, 10);
+        
+        $this->timestamp = (float) ((((int) \substr($time, 0, -3)) + self::EPOCH).'.'.\substr($time, -3));
+        $this->workerID = (int) self::convertBase(\substr($this->binary, 42, 5), 2, 10);
+        $this->processID = (int) self::convertBase(\substr($this->binary, 47, 5), 2, 10);
+        $this->increment = (int) self::convertBase(\substr($this->binary, 52, 12), 2, 10);
+    }
+    
+    /**
+     * @property-read float      $timestamp
+     * @property-read int        $workerID
+     * @property-read int        $processID
+     * @property-read int        $increment
+     * @property-read string     $binary
+     * @property-read \DateTime  $date
+     */
+    function __get($name) {
+        switch($name) {
+            case 'timestamp':
+            case 'workerID':
+            case 'processID':
+            case 'increment':
+            case 'binary':
+                return $this->$name;
+            break;
+            case 'date':
+                return (new \DateTime('@'.((int) $this->timestamp)));
+            break;
+        }
+        
+        throw new \Exception('Undefined property: '.(self::class).'::$'.$name);
     }
     
     /**
@@ -52,55 +79,15 @@ class Snowflake { //TODO: 64bit
      * @return string
      */
     static function generate() {
-        if(self::$increment >= 4095) {
-            self::$increment = 0;
+        if(self::$incrementIndex >= 4095) {
+            self::$incrementIndex = 0;
         }
         
         $mtime = \explode('.', (string) \microtime(true));
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
-        $binary = \str_pad(self::convertBase($time, 10, 2), 42, 0, STR_PAD_LEFT).'0000100000'.\str_pad(self::convertBase((self::$increment++), 10, 2), 12, 0, STR_PAD_LEFT);
+        $binary = \str_pad(self::convertBase($time, 10, 2), 42, 0, STR_PAD_LEFT).'0000100000'.\str_pad(self::convertBase((self::$incrementIndex++), 10, 2), 12, 0, STR_PAD_LEFT);
         return self::convertBase($binary, 2, 10);
-    }
-    
-    /**
-     * Get the timestamp of when this Snowflake was created. Returns a float with milliseconds.
-     * @return float
-     */
-    function getTimestamp() {
-        return $this->data['timestamp'];
-    }
-    
-    /**
-     * Get the DateTime of when this Snowflake was created.
-     * @return \DateTime
-     */
-    function getDate() {
-        return (new \DateTime('@'.((int) $this->data['timestamp'])));
-    }
-    
-    /**
-     * Get the worker ID.
-     * @return int
-     */
-    function getWorkerID() {
-        return $this->data['workerID'];
-    }
-    
-    /**
-     * Get the process ID.
-     * @return int
-     */
-    function getProcessID() {
-        return $this->data['processID'];
-    }
-    
-    /**
-     * Get the increment value.
-     * @return int
-     */
-    function getIncrement() {
-        return $this->data['increment'];
     }
     
     /**
@@ -108,7 +95,7 @@ class Snowflake { //TODO: 64bit
      * @return boolean
      */
     function isValid() {
-        return ($this->getTimestamp() < \time() && $this->getWorkerID() >= 0 && $this->getProcessID() >= 0 && $this->getIncrement() >= 0 && $this->getIncrement() <= 4095);
+        return ($this->timestamp < \time() && $this->workerID >= 0 && $this->processID >= 0 && $this->increment >= 0 && $this->increment <= 4095);
     }
     
     /**

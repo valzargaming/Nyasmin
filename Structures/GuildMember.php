@@ -23,7 +23,7 @@ class GuildMember extends Structure { //TODO: Implementation
     protected $mute;
     protected $roles;
     
-    function __construct($client, $guild, $member) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild, array $member) {
         parent::__construct($client);
         $this->guild = $guild;
         

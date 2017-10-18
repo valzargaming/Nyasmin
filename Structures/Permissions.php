@@ -55,7 +55,7 @@ class Permissions extends Structure { //TODO: Docs
     /**
      * @access private
      */
-    function __construct($client, $permission) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, int $permission) {
         parent::__construct($client);
         
         $this->bitfield = $permission;

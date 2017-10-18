@@ -26,7 +26,7 @@ class User extends Structure
     /**
      * @access private
      */
-    function __construct($client, $user) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $user) {
         parent::__construct($client);
         
         $this->id = $user['id'];
@@ -39,7 +39,7 @@ class User extends Structure
         
         $this->tag = $this->username.'#'.$this->discriminator;
         
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->getTimestamp();
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
     
     /**

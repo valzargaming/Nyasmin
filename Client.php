@@ -25,6 +25,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage It holds all cached presences.
+     * @access private
      */
     public $presences;
     
@@ -166,6 +167,19 @@ class Client extends EventEmitter { //TODO: Implementation
                 $resolve();
                 $this->emit('ready');
             });
+        });
+    }
+    
+    /**
+     * Cleanly logs out of Discord.
+     * @return \React\Promise\Promise<null>
+     */
+    function destroy() {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->user->setStatus('offline')->then(function () use ($resolve) {
+                $this->ws->disconnect();
+                $resolve();
+            }, $reject);
         });
     }
     

@@ -62,6 +62,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     }
     
     function connect($gateway = null) {
+        if($this->ws) {
+            return \React\Promise\resolve();
+        }
+        
         if(!$gateway && !$this->gateway) {
             throw new \Exception('Can not connect to unknown gateway');
         }
@@ -86,12 +90,12 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $ratelimits['remaining'] = $ratelimits['total'];
             });
             
-            if($this->wsSessionID === null) {
+            if(empty($this->wsSessionID)) {
                 $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
-                $this->sendIdentify('IDENTIFY');
+                $this->sendIdentify();
             } else {
                 $this->client->emit('debug', 'Sending RESUME "'.$this->wsSessionID.'" packet to WS');
-                $this->sendIdentify('RESUME', $this->wsSessionID);
+                $this->sendIdentify($this->wsSessionID);
             }
             
             $this->ws->on('message', function ($message) {
@@ -111,13 +115,21 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                     $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                 }
                 
+                $this->ratelimits['remaining'] = $this->ratelimits['total'];
+                $this->ratelimits['timer'] = null;
                 $this->ratelimits['queue'] = array();
+                $this->wsHeartbeat['ack'] = true;
+                
                 $this->ws = null;
                 
                 $this->emit('close', $code, $reason);
                 $this->client->emit('disconnect', $code, $reason);
                 
                 if($code !== 1000) {
+                    if($code >= 4000) {
+                        $this->wsSessionID = null;
+                    }
+                    
                     $this->connect($this->gateway);
                 }
             });
@@ -127,11 +139,14 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     }
     
     function disconnect() {
+        if(!$this->ws) {
+            return;
+        }
+        
         $this->client->emit('debug', 'Disconnecting from WS');
         
-        $this->wsSessionID = null;
         $this->ws->close(1000);
-        $this->ws = null;
+        $this->wsSessionID = null;
     }
     
     function send(array $packet) {
@@ -161,6 +176,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
          $this->ratelimits['running'] = true;
          
          while($this->ratelimits['remaining'] > 0 && \count($this->ratelimits['queue']) > 0) {
+             if(!$this->ws) {
+                 break;
+             }
+             
              $packet = \array_shift($this->ratelimits['queue']);
              $this->ratelimits['remaining']--;
              
@@ -174,14 +193,14 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->wsSessionID = $id;
     }
     
-    function sendIdentify(string $opname, $sessionid = null) {
+    function sendIdentify($sessionid = null) {
         if(empty($this->client->token)) {
             $this->client->emit('Debug', 'No client token to start with');
             return;
         }
         
         $packet = array(
-            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES[$opname],
+            'op' => (!empty($sessionid) && \is_string($sessionid) ? \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME'] : \CharlotteDunois\Yasmin\Constants::OPCODES['IDENTIFY']),
             'd' => array(
                 'token' => $this->client->token,
                 'properties' => array(
@@ -194,12 +213,16 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 'shard' => array(
                     (int) $this->client->getOption('shardID', 0),
                     (int) $this->client->getOption('shardCount', 1)
-                ),
-                'presence' => array('status' => 'online')
+                )
             )
         );
         
-        if(\is_string($sessionid)) {
+        $presence = $this->client->getOption('connectPresence');
+        if(\is_array($presence)) {
+            $packet['d']['presence'] = $presence;
+        }
+        
+        if($packet['op'] === \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME']) {
             $packet['d']['session_id'] = $sessionid;
         }
         
@@ -211,7 +234,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             return $this->heartFailure();
         }
         
-        $this->client->emit('debug', 'Sending heartbeat');
+        $this->client->emit('debug', 'Sending WS heartbeat');
         
         $this->wsHeartbeat['ack'] = false;
         $this->wsHeartbeat['dateline'] = microtime(true);
@@ -223,7 +246,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     }
     
     function heartbeatAck() {
-        $this->client->emit('debug', 'Sending heartbeat ack');
+        $this->client->emit('debug', 'Sending WS heartbeat ack');
         $this->send(array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT_ACK'],
             'd' => null
@@ -252,7 +275,12 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     }
     
     function _send(array $packet) {
-        $this->client->emit('debug', 'Sending packet with OP code '.$packet['op']);
+        if(!$this->ws) {
+            $this->client->emit('debug', 'Tried sending a WS packet with no WS connection');
+            return;
+        }
+        
+        $this->client->emit('debug', 'Sending WS packet with OP code '.$packet['op']);
         return $this->ws->send(json_encode($packet));
     }
     

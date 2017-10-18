@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\Structures;
 
 class GuildChannel extends Structure { //TODO: Implementation
-    static function factory($client, $guild, $channel) {
+    static function factory(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild, array $channel) {
         switch($channel['type']) {
             case 0:
                 return new \CharlotteDunois\Yasmin\Structures\TextChannel($client, $guild, $channel);

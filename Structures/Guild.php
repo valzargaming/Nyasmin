@@ -45,7 +45,7 @@ class Guild extends Structure { //TODO: Implementation
     
     protected $createdTimestamp;
     
-    function __construct($client, $guild) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild) {
         parent::__construct($client);
         
         $this->client->guilds->set($guild['id'], $this);
@@ -115,7 +115,7 @@ class Guild extends Structure { //TODO: Implementation
             }
         }
         
-        $this->createdTimestamp = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->getTimestamp();
+        $this->createdTimestamp = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
     
     function __get($name) {

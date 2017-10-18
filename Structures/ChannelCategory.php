@@ -17,7 +17,10 @@ class ChannelCategory extends TextBasedChannel { //TODO: Implementation
     protected $position;
     protected $permissionsOverwrites;
     
-    function __construct($client, $guild, $channel) {
+    /**
+     * @access private
+     */
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild, array $channel) {
         parent::__construct($client, $channel);
         $this->guild = $guild;
         

@@ -22,7 +22,10 @@ class Role extends Structure { //TODO: Implementation
     protected $managed;
     protected $mentionable;
     
-    function __construct($client, $guild, $role) {
+    /**
+     * @access private
+     */
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild, array $role) {
         parent::__construct($client);
         $this->guild = $guild;
         
@@ -50,6 +53,9 @@ class Role extends Structure { //TODO: Implementation
         return null;
     }
     
+    /**
+     * Automatically converts to a mention.
+     */
     function __toString() {
         return '<@&'.$this->id.'>';
     }

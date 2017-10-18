@@ -18,7 +18,7 @@ class PermissionOverwite extends Structure { //TODO: Implementation
     protected $allow;
     protected $deny;
     
-    function __construct($client, $channel, $permission) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, array $permission) {
         parent::__construct($client);
         $this->channel = $channel;
         

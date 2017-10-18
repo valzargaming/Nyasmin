@@ -16,8 +16,21 @@ class ClientUser extends User { //TODO: Implementation
     /**
      * @access private
      */
-    function __construct($client, $user) {
+    protected $clientPresence;
+    
+    /**
+     * @access private
+     */
+    function __construct(\CharlotteDunois\Yasmin\Client $client, $user) {
         parent::__construct($client, $user);
+        
+        $presence = $this->client->getOption('connectPresence', array());
+        $this->clientPresence = array(
+            'afk' => (isset($presence['afk']) ? (bool) $presence['afk'] : false),
+            'since' => (!empty($presence['since']) ? (int) $presence['since'] : null),
+            'status' => (!empty($presence['status']) ? $presence['status'] : 'online'),
+            'game' => (!empty($presence['game']) ? $presence['game'] : null)
+        );
     }
     
     /**
@@ -51,15 +64,7 @@ class ClientUser extends User { //TODO: Implementation
      * @return null
      */
     function setGame(string $name, string $url = '') {
-        $status = null;
-        
-        $previous = $this->presence;
-        if($previous) {
-            $status = $previous->getStatus();
-        }
-        
         $presence = array(
-            'status' => $status,
             'game' => array(
                 'name' => $name,
                 'type' => 0,
@@ -77,19 +82,35 @@ class ClientUser extends User { //TODO: Implementation
     
     /**
      * Set your presence.
+     *
+     *  $presence = array(
+     *      'afk' => bool,
+     *      'since' => integer|null,
+     *      'status' => string,
+     *      'game' => array(
+     *          'name' => string,
+     *          'type' => int,
+     *          'url' => string|null
+     *      )|null
+     *  )
+     *
+     *  Any field in the first dimension is optional and will be automatically filled with the last known value.
+     *
      * @param array $presence
      * @return null
      */
     function setPresence(array $presence) {
         $packet = array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['STATUS_UPDATE'],
-            'd' => $presence
+            'd' => array(
+                'afk' => (!empty($presence['afk']) ? $presence['afk'] : $this->clientPresence['afk']),
+                'since' => (!empty($presence['since']) ? $presence['since'] : $this->clientPresence['since']),
+                'status' => (!empty($presence['status']) ? $presence['status'] : $this->clientPresence['status']),
+                'game' => (!empty($presence['game']) ? $presence['game'] : $this->clientPresence['game'])
+            )
         );
         
-        if(!array_key_exists('game', $packet['d'])) {
-            $packet['d']['game'] = null;
-        }
-        
+        $this->clientPresence = $packet['d'];
         return $this->client->wsmanager()->send($packet);
     }
 }

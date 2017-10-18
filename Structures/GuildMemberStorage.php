@@ -9,13 +9,16 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * @access private
+ */
 class GuildMemberStorage extends Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
     protected $guild;
     
-    function __construct($client, $guild, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, $guild, array $data = null) {
         parent::__construct($data);
         $this->client = $client;
         $this->guild = $guild;

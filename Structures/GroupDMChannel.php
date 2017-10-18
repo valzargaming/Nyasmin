@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Structures;
 class GroupDMChannel extends DMChannel { //TODO: Implementation
     protected $applicationID;
     
-    function __construct($client, $channel) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);
         
         $this->applicationID = $channel['application_id'] ?? null;

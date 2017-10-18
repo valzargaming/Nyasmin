@@ -38,6 +38,8 @@ $client->on('ready', function () use($client) {
     
     $user = $client->getClientUser();
     echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
+    
+    $user->setGame('with her Boobs');
 });
 $client->on('disconnect', function ($event) {
     list($code, $reason) = $event->getParams();
@@ -53,10 +55,18 @@ $client->login($token)->done(function () use ($client) {
     });
 });
 
-$client->getLoop()->addTimer(180, function () use ($client) {
+$client->getLoop()->addTimer(100, function () use ($client) {
+    var_dump($client->channels);
+    var_dump($client->guilds);
+    var_dump($client->presences);
+    var_dump($client->users);
+});
+
+$client->getLoop()->addTimer(300, function () use ($client) {
     echo 'Ending session'.PHP_EOL;
-    $client->wsmanager()->disconnect();
-    $client->getLoop()->stop();
+    $client->destroy()->then(function () use ($client) {
+        $client->getLoop()->stop();
+    });
 });
 
 $client->getLoop()->run();

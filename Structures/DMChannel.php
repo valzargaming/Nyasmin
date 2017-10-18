@@ -13,7 +13,7 @@ class DMChannel extends TextBasedChannel { //TODO: Implementation
     protected $ownerID;
     protected $recipients;
     
-    function __construct($client, $channel) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);
         
         $this->ownerID = $channel['owner_id'] ?? null;

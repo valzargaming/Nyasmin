@@ -9,13 +9,16 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * @access private
+ */
 class VoiceState extends Structure { //TODO: Implementation
     protected $channel;
     
     protected $id;
     protected $user;
     
-    function __construct($client, $channel, $voice) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, $channel, $voice) {
         parent::__construct($client);
         $this->channel = $channel;
         

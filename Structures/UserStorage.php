@@ -9,12 +9,15 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * @access private
+ */
 class UserStorage extends Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
     
-    function __construct($client, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($data);
         $this->client = $client;
     }

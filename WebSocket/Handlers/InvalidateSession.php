@@ -22,7 +22,7 @@ class InvalidateSession {
     
     function handle($packet) {
         $this->wshandler->client->getLoop()->addTimer(2, function () {
-            $this->wshandler->wsmanager->sendIdentify('IDENTIFY');
+            $this->wshandler->wsmanager->sendIdentify();
         });
     }
 }

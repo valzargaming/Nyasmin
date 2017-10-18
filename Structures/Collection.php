@@ -23,6 +23,10 @@ class Collection extends \CharlotteDunois\Collect\Collection { //TODO: Docs
         return \CharlotteDunois\Collect\Collection::create($data);
     }
     
+    function __debugInfo() {
+        return $this->data;
+    }
+    
     /**
      * Sets a new key-value pair (or overwrites an existing key-value pair).
      * @param string $key
