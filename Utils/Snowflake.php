@@ -51,7 +51,7 @@ class Snowflake { //TODO: 64bit
      * Generates a new snowflake with worker ID hardcoded to 1 and process ID hardcoded to 0.
      * @return string
      */
-    static function generate() { //TODO
+    static function generate() {
         if(self::$increment >= 4095) {
             self::$increment = 0;
         }
