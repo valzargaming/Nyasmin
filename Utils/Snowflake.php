@@ -17,6 +17,7 @@ class Snowflake { //TODO: 64bit
      * Time since UNIX epoch to Discord epoch.
      */
     const EPOCH = 1420070400;
+    
     static private $increment = 0;
     private $data = array();
     

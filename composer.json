@@ -11,6 +11,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
+        "php": ">=7.0",
         "league/event": "^2.1",
         "ratchet/pawl": "^0.3.0",
         "react/event-loop": "^0.4.3",
