@@ -20,6 +20,9 @@ class DMChannel extends TextBasedChannel { //TODO: Implementation
         $this->recipients = $channel['recipients'] ?? array();
     }
     
+    /**
+     * @inheritdoc
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;

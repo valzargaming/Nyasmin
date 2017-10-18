@@ -39,7 +39,7 @@ class User extends Structure
         
         $this->tag = $this->username.'#'.$this->discriminator;
         
-        $this->createdTimestamp = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->getTimestamp();
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->getTimestamp();
     }
     
     /**

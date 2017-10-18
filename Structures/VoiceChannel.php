@@ -40,6 +40,9 @@ class VoiceChannel extends TextBasedChannel { //TODO: Implementation
         }
     }
     
+    /**
+     * @inheritdoc
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;

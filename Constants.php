@@ -11,6 +11,7 @@ namespace CharlotteDunois\Yasmin;
 
 /**
  * Holds all constants.
+ * @access private
  */
 class Constants {
     const OPCODES = array(
