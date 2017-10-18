@@ -140,6 +140,7 @@ class User extends Structure
     
     /**
      * Get the default Avatar URL.
+     * @param int    $size   Any powers of 2.
      * @return string
      */
     function getDefaultAvatarURL($size = 256) {
@@ -171,7 +172,7 @@ class User extends Structure
      * @return string
      */
     function getDisplayAvatarURL($size = 256, $format = '') {
-        return ($this->avatar ? $this->getAvatarURL($format) : $this->getDefaultAvatarURL());
+        return ($this->avatar ? $this->getAvatarURL($size, $format) : $this->getDefaultAvatarURL($size));
     }
     
     /**
