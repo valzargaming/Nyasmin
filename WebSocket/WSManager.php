@@ -28,6 +28,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         'dateline' => 0
     );
     
+    private $expectedClose = false;
     private $gateway;
     private $wsSessionID;
     
@@ -121,8 +122,12 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $this->wsHeartbeat['ack'] = true;
                 
                 $this->ws = null;
-                
                 $this->emit('close', $code, $reason);
+                
+                if($this->expectedClose === true) {
+                    return;
+                }
+                
                 $this->client->emit('disconnect', $code, $reason);
                 
                 if($code !== 1000) {
@@ -143,31 +148,34 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             return;
         }
         
+        $this->processQueue();
+        
         $this->client->emit('debug', 'Disconnecting from WS');
         
+        $this->expectedClose = true;
         $this->ws->close(1000);
         $this->wsSessionID = null;
     }
     
     function send(array $packet) {
-        if($this->status() < 1) {
-            $this->client->emit('debug', 'Tried sending a WS message before a connection was made');
-            return false;
-        }
-        
-        $this->ratelimits['queue'][] = $packet;
-        
-        if($this->ratelimits['running'] === false) {
-            $this->client->getLoop()->addTimer(0.001, function () {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
+            if($this->status() < 1) {
+                $this->client->emit('debug', 'Tried sending a WS message before a connection was made');
+                return false;
+            }
+            
+            $this->ratelimits['queue'][] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);
+            
+            if($this->ratelimits['running'] === false) {
                 $this->processQueue();
-            });
-        }
-        
-        return true;
+            }
+        });
     }
     
     function processQueue() {
-         if($this->ratelimits['remaining'] === 0) {
+         if($this->ratelimits['running'] === true) {
+             return;
+         } elseif($this->ratelimits['remaining'] === 0) {
              return;
          } elseif(\count($this->ratelimits['queue']) === 0) {
              return;
@@ -176,14 +184,16 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
          $this->ratelimits['running'] = true;
          
          while($this->ratelimits['remaining'] > 0 && \count($this->ratelimits['queue']) > 0) {
+             $element = \array_shift($this->ratelimits['queue']);
+             $this->ratelimits['remaining']--;
+             
              if(!$this->ws) {
+                 $element['reject']();
                  break;
              }
              
-             $packet = \array_shift($this->ratelimits['queue']);
-             $this->ratelimits['remaining']--;
-             
-             $this->_send($packet);
+             $this->_send($element['packet']);
+             $element['resolve']();
          }
          
          $this->ratelimits['running'] = false;

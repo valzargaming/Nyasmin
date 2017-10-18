@@ -62,7 +62,7 @@ $client->getLoop()->addTimer(100, function () use ($client) {
     var_dump($client->users);
 });
 
-$client->getLoop()->addTimer(300, function () use ($client) {
+$client->getLoop()->addTimer(40, function () use ($client) {
     echo 'Ending session'.PHP_EOL;
     $client->destroy()->then(function () use ($client) {
         $client->getLoop()->stop();

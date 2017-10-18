@@ -163,7 +163,7 @@ class Client extends EventEmitter { //TODO: Implementation
                 $resolve = function () { };
             }
             
-            $this->ws->once('ready', function () use ($resolve, &$listener) {
+            $this->ws->once('ready', function () use ($resolve) {
                 $resolve();
                 $this->emit('ready');
             });
@@ -176,9 +176,11 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function destroy() {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->user->setStatus('offline')->then(function () use ($resolve) {
-                $this->ws->disconnect();
-                $resolve();
+            $this->user->setStatus('invisible')->then(function () use ($resolve) {
+                $this->loop->addTimer(5, function () use ($resolve) {
+                    $this->ws->disconnect();
+                    $resolve();
+                });
             }, $reject);
         });
     }
