@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin;
 
+/**
+ * Holds all constants.
+ */
 class Constants {
     const OPCODES = array(
         'DISPATCH' => 0,
@@ -23,7 +26,6 @@ class Constants {
         'INVALIDATE_SESSION' => 9,
         'HELLO' => 10,
         'HEARTBEAT_ACK' => 11,
-        'GUILD_SYNC' => 12,
         
         0 => 'DISPATCH',
         1 => 'HEARTBEAT',
@@ -36,8 +38,7 @@ class Constants {
         8 => 'REQUEST_GUILD_MEMBERS',
         9 => 'INVALIDATE_SESSION',
         10 => 'HELLO',
-        11 => 'HEARTBEAT_ACK',
-        12 => 'GUILD_SYNC'
+        11 => 'HEARTBEAT_ACK'
     );
     
     const CDN = array(

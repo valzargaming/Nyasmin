@@ -23,6 +23,9 @@ class User extends Structure
     
     protected $createdTimestamp;
     
+    /**
+     * @access private
+     */
     function __construct($client, $user) {
         parent::__construct($client);
         
@@ -39,6 +42,23 @@ class User extends Structure
         $this->createdTimestamp = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->getTimestamp();
     }
     
+    /**
+     * @property-read string                                               $id                 The user ID.
+     * @property-read string                                               $username           The username.
+     * @property-read string                                               $discriminator      The discriminator of this user.
+     * @property-read boolean                                              $bot                Is the user a bot? Or are you a bot?
+     * @property-read string                                               $avatar             The hash of the user's avatar.
+     * @property-read string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
+     * @property-read boolean                                              $verified           I wonder if the user is verified.
+     * @property-read string                                               $tag                Username#Discriminator.
+     * @property-read int                                                  $createdTimestamp   The timestamp of when this user was created.
+     *
+     * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
+     * @property-read int                                                  $defaultAvatar      The identifier of the default avatar for this user.
+     * @property-read \CharlotteDunois\Yasmin\Structures\DMChannel|null    $dmChannel          The DM channel for this user, if it exists.
+     * @property-read string|null                                          $notes              The notes of the Client User for this user. (User Accounts only)
+     * @property-read \CharlotteDunois\Yasmin\Structures\Presence|null     $presence           The presence for this usre.
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
@@ -47,6 +67,9 @@ class User extends Structure
         switch($name) {
             case 'createdAt':
                 return (new \DateTime('@'.$this->createdTimestamp));
+            break;
+            case 'defaultAvatar':
+                return ($this->discriminator % 5);
             break;
             case 'dmChannel':
                 $channel = $this->client->channels->first(function ($channel) {
@@ -82,10 +105,17 @@ class User extends Structure
         return null;
     }
     
+    /**
+     * Automatically converts the User object to a mention.
+     */
     function __toString() {
         return '<@'.$this->id.'>';
     }
     
+    /**
+     * Opens a DM channel to this user.
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\DMChannel|null>
+     */
     function createDM() { //TODO
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
@@ -95,6 +125,10 @@ class User extends Structure
         });
     }
     
+    /**
+     * Deletes an existing DM channel to this user.
+     * @return \React\Promise\Promise<null>
+     */
     function deleteDM() { //TODO
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
@@ -104,14 +138,20 @@ class User extends Structure
         });
     }
     
-    function defaultAvatar() {
-        return ($this->discriminator % 5);
-    }
-    
+    /**
+     * Get the default Avatar URL.
+     * @return string
+     */
     function getDefaultAvatarURL($size = 256) {
         return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['defaultavatars'], ($this->discriminator % 5)).'?size='.$size;
     }
     
+    /**
+     * Get the Avatar URL.
+     * @param int    $size   Any powers of 2.
+     * @param string $format Any image format (empty = default format).
+     * @return string|null
+     */
     function getAvatarURL($size = 256, $format = '') {
         if(!$this->avatar) {
             return null;
@@ -124,16 +164,30 @@ class User extends Structure
         return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['avatars'], $this->id, $this->avatar, $format).'?size='.$size;
     }
     
+    /**
+     * Get the URL of the displayed avatar.
+     * @param int    $size   Any powers of 2.
+     * @param string $format Any image format (empty = default format).
+     * @return string
+     */
     function getDisplayAvatarURL($size = 256, $format = '') {
         return ($this->avatar ? $this->getAvatarURL($format) : $this->getDefaultAvatarURL());
     }
     
-    function fetchProfile() { //TODO: User Account only
+    /**
+     * Get the userprofile of this user. (User Accounts only)
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\Userprofile>
+     */
+    function fetchProfile() {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
         });
     }
     
+    /**
+     * Set notes for this user. (User Accounts only)
+     * @return \React\Promise\Promise<null>
+     */
     function setNote(string $note) { //TODO: User Account only
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             

@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Interfaces;
 
+/**
+ * Something all channels implement.
+ */
 interface ChannelInterface {
     
 }

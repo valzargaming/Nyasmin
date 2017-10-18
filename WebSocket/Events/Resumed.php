@@ -9,6 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
+/**
+ * WS Event
+ * @access private
+ */
 class Resumed {
     protected $client;
     

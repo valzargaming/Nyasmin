@@ -9,6 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\WebSocket;
 
+/**
+ * Handles the WS connection.
+ * @access private
+ */
 class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     public $ratelimits = array(
         'total' => 120,
@@ -214,7 +218,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         
         $this->send(array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT'],
-            'd' => $this->wshandler->getSequence()
+            'd' => $this->wshandler->sequence
         ));
     }
     

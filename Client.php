@@ -9,22 +9,41 @@
 
 namespace CharlotteDunois\Yasmin;
 
-class Client extends EventEmitter {
+/**
+ * The client. What else do you expect this to say?
+ */
+class Client extends EventEmitter { //TODO: Implementation
     public $channels;
     public $guilds;
     public $presences;
     public $users;
     public $voiceConnections;
     
+    /**
+     * The last 3 websocket pings (in ms).
+     * @property int[] $pings
+     */
     public $pings = array();
+    
+    /**
+     * The UNIX timestamp of the last emitted ready event (or null if none yet).
+     * @property int|null $readyTimestamp
+     */
     public $readyTimestamp = null;
     
     private $loop;
     private $options = array();
     public $token;
-    private $ws;
-    private $user;
     
+    private $user;
+    private $ws;
+    
+    /**
+     * What do you expect this to do?
+     * @param array                           $options  Any client options.
+     * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
+     * @return this
+     */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!$loop) {
             $loop = \React\EventLoop\Factory::create();
@@ -40,18 +59,36 @@ class Client extends EventEmitter {
         $this->voiceConnections = new \CharlotteDunois\Yasmin\Structures\Collection();
     }
     
+    /**
+     * You don't need to know.
+     * @access private
+     */
     function wsmanager() {
         return $this->ws;
     }
     
+    /**
+     * Get the React Event Loop that is stored in this class.
+     * @return \React\EventLoop\LoopInterface
+     */
     function getLoop() {
         return $this->loop;
     }
     
+    /**
+     * Get the Client User instance.
+     * @return \CharlotteDunois\Yasmin\Structures\ClientUser|null
+     */
     function getClientUser() {
         return $this->user;
     }
     
+    /**
+     * Get a specific option, or the default value.
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
     function getOption($name, $default = null) {
         if(isset($this->options[$name])) {
             return $this->options[$name];
@@ -60,6 +97,10 @@ class Client extends EventEmitter {
         return $default;
     }
     
+    /**
+     * Gets the average ping.
+     * @return int
+     */
     function getPing() {
         $cpings = \count($this->pings);
         if($cpings === 0) {
@@ -69,6 +110,11 @@ class Client extends EventEmitter {
         return \ceil(\array_sum($this->pings) / $cpings);
     }
     
+    /**
+     * Login into Discord. Opens a WebSocket Gateway connection.
+     * @param string $token Your token.
+     * @return \React\Promise\Promise<null>
+     */
     function login(string $token) {
         $this->token = $token;
         
@@ -88,10 +134,18 @@ class Client extends EventEmitter {
         });
     }
     
+    /**
+     * Make an instance of {ClientUser} and store it.
+     * @access private
+     */
     function setClientUser(array $user) {
         $this->user = new \CharlotteDunois\Yasmin\Structures\ClientUser($this, $user);
     }
     
+    /**
+     * Emit an event.
+     * @access private
+     */
     function emit($name, ...$args) {
         if($name === 'debug' && $this->getOption('disableDebugEvent', false) === true) {
             return;

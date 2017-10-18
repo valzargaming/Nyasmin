@@ -9,7 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\Interfaces;
 
-interface TextChannelInterface { //TODO: Implementation //TODO: Docs
+/**
+ * Something all textchannels (all text-based channels) implement.
+ */
+interface TextChannelInterface { //TODO: Implementation
     function acknowledge();
     function awaitMessages(callable $filter, array $options = array());
     function bulkDelete($messages);

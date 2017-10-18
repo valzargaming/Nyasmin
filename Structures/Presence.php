@@ -9,11 +9,17 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Represents a presence.
+ */
 class Presence extends Structure { //TODO: Docs
     protected $user;
     protected $game;
     protected $status;
     
+    /**
+     * @access private
+     */
     function __construct($client, $presence) {
         parent::__construct($client);
         
@@ -22,6 +28,11 @@ class Presence extends Structure { //TODO: Docs
         $this->status = $presence['status'];
     }
     
+    /**
+     * @property-read \CharlotteDunois\Yasmin\Structures\User  $user    The user this presence belongs to.
+     * @property-read \CharlotteDunois\Yasmin\Structures\Game  $game    The game the user is playing.
+     * @property-read string                                   $status  What do you expect this to be?
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;

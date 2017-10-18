@@ -9,12 +9,22 @@
 
 namespace CharlotteDunois\Yasmin\Utils;
 
-class Snowflake { //TODO: Docs
+/**
+ * Represents a Snowflake.
+ */
+class Snowflake { //TODO: 64bit
+    /**
+     * Time since UNIX epoch to Discord epoch.
+     */
     const EPOCH = 1420070400;
     static private $increment = 0;
     private $data = array();
-
-    function __construct($snowflake) {
+    
+    /**
+     * Loads a snowflake and returns some information about it.
+     * @param string $snowflake
+     */
+    function __construct(string $snowflake) {
         $high = ($snowflake & 0xffffffff00000000) >> 32;
         $low = $snowflake & 0x00000000ffffffff;
         $binary = \pack('NN', $high, $low);
@@ -33,10 +43,19 @@ class Snowflake { //TODO: Docs
         );
     }
     
-    static function deconstruct($snowflake) {
+    /**
+     * Deconstruct a snowflake.
+     * @param string $snowflake
+     * @return Snowflake
+     */
+    static function deconstruct(string $snowflake) {
         return (new self($snowflake));
     }
     
+    /**
+     * Generates a new snowflake with worker ID hardcoded to 1 and process ID hardcoded to 0.
+     * @return string
+     */
     static function generate() { //TODO
         if(self::$increment >= 4095) {
             self::$increment = 0;
@@ -49,30 +68,60 @@ class Snowflake { //TODO: Docs
         return self::convertBase($binary, 2, 10);
     }
     
+    /**
+     * Get the timestamp of when this Snowflake was created.
+     * @return int
+     */
     function getTimestamp() {
         return $this->data['timestamp'];
     }
     
+    /**
+     * Get the DateTime of when this Snowflake was created.
+     * @return \DateTime
+     */
     function getDate() {
         return (new \DateTime('@'.$this->data['timestamp']));
     }
     
+    /**
+     * Get the worker ID.
+     * @return int
+     */
     function getWorkerID() {
         return $this->data['workerID'];
     }
     
+    /**
+     * Get the process ID.
+     * @return int
+     */
     function getProcessID() {
         return $this->data['processID'];
     }
     
+    /**
+     * Get the increment value.
+     * @return int
+     */
     function getIncrement() {
         return $this->data['increment'];
     }
     
+    /**
+     * Is this a valid Snowflake or not? This does not determine if a given Snowflake exists in Discord.
+     * @return boolean
+     */
     function isValid() {
         return ($this->getTimestamp() < \time() && $this->getWorkerID() >= 0 && $this->getProcessID() >= 0 && $this->getIncrement() >= 0 && $this->getIncrement() <= 4095);
     }
     
+    /**
+     * Converts numbers from one base to another.
+     * @param string $input
+     * @param int    $fromBase
+     * @param int    $toBase
+     */
     static function convertBase($input, $fromBase, $toBase) {
         if($fromBase === $toBase) {
             return $input;
@@ -113,6 +162,11 @@ class Snowflake { //TODO: Docs
         return $retval;
     }
     
+    /**
+     * Return the valid values for a given base.
+     * @param string|int $base
+     * @return array
+     */
     static private function getBaseArray($base) {
         switch((int) $base) {
             case 2:

@@ -9,7 +9,13 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Permissions. Something fabulous.
+ */
 class Permissions extends Structure { //TODO: Docs
+    /**
+     * Available Permissions in Discord.
+     */
     const FLAGS = array(
         'CREATE_INSTANT_INVITE' => 1 << 0,
         'KICK_MEMBERS' => 1 << 1,
@@ -46,12 +52,18 @@ class Permissions extends Structure { //TODO: Docs
     
     protected $bitfield;
     
+    /**
+     * @access private
+     */
     function __construct($client, $permission) {
         parent::__construct($client);
         
         $this->bitfield = $permission;
     }
     
+    /**
+     * @property-read int  $bitfield  The bitfield value.
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
@@ -60,6 +72,12 @@ class Permissions extends Structure { //TODO: Docs
         return null;
     }
     
+    /**
+     * Checks if a given permission is granted.
+     * @param array|string|int  $permissions
+     * @param boolean           $checkAdmin
+     * @return boolean
+     */
     function has($permissions, bool $checkAdmin = true) {
         if(!\is_array($permissions)) {
             $permissions = array($permissions);
@@ -79,10 +97,22 @@ class Permissions extends Structure { //TODO: Docs
         return true;
     }
     
+    /**
+     * Checks if a given permission is missing.
+     * @param array|string|int  $permissions
+     * @param boolean           $checkAdmin
+     * @return boolean
+     */
     function missing($permissions, bool $checkAdmin = true) {
         return !$this->has($permissions, $checkAdmin);
     }
     
+    /**
+     * Resolves a permission name to number. Also checks if a given integer is a valid permission.
+     * @param int|string  $permission
+     * @return int
+     * @throws \Exception
+     */
     static function resolve($permission) {
         if(\is_int($permission) && \array_search($permission, self::FLAGS, true) !== false) {
             return $permission;

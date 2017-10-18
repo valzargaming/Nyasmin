@@ -9,6 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Something all structures extend. Do not use this.
+ * @access private
+ */
 class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     protected $client;
     static public $serializeClient;

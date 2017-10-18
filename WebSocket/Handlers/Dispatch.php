@@ -9,6 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
 
+/**
+ * WS Event handler
+ * @access private
+ */
 class Dispatch {
     private $wsevents = array();
     protected $wshandler;

@@ -9,6 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\WebSocket;
 
+/**
+ * Handles WS messages.
+ * @access private
+ */
 class WSHandler {
     private $handlers = array();
     private $sequence = null;
@@ -23,7 +27,6 @@ class WSHandler {
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['INVALIDATE_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidateSession');
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HELLO'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Hello');
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT_ACK'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\HeartbeatAck');
-        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['GUILD_SYNC'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\GuildSync');
     }
     
     function __get($name) {
@@ -31,16 +34,15 @@ class WSHandler {
             case 'client':
                 return $this->wsmanager->client;
             break;
+            case 'sequence':
+                return $this->sequence;
+            break;
             case 'wsmanager':
                 return $this->wsmanager;
             break;
         }
         
         return null;
-    }
-    
-    function getSequence() {
-        return $this->sequence;
     }
     
     function getHandler($name) {

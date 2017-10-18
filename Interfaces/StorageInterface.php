@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Interfaces;
 
+/**
+ * Something all storages implement.
+ */
 interface StorageInterface {
     
 }
