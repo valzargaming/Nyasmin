@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Utils;
  */
 class Snowflake { //TODO: 64bit
     /**
-     * Time since UNIX epoch to Discord epoch.
+     * @var int  Time since UNIX epoch to Discord epoch.
      */
     const EPOCH = 1420070400;
     
@@ -26,14 +26,8 @@ class Snowflake { //TODO: 64bit
      * @param string $snowflake
      */
     function __construct(string $snowflake) {
-        $high = ($snowflake & 0xffffffff00000000) >> 32;
-        $low = $snowflake & 0x00000000ffffffff;
-        $binary = \pack('NN', $high, $low);
-        
-        $binary = self::convertBase($snowflake, 10, 2);
-        
-        $binary = \str_pad($binary, 64, 0, STR_PAD_LEFT);
-        $timestamp = \round(self::convertBase(\substr($binary, 0, 42), 2, 10) / 1000) + self::EPOCH;
+        $binary = \str_pad(self::convertBase($snowflake, 10, 2), 64, 0, STR_PAD_LEFT);
+        $timestamp = (int) \round(self::convertBase(\substr($binary, 0, 42), 2, 10) / 1000) + self::EPOCH;
 
         $this->data = array(
             'timestamp' => $timestamp,
@@ -62,16 +56,16 @@ class Snowflake { //TODO: 64bit
             self::$increment = 0;
         }
         
-        $mtime = \explode(' ', \microtime());
-        $time = ((string) ((int) $mtime[1] - self::EPOCH)).\str_replace('.', '', \substr($mtime[0], 0, 3));
+        $mtime = \explode('.', (string) \microtime(true));
+        $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         $binary = \str_pad(self::convertBase($time, 10, 2), 42, 0, STR_PAD_LEFT).'0000100000'.\str_pad(self::convertBase((self::$increment++), 10, 2), 12, 0, STR_PAD_LEFT);
         return self::convertBase($binary, 2, 10);
     }
     
     /**
-     * Get the timestamp of when this Snowflake was created.
-     * @return int
+     * Get the timestamp of when this Snowflake was created. Returns a float with milliseconds.
+     * @return float
      */
     function getTimestamp() {
         return $this->data['timestamp'];
@@ -82,7 +76,7 @@ class Snowflake { //TODO: 64bit
      * @return \DateTime
      */
     function getDate() {
-        return (new \DateTime('@'.$this->data['timestamp']));
+        return (new \DateTime('@'.((int) $this->data['timestamp'])));
     }
     
     /**
