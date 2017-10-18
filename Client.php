@@ -14,27 +14,27 @@ namespace CharlotteDunois\Yasmin;
  */
 class Client extends EventEmitter { //TODO: Implementation
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\ChannelStorage[\CharlotteDunois\Yasmin\Interfaces\ChannelInterface] It holds all cached channels.
+     * @var \CharlotteDunois\Yasmin\Structures\ChannelStorage It holds all cached channels.
      */
     public $channels;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\GuildStorage[\CharlotteDunois\Yasmin\Structures\Guild] It holds all guilds.
+     * @var \CharlotteDunois\Yasmin\Structures\GuildStorage It holds all guilds.
      */
     public $guilds;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage[\CharlotteDunois\Yasmin\Structures\Presence] It holds all cached presences.
+     * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage It holds all cached presences.
      */
     public $presences;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\UserStorage[\CharlotteDunois\Yasmin\Structures\User] It holds all cached users.
+     * @var \CharlotteDunois\Yasmin\Structures\UserStorage It holds all cached users.
      */
     public $users;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\Collection[\CharlotteDunois\Yasmin\Structures\VoiceConnection] It holds all open Voice Connections.
+     * @var \CharlotteDunois\Yasmin\Structures\Collection It holds all open Voice Connections.
      */
     public $voiceConnections;
     
