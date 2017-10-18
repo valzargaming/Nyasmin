@@ -13,29 +13,64 @@ namespace CharlotteDunois\Yasmin;
  * The client. What else do you expect this to say?
  */
 class Client extends EventEmitter { //TODO: Implementation
+    /**
+     * @var \CharlotteDunois\Yasmin\Structures\ChannelStorage[\CharlotteDunois\Yasmin\Interfaces\ChannelInterface] It holds all cached channels.
+     */
     public $channels;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\Structures\GuildStorage[\CharlotteDunois\Yasmin\Structures\Guild] It holds all guilds.
+     */
     public $guilds;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage[\CharlotteDunois\Yasmin\Structures\Presence] It holds all cached presences.
+     */
     public $presences;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\Structures\UserStorage[\CharlotteDunois\Yasmin\Structures\User] It holds all cached users.
+     */
     public $users;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\Structures\Collection[\CharlotteDunois\Yasmin\Structures\VoiceConnection] It holds all open Voice Connections.
+     */
     public $voiceConnections;
     
     /**
-     * The last 3 websocket pings (in ms).
-     * @property int[] $pings
+     * @var int[] The last 3 websocket pings (in ms).
      */
     public $pings = array();
     
     /**
-     * The UNIX timestamp of the last emitted ready event (or null if none yet).
-     * @property int|null $readyTimestamp
+     * @var int|null The UNIX timestamp of the last emitted ready event (or null if none yet).
      */
     public $readyTimestamp = null;
     
-    private $loop;
-    private $options = array();
+    /**
+     * @var string|null The token.
+     */
     public $token;
     
+    /**
+     * @access private
+     */
+    private $loop;
+    
+    /**
+     * @access private
+     */
+    private $options = array();
+    
+    /**
+     * @access private
+     */
     private $user;
+    
+    /**
+     * @access private
+     */
     private $ws;
     
     /**
