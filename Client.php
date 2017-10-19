@@ -165,7 +165,15 @@ class Client extends EventEmitter { //TODO: Implementation
                 $resolve = function () { };
             }
             
-            $this->ws->once('ready', function () use ($resolve) {
+            $errorLn = function ($error) use ($reject) {
+                $reject($error);
+            };
+            
+            $this->ws->once('error', $errorLn);
+            
+            $this->ws->once('ready', function () use ($errorLn, $resolve) {
+                $this->ws->removeListener('error', $errorLn);
+                
                 $resolve();
                 $this->emit('ready');
             });
@@ -200,6 +208,6 @@ class Client extends EventEmitter { //TODO: Implementation
             return;
         }
         
-        return parent::emit($name, ...$args);
+        parent::emit($name, ...$args);
     }
 }

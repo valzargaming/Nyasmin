@@ -301,6 +301,6 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             return;
         }
         
-        return parent::emit($name, ...$args);
+        parent::emit($name, ...$args);
     }
 }
