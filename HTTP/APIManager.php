@@ -15,6 +15,7 @@ class APIManager {
     
     protected $handler;
     protected $http;
+    protected $timer;
     
     protected $ratelimits = array();
     protected $limited = false;
@@ -30,7 +31,7 @@ class APIManager {
         $this->addToRateLimit('global');
         
         $this->handler = new \GuzzleHttp\Handler\CurlMultiHandler();
-        $timer = $this->loop->addPeriodicTimer(0, \Closure::bind(function () use (&$timer) {
+        $this->timer = $this->loop->addPeriodicTimer(0, \Closure::bind(function () use (&$timer) {
             $this->tick();
             /*if(empty($this->handles) && Promise\queue()->isEmpty()) {
                 $timer->cancel();
@@ -40,6 +41,12 @@ class APIManager {
         $this->http = new \GuzzleHttp\Client(array(
             'handler' => \GuzzleHttp\HandlerStack::create($this->handler)
         ));
+    }
+    
+    function __destruct() {
+        $this->limited = true;
+        $this->resetTime = 0;
+        $this->timer->cancel();
     }
     
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
