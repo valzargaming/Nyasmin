@@ -85,6 +85,8 @@ class Client extends EventEmitter { //TODO: Implementation
             $loop = \React\EventLoop\Factory::create();
         }
         
+        $this->options = array_merge($this->options, $options);
+        
         $this->loop = $loop;
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
@@ -121,8 +123,8 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Get a specific option, or the default value.
-     * @param string $name
-     * @param mixed $default
+     * @param string  $name
+     * @param mixed   $default
      * @return mixed
      */
     function getOption($name, $default = null) {
@@ -176,12 +178,8 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function destroy() {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->user->setStatus('invisible')->then(function () use ($resolve) {
-                $this->loop->addTimer(5, function () use ($resolve) {
-                    $this->ws->disconnect();
-                    $resolve();
-                });
-            }, $reject);
+            $this->ws->disconnect();
+            $resolve();
         });
     }
     

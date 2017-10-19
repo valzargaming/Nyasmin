@@ -24,13 +24,32 @@ spl_autoload_register(function ($name) {
 });
 require_once(IN_DIR.'/vendor/autoload.php');
 
-$client = new \CharlotteDunois\Yasmin\client;
+/*$loop = \React\EventLoop\Factory::create();
 
-$client->on('debug', function ($event) {
-    echo $event->getParam(0).PHP_EOL;
+$connector = new \Ratchet\Client\Connector($loop);
+$connector('ws://localhost:8080')->done(function (\Ratchet\Client\WebSocket $conn) use ($loop) {
+    $conn->on('message', function ($message) {
+        var_dump($message);
+    });
+    $conn->on('close', function (...$args) {
+        var_dump($args);
+    });
+    
+    $loop->addTimer(10, function () use ($conn) {
+        echo 'Closing WS'.PHP_EOL;
+        $conn->close();
+    });
 });
-$client->on('error', function ($event) {
-    echo $event->getParam(0).PHP_EOL;
+
+$loop->run();*/
+
+$client = new \CharlotteDunois\Yasmin\Client();
+
+$client->on('debug', function ($debug) {
+    echo $debug.PHP_EOL;
+});
+$client->on('error', function ($error) {
+    echo $error.PHP_EOL;
 });
 
 $client->on('ready', function () use($client) {
@@ -41,8 +60,7 @@ $client->on('ready', function () use($client) {
     
     $user->setGame('with her Boobs');
 });
-$client->on('disconnect', function ($event) {
-    list($code, $reason) = $event->getParams();
+$client->on('disconnect', function ($code, $reason) {
     echo 'Disconnected! (Code: '.$code.' | Reason: '.$reason.')'.PHP_EOL;
 });
 $client->on('reconnect', function () {

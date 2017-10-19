@@ -76,8 +76,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         }
         
         $this->gateway = $gateway;
+        $this->expectedClose = false;
         
         $connector = new \Ratchet\Client\Connector($this->client->getLoop());
+        
         $this->client->emit('debug', 'Connecting to WS '.$gateway);
         
         return $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) {

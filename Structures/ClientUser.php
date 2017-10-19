@@ -59,8 +59,8 @@ class ClientUser extends User { //TODO: Implementation
     
     /**
      * Set your playing game.
-     * @param string $name  The game name.
-     * @param string $url   If you're streaming, this is the url to the stream.
+     * @param string       $name  The game name.
+     * @param string|void  $url   If you're streaming, this is the url to the stream.
      * @return \React\Promise\Promise<null>
      */
     function setGame(string $name, string $url = '') {
