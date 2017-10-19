@@ -3,8 +3,8 @@
  * Yasmin
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
- * Website => https://charuru.moe
- * License => MIT
+ * Website: https://charuru.moe
+ * License: MIT
 */
 
 namespace CharlotteDunois\Yasmin;
@@ -14,6 +14,8 @@ namespace CharlotteDunois\Yasmin;
  * @access private
  */
 class Constants {
+    const VERSION = '0.0.1';
+    
     const OPCODES = array(
         'DISPATCH' => 0,
         'HEARTBEAT' => 1,

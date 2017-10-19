@@ -55,21 +55,31 @@ class Client extends EventEmitter { //TODO: Implementation
     public $token;
     
     /**
+     * @var \React\EventLoop\LoopInterface
      * @access private
      */
     private $loop;
     
     /**
+     * @var array
      * @access private
      */
     private $options = array();
     
     /**
+     * @var \CharlotteDunois\Yasmin\Structures\ClientUser
      * @access private
      */
     private $user;
     
     /**
+     * @var \CharlotteDunois\Yasmin\HTTP\APIManager
+     * @access private
+     */
+    private $api;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\WebSocket\WSManager
      * @access private
      */
     private $ws;
@@ -88,6 +98,8 @@ class Client extends EventEmitter { //TODO: Implementation
         $this->options = array_merge($this->options, $options);
         
         $this->loop = $loop;
+        
+        $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
         $this->channels = new \CharlotteDunois\Yasmin\Structures\ChannelStorage($this);
@@ -165,15 +177,7 @@ class Client extends EventEmitter { //TODO: Implementation
                 $resolve = function () { };
             }
             
-            $errorLn = function ($error) use ($reject) {
-                $reject($error);
-            };
-            
-            $this->ws->once('error', $errorLn);
-            
-            $this->ws->once('ready', function () use ($errorLn, $resolve) {
-                $this->ws->removeListener('error', $errorLn);
-                
+            $this->ws->once('ready', function () use ($resolve) {
                 $resolve();
                 $this->emit('ready');
             });
@@ -185,7 +189,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @return \React\Promise\Promise<null>
      */
     function destroy() {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return new \React\Promise\Promise(function (callable $resolve) {
             $this->ws->disconnect();
             $resolve();
         });
