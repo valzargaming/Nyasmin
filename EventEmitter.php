@@ -78,7 +78,7 @@ class EventEmitter {
         
         if(isset($this->listeners[$event])) {
             $index = \array_search($listener, $this->listeners[$event], true);
-            if($index !== $false) {
+            if($index !== false) {
                 unset($this->listeners[$event][$index]);
                 if (\count($this->listeners[$event]) === 0) {
                     unset($this->listeners[$event]);
