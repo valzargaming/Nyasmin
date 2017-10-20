@@ -288,6 +288,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         
         if($packet['op'] === \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME']) {
             $packet['d']['session_id'] = $sessionid;
+            $packet['d']['seq'] = $this->wshandler->sequence;
         }
         
         $this->send($packet);

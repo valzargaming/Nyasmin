@@ -20,6 +20,11 @@ class APIRequest {
     protected $api;
     
     /**
+     * @var string
+     */
+    protected $url;
+    
+    /**
      * @var \React\Promise\Promise
      */
     public $resolve;
@@ -53,6 +58,7 @@ class APIRequest {
      */
     function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $method, string $endpoint, array $options) {
         $this->api = $api;
+        $this->url = \CharlotteDunois\Yasmin\Constants::HTTP['url'].'v'.\CharlotteDunois\Yasmin\Constants::HTTP['version'].'/';
         
         $this->method = $method;
         $this->endpoint = $endpoint;
@@ -72,7 +78,7 @@ class APIRequest {
      * @return \GuzzleHttp\Psr7\Request
      */
     function request() {
-        $url = \CharlotteDunois\Yasmin\Constants::HTTP['url'].'v'.\CharlotteDunois\Yasmin\Constants::HTTP['version'].'/'.$this->endpoint;
+        $url = $this->url.$this->endpoint;
         
         $options = array(
             'http_errors' => false,

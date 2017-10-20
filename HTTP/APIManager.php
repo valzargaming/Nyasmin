@@ -101,7 +101,7 @@ class APIManager {
      * @return \React\Promise\Promise
      */
     function makeRequest(string $method, string $endpoint, array $options) {
-        $request = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this->api, $method, $endpoint, $options);
+        $request = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
         return $this->add($request);
     }
     
