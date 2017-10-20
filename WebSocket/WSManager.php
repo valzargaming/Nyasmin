@@ -8,12 +8,38 @@
 */
 
 namespace CharlotteDunois\Yasmin\WebSocket;
+use CharlotteDunois\Yasmin\Client;
+use CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the WS connection.
  * @access private
  */
 class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
+    /**
+     * @var \CharlotteDunois\Yasmin\Client
+     */
+    private $client;
+    
+    /**
+     * @var \Ratchet\Client\Connector
+     */
+    private $connector;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\WebSocket\WSHandler
+     */
+    private $wshandler;
+    
+    /**
+     * @var \Ratchet\Client\WebSocket
+     */
+    private $ws;
+    
+    /**
+     * The WS ratelimits.
+     * @var array
+     */
     public $ratelimits = array(
         'total' => 120,
         'time' => 60,
@@ -23,18 +49,39 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         'queue' => array(),
         'running' => false
     );
+    
+    /**
+     * The WS heartbeat.
+     * @var array
+     */
     public $wsHeartbeat = array(
         'ack' => true,
         'dateline' => 0
     );
     
+    /**
+     * If the connection got closed, did we expect it?
+     * @var bool
+     */
     private $expectedClose = false;
-    private $gateway;
-    private $wsSessionID;
     
-    private $client;
-    private $wshandler;
-    private $ws;
+    /**
+     * The WS gateway address.
+     * @var string
+     */
+    private $gateway;
+    
+    /**
+     * The WS connection status
+     * @var int
+     */
+    private $wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
+    
+    /**
+     * The Discord Session ID.
+     * @var string|null
+     */
+    private $wsSessionID;
     
     function __construct($client) {
         $this->client = $client;
@@ -56,10 +103,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     
     function status() {
         if(!$this->ws) {
-            return -1;
+            return \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
         }
         
-        return 1;
+        return $this->wsStatus;
     }
     
     function connect($gateway = null) {
@@ -78,12 +125,18 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->gateway = $gateway;
         $this->expectedClose = false;
         
+        $this->client->emit('debug', 'Connecting to WS '.$gateway);
+        
         $connector = new \Ratchet\Client\Connector($this->client->getLoop());
         
-        $this->client->emit('debug', 'Connecting to WS '.$gateway);
+        if($this->wsStatus < 1) {
+            $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTING;
+        }
         
         return $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) {
             $this->ws = &$conn;
+            
+            $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
             
             $this->emit('open');
             $this->client->emit('debug', 'Connected to WS');
@@ -124,6 +177,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $this->wsHeartbeat['ack'] = true;
                 
                 $this->ws = null;
+                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
+                
                 $this->emit('close', $code, $reason);
                 
                 if($this->expectedClose === true) {
@@ -137,11 +192,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                         $this->wsSessionID = null;
                     }
                     
+                    $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
                     $this->connect($this->gateway);
                 }
             });
-            
-            return \React\Promise\resolve();
         });
     }
     
@@ -161,9 +215,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     
     function send(array $packet) {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
-            if($this->status() < 1) {
-                $this->client->emit('debug', 'Tried sending a WS message before a connection was made');
-                return false;
+            if($this->status() < \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                return $reject(new \Exception('Can not send WS message before a WS connection is established'));
             }
             
             $this->ratelimits['queue'][] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);

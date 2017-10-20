@@ -9,17 +9,49 @@
 
 namespace CharlotteDunois\Yasmin\HTTP;
 
+/**
+ * Represents a single HTTP request.
+ * @access private
+ */
 class APIRequest {
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\APIManager
+     */
     protected $api;
     
+    /**
+     * @var \React\Promise\Promise
+     */
     public $resolve;
+    
+    /**
+     * @var \React\Promise\Promise
+     */
     public $reject;
     
+    /**
+     * @var string
+     */
     private $method;
+    
+    /**
+     * @var string
+     */
     private $endpoint;
+    
+    /**
+     * @var array
+     */
     private $options = array();
     
-    function __construct($api, $method, $endpoint, array $options) {
+    /**
+     * Creates a new API Request.
+     * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
+     * @param string                                   $method
+     * @param string                                   $endpoint
+     * @param array                                    $options
+     */
+    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $method, string $endpoint, array $options) {
         $this->api = $api;
         
         $this->method = $method;
@@ -27,16 +59,25 @@ class APIRequest {
         $this->options = $options;
     }
     
+    /**
+     * Returns the endpoint path.
+     * @return string
+     */
     function getEndpoint() {
         return $this->endpoint;
     }
     
+    /**
+     * Returns the Guzzle Request.
+     * @return \GuzzleHttp\Psr7\Request
+     */
     function request() {
-        $url = \CharlotteDunois\Yasmin\Constants::HTTP['url'].'/v'.\CharlotteDunois\Yasmin\Constants::HTTP['version'].'/'.$this->endpoint;
+        $url = \CharlotteDunois\Yasmin\Constants::HTTP['url'].'v'.\CharlotteDunois\Yasmin\Constants::HTTP['version'].'/'.$this->endpoint;
         
         $options = array(
             'http_errors' => false,
             'protocols' => array('https'),
+            'expect' => false,
             'headers' => array(
                 'Authorization' => $this->api->getAuthorization(),
                 'User-Agent' => 'CharlotteDunois/Yasmin (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Constants::VERSION.')'

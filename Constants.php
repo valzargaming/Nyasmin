@@ -64,8 +64,21 @@ class Constants {
         'baseurl' => 'wss://gateway.discord.gg/',
         'encoding' => 'json',
         'version' => 6,
-        'url' => ''
+        'url' => '',
+        'status' => array(
+            -1 => 'Disconnected',
+            0 => 'Connecting',
+            1 => 'Reconnecting',
+            2 => 'Connected',
+            3 => 'Idle'
+        )
     );
+    
+    const WS_STATUS_IDLE = -1;
+    const WS_STATUS_CONNECTING = 0;
+    const WS_STATUS_RECONNECTING = 1;
+    const WS_STATUS_CONNECTED = 2;
+    const WS_STATUS_DISCONNECTED = 5;
     
     const CHANNEL_TYPE = array(
         0 => 'text',
