@@ -68,22 +68,25 @@ $client->on('reconnect', function () {
 });
 
 $client->login($token)->done(function () use ($client) {
-    $client->getLoop()->addPeriodicTimer(60, function () use ($client) {
+    $loop = $client->getLoop();
+    
+    $loop->addPeriodicTimer(60, function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
-});
-
-$client->getLoop()->addTimer(100, function () use ($client) {
-    var_dump($client->channels);
-    var_dump($client->guilds);
-    var_dump($client->presences);
-    var_dump($client->users);
-});
-
-$client->getLoop()->addTimer(40, function () use ($client) {
-    echo 'Ending session'.PHP_EOL;
-    $client->destroy()->then(function () use ($client) {
-        $client->getLoop()->stop();
+    
+    $loop->addTimer(100, function () use ($client) {
+        var_dump($client->channels);
+        var_dump($client->guilds);
+        var_dump($client->presences);
+        var_dump($client->users);
+    });
+    
+    $loop->addTimer(80, function () use ($client) {
+        echo 'Ending session'.PHP_EOL;
+        $client->destroy()->then(function () use ($client) {
+            echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
+            $client->getLoop()->stop();
+        });
     });
 });
 

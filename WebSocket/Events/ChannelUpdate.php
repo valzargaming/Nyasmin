@@ -23,7 +23,10 @@ class ChannelUpdate {
     function handle($data) {
         $channel = $this->client->channels->get($data['id']);
         if($channel) {
+            $oldChannel = clone $channel;
             $channel->_patch($data);
+            
+            $this->client->emit('channelUpdate', $channel, $oldChannel);
         }
     }
 }

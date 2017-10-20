@@ -28,6 +28,8 @@ class ChannelDelete {
             }
             
             $this->client->channels->delete($channel->id);
+            
+            $this->client->emit('channelDelete', $channel);
         }
     }
 }

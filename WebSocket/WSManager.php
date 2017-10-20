@@ -75,7 +75,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
      * The WS connection status
      * @var int
      */
-    private $wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
+    private $wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
     
     /**
      * The Discord Session ID.
@@ -93,20 +93,15 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             case 'client':
                 return $this->client;
             break;
+            case 'status':
+                return $this->wsStatus;
+            break;
             case 'wshandler':
                 return $this->wshandler;
             break;
         }
         
         return null;
-    }
-    
-    function status() {
-        if(!$this->ws) {
-            return \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
-        }
-        
-        return $this->wsStatus;
     }
     
     function connect($gateway = null) {
@@ -177,7 +172,9 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $this->wsHeartbeat['ack'] = true;
                 
                 $this->ws = null;
-                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
+                if($this->wsStatus <= \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                    $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
+                }
                 
                 $this->emit('close', $code, $reason);
                 
@@ -210,12 +207,14 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         
         $this->expectedClose = true;
         $this->ws->close(1000);
+        
+        $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
         $this->wsSessionID = null;
     }
     
     function send(array $packet) {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
-            if($this->status() < \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+            if($this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                 return $reject(new \Exception('Can not send WS message before a WS connection is established'));
             }
             
@@ -324,7 +323,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->ws->close(1006, 'No heartbeat ack received');
         $this->ws = null;
         
-        $this->connect($this->gateway);
+        try {
+            $this->connect($this->gateway);
+        } catch(\Exception $e) {
+            $this->client->login($this->client->token, true);
+        }
     }
     
     function _pong($end) {

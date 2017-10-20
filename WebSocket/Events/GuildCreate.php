@@ -23,5 +23,7 @@ class GuildCreate {
     function handle($data) {
         $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
         $this->client->guilds->set($guild->id, $guild);
+        
+        $this->client->emit('guildCreate', $guild);
     }
 }

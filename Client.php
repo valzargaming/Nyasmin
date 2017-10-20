@@ -85,6 +85,12 @@ class Client extends EventEmitter { //TODO: Implementation
     private $ws;
     
     /**
+     * @var string
+     * @access private
+     */
+     private $gateway;
+    
+    /**
      * What do you expect this to do?
      * @param array                           $options  Any client options.
      * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
@@ -161,17 +167,30 @@ class Client extends EventEmitter { //TODO: Implementation
     }
     
     /**
+     * Returns the WS status.
+     * @return int
+     */
+    function getWSstatus() {
+        return $this->ws->status;
+    }
+    
+    /**
      * Login into Discord. Opens a WebSocket Gateway connection.
-     * @param string $token Your token.
+     * @param string $token  Your token.
+     * @param bool   $force  Forces the client to get the gateway address from Discord.
      * @return \React\Promise\Promise<null>
      */
-    function login(string $token) {
+    function login(string $token, bool $force = false) {
         $this->token = $token;
         
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $url = \CharlotteDunois\Yasmin\Constants::WS['baseurl'].'?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
+            if($this->gateway && !$force) {
+                $gateway = \React\Promise\resolve(array('url' => $this->gateway));
+            } else {
+                $gateway = $this->api->getGateway();
+            }
             
-            $this->api->getGateway()->then(function ($response) use ($resolve, $reject) {
+            $gateway->then(function ($response) use ($resolve, $reject) {
                 $url = $response['url'].'?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
                 
                 $connect = $this->ws->connect($url);

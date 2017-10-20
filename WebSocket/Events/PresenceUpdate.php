@@ -29,8 +29,10 @@ class PresenceUpdate {
                 $presence->_patch($data);
             } else {
                 $guild = $this->client->guilds->resolve($data['guild_id']);
-                $guild->presences->factory($data);
+                $presence = $guild->presences->factory($data);
             }
+            
+            $this->client->emit('presenceUpdate', $presence);
         } catch(\Exception $e) {
             /* Continue regardless of error */
         }

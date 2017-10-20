@@ -21,6 +21,7 @@ class ChannelCreate {
     }
     
     function handle($data) {
-        $this->client->channels->factory($data);
+        $channel = $this->client->channels->factory($data);
+        $this->client->emit('channelCreate', $channel);
     }
 }

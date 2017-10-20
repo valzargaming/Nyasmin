@@ -152,7 +152,7 @@ class APIManager {
     }
     
     /**
-     * Gets the Gateway from the Discord API.
+     * Gets the Gateway from the Discord API. *Synchronous method*
      * @param bool $bot Should we use the bot endpoint?
      */
     function getGateway($bot = false) {
