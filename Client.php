@@ -185,13 +185,21 @@ class Client extends EventEmitter { //TODO: Implementation
         
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             if($this->gateway && !$force) {
-                $gateway = \React\Promise\resolve(array('url' => $this->gateway));
+                $gateway = \React\Promise\resolve($this->gateway);
             } else {
-                $gateway = $this->api->getGateway();
+                if($this->gateway) {
+                    $gateway = $this->api->getGateway();
+                } else {
+                    $gateway = $this->api->getGatewaySync();
+                }
+                
+                $gateway = $gateway->then(function ($response) {
+                    return $response['url'];
+                });
             }
             
-            $gateway->then(function ($response) use ($resolve, $reject) {
-                $url = $response['url'].'?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
+            $gateway->then(function ($url) use ($resolve, $reject) {
+                $url .= '?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
                 
                 $connect = $this->ws->connect($url);
                 $this->ws->once('ready', function () use ($resolve) {

@@ -148,14 +148,28 @@ class APIManager {
             return $matches[1];
         }
         
-        return \substr($endpoint, 0, strpos($endpoint, '/'));
+        $pos = (int) strpos($endpoint, '/');
+        if($pos > 0) {
+            return \substr($endpoint, 0, $pos);
+        }
+        
+        return $endpoint;
     }
     
     /**
-     * Gets the Gateway from the Discord API. *Synchronous method*
+     * Gets the Gateway from the Discord API.
      * @param bool $bot Should we use the bot endpoint?
      */
     function getGateway($bot = false) {
+        $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
+        return $this->add($gateway);
+    }
+    
+    /**
+     * Gets the Gateway from the Discord API synchronously.
+     * @param bool $bot Should we use the bot endpoint?
+     */
+    function getGatewaySync($bot = false) {
         $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
         
         return new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
