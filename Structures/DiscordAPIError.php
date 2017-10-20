@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class DiscordAPIError extends \Exception {
+class DiscordAPIError extends \Exception { //TODO: Implementation
     function __construct($body) {
         
     }

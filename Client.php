@@ -201,7 +201,7 @@ class Client extends EventEmitter { //TODO: Implementation
     function login(string $token, bool $force = false) {
         $this->token = $token;
         
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
             if($this->gateway && !$force) {
                 $gateway = \React\Promise\resolve($this->gateway);
             } else {

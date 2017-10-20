@@ -78,7 +78,6 @@ class APIManager {
         $this->addToRateLimit('global');
         
         $this->handler = new \GuzzleHttp\Handler\CurlMultiHandler();
-        
         $this->http = new \GuzzleHttp\Client(array(
             'handler' => \GuzzleHttp\HandlerStack::create($this->handler)
         ));
@@ -87,10 +86,7 @@ class APIManager {
     function __destruct() {
         $this->limited = true;
         $this->resetTime = 0;
-        
-        if($this->timer) {
-            $this->timer->cancel();
-        }
+        $this->stopTimer();
     }
     
     /**
