@@ -57,7 +57,7 @@ class APIManager {
     protected $resetTime = 0;
     
     /**
-     * Our noodz queue.
+     * The queue for our API requests.
      * @var array
      */
     protected $queue = array();
@@ -94,7 +94,19 @@ class APIManager {
     }
     
     /**
-     * Adds an API Request to the queue.
+     * Makes an API request,
+     * @param string  $method
+     * @param string  $endpoint
+     * @param array   $options
+     * @return \React\Promise\Promise
+     */
+    function makeRequest(string $method, string $endpoint, array $options) {
+        $request = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this->api, $method, $endpoint, $options);
+        return $this->add($request);
+    }
+    
+    /**
+     * Adds an APIRequest to the queue.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest
      * @return \React\Promise\Promise
      */

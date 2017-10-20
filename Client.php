@@ -14,43 +14,51 @@ namespace CharlotteDunois\Yasmin;
  */
 class Client extends EventEmitter { //TODO: Implementation
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\ChannelStorage It holds all cached channels.
+     * It holds all cached channels.
+     * @var \CharlotteDunois\Yasmin\Structures\ChannelStorage
      */
     public $channels;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\GuildStorage It holds all guilds.
+     * It holds all guilds.
+     * @var \CharlotteDunois\Yasmin\Structures\GuildStorage
      */
     public $guilds;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage It holds all cached presences.
+     * It holds all cached presences.
+     * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage
      * @access private
      */
     public $presences;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\UserStorage It holds all cached users.
+     * It holds all cached users.
+     * @var \CharlotteDunois\Yasmin\Structures\UserStorage
      */
     public $users;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Structures\Collection It holds all open Voice Connections.
+     * It holds all open Voice Connections.
+     * @var \CharlotteDunois\Yasmin\Structures\Collection
      */
     public $voiceConnections;
     
     /**
-     * @var int[] The last 3 websocket pings (in ms).
+     * The last 3 websocket pings (in ms).
+     * @var int[]
      */
     public $pings = array();
     
     /**
-     * @var int|null The UNIX timestamp of the last emitted ready event (or null if none yet).
+     * The UNIX timestamp of the last emitted ready event (or null if none yet).
+     * @var int|null
      */
     public $readyTimestamp = null;
     
     /**
-     * @var string|null The token.
+     * The token.
+     * @var string|null
      */
     public $token;
     
@@ -117,6 +125,16 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * You don't need to know.
+     * @return \CharlotteDunois\Yasmin\HTTP\APIManager
+     * @access private
+     */
+    function apimanager() {
+        return $this->api;
+    }
+    
+    /**
+     * You don't need to know.
+     * @return \CharlotteDunois\Yasmin\WebSocket\WSManager
      * @access private
      */
     function wsmanager() {
@@ -199,6 +217,7 @@ class Client extends EventEmitter { //TODO: Implementation
             }
             
             $gateway->then(function ($url) use ($resolve, $reject) {
+                $this->gateway = $url;
                 $url .= '?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
                 
                 $connect = $this->ws->connect($url);

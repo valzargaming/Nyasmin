@@ -63,15 +63,7 @@ class Constants {
     const WS = array(
         'baseurl' => 'wss://gateway.discord.gg/',
         'encoding' => 'json',
-        'version' => 6,
-        'url' => '',
-        'status' => array(
-            -1 => 'Disconnected',
-            0 => 'Connecting',
-            1 => 'Reconnecting',
-            2 => 'Connected',
-            3 => 'Idle'
-        )
+        'version' => 6
     );
     
     const WS_STATUS_DISCONNECTED = -1;
