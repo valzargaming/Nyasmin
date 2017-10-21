@@ -56,7 +56,7 @@ class EventEmitter {
             throw new \InvalidArgumentException('event name must not be null');
         }
         
-        if (!isset($this->onceListeners[$event])) {
+        if(!isset($this->onceListeners[$event])) {
             $this->onceListeners[$event] = [];
         }
         
@@ -80,7 +80,7 @@ class EventEmitter {
             $index = \array_search($listener, $this->listeners[$event], true);
             if($index !== false) {
                 unset($this->listeners[$event][$index]);
-                if (\count($this->listeners[$event]) === 0) {
+                if(\count($this->listeners[$event]) === 0) {
                     unset($this->listeners[$event]);
                 }
             }
@@ -90,7 +90,7 @@ class EventEmitter {
             $index = \array_search($listener, $this->onceListeners[$event], true);
             if($index !== false) {
                 unset($this->onceListeners[$event][$index]);
-                if (\count($this->onceListeners[$event]) === 0) {
+                if(\count($this->onceListeners[$event]) === 0) {
                     unset($this->onceListeners[$event]);
                 }
             }
