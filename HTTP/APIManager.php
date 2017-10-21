@@ -113,6 +113,14 @@ class APIManager {
             
             $this->queue[] = $apirequest;
             $this->processQueue();
+        }, function () use ($apirequest) {
+            $index = \array_search($apirequest, $this->queue, true);
+            if($index !== false) {
+                unset($this->queue[$index]);
+                return;
+            }
+            
+            throw new \Exception('Can not cancel request once it is getting processed');
         });
     }
     
@@ -331,7 +339,7 @@ class APIManager {
                 if($status >= 500) {
                     $error = new \Exception($response->getReasonPhrase());
                 } else {
-                    $error = new \CharlotteDunois\Yasmin\Structures\DiscordAPIError($body);
+                    $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
                 }
                 
                 return $item->reject($error);

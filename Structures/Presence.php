@@ -12,9 +12,21 @@ namespace CharlotteDunois\Yasmin\Structures;
 /**
  * Represents a presence.
  */
-class Presence extends Structure { //TODO: Docs
+class Presence extends Structure {
+    /**
+     * The user this presence belongs to.
+     * @var \CharlotteDunois\Yasmin\Structures\User|null
+     */
     protected $user;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\Structures\Game
+     */
     protected $game;
+    
+    /**
+     * @var string
+     */
     protected $status;
     
     /**

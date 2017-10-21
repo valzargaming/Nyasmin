@@ -24,26 +24,9 @@ spl_autoload_register(function ($name) {
 });
 require_once(IN_DIR.'/vendor/autoload.php');
 
-/*$loop = \React\EventLoop\Factory::create();
-
-$connector = new \Ratchet\Client\Connector($loop);
-$connector('ws://localhost:8080')->done(function (\Ratchet\Client\WebSocket $conn) use ($loop) {
-    $conn->on('message', function ($message) {
-        var_dump($message);
-    });
-    $conn->on('close', function (...$args) {
-        var_dump($args);
-    });
-    
-    $loop->addTimer(10, function () use ($conn) {
-        echo 'Closing WS'.PHP_EOL;
-        $conn->close();
-    });
-});
-
-$loop->run();*/
-
 $client = new \CharlotteDunois\Yasmin\Client();
+
+echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
 
 $client->on('debug', function ($debug) {
     echo $debug.PHP_EOL;
@@ -53,17 +36,19 @@ $client->on('error', function ($error) {
 });
 
 $client->on('ready', function () use($client) {
-    echo 'We are ready!'.PHP_EOL;
+    echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     
     $user = $client->getClientUser();
-    echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').' (avatar url: '.$user->getAvatarURL().')'.PHP_EOL;
+    echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
     $user->setGame('with her Boobs');
 });
 $client->on('disconnect', function ($code, $reason) {
+    echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     echo 'Disconnected! (Code: '.$code.' | Reason: '.$reason.')'.PHP_EOL;
 });
 $client->on('reconnect', function () {
+    echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     echo 'Reconnect happening!'.PHP_EOL;
 });
 

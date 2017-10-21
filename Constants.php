@@ -66,10 +66,10 @@ class Constants {
         'version' => 6
     );
     
-    const WS_STATUS_DISCONNECTED = -1;
-    const WS_STATUS_CONNECTING = 0;
-    const WS_STATUS_RECONNECTING = 1;
-    const WS_STATUS_CONNECTED = 2;
+    const WS_STATUS_DISCONNECTED = 0;
+    const WS_STATUS_CONNECTING = 1;
+    const WS_STATUS_RECONNECTING = 2;
+    const WS_STATUS_CONNECTED = 3;
     const WS_STATUS_IDLE = 5;
     
     const CHANNEL_TYPE = array(

@@ -8,6 +8,8 @@
 */
 
 namespace CharlotteDunois\Yasmin;
+use CharlotteDunois\Yasmin\WebSocket\Events\Ready;
+use CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect;
 
 /**
  * The client. What else do you expect this to say?
@@ -63,18 +65,21 @@ class Client extends EventEmitter { //TODO: Implementation
     public $token;
     
     /**
+     * The Event Loop.
      * @var \React\EventLoop\LoopInterface
      * @access private
      */
     private $loop;
     
     /**
+     * Client Options.
      * @var array
      * @access private
      */
     private $options = array();
     
     /**
+     * The Client User.
      * @var \CharlotteDunois\Yasmin\Structures\ClientUser
      * @access private
      */
@@ -93,6 +98,7 @@ class Client extends EventEmitter { //TODO: Implementation
     private $ws;
     
     /**
+     * Gateway address.
      * @var string
      * @access private
      */
@@ -103,13 +109,29 @@ class Client extends EventEmitter { //TODO: Implementation
      * @param array                           $options  Any client options.
      * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
      * @return this
+     *
+     * @event ready
+     * @event disconnect
+     * @event reconnect
+     * @event error
+     * @event debug
+     * @event channelCreate
+     * @event channelUpdate
+     * @event channelDelete
+     * @event message
+     * @event messageUpdate
+     * @event messageDelete
+     * @event presenceUpdate
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!$loop) {
             $loop = \React\EventLoop\Factory::create();
         }
         
-        $this->options = array_merge($this->options, $options);
+        if(!empty($options)) {
+            $this->validateClientOptions($options);
+            $this->options = \array_merge($this->options, $options);
+        }
         
         $this->loop = $loop;
         
@@ -220,9 +242,8 @@ class Client extends EventEmitter { //TODO: Implementation
                 $this->gateway = $url;
                 $url .= '?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
                 
-                $connect = $this->ws->connect($url);
-                $this->ws->once('ready', function () use ($resolve) {
-                    $resolve();
+                $this->ws->connect($url)->then($resolve, $reject);
+                $this->ws->once('ready', function () {
                     $this->emit('ready');
                 });
             });
@@ -258,5 +279,14 @@ class Client extends EventEmitter { //TODO: Implementation
         }
         
         parent::emit($name, ...$args);
+    }
+    
+    /**
+     * Validates the passed client options.
+     * @param array
+     * @throws \Exception
+     */
+    private function validateClientOptions(array $options) {
+        
     }
 }

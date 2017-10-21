@@ -124,11 +124,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         
         $connector = new \Ratchet\Client\Connector($this->client->getLoop());
         
-        if($this->wsStatus < 1) {
+        if($this->wsStatus < \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTING || $this->wsStatus > \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING) {
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTING;
         }
         
-        return $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) {
+        return $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) {
             $this->ws = &$conn;
             
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
