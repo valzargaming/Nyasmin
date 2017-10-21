@@ -44,7 +44,7 @@ class DiscordAPIError extends \Exception {
      * @return string[]
      * @access private
      */
-   static function flattenErrors($obj, $key = '') {
+     static function flattenErrors($obj, $key = '') {
         $messages = array();
         
         foreach($obj as $k => $val) {

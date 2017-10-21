@@ -102,7 +102,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @var string
      * @access private
      */
-     private $gateway;
+    private $gateway;
     
     /**
      * What do you expect this to do?
