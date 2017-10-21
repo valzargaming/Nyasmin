@@ -83,11 +83,16 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
      */
     private $wsSessionID;
     
-    function __construct($client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
     }
     
+    /**
+     * @property-read \CharlotteDunois\Yasmin\Client               $client
+     * @property-read int                                          $status
+     * @property-read \CharlotteDunois\Yasmin\WebSocket\WSHandler  $wshandler
+     */
     function __get($name) {
         switch($name) {
             case 'client':

@@ -25,12 +25,12 @@ class APIRequest {
     protected $url;
     
     /**
-     * @var \React\Promise\Promise
+     * @var callable
      */
     public $resolve;
     
     /**
-     * @var \React\Promise\Promise
+     * @var callable
      */
     public $reject;
     
