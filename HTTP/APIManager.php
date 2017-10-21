@@ -319,9 +319,7 @@ class APIManager {
             $status = $response->getStatusCode();
             
             if($status === 204) {
-                $item->/** @scrutinizer ignore-call */
-                        resolve();
-                        
+                $item->resolve();
                 $this->process();
                 return;
             }
@@ -341,13 +339,10 @@ class APIManager {
                     $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
                 }
                 
-                return $item->/** @scrutinizer ignore-call */
-                                reject($error);
+                return $item->reject($error);
             }
             
-            $item->/** @scrutinizer ignore-call */
-                    resolve($body);
-            
+            $item->resolve($body);
             $this->process();
         }, function ($error) {
             $this->client->emit('error', $error);
