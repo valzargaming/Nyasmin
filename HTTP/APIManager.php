@@ -141,7 +141,7 @@ class APIManager {
      * @return string;
      */
     function getAuthorization() {
-        if(!$this->client->token) {
+        if(empty($this->client->token)) {
             throw new \Exception('Can not make a HTTP request without a token');
         }
         
@@ -219,13 +219,6 @@ class APIManager {
     }
     
     /**
-     * Ends the queue (running = false).
-     */
-    private function endQueue() {
-        $this->running = false;
-    }
-    
-    /**
      * Processes the queue on next tick.
      */
     private function process() {
@@ -244,7 +237,8 @@ class APIManager {
         }
         
         if($this->limited === true && \time() > $this->resetTime) {
-            return $this->process();
+            $this->process();
+            return;
         }
         
         $item = \array_shift($this->queue);
@@ -265,12 +259,13 @@ class APIManager {
                 \array_unshift($this->queue, $item);
             });
             
-            return $this->process();
+            $this->process();
+            return;
         }
         
         if(!$this->timer) {
             $class = $this;
-            $timer = $this->loop->addPeriodicTimer(0, \Closure::bind(function () use ($class) {
+            $this->timer = $this->loop->addPeriodicTimer(0, \Closure::bind(function () use ($class) {
                 $this->tick();
                 
                 if(empty($this->handles) && \GuzzleHttp\Promise\queue()->isEmpty()) {
@@ -300,7 +295,7 @@ class APIManager {
             
             $item->reject($error->getMessage());
             return null;
-        })->then(function ($response) use ($item, $endpoint, $ratelimit) {
+        })->then(function ($response) use ($item, $ratelimit) {
             if(!$response) {
                 return;
             }
@@ -324,8 +319,9 @@ class APIManager {
             $status = $response->getStatusCode();
             
             if($status === 204) {
-                $item->resolve();
-                return $this->process();
+                $item->resolve(); /** @scrutinizer ignore-call */
+                $this->process();
+                return;
             }
             
             $body = \json_decode($response->getBody(), true);
@@ -333,7 +329,8 @@ class APIManager {
             if($status >= 400) {
                 if($status === 429) {
                     \array_unshift($this->queue, $item);
-                    return $this->process();
+                    $this->process();
+                    return;
                 }
                 
                 if($status >= 500) {
@@ -342,10 +339,10 @@ class APIManager {
                     $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
                 }
                 
-                return $item->reject($error);
+                return $item->reject($error); /** @scrutinizer ignore-call */
             }
             
-            $item->resolve($body);
+            $item->resolve($body); /** @scrutinizer ignore-call */
             $this->process();
         }, function ($error) {
             $this->client->emit('error', $error);

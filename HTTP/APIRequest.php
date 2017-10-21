@@ -95,7 +95,7 @@ class APIRequest {
             foreach($this->options['files'] as $file) {
                 $options['multipart'][] = array(
                     'name' => $file['name'],
-                    'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'])),
+                    'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'], 'r')),
                     'filename' => (isset($file['filename']) ? $file['filename'] : null)
                 );
             }

@@ -34,7 +34,7 @@ class DiscordAPIError extends \Exception {
         $this->code = (int) $error['code'];
         
         $flattened = \implode('\n', self::flattenErrors(($error['errors'] ?? $error)));
-        $this->message = (!empty($error['message']) && !empty($flattened) ? $errors['message'].PHP_EOL.$flattened : ($errors['message'] ?? $flattened));
+        $this->message = (!empty($error['message']) && !empty($flattened) ? $error['message'].PHP_EOL.$flattened : ($error['message'] ?? $flattened));
     }
     
     /**
@@ -44,7 +44,7 @@ class DiscordAPIError extends \Exception {
      * @return string[]
      * @access private
      */
-     static function flattenErrors($obj, $key = '') {
+    static function flattenErrors($obj, $key = '') {
         $messages = array();
         
         foreach($obj as $k => $val) {
