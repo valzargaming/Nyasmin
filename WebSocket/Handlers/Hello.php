@@ -17,7 +17,7 @@ class Hello {
     public $heartbeat = null;
     protected $wshandler;
     
-    function __construct($wshandler) {
+    function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
         $this->wshandler = $wshandler;
         
         $this->wshandler->wsmanager->on('close', function () {
@@ -25,7 +25,7 @@ class Hello {
         });
     }
     
-    function handle($packet) {
+    function handle(array $packet) {
         $interval = $packet['d']['heartbeat_interval'] / 1000;
         
         $this->heartbeat = $this->wshandler->client->getLoop()->addPeriodicTimer($interval, function () {

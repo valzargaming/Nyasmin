@@ -16,11 +16,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 class ChannelCreate {
     protected $client;
     
-    function __construct($client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
     }
     
-    function handle($data) {
+    function handle(array $data) {
         $channel = $this->client->channels->factory($data);
         $this->client->emit('channelCreate', $channel);
     }

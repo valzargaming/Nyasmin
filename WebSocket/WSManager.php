@@ -8,8 +8,6 @@
 */
 
 namespace CharlotteDunois\Yasmin\WebSocket;
-use CharlotteDunois\Yasmin\Client;
-use CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the WS connection.
@@ -286,8 +284,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             )
         );
         
-        $presence = $this->client->getOption('connectPresence');
-        if(\is_array($presence)) {
+        $presence = (array) $this->client->getOption('connectPresence', array());
+        if(\is_array($presence) && !empty($presence)) {
             $packet['d']['presence'] = $presence;
         }
         

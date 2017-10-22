@@ -16,11 +16,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
 class Reconnect {
     protected $wshandler;
     
-    function __construct($wshandler) {
+    function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet) { //TODO
+    function handle($packet) {
         $this->wshandler->wsmanager->disconnect();
         $this->wshandler->wsmanager->sendIdentify();
     }

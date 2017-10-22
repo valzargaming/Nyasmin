@@ -16,11 +16,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 class Resumed {
     protected $client;
     
-    function __construct($client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
     }
     
-    function handle($data) {
+    function handle() {
         $this->client->wsmanager()->emit('ready');
     }
 }

@@ -25,14 +25,9 @@ class APIRequest {
     protected $url;
     
     /**
-     * @var callable
+     * @var \React\Promise\Deferred
      */
-    public $resolve;
-    
-    /**
-     * @var callable
-     */
-    public $reject;
+    public $deferred;
     
     /**
      * @var string
@@ -101,25 +96,23 @@ class APIRequest {
             }
             
             if(!empty($this->options['data'])) {
-                foreach($this->options['data'] as $name => $data) {
-                    $options['multipart'][] = array(
-                        'name' => $name,
-                        'contents' => $data
-                    );
-                }
+                $options['multipart']['payload_json'] = json_encode($this->options['data']);
             }
         } elseif(!empty($this->options['data'])) {
             $options['json'] = $this->options['data'];
         }
         
         if(!empty($this->options['querystring'])) {
-            $options['query'] = $this->options['querystring'];
+            $options['query'] = \http_build_query($this->options['querystring'], '', '&', \PHP_QUERY_RFC3986);
         }
         
         if(!empty($this->options['auditLogReason']) && \is_string($this->options['auditLogReason'])) {
             $options['headers']['X-Audit-Log-Reason'] = \trim($this->options['auditLogReason']);
         }
         
-        return (new \GuzzleHttp\Psr7\Request($this->method, $url, $options));
+        $request = new \GuzzleHttp\Psr7\Request($this->method, $url);
+        $request->requestOptions = $options;
+        
+        return $request;
     }
 }

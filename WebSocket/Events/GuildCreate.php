@@ -16,11 +16,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 class GuildCreate {
     protected $client;
     
-    function __construct($client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
     }
     
-    function handle($data) {
+    function handle(array $data) {
         $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
         $this->client->guilds->set($guild->id, $guild);
         

@@ -14,11 +14,14 @@ namespace CharlotteDunois\Yasmin\Structures;
  */
 class ClientUser extends User { //TODO: Implementation
     /**
+     * @var array
      * @access private
      */
     protected $clientPresence;
     
     /**
+     * @param \CharlotteDunois\Yasmin\Client $client
+     * @param array                          $user
      * @access private
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, $user) {

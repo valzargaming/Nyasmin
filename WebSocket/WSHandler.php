@@ -18,7 +18,7 @@ class WSHandler {
     private $sequence = null;
     private $wsmanager;
     
-    function __construct($wsmanager) {
+    function __construct(\CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->wsmanager = $wsmanager;
         
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['DISPATCH'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Dispatch');

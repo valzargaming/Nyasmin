@@ -41,7 +41,7 @@ $client->on('ready', function () use($client) {
     $user = $client->getClientUser();
     echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
-    $user->setGame('with her Boobs');
+    $user->setGame('with Yasmin');
 });
 $client->on('disconnect', function ($code, $reason) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
@@ -59,14 +59,21 @@ $client->login($token)->done(function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    $loop->addTimer(100, function () use ($client) {
-        var_dump($client->channels);
-        var_dump($client->guilds);
-        var_dump($client->presences);
-        var_dump($client->users);
+    $loop->addTimer(5, function () use ($client) {
+        //var_dump($client->channels);
+        //var_dump($client->guilds);
+        //var_dump($client->presences);
+        //var_dump($client->users);
+        
+        echo 'Making API request...'.PHP_EOL;
+        $client->apimanager()->endpoints->getGuildIntegrations('270679409126670337')->then(function ($response) {
+            var_dump($response);
+        }, function ($error) {
+            var_dump($error);
+        });
     });
     
-    $loop->addTimer(80, function () use ($client) {
+    $loop->addTimer(500, function () use ($client) {
         echo 'Ending session'.PHP_EOL;
         $client->destroy()->then(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;

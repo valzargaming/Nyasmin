@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 class PresenceUpdate {
     protected $client;
     
-    function __construct($client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
     }
     

@@ -85,125 +85,143 @@ class Constants {
         1 => 'Streaming'
     );
     
-    const ENDPOINTS = array(
-        'channels' => array(
-            'get' => 'channels/%s',
-            'modify' => 'channels/%s',
-            'delete' => 'channels/%s',
-            'messages' => array(
-                'list' => 'channels/%s/messages',
-                'get' => 'channels/%s/messages/%s',
-                'create' => 'channels/%s/messages',
-                'reactions' => array(
-                    'create' => 'channels/%s/messages/%s/reactions/%s/@me',
-                    'delete' => 'channels/%s/messages/%s/reactions/%s/@me',
-                    'deleteUser' => 'channels/%s/messages/%s/reactions/%s/%s',
-                    'get' => 'channels/%s/messages/%s/reactions/%s',
-                    'deleteAll' => 'channels/%s/messages/%s/reactions',
-                ),
-                'edit' => 'channels/%s/messages/%s',
-                'delete' => 'channels/%s/messages/%s',
-                'bulkDelete' => 'channels/%s/messages/bulk-delete',
-                'permissions' => array(
-                    'edit' => 'channels/%s/permissions/%s',
-                    'delete' => 'channels/%s/permissions/%s'
-                ),
-                'invites' => array(
-                    'list' => 'channels/%s/invites',
-                    'create' => 'channels/%s/invites'
-                ),
-                'typing' => 'channels/%s/typing',
-                'pins' => array(
-                    'list' => 'channels/%s/pins',
-                    'add' => 'channels/%s/pins/%s',
-                    'delete' => 'channels/%s/pins/%s'
-                ),
-                'groupDM' => array(
-                    'add' => 'channels/%s/recipients/%s',
-                    'remove' => 'channels/%s/recipients/%s'
-                )
-            )
+    const ENDPOINTS_CHANNELS = array(
+        'get' => 'channels/%s',
+        'modify' => 'channels/%s',
+        'delete' => 'channels/%s',
+        'messages' => array(
+            'list' => 'channels/%s/messages',
+            'get' => 'channels/%s/messages/%s',
+            'create' => 'channels/%s/messages',
+            'reactions' => array(
+                'create' => 'channels/%s/messages/%s/reactions/%s/@me',
+                'delete' => 'channels/%s/messages/%s/reactions/%s/@me',
+                'deleteUser' => 'channels/%s/messages/%s/reactions/%s/%s',
+                'get' => 'channels/%s/messages/%s/reactions/%s',
+                'deleteAll' => 'channels/%s/messages/%s/reactions',
+            ),
+            'edit' => 'channels/%s/messages/%s',
+            'delete' => 'channels/%s/messages/%s',
+            'bulkDelete' => 'channels/%s/messages/bulk-delete'
         ),
-        'emojis' => array(
-            'list' => 'guilds/%s/emojis',
-            'get' => 'guilds/%s/emojis/%s',
-            'create' => 'guilds/%s/emojis',
-            'modify' => 'guilds/%s/emojis/%s',
-            'delete' => 'guilds/%s/emojis/%s'
-        ),
-        'guilds' => array(
-            'get' => 'guilds/%s',
-            'modify' => 'guilds/%s',
-            'delete' => 'guilds/%s',
-            'getChannels' => 'guilds/%s/channels',
-            'createChannel' => 'guilds/%s/channels',
-            'modifyChannelPosition' => 'guilds/%s/channels',
-            'members' => array(
-                'get' => 'guilds/%s/members/%s',
-                'list' => 'guilds/%s/members',
-                'addGuildMember' => 'guilds/%s/members/%s',
-                'modifyGuildMember' => 'guilds/%s/members/%s',
-                'modifyCurrentGuildMemberNick' => 'guilds/%s/members/@me/nick',
-                'addRole' => 'guilds/%s/members/%s/roles/%s',
-                'removeRole' => 'guilds/%s/members/%s/roles/%s',
-                'removeMember' => 'guilds/%s/members/%s',
-            ),
-            'bans' => array(
-                'getBans' => 'guilds/%s/bans',
-                'createBan' => 'guilds/%s/bans/%s',
-                'removeBan' => 'guilds/%s/bans/%s'
-            ),
-            'roles' => array(
-                'getRoles' => 'guilds/%s/roles',
-                'createRole' => 'guilds/%s/roles',
-                'modifyRolePositions' => 'guilds/%s/roles',
-                'modifyRole' => 'guilds/%s/roles/%s',
-                'deleteRole' => 'guilds/%s/roles/%s'
-            ),
-            'prune' => array(
-                'count' => 'guilds/%s/prune',
-                'begin' => 'guilds/%s/prune'
-            ),
-            'voice' => array(
-                'regions' => 'guilds/%s/regions'
-            ),
-            'invites' => array(
-                'list' => 'guilds/%s/invites'
-            ),
-            'integrations' => array(
-                'list' => 'guilds/%s/integrations',
-                'create' => 'guilds/%s/integrations',
-                'modify' => 'guilds/%s/integrations/%s',
-                'delete' => 'guilds/%s/integrations/%s',
-                'sync' => 'guilds/%s/integrations/%s'
-            ),
-            'embed' => array(
-                'get' => 'guilds/%s/embed',
-                'modify' => 'guilds/%s/embed'
-            ),
-            'audit-logs' => 'guilds/%s/audit-logs'
+        'permissions' => array(
+            'edit' => 'channels/%s/permissions/%s',
+            'delete' => 'channels/%s/permissions/%s'
         ),
         'invites' => array(
-            'get' => 'invites/%s',
-            'delete' => 'invites/%s',
-            'accept' => 'invites/%s'
+            'list' => 'channels/%s/invites',
+            'create' => 'channels/%s/invites'
         ),
-        'users' => array(
-            'getUser' => 'users/%s',
-            'current' => array(
-                'get' => 'users/@me',
-                'modify' => 'users/@me',
-                'guilds' => 'users/@me/guilds',
-                'leaveGuild' => 'users/@me/guilds/%s',
-                'dms' => 'users/@me/channels',
-                'createDM' => 'users/@me/channels',
-                'createGroupDM' => 'users/@me/channels',
-                'connections' => 'users/@me/connections'
-            )
+        'typing' => 'channels/%s/typing',
+        'pins' => array(
+            'list' => 'channels/%s/pins',
+            'add' => 'channels/%s/pins/%s',
+            'delete' => 'channels/%s/pins/%s'
+        ),
+        'groupDM' => array(
+            'add' => 'channels/%s/recipients/%s',
+            'remove' => 'channels/%s/recipients/%s'
+        )
+    );
+    
+    const ENDPOINTS_EMOJIS = array(
+        'list' => 'guilds/%s/emojis',
+        'get' => 'guilds/%s/emojis/%s',
+        'create' => 'guilds/%s/emojis',
+        'modify' => 'guilds/%s/emojis/%s',
+        'delete' => 'guilds/%s/emojis/%s'
+    );
+    
+    const ENDPOINTS_GUILDS = array(
+        'get' => 'guilds/%s',
+        'modify' => 'guilds/%s',
+        'delete' => 'guilds/%s',
+        'channels' => array(
+            'list' => 'guilds/%s/channels',
+            'create' => 'guilds/%s/channels',
+            'modifyPositions' => 'guilds/%s/channels'
+        ),
+        'members' => array(
+            'get' => 'guilds/%s/members/%s',
+            'list' => 'guilds/%s/members',
+            'add' => 'guilds/%s/members/%s',
+            'modify' => 'guilds/%s/members/%s',
+            'modifyCurrentNick' => 'guilds/%s/members/@me/nick',
+            'addRole' => 'guilds/%s/members/%s/roles/%s',
+            'removeRole' => 'guilds/%s/members/%s/roles/%s',
+            'remove' => 'guilds/%s/members/%s'
+        ),
+        'bans' => array(
+            'list' => 'guilds/%s/bans',
+            'create' => 'guilds/%s/bans/%s',
+            'remove' => 'guilds/%s/bans/%s'
+        ),
+        'roles' => array(
+            'list' => 'guilds/%s/roles',
+            'create' => 'guilds/%s/roles',
+            'modifyPositions' => 'guilds/%s/roles',
+            'modify' => 'guilds/%s/roles/%s',
+            'delete' => 'guilds/%s/roles/%s'
+        ),
+        'prune' => array(
+            'count' => 'guilds/%s/prune',
+            'begin' => 'guilds/%s/prune'
         ),
         'voice' => array(
-            'regions' => 'voice/regions'
+            'regions' => 'guilds/%s/regions'
+        ),
+        'invites' => array(
+            'list' => 'guilds/%s/invites'
+        ),
+        'integrations' => array(
+            'list' => 'guilds/%s/integrations',
+            'create' => 'guilds/%s/integrations',
+            'modify' => 'guilds/%s/integrations/%s',
+            'delete' => 'guilds/%s/integrations/%s',
+            'sync' => 'guilds/%s/integrations/%s'
+        ),
+        'embed' => array(
+            'get' => 'guilds/%s/embed',
+            'modify' => 'guilds/%s/embed'
+        ),
+        'audit-logs' => 'guilds/%s/audit-logs'
+    );
+    
+    const ENDPOINTS_INVITES = array(
+        'get' => 'invites/%s',
+        'delete' => 'invites/%s',
+        'accept' => 'invites/%s'
+    );
+    
+    const ENDPOINTS_USERS = array(
+        'get' => 'users/%s',
+        'current' => array(
+            'get' => 'users/@me',
+            'modify' => 'users/@me',
+            'guilds' => 'users/@me/guilds',
+            'leaveGuild' => 'users/@me/guilds/%s',
+            'dms' => 'users/@me/channels',
+            'createDM' => 'users/@me/channels',
+            'createGroupDM' => 'users/@me/channels',
+            'connections' => 'users/@me/connections'
         )
+    );
+    
+    const ENDPOINTS_VOICES = array(
+        'regions' => 'voice/regions'
+    );
+    
+    const ENDPOINTS_WEBHOOKS = array(
+        'create' => 'channels/%s/webhooks',
+        'channels' => 'channels/%s/webhooks',
+        'guilds' => 'guilds/%s/webhooks',
+        'get' => 'webhooks/%s',
+        'getToken' => 'webhooks/%s/%s',
+        'modify' => 'webhooks/%s',
+        'modifyToken' => 'webhooks/%s/%s',
+        'delete' => 'webhooks/%s',
+        'deleteToken' => 'webhooks/%s/%s',
+        'execute' => 'webhooks/%s/%s'
     );
     
     static function format(string $endpoint, ...$args) {

@@ -17,22 +17,26 @@ class Dispatch {
     private $wsevents = array();
     protected $wshandler;
     
-    function __construct($wshandler) {
+    function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
         $this->wshandler = $wshandler;
         
-        $this->register('READY', '\CharlotteDunois\Yasmin\WebSocket\Events\Ready');
-        $this->register('RESUMED', '\CharlotteDunois\Yasmin\WebSocket\Events\Resumed');
+        $allEvents = array(
+            'RESUMED' => '\CharlotteDunois\Yasmin\WebSocket\Events\Resumed',
+            'READY' => '\CharlotteDunois\Yasmin\WebSocket\Events\Ready',
+            'CHANNEL_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelCreate',
+            'CHANNEL_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelUpdate',
+            'CHANNEL_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelDelete',
+            'GUILD_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildCreate',
+            'PRESENCE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\PresenceUpdate'
+        );
         
-        $this->register('CHANNEL_CREATE', '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelCreate');
-        $this->register('CHANNEL_UPDATE', '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelUpdate');
-        $this->register('CHANNEL_DELETE', '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelDelete');
-        
-        $this->register('GUILD_CREATE', '\CharlotteDunois\Yasmin\WebSocket\Events\GuildCreate');
-        
-        $this->register('PRESENCE_UPDATE', '\CharlotteDunois\Yasmin\WebSocket\Events\PresenceUpdate');
+        $events = \array_diff($allEvents, (array) $this->wshandler->client->getOption('disabledEvents', array()));
+        foreach($events as $name => $class) {
+            $this->register($name, $class);
+        }
     }
     
-    function getEvent($name) {
+    function getEvent(string $name) {
         if(isset($this->wsevents[$name])) {
             return $this->wsevents[$name];
         }
@@ -40,7 +44,7 @@ class Dispatch {
         throw new \Exception('Can not find WS event');
     }
     
-    function handle($packet) {
+    function handle(array $packet) {
         $this->wshandler->client->emit('debug', 'Received WS event '.$packet['t']);
         
         if(isset($this->wsevents[$packet['t']])) {

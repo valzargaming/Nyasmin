@@ -16,12 +16,12 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
 class InvalidateSession {
     protected $wshandler;
     
-    function __construct($wshandler) {
+    function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet) {
-        $this->wshandler->client->getLoop()->addTimer(2, function () {
+    function handle() {
+        $this->wshandler->client->getLoop()->addTimer(5, function () {
             $this->wshandler->wsmanager->sendIdentify();
         });
     }

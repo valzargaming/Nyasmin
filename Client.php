@@ -8,8 +8,6 @@
 */
 
 namespace CharlotteDunois\Yasmin;
-use CharlotteDunois\Yasmin\WebSocket\Events\Ready;
-use CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect;
 
 /**
  * The client. What else do you expect this to say?
@@ -215,7 +213,7 @@ class Client extends EventEmitter { //TODO: Implementation
     }
     
     /**
-     * Login into Discord. Opens a WebSocket Gateway connection.
+     * Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been established (does not mean the client is ready).
      * @param string $token  Your token.
      * @param bool   $force  Forces the client to get the gateway address from Discord.
      * @return \React\Promise\Promise<null>
@@ -256,6 +254,7 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function destroy() {
         return new \React\Promise\Promise(function (callable $resolve) {
+            $this->api->destroy();
             $this->ws->disconnect();
             $resolve();
         });
