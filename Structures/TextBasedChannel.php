@@ -98,7 +98,7 @@ class TextBasedChannel extends Structure
                         if(isset($file['path'])) {
                             $file['name'] = \basename($file['path']);
                         } else {
-                            $file['name'] = $file['name'].'.jpg';
+                            $file['name'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
                         }
                     }
                     
