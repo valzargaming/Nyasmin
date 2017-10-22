@@ -88,6 +88,10 @@ class APIRequest {
         if(!empty($this->options['files']) && \is_array($this->options['files'])) {
             $options['multipart'] = array();
             foreach($this->options['files'] as $file) {
+                if(!isset($file['data']) && !isset($file['path'])) {
+                    continue;
+                }
+                
                 $options['multipart'][] = array(
                     'name' => $file['name'],
                     'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'], 'r')),
