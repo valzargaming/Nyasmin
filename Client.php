@@ -151,6 +151,8 @@ class Client extends EventEmitter { //TODO: Implementation
             $loop = \React\EventLoop\Factory::create();
         }
         
+        \CharlotteDunois\Yasmin\Utils\URLHelpers::setLoop($loop);
+        
         if(!empty($options)) {
             $this->validateClientOptions($options);
             $this->options = \array_merge($this->options, $options);

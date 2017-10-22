@@ -80,9 +80,8 @@ class TextBasedChannel extends Structure
                 foreach($options['files'] as $file) {
                     if(\is_string($file)) {
                         if(filter_var($file, FILTER_VALIDATE_URL)) {
-                            $promises[] = $this->resolveURL($file)->then(function ($data) use ($file) {
-                                $file['data'] = $data;
-                                return $file;
+                            $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
+                                return array('name' => \basename($file), 'data' => $data, 'filename' => \basename($file));
                             });
                         } else {
                             $promises[] = \React\Promise\resolve(array('name' => 'image.jpg', 'data' => $file, 'filename' => 'image.jpg'));
@@ -113,7 +112,7 @@ class TextBasedChannel extends Structure
                     }
                     
                     if(filter_var($file['path'], FILTER_VALIDATE_URL)) {
-                        $promises[] = $this->resolveURL($file['path'])->then(function ($data) use ($file) {
+                        $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
                             $file['data'] = $data;
                             return $file;
                         });
@@ -183,15 +182,5 @@ class TextBasedChannel extends Structure
         $msg = new \CharlotteDunois\Yasmin\Structures\Message($this->client, $this, $message);
         $this->messages->set($msg->id, $msg);
         return $msg;
-    }
-    
-    function _resolveURL(string $url) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($url) {
-            $request = new \GuzzleHttp\Psr7\Request('GET', $url);
-            
-            $this->client->apimanager()->http->sendAsync($request)->then(function ($response) {
-                return $response->getBody();
-            }, $reject)->done($resolve);
-        });
     }
 }

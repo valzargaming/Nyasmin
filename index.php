@@ -70,12 +70,7 @@ $client->login($token)->done(function () use ($client) {
         //var_dump($client->users);
         
         echo 'Making API request...'.PHP_EOL;
-        $client->channels->get('323433852590751754')->send('Hello, my name is Onee-sama!', array('files' => array(
-            array(
-                'name' => 'nani',
-                'path' => 'https://i.imgur.com/cB4tQl0.png'
-            )
-        )))->done();
+        $client->channels->get('323433852590751754')->send('Hello, my name is Onee-sama!', array('files' => array('https://i.imgur.com/TCmzLbI.png')))->done();
     });
     
     $client->addTimer(500, function ($client) {
