@@ -11,17 +11,21 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#resumed
+ * @link https://discordapp.com/developers/docs/topics/gateway#message-create
  * @access private
  */
-class Resumed {
+class MessageCreate {
     protected $client;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
     }
     
-    function handle() {
-        $this->client->wsmanager()->emit('ready');
+    function handle(array $data) {
+        $channel = $this->client->channels->get($data['channel_id']);
+        if($channel) {
+            $message = $channel->_createMessage($data);
+            $this->client->emit('message', $message);
+        }
     }
 }

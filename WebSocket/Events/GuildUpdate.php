@@ -11,10 +11,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#channel-create
+ * @link https://discordapp.com/developers/docs/topics/gateway#guild-update
  * @access private
  */
-class ChannelCreate {
+class GuildUpdate {
     protected $client;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
@@ -22,7 +22,12 @@ class ChannelCreate {
     }
     
     function handle(array $data) {
-        $channel = $this->client->channels->factory($data);
-        $this->client->emit('channelCreate', $channel);
+        $guild = $this->client->guilds->get($data['id']);
+        if($guild) {
+            $oldGuild = clone $guild;
+            $guild->_patch($data);
+            
+            $this->client->emit('guildUpdate', $guild, $oldGuild);
+        }
     }
 }

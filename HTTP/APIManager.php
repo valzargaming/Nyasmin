@@ -121,13 +121,15 @@ class APIManager {
         $this->limited = true;
         $this->resetTime = \INF;
         
+        while($item = \array_shift($this->queue)) {
+            if(!($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket)) {
+                unset($item);
+            }
+        }
+        
         while($bucket = \array_shift($this->ratelimits)) {
             $bucket->clear();
             unset($bucket);
-        }
-        
-        while($item = \array_shift($this->queue)) {
-            unset($item);
         }
         
         $this->stopTimer();
@@ -163,6 +165,7 @@ class APIManager {
                 $this->client->emit('debug', 'Adding request "'.$apirequest->getEndpoint().'" to ratelimit bucket');
                 $bucket = $this->getRatelimitBucket($endpoint);
                 $bucket->push($apirequest);
+                $this->queue[] = $bucket;
             } else {
                 $this->client->emit('debug', 'Adding request "'.$apirequest->getEndpoint().'" to global queue');
                 $this->queue[] = $apirequest;
@@ -290,26 +293,26 @@ class APIManager {
         $ratelimit = null;
         $item = null;
         
-        if(\count($this->queue) > 0) {
-            $item = \array_shift($this->queue);
-            $this->client->emit('debug', 'Retrieved item from global queue');
-        } else {
-            foreach($this->ratelimits as $endpoint => $bucket) {
-                if($bucket->size() > 0 && $bucket->limited() === false) {
-                    $ratelimit = $bucket;
-                    $item = $bucket->shift();
-                    
-                    $this->client->emit('debug', 'Retrieved item from bucket "'.$endpoint.'"');
-                    break;
-                }
-            }
-        }
-        
-        if(!$item) {
-            $this->client->emit('debug', 'No item, ending API manager queue');
+        if(\count($this->queue) === 0) {
+            $this->client->emit('debug', 'No items in queue, ending API manager queue');
             
             $this->running = false;
             return;
+        }
+        
+        $item = \array_shift($this->queue);
+        
+        if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
+            if($item->size() > 0 && $item->limited() === false) {
+                $ratelimit = $item;
+                $item = $item->shift();
+                
+                $this->client->emit('debug', 'Retrieved item from bucket "'.$ratelimit->getEndpoint().'"');
+            } else {
+                $this->queue[] = $item;
+                $this->_process();
+                return;
+            }
         }
         
         if(!$this->timer) {

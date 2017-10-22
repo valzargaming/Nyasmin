@@ -116,8 +116,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             throw new \Exception('Can not connect to unknown gateway');
         }
         
+        $reconnect = false;
         if($this->gateway) {
             $this->client->emit('reconnect');
+            $reconnect = true;
         }
         
         $this->gateway = $gateway;
@@ -196,6 +198,12 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                     $this->connect($this->gateway);
                 }
             });
+        }, function($error) {
+            if($reconnect) {
+                return $this->client->login($this->client->token, true);
+            }
+            
+            throw $error;
         });
     }
     

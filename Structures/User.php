@@ -57,7 +57,7 @@ class User extends Structure
      * @property-read int                                                  $defaultAvatar      The identifier of the default avatar for this user.
      * @property-read \CharlotteDunois\Yasmin\Structures\DMChannel|null    $dmChannel          The DM channel for this user, if it exists.
      * @property-read string|null                                          $notes              The notes of the Client User for this user. (User Accounts only)
-     * @property-read \CharlotteDunois\Yasmin\Structures\Presence|null     $presence           The presence for this usre.
+     * @property-read \CharlotteDunois\Yasmin\Structures\Presence|null     $presence           The presence for this user.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

@@ -55,29 +55,30 @@ $client->on('reconnect', function () {
 $client->login($token)->done(function () use ($client) {
     $loop = $client->getLoop();
     
-    $loop->addPeriodicTimer(60, function () use ($client) {
+    $timer = $loop->addPeriodicTimer(60, function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    $loop->addTimer(5, function () use ($client) {
+    /*$loop->addTimer(5, function () use ($client) {
         //var_dump($client->channels);
         //var_dump($client->guilds);
         //var_dump($client->presences);
         //var_dump($client->users);
         
         echo 'Making API request...'.PHP_EOL;
-        $client->apimanager()->endpoints->getGuildIntegrations('270679409126670337')->then(function ($response) {
+        $client->apimanager()->endpoints->getGuild('270679409126670337')->then(function ($response) {
             var_dump($response);
         }, function ($error) {
             var_dump($error);
         });
-    });
+    });*/
     
-    $loop->addTimer(500, function () use ($client) {
+    $loop->addTimer(500, function () use ($client, $timer) {
+        $timer->cancel();
+        
         echo 'Ending session'.PHP_EOL;
         $client->destroy()->then(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
-            $client->getLoop()->stop();
         });
     });
 });

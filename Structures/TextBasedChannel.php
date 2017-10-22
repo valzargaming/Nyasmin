@@ -108,4 +108,10 @@ class TextBasedChannel extends Structure
     function isTypingSince($user) {
         
     }
+    
+    function _createMessage(array $message) {
+        $msg = new \CharlotteDunois\Yasmin\Structures\Message($message);
+        $this->messages->set($msg->id, $msg);
+        return $msg;
+    }
 }

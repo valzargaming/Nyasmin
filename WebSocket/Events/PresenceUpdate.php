@@ -11,6 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
+ * @link https://discordapp.com/developers/docs/topics/gateway#presence-update
  * @access private
  */
 class PresenceUpdate {

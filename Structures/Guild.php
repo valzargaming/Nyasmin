@@ -83,12 +83,12 @@ class Guild extends Structure { //TODO: Implementation
         $this->widgetEnabled = $guild['widget_enabled'] ?? $this->widgetEnabled;
         $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
         
-        foreach($guild['emojis'] as $emoji) {
-            $this->emojis->set($emoji['id'], $emoji);
+        foreach($guild['roles'] as $role) {
+            $this->roles->set($role['id'], (new \CharlotteDunois\Yasmin\Structures\Role($this->client, $this, $role)));
         }
         
-        foreach($guild['roles'] as $role) {
-            $this->roles->set($role['id'],  new \CharlotteDunois\Yasmin\Structures\Role($this->client, $this, $role));
+        foreach($guild['emojis'] as $emoji) {
+            $this->emojis->set($emoji['id'], (new \CharlotteDunois\Yasmin\Structures\Emoji($this->client, $this, $emoji)));
         }
         
         if(!empty($guild['channels'])) {
@@ -99,7 +99,7 @@ class Guild extends Structure { //TODO: Implementation
         
         if(!empty($guild['members'])) {
             foreach($guild['members'] as $member) {
-                $this->members->set($member['user']['id'], new \CharlotteDunois\Yasmin\Structures\GuildMember($this->client, $this, $member));
+                $this->_addMember($member, true);
             }
         }
         
@@ -111,7 +111,7 @@ class Guild extends Structure { //TODO: Implementation
         
         if(!empty($guild['voice_states'])) {
             foreach($guild['voice_states'] as $state) {
-                $this->voiceStates->set($state['user_id'], new \CharlotteDunois\Yasmin\Structures\VoiceState($this->client, $this->channels->get($state['channel_id']), $state));
+                $this->voiceStates->set($state['user_id'], (new \CharlotteDunois\Yasmin\Structures\VoiceState($this->client, $this->channels->get($state['channel_id']), $state)));
             }
         }
         
@@ -124,7 +124,37 @@ class Guild extends Structure { //TODO: Implementation
         }
         
         switch($name) {
+            case 'me':
+                return $this->members->get($this->client->getClientUser()->id);
+            break;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * @access private
+     */
+    function _addMember(array $member, bool $initial = false) {
+        $guildmember = $this->members->factory($member);
+        
+        if(!$initial) {
+            $this->memberCount++;
+        }
+        
+        return $guildmember;
+    }
+    
+    /**
+     * @access private
+     */
+    function _removeMember(string $userid) {
+        if($this->members->has($userid)) {
+            $member = $this->members->get($userid);
+            $this->members->delete($userid);
             
+            $this->memberCount--;
+            return $member;
         }
         
         return null;

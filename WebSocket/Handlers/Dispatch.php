@@ -27,6 +27,10 @@ class Dispatch {
             'CHANNEL_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelUpdate',
             'CHANNEL_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelDelete',
             'GUILD_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildCreate',
+            'GUILD_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildUpdate',
+            'GUILD_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildDelete',
+            'GUILD_BAN_ADD' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildBanAdd',
+            'GUILD_BAN_REMOVE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildBanRemove',
             'PRESENCE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\PresenceUpdate'
         );
         

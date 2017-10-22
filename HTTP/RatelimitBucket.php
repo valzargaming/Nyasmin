@@ -83,6 +83,14 @@ class RatelimitBucket {
     }
     
     /**
+     * Returns the endpoint this bucket is for.
+     * @return string
+     */
+    function getEndpoint() {
+        return $this->endpoint;
+    }
+    
+    /**
      * Returns the size of the queue
      * @var int
      */

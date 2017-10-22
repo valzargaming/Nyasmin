@@ -43,4 +43,10 @@ class RoleStorage extends Collection
         
         throw new \Exception('Unable to resolve unknown role');
     }
+    
+    function factory(array $data) {
+        $role = new \CharlotteDunois\Yasmin\Structures\Role($this->client, $this->guild, $data);
+        $this->set($role->id, $role);
+        return $role;
+    }
 }
