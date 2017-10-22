@@ -303,16 +303,16 @@ class APIManager {
         }
         
         $item = \array_shift($this->queue);
-        $ratelimit = null;
         
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
             if($item->size() > 0 && $item->limited() === false) {
-                $ratelimit = $item;
-                $item = $item->shift();
-                
                 $this->client->emit('debug', 'Retrieved item from bucket "'.$ratelimit->getEndpoint().'"');
+                $item = $item->shift();
             } else {
-                $this->queue[] = $item;
+                if($item->size() > 0) {
+                    $this->queue[] = $item;
+                }
+                
                 $this->_process();
                 return;
             }
@@ -378,25 +378,8 @@ class APIManager {
                 $status = $response->getStatusCode();
                 $this->client->emit('debug', 'Got response for item "'.$item->getEndpoint().'" with HTTP status code '.$status);
                 
-                $dateDiff = 0;
-                if($response->hasHeader('Date')) {
-                    $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->format('U'));
-                }
-                
                 if($response->hasHeader('X-RateLimit-Global')) {
-                    if($response->hasHeader('X-RateLimit-Limit')) {
-                        $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];
-                    }
-                    
-                    if($response->hasHeader('X-RateLimit-Remaining')) {
-                        $this->remaining = (int) $response->getHeader('X-RateLimit-Remaining')[0];
-                    }
-                    
-                    if($response->hasHeader('Retry-After')) {
-                        $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
-                    } else if($response->hasHeader('X-RateLimit-Reset')) {
-                        $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
-                    }
+                    $this->handleRatelimit($response);
                 } elseif($ratelimit !== null) {
                     $ratelimit->handleRatelimit($response);
                 }
@@ -452,5 +435,27 @@ class APIManager {
         }
         
         return $this->ratelimits[$endpoint];
+    }
+    
+    /**
+     * Handles ratelimit headers.
+     * @param \GuzzleHttp\Psr7\Response $response
+     */
+    private function handleRatelimit(\GuzzleHttp\Psr7\Response $response) {
+        $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->format('U'));
+        
+        if($response->hasHeader('X-RateLimit-Limit')) {
+            $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];
+        }
+        
+        if($response->hasHeader('X-RateLimit-Remaining')) {
+            $this->remaining = (int) $response->getHeader('X-RateLimit-Remaining')[0];
+        }
+        
+        if($response->hasHeader('Retry-After')) {
+            $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
+        } else if($response->hasHeader('X-RateLimit-Reset')) {
+            $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
+        }
     }
 }
