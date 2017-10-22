@@ -74,8 +74,72 @@ class TextBasedChannel extends Structure
     }
     
     function send(string $message, array $options = array()) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
+            if(!empty($options['files'])) {
+                $promises = array();
+                foreach($options['files'] as $file) {
+                    if(\is_string($file)) {
+                        if(filter_var($file, FILTER_VALIDATE_URL)) {
+                            $promises[] = $this->resolveURL($file)->then(function ($data) use ($file) {
+                                $file['data'] = $data;
+                                return $file;
+                            });
+                        } else {
+                            $promises[] = \React\Promise\resolve(array('name' => 'image.jpg', 'data' => $file, 'filename' => 'image.jpg'));
+                        }
+                        
+                        continue;
+                    }
+                    
+                    if(!\is_array($file)) {
+                        continue;
+                    }
+                    
+                    if(!isset($file['filename'])) {
+                        if(isset($file['path'])) {
+                            $file['filename'] = \basename($file['path']);
+                        } else {
+                            $file['filename'] = 'image.jpg';
+                        }
+                    }
+                    
+                    if(!isset($file['name'])) {
+                        $file['name'] = 'file-'.\bin2hex(\random_bytes(3));
+                    }
+                    
+                    if(isset($file['data'])) {
+                        $promises[] = \React\Promise\resolve($file);
+                        continue;
+                    }
+                    
+                    if(filter_var($file['path'], FILTER_VALIDATE_URL)) {
+                        $promises[] = $this->resolveURL($file['path'])->then(function ($data) use ($file) {
+                            $file['data'] = $data;
+                            return $file;
+                        });
+                    } else {
+                        $promises[] = \React\Promise\resolve($file);
+                    }
+                }
+                
+                $files = \React\Promise\all($promises);
+            } else {
+                $files = \React\Promise\resolve();
+            }
             
+            $files->then(function ($files = null) use ($message, $options, $resolve, $reject) {
+                $msg = array(
+                    'content' => $message
+                );
+                
+                if(!empty($options['embed'])) {
+                    $msg['embed'] = $options['embed'];
+                }
+                
+                $this->client->apimanager()->endpoints->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($resolve) {
+                    $resolve($this->_createMessage($response));
+                }, $reject);
+            });
         });
     }
     
@@ -112,8 +176,22 @@ class TextBasedChannel extends Structure
     }
     
     function _createMessage(array $message) {
+        if($this->messages->has($message['id'])) {
+            return $this->messages->get($message['id']);
+        }
+        
         $msg = new \CharlotteDunois\Yasmin\Structures\Message($this->client, $this, $message);
         $this->messages->set($msg->id, $msg);
         return $msg;
+    }
+    
+    function _resolveURL(string $url) {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($url) {
+            $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+            
+            $this->client->apimanager()->http->sendAsync($request)->then(function ($response) {
+                return $response->getBody();
+            }, $reject)->done($resolve);
+        });
     }
 }

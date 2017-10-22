@@ -308,11 +308,12 @@ class Client extends EventEmitter { //TODO: Implementation
      * Adds a "client-dependant" timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
      * @param float|int  $timeout
      * @param callable   $callback
+     * @param bool       $ignoreWS
      * @return \React\EventLoop\Timer\Timer
      */
-    function addTimer(float $timeout, callable $callback) {
-        $timer = $this->loop->addTimer($timeout, function () use ($callback) {
-            if($this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+    function addTimer(float $timeout, callable $callback, bool $ignoreWS = false) {
+        $timer = $this->loop->addTimer($timeout, function () use ($callback, $ignoreWS) {
+            if($ignoreWS || $this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                 $callback($this);
             }
         });
@@ -325,11 +326,12 @@ class Client extends EventEmitter { //TODO: Implementation
      * Adds a "client-dependant" periodic timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
      * @param float|int  $interval
      * @param callable   $callback
+     * @param bool       $ignoreWS
      * @return \React\EventLoop\Timer\Timer
      */
-    function addPeriodicTimer(float $interval, callable $callback) {
-        $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback) {
-            if($this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+    function addPeriodicTimer(float $interval, callable $callback, bool $ignoreWS = false) {
+        $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback, $ignoreWS) {
+            if($ignoreWS || $this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                 $callback($this);
             }
         });

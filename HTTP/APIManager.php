@@ -98,6 +98,8 @@ class APIManager {
         $this->http = new \GuzzleHttp\Client(array(
             'handler' => \GuzzleHttp\HandlerStack::create($this->handler)
         ));
+        
+        $this->setTimer();
     }
     
     function __destruct() {
@@ -106,11 +108,15 @@ class APIManager {
     
     /**
      * @property-read \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
+     * @property-read \GuzzleHttp\Client                         $http       Guzzle HTTP Client.
      */
     function __get($name) {
         switch($name) {
             case 'endpoints':
                 return $this->endpoints;
+            break;
+            case 'http':
+                return $this->http;
             break;
         }
         
@@ -263,6 +269,17 @@ class APIManager {
     }
     
     /**
+     * Sets the Guzzle timer.
+     */
+    function setTimer() {
+        if(!$this->timer) {
+            $this->timer = $this->client->addPeriodicTimer(0, \Closure::bind(function () use (&$class) {
+                $this->tick();
+            }, $this->handler, $this->handler), true);
+        }
+    }
+    
+    /**
      * Cancels the Guzzle timer and unsets it.
      */
     function stopTimer() {
@@ -324,24 +341,6 @@ class APIManager {
         if(!$item) {
             $this->_process();
             return;
-        }
-        
-        if(!$this->timer) {
-            $this->client->emit('debug', 'Adding API manager timer');
-            
-            $class = &$this;
-            $this->timer = $this->loop->addPeriodicTimer(0, \Closure::bind(function () use (&$class) {
-                $this->tick();
-                
-                try {
-                    if(empty($this->handles) && \GuzzleHttp\Promise\queue()->isEmpty()) {
-                        $this->client->emit('debug', 'Stopping API manager timer due to empty queue');
-                        $class->stopTimer();
-                    }
-                } catch(\BadMethodCallException $e) {
-                    $class->stopTimer();
-                }
-            }, $this->handler, $this->handler));
         }
         
         $this->execute($item);
