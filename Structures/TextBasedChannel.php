@@ -81,10 +81,10 @@ class TextBasedChannel extends Structure
                     if(\is_string($file)) {
                         if(filter_var($file, FILTER_VALIDATE_URL)) {
                             $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
-                                return array('name' => \basename($file), 'data' => $data, 'filename' => \basename($file));
+                                return array('name' => \basename($file), 'data' => $data);
                             });
                         } else {
-                            $promises[] = \React\Promise\resolve(array('name' => 'image.jpg', 'data' => $file, 'filename' => 'image.jpg'));
+                            $promises[] = \React\Promise\resolve(array('name' => 'file-'.\bin2hex(\random_bytes(3)).'.jpg', 'data' => $file));
                         }
                         
                         continue;
@@ -94,24 +94,15 @@ class TextBasedChannel extends Structure
                         continue;
                     }
                     
-                    if(!isset($file['filename'])) {
+                    if(!isset($file['name'])) {
                         if(isset($file['path'])) {
-                            $file['filename'] = \basename($file['path']);
+                            $file['name'] = \basename($file['path']);
                         } else {
-                            $file['filename'] = 'image.jpg';
+                            $file['name'] = $file['name'].'.jpg';
                         }
                     }
                     
-                    if(!isset($file['name'])) {
-                        $file['name'] = 'file-'.\bin2hex(\random_bytes(3));
-                    }
-                    
-                    if(isset($file['data'])) {
-                        $promises[] = \React\Promise\resolve($file);
-                        continue;
-                    }
-                    
-                    if(filter_var($file['path'], FILTER_VALIDATE_URL)) {
+                    if(!isset($file['data']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
                         $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
                             $file['data'] = $data;
                             return $file;

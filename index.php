@@ -63,7 +63,7 @@ $client->login($token)->done(function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    $client->addTimer(10, function () use ($client) {
+    /*$client->addTimer(10, function () use ($client) {
         //var_dump($client->channels);
         //var_dump($client->guilds);
         //var_dump($client->presences);
@@ -71,7 +71,7 @@ $client->login($token)->done(function () use ($client) {
         
         echo 'Making API request...'.PHP_EOL;
         $client->channels->get('323433852590751754')->send('Hello, my name is Onee-sama!', array('files' => array('https://i.imgur.com/TCmzLbI.png')))->done();
-    });
+    });*/
     
     $client->addTimer(500, function ($client) {
         echo 'Ending session'.PHP_EOL;

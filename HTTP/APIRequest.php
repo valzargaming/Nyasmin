@@ -93,9 +93,9 @@ class APIRequest {
                 }
                 
                 $options['multipart'][] = array(
-                    'name' => $file['name'],
+                    'name' => $file['field'] ?? 'file-'.\bin2hex(\random_bytes(3)),
                     'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'], 'r')),
-                    'filename' => (isset($file['filename']) ? $file['filename'] : (isset($file['path']) ? \basename($file['path']) : $file['name'].'jpg'))
+                    'filename' => (isset($file['name']) ? $file['name'] : (isset($file['path']) ? \basename($file['path']) : $file['name'].'jpg'))
                 );
             }
             
