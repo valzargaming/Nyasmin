@@ -31,6 +31,18 @@ class Dispatch {
             'GUILD_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildDelete',
             'GUILD_BAN_ADD' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildBanAdd',
             'GUILD_BAN_REMOVE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildBanRemove',
+            'GUILD_EMOJIS_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildEmojisUpdate',
+            'GUILD_INTEGRATIONS_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildIntegrationsUpdate',
+            'GUILD_MEMBER_ADD' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberAdd',
+            'GUILD_MEMBER_REMOVE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberRemove',
+            'GUILD_MEMBERS_CHUNK' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMembersChunk',
+            'GUILD_ROLE_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildRoleCreate',
+            'GUILD_ROLE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildRoleUpdate',
+            'GUILD_ROLE_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildRoleDelete',
+            'MESSAGE_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageCreate',
+            'MESSAGE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageUpdate',
+            'MESSAGE_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageDelete',
+            'MESSAGE_DELETE_BULK' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageDeleteBulk',
             'PRESENCE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\PresenceUpdate'
         );
         

@@ -56,13 +56,13 @@ class APIManager {
     protected $limited = false;
     
     /**
-     * Global rate limit total
+     * Global rate limit limit.
      * @var int
      */
-    protected $total = 0;
+    protected $limit = 0;
     
     /**
-     * Global rate limit remaining
+     * Global rate limit remaining.
      * @var int
      */
     protected $remaining = \INF;
@@ -283,11 +283,16 @@ class APIManager {
      * Processes the queue.
      */
     private function _process() {
-        if($this->limited === true && \time() > $this->resetTime) {
-            $this->client->emit('debug', 'We are API-wise globally ratelimited');
+        if($this->limited === true) {
+            if(\time() > $this->resetTime) {
+                $this->client->emit('debug', 'We are API-wise globally ratelimited');
+                
+                $this->process();
+                return;
+            }
             
-            $this->process();
-            return;
+            $this->limited = false;
+            $this->remaining = ($this->limit ? $this->limit : \INF);
         }
         
         $ratelimit = null;

@@ -26,13 +26,13 @@ class User extends Structure
     /**
      * @access private
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $user) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $user, bool $isWebhook = false) {
         parent::__construct($client);
         
         $this->id = $user['id'];
         $this->username = $user['username'];
-        $this->discriminator = $user['discriminator'];
-        $this->bot = (!empty($user['bot']));
+        $this->discriminator = $user['discriminator'] ?? '0000';
+        $this->bot = (!empty($user['bot']) || $isWebhook);
         $this->avatar = $user['avatar'];
         $this->email = (!empty($user['email']) ? $user['email'] : '');
         $this->verified = (!empty($user['verified']));

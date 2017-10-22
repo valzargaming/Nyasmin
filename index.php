@@ -41,7 +41,9 @@ $client->on('ready', function () use($client) {
     $user = $client->getClientUser();
     echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
-    $user->setGame('with Yasmin');
+    $client->addPeriodicTimer(30, function ($client) {
+        $client->getClientUser()->setGame('with Yasmin | '.\bin2hex(\random_bytes(3)));
+    });
 });
 $client->on('disconnect', function ($code, $reason) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
@@ -52,30 +54,30 @@ $client->on('reconnect', function () {
     echo 'Reconnect happening!'.PHP_EOL;
 });
 
+$client->on('message', function ($message) use ($client) {
+    echo 'Received Message from '.$message->author->tag.' in channel '.$message->channel->name.' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
+});
+
 $client->login($token)->done(function () use ($client) {
-    $loop = $client->getLoop();
-    
-    $timer = $loop->addPeriodicTimer(60, function () use ($client) {
+    $client->addPeriodicTimer(60, function ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    /*$loop->addTimer(5, function () use ($client) {
+    /*$loop->addTimer(30, function () use ($client) {
         //var_dump($client->channels);
         //var_dump($client->guilds);
         //var_dump($client->presences);
         //var_dump($client->users);
         
         echo 'Making API request...'.PHP_EOL;
-        $client->apimanager()->endpoints->getGuild('270679409126670337')->then(function ($response) {
+        $client->apimanager()->endpoints->createMessage('323433852590751754', array('content' => 'Hello, my name is Onee-sama!'))->then(function ($response) {
             var_dump($response);
         }, function ($error) {
             var_dump($error);
         });
     });*/
     
-    $loop->addTimer(500, function () use ($client, $timer) {
-        $timer->cancel();
-        
+    $client->addTimer(500, function ($client) {
         echo 'Ending session'.PHP_EOL;
         $client->destroy()->then(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;

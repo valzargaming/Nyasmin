@@ -13,14 +13,14 @@ namespace CharlotteDunois\Yasmin\Structures;
  * Util to store a collection.
  */
 class Collection extends \CharlotteDunois\Collect\Collection { //TODO: Docs
-    protected $data = array();
-    
     /**
      * I think you are supposed to know what this does.
      * @param array|null $data
      */
     function __construct(array $data = null) {
-        return \CharlotteDunois\Collect\Collection::create($data);
+        if(!empty($data)) {
+            parent::__construct($data);
+        }
     }
     
     function __debugInfo() {

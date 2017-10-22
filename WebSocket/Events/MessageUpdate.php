@@ -11,10 +11,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#guild-role-update
+ * @link https://discordapp.com/developers/docs/topics/gateway#message-update
  * @access private
  */
-class GuildRoleUpdate {
+class MessageUpdate {
     protected $client;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
@@ -22,14 +22,14 @@ class GuildRoleUpdate {
     }
     
     function handle(array $data) {
-        $guild = $this->client->guilds->get($data['guild_id']);
-        if($guild) {
-            $role = $guild->roles->get($data['role']['id']);
-            if($role) {
-                $oldRole = clone $role;
+        $channel = $this->client->channels->get($data['channel_id']);
+        if($channel) {
+            $message = $channel->messages->get($data['id']);
+            if($message) {
+                $oldMessage = clone $message;
+                $message->_patch($data);
                 
-                $role->_patch($data['role']);
-                $this->client->emit('roleCreate', $role, $oldRole);
+                $this->client->emit('messageUpdate', $message, $oldMessage);
             }
         }
     }

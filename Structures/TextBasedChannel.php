@@ -19,7 +19,7 @@ class TextBasedChannel extends Structure
     protected $type;
     protected $lastMessageID;
     
-    protected $icon;
+    protected $createdTimestamp;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client, $channel) {
         parent::__construct($client);
@@ -29,6 +29,8 @@ class TextBasedChannel extends Structure
         $this->id = $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPE[$channel['type']];
         $this->lastMessageID = $channel['last_message_id'] ?? null;
+        
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
     
     function __get($name) {
@@ -110,7 +112,7 @@ class TextBasedChannel extends Structure
     }
     
     function _createMessage(array $message) {
-        $msg = new \CharlotteDunois\Yasmin\Structures\Message($message);
+        $msg = new \CharlotteDunois\Yasmin\Structures\Message($this->client, $this, $message);
         $this->messages->set($msg->id, $msg);
         return $msg;
     }

@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Represents a guild.
+ */
 class Guild extends Structure { //TODO: Implementation
     protected $channels;
     protected $emojis;
@@ -115,7 +118,7 @@ class Guild extends Structure { //TODO: Implementation
             }
         }
         
-        $this->createdTimestamp = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
     
     function __get($name) {

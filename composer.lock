@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "65343007c5164db5655543e8030c8095",
+    "content-hash": "7a51a63ec685ddcc051b2c74ef00de47",
     "packages": [
         {
             "name": "charlottedunois/collection",
-            "version": "v0.1",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CharlotteDunois/Collection.git",
-                "reference": "6a36055754612eba119b537ae8cba088c0d799d2"
+                "reference": "d189ec4fe961dbf95a8d3b31125b9b61217b91f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CharlotteDunois/Collection/zipball/6a36055754612eba119b537ae8cba088c0d799d2",
-                "reference": "6a36055754612eba119b537ae8cba088c0d799d2",
+                "url": "https://api.github.com/repos/CharlotteDunois/Collection/zipball/d189ec4fe961dbf95a8d3b31125b9b61217b91f2",
+                "reference": "d189ec4fe961dbf95a8d3b31125b9b61217b91f2",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "collection",
                 "php"
             ],
-            "time": "2017-10-15T12:06:08+00:00"
+            "time": "2017-10-22T15:37:30+00:00"
         },
         {
             "name": "evenement/evenement",

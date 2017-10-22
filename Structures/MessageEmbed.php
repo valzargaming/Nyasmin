@@ -9,15 +9,32 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class MessageEmbed { //TODO: Implementation
-    protected $id;
+/**
+ * Represents a received embed from a message.
+ */
+class MessageEmbed extends Structure { //TODO: Implementation
+    protected $title;
+    protected $type;
+    protected $description;
+    protected $url;
+    protected $timestamp;
+    protected $color;
+    protected $footer;
+    protected $image;
+    protected $thumbnail;
+    protected $video;
+    protected $provider;
+    protected $author;
+    protected $fields = array();
     
     /**
      * @access private
      */
-    function __construct(array $embed = array()) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $embed = array()) { //TODO: Implementation
+        parent::__construct($client);
+        
         if(!empty($embed)) {
-            $this->id = $attachment['id'];
+            $this->title = $embed['title'];
         }
     }
     

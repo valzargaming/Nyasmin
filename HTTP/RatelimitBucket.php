@@ -121,7 +121,9 @@ class RatelimitBucket {
      */
     function limited() {
         if($this->resetTime && \time() > $this->resetTime) {
-            $this->remaining = \INF;
+            $this->resetTime = null;
+            $this->remaining = ($this->limit ? $this->limit : \INF);
+            
             return false;
         }
         

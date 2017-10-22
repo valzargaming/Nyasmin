@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Represents a received message.
+ */
 class Message extends Structure { //TODO: Implementation
     
     protected $id;
@@ -36,7 +39,7 @@ class Message extends Structure { //TODO: Implementation
         parent::__construct($client);
         
         $this->id = $message['id'];
-        $this->author = (empty($message['webhook_id']) ? $client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Structures\Webhook($client, $message['author']));
+        $this->author = (empty($message['webhook_id']) ? $client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Structures\User($client, $message['author'], true));
         $this->channel = $channel;
         $this->content = $message['content'];
         $this->createdTimestamp = (new \DateTime($message['timestamp']))->format('U');
@@ -49,18 +52,18 @@ class Message extends Structure { //TODO: Implementation
         
         $this->attachments = new \CharlotteDunois\Yasmin\Structures\Collection();
         foreach($message['attachments'] as $attachment) {
-            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Structures\MessageAttachment($attachment)));
+            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Structures\MessageAttachment($client, $attachment)));
         }
         
         foreach($message['embeds'] as $embed) {
-            $this->embeds[] = new \CharlotteDunois\Yasmin\Structures\MessageEmbed($embed);
+            $this->embeds[] = new \CharlotteDunois\Yasmin\Structures\MessageEmbed($client, $embed);
         }
         
         $this->mentions = array(
             'channels' => (new \CharlotteDunois\Yasmin\Structures\Collection()),
             'members' => (new \CharlotteDunois\Yasmin\Structures\Collection()),
             'roles' => (new \CharlotteDunois\Yasmin\Structures\Collection()),
-            'users' => (new \CharlotteDunois\Collect\Collection())
+            'users' => (new \CharlotteDunois\Yasmin\Structures\Collection())
         );
         
         $guild = $channel->guild;
@@ -77,21 +80,23 @@ class Message extends Structure { //TODO: Implementation
             }
         }
         
-        foreach($message['mentions'] as $mention) {
-            $member = null;
-            $user = $this->client->users->patch($mention);
-            
-            $this->mentions['users']->set($mention['id'], $user);
-            if($guild) {
-                $member = $guild->members->get($mention['id']);
-                $this->mentions['members']->set($mention['id'], $member);
+        if(!empty($message['mentions'])) {
+            foreach($message['mentions'] as $mention) {
+                $member = null;
+                $user = $this->client->users->patch($mention);
+                
+                $this->mentions['users']->set($mention['id'], $user);
+                if($guild) {
+                    $member = $guild->members->get($mention['id']);
+                    $this->mentions['members']->set($mention['id'], $member);
+                }
+                
+                $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
             }
-            
-            $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
         }
         
         
-        if($guild) {
+        if($guild && !empty($message['mentions_role'])) {
             foreach($message['mentions_role'] as $mention) {
                 $role = $guild->roles->get($mention['id']);
                 $this->mentions['roles']->set($mention['id'], $role);
@@ -102,13 +107,13 @@ class Message extends Structure { //TODO: Implementation
     }
     
     /**
-     * @property-read string                                                                              $id                 The message ID.
-     * @property-read \CharlotteDunois\Yasmin\Structures\User|\CharlotteDunois\Yasmin\Structures\Webhook  $author             The user, or webhook, that created the message.
-     * @property-read \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface                             $channel            The channel this message was created in.
-     * @property-read \CharlotteDunois\Yasmin\structures\Guild|null                                       $guild              The correspondending guild.
-     * @property-read int                                                                                 $createdTimestamp   The timestamp of when this message was created.
+     * @property-read string                                                              $id                 The message ID.
+     * @property-read \CharlotteDunois\Yasmin\Structures\User                             $author             The user that created the message.
+     * @property-read \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface             $channel            The channel this message was created in.
+     * @property-read \CharlotteDunois\Yasmin\structures\Guild|null                       $guild              The correspondending guild.
+     * @property-read int                                                                 $createdTimestamp   The timestamp of when this message was created.
      *
-     * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
+     * @property-read \DateTime                                                           $createdAt          An DateTime object of the createdTimestamp.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -122,6 +127,9 @@ class Message extends Structure { //TODO: Implementation
             case 'guild':
                 return $this->channel->guild;
             break;
+            case 'type':
+                return $this->channel->type;
+            break;
         }
         
         return null;
@@ -132,18 +140,6 @@ class Message extends Structure { //TODO: Implementation
     }
     
     function delete(string $reason) {
-        
-    }
-    
-    function setName(string $name) {
-        
-    }
-    
-    function addRestrictedRoles(...$roles) {
-        
-    }
-    
-    function removeRestrictedRoles(...$roles) {
         
     }
     

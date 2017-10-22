@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Represents an emoji.
+ */
 class Emoji extends Structure { //TODO: Implementation
     protected $guild;
     

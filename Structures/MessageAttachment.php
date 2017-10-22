@@ -9,7 +9,10 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
-class MessageAttachment extends Structure { //TODO: Implementation
+/**
+ * Represents an attachment from a message.
+ */
+class MessageAttachment extends Structure {
     protected $id;
     protected $filename;
     protected $size;

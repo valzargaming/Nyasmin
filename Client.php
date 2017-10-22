@@ -8,6 +8,8 @@
 */
 
 namespace CharlotteDunois\Yasmin;
+use CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberAdd;
+use CharlotteDunois\Yasmin\WebSocket\Events\MessageDeleteBulk;
 
 /**
  * The client. What else do you expect this to say?
@@ -103,6 +105,13 @@ class Client extends EventEmitter { //TODO: Implementation
     private $gateway;
     
     /**
+     * Timers which automatically get cancelled on destroy and only get run when we have a WS connection.
+     * @var \React\EventLoop\Timer\Timer[]
+     * @access private
+     */
+     private $timers = array();
+    
+    /**
      * What do you expect this to do?
      * @param array                           $options  Any client options.
      * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
@@ -111,8 +120,6 @@ class Client extends EventEmitter { //TODO: Implementation
      * @event ready
      * @event disconnect
      * @event reconnect
-     * @event error
-     * @event debug
      * @event channelCreate
      * @event channelUpdate
      * @event channelDelete
@@ -121,10 +128,23 @@ class Client extends EventEmitter { //TODO: Implementation
      * @event guildDelete
      * @event guildBanAdd
      * @event guildBanRemove
+     * @event guildMemberAdd
+     * @event guildMemberRemove
+     * @event guildMembersChunk
+     * @event roleCreate
+     * @event roleUpdate
+     * @event roleDelete
      * @event message
      * @event messageUpdate
      * @event messageDelete
+     * @event messageDeleteBulk
      * @event presenceUpdate
+     *
+     * @event raw
+     * @event messageDeleteRaw
+     * @event messageDeleteBulkRaw
+     * @event error
+     * @event debug
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!$loop) {
@@ -259,6 +279,11 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function destroy() {
         return new \React\Promise\Promise(function (callable $resolve) {
+            foreach($this->timers as $key => &$timer) {
+                $timer['timer']->cancel();
+                unset($this->timers[$key], $timer);
+            }
+            
             $this->api->destroy();
             $this->ws->disconnect();
             $resolve();
@@ -277,6 +302,55 @@ class Client extends EventEmitter { //TODO: Implementation
                 $resolve($user);
             }, $reject);
         });
+    }
+    
+    /**
+     * Adds a "client-dependant" timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
+     * @param float|int  $timeout
+     * @param callable   $callback
+     * @return \React\EventLoop\Timer\Timer
+     */
+    function addTimer(float $timeout, callable $callback) {
+        $timer = $this->loop->addTimer($timeout, function () use ($callback) {
+            if($this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                $callback($this);
+            }
+        });
+        
+        $this->timers[] = array('type' => 1, 'timer' => $timer);
+        return $timer;
+    }
+    
+    /**
+     * Adds a "client-dependant" periodic timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
+     * @param float|int  $interval
+     * @param callable   $callback
+     * @return \React\EventLoop\Timer\Timer
+     */
+    function addPeriodicTimer(float $interval, callable $callback) {
+        $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback) {
+            if($this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                $callback($this);
+            }
+        });
+        
+        $this->timers[] = array('type' => 0, 'timer' => $timer);
+        return $timer;
+    }
+    
+    /**
+     * Cancels a timer.
+     * @param \React\EventLoop\Timer\Timer  $timer
+     * @return bool
+     */
+    function cancelTimer(\React\EventLoop\Timer\Timer $timer) {
+        $timer->cancel();
+        $key = \array_search($timer, $this->timers, true);
+        if($key !== false) {
+            unset($this->timers[$key]);
+        }
+        
+        return true;
     }
     
     /**
