@@ -96,7 +96,10 @@ class APIRequest {
             }
             
             if(!empty($this->options['data'])) {
-                $options['multipart']['payload_json'] = json_encode($this->options['data']);
+                $options['multipart'][] = array(
+                    'name' => 'payload_json',
+                    'contents' => json_encode($this->options['data'])
+                );
             }
         } elseif(!empty($this->options['data'])) {
             $options['json'] = $this->options['data'];

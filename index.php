@@ -63,14 +63,20 @@ $client->login($token)->done(function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    /*$client->addTimer(30, function () use ($client) {
+    /*$client->addTimer(10, function () use ($client) {
         //var_dump($client->channels);
         //var_dump($client->guilds);
         //var_dump($client->presences);
         //var_dump($client->users);
         
         echo 'Making API request...'.PHP_EOL;
-        $client->apimanager()->endpoints->createMessage('323433852590751754', array('content' => 'Hello, my name is Onee-sama!'))->then(function ($response) {
+        $client->apimanager()->endpoints->createMessage('323433852590751754', array('content' => 'Hello, my name is Onee-sama!'), array(
+            array(
+                'name' => 'file',
+                'path' => 'C:\\Users\\Charlotte\\Downloads\\[HorribleSubs] Ousama Game - 01 [720p].mkv_snapshot_03.13_[2017.10.06_19.01.07].png',
+                'filename' => 'uwa.png'
+            )
+        ))->then(function ($response) {
             var_dump($response);
         }, function ($error) {
             var_dump($error);
