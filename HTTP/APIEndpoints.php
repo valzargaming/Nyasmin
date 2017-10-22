@@ -42,6 +42,9 @@ class APIEndpoints {
         $this->endpoints['webhook'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook($api);
     }
     
+    /**
+     * @access private
+     */
     function __call($name, $arguments) {
         foreach($this->endpoints as $endpoints) {
             if(method_exists($endpoints, $name)) {

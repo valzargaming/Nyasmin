@@ -104,6 +104,9 @@ class APIManager {
         $this->destroy();
     }
     
+    /**
+     * @property-read \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
+     */
     function __get($name) {
         switch($name) {
             case 'endpoints':
@@ -306,7 +309,7 @@ class APIManager {
         
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
             if($item->size() > 0 && $item->limited() === false) {
-                $this->client->emit('debug', 'Retrieved item from bucket "'.$ratelimit->getEndpoint().'"');
+                $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
                 $item = $item->shift();
             } else {
                 if($item->size() > 0) {
