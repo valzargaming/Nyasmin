@@ -295,9 +295,6 @@ class APIManager {
             $this->remaining = ($this->limit ? $this->limit : \INF);
         }
         
-        $ratelimit = null;
-        $item = null;
-        
         if(\count($this->queue) === 0) {
             $this->client->emit('debug', 'No items in queue, ending API manager queue');
             
@@ -306,6 +303,7 @@ class APIManager {
         }
         
         $item = \array_shift($this->queue);
+        $ratelimit = null;
         
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
             if($item->size() > 0 && $item->limited() === false) {
@@ -318,6 +316,11 @@ class APIManager {
                 $this->_process();
                 return;
             }
+        }
+        
+        if(!$item) {
+            $this->_process();
+            return;
         }
         
         if(!$this->timer) {

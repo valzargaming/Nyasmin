@@ -63,7 +63,7 @@ $client->login($token)->done(function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    /*$loop->addTimer(30, function () use ($client) {
+    $client->addTimer(30, function () use ($client) {
         //var_dump($client->channels);
         //var_dump($client->guilds);
         //var_dump($client->presences);
@@ -75,7 +75,7 @@ $client->login($token)->done(function () use ($client) {
         }, function ($error) {
             var_dump($error);
         });
-    });*/
+    });
     
     $client->addTimer(500, function ($client) {
         echo 'Ending session'.PHP_EOL;

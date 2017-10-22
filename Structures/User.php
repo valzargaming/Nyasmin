@@ -19,6 +19,7 @@ class User extends Structure
     protected $avatar;
     protected $email;
     protected $verified;
+    protected $webhook;
     protected $tag;
     
     protected $createdTimestamp;
@@ -32,10 +33,11 @@ class User extends Structure
         $this->id = $user['id'];
         $this->username = $user['username'];
         $this->discriminator = $user['discriminator'] ?? '0000';
-        $this->bot = (!empty($user['bot']) || $isWebhook);
+        $this->bot = (!empty($user['bot']));
         $this->avatar = $user['avatar'];
         $this->email = (!empty($user['email']) ? $user['email'] : '');
         $this->verified = (!empty($user['verified']));
+        $this->webhook = $isWebhook;
         
         $this->tag = $this->username.'#'.$this->discriminator;
         
@@ -50,6 +52,7 @@ class User extends Structure
      * @property-read string                                               $avatar             The hash of the user's avatar.
      * @property-read string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
      * @property-read boolean                                              $verified           I wonder if the user is verified.
+     * @property-read boolean                                              $webhook            Determines wether the user is a webhook or not.
      * @property-read string                                               $tag                Username#Discriminator.
      * @property-read int                                                  $createdTimestamp   The timestamp of when this user was created.
      *
