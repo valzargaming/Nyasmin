@@ -48,7 +48,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
      * @access private
      */
     function __debugInfo() {
-        $vars = get_object_vars($this);
+        $vars = \get_object_vars($this);
         unset($vars['client']);
         return $vars;
     }

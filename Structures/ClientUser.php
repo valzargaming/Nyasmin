@@ -48,6 +48,15 @@ class ClientUser extends User { //TODO: Implementation
     }
     
     /**
+     * @access private
+     */
+    function __debugInfo() {
+        $vars = parent::__debugInfo();
+        unset($vars['clientPresence']);
+        return $vars;
+    }
+    
+    /**
      * Set your status.
      * @param string $status  Valid values are: online, idle, dnd and offline.
      * @return \React\Promise\Promise<null>

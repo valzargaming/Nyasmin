@@ -21,7 +21,6 @@ class User extends Structure
     protected $mfaEnabled;
     protected $verified;
     protected $webhook;
-    protected $tag;
     
     protected $createdTimestamp;
     
