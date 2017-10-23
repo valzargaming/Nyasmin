@@ -138,7 +138,11 @@ class Guild extends Structure { //TODO: Implementation
     }
     
     function fetchMember(string $userid) {
-        
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->guilds->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
+                return $this->_addMember($data);
+            }, $reject);
+        });
     }
     
     /**
