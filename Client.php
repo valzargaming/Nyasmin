@@ -8,6 +8,8 @@
 */
 
 namespace CharlotteDunois\Yasmin;
+use CharlotteDunois\Yasmin\WebSocket\Events\UserUpdate;
+use CharlotteDunois\Yasmin\WebSocket\Events\TypingStart;
 use CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberAdd;
 use CharlotteDunois\Yasmin\WebSocket\Events\MessageDeleteBulk;
 
@@ -28,6 +30,12 @@ class Client extends EventEmitter { //TODO: Implementation
     public $guilds;
     
     /**
+     * It holds all emojis.
+     * @var \CharlotteDunois\Yasmin\Structures\Collection
+     */
+    public $emojis;
+    
+    /**
      * It holds all cached presences.
      * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage
      * @access private
@@ -41,10 +49,16 @@ class Client extends EventEmitter { //TODO: Implementation
     public $users;
     
     /**
-     * It holds all open Voice Connections.
+     * It holds all open voice connections.
      * @var \CharlotteDunois\Yasmin\Structures\Collection
      */
     public $voiceConnections;
+    
+    /**
+     * It holds all voice states.
+     * @var \CharlotteDunois\Yasmin\Structures\Collection
+     */
+    public $voiceStates;
     
     /**
      * The last 3 websocket pings (in ms).
@@ -138,7 +152,13 @@ class Client extends EventEmitter { //TODO: Implementation
      * @event messageUpdate
      * @event messageDelete
      * @event messageDeleteBulk
+     * @event messageReactionAdd
+     * @event messageReactionRemove
+     * @event messageReactionRemoveAll
      * @event presenceUpdate
+     * @event typingStart
+     * @event userUpdate
+     * @event voiceStateUpdate
      *
      * @event raw
      * @event messageDeleteRaw
@@ -164,10 +184,12 @@ class Client extends EventEmitter { //TODO: Implementation
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
         $this->channels = new \CharlotteDunois\Yasmin\Structures\ChannelStorage($this);
+        $this->emojis = new \CharlotteDunois\Yasmin\Structures\Collection();
         $this->guilds = new \CharlotteDunois\Yasmin\Structures\GuildStorage($this);
         $this->presences = new \CharlotteDunois\Yasmin\Structures\PresenceStorage($this);
         $this->users = new \CharlotteDunois\Yasmin\Structures\UserStorage($this);
         $this->voiceConnections = new \CharlotteDunois\Yasmin\Structures\Collection();
+        $this->voiceStates = new \CharlotteDunois\Yasmin\Structures\Collection();
     }
     
     /**

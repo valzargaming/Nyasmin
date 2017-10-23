@@ -29,7 +29,7 @@ class Voice {
     }
     
     function listVoiceRegions() {
-        $url = Constants::format(Constants::ENDPOINTS_VOICES['regions']);
+        $url = Constants::format(Constants::ENDPOINTS_VOICE['regions']);
         return $this->api->makeRequest('GET', $url, array());
     }
 }

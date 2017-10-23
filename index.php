@@ -55,7 +55,47 @@ $client->on('reconnect', function () {
 });
 
 $client->on('message', function ($message) use ($client) {
-    echo 'Received Message from '.$message->author->tag.' in channel '.$message->channel->name.' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
+    echo 'Received Message from '.$message->author->tag.' in channel #'.$message->channel->name.' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
+    
+    if($message->author->id === '200317799350927360') {
+        if(\strpos($message->content, '#eval') === 0) {
+            $code = \substr($message->content, 6);
+            if(\substr($code, -1) !== ';') {
+                $code .= ';';
+            }
+            
+            try {
+                while(@\ob_end_clean());
+                \ob_start('mb_output_handler');
+                
+                $result = eval($code);
+                
+                if(!($result instanceof \React\Promise\Promise)) {
+                    $result = \React\Promise\resolve($result);
+                }
+                
+                $result->then(function ($result) use ($code, $message) {
+                    if(!$result) {
+                        $result = @\ob_get_clean();
+                    }
+                    
+                    \var_dump($result);
+                    $result = @\ob_get_clean();
+                    $result = \explode("\n", \str_replace("\r", "", $result));
+                    \array_shift($result);
+                    $result = \implode(PHP_EOL, $result);
+                    
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```');
+                }, function ($e) use ($code, $message) {
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
+                });
+            } catch(\Throwable $e) {
+                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
+            } catch(\Exception $e) {
+                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
+            }
+        }
+    }
 });
 
 $client->login($token)->done(function () use ($client) {
@@ -73,7 +113,7 @@ $client->login($token)->done(function () use ($client) {
         $client->channels->get('323433852590751754')->send('Hello, my name is Onee-sama!', array('files' => array('https://i.imgur.com/TCmzLbI.png')))->done();
     });*/
     
-    $client->addTimer(500, function ($client) {
+    $client->addTimer(600, function ($client) {
         echo 'Ending session'.PHP_EOL;
         $client->destroy()->then(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;

@@ -16,15 +16,23 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  */
 class ChannelUpdate {
     protected $client;
+    protected $clones = false;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
+        
+        $clones = (array) $this->client->getOption('disableClones', array());
+        $this->clones = !\in_array('channelUpdate', $clones);
     }
     
     function handle(array $data) {
         $channel = $this->client->channels->get($data['id']);
         if($channel) {
-            $oldChannel = clone $channel;
+            $oldChannel = null;
+            if($this->clones) {
+                $oldChannel = clone $channel;
+            }
+            
             $channel->_patch($data);
             
             $this->client->emit('channelUpdate', $channel, $oldChannel);

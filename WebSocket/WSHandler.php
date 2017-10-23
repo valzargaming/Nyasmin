@@ -65,7 +65,11 @@ class WSHandler {
             if(isset($this->handlers[$packet['op']])) {
                 $this->handlers[$packet['op']]->handle($packet);
             }
+        } catch(\Throwable $e) {
+            $this->wsmanager->client->emit('error', $e);
         } catch(\Exception $e) {
+            $this->wsmanager->client->emit('error', $e);
+        } catch(\Error $e) {
             $this->wsmanager->client->emit('error', $e);
         }
     }

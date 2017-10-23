@@ -21,11 +21,41 @@ class APIEndpoints {
      */
     protected $api;
     
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Channel
+     */
+    public $channel;
     
     /**
-     * @var array
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Emoji
      */
-    protected $endpoints = array();
+    public $emoji;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Guild
+     */
+    public $guild;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Invite
+     */
+    public $invite;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\User
+     */
+    public $user;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Voice
+     */
+    public $voice;
+    
+    /**
+     * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook
+     */
+    public $webhook;
+    
     
     /**
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager $api
@@ -33,23 +63,45 @@ class APIEndpoints {
     function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api) {
         $this->api = $api;
         
-        $this->endpoints['channel'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Channel($api);
-        $this->endpoints['emoji'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Emoji($api);
-        $this->endpoints['guild'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Guild($api);
-        $this->endpoints['invite'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Invite($api);
-        $this->endpoints['user'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\User($api);
-        $this->endpoints['voice'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Voice($api);
-        $this->endpoints['webhook'] = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook($api);
+        $this->channel = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Channel($api);
+        $this->emoji = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Emoji($api);
+        $this->guild = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Guild($api);
+        $this->invite = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Invite($api);
+        $this->user = new \CharlotteDunois\Yasmin\HTTP\Endpoints\User($api);
+        $this->voice = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Voice($api);
+        $this->webhook = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook($api);
     }
     
     /**
      * @access private
      */
     function __call($name, $arguments) {
-        foreach($this->endpoints as $endpoints) {
-            if(method_exists($endpoints, $name)) {
-                return $endpoints->$name(...$arguments);
-            }
+        if(method_exists($this->channel, $name)) {
+            return $this->channel->$name(...$arguments);
+        }
+        
+        if(method_exists($this->emoji, $name)) {
+            return $this->emoji->$name(...$arguments);
+        }
+        
+        if(method_exists($this->guild, $name)) {
+            return $this->guild->$name(...$arguments);
+        }
+        
+        if(method_exists($this->invite, $name)) {
+            return $this->invite->$name(...$arguments);
+        }
+        
+        if(method_exists($this->user, $name)) {
+            return $this->user->$name(...$arguments);
+        }
+        
+        if(method_exists($this->voice, $name)) {
+            return $this->voice->$name(...$arguments);
+        }
+        
+        if(method_exists($this->webhook, $name)) {
+            return $this->webhook->$name(...$arguments);
         }
         
         throw new \Exception('API Endpoints method "'.$name.'" does not exist.');

@@ -43,9 +43,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         'time' => 60,
         'remaining' => 120,
         'timer' => null,
-        'dateline' => 0,
-        'queue' => array(),
-        'running' => false
+        'dateline' => 0
     );
     
     /**
@@ -56,6 +54,18 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         'ack' => true,
         'dateline' => 0
     );
+    
+    /**
+     * The WS queue.
+     * @var array
+     */
+    private $queue = array();
+    
+    /**
+     * The WS queue processing status.
+     * @var bool
+     */
+    private $running = false;
     
     /**
      * If the connection got closed, did we expect it?
@@ -173,7 +183,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 
                 $this->ratelimits['remaining'] = $this->ratelimits['total'];
                 $this->ratelimits['timer'] = null;
-                $this->ratelimits['queue'] = array();
+                $this->queue = array();
                 $this->wsHeartbeat['ack'] = true;
                 
                 $this->ws = null;
@@ -229,27 +239,27 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 return $reject(new \Exception('Can not send WS message before a WS connection is established'));
             }
             
-            $this->ratelimits['queue'][] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);
+            $this->queue[] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);
             
-            if($this->ratelimits['running'] === false) {
+            if($this->running === false) {
                 $this->processQueue();
             }
         });
     }
     
     function processQueue() {
-         if($this->ratelimits['running'] === true) {
+         if($this->running === true) {
              return;
          } elseif($this->ratelimits['remaining'] === 0) {
              return;
-         } elseif(\count($this->ratelimits['queue']) === 0) {
+         } elseif(\count($this->queue) === 0) {
              return;
          }
          
-         $this->ratelimits['running'] = true;
+         $this->running = true;
          
-         while($this->ratelimits['remaining'] > 0 && \count($this->ratelimits['queue']) > 0) {
-             $element = \array_shift($this->ratelimits['queue']);
+         while($this->ratelimits['remaining'] > 0 && \count($this->queue) > 0) {
+             $element = \array_shift($this->queue);
              $this->ratelimits['remaining']--;
              
              if(!$this->ws) {
@@ -261,7 +271,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
              $element['resolve']();
          }
          
-         $this->ratelimits['running'] = false;
+         $this->running = false;
     }
     
     function setSessionID(string $id) {

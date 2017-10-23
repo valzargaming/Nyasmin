@@ -11,10 +11,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#guild-update
+ * @link https://discordapp.com/developers/docs/topics/gateway#user-update
  * @access private
  */
-class GuildUpdate {
+class UserUpdate {
     protected $client;
     protected $clones = false;
     
@@ -22,20 +22,20 @@ class GuildUpdate {
         $this->client = $client;
         
         $clones = (array) $this->client->getOption('disableClones', array());
-        $this->clones = !\in_array('messageUpdate', $clones);
+        $this->clones = !\in_array('userUpdate', $clones);
     }
     
     function handle(array $data) {
-        $guild = $this->client->guilds->get($data['id']);
-        if($guild) {
-            $oldGuild = null;
+        $user = $this->client->users->get($data['id']);
+        if($user) {
+            $oldUser = null;
             if($this->clones) {
-                $oldGuild = clone $guild;
+                $oldUser = clone $user;
             }
             
-            $guild->_patch($data);
+            $user->_patch($data);
             
-            $this->client->emit('guildUpdate', $guild, $oldGuild);
+            $this->client->emit('userUpdate', $user, $oldUser);
         }
     }
 }

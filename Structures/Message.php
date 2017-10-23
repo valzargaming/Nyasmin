@@ -13,7 +13,6 @@ namespace CharlotteDunois\Yasmin\Structures;
  * Represents a received message.
  */
 class Message extends Structure { //TODO: Implementation
-    
     protected $id;
     protected $author;
     protected $channel;
@@ -49,6 +48,8 @@ class Message extends Structure { //TODO: Implementation
         $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
         $this->pinned = (bool) $message['pinned'];
         $this->system = ($message['type'] > 0 ? true : false);
+        
+        $this->author->lastMessageID = $message['id'];
         
         $this->attachments = new \CharlotteDunois\Yasmin\Structures\Collection();
         foreach($message['attachments'] as $attachment) {
@@ -104,16 +105,25 @@ class Message extends Structure { //TODO: Implementation
                 $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
             }
         }
+        
+        $this->reactions = new \CharlotteDunois\Yasmin\Structures\Collection();
+        if(!empty($message['reactions'])) {
+            foreach($message['reactions'] as $reaction) {
+                $emoji = ($client->emojis->get($reaction['emoji']['id']) ?? (new \CharlotteDunois\Yasmin\Structures\Emoji($client, $this->channel->guild, $reaction['emoji'])));
+                $this->reactions->set($emoji->id, (new \CharlotteDunois\Yasmin\Structures\MessageReaction($client, $this, $emoji, $reaction)));
+            }
+        }
     }
     
     /**
      * @property-read string                                                              $id                 The message ID.
      * @property-read \CharlotteDunois\Yasmin\Structures\User                             $author             The user that created the message.
      * @property-read \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface             $channel            The channel this message was created in.
-     * @property-read \CharlotteDunois\Yasmin\structures\Guild|null                       $guild              The correspondending guild.
      * @property-read int                                                                 $createdTimestamp   The timestamp of when this message was created.
      *
      * @property-read \DateTime                                                           $createdAt          An DateTime object of the createdTimestamp.
+     * @property-read \CharlotteDunois\Yasmin\structures\Guild|null                       $guild              The correspondending guild (if message posted in a guild).
+     * @property-read \CharlotteDunois\Yasmin\structures\GuildMember|null                 $member              The correspondending guildmember of the author (if message posted in a guild).
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -126,6 +136,11 @@ class Message extends Structure { //TODO: Implementation
             break;
             case 'guild':
                 return $this->channel->guild;
+            break;
+            case 'member':
+                if($this->channel->guild) {
+                    return $this->channel->guild->members->get($this->author->id);
+                }
             break;
             case 'type':
                 return $this->channel->type;

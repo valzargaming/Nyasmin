@@ -13,7 +13,8 @@ class TextBasedChannel extends Structure
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
                 \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
                     
-    public $messages;
+    protected $messages;
+    protected $typings;
     
     protected $id;
     protected $type;
@@ -25,6 +26,7 @@ class TextBasedChannel extends Structure
         parent::__construct($client);
         
         $this->messages = new \CharlotteDunois\Yasmin\Structures\Collection();
+        $this->typings = new \CharlotteDunois\Yasmin\Structures\Collection();
         
         $this->id = $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPE[$channel['type']];
@@ -43,6 +45,9 @@ class TextBasedChannel extends Structure
                 if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
                     return $this->messages->get($this->lastMessageID);
                 }
+            break;
+            case 'messages':
+                return $this->messages;
             break;
         }
         
@@ -126,7 +131,7 @@ class TextBasedChannel extends Structure
                     $msg['embed'] = $options['embed'];
                 }
                 
-                $this->client->apimanager()->endpoints->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($resolve) {
                     $resolve($this->_createMessage($response));
                 }, $reject);
             });
@@ -154,15 +159,19 @@ class TextBasedChannel extends Structure
     }
     
     function typingCount() {
-        
+        return $this->typings->count();
     }
     
-    function typingIn($user) {
-        
+    function isTyping(\CharlotteDunois\Yasmin\Structures\User $user) {
+        return $this->typings->get($user->id);
     }
     
-    function isTypingSince($user) {
+    function isTypingSince(\CharlotteDunois\Yasmin\Structures\User $user) {
+        if($this->isTyping($user) === false) {
+            return -1;
+        }
         
+        return (\time() - $this->typings->get($user->id)['timestamp']);
     }
     
     function _createMessage(array $message) {
@@ -173,5 +182,21 @@ class TextBasedChannel extends Structure
         $msg = new \CharlotteDunois\Yasmin\Structures\Message($this->client, $this, $message);
         $this->messages->set($msg->id, $msg);
         return $msg;
+    }
+    
+    function _updateTyping(\CharlotteDunois\Yasmin\Structures\User $user, int $timestamp = null) {
+        if($timestamp === null) {
+            return $this->typings->delete($user->id);
+        }
+        
+        $timer = $this->client->addTimer(6, function ($client) use ($user) {
+            $this->typings->delete($user->id);
+            $client->emit('typingStop', $this, $user);
+        });
+        
+        $this->typings->set($user->id, array(
+            'timestamp' => (int) $timestamp,
+            'timer' => $timer
+        ));
     }
 }

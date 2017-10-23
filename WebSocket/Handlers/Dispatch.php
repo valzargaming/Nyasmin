@@ -43,7 +43,14 @@ class Dispatch {
             'MESSAGE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageUpdate',
             'MESSAGE_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageDelete',
             'MESSAGE_DELETE_BULK' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageDeleteBulk',
-            'PRESENCE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\PresenceUpdate'
+            'MESSAGE_REACTION_ADD' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageReactionAdd',
+            'MESSAGE_REACTION_REMOVE' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageReactionRemove',
+            'MESSAGE_REACTION_REMOVE_ALL' => '\CharlotteDunois\Yasmin\WebSocket\Events\MessageReactionRemoveAll',
+            'PRESENCE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\PresenceUpdate',
+            'TYPING_START' => '\CharlotteDunois\Yasmin\WebSocket\Events\TypingStart',
+            'USER_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\UserUpdate',
+            'VOICE_STATE_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\VoiceStateUpdate',
+            'VOICE_SERVER_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\VoiceServerUpdate'
         );
         
         $events = \array_diff($allEvents, (array) $this->wshandler->client->getOption('disabledEvents', array()));
@@ -61,11 +68,9 @@ class Dispatch {
     }
     
     function handle(array $packet) {
-        $this->wshandler->client->emit('debug', 'Received WS event '.$packet['t']);
-        
         if(isset($this->wsevents[$packet['t']])) {
             try {
-                if(in_array($packet['t'], $this->wshandler->client->getOption('disabledEvents', array()))) {
+                if(\in_array($packet['t'], $this->wshandler->client->getOption('disabledEvents', array()))) {
                     $this->wshandler->client->emit('debug', 'WS event '.$packet['t'].' is disabled, skipping...');
                     return;
                 }
@@ -73,9 +78,15 @@ class Dispatch {
                 $this->wshandler->client->emit('debug', 'Handling WS event '.$packet['t']);
                 
                 $this->wsevents[$packet['t']]->handle($packet['d']);
+            } catch(\Throwable $e) {
+                $this->wshandler->client->emit('error', $e);
             } catch(\Exception $e) {
                 $this->wshandler->client->emit('error', $e);
+            } catch(\Error $e) {
+                $this->wshandler->client->emit('error', $e);
             }
+        } else {
+            $this->wshandler->client->emit('debug', 'Received WS event '.$packet['t']);
         }
     }
     

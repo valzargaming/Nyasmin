@@ -11,10 +11,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#message-create
+ * @link https://discordapp.com/developers/docs/topics/gateway#message-reaction-remove-all
  * @access private
  */
-class MessageCreate {
+class MessageReactionRemoveAll {
     protected $client;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
@@ -24,14 +24,14 @@ class MessageCreate {
     function handle(array $data) {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
-            $message = $channel->_createMessage($data);
-            
-            if($message->guild && !$message->member) {
-                $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
-                    $this->client->emit('message', $message);
-                });
-            } else {
-                $this->client->emit('message', $message);
+            $message = $channel->messages->get($data['message_id']);
+            if($message) {
+                foreach($message->reactions->all() as &$reaction) {
+                    unset($reaction);
+                }
+                
+                $message->reactions->clear();
+                $this->client->emit('messageReactionRemoveAll', $message);
             }
         }
     }

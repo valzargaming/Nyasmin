@@ -26,7 +26,7 @@ class MessageDelete {
         if($channel) {
             $message = $channel->messages->get($data['id']);
             if($message) {
-                $channel->messages->delete($data['id']);
+                $channel->messages->delete($message->id);
                 $this->client->emit('messageDelete', $message);
             }
             

@@ -30,7 +30,8 @@ class MessageDeleteBulk {
             foreach($data['ids'] as $id) {
                 $message = $channel->messages->get($id);
                 if($message) {
-                    $messages->set($id, $message);
+                    $channel->messages->delete($message->id);
+                    $messages->set($message->id, $message);
                 }
                 
                 $messagesRaw[] = $id;

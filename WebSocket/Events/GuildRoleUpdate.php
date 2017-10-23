@@ -16,9 +16,13 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  */
 class GuildRoleUpdate {
     protected $client;
+    protected $clones = false;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
+        
+        $clones = (array) $this->client->getOption('disableClones', array());
+        $this->clones = !\in_array('roleUpdate', $clones);
     }
     
     function handle(array $data) {
@@ -26,10 +30,13 @@ class GuildRoleUpdate {
         if($guild) {
             $role = $guild->roles->get($data['role']['id']);
             if($role) {
-                $oldRole = clone $role;
+                $oldRole = null;
+                if($this->clones) {
+                    $oldRole = clone $role;
+                }
                 
                 $role->_patch($data['role']);
-                $this->client->emit('roleCreate', $role, $oldRole);
+                $this->client->emit('roleUpdate', $role, $oldRole);
             }
         }
     }

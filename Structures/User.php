@@ -18,11 +18,18 @@ class User extends Structure
     protected $bot;
     protected $avatar;
     protected $email;
+    protected $mfaEnabled;
     protected $verified;
     protected $webhook;
     protected $tag;
     
     protected $createdTimestamp;
+    
+    /**
+     * The last ID of the message the user sent while the client was online, or null.
+     * @var string|null
+     */
+    public $lastMessageID;
     
     /**
      * @access private
@@ -36,10 +43,9 @@ class User extends Structure
         $this->bot = (!empty($user['bot']));
         $this->avatar = $user['avatar'];
         $this->email = (!empty($user['email']) ? $user['email'] : '');
-        $this->verified = (!empty($user['verified']));
+        $this->mfaEnabled = (isset($user['mfa_enabled']) ? !empty($user['mfa_enabled']) : null);
+        $this->verified = (isset($user['verified']) ? !empty($user['verified']) : null);
         $this->webhook = $isWebhook;
-        
-        $this->tag = $this->username.'#'.$this->discriminator;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
@@ -51,16 +57,18 @@ class User extends Structure
      * @property-read boolean                                              $bot                Is the user a bot? Or are you a bot?
      * @property-read string                                               $avatar             The hash of the user's avatar.
      * @property-read string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
-     * @property-read boolean                                              $verified           I wonder if the user is verified.
+     * @property-read boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account.
+     * @property-read boolean|null                                         $verified           Whether the email on this account has been verified.
      * @property-read boolean                                              $webhook            Determines wether the user is a webhook or not.
-     * @property-read string                                               $tag                Username#Discriminator.
      * @property-read int                                                  $createdTimestamp   The timestamp of when this user was created.
      *
      * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
      * @property-read int                                                  $defaultAvatar      The identifier of the default avatar for this user.
      * @property-read \CharlotteDunois\Yasmin\Structures\DMChannel|null    $dmChannel          The DM channel for this user, if it exists.
+     * @property-read \CharlotteDunois\Yasmin\Structures\Message|null      $lastMessage        The laste message the user sent while the client was online, or null.
      * @property-read string|null                                          $notes              The notes of the Client User for this user. (User Accounts only)
      * @property-read \CharlotteDunois\Yasmin\Structures\Presence|null     $presence           The presence for this user.
+     * @property-read string                                               $tag                Username#Discriminator.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -102,6 +110,9 @@ class User extends Structure
                         return $presence;
                     }
                 }
+            break;
+            case 'tag':
+                return $this->username.'#'.$this->discriminator;
             break;
         }
         

@@ -30,21 +30,6 @@ class APIManager {
     protected $loop;
     
     /**
-     * @var \GuzzleHttp\Handler\CurlMultiHandler
-     */
-    protected $handler;
-    
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $http;
-    
-    /**
-     * @var \React\EventLoop\Timer\Timer
-     */
-    protected $timer;
-    
-    /**
      * @var \CharlotteDunois\Yasmin\HTTP\RatelimitBucket[]
      */
     protected $ratelimits = array();
@@ -93,13 +78,6 @@ class APIManager {
         $this->endpoints = new \CharlotteDunois\Yasmin\HTTP\APIEndpoints($this);
         
         $this->loop = $this->client->getLoop();
-        
-        $this->handler = new \GuzzleHttp\Handler\CurlMultiHandler();
-        $this->http = new \GuzzleHttp\Client(array(
-            'handler' => \GuzzleHttp\HandlerStack::create($this->handler)
-        ));
-        
-        $this->setTimer();
     }
     
     function __destruct() {
@@ -108,15 +86,11 @@ class APIManager {
     
     /**
      * @property-read \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
-     * @property-read \GuzzleHttp\Client                         $http       Guzzle HTTP Client.
      */
     function __get($name) {
         switch($name) {
             case 'endpoints':
                 return $this->endpoints;
-            break;
-            case 'http':
-                return $this->http;
             break;
         }
         
@@ -140,8 +114,6 @@ class APIManager {
             $bucket->clear();
             unset($bucket);
         }
-        
-        $this->stopTimer();
         
         $this->limited = false;
         $this->resetTime = 0;
@@ -251,7 +223,7 @@ class APIManager {
         return new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
             try {
                 $request = $gateway->request();
-                $response = $this->http->send($request);
+                $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::getHTTPClient()->send($request);
                 
                 $status = $response->getStatusCode();
                 $body = \json_decode($response->getBody(), true);
@@ -266,27 +238,6 @@ class APIManager {
                 $reject($e);
             }
         });
-    }
-    
-    /**
-     * Sets the Guzzle timer.
-     */
-    function setTimer() {
-        if(!$this->timer) {
-            $this->timer = $this->client->addPeriodicTimer(0, \Closure::bind(function () use (&$class) {
-                $this->tick();
-            }, $this->handler, $this->handler), true);
-        }
-    }
-    
-    /**
-     * Cancels the Guzzle timer and unsets it.
-     */
-    function stopTimer() {
-        if($this->timer) {
-            $this->timer->cancel();
-            $this->timer = null;
-        }
     }
     
     /**
@@ -361,7 +312,7 @@ class APIManager {
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().'"');
         
         $request = $item->request();
-        $this->http->sendAsync($request, $request->requestOptions)->then(function ($response) {
+        \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) {
             return $response;
         }, function ($error) use ($item) {
             if($error->hasResponse()) {

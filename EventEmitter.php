@@ -158,7 +158,15 @@ class EventEmitter {
         
         if(isset($this->listeners[$event])) {
             foreach($this->listeners[$event] as $listener) {
-                $listener(...$arguments);
+                try {
+                    $listener(...$arguments);
+                } catch(\Throwable $e) {
+                    $this->emit('error', $e);
+                } catch(\Exception $e) {
+                    $this->emit('error', $e);
+                } catch(\Error $e) {
+                    $this->emit('error', $e);
+                }
             }
         }
         
@@ -166,7 +174,15 @@ class EventEmitter {
             $listeners = $this->onceListeners[$event];
             unset($this->onceListeners[$event]);
             foreach($listeners as $listener) {
-                $listener(...$arguments);
+                try {
+                    $listener(...$arguments);
+                } catch(\Throwable $e) {
+                    $this->emit('error', $e);
+                } catch(\Exception $e) {
+                    $this->emit('error', $e);
+                } catch(\Error $e) {
+                    $this->emit('error', $e);
+                }
             }
         }
     }

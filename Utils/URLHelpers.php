@@ -29,6 +29,14 @@ class URLHelpers {
         ));
     }
     
+    static function getHTTPClient() {
+        if(!self::$http) {
+            self::setHTTPClient();
+        }
+        
+        return self::$http;
+    }
+    
     /**
      * Sets the Guzzle timer.
      */
@@ -36,15 +44,7 @@ class URLHelpers {
         if(!self::$timer) {
             self::$timer = self::$loop->addPeriodicTimer(0, \Closure::bind(function () {
                 $this->tick();
-                
-                try {
-                    if(empty($this->handles) && \GuzzleHttp\Promise\queue()->isEmpty()) {
-                        URLHelpers::stopTimer();
-                    }
-                } catch(\BadMethodCallException $e) {
-                    URLHelpers::stopTimer();
-                }
-            }, self::$handler, self::$handler), true);
+            }, self::$handler, self::$handler));
         }
     }
     
@@ -56,6 +56,16 @@ class URLHelpers {
             self::$timer->cancel();
             self::$timer = null;
         }
+    }
+    
+    static function makeRequest(\GuzzleHttp\Psr7\Request $request, array $requestOptions = null) {
+        if(!self::$http) {
+            self::setHTTPClient();
+        }
+        
+        self::setTimer();
+        
+        return self::$http->sendAsync($request, $requestOptions);
     }
     
     static function resolveURLToData($url) {

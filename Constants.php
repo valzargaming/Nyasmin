@@ -11,11 +11,17 @@ namespace CharlotteDunois\Yasmin;
 
 /**
  * Holds all constants.
- * @access private
  */
 class Constants {
+    /**
+     * The version of Yasmin.
+     */
     const VERSION = '0.0.1';
     
+    /**
+     * WS OP codes.
+     * @access private
+     */
     const OPCODES = array(
         'DISPATCH' => 0,
         'HEARTBEAT' => 1,
@@ -44,6 +50,10 @@ class Constants {
         11 => 'HEARTBEAT_ACK'
     );
     
+    /**
+     * CDN constants.
+     * @access private
+     */
     const CDN = array(
         'url' => 'https://cdn.discordapp.com/',
         'emojis' => 'emojis/%s.png',
@@ -54,24 +64,55 @@ class Constants {
         'appicons' => 'app-icons/%s/%s.png'
     );
     
+    /**
+     * HTTP constants.
+     * @access private
+     */
     const HTTP = array(
         'url' => 'https://discordapp.com/api/',
         'version' => 7,
         'invite' => 'https://discord.gg'
     );
     
+    /**
+     * WS constants.
+     * @access private
+     */
     const WS = array(
         'baseurl' => 'wss://gateway.discord.gg/',
         'encoding' => 'json',
         'version' => 6
     );
     
+    /**
+     * WS connection status: Disconnected.
+     */
     const WS_STATUS_DISCONNECTED = 0;
+    
+    /**
+     * WS connection status: Connecting.
+     */
     const WS_STATUS_CONNECTING = 1;
+    
+    /**
+     * WS connection status: Reconnecting.
+     */
     const WS_STATUS_RECONNECTING = 2;
+    
+    /**
+     * WS connection status: Connected.
+     */
     const WS_STATUS_CONNECTED = 3;
+    
+    /**
+     * WS connection status: Idling (disconnected and no reconnect planned).
+     */
     const WS_STATUS_IDLE = 5;
     
+    /**
+     * Channel Types.
+     * @access private
+     */
     const CHANNEL_TYPE = array(
         0 => 'text',
         1 => 'dm',
@@ -80,11 +121,19 @@ class Constants {
         4 => 'category',
     );
     
+    /**
+     * Game Types.
+     * @access private
+     */
     const GAME_TYPES = array(
         0 => 'Playing',
         1 => 'Streaming'
     );
     
+    /**
+     * Endpoints Channels.
+     * @access private
+     */
     const ENDPOINTS_CHANNELS = array(
         'get' => 'channels/%s',
         'modify' => 'channels/%s',
@@ -124,6 +173,10 @@ class Constants {
         )
     );
     
+    /**
+     * Endpoints Emojis.
+     * @access private
+     */
     const ENDPOINTS_EMOJIS = array(
         'list' => 'guilds/%s/emojis',
         'get' => 'guilds/%s/emojis/%s',
@@ -132,6 +185,10 @@ class Constants {
         'delete' => 'guilds/%s/emojis/%s'
     );
     
+    /**
+     * Endpoints Guilds.
+     * @access private
+     */
     const ENDPOINTS_GUILDS = array(
         'get' => 'guilds/%s',
         'modify' => 'guilds/%s',
@@ -187,12 +244,20 @@ class Constants {
         'audit-logs' => 'guilds/%s/audit-logs'
     );
     
+    /**
+     * Endpoints Invites.
+     * @access private
+     */
     const ENDPOINTS_INVITES = array(
         'get' => 'invites/%s',
         'delete' => 'invites/%s',
         'accept' => 'invites/%s'
     );
     
+    /**
+     * Endpoints Users.
+     * @access private
+     */
     const ENDPOINTS_USERS = array(
         'get' => 'users/%s',
         'current' => array(
@@ -207,10 +272,18 @@ class Constants {
         )
     );
     
-    const ENDPOINTS_VOICES = array(
+    /**
+     * Endpoints Voice.
+     * @access private
+     */
+    const ENDPOINTS_VOICE = array(
         'regions' => 'voice/regions'
     );
     
+    /**
+     * Endpoints Webhooks.
+     * @access private
+     */
     const ENDPOINTS_WEBHOOKS = array(
         'create' => 'channels/%s/webhooks',
         'channels' => 'channels/%s/webhooks',
@@ -224,6 +297,50 @@ class Constants {
         'execute' => 'webhooks/%s/%s'
     );
     
+    /**
+     * Available Permissions in Discord.
+     */
+    const PERMISSIONS = array(
+        'CREATE_INSTANT_INVITE' => 1 << 0,
+        'KICK_MEMBERS' => 1 << 1,
+        'BAN_MEMBERS' => 1 << 2,
+        'ADMINISTRATOR' => 1 << 3,
+        'MANAGE_CHANNELS' => 1 << 4,
+        'MANAGE_GUILD' => 1 << 5,
+        'ADD_REACTIONS' => 1 << 6,
+        'VIEW_AUDIT_LOG' => 1 << 7,
+
+        'VIEW_CHANNEL' => 1 << 10,
+        'SEND_MESSAGES' => 1 << 11,
+        'SEND_TTS_MESSAGES' => 1 << 12,
+        'MANAGE_MESSAGES' => 1 << 13,
+        'EMBED_LINKS' => 1 << 14,
+        'ATTACH_FILES' => 1 << 15,
+        'READ_MESSAGE_HISTORY' => 1 << 16,
+        'MENTION_EVERYONE' => 1 << 17,
+        'USE_EXTERNAL_EMOJIS' => 1 << 18,
+
+        'CONNECT' => 1 << 20,
+        'SPEAK' => 1 << 21,
+        'MUTE_MEMBERS' => 1 << 22,
+        'DEAFEN_MEMBERS' => 1 << 23,
+        'MOVE_MEMBERS' => 1 << 24,
+        'USE_VAD' => 1 << 25,
+
+        'CHANGE_NICKNAME' => 1 << 26,
+        'MANAGE_NICKNAMES' => 1 << 27,
+        'MANAGE_ROLES' => 1 << 28,
+        'MANAGE_WEBHOOKS' => 1 << 29,
+        'MANAGE_EMOJIS' => 1 << 30
+    );
+    
+    /**
+     * Formats Endpoints strings.
+     * @param  string  $endpoint
+     * @param  string  $args
+     * @return string
+     * @access private
+     */
     static function format(string $endpoint, ...$args) {
         return sprintf($endpoint, ...$args);
     }

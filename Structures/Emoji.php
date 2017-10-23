@@ -27,22 +27,26 @@ class Emoji extends Structure { //TODO: Implementation
     /**
      * @access private
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild, array $emoji) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Structures\Guild $guild = null, array $emoji) {
         parent::__construct($client);
         $this->guild = $guild;
         
         $this->id = $emoji['id'];
-        $this->name = $emoji['name'];
+        $this->name = $emoji['name'] ?? '';
         $this->user = (!empty($emoji['user']) ? $client->users->patch($emoji['user']) : null);
-        $this->requireColons = $emoji['require_colons'];
-        $this->managed = $emoji['managed'];
+        $this->requireColons = $emoji['require_colons'] ?? true;
+        $this->managed = $emoji['managed'] ?? false;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         $this->roles = new \CharlotteDunois\Yasmin\Structures\Collection();
         
-        foreach($emoji['roles'] as $role) {
-            $this->roles->set($role['id'], $this->guild->roles->get($role['id']));
+        if(!empty($emoji['roles'])) {
+            foreach($emoji['roles'] as $role) {
+                $this->roles->set($role['id'], $this->guild->roles->get($role['id']));
+            }
         }
+        
+        $client->emojis->set($this->id, $this);
     }
     
     /**

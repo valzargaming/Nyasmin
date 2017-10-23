@@ -46,4 +46,13 @@ class Collection extends \CharlotteDunois\Collect\Collection { //TODO: Docs
     function delete($key) {
         return $this->forget($key);
     }
+    
+    /**
+     * Clears the Collection.
+     * @return this
+     */
+    function clear() {
+        $this->data = array();
+        return $this;
+    }
 }
