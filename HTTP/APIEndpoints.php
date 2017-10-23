@@ -71,39 +71,4 @@ class APIEndpoints {
         $this->voice = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Voice($api);
         $this->webhook = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook($api);
     }
-    
-    /**
-     * @access private
-     */
-    function __call($name, $arguments) {
-        if(method_exists($this->channel, $name)) {
-            return $this->channel->$name(...$arguments);
-        }
-        
-        if(method_exists($this->emoji, $name)) {
-            return $this->emoji->$name(...$arguments);
-        }
-        
-        if(method_exists($this->guild, $name)) {
-            return $this->guild->$name(...$arguments);
-        }
-        
-        if(method_exists($this->invite, $name)) {
-            return $this->invite->$name(...$arguments);
-        }
-        
-        if(method_exists($this->user, $name)) {
-            return $this->user->$name(...$arguments);
-        }
-        
-        if(method_exists($this->voice, $name)) {
-            return $this->voice->$name(...$arguments);
-        }
-        
-        if(method_exists($this->webhook, $name)) {
-            return $this->webhook->$name(...$arguments);
-        }
-        
-        throw new \Exception('API Endpoints method "'.$name.'" does not exist.');
-    }
 }

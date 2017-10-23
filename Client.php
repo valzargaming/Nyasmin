@@ -321,7 +321,7 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function fetchUser(string $userid) {
         return new \React\Promise\Promise(function (callable $resolve, $reject) use  ($userid) {
-            $this->api->endpoints->getUser($userid)->then(function ($user) use ($resolve) {
+            $this->api->endpoints->user->getUser($userid)->then(function ($user) use ($resolve) {
                 $user = $this->users->factory($user);
                 $resolve($user);
             }, $reject);

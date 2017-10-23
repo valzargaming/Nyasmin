@@ -71,14 +71,15 @@ $client->on('message', function ($message) use ($client) {
                 $result = eval($code);
                 
                 if(!($result instanceof \React\Promise\Promise)) {
-                    $result = \React\Promise\resolve($result);
-                }
-                
-                $result->then(function ($result) use ($code, $message) {
                     if(!$result) {
                         $result = @\ob_get_clean();
                     }
                     
+                    $result = \React\Promise\resolve($result);
+                }
+                
+                $result->then(function ($result) use ($code, $message) {
+                    @\ob_clean();
                     \var_dump($result);
                     $result = @\ob_get_clean();
                     $result = \explode("\n", \str_replace("\r", "", $result));
