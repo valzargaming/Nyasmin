@@ -123,6 +123,11 @@ class ClientUser extends User { //TODO: Implementation
         );
         
         $this->clientPresence = $packet['d'];
+        $presence = $this->presence;
+        if($presence) {
+            $presence->_patch($this->clientPresence);
+        }
+        
         return $this->client->wsmanager()->send($packet);
     }
 }
