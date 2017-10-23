@@ -26,8 +26,10 @@ class MessageCreate {
         if($channel) {
             $message = $channel->_createMessage($data);
             
-            if($message->guild && !$message->member) {
+            if($message->guild && !$message->member && !$message->author->webhook) {
                 $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
+                    $this->client->emit('message', $message);
+                }, function () use ($message) {
                     $this->client->emit('message', $message);
                 });
             } else {
