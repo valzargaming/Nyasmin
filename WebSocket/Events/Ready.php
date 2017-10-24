@@ -16,7 +16,6 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  */
 class Ready {
     protected $client;
-    protected $countGuilds = 0;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
@@ -31,10 +30,24 @@ class Ready {
             $this->client->emit('channelCreate', $channel);
         }
         
-        $guilds = \count($data['guilds']);
-        $this->client->wsmanager()->on('guildCreate', function () use ($guilds) {
-            $this->countGuilds++;
-            if($this->countGuilds >= $guilds) {
+        foreach($data['guilds'] as $guild) {
+            $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $guild);
+            $this->client->guilds->set($guild->id, $guild);
+        }
+        
+        $this->client->wsmanager()->on('guildCreate', function () {
+            if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                return;
+            }
+            
+            $unavailableGuilds = 0;
+            foreach($this->client->guilds->all() as $guild) {
+                if($guild->available === false) {
+                    $unavailableGuilds++;
+                }
+            }
+            
+            if($unavailableGuilds === 0) {
                 $this->client->wsmanager()->emit('ready');
             }
         });

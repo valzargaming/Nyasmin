@@ -100,9 +100,14 @@ class Constants {
     const WS_STATUS_RECONNECTING = 2;
     
     /**
-     * WS connection status: Connected.
+     * WS connection status: Connected (not ready yet - nearly).
      */
-    const WS_STATUS_CONNECTED = 3;
+    const WS_STATUS_NEARLY = 3;
+    
+    /**
+     * WS connection status: Connected (ready).
+     */
+    const WS_STATUS_CONNECTED = 4;
     
     /**
      * WS connection status: Idling (disconnected and no reconnect planned).

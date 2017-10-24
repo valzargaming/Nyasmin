@@ -286,8 +286,9 @@ class Client extends EventEmitter { //TODO: Implementation
             }
             
             $gateway->then(function ($url) use ($resolve, $reject) {
+                $url = \rtrim($url, '/');
                 $this->gateway = $url;
-                $url .= '?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
+                $url .= '/?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
                 
                 $this->ws->connect($url)->then($resolve, $reject);
                 $this->ws->once('ready', function () {

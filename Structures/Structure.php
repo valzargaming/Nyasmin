@@ -91,7 +91,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     /**
      * @access private
      */
-    function _patch(array $data, bool $makeSubClone = false) {
+    function _patch(array $data) {
         foreach($data as $key => $val) {
             $key = \lcfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $key))));
             
@@ -108,10 +108,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
                 } else {
                     if(\is_object($this->$key)) {
                         if(\is_array($val)) {
-                            if($makeSubClone) {
-                                $this->$key = clone $this->$key;
-                            }
-                            
+                            $this->$key = clone $this->$key;
                             $this->$key->_patch($val, $makeSubClone);
                         } else {
                             //TODO: Implementation

@@ -21,10 +21,11 @@ class Guild extends Structure { //TODO: Implementation
     protected $voiceStates;
     
     protected $id;
+    protected $available;
+    
     protected $name;
     protected $icon;
     protected $splash;
-    protected $unavailable;
     protected $ownerID;
     protected $large;
     protected $memberCount = 0;
@@ -48,6 +49,9 @@ class Guild extends Structure { //TODO: Implementation
     
     protected $createdTimestamp;
     
+    /**
+     * @access private
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild) {
         parent::__construct($client);
         
@@ -61,10 +65,22 @@ class Guild extends Structure { //TODO: Implementation
         $this->voiceStates = new \CharlotteDunois\Yasmin\Structures\Collection();
         
         $this->id = $guild['id'];
+        $this->available = (empty($guild['unavailable']));
+        
+        if($this->available) {
+            $this->_patch($guild);
+        }
+        
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+    }
+    
+    /**
+     * @access private
+     */
+    function _patch(array $guild) {
         $this->name = $guild['name'];
         $this->icon = $guild['icon'];
         $this->splash = $guild['splash'];
-        $this->unavailable = (!empty($guild['unavailable']));
         $this->ownerID = $guild['owner_id'];
         $this->large =  $guild['large'] ?? $this->large;
         $this->memberCount = $guild['member_count']  ?? $this->memberCount;
@@ -119,8 +135,6 @@ class Guild extends Structure { //TODO: Implementation
                 $this->voiceStates->set($state['user_id'], $voice);
             }
         }
-        
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
     
     function __get($name) {
@@ -137,10 +151,31 @@ class Guild extends Structure { //TODO: Implementation
         return null;
     }
     
+    /**
+     * Fetches a specific guild member.
+     * @param string  $userid  The ID of the guild member.
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\GuildMember>
+     */
     function fetchMember(string $userid) {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
             $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
-                return $this->_addMember($data);
+                $resolve($this->_addMember($data));
+            }, $reject);
+        });
+    }
+    
+    /**
+     * Fetches all guild members.
+     * @return \React\Promise\Promise<this>
+     */
+    function fetchMembers() {
+        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->guild->listGuildMembers($this->id)->then(function ($data) use ($resolve) {
+                foreach($data as $user) {
+                    $this->_addMember($user);
+                }
+                
+                $resolve($this);
             }, $reject);
         });
     }

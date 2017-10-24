@@ -117,7 +117,7 @@ class Snowflake { //TODO: 64bit
         
         $retval = '';
         
-        if($toBase == 10) {
+        if($toBase === 10) {
             $retval = 0;
             for ($i = 1; $i <= $numberLen; $i++) {
                 $retval = \bcadd($retval, \bcmul(\array_search($number[($i - 1)], $fromBaseArr), \bcpow($fromBase, ($numberLen - $i))));
@@ -126,19 +126,19 @@ class Snowflake { //TODO: 64bit
             return $retval;
         }
         
-        if($fromBase != 10) {
-            $base10 = self::convertBase($input, $fromBase, 10);
+        if($fromBase !== 10) {
+            $base10 = (int) self::convertBase($input, $fromBase, 10);
         } else {
-            $base10 = $input;
+            $base10 = (int) $input;
         }
         
         if($base10 < $toBase) {
             return $toBaseArr[$base10];
         }
         
-        while($base10 != '0') {
+        while($base10 !== 0) {
             $retval = $toBaseArr[\bcmod($base10, $toBase)].$retval;
-            $base10 = \bcdiv($base10, $toBase, 0);
+            $base10 = (int) \bcdiv($base10, $toBase, 0);
         }
         
         return $retval;

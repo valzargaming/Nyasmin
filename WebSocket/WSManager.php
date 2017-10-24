@@ -146,7 +146,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         return $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) {
             $this->ws = &$conn;
             
-            $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
+            $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
+            
+            $this->on('ready', function () {
+                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
+            });
             
             $this->emit('open');
             $this->client->emit('debug', 'Connected to WS');
@@ -235,7 +239,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     
     function send(array $packet) {
         return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
-            if($this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+            if($this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY && $this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                 return $reject(new \Exception('Can not send WS message before a WS connection is established'));
             }
             
