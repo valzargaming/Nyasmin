@@ -389,18 +389,6 @@ class Client extends EventEmitter { //TODO: Implementation
     }
     
     /**
-     * Emit an event.
-     * @access private
-     */
-    function emit($name, ...$args) {
-        if($name === 'debug' && $this->getOption('disableDebugEvent', false) === true) {
-            return;
-        }
-        
-        parent::emit($name, ...$args);
-    }
-    
-    /**
      * Validates the passed client options.
      * @param array
      * @throws \Exception

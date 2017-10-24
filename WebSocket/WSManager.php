@@ -377,12 +377,4 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->client->emit('debug', 'Sending WS packet with OP code '.$packet['op']);
         return $this->ws->send(json_encode($packet));
     }
-    
-    function emit($name, ...$args) {
-        if($name === 'debug' && $this->client->getOption('disableDebugEvent', false) === true) {
-            return;
-        }
-        
-        parent::emit($name, ...$args);
-    }
 }

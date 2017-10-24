@@ -109,7 +109,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
                     if(\is_object($this->$key)) {
                         if(\is_array($val)) {
                             $this->$key = clone $this->$key;
-                            $this->$key->_patch($val, $makeSubClone);
+                            $this->$key->_patch($val);
                         } else {
                             //TODO: Implementation
                             $this->client->emit('debug', 'Manual update of '.$key.' in '.\get_class($this).' required');
