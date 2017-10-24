@@ -140,7 +140,7 @@ class User extends Structure
     
     /**
      * Deletes an existing DM channel to this user.
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function deleteDM() { //TODO
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -200,7 +200,7 @@ class User extends Structure
     
     /**
      * Set notes for this user. (User Accounts only)
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function setNote(string $note) { //TODO: User Account only
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {

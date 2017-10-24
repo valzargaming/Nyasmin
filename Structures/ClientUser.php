@@ -59,7 +59,7 @@ class ClientUser extends User { //TODO: Implementation
     /**
      * Set your status.
      * @param string $status  Valid values are: online, idle, dnd and offline.
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function setStatus(string $status) {
         $presence = array(
@@ -73,7 +73,7 @@ class ClientUser extends User { //TODO: Implementation
      * Set your playing game.
      * @param string       $name  The game name.
      * @param string|void  $url   If you're streaming, this is the url to the stream.
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function setGame(string $name, string $url = '') {
         $presence = array(
@@ -109,7 +109,7 @@ class ClientUser extends User { //TODO: Implementation
      *  Any field in the first dimension is optional and will be automatically filled with the last known value.
      *
      * @param array $presence
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function setPresence(array $presence) {
         $packet = array(

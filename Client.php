@@ -265,7 +265,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been established (does not mean the client is ready).
      * @param string $token  Your token.
      * @param bool   $force  Forces the client to get the gateway address from Discord.
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function login(string $token, bool $force = false) {
         $this->token = $token;
@@ -300,7 +300,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Cleanly logs out of Discord.
-     * @return \React\Promise\Promise<null>
+     * @return \React\Promise\Promise<void>
      */
     function destroy() {
         return (new \React\Promise\Promise(function (callable $resolve) {

@@ -79,6 +79,31 @@ class TextChannel extends TextBasedChannel
     }
     
     /**
+     * Edits the channel.
+     * @param array   $options
+     * @param string  $reason
+     * @return \React\Promise\Promise<this>
+     * @throws \Exception
+     */
+    function edit(array $options, string $reason = '') {
+        
+    }
+    
+    /**
+     * Deletes the channel.
+     * @param string  $reason
+     * @return \React\Promise\Promise<void>
+     * @throws \Exception
+     */
+    function delete(string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->channel->deleteChannel($this->id, $reason)->then(function () use ($resolve) {
+                $resolve();
+            }, $reject);
+        }));
+    }
+    
+    /**
      * Returns the permissions for the given member.
      * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Structures\Permissions
@@ -178,6 +203,28 @@ class TextChannel extends TextBasedChannel
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($member, $options, $reason) {
             
         }));
+    }
+    
+    /**
+     * Locks in the permission overwrites from the parent channel.
+     * @return \React\Promise\Promise<this>
+     * @throws \Exception
+     */
+    function lockPermissions() {
+        if(!$this->__get('parent')) {
+            throw new \Exception('This channel does not have a parent');
+        }
+        
+        $overwrites = \array_values($this->__get('parent')->permissionsOverwrites->map(function ($overwrite) {
+            return array(
+                'id' => $overwrite->id,
+                'type' => $overwrite->type,
+                'allow' => $overwrite->allow->bitfield,
+                'deny' => $overwrite->deny->bitfield
+            );
+        })->all());
+        
+        return $this->edit(array('permissionsOverwrites' => $overwrites));
     }
     
     /**
