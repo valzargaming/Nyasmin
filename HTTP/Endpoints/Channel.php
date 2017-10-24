@@ -33,14 +33,14 @@ class Channel {
         return $this->api->makeRequest('GET', $url, array());
     }
     
-    function modifyChannel(string $channelid, array $data) {
+    function modifyChannel(string $channelid, array $data, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['modify'], $channelid);
-        return $this->api->makeRequest('PATCH', $url, array('data' => $data));
+        return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $data));
     }
     
-    function deleteChannel(string $channelid) {
+    function deleteChannel(string $channelid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['delete'], $channelid);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function getChannelMessages(string $channelid, array $options = array()) {
@@ -63,14 +63,14 @@ class Channel {
         return $this->api->makeRequest('PATCH', $url, array('data' => $options));
     }
     
-    function deleteMessage(string $channelid, string $messageid) {
+    function deleteMessage(string $channelid, string $messageid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['messages']['delete'], $channelid, $messageid);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
-    function bulkDeleteMessages(string $channelid, array $snowflakes) {
+    function bulkDeleteMessages(string $channelid, array $snowflakes, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['messages']['bulkDelete'], $channelid);
-        return $this->api->makeRequest('DELETE', $url, array('data' => array('messages' => $snowflakes)));
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason, 'data' => array('messages' => $snowflakes)));
     }
     
     function createMessageReaction(string $channelid, string $messageid, string $emoji) {
@@ -98,14 +98,14 @@ class Channel {
         return $this->api->makeRequest('DELETE', $url, array());
     }
     
-    function editChannelPermissions(string $channelid, string $overwriteid, array $options) {
+    function editChannelPermissions(string $channelid, string $overwriteid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['permissions']['edit'], $channelid, $overwriteid);
-        return $this->api->makeRequest('PUT', $url, array('data' => $options));
+        return $this->api->makeRequest('PUT', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function deleteChannelPermission(string $channelid, string $overwriteid) {
+    function deleteChannelPermission(string $channelid, string $overwriteid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['permissions']['delete'], $channelid, $overwriteid);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function getChannelInvites(string $channelid) {

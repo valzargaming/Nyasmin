@@ -82,7 +82,7 @@ class ChannelStorage extends Collection
                 $channel = new \CharlotteDunois\Yasmin\Structures\GroupDMChannel($this->client, $data);
             break;
             case 4:
-                $channel = new \CharlotteDunois\Yasmin\Structures\ChannelCategory($this->client, $guild, $data);
+                $channel = new \CharlotteDunois\Yasmin\Structures\CategoryChannel($this->client, $guild, $data);
             break;
         }
         

@@ -13,6 +13,7 @@ namespace CharlotteDunois\Yasmin\Structures;
  * Permissions. Something fabulous.
  */
 class Permissions extends Structure { //TODO: Docs
+    const ALL = 2146958591;
     protected $bitfield;
     
     /**
@@ -37,9 +38,10 @@ class Permissions extends Structure { //TODO: Docs
     
     /**
      * Checks if a given permission is granted.
-     * @param array|string|int  $permissions
+     * @param array|int|string  $permissions
      * @param boolean           $checkAdmin
      * @return boolean
+     * @throws \Exception
      */
     function has($permissions, bool $checkAdmin = true) {
         if(!\is_array($permissions)) {
@@ -62,12 +64,47 @@ class Permissions extends Structure { //TODO: Docs
     
     /**
      * Checks if a given permission is missing.
-     * @param array|string|int  $permissions
+     * @param array|int|string  $permissions
      * @param boolean           $checkAdmin
      * @return boolean
+     * @throws \Exception
      */
     function missing($permissions, bool $checkAdmin = true) {
         return !$this->has($permissions, $checkAdmin);
+    }
+    
+    /**
+     * Adds permissions to these ones.
+     * @param int|string  $permissions
+     * @return this
+     * @throws \Exception
+     */
+    function add(...$permissions) {
+        $total = 0;
+        foreach($permissions as $perm) {
+            $perm = self::resolve($perm);
+            $total |= $perm;
+        }
+        
+        $this->bitfield |= $perm;
+        return $this;
+    }
+    
+    /**
+     * Removes permissions from these ones.
+     * @param int|string  $permissions
+     * @return this
+     * @throws \Exception
+     */
+    function remove(...$permissions) {
+        $total = 0;
+        foreach($permissions as $perm) {
+            $perm = self::resolve($perm);
+            $total |= $perm;
+        }
+        
+        $this->bitfield &= ~$perm;
+        return $this;
     }
     
     /**

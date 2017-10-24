@@ -55,31 +55,31 @@ class TextBasedChannel extends Structure
     }
     
     function acknowledge() {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function awaitMessages(callable $filter, array $options = array()) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function bulkDelete($messages) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function search(array $options = array()) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function send(string $message, array $options = array()) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
             if(!empty($options['files'])) {
                 $promises = array();
                 foreach($options['files'] as $file) {
@@ -135,19 +135,19 @@ class TextBasedChannel extends Structure
                     $resolve($this->_createMessage($response));
                 }, $reject);
             });
-        });
+        }));
     }
     
     function isRecipient($user) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function startTyping() {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function stopTyping(bool $force = false) {

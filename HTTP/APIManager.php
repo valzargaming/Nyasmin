@@ -137,7 +137,7 @@ class APIManager {
      * @return \React\Promise\Promise
      */
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
-        return new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
             $apirequest->deferred = new \React\Promise\Deferred();
             $apirequest->deferred->promise()->then($resolve, $reject);
             
@@ -153,7 +153,7 @@ class APIManager {
             }
             
             $this->processQueue();
-        });
+        }));
     }
     
     /**
@@ -220,7 +220,7 @@ class APIManager {
     function getGatewaySync($bot = false) {
         $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
         
-        return new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
             try {
                 $request = $gateway->request();
                 $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::getHTTPClient()->send($request);
@@ -237,7 +237,7 @@ class APIManager {
             } catch(\Exception $e) {
                 $reject($e);
             }
-        });
+        }));
     }
     
     /**

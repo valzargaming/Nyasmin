@@ -35,42 +35,42 @@ class Webhook {
     
     function getChannelWebhooks(string $channelid) {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['channels'], $channelid);
-        return $this->api->makeRequest('GET', $url, array());
+        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
     }
     
-    function getGuildsWebhooks(string $guildid) {
+    function getGuildsWebhooks(string $guildid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['guilds'], $guildid);
-        return $this->api->makeRequest('GET', $url, array());
+        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
     }
     
-    function getWebhook(string $webhookid) {
+    function getWebhook(string $webhookid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['get'], $webhookid);
-        return $this->api->makeRequest('GET', $url, array());
+        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
     }
     
-    function getWebhookToken(string $webhookid, string $token) {
+    function getWebhookToken(string $webhookid, string $token, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['getToken'], $webhookid, $token);
-        return $this->api->makeRequest('GET', $url, array());
+        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
     }
     
-    function modifyWebhook(string $webhookid, array $options) {
+    function modifyWebhook(string $webhookid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['modify'], $webhookid);
-        return $this->api->makeRequest('PATCH', $url, array('data' => $options));
+        return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function modifyWebhookToken(string $webhookid, string $token, array $options) {
+    function modifyWebhookToken(string $webhookid, string $token, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['modifyToken'], $webhookid, $token);
-        return $this->api->makeRequest('PATCH', $url, array('data' => $options));
+        return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function deleteWebhook(string $webhookid) {
+    function deleteWebhook(string $webhookid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['delete'], $webhookid);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
-    function deleteWebhookToken(string $webhookid, string $token) {
+    function deleteWebhookToken(string $webhookid, string $token, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['deleteToken'], $webhookid, $token);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function executeWebhook(string $webhookid, string $token, array $options, array $files = array()) {

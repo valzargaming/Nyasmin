@@ -38,18 +38,18 @@ class Emoji {
         return $this->api->makeRequest('GET', $url, array());
     }
     
-    function createGuildEmoji(string $guildid, array $options) {
+    function createGuildEmoji(string $guildid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_EMOJIS['create'], $guildid);
-        return $this->api->makeRequest('POST', $url, array('data' => $options));
+        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function modifyGuildEmoji(string $guildid, string $emojiid, array $options) {
+    function modifyGuildEmoji(string $guildid, string $emojiid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_EMOJIS['modify'], $guildid, $emojiid);
-        return $this->api->makeRequest('PATCH', $url, array('data' => $options));
+        return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function deleteGuildEmoji(string $guildid, string $emojiid) {
+    function deleteGuildEmoji(string $guildid, string $emojiid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_EMOJIS['delete'], $guildid, $emojiid);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
 }

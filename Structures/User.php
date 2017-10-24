@@ -130,12 +130,12 @@ class User extends Structure
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\DMChannel|null>
      */
     function createDM() { //TODO
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
             if($channel) {
                 return $resolve($channel);
             }
-        });
+        }));
     }
     
     /**
@@ -143,12 +143,12 @@ class User extends Structure
      * @return \React\Promise\Promise<null>
      */
     function deleteDM() { //TODO
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
             if(!$channel) {
                 return $resolve();
             }
-        });
+        }));
     }
     
     /**
@@ -193,9 +193,9 @@ class User extends Structure
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\Userprofile>
      */
     function fetchProfile() {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     /**
@@ -203,9 +203,9 @@ class User extends Structure
      * @return \React\Promise\Promise<null>
      */
     function setNote(string $note) { //TODO: User Account only
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             
-        });
+        }));
     }
     
     function acknowledge() {
@@ -214,9 +214,9 @@ class User extends Structure
             return \React\Promise\resolve();
         }
         
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel) {
             
-        });
+        }));
     }
     
     function awaitMessages(callable $filter, array $options = array()) {
@@ -227,11 +227,11 @@ class User extends Structure
             $channel = $this->createDM();
         }
         
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel, $filter, $options) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel, $filter, $options) {
             return $channel->then(function ($dm) use ($filter, $options, $resolve, $reject) {
                 return $dm->awaitMessages($filter, $options)->then($resolve, $reject);
             }, $reject);
-        });
+        }));
     }
     
     function bulkDelete($messages) {
@@ -253,7 +253,7 @@ class User extends Structure
     }
     
     function send(string $message, array $options = array()) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
             $channel = $this->__get('dmChannel');
             if($channel) {
                 $channel = \React\Promise\resolve($channel);
@@ -264,11 +264,11 @@ class User extends Structure
             $channel->then(function ($channel) use ($message, $options, $resolve, $reject) {
                 return $channel->send($message, $options)->then($resolve, $reject);
             }, $reject);
-        });
+        }));
     }
     
     function startTyping() {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
             if($channel) {
                 $channel = \React\Promise\resolve($channel);
@@ -279,7 +279,7 @@ class User extends Structure
             $channel->then(function ($channel) use ($resolve, $reject) {
                 return $channel->startTyping()->then($resolve, $reject);
             }, $reject);
-        });
+        }));
     }
     
     function stopTyping(bool $force = false) {

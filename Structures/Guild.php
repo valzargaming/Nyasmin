@@ -157,11 +157,11 @@ class Guild extends Structure { //TODO: Implementation
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\GuildMember>
      */
     function fetchMember(string $userid) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
             $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
                 $resolve($this->_addMember($data));
             }, $reject);
-        });
+        }));
     }
     
     /**
@@ -169,7 +169,7 @@ class Guild extends Structure { //TODO: Implementation
      * @return \React\Promise\Promise<this>
      */
     function fetchMembers() {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->guild->listGuildMembers($this->id)->then(function ($data) use ($resolve) {
                 foreach($data as $user) {
                     $this->_addMember($user);
@@ -177,7 +177,7 @@ class Guild extends Structure { //TODO: Implementation
                 
                 $resolve($this);
             }, $reject);
-        });
+        }));
     }
     
     /**

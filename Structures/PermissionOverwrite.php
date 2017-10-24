@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Structures;
 
+/**
+ * Represents a permission overwrite.
+ */
 class PermissionOverwite extends Structure { //TODO: Implementation
     protected $channel;
     

@@ -270,7 +270,7 @@ class Client extends EventEmitter { //TODO: Implementation
     function login(string $token, bool $force = false) {
         $this->token = $token;
         
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
             if($this->gateway && !$force) {
                 $gateway = \React\Promise\resolve($this->gateway);
             } else {
@@ -295,7 +295,7 @@ class Client extends EventEmitter { //TODO: Implementation
                     $this->emit('ready');
                 });
             });
-        });
+        }));
     }
     
     /**
@@ -303,7 +303,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @return \React\Promise\Promise<null>
      */
     function destroy() {
-        return new \React\Promise\Promise(function (callable $resolve) {
+        return (new \React\Promise\Promise(function (callable $resolve) {
             foreach($this->timers as $key => &$timer) {
                 $timer['timer']->cancel();
                 unset($this->timers[$key], $timer);
@@ -312,7 +312,7 @@ class Client extends EventEmitter { //TODO: Implementation
             $this->api->destroy();
             $this->ws->disconnect();
             $resolve();
-        });
+        }));
     }
     
     /**
@@ -321,12 +321,12 @@ class Client extends EventEmitter { //TODO: Implementation
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\User>
      */
     function fetchUser(string $userid) {
-        return new \React\Promise\Promise(function (callable $resolve, $reject) use  ($userid) {
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use  ($userid) {
             $this->api->endpoints->user->getUser($userid)->then(function ($user) use ($resolve) {
                 $user = $this->users->factory($user);
                 $resolve($user);
             }, $reject);
-        });
+        }));
     }
     
     /**

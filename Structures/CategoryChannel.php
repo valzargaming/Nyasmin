@@ -10,17 +10,13 @@
 namespace CharlotteDunois\Yasmin\Structures;
 
 /**
- * Represents a guild's text channel.
+ * Represents a guild's category channel.
  */
-class TextChannel extends TextBasedChannel
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface { //TODO: Implementation
-    
+class CategoryChannel extends TextBasedChannel { //TODO: Implementation
     protected $guild;
     
-    protected $parentID;
     protected $name;
-    protected $topic;
-    protected $nsfw;
+    protected $parentID;
     protected $position;
     protected $permissionsOverwrites;
     
@@ -34,8 +30,6 @@ class TextChannel extends TextBasedChannel
         $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Structures\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->topic = $channel['topic'] ?? $this->topic ?? '';
-        $this->nsfw = $channel['nsfw'] ?? $this->nsfw ?? false;
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
@@ -48,8 +42,7 @@ class TextChannel extends TextBasedChannel
     
     /**
      * @inheritdoc
-     * @property-read  \CharlotteDunois\Yasmin\Structures\ChannelCategory|null  $parent             Returns the channel's parent, or null.
-     * @property-read  bool|null                                                $permissionsLocked  If the permissionOverwrites match the parent channel, null if no parent.
+     * @property-read \CharlotteDunois\Yasmin\Structures\Collection  $children  Returns all channels which are childrens of this category.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -57,21 +50,10 @@ class TextChannel extends TextBasedChannel
         }
         
         switch($name) {
-            case 'parent':
-                return $this->guild->channels->get($this->parentID);
-            break;
-            case 'permissionsLocked':
-                $parent = $this->__get('parent');
-                if($parent) {
-                    if($parent->permissionsOverwrites->count() !== $this->permissionsOverwrites->count()) {
-                        return false;
-                    }
-                    
-                    return !((bool) $this->permissionsOverwrites->first(function ($perm) use ($parent) {
-                        $permp = $parent->permissionsOverwrites->get($perm->id);
-                        return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
-                    }));
-                }
+            case 'children':
+                return $this->guilds->channels->filter(function ($channel) {
+                    return $channel->parentID === $this->id;
+                });
             break;
         }
         
@@ -82,7 +64,6 @@ class TextChannel extends TextBasedChannel
      * Returns the permissions for the given member.
      * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Structures\Permissions
-     * @throws \Exception
      */
     function permissionsFor($member) {
         $member = $this->guild->members->resolve($member);
@@ -139,7 +120,6 @@ class TextChannel extends TextBasedChannel
      * Returns the permissions overwrites for the given member.
      * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
      * @return array
-     * @throws \Exception
      */
     function overwritesFor($member) {
         $member = $this->guild->members->resolve($member);
@@ -163,21 +143,6 @@ class TextChannel extends TextBasedChannel
             'member' => $memberOverwrites,
             'roles' => $rolesOverwrites
         );
-    }
-    /**
-     * Overwrites the permissions for a user or role in this channel.
-     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
-     * @param array                                                  $options
-     * @param string                                                 $reason
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\PermissionOverwite>
-     * @throws \Exception
-     */
-    function overwritePermissions($member, array $options, string $reason = '') {
-        $member = $this->guild->members->resolve($member);
-        
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($member, $options, $reason) {
-            
-        }));
     }
     
     /**
@@ -220,12 +185,5 @@ class TextChannel extends TextBasedChannel
                 $resolve();
             }, $reject);
         }));
-    }
-    
-    /**
-     * Automatically converts to a mention.
-     */
-    function __toString() {
-        return '<#'.$this->id.'>';
     }
 }

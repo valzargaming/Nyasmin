@@ -238,7 +238,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     }
     
     function send(array $packet) {
-        return new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
             if($this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY && $this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                 return $reject(new \Exception('Can not send WS message before a WS connection is established'));
             }
@@ -248,7 +248,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             if($this->running === false) {
                 $this->processQueue();
             }
-        });
+        }));
     }
     
     function processQueue() {

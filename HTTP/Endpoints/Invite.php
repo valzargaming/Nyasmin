@@ -33,9 +33,9 @@ class Invite {
         return $this->api->makeRequest('GET', $url, array());
     }
     
-    function deleteInvite(string $code) {
+    function deleteInvite(string $code, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_INVITES['delete'], $code);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function acceptInvite(string $code) {
