@@ -35,7 +35,7 @@ class Webhook {
     
     function getChannelWebhooks(string $channelid) {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['channels'], $channelid);
-        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
+        return $this->api->makeRequest('GET', $url, array());
     }
     
     function getGuildsWebhooks(string $guildid, string $reason = '') {
