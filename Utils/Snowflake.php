@@ -20,11 +20,11 @@ class Snowflake { //TODO: 64bit
     
     static private $incrementIndex = 0;
     
-    private $timestamp;
-    private $workerID;
-    private $processID;
-    private $increment;
-    private $binary;
+    protected $timestamp;
+    protected $workerID;
+    protected $processID;
+    protected $increment;
+    protected $binary;
     
     /**
      * @param string $snowflake
@@ -126,19 +126,19 @@ class Snowflake { //TODO: 64bit
             return $retval;
         }
         
-        if($fromBase !== 10) {
-            $base10 = (int) self::convertBase($input, $fromBase, 10);
+        if($fromBase != 10) {
+            $base10 = self::convertBase($input, $fromBase, 10);
         } else {
-            $base10 = (int) $input;
+            $base10 = $input;
         }
         
         if($base10 < $toBase) {
             return $toBaseArr[$base10];
         }
         
-        while($base10 !== 0) {
+        while($base10 != 0) {
             $retval = $toBaseArr[\bcmod($base10, $toBase)].$retval;
-            $base10 = (int) \bcdiv($base10, $toBase, 0);
+            $base10 = \bcdiv($base10, $toBase, 0);
         }
         
         return $retval;
