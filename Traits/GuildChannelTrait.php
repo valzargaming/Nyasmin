@@ -97,6 +97,22 @@ trait GuildChannelTrait {
     }
     
     /**
+     * Returns a Collection of invites.
+     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection>
+     */
+    function getInvites() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->then(function ($data) use ($resolve) {
+                $collection = new \CharlotteDunois\Collect\Collection();
+                
+                foreach($data as $invite) {
+                    
+                }
+            }, $reject);
+        }));
+    }
+    
+    /**
      * Returns the permissions for the given member.
      * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Structures\Permissions
