@@ -31,8 +31,8 @@ class Emoji extends Structure { //TODO: Implementation
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->id = $emoji['id'];
-        $this->name = $emoji['name'] ?? '';
+        $this->id = (!empty($emoji['id']) ? $emoji['id'] : null);
+        $this->name = $emoji['name'];
         $this->user = (!empty($emoji['user']) ? $client->users->patch($emoji['user']) : null);
         $this->requireColons = $emoji['require_colons'] ?? true;
         $this->managed = $emoji['managed'] ?? false;
@@ -46,11 +46,11 @@ class Emoji extends Structure { //TODO: Implementation
             }
         }
         
-        $client->emojis->set($this->id, $this);
+        $client->emojis->set($this->id ?? $this->name, $this);
     }
     
     /**
-     * @property-read string                                               $id                 The emoji ID.
+     * @property-read string|null                                          $id                 The emoji ID.
      * @property-read string                                               $name               The emoji name.
      * @property-read \CharlotteDunois\Yasmin\Structures\User|null         $user               The user that created the emoji.
      * @property-read boolean                                              $requireColons      Does the emoji require colons?
@@ -59,6 +59,7 @@ class Emoji extends Structure { //TODO: Implementation
      * @property-read int                                                  $createdTimestamp   The timestamp of when this emoji was created.
      *
      * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
+     * @property-read string                                               $identifier         The identifier for the emoji.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -68,6 +69,13 @@ class Emoji extends Structure { //TODO: Implementation
         switch($name) {
             case 'createdAt':
                 return (new \DateTime('@'.$this->createdTimestamp));
+            break;
+            case 'identifier':
+                if($this->id) {
+                    return $this->name.':'.$this->id;
+                }
+                
+                return \urlencode($this->name);
             break;
         }
         
@@ -79,10 +87,6 @@ class Emoji extends Structure { //TODO: Implementation
     }
     
     function delete(string $reason) {
-        
-    }
-    
-    function setName(string $name) {
         
     }
     

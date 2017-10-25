@@ -35,21 +35,20 @@ class GuildCreate {
         } else {
             $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
             $this->client->guilds->set($guild->id, $guild);
-            
-            
-            if(((bool) $this->client->getOption('fetchAllMembers', false)) === true) {
-                $fetchAll = $guild->fetchMembers();
-            } else {
-                $fetchAll = \React\Promise\resolve();
-            }
-            
-            $fetchAll->then(function () use ($guild) {
-                if($this->ready) {
-                    $this->client->emit('guildCreate', $guild);
-                } else {
-                    $this->client->wsmanager()->emit('guildCreate');
-                }
-            });
         }
+        
+        if(((bool) $this->client->getOption('fetchAllMembers', false)) === true) {
+            $fetchAll = $guild->fetchMembers();
+        } else {
+            $fetchAll = \React\Promise\resolve();
+        }
+        
+        $fetchAll->then(function () use ($guild) {
+            if($this->ready) {
+                $this->client->emit('guildCreate', $guild);
+            } else {
+                $this->client->wsmanager()->emit('guildCreate');
+            }
+        });
     }
 }

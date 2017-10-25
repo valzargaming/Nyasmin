@@ -26,9 +26,11 @@ class MessageReactionAdd {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
-                $reaction = $message->reactions->get($data['emoji']['id']);
+                $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
+                
+                $reaction = $message->reactions->get($id);
                 if(!$reaction) {
-                    $emoji = $this->client->emojis->get($data['emoji']['id']);
+                    $emoji = $this->client->emojis->get($id);
                     if(!$emoji) {
                         $emoji = new \CharlotteDunois\Yasmin\Structures\Emoji($this->client, $channel->guild, $data['emoji']);
                         if($channel->guild) {
@@ -42,7 +44,7 @@ class MessageReactionAdd {
                         'emoji' => $emoji
                     ));
                     
-                    $message->reactions->set($emoji->id, $reaction);
+                    $message->reactions->set($id, $reaction);
                 }
                 
                 $reaction->_incrementCount();

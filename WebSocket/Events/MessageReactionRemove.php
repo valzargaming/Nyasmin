@@ -26,7 +26,9 @@ class MessageReactionRemove {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
-                $reaction = $message->reactions->get($data['emoji']['id']);
+                $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
+                
+                $reaction = $message->reactions->get($id);
                 if($reaction) {
                     $reaction->_decrementCount();
                     

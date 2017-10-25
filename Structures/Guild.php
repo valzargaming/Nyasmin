@@ -78,6 +78,8 @@ class Guild extends Structure { //TODO: Implementation
      * @access private
      */
     function _patch(array $guild) {
+        $this->available = (empty($guild['unavailable']));
+        
         $this->name = $guild['name'];
         $this->icon = $guild['icon'];
         $this->splash = $guild['splash'];
