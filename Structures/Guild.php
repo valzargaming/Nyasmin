@@ -139,6 +139,16 @@ class Guild extends Structure { //TODO: Implementation
         }
     }
     
+    /**
+     * @property-read string                                          $id                  The guild ID.
+     * @property-read string                                          $name                The guild name.
+     * @property-read int                                             $createdTimestamp    The timestmap when this guild was created.
+     * @property-read string|null                                     $icon                The guild icon.
+     * @property-read string|null                                     $splash              The guild splash.
+     *
+     * @property-read \DateTime                                       $createdAt           The DateTime object of createdTimestamp.
+     * @property-read \CharlotteDunois\Yasmin\Structures\GuildMember  $me                  The guild member of the client user.
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;

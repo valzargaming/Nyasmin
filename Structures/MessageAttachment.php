@@ -10,9 +10,9 @@
 namespace CharlotteDunois\Yasmin\Structures;
 
 /**
- * Represents an attachment from a message.
+ * Represents an attachment (from a message).
  */
-class MessageAttachment extends Structure {
+class MessageAttachment extends Part {
     protected $id;
     protected $filename;
     protected $size;
@@ -25,9 +25,7 @@ class MessageAttachment extends Structure {
     /**
      * @access private
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $attachment = array()) {
-        parent::__construct($client);
-        
+    function __construct(array $attachment = array()) {
         if(!empty($attachment)) {
             $this->id = $attachment['id'];
             $this->filename = $attachment['filename'];

@@ -36,7 +36,7 @@ class Role extends Structure { //TODO: Implementation
         $this->color = $role['color'];
         $this->hoist = $role['hoist'];
         $this->position = $role['position'];
-        $this->permissions = new \CharlotteDunois\Yasmin\Structures\Permissions($client, $role['permissions']);
+        $this->permissions = new \CharlotteDunois\Yasmin\Structures\Permissions($role['permissions']);
         $this->managed = $role['managed'];
         $this->mentionable = $role['mentionable'];
     }

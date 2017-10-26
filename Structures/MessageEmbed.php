@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Structures;
 /**
  * Represents a received embed from a message. This class can also be used to make a Rich Embed.
  */
-class MessageEmbed extends Structure {
+class MessageEmbed extends Part {
     protected $type;
     protected $title;
     protected $author;
@@ -28,11 +28,9 @@ class MessageEmbed extends Structure {
     protected $fields = array();
     
     /**
-     * Constructs a new instance. The parameters are only for received embeds. If you use this class to make a Rich Embed, do not pass any parameters, or only do that, if you know what you are doing.
+     * Constructs a new instance.
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client = null, array $embed = array()) {
-        parent::__construct($client);
-        
+    function __construct(array $embed = array()) {
         if(!empty($embed)) {
             $this->type = $embed['type'];
             $this->title = $embed['title'] ?? null;

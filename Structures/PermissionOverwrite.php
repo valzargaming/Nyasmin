@@ -28,8 +28,8 @@ class PermissionOverwite extends Structure { //TODO: Implementation
         $this->id = $permission['id'];
         $this->type = $permission['type'] ?? $this->type;
         $this->target = ($this->type === 'role' ? $this->channel->guild->roles->get($permission['id']) : $this->channel->guild->members->get($permission['id']));
-        $this->allow = (!empty($permission['allow']) ? (new \CharlotteDunois\Yasmin\Structures\Permissions($client, $permission['allow'])) : $this->allow);
-        $this->deny = (!empty($permission['deny']) ? (new \CharlotteDunois\Yasmin\Structures\Permissions($client, $permission['deny'])) : $this->deny);
+        $this->allow = (!empty($permission['allow']) ? (new \CharlotteDunois\Yasmin\Structures\Permissions($permission['allow'])) : $this->allow);
+        $this->deny = (!empty($permission['deny']) ? (new \CharlotteDunois\Yasmin\Structures\Permissions($permission['deny'])) : $this->deny);
     }
     
     function __get($name) {

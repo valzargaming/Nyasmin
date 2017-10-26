@@ -10,10 +10,9 @@
 namespace CharlotteDunois\Yasmin\Structures;
 
 /**
- * Something all structures extend. Do not use this.
- * @access private
+ * Something all structures, with the need for a client, extend. Do not use this.
  */
-class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
+class Structure extends Part { //TODO: Nya
     /**
      * @access private
      */
@@ -32,7 +31,7 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     }
     
     /**
-     * @access private
+     * @property-read \CharlotteDunois\Yasmin\Client  $client
      */
     function __get($name) {
         switch($name) {
@@ -56,20 +55,6 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
     /**
      * @access private
      */
-    function jsonSerialize() {
-        return get_object_vars($this);
-    }
-    
-    /**
-     * @access private
-     */
-    function serialize() {
-        return serialize(get_object_vars($this));
-    }
-    
-    /**
-     * @access private
-     */
     function unserialize($data) {
         $exp = \ReflectionMethod::export($this, '__construct', true);
         preg_match('/Parameters \[(\d+)\]/', $exp, $count);
@@ -85,42 +70,6 @@ class Structure implements \JsonSerializable, \Serializable { //TODO: Nya
             case 2:
                 $this->__construct(\CharlotteDunois\Yasmin\Structures\Structure::$serializeClient, unserialize($data));
             break;
-        }
-    }
-    
-    /**
-     * @access private
-     */
-    function _patch(array $data) {
-        foreach($data as $key => $val) {
-            $key = \lcfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $key))));
-            
-            if(\property_exists($this, $key)) {
-                if($this->$key instanceof \CharlotteDunois\Yasmin\Structures\Collection) {
-                    if(!\is_array($val)) {
-                        $val = array($val);
-                    }
-                    
-                    foreach($val as $element) {
-                        $instance = $this->$key->get($element['id']);
-                        $instance->_patch($element);
-                    }
-                } else {
-                    if(\is_object($this->$key)) {
-                        if(\is_array($val)) {
-                            $this->$key = clone $this->$key;
-                            $this->$key->_patch($val);
-                        } else {
-                            //TODO: Implementation
-                            $this->client->emit('debug', 'Manual update of '.$key.' in '.\get_class($this).' required');
-                        }
-                    } else {
-                        if($this->$key !== $val) {
-                            $this->$key = $val;
-                        }
-                    }
-                }
-            }
         }
     }
 }

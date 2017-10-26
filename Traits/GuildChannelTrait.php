@@ -106,8 +106,11 @@ trait GuildChannelTrait {
                 $collection = new \CharlotteDunois\Collect\Collection();
                 
                 foreach($data as $invite) {
-                    
+                    $inv = new \CharlotteDunois\Yasmin\Structures\Invite($this->client, $invite);
+                    $collection->set($inv->code, $inv);
                 }
+                
+                $resolve($collection);
             }, $reject);
         }));
     }
@@ -122,17 +125,17 @@ trait GuildChannelTrait {
         $member = $this->guild->members->resolve($member);
         
         if($member->id === $this->guild->ownerID) {
-            return (new \CharlotteDunois\Yasmin\Structures\Permissions($this->client, \CharlotteDunois\Yasmin\Structures\Permissions::ALL));
+            return (new \CharlotteDunois\Yasmin\Structures\Permissions(\CharlotteDunois\Yasmin\Structures\Permissions::ALL));
         }
         
         $maxBitfield = $member->roles->map(function ($role) {
             return $role->permissions->bitfield;
         })->max();
         
-        $permissions = new \CharlotteDunois\Yasmin\Structures\Permissions($this->client, $maxBitfield);
+        $permissions = new \CharlotteDunois\Yasmin\Structures\Permissions($maxBitfield);
         
         if($permissions->has('ADMINISTRATOR')) {
-            return (new \CharlotteDunois\Yasmin\Structures\Permissions($this->client, \CharlotteDunois\Yasmin\Structures\Permissions::ALL));
+            return (new \CharlotteDunois\Yasmin\Structures\Permissions(\CharlotteDunois\Yasmin\Structures\Permissions::ALL));
         }
         
         $overwrites = $this->overwritesFor($member);

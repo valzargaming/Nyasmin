@@ -53,11 +53,11 @@ class Message extends Structure { //TODO: Implementation
         
         $this->attachments = new \CharlotteDunois\Yasmin\Structures\Collection();
         foreach($message['attachments'] as $attachment) {
-            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Structures\MessageAttachment($client, $attachment)));
+            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Structures\MessageAttachment($attachment)));
         }
         
         foreach($message['embeds'] as $embed) {
-            $this->embeds[] = new \CharlotteDunois\Yasmin\Structures\MessageEmbed($client, $embed);
+            $this->embeds[] = new \CharlotteDunois\Yasmin\Structures\MessageEmbed($embed);
         }
         
         $this->mentions = array(
