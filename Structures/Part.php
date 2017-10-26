@@ -86,7 +86,8 @@ class Part implements \JsonSerializable, \Serializable { //TODO: Nya
          $oldData = \json_decode(\json_encode($this), true);
          
          foreach($data as $key => $val) {
-             if($oldData[$key] !== $val) {
+             $newKey = \str_replace('_', '', \ucwords($key, '_'));
+             if($oldData[$newKey] !== $val) {
                  return true;
              }
          }

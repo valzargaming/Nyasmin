@@ -73,26 +73,27 @@ class Message extends Structure { //TODO: Implementation
         \preg_match_all('/<#(\d+)>/', $this->content, $matches);
         if(!empty($matches[1])) {
             foreach($matches[1] as $match) {
-                $mention = '<#'.$match.'>';
                 $channel = $this->client->channels->get($match);
                 if($channel) {
-                    $this->cleanContent = \str_replace($mention, $channel->name, $this->cleanContent);
+                    $this->cleanContent = \str_replace($channel->__toString(), $channel->name, $this->cleanContent);
                 }
             }
         }
         
         if(!empty($message['mentions'])) {
             foreach($message['mentions'] as $mention) {
-                $member = null;
                 $user = $this->client->users->patch($mention);
-                
-                $this->mentions['users']->set($mention['id'], $user);
-                if($guild) {
-                    $member = $guild->members->get($mention['id']);
-                    $this->mentions['members']->set($mention['id'], $member);
+                if($user) {
+                    $member = null;
+                    
+                    $this->mentions['users']->set($mention['id'], $user);
+                    if($guild) {
+                        $member = $guild->members->get($mention['id']);
+                        $this->mentions['members']->set($mention['id'], $member);
+                    }
+                    
+                    $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
                 }
-                
-                $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
             }
         }
         
@@ -100,16 +101,17 @@ class Message extends Structure { //TODO: Implementation
         if($guild && !empty($message['mentions_role'])) {
             foreach($message['mentions_role'] as $mention) {
                 $role = $guild->roles->get($mention['id']);
-                $this->mentions['roles']->set($mention['id'], $role);
-                
-                $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
+                if($role) {
+                    $this->mentions['roles']->set($mention['id'], $role);
+                    $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
+                }
             }
         }
         
         $this->reactions = new \CharlotteDunois\Yasmin\Structures\Collection();
         if(!empty($message['reactions'])) {
             foreach($message['reactions'] as $reaction) {
-                $emoji = ($client->emojis->get($reaction['emoji']['id']) ?? (new \CharlotteDunois\Yasmin\Structures\Emoji($client, $this->channel->guild, $reaction['emoji'])));
+                $emoji = ($client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Structures\Emoji($client, $this->channel->guild, $reaction['emoji'])));
                 $this->reactions->set($emoji->id, (new \CharlotteDunois\Yasmin\Structures\MessageReaction($client, $this, $emoji, $reaction)));
             }
         }
