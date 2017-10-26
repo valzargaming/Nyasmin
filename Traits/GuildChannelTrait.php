@@ -267,7 +267,7 @@ trait GuildChannelTrait {
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {
-        if($position < 0 ) {
+        if($position < 0) {
             throw new \InvalidArgumentException('Position can not be below 0');
         }
         
