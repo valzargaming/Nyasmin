@@ -23,5 +23,10 @@
             "type": "composer",
             "url": "https://packagist.neko.run"
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "CharlotteDunois\\Yasmin\\": ""
+        }
     }
 }

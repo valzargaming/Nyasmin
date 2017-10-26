@@ -7,22 +7,10 @@
  * License: https://github.com/CharlotteDunois/Yasmin/blob/master/LICENSE
 */
 
-$token = file_get_contents("Z:\\Eigene Dokumente\\Discord Bots\\Charuru Commando\\storage\\CharuruAlpha.token");
-
 define('IN_DIR', str_replace('\\', '/', __DIR__));
-
-spl_autoload_register(function ($name) {
-    if(strpos($name, 'CharlotteDunois\\Yasmin') === 0) {
-        $name = str_replace('CharlotteDunois\\Yasmin\\', '', $name);
-        $name = str_replace('\\', '/', $name);
-        
-        if(file_exists(IN_DIR.'/'.$name.'.php')) {
-            include_once(IN_DIR.'/'.$name.'.php');
-            return true;
-        }
-    }
-});
 require_once(IN_DIR.'/vendor/autoload.php');
+
+$token = file_get_contents("Z:\\Eigene Dokumente\\Discord Bots\\Charuru Commando\\storage\\CharuruAlpha.token");
 
 $client = new \CharlotteDunois\Yasmin\Client();
 

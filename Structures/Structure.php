@@ -55,6 +55,15 @@ class Structure extends Part { //TODO: Nya
     /**
      * @access private
      */
+    function jsonSerialize() {
+        $vars = parent::jsonSerialize();
+        unset($vars['client']);
+        return $vars;
+    }
+    
+    /**
+     * @access private
+     */
     function unserialize($data) {
         $exp = \ReflectionMethod::export($this, '__construct', true);
         preg_match('/Parameters \[(\d+)\]/', $exp, $count);
@@ -65,7 +74,7 @@ class Structure extends Part { //TODO: Nya
                 throw new \Exception('Can not unserialize a class with more than 2 arguments');
             break;
             case 1:
-                $this->__construct(unserialize($data));
+                $this->__construct(\unserialize($data));
             break;
             case 2:
                 $this->__construct(\CharlotteDunois\Yasmin\Structures\Structure::$serializeClient, unserialize($data));

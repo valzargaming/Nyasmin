@@ -25,14 +25,22 @@ class Part implements \JsonSerializable, \Serializable { //TODO: Nya
      * @access private
      */
     function serialize() {
-        return serialize(get_object_vars($this));
+        $vars = \get_object_vars($this);
+        
+        foreach($vars as $key => $val) {
+            if($val instanceof \Closure) {
+                unset($vars[$key]);
+            }
+        }
+        
+        return \serialize($vars);
     }
     
     /**
      * @access private
      */
     function unserialize($data) {
-        $this->__construct(unserialize($data));
+        $this->__construct(\unserialize($data));
     }
     
     /**
@@ -70,4 +78,19 @@ class Part implements \JsonSerializable, \Serializable { //TODO: Nya
             }
         }
     }
+    
+    /**
+     * @access private
+     */
+     function _shouldUpdate(array $data) {
+         $oldData = \json_decode(\json_encode($this), true);
+         
+         foreach($data as $key => $val) {
+             if($oldData[$key] !== $val) {
+                 return true;
+             }
+         }
+         
+         return false;
+     }
 }

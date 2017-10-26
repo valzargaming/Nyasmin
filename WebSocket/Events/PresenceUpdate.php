@@ -29,15 +29,17 @@ class PresenceUpdate {
         try {
             $user = $this->client->users->resolve($data['user']['id']);
             
-            $oldUser = null;
-            if($this->clones) {
-                $oldUser = clone $user;
-            }
-            
-            $user->_patch($data['user']);
-            
-            if($user != $oldUser) {
-                $this->client->emit('userUpdate', $user, $oldUser);
+            if($user->_shouldUpdate($data['user'])) {
+                $oldUser = null;
+                if($this->clones) {
+                    $oldUser = clone $user;
+                }
+                
+                $user->_patch($data['user']);
+                
+                if($user != $oldUser) {
+                    $this->client->emit('userUpdate', $user, $oldUser);
+                }
             }
             
             $guild = $this->client->guilds->get($data['guild_id']);
