@@ -14,6 +14,10 @@ namespace CharlotteDunois\Yasmin\Traits;
  */
 trait GuildChannelTrait {
     /**
+     * @property-read \CharlotteDunois\Yasmin\Client  $client
+     */
+     
+    /**
      * Edits the channel. Options are as following (at least one is required).
      *
      *  array(
