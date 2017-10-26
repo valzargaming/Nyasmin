@@ -37,7 +37,7 @@ class ZlibStream
      * @throws \RuntimeException
      */
     static function supported() {
-        if(!function_exists('\inflate_init')) {
+        if(!\function_exists('\inflate_init')) {
             throw new \RuntimeException('Zlib is not supported by this PHP installation');
         }
     }
