@@ -123,7 +123,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @var \React\EventLoop\Timer\Timer[]
      * @access private
      */
-     private $timers = array();
+    private $timers = array();
     
     /**
      * What do you expect this to do? It makes a new Client instance.

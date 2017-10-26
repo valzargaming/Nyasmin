@@ -148,10 +148,10 @@ class RatelimitBucket {
     /**
      * Unsets all queue items.
      */
-     function clear() {
-         $this->remaining = 0;
-         while($item = \array_shift($this->queue)) {
-             unset($item);
-         }
-     }
+    function clear() {
+        $this->remaining = 0;
+        while($item = \array_shift($this->queue)) {
+            unset($item);
+        }
+    }
 }

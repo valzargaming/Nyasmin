@@ -22,7 +22,7 @@ class APIManager {
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIEndpoints
      */
-     protected $endpoints;
+    protected $endpoints;
     
     /**
      * @var \React\EventLoop\LoopInterface
