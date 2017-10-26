@@ -35,6 +35,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     private $ws;
     
     /**
+     * @var string
+     */
+    private $compression;
+    
+    /**
      * @var resource
      */
     private $compressContext;
@@ -116,6 +121,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                         throw new \Exception('Specified WS compression class does not implement necessary interface');
                     }
                     
+                    $this->compression = $compression;
                     $this->compressContext = new $name();
                 } catch(\RuntimeException $e) {
                     /* Continue regardless of error */
@@ -162,6 +168,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             $this->client->emit('reconnect');
             $reconnect = true;
         } elseif(!empty($querystring)) {
+            if(!empty($this->compression)) {
+                $querystring['compress'] = $this->compression;
+            }
+            
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
         
