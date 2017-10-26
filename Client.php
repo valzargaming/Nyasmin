@@ -287,7 +287,13 @@ class Client extends EventEmitter { //TODO: Implementation
                 $this->ws->connect($url, array(
                     'v' => \CharlotteDunois\Yasmin\Constants::WS['version'],
                     'encoding' => \CharlotteDunois\Yasmin\Constants::WS['encoding']
-                ))->then($resolve, $reject);
+                ))->then(function () use ($resolve) {
+                    $this->ws->on('ready', function () {
+                        $this->emit('ready');
+                    });
+                    
+                    $resolve();
+                }, $reject);
             });
         }));
     }

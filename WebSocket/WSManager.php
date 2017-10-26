@@ -193,7 +193,6 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             
             $this->on('ready', function () {
                 $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
-                $this->client->emit('ready');
             });
             
             $this->emit('open');
