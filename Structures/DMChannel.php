@@ -4,7 +4,7 @@
  * Copyright 2017 Charlotte Dunois, All Rights Reserved
  *
  * Website: https://charuru.moe
- * License: MIT
+ * License: https://github.com/CharlotteDunois/Yasmin/blob/master/LICENSE
 */
 
 namespace CharlotteDunois\Yasmin\Structures;
