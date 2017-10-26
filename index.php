@@ -41,6 +41,7 @@ $client->on('ready', function () use($client) {
     $user = $client->getClientUser();
     echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
+    $client->getClientUser()->setGame('with Yasmin | '.\bin2hex(\random_bytes(3)));
     $client->addPeriodicTimer(30, function ($client) {
         $client->getClientUser()->setGame('with Yasmin | '.\bin2hex(\random_bytes(3)));
     });

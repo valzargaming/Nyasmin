@@ -163,15 +163,15 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             throw new \Exception('Can not connect to unknown gateway');
         }
         
+        if(!empty($this->compression)) {
+            $querystring['compress'] = $this->compression;
+        }
+        
         $reconnect = false;
         if($this->gateway) {
             $this->client->emit('reconnect');
             $reconnect = true;
         } elseif(!empty($querystring)) {
-            if(!empty($this->compression)) {
-                $querystring['compress'] = $this->compression;
-            }
-            
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
         
