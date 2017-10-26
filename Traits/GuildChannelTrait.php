@@ -255,9 +255,9 @@ trait GuildChannelTrait {
      * @return \React\Promise\Promise<this>
      * @throws \InvalidArgumentException
      */
-     function setName(string $name, string $reason = '') {
-         return $this->edit(array('name' => $name), $reason);
-     }
+    function setName(string $name, string $reason = '') {
+        return $this->edit(array('name' => $name), $reason);
+    }
     
     /**
      * Sets the position of the channel.
@@ -309,7 +309,7 @@ trait GuildChannelTrait {
      * @return \React\Promise\Promise<this>
      * @throws \InvalidArgumentException
      */
-     function setTopic(string $topic, string $reason = '') {
-         return $this->edit(array('topic' => $topic), $reason);
-     }
+    function setTopic(string $topic, string $reason = '') {
+        return $this->edit(array('topic' => $topic), $reason);
+    }
 }
