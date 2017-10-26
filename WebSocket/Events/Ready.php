@@ -35,21 +35,35 @@ class Ready {
             $this->client->guilds->set($guild->id, $guild);
         }
         
-        $this->client->wsmanager()->on('guildCreate', function () {
-            if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                return;
+        $unavailableGuilds = 0;
+        foreach($this->client->guilds->all() as $guild) {
+            if($guild->available === false) {
+                $unavailableGuilds++;
             }
-            
-            $unavailableGuilds = 0;
-            foreach($this->client->guilds->all() as $guild) {
-                if($guild->available === false) {
-                    $unavailableGuilds++;
+        }
+        
+        if($unavailableGuilds === 0) {
+            $this->client->wsmanager()->emit('ready');
+        } else {
+            $listener = function () use (&$listener) {
+                if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                    return;
                 }
-            }
+                
+                $unavailableGuilds = 0;
+                foreach($this->client->guilds->all() as $guild) {
+                    if($guild->available === false) {
+                        $unavailableGuilds++;
+                    }
+                }
+                
+                if($unavailableGuilds === 0) {
+                    $this->client->wsmanager()->removeListener('guildCreate', $listener);
+                    $this->client->wsmanager()->emit('ready');
+                }
+            };
             
-            if($unavailableGuilds === 0) {
-                $this->client->wsmanager()->emit('ready');
-            }
-        });
+            $this->client->wsmanager()->on('guildCreate', $listener);
+        }
     }
 }

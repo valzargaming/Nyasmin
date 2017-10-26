@@ -8,10 +8,6 @@
 */
 
 namespace CharlotteDunois\Yasmin;
-use CharlotteDunois\Yasmin\WebSocket\Events\UserUpdate;
-use CharlotteDunois\Yasmin\WebSocket\Events\TypingStart;
-use CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberAdd;
-use CharlotteDunois\Yasmin\WebSocket\Events\MessageDeleteBulk;
 
 /**
  * The client. What else do you expect this to say?
@@ -292,10 +288,6 @@ class Client extends EventEmitter { //TODO: Implementation
                     'v' => \CharlotteDunois\Yasmin\Constants::WS['version'],
                     'encoding' => \CharlotteDunois\Yasmin\Constants::WS['encoding']
                 ))->then($resolve, $reject);
-                
-                $this->ws->once('ready', function () {
-                    $this->emit('ready');
-                });
             });
         }));
     }
