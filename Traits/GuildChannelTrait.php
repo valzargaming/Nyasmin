@@ -103,7 +103,7 @@ trait GuildChannelTrait {
     function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->then(function ($data) use ($resolve) {
-                $collection = new \CharlotteDunois\Collect\Collection();
+                $collection = new \CharlotteDunois\Yasmin\Structures\Collection();
                 
                 foreach($data as $invite) {
                     $inv = new \CharlotteDunois\Yasmin\Structures\Invite($this->client, $invite);
