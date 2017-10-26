@@ -2,7 +2,7 @@
     "name": "charlottedunois/yasmin",
     "description": "Possibly a PHP library for Discord.",
     "type": "library",
-    "license": "MIT",
+    "license": "Apache 2.0",
     "authors": [
         {
             "name": "CharlotteDunois",
