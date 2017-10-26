@@ -104,7 +104,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         switch($compression) {
             default:
                 try {
-                    $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.\str_replace('-', '', \ucwords($compression, '-'));
+                    $name = \str_replace('-', '', \ucwords($compression, '-'));
+                    if(strpos($name, '\\') === false) {
+                        $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
+                    }
+                    
                     $name::supported();
                     
                     $interfaces = \class_implements($name);
