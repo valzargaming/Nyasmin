@@ -205,11 +205,11 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Overwrites the permissions for a user or role in this channel.
-     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|\CharlotteDunois\Yasmin\Structures\Role|string  $memberOrRole
-     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $allow
-     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $deny
-     * @param string                                                                                         $reason
+     * Overwrites the permissions for a member or role in this channel.
+     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|\CharlotteDunois\Yasmin\Structures\Role|string  $memberOrRole  The member or role.
+     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $allow         Which permissions should be allowed?
+     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $deny          Which permissions should be denied?
+     * @param string                                                                                         $reason        The reason for this.
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\PermissionOverwite>
      * @throws \InvalidArgumentException
      */
@@ -249,10 +249,11 @@ trait GuildChannelTrait {
     
     /**
      * Locks in the permission overwrites from the parent channel.
+     * @param string  $reason  The reason for this.
      * @return \React\Promise\Promise<this>
      * @throws \BadMethodCallException
      */
-    function lockPermissions() {
+    function lockPermissions(string $reason = '') {
         if(!$this->__get('parent')) {
             throw new \BadMethodCallException('This channel does not have a parent');
         }
