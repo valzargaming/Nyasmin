@@ -30,7 +30,7 @@ class MessageEmbed extends Structure {
     /**
      * Constructs a new instance. The parameters are only for received embeds. If you use this class to make a Rich Embed, do not pass any parameters, or only do that, if you know what you are doing.
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client = null, array $embed = array()) { //TODO: Implementation
+    function __construct(\CharlotteDunois\Yasmin\Client $client = null, array $embed = array()) {
         parent::__construct($client);
         
         if(!empty($embed)) {
