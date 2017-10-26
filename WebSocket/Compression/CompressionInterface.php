@@ -1,0 +1,40 @@
+<?php
+/**
+ * Yasmin
+ * Copyright 2017 Charlotte Dunois, All Rights Reserved
+ *
+ * Website: https://charuru.moe
+ * License: MIT
+*/
+
+namespace CharlotteDunois\Yasmin\WebSocket\Compression;
+
+/**
+ * Interface for WS compressions.
+ * @access private
+ */
+interface CompressionInterface {
+    /**
+     * Initializes the context.
+     */
+    function init();
+    
+    /**
+     * Destroys the context.
+     */
+    function destroy();
+    
+    /**
+     * Checks if the system supports it.
+     * @throws \RuntimeException
+     */
+    static function supported();
+    
+    /**
+     * Decompresses data.
+     * @param string  $data
+     * @return string
+     * @throws \BadMethodCallException|\InvalidArgumentException
+     */
+    function decompress(string $data);
+}

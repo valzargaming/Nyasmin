@@ -45,11 +45,11 @@ $client->on('ready', function () use($client) {
         $client->getClientUser()->setGame('with Yasmin | '.\bin2hex(\random_bytes(3)));
     });
 });
-$client->on('disconnect', function ($code, $reason) {
+$client->on('disconnect', function ($code, $reason) use ($client) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     echo 'Disconnected! (Code: '.$code.' | Reason: '.$reason.')'.PHP_EOL;
 });
-$client->on('reconnect', function () {
+$client->on('reconnect', function () use ($client) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     echo 'Reconnect happening!'.PHP_EOL;
 });

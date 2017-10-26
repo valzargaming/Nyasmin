@@ -100,11 +100,27 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
         
-        if(!function_exists('\inflate_init')) {
-            throw new \Exception('Zlib is not supported by this PHP installation');
+        $compression = $this->client->getOption('ws.compression', 'zlib-stream');
+        switch($compression) {
+            default:
+                try {
+                    $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.\str_replace('-', '', \ucwords($compression, '-'));
+                    $name::supported();
+                    
+                    $interfaces = \class_implements($name);
+                    if(!in_array('CharlotteDunois\\Yasmin\\WebSocket\\Compression\\CompressionInterface', $interfaces)) {
+                        throw new \Exception('Specified WS compression class does not implement necessary interface');
+                    }
+                    
+                    $this->compressContext = new $name();
+                } catch(\RuntimeException $e) {
+                    /* Continue regardless of error */
+                }
+            break;
+            case false:
+                /* Nothing to do */
+            break;
         }
-        
-        $this->compressContext = \inflate_init(ZLIB_ENCODING_DEFLATE);
     }
     
     /**
@@ -159,6 +175,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         return $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) {
             $this->ws = &$conn;
             
+            if($this->compressContext) {
+                $this->compressContext->init();
+            }
+            
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
             
             $this->once('ready', function () {
@@ -182,7 +202,22 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             }
             
             $this->ws->on('message', function ($message) {
-                $message = \inflate_add($this->compressContext, $message->getPayload(), ZLIB_SYNC_FLUSH);
+                $message = $message->getPayload();
+                if(!$message) {
+                    return;
+                }
+                
+                if($this->compressContext) {
+                    try {
+                        $message = $this->compressContext->decompress($message);
+                    } catch(\InvalidArgumentException $e) {
+                        return;
+                    } catch(\BadMethodCallException $e) {
+                        $this->client->emit('error', $e);
+                        return;
+                    }
+                }
+                
                 $this->wshandler->handle($message);
             });
             
@@ -204,7 +239,12 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $this->queue = array();
                 $this->wsHeartbeat['ack'] = true;
                 
+                if($this->compressContext) {
+                    $this->compressContext->destroy();
+                }
+                
                 $this->ws = null;
+                
                 if($this->wsStatus <= \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
                 }
@@ -364,7 +404,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->ws = null;
         
         try {
-            $this->connect($this->gateway);
+            $this->connect($this->gateway)->done();
         } catch(\Exception $e) {
             $this->client->login($this->client->token, true);
         }

@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Structures;
 /**
  * Represents a guild's category channel.
  */
-class CategoryChannel extends TextBasedChannel { //TODO: Implementation
+class CategoryChannel extends TextBasedChannel {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     protected $guild;
