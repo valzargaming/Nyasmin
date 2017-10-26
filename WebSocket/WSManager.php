@@ -142,7 +142,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             $this->client->emit('reconnect');
             $reconnect = true;
         } elseif(!empty($querystring)) {
-            $gateway .= '/?'.\http_build_query($querystring);
+            $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
         
         $this->gateway = $gateway;
@@ -161,7 +161,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
             
-            $this->on('ready', function () {
+            $this->once('ready', function () {
                 $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
             });
             
