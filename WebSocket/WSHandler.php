@@ -55,7 +55,7 @@ class WSHandler {
     
     function handle($message) {
         try {
-            $packet = \json_decode($message->getPayload(), true);
+            $packet = \json_decode($message, true);
             $this->client->emit('raw', $packet);
             
             if($packet['s']) {

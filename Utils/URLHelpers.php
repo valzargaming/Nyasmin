@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\Utils;
 
 /**
- * Helper methods.
+ * URL Helper methods.
  */
 class URLHelpers {
     static private $handler;

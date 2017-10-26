@@ -27,7 +27,7 @@ class ClientUser extends User { //TODO: Implementation
     function __construct(\CharlotteDunois\Yasmin\Client $client, $user) {
         parent::__construct($client, $user);
         
-        $presence = $this->client->getOption('connectPresence', array());
+        $presence = $this->client->getOption('ws.presence', array());
         $this->clientPresence = array(
             'afk' => (isset($presence['afk']) ? (bool) $presence['afk'] : false),
             'since' => (!empty($presence['since']) ? (int) $presence['since'] : null),

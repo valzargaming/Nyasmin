@@ -126,7 +126,7 @@ class Client extends EventEmitter { //TODO: Implementation
      private $timers = array();
     
     /**
-     * What do you expect this to do?
+     * What do you expect this to do? It makes a new Client instance.
      * @param array                           $options  Any client options.
      * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
      * @return this
@@ -288,9 +288,13 @@ class Client extends EventEmitter { //TODO: Implementation
             $gateway->then(function ($url) use ($resolve, $reject) {
                 $url = \rtrim($url, '/');
                 $this->gateway = $url;
-                $url .= '/?v='.\CharlotteDunois\Yasmin\Constants::WS['version'].'&encoding='.\CharlotteDunois\Yasmin\Constants::WS['encoding'];
                 
-                $this->ws->connect($url)->then($resolve, $reject);
+                $this->ws->connect($url, array(
+                    'v' => \CharlotteDunois\Yasmin\Constants::WS['version'],
+                    'encoding' => \CharlotteDunois\Yasmin\Constants::WS['encoding'],
+                    'compress' => 'zlib-stream'
+                ))->then($resolve, $reject);
+                
                 $this->ws->once('ready', function () {
                     $this->emit('ready');
                 });

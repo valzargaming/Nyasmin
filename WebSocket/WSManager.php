@@ -35,6 +35,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     private $ws;
     
     /**
+     * @var resource
+     */
+    private $compressContext;
+    
+    /**
      * The WS ratelimits.
      * @var array
      */
@@ -94,6 +99,12 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
+        
+        if(!function_exists('\inflate_init')) {
+            throw new \Exception('Zlib is not supported by this PHP installation');
+        }
+        
+        $this->compressContext = \inflate_init(ZLIB_ENCODING_DEFLATE);
     }
     
     /**
@@ -117,7 +128,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         return null;
     }
     
-    function connect($gateway = null) {
+    function connect($gateway, array $querystring = array()) {
         if($this->ws) {
             return \React\Promise\resolve();
         }
@@ -130,6 +141,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         if($this->gateway) {
             $this->client->emit('reconnect');
             $reconnect = true;
+        } elseif(!empty($querystring)) {
+            $gateway .= '/?'.\http_build_query($querystring);
         }
         
         $this->gateway = $gateway;
@@ -169,6 +182,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             }
             
             $this->ws->on('message', function ($message) {
+                $message = \inflate_add($this->compressContext, $message->getPayload(), ZLIB_SYNC_FLUSH);
                 $this->wshandler->handle($message);
             });
             
@@ -297,8 +311,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                     '$browser' => 'Yasmin',
                     '$device' => 'Yasmin'
                 ),
-                'compress' => (bool) $this->client->getOption('compress', false),
-                'large_threshold' => (int) $this->client->getOption('largeThreshold', 250),
+                'compress' => false,
+                'large_threshold' => (int) $this->client->getOption('ws.largeThreshold', 250),
                 'shard' => array(
                     (int) $this->client->getOption('shardID', 0),
                     (int) $this->client->getOption('shardCount', 1)
@@ -306,7 +320,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             )
         );
         
-        $presence = (array) $this->client->getOption('connectPresence', array());
+        $presence = (array) $this->client->getOption('ws.presence', array());
         if(\is_array($presence) && !empty($presence)) {
             $packet['d']['presence'] = $presence;
         }
