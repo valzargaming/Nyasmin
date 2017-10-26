@@ -115,6 +115,11 @@ class Constants {
     const WS_STATUS_IDLE = 5;
     
     /**
+     * WS default compression.
+     */
+    const WS_DEFAULT_COMPRESSION = 'zlib-stream';
+    
+    /**
      * Channel Types.
      * @access private
      */
@@ -124,15 +129,6 @@ class Constants {
         2 => 'voice',
         3 => 'group',
         4 => 'category',
-    );
-    
-    /**
-     * Game Types.
-     * @access private
-     */
-    const GAME_TYPES = array(
-        0 => 'Playing',
-        1 => 'Streaming'
     );
     
     /**

@@ -26,7 +26,7 @@ interface CompressionInterface {
     
     /**
      * Checks if the system supports it.
-     * @throws \RuntimeException
+     * @throws \Exception
      */
     static function supported();
     

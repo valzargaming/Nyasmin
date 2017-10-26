@@ -34,7 +34,7 @@ class ZlibStream
     
     /**
      * Checks if the system supports it.
-     * @throws \RuntimeException
+     * @throws \Exception
      */
     static function supported() {
         if(!\function_exists('\inflate_init')) {

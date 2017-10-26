@@ -105,27 +105,23 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
         
-        $compression = $this->client->getOption('ws.compression', 'zlib-stream');
+        $compression = $this->client->getOption('ws.compression', \CharlotteDunois\Yasmin\Constants::WS_DEFAULT_COMPRESSION);
         switch($compression) {
             default:
-                try {
-                    $name = \str_replace('-', '', \ucwords($compression, '-'));
-                    if(strpos($name, '\\') === false) {
-                        $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
-                    }
-                    
-                    $name::supported();
-                    
-                    $interfaces = \class_implements($name);
-                    if(!in_array('CharlotteDunois\\Yasmin\\WebSocket\\Compression\\CompressionInterface', $interfaces)) {
-                        throw new \Exception('Specified WS compression class does not implement necessary interface');
-                    }
-                    
-                    $this->compression = $compression;
-                    $this->compressContext = new $name();
-                } catch(\RuntimeException $e) {
-                    /* Continue regardless of error */
+                $name = \str_replace('-', '', \ucwords($compression, '-'));
+                if(strpos($name, '\\') === false) {
+                    $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
                 }
+                
+                $name::supported();
+                
+                $interfaces = \class_implements($name);
+                if(!in_array('CharlotteDunois\\Yasmin\\WebSocket\\Compression\\CompressionInterface', $interfaces)) {
+                    throw new \Exception('Specified WS compression class does not implement necessary interface');
+                }
+                
+                $this->compression = $compression;
+                $this->compressContext = new $name();
             break;
             case false:
                 /* Nothing to do */

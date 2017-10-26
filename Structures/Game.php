@@ -26,18 +26,26 @@ class Game extends Structure {
         parent::__construct($client);
         
         $this->name = $game['name'];
-        $this->type = \CharlotteDunois\Yasmin\Constants::GAME_TYPES[$game['type']];
+        $this->type = $game['type'];
         $this->url = (!empty($game['url']) ? $game['url'] : null);
     }
     
     /**
-     * @property-read string       $name  The name of the game.
-     * @property-read string       $type  The type. Either Playing or Streaming.
-     * @property-read string|null  $url   The stream url, if streaming.
+     * @property-read string       $name        The name of the game.
+     * @property-read int          $type        The type.
+     * @property-read string|null  $url         The stream url, if streaming.
+     *
+     * @property-read bool         $streaming   Whether or not the game is being streamed.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
+        }
+        
+        switch($name) {
+            case 'streaming':
+                return (bool) ($game['type'] === 1);
+            break;
         }
         
         return null;
@@ -47,10 +55,9 @@ class Game extends Structure {
      * @access private
      */
     function jsonSerialize() {
-        $type = \array_search($this->type, \CharlotteDunois\Yasmin\Constants::GAME_TYPES, true);
         return array(
             'name' => $this->name,
-            'type' => (\is_int($type) ? $type : 0),
+            'type' => $this->type,
             'url' => $this->url
         );
     }
