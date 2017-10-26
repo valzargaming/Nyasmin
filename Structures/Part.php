@@ -48,7 +48,9 @@ class Part implements \JsonSerializable, \Serializable { //TODO: Nya
      */
     function _patch(array $data) {
         foreach($data as $key => $val) {
-            $key = \lcfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $key))));
+            if(\strpos($key, '_') !== false) {
+                $key = \lcfirst(\str_replace('_', '', \ucwords($key, '_')));
+            }
             
             if(\property_exists($this, $key)) {
                 if($this->$key instanceof \CharlotteDunois\Yasmin\Structures\Collection) {
@@ -82,16 +84,19 @@ class Part implements \JsonSerializable, \Serializable { //TODO: Nya
     /**
      * @access private
      */
-     function _shouldUpdate(array $data) {
-         $oldData = \json_decode(\json_encode($this), true);
-         
-         foreach($data as $key => $val) {
-             $newKey = \str_replace('_', '', \ucwords($key, '_'));
-             if($oldData[$newKey] !== $val) {
-                 return true;
-             }
-         }
-         
-         return false;
-     }
+    function _shouldUpdate(array $data) {
+        $oldData = \json_decode(\json_encode($this), true);
+        
+        foreach($data as $key => $val) {
+            if(\strpos($key, '_') !== false) {
+                $key = \lcfirst(\str_replace('_', '', \ucwords($key, '_')));
+            }
+            
+            if($oldData[$key] !== $val) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
