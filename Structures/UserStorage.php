@@ -41,7 +41,7 @@ class UserStorage extends Collection
             return $this->get($user);
         }
         
-        throw new \Exception('Unable to resolve unknown user');
+        throw new \InvalidArgumentException('Unable to resolve unknown user');
     }
     
     function patch(array $user) {

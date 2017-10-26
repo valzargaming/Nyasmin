@@ -43,7 +43,7 @@ class GuildMemberStorage extends Collection
             return $this->get($guildmember);
         }
         
-        throw new \Exception('Unable to resolve unknown guild member');
+        throw new \InvalidArgumentException('Unable to resolve unknown guild member');
     }
     
     function factory(array $data) {

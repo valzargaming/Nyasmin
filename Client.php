@@ -395,7 +395,7 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * Validates the passed client options.
      * @param array
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     private function validateClientOptions(array $options) {
         

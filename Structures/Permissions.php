@@ -39,7 +39,7 @@ class Permissions extends Structure { //TODO: Docs
      * @param array|int|string  $permissions
      * @param boolean           $checkAdmin
      * @return boolean
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function has($permissions, bool $checkAdmin = true) {
         if(!\is_array($permissions)) {
@@ -65,7 +65,7 @@ class Permissions extends Structure { //TODO: Docs
      * @param array|int|string  $permissions
      * @param boolean           $checkAdmin
      * @return boolean
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function missing($permissions, bool $checkAdmin = true) {
         return !$this->has($permissions, $checkAdmin);
@@ -75,7 +75,7 @@ class Permissions extends Structure { //TODO: Docs
      * Adds permissions to these ones.
      * @param int|string  $permissions
      * @return this
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function add(...$permissions) {
         $total = 0;
@@ -92,7 +92,7 @@ class Permissions extends Structure { //TODO: Docs
      * Removes permissions from these ones.
      * @param int|string  $permissions
      * @return this
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function remove(...$permissions) {
         $total = 0;
@@ -109,7 +109,7 @@ class Permissions extends Structure { //TODO: Docs
      * Resolves a permission name to number. Also checks if a given integer is a valid permission.
      * @param int|string  $permission
      * @return int
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     static function resolve($permission) {
         if(\is_int($permission) && \array_search($permission, \CharlotteDunois\Yasmin\Constants::PERMISSIONS, true) !== false) {
@@ -118,6 +118,6 @@ class Permissions extends Structure { //TODO: Docs
             return \CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission];
         }
         
-        throw new \Exception('Can not resolve unknown permission');
+        throw new \InvalidArgumentException('Can not resolve unknown permission');
     }
 }

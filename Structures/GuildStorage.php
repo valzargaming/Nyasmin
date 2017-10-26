@@ -38,6 +38,6 @@ class GuildStorage extends Collection
             return $this->get($guild);
         }
         
-        throw new \Exception('Unable to resolve unknown guild');
+        throw new \InvalidArgumentException('Unable to resolve unknown guild');
     }
 }

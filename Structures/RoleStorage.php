@@ -41,7 +41,7 @@ class RoleStorage extends Collection
             return $this->get($role);
         }
         
-        throw new \Exception('Unable to resolve unknown role');
+        throw new \InvalidArgumentException('Unable to resolve unknown role');
     }
     
     function factory(array $data) {

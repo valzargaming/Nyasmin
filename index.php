@@ -78,7 +78,7 @@ $client->on('message', function ($message) use ($client) {
                     $result = \React\Promise\resolve($result);
                 }
                 
-                $result->then(function ($result) use ($code, $message) {
+                $result->done(function ($result) use ($code, $message) {
                     @\ob_clean();
                     \var_dump($result);
                     $result = @\ob_get_clean();
@@ -86,13 +86,17 @@ $client->on('message', function ($message) use ($client) {
                     \array_shift($result);
                     $result = \implode(PHP_EOL, $result);
                     
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```');
-                }, function ($e) use ($code, $message) {
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
+                    while(@\ob_end_clean());
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```')->done();
                 });
             } catch(\Throwable $e) {
+                while(@\ob_end_clean());
                 $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
             } catch(\Exception $e) {
+                while(@\ob_end_clean());
+                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
+            } catch(\Error $e) {
+                while(@\ob_end_clean());
                 $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
             }
         }

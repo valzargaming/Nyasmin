@@ -237,7 +237,7 @@ class User extends Structure
     function bulkDelete($messages) {
         $channel = $this->__get('dmChannel');
         if(!$channel) {
-            return \React\Promise\reject(new \Exception('You can not bulk delete inside a non-existing channel'));
+            return \React\Promise\reject(new \BadMethodCallException('You can not bulk delete inside a non-existing channel'));
         }
         
         return $channel->bulkDelete($messages);
@@ -246,7 +246,7 @@ class User extends Structure
     function search(array $options = array()) {
         $channel = $this->__get('dmChannel');
         if(!$channel) {
-            return \React\Promise\reject(new \Exception('You can not bulk delete inside a non-existing channel'));
+            return \React\Promise\reject(new \BadMethodCallException('You can not bulk delete inside a non-existing channel'));
         }
         
         return $channel->search($options);
@@ -301,19 +301,11 @@ class User extends Structure
     }
     
     function typingIn($channel) {
-        if(!($channel instanceof \CharlotteDunois\Yasmin\Structures\Textchannel) && (is_string($channel) && \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($channel)->isValid() === false)) {
-            throw new \Exception('The "channel" argument is neither an instance of Textchannel nor a Snowflake');
-        }
-        
         $channel = $this->client->channels->resolve($channel);
         return $channel->isTyping($this);
     }
     
     function typingSinceIn($channel) {
-        if(!($channel instanceof \CharlotteDunois\Yasmin\Structures\Textchannel) && (is_string($channel) && \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($channel)->isValid() === false)) {
-            throw new \Exception('The "channel" argument is neither an instance of Textchannel nor a Snowflake');
-        }
-        
         $channel = $this->client->channels->resolve($channel);
         return $channel->isTypingSince($this);
     }

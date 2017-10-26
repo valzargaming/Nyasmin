@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Traits;
  */
 trait GuildChannelTrait {
     /**
-     * Edits the channel. Options are as following (all are optional, but at least one is required).
+     * Edits the channel. Options are as following (at least one is required).
      *
      *  array(
      *    'name' => string,
@@ -27,18 +27,18 @@ trait GuildChannelTrait {
      * @param array   $options
      * @param string  $reason
      * @return \React\Promise\Promise<this>
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
         if(empty($options)) {
-            throw new \Exception('Can not edit channel with zero information');
+            throw new \InvalidArgumentException('Can not edit channel with zero information');
         }
         
         $data = array();
         
         if(isset($options['name'])) {
             if(empty($options['name']) || !\is_string($options['name'])) {
-                throw new \Exception('Can not set channel name to empty');
+                throw new \InvalidArgumentException('Can not set channel name to empty');
             }
             
             $data['name'] = $options['name'];
@@ -46,7 +46,7 @@ trait GuildChannelTrait {
         
         if(isset($options['position'])) {
             if(!\is_int($options['positon'])) {
-                throw new \Exception('Can not set channel position to something non-integer');
+                throw new \InvalidArgumentException('Can not set channel position to something non-integer');
             }
             
             $data['position'] = $options['position'];
@@ -54,11 +54,11 @@ trait GuildChannelTrait {
         
         if(isset($options['bitrate'])) {
             if($this instanceof \CharlotteDunois\Yasmin\Structures\TextChannel) {
-                throw new \Exception('Can not set channel bitrate of a text channel');
+                throw new \InvalidArgumentException('Can not set channel bitrate of a text channel');
             }
             
             if(!\is_int($options['bitrate'])) {
-                throw new \Exception('Can not set channel bitrate to something non-integer');
+                throw new \InvalidArgumentException('Can not set channel bitrate to something non-integer');
             }
             
             $data['bitrate'] = $options['bitrate'];
@@ -66,11 +66,11 @@ trait GuildChannelTrait {
         
         if(isset($options['userLimit'])) {
             if($this instanceof \CharlotteDunois\Yasmin\Structures\TextChannel) {
-                throw new \Exception('Can not set channel user limit of a text channel');
+                throw new \InvalidArgumentException('Can not set channel user limit of a text channel');
             }
             
             if(!\is_int($options['userLimit'])) {
-                throw new \Exception('Can not set channel user limit to something non-integer');
+                throw new \InvalidArgumentException('Can not set channel user limit to something non-integer');
             }
             
             $data['user_limit'] = $options['userLimit'];
@@ -97,10 +97,10 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Returns a Collection of invites.
-     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection>
+     * Fetches all invites for this channel.
+     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Structures\Invite>>
      */
-    function getInvites() {
+    function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->then(function ($data) use ($resolve) {
                 $collection = new \CharlotteDunois\Collect\Collection();
@@ -119,7 +119,7 @@ trait GuildChannelTrait {
      * Returns the permissions for the given member.
      * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Structures\Permissions
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function permissionsFor($member) {
         $member = $this->guild->members->resolve($member);
@@ -176,7 +176,7 @@ trait GuildChannelTrait {
      * Returns the permissions overwrites for the given member.
      * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
      * @return array
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function overwritesFor($member) {
         $member = $this->guild->members->resolve($member);
@@ -207,7 +207,7 @@ trait GuildChannelTrait {
      * @param array                                                  $options
      * @param string                                                 $reason
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\PermissionOverwite>
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function overwritePermissions($member, array $options, string $reason = '') {
         $member = $this->guild->members->resolve($member);
@@ -220,11 +220,11 @@ trait GuildChannelTrait {
     /**
      * Locks in the permission overwrites from the parent channel.
      * @return \React\Promise\Promise<this>
-     * @throws \Exception
+     * @throws \BadMethodCallException
      */
     function lockPermissions() {
         if(!$this->__get('parent')) {
-            throw new \Exception('This channel does not have a parent');
+            throw new \BadMethodCallException('This channel does not have a parent');
         }
         
         $overwrites = \array_values($this->__get('parent')->permissionsOverwrites->map(function ($overwrite) {
@@ -253,7 +253,7 @@ trait GuildChannelTrait {
      * @param string  $name
      * @param string  $reason
      * @return \React\Promise\Promise<this>
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
      function setName(string $name, string $reason = '') {
          return $this->edit(array('name' => $name), $reason);
@@ -264,11 +264,11 @@ trait GuildChannelTrait {
      * @param int     $position
      * @param string  $reason
      * @return \React\Promise\Promise<this>
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {
         if($position < 0 ) {
-            throw new \Exception('Position can not be below 0');
+            throw new \InvalidArgumentException('Position can not be below 0');
         }
         
         $newPositions = array();
@@ -307,7 +307,7 @@ trait GuildChannelTrait {
      * @param string  $topic
      * @param string  $reason
      * @return \React\Promise\Promise<this>
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
      function setTopic(string $topic, string $reason = '') {
          return $this->edit(array('topic' => $topic), $reason);

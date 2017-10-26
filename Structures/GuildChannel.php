@@ -16,13 +16,13 @@ class GuildChannel extends Structure { //TODO: Implementation
                 return (new \CharlotteDunois\Yasmin\Structures\TextChannel($client, $guild, $channel));
             break;
             case 1:
-                throw new \Exception('A channel of type "DM" can not be a guild channel');
+                throw new \InvalidArgumentException('A channel of type "DM" can not be a guild channel');
             break;
             case 2:
                 return (new \CharlotteDunois\Yasmin\Structures\VoiceChannel($client, $guild, $channel));
             break;
             case 3:
-                throw new \Exception('A channel of type "Group DM" can not be a guild channel');
+                throw new \InvalidArgumentException('A channel of type "Group DM" can not be a guild channel');
             break;
             case 4:
                 return (new \CharlotteDunois\Yasmin\Structures\CategoryChannel($client, $guild, $channel));

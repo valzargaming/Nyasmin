@@ -41,7 +41,7 @@ class PresenceStorage extends Collection
             return $this->get($presence);
         }
         
-        throw new \Exception('Unable to resolve unknown presence');
+        throw new \InvalidArgumentException('Unable to resolve unknown presence');
     }
     
     function set($key, $value) {

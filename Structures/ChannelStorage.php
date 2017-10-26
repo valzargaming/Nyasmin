@@ -41,7 +41,7 @@ class ChannelStorage extends Collection
             return $this->get($channel);
         }
         
-        throw new \Exception('Unable to resolve unknown channel');
+        throw new \InvalidArgumentException('Unable to resolve unknown channel');
     }
     
     function set($key, $value) {
@@ -67,7 +67,7 @@ class ChannelStorage extends Collection
         
         switch($data['type']) {
             default:
-                throw new \Exception('Unknown channel type');
+                throw new \InvalidArgumentException('Unknown channel type');
             break;
             case 0:
                 $channel = new \CharlotteDunois\Yasmin\Structures\TextChannel($this->client, $guild, $data);
