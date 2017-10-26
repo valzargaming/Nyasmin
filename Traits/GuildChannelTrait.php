@@ -143,11 +143,11 @@ trait GuildChannelTrait {
         $overwrites = $this->overwritesFor($member);
         
         if($overwrites['everyone']) {
-            if($overwrites['everyone']->allow) {
+            if($overwrites['everyone']->allow->bitfield) {
                 $permissions->add($overwrites['everyone']->allow->bitfield);
             }
             
-            if($overwrites['everyone']->deny) {
+            if($overwrites['everyone']->deny->bitfield) {
                 $permissions->remove($overwrites['everyone']->deny->bitfield);
             }
         }
@@ -163,11 +163,11 @@ trait GuildChannelTrait {
         }
         
         foreach($overwrites['roles'] as $role) {
-            if($role->allow) {
-                $permissions->add($role->allow);
+            if($role->allow->bitfield) {
+                $permissions->add($role->allow->bitfield);
             }
-            if($role->deny) {
-                $permissions->remove($role->deny);
+            if($role->deny->bitfield) {
+                $permissions->remove($role->deny->bitfield);
             }
         }
         
