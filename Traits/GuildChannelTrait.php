@@ -13,9 +13,7 @@ namespace CharlotteDunois\Yasmin\Traits;
  * The trait all guild channels use.
  */
 trait GuildChannelTrait {
-    /**
-     * @property-read \CharlotteDunois\Yasmin\Client  $client
-     */
+    abstract function __get($name);
      
     /**
      * Edits the channel. Options are as following (at least one is required).
