@@ -253,12 +253,28 @@ class APIManager {
     /**
      * Processes the queue.
      */
-    private function _process() {
+    private function _process(bool $executeContext = false) {
+        if($executeContext) {
+            $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
+            if($offset > 0) {
+                $offset = $offset / 1000;
+                
+                $this->client->addTimer($offset, function () {
+                    $this->_process();
+                }, true);
+                
+                return;
+            }
+        }
+        
         if($this->limited === true) {
-            if(\time() > $this->resetTime) {
+            if(\time() < $this->resetTime) {
                 $this->client->emit('debug', 'We are API-wise globally ratelimited');
                 
-                $this->process();
+                $this->client->addTimer((\time() - $this->resetTime), function () {
+                    $this->_process();
+                }, true);
+                
                 return;
             }
             
@@ -323,7 +339,7 @@ class APIManager {
             return null;
         })->then(function ($response) use ($item, $ratelimit) {
             if(!$response) {
-                $this->_process();
+                $this->_process(true);
                 return;
             }
             
@@ -339,15 +355,15 @@ class APIManager {
                 
                 if($status === 204) {
                     $item->deferred->resolve();
-                    $this->_process();
+                    $this->_process(true);
                     return;
                 }
                 
                 $body = \json_decode($response->getBody(), true);
                 
                 if($status >= 400) {
-                    if($status === 429) {
-                        $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP 429');
+                    if($status === 429 || ($status >= 500 && $status < 600)) {
+                        $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
                         
                         if($ratelimit !== null) {
                             $ratelimit->unshift($item);
@@ -355,24 +371,24 @@ class APIManager {
                             \array_unshift($this->queue, $item);
                         }
                         
-                        $this->_process();
+                        $this->_process(true);
                         return;
                     }
                     
-                    if($status >= 500) {
-                        $error = new \Exception($response->getReasonPhrase());
-                    } else {
+                    if($status >= 400 && $status < 500) {
                         $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
+                    } else {
+                        $error = new \Exception($response->getReasonPhrase());
                     }
                     
                     throw $error;
                 }
                 
                 $item->deferred->resolve($body);
-                $this->_process();
+                $this->_process(true);
             } catch(\Exception $e) {
                 $item->deferred->reject($e);
-                $this->_process();
+                $this->_process(true);
             }
         });
     }

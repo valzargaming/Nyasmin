@@ -15,6 +15,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Compression;
  */
 interface CompressionInterface {
     /**
+     * Returns compression name (for gateway query string).
+     */
+    function getName();
+    
+    /**
      * Initializes the context.
      */
     function init();

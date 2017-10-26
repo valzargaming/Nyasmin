@@ -92,7 +92,7 @@ class Part implements \JsonSerializable, \Serializable { //TODO: Nya
                 $key = \lcfirst(\str_replace('_', '', \ucwords($key, '_')));
             }
             
-            if($oldData[$key] !== $val) {
+            if(\array_key_exists($key, $oldData) && $oldData[$key] !== $val) {
                 return true;
             }
         }

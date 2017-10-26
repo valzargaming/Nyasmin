@@ -35,11 +35,6 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     private $ws;
     
     /**
-     * @var string
-     */
-    private $compression;
-    
-    /**
      * @var resource
      */
     private $compressContext;
@@ -120,7 +115,6 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                     throw new \Exception('Specified WS compression class does not implement necessary interface');
                 }
                 
-                $this->compression = $compression;
                 $this->compressContext = new $name();
             break;
             case false:
@@ -159,8 +153,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             throw new \Exception('Can not connect to unknown gateway');
         }
         
-        if(!empty($this->compression)) {
-            $querystring['compress'] = $this->compression;
+        if($this->compressContext) {
+            $querystring['compress'] = $this->compressContext->getName();
         }
         
         $reconnect = false;

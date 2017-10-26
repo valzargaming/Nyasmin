@@ -18,6 +18,10 @@ class ZlibStream
     
     protected $context;
     
+    function getName() {
+        return 'zlib-stream';
+    }
+    
     /**
      * Initializes the context.
      */

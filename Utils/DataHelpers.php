@@ -10,13 +10,13 @@
 namespace CharlotteDunois\Yasmin\Utils;
 
 /**
- * DataHelper methods.
+ * Data Helper methods.
  */
 class DataHelpers {
     /**
      * Resolves a color to an int.
      * @param array|int|string  $color
-     * @return int|null
+     * @return int
      * @throws \InvalidArgumentException
      */
     static function resolveColor($color) {
