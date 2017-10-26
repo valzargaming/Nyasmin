@@ -75,6 +75,7 @@ class Message extends Structure { //TODO: Implementation
             foreach($matches[1] as $match) {
                 $channel = $this->client->channels->get($match);
                 if($channel) {
+                    $this->mentions->channels->set($channel->id, $channel);
                     $this->cleanContent = \str_replace($channel->__toString(), $channel->name, $this->cleanContent);
                 }
             }
@@ -86,10 +87,10 @@ class Message extends Structure { //TODO: Implementation
                 if($user) {
                     $member = null;
                     
-                    $this->mentions['users']->set($mention['id'], $user);
+                    $this->mentions['users']->set($user->id, $user);
                     if($guild) {
                         $member = $guild->members->get($mention['id']);
-                        $this->mentions['members']->set($mention['id'], $member);
+                        $this->mentions['members']->set($member->id, $member);
                     }
                     
                     $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
@@ -97,12 +98,11 @@ class Message extends Structure { //TODO: Implementation
             }
         }
         
-        
-        if($guild && !empty($message['mentions_role'])) {
-            foreach($message['mentions_role'] as $mention) {
-                $role = $guild->roles->get($mention['id']);
+        if($guild && !empty($message['mention_roles'])) {
+            foreach($message['mention_roles'] as $id) {
+                $role = $guild->roles->get($id);
                 if($role) {
-                    $this->mentions['roles']->set($mention['id'], $role);
+                    $this->mentions['roles']->set($role->id, $role);
                     $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
                 }
             }
@@ -125,7 +125,7 @@ class Message extends Structure { //TODO: Implementation
      *
      * @property-read \DateTime                                                           $createdAt          An DateTime object of the createdTimestamp.
      * @property-read \CharlotteDunois\Yasmin\structures\Guild|null                       $guild              The correspondending guild (if message posted in a guild).
-     * @property-read \CharlotteDunois\Yasmin\structures\GuildMember|null                 $member              The correspondending guildmember of the author (if message posted in a guild).
+     * @property-read \CharlotteDunois\Yasmin\structures\GuildMember|null                 $member             The correspondending guildmember of the author (if message posted in a guild).
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
