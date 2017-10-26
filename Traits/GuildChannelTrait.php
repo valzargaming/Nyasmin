@@ -236,10 +236,10 @@ trait GuildChannelTrait {
         $options['deny'] = $deny;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
-            $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options) {
+            $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
                 $options['id'] = $memberOrRole->id;
                 
-                $overwrite = new \CharlotteDunois\Yasmin\Structures\PermissionOverwite($client, $this, $options);
+                $overwrite = new \CharlotteDunois\Yasmin\Structures\PermissionOverwite($this->client, $this, $options);
                 $this->permissionsOverwrites->set($overwrite->id, $overwrite);
                 
                 $resolve($overwrite);
