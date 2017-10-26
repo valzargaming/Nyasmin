@@ -191,7 +191,7 @@ trait GuildChannelTrait {
             if($overwrite->id === $this->guild->id) {
                 $everyoneOverwrites = $overwrite;
             } elseif($overwrite->id === $member->id) {
-                $memberOvewrites = $overwrite;
+                $memberOverwrites = $overwrite;
             } elseif($member->roles->has($overwrite->id)) {
                 $rolesOverwrites[] = $overwrite;
             }
@@ -203,19 +203,47 @@ trait GuildChannelTrait {
             'roles' => $rolesOverwrites
         );
     }
+    
     /**
      * Overwrites the permissions for a user or role in this channel.
-     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
-     * @param array                                                  $options
-     * @param string                                                 $reason
+     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|\CharlotteDunois\Yasmin\Structures\Role|string  $memberOrRole
+     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $allow
+     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $deny
+     * @param string                                                                                         $reason
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\PermissionOverwite>
      * @throws \InvalidArgumentException
      */
-    function overwritePermissions($member, array $options, string $reason = '') {
-        $member = $this->guild->members->resolve($member);
+    function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '') {
+        $options = array();
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($member, $options, $reason) {
-            
+        try {
+            $memberOrRole = $this->guild->members->resolve($memberOrRole);
+            $options['type'] = 'user';
+        } catch(\InvalidArgumentException $e) {
+            $memberOrRole = $this->guild->roles->resolve($memberOrRole);
+            $options['type'] = 'role';
+        }
+        
+        if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Structures\Permissions)) {
+            throw new \InvalidArgumentException('Allow has to be an int or instanceof Permissions');
+        }
+        
+        if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Structures\Permissions)) {
+            throw new \InvalidArgumentException('Deny has to be an int or instanceof Permissions');
+        }
+        
+        $options['allow'] = $allow;
+        $options['deny'] = $deny;
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
+            $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options) {
+                $options['id'] = $memberOrRole->id;
+                
+                $overwrite = new \CharlotteDunois\Yasmin\Structures\PermissionOverwite($client, $this, $options);
+                $this->permissionsOverwrites->set($overwrite->id, $overwrite);
+                
+                $resolve($overwrite);
+            }, $reject);
         }));
     }
     

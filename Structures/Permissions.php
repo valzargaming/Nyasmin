@@ -19,7 +19,7 @@ class Permissions extends Structure { //TODO: Docs
     /**
      * @param int  $permission
      */
-    function __construct(int $permission) {
+    function __construct(int $permission = 0) {
         $this->bitfield = $permission;
     }
     
@@ -32,6 +32,13 @@ class Permissions extends Structure { //TODO: Docs
         }
         
         return null;
+    }
+    
+    /**
+     * @access private
+     */
+    function jsonSerialize() {
+        return $this->bitfield;
     }
     
     /**
