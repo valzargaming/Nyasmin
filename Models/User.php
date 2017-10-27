@@ -91,7 +91,7 @@ class User extends Structure
                 }
             break;
             case 'lastMessage':
-                if($this->lastMessageID) {
+                if($this->lastMessageID !== null) {
                     return $this->client->channels->first(function ($channel) {
                         return $channel->messages->has($this->lastMessageID);
                     });
