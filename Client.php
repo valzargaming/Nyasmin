@@ -412,7 +412,7 @@ class Client extends EventEmitter { //TODO: Implementation
             $fqn = '\\CharlotteDunoi\\Yasmin\\Utils\\'.$name;
             
             if(\method_exists($fqn, 'setLoop')) {
-                $fqn::setLoop($loop);
+                $fqn::setLoop($this->loop);
                 $this->utils[] = $fqn;
             }
         }
