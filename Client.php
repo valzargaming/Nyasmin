@@ -192,16 +192,7 @@ class Client extends EventEmitter { //TODO: Implementation
         $this->voiceConnections = new \CharlotteDunois\Yasmin\Models\Collection();
         $this->voiceStates = new \CharlotteDunois\Yasmin\Models\Collection();
         
-        $utils = \glob(__DIR__.'/Utils/*.php');
-        foreach($utils as $util) {
-            $name = \substr(\explode('/', $util)[0], 0, -4);
-            $fqn = '\\CharlotteDunoi\\Yasmin\\Utils\\'.$name;
-            
-            if(\method_exists($fqn, 'setLoop')) {
-                $fqn::setLoop($loop);
-                $this->utils[] = $fqn;
-            }
-        }
+        $this->registerUtils();
     }
     
     /**
@@ -408,6 +399,23 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function setClientUser(array $user) {
         $this->user = new \CharlotteDunois\Yasmin\Models\ClientUser($this, $user);
+    }
+    
+    /**
+     * Registers Utils which have a setLoop method.
+     * @access private
+     */
+    function registerUtils() {
+        $utils = \glob(__DIR__.'/Utils/*.php');
+        foreach($utils as $util) {
+            $name = \substr(\explode('/', $util)[0], 0, -4);
+            $fqn = '\\CharlotteDunoi\\Yasmin\\Utils\\'.$name;
+            
+            if(\method_exists($fqn, 'setLoop')) {
+                $fqn::setLoop($loop);
+                $this->utils[] = $fqn;
+            }
+        }
     }
     
     /**
