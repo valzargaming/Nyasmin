@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#typing-start
+ * @see https://discordapp.com/developers/docs/topics/gateway#typing-start
  * @access private
  */
 class TypingStart {

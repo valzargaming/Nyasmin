@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#message-update
+ * @see https://discordapp.com/developers/docs/topics/gateway#message-update
  * @access private
  */
 class MessageUpdate {

@@ -34,6 +34,7 @@ class Dispatch {
             'GUILD_EMOJIS_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildEmojisUpdate',
             'GUILD_INTEGRATIONS_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildIntegrationsUpdate',
             'GUILD_MEMBER_ADD' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberAdd',
+            'GUILD_MEMBER_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberUpdate',
             'GUILD_MEMBER_REMOVE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMemberRemove',
             'GUILD_MEMBERS_CHUNK' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildMembersChunk',
             'GUILD_ROLE_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildRoleCreate',

@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#message-delete
+ * @see https://discordapp.com/developers/docs/topics/gateway#message-delete
  * @access private
  */
 class MessageDelete {

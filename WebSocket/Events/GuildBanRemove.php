@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#guild-ban-remove
+ * @see https://discordapp.com/developers/docs/topics/gateway#guild-ban-remove
  * @access private
  */
 class GuildBanRemove {

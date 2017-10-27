@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#voice-state-update
+ * @see https://discordapp.com/developers/docs/topics/gateway#voice-state-update
  * @access private
  */
 class VoiceStateUpdate {

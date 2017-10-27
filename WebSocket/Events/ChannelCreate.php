@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @link https://discordapp.com/developers/docs/topics/gateway#channel-create
+ * @see https://discordapp.com/developers/docs/topics/gateway#channel-create
  * @access private
  */
 class ChannelCreate {
