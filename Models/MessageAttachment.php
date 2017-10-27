@@ -56,7 +56,7 @@ class MessageAttachment extends Base {
         
         switch($name) {
             case 'createdAt':
-                return (new \DateTime('@'.$this->createdTimestamp));
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
         }
         

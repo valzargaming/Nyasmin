@@ -411,7 +411,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response $response
      */
     private function handleRatelimit(\GuzzleHttp\Psr7\Response $response) {
-        $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->format('U'));
+        $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         
         if($response->hasHeader('X-RateLimit-Limit')) {
             $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];

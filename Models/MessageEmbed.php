@@ -45,7 +45,7 @@ class MessageEmbed extends Base {
             
             $this->description = $embed['description'] ?? null;
             $this->url = $embed['url'] ?? null;
-            $this->timestamp = (!empty($this->timestamp) ? (new \DateTime($this->timestamp))->format('U') : null);
+            $this->timestamp = (!empty($this->timestamp) ? (new \DateTime($this->timestamp))->getTimestamp() : null);
             $this->color = $embed['color'] ?? null;
             
             if(!empty($embed['footer'])) {

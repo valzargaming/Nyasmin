@@ -36,4 +36,14 @@ class DataHelpers {
         
         return ((\hexdec($color[0]) << 16) + (\hexdec($color[1] ?? '0') << 8) + \hexdec($color[2] ?? '0'));
     }
+    
+    /**
+     * Makes a DateTime object from an UNIX timestamp and applies the default timezone.
+     * @param int $timestamp
+     * @return \DateTime
+     */
+    static function makeDateTime(int $timestamp) {
+        $zone = new \DateTimeZone(\date_default_timezone_get());
+        return (new \DateTime('@'.$timestamp))->setTimezone($zone);
+    }
 }

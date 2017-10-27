@@ -76,7 +76,7 @@ class User extends ClientBase
         
         switch($name) {
             case 'createdAt':
-                return (new \DateTime('@'.$this->createdTimestamp));
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
             case 'defaultAvatar':
                 return ($this->discriminator % 5);

@@ -60,7 +60,7 @@ class RatelimitBucket {
     function handleRatelimit(\GuzzleHttp\Psr7\Response $response) {
         $dateDiff = 0;
         if($response->hasHeader('Date')) {
-            $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->format('U'));
+            $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         }
         
         if($response->hasHeader('X-RateLimit-Limit')) {

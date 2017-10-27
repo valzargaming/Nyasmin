@@ -41,8 +41,8 @@ class Message extends ClientBase { //TODO: Implementation
         $this->author = (empty($message['webhook_id']) ? $client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($client, $message['author'], true));
         $this->channel = $channel;
         $this->content = $message['content'];
-        $this->createdTimestamp = (new \DateTime($message['timestamp']))->format('U');
-        $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->format('U') : null);
+        $this->createdTimestamp = (new \DateTime($message['timestamp']))->getTimestamp();
+        $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : null);
         $this->tts = (bool) $message['tts'];
         $this->mentionEveryone = (bool) $message['mention_everyone'];
         $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
@@ -119,13 +119,15 @@ class Message extends ClientBase { //TODO: Implementation
     
     /**
      * @property-read string                                                              $id                 The message ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\User                             $author             The user that created the message.
+     * @property-read \CharlotteDunois\Yasmin\Models\User                                 $author             The user that created the message.
      * @property-read \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface             $channel            The channel this message was created in.
      * @property-read int                                                                 $createdTimestamp   The timestamp of when this message was created.
+     * @property-read int|null                                                            $editedTimestamp    The timestamp of when this message was edited.
      *
      * @property-read \DateTime                                                           $createdAt          An DateTime object of the createdTimestamp.
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild|null                       $guild              The correspondending guild (if message posted in a guild).
-     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember|null                 $member             The correspondending guildmember of the author (if message posted in a guild).
+     * @property-read \DateTime|null                                                      $editedAt           An DateTime object of the editedTimestamp.
+     * @property-read \CharlotteDunois\Yasmin\Models\Guild|null                           $guild              The correspondending guild (if message posted in a guild).
+     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember|null                     $member             The correspondending guildmember of the author (if message posted in a guild).
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -134,7 +136,12 @@ class Message extends ClientBase { //TODO: Implementation
         
         switch($name) {
             case 'createdAt':
-                return (new \DateTime('@'.$this->createdTimestamp));
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+            break;
+            case 'editedAt':
+                if($this->editedTimestamp !== null) {
+                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->editedTimestamp);
+                }
             break;
             case 'guild':
                 return $this->channel->guild;

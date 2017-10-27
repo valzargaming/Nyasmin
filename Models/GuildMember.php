@@ -31,7 +31,7 @@ class GuildMember extends ClientBase { //TODO: Implementation
         $this->deaf = $member['deaf'];
         $this->mute = $member['mute'];
         
-        $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->format('U');
+        $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         
         $this->roles = new \CharlotteDunois\Yasmin\Models\Collection();
         

@@ -35,7 +35,7 @@ class Invite extends ClientBase {
         $this->guild = ($client->guilds->get($invite['guild']['id']) ?? (new \CharlotteDunois\Yasmin\Models\PartialGuild($client, $invite['guild'])));
         $this->channel = ($client->channels->get($invite['channel']['id']) ?? (new \CharlotteDunois\Yasmin\Models\PartialChannel($client, $invite['channel'])));
         
-        $this->createdTimestamp = (!empty($invite['created_at']) ? (new \DateTime($invite['created_at']))->format('U') : null);
+        $this->createdTimestamp = (!empty($invite['created_at']) ? (new \DateTime($invite['created_at']))->getTimestamp() : null);
         $this->inviter = (!empty($invite['inviter']) ? $client->users->patch($invite['inviter']) : null);
         $this->maxUses = $invite['max_uses'] ?? null;
         $this->maxAge = $invite['max_age'] ?? null;
@@ -66,7 +66,7 @@ class Invite extends ClientBase {
         switch($name) {
             case 'createdAt':
                 if($this->createdTimestamp) {
-                    return (new \DateTime('@'.$this->createdTimestamp));
+                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
                 }
             break;
         }
