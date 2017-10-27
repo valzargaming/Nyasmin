@@ -330,11 +330,7 @@ class Client extends EventEmitter { //TODO: Implementation
             $this->ws->disconnect();
             
             if($destroyUtils) {
-                foreach($this->utils as $util) {
-                    if(\method_exists($util, 'stopTimer')) {
-                        $util::stopTimer();
-                    }
-                }
+                $this->destroyUtils();
             }
             
             $resolve();
@@ -412,6 +408,20 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function setClientUser(array $user) {
         $this->user = new \CharlotteDunois\Yasmin\Models\ClientUser($this, $user);
+    }
+    
+    /**
+     * Destroys or stops all timers from Utils (requires that they are registered as such).
+     * @access private
+     */
+    function destroyUtils() {
+        foreach($this->utils as $util) {
+            if(\method_exists($util, 'destroy')) {
+                $util::destroy();
+            } elseif(\method_exists($util, 'stopTimer')) {
+                $util::stopTimer();
+            }
+        }
     }
     
     /**
