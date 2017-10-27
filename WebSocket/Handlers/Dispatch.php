@@ -53,7 +53,7 @@ class Dispatch {
             'VOICE_SERVER_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\VoiceServerUpdate'
         );
         
-        $events = \array_diff($allEvents, (array) $this->wshandler->client->getOption('disabledEvents', array()));
+        $events = \array_diff($allEvents, (array) $this->wshandler->client->getOption('ws.disabledEvents', array()));
         foreach($events as $name => $class) {
             $this->register($name, $class);
         }
@@ -70,13 +70,7 @@ class Dispatch {
     function handle(array $packet) {
         if(isset($this->wsevents[$packet['t']])) {
             try {
-                if(\in_array($packet['t'], $this->wshandler->client->getOption('disabledEvents', array()))) {
-                    $this->wshandler->client->emit('debug', 'WS event '.$packet['t'].' is disabled, skipping...');
-                    return;
-                }
-                
                 $this->wshandler->client->emit('debug', 'Handling WS event '.$packet['t']);
-                
                 $this->wsevents[$packet['t']]->handle($packet['d']);
             } catch(\Throwable $e) {
                 $this->wshandler->client->emit('error', $e);
