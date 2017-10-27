@@ -15,44 +15,44 @@ namespace CharlotteDunois\Yasmin;
 class Client extends EventEmitter { //TODO: Implementation
     /**
      * It holds all cached channels.
-     * @var \CharlotteDunois\Yasmin\Structures\ChannelStorage
+     * @var \CharlotteDunois\Yasmin\Models\ChannelStorage
      */
     public $channels;
     
     /**
      * It holds all guilds.
-     * @var \CharlotteDunois\Yasmin\Structures\GuildStorage
+     * @var \CharlotteDunois\Yasmin\Models\GuildStorage
      */
     public $guilds;
     
     /**
      * It holds all emojis.
-     * @var \CharlotteDunois\Yasmin\Structures\Collection
+     * @var \CharlotteDunois\Yasmin\Models\Collection
      */
     public $emojis;
     
     /**
      * It holds all cached presences.
-     * @var \CharlotteDunois\Yasmin\Structures\PresenceStorage
+     * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
      * @access private
      */
     public $presences;
     
     /**
      * It holds all cached users.
-     * @var \CharlotteDunois\Yasmin\Structures\UserStorage
+     * @var \CharlotteDunois\Yasmin\Models\UserStorage
      */
     public $users;
     
     /**
      * It holds all open voice connections.
-     * @var \CharlotteDunois\Yasmin\Structures\Collection
+     * @var \CharlotteDunois\Yasmin\Models\Collection
      */
     public $voiceConnections;
     
     /**
      * It holds all voice states.
-     * @var \CharlotteDunois\Yasmin\Structures\Collection
+     * @var \CharlotteDunois\Yasmin\Models\Collection
      */
     public $voiceStates;
     
@@ -90,7 +90,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * The Client User.
-     * @var \CharlotteDunois\Yasmin\Structures\ClientUser
+     * @var \CharlotteDunois\Yasmin\Models\ClientUser
      * @access private
      */
     private $user;
@@ -179,13 +179,13 @@ class Client extends EventEmitter { //TODO: Implementation
         $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
-        $this->channels = new \CharlotteDunois\Yasmin\Structures\ChannelStorage($this);
-        $this->emojis = new \CharlotteDunois\Yasmin\Structures\Collection();
-        $this->guilds = new \CharlotteDunois\Yasmin\Structures\GuildStorage($this);
-        $this->presences = new \CharlotteDunois\Yasmin\Structures\PresenceStorage($this);
-        $this->users = new \CharlotteDunois\Yasmin\Structures\UserStorage($this);
-        $this->voiceConnections = new \CharlotteDunois\Yasmin\Structures\Collection();
-        $this->voiceStates = new \CharlotteDunois\Yasmin\Structures\Collection();
+        $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($this);
+        $this->emojis = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->guilds = new \CharlotteDunois\Yasmin\Models\GuildStorage($this);
+        $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($this);
+        $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
+        $this->voiceConnections = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->voiceStates = new \CharlotteDunois\Yasmin\Models\Collection();
     }
     
     /**
@@ -216,7 +216,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Get the Client User instance.
-     * @return \CharlotteDunois\Yasmin\Structures\ClientUser|null
+     * @return \CharlotteDunois\Yasmin\Models\ClientUser|null
      */
     function getClientUser() {
         return $this->user;
@@ -318,7 +318,7 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * Fetches an User from the API.
      * @param string  $userid  The User ID to fetch.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\User>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\User>
      */
     function fetchUser(string $userid) {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use  ($userid) {
@@ -385,7 +385,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @access private
      */
     function setClientUser(array $user) {
-        $this->user = new \CharlotteDunois\Yasmin\Structures\ClientUser($this, $user);
+        $this->user = new \CharlotteDunois\Yasmin\Models\ClientUser($this, $user);
     }
     
     /**

@@ -34,7 +34,7 @@ class VoiceStateUpdate {
                 $voice->_patch($data);
                 $voice->_updateChannel($channel);
             } else {
-                $voice = new \CharlotteDunois\Yasmin\Structures\VoiceState($this->client, $channel, $data);
+                $voice = new \CharlotteDunois\Yasmin\Models\VoiceState($this->client, $channel, $data);
                 
                 $this->client->voiceStates->set($user->id, $voice);
                 if($channel->guild) {

@@ -31,7 +31,7 @@ class GuildEmojisUpdate {
                 if($guild->emojis->has($emoji['id'])) {
                     $guild->emojis->get($emoji['id'])->_patch($emoji);
                 } else {
-                    $guild->emojis->set($emoji['id'], (new \CharlotteDunois\Yasmin\Structures\Emoji($this->client, $guild, $emoji)));
+                    $guild->emojis->set($emoji['id'], (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $emoji)));
                 }
             }
             

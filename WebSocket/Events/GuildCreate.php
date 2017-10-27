@@ -33,7 +33,7 @@ class GuildCreate {
                 $guild->_patch($data);
             }
         } else {
-            $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $data);
+            $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $data);
             $this->client->guilds->set($guild->id, $guild);
         }
         

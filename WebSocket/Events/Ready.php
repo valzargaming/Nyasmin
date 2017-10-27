@@ -34,7 +34,7 @@ class Ready {
         
         foreach($data['guilds'] as $guild) {
             if(!$this->client->guilds->has($guild['id'])) {
-                $guild = new \CharlotteDunois\Yasmin\Structures\Guild($this->client, $guild);
+                $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $guild);
                 $this->client->guilds->set($guild->id, $guild);
             }
         }

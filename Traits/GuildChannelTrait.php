@@ -55,7 +55,7 @@ trait GuildChannelTrait {
         }
         
         if(isset($options['bitrate'])) {
-            if($this instanceof \CharlotteDunois\Yasmin\Structures\TextChannel) {
+            if($this instanceof \CharlotteDunois\Yasmin\Models\TextChannel) {
                 throw new \InvalidArgumentException('Can not set channel bitrate of a text channel');
             }
             
@@ -67,7 +67,7 @@ trait GuildChannelTrait {
         }
         
         if(isset($options['userLimit'])) {
-            if($this instanceof \CharlotteDunois\Yasmin\Structures\TextChannel) {
+            if($this instanceof \CharlotteDunois\Yasmin\Models\TextChannel) {
                 throw new \InvalidArgumentException('Can not set channel user limit of a text channel');
             }
             
@@ -100,15 +100,15 @@ trait GuildChannelTrait {
     
     /**
      * Fetches all invites for this channel.
-     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Structures\Invite>>
+     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\Invite>>
      */
     function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->then(function ($data) use ($resolve) {
-                $collection = new \CharlotteDunois\Yasmin\Structures\Collection();
+                $collection = new \CharlotteDunois\Yasmin\Models\Collection();
                 
                 foreach($data as $invite) {
-                    $inv = new \CharlotteDunois\Yasmin\Structures\Invite($this->client, $invite);
+                    $inv = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $invite);
                     $collection->set($inv->code, $inv);
                 }
                 
@@ -119,25 +119,25 @@ trait GuildChannelTrait {
     
     /**
      * Returns the permissions for the given member.
-     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
-     * @return \CharlotteDunois\Yasmin\Structures\Permissions
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
+     * @return \CharlotteDunois\Yasmin\Models\Permissions
      * @throws \InvalidArgumentException
      */
     function permissionsFor($member) {
         $member = $this->guild->members->resolve($member);
         
         if($member->id === $this->guild->ownerID) {
-            return (new \CharlotteDunois\Yasmin\Structures\Permissions(\CharlotteDunois\Yasmin\Structures\Permissions::ALL));
+            return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
         }
         
         $maxBitfield = $member->roles->map(function ($role) {
             return $role->permissions->bitfield;
         })->max();
         
-        $permissions = new \CharlotteDunois\Yasmin\Structures\Permissions($maxBitfield);
+        $permissions = new \CharlotteDunois\Yasmin\Models\Permissions($maxBitfield);
         
         if($permissions->has('ADMINISTRATOR')) {
-            return (new \CharlotteDunois\Yasmin\Structures\Permissions(\CharlotteDunois\Yasmin\Structures\Permissions::ALL));
+            return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
         }
         
         $overwrites = $this->overwritesFor($member);
@@ -176,7 +176,7 @@ trait GuildChannelTrait {
     
     /**
      * Returns the permissions overwrites for the given member.
-     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|string  $member
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return array
      * @throws \InvalidArgumentException
      */
@@ -206,11 +206,11 @@ trait GuildChannelTrait {
     
     /**
      * Overwrites the permissions for a member or role in this channel.
-     * @param \CharlotteDunois\Yasmin\Structures\GuildMember|\CharlotteDunois\Yasmin\Structures\Role|string  $memberOrRole  The member or role.
-     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $allow         Which permissions should be allowed?
-     * @param \CharlotteDunois\Yasmin\Structures\Permissions|int                                             $deny          Which permissions should be denied?
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\Role|string  $memberOrRole  The member or role.
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                             $allow         Which permissions should be allowed?
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                             $deny          Which permissions should be denied?
      * @param string                                                                                         $reason        The reason for this.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Structures\PermissionOverwite>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\PermissionOverwite>
      * @throws \InvalidArgumentException
      */
     function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '') {
@@ -224,11 +224,11 @@ trait GuildChannelTrait {
             $options['type'] = 'role';
         }
         
-        if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Structures\Permissions)) {
+        if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
             throw new \InvalidArgumentException('Allow has to be an int or instanceof Permissions');
         }
         
-        if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Structures\Permissions)) {
+        if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
             throw new \InvalidArgumentException('Deny has to be an int or instanceof Permissions');
         }
         
@@ -239,7 +239,7 @@ trait GuildChannelTrait {
             $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
                 $options['id'] = $memberOrRole->id;
                 
-                $overwrite = new \CharlotteDunois\Yasmin\Structures\PermissionOverwite($this->client, $this, $options);
+                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwite($this->client, $this, $options);
                 $this->permissionsOverwrites->set($overwrite->id, $overwrite);
                 
                 $resolve($overwrite);

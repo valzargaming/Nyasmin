@@ -24,7 +24,7 @@ class GuildMembersChunk {
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
-            $members = new \CharlotteDunois\Yasmin\Structures\Collection();
+            $members = new \CharlotteDunois\Yasmin\Models\Collection();
             foreach($data['members'] as $member) {
                 $member = $guild->members->factory($member);
                 $members->set($member->id, $member);
