@@ -44,7 +44,7 @@ class Game extends Structure {
         
         switch($name) {
             case 'streaming':
-                return (bool) ($game['type'] === 1);
+                return (bool) ($this->type === 1);
             break;
         }
         
