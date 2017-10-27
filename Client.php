@@ -439,25 +439,44 @@ class Client extends EventEmitter { //TODO: Implementation
      * @throws \InvalidArgumentException
      */
     private function validateClientOptions(array $options) {
+        $validator = \CharlotteDunois\Validation\Validator::make($options, array(
+            'disableClones' => 'array',
+            'fetchAllMembers' => 'boolean',
+            'http.restTimeOffset' => 'integer',
+            'ws.compression' => 'string|nullable',
+            'ws.disabledEvents' => 'array',
+            'ws.largeThreshold' => 'integer|min:50|max:250',
+            'ws.presence' => 'array'
+        ));
+        
+        if($validator->fails()) {
+            $errors = $validator->errors();
+            foreach($errors as $name => $error) {
+                if(\array_key_exists($name, $options)) {
+                    throw new \InvalidArgumentException($name.' '.\lcfirst($error));
+                }
+            }
+        }
+        
         /* General */
         
-        if(\array_key_exists('disableClones', $options) && !\is_array($options['disableClones'])) {
+        /*if(\array_key_exists('disableClones', $options) && !\is_array($options['disableClones'])) {
             throw new \InvalidArgumentException('Client Option disableClones is not an array');
         }
         
         if(\array_key_exists('fetchAllMembers', $options) && !\is_bool($options['fetchAllMembers'])) {
             throw new \InvalidArgumentException('Client Option fetchAllMembers is not a boolean');
-        }
+        }*/
         
         /* HTTP */
         
-        if(\array_key_exists('http.restTimeOffset', $options) && !\is_int($options['http.restTimeOffset'])) {
+        /*if(\array_key_exists('http.restTimeOffset', $options) && !\is_int($options['http.restTimeOffset'])) {
             throw new \InvalidArgumentException('Client Option http.restTimeOffset is not an integer');
-        }
+        }*/
         
         /* WS */
         
-        if(\array_key_exists('ws.compression', $options) && !\is_string($options['ws.compression'])) {
+        /*if(\array_key_exists('ws.compression', $options) && !\is_string($options['ws.compression'])) {
             throw new \InvalidArgumentException('Client Option ws.compression is not a string');
         }
         
@@ -471,6 +490,6 @@ class Client extends EventEmitter { //TODO: Implementation
         
         if(\array_key_exists('ws.presence', $options) && !\is_array($options['ws.presence'])) {
             throw new \InvalidArgumentException('Client Option ws.presence is not an array');
-        }
+        }*/
     }
 }

@@ -37,7 +37,7 @@ class GuildCreate {
             $this->client->guilds->set($guild->id, $guild);
         }
         
-        if(((bool) $this->client->getOption('fetchAllMembers', false)) === true) {
+        if(((bool) $this->client->getOption('fetchAllMembers', false)) === true && $guild->members->count() < $guild->memberCount) {
             $fetchAll = $guild->fetchMembers();
         } else {
             $fetchAll = \React\Promise\resolve();
