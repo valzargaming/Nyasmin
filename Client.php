@@ -408,8 +408,9 @@ class Client extends EventEmitter { //TODO: Implementation
     function registerUtils() {
         $utils = \glob(__DIR__.'/Utils/*.php');
         foreach($utils as $util) {
-            $name = \substr(\explode('/', $util)[0], 0, -4);
-            $fqn = '\\CharlotteDunoi\\Yasmin\\Utils\\'.$name;
+            $parts = \explode('/', \str_replace('\\', '/', $util));
+            $name = \substr(\array_pop($parts), 0, -4);
+            $fqn = '\\CharlotteDunois\\Yasmin\\Utils\\'.$name;
             
             if(\method_exists($fqn, 'setLoop')) {
                 $fqn::setLoop($this->loop);
