@@ -16,10 +16,12 @@ class RoleStorage extends Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
+    protected $guild;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $data = null) {
         parent::__construct($data);
         $this->client = $client;
+        $this->guild = $guild;
     }
     
     function __get($name) {

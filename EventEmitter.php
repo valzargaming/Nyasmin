@@ -30,10 +30,11 @@ class EventEmitter {
      * @param string    $event
      * @param callable  $listener
      * @return this
+     * @throws \InvalidArgumentException
      */
     function on($event, callable $listener) {
         if($event === null) {
-            throw new \InvalidArgumentException('event name must not be null');
+            throw new \InvalidArgumentException('Event name must not be null');
         }
         
         if(!isset($this->listeners[$event])) {
@@ -50,10 +51,11 @@ class EventEmitter {
      * @param string    $event
      * @param callable  $listener
      * @return this
+     * @throws \InvalidArgumentException
      */
     function once($event, callable $listener) {
         if($event === null) {
-            throw new \InvalidArgumentException('event name must not be null');
+            throw new \InvalidArgumentException('Event name must not be null');
         }
         
         if(!isset($this->onceListeners[$event])) {
@@ -70,10 +72,11 @@ class EventEmitter {
      * @param string    $event
      * @param callable  $listener
      * @return this
+     * @throws \InvalidArgumentException
      */
     function removeListener($event, callable $listener) {
         if($event === null) {
-            throw new \InvalidArgumentException('event name must not be null');
+            throw new \InvalidArgumentException('Event name must not be null');
         }
         
         if(isset($this->listeners[$event])) {
@@ -150,10 +153,11 @@ class EventEmitter {
      * Emits an event.
      * @param string  $event
      * @param mixed   $arguments
+     * @throws \InvalidArgumentException
      */
     function emit($event, ...$arguments) {
         if($event === null) {
-            throw new \InvalidArgumentException('event name must not be null');
+            throw new \InvalidArgumentException('Event name must not be null');
         }
         
         if(isset($this->listeners[$event])) {

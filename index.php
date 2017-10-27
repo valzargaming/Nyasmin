@@ -7,10 +7,11 @@
  * License: https://github.com/CharlotteDunois/Yasmin/blob/master/LICENSE
 */
 
+ini_set('xdebug.max_nesting_level', -1);
 define('IN_DIR', str_replace('\\', '/', __DIR__));
 require_once(IN_DIR.'/vendor/autoload.php');
 
-$token = file_get_contents("Z:\\Eigene Dokumente\\Discord Bots\\Charuru Commando\\storage\\CharuruAlpha.token");
+$token = trim(file_get_contents(IN_DIR."/Yasmin.token"));
 
 $client = new \CharlotteDunois\Yasmin\Client();
 

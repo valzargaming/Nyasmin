@@ -84,7 +84,7 @@ class TextBasedChannel extends ClientBase
                 $promises = array();
                 foreach($options['files'] as $file) {
                     if(\is_string($file)) {
-                        if(filter_var($file, FILTER_VALIDATE_URL)) {
+                        if(\filter_var($file, FILTER_VALIDATE_URL)) {
                             $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
                                 return array('name' => \basename($file), 'data' => $data);
                             });

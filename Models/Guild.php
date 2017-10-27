@@ -61,7 +61,7 @@ class Guild extends ClientBase { //TODO: Implementation
         $this->emojis = new \CharlotteDunois\Yasmin\Models\Collection();
         $this->members = new \CharlotteDunois\Yasmin\Models\GuildMemberStorage($client, $this);
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($client);
-        $this->roles = new \CharlotteDunois\Yasmin\Models\RoleStorage($client);
+        $this->roles = new \CharlotteDunois\Yasmin\Models\RoleStorage($client, $this);
         $this->voiceStates = new \CharlotteDunois\Yasmin\Models\Collection();
         
         $this->id = $guild['id'];

@@ -57,6 +57,46 @@ class ClientUser extends User { //TODO: Implementation
     }
     
     /**
+     * Set your avatar.
+     * @param string $avatar  An URL or the filepath or the data.
+     * @return \React\Promise\Promise<void>
+     */
+    function setAvatar(string $avatar) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
+            $file = @\realpath($avatar);
+            if($file) {
+                $promise = \React\Promise\resolve(\file_get_contents($file));
+            } elseif(\filter_var($avatar, FILTER_VALIDATE_URL)) {
+                $promise = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($avatar);
+            } else {
+                $promise = \React\Promise\resolve($avatar);
+            }
+            
+            $promise->then(function ($data) use ($resolve, $reject) {
+                $img = \getimagesizefromstring($data);
+                $image = 'data:'.$img['mime'].';base64,'.\base64_encode($data);
+                
+                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function () use ($resolve) {
+                    $resolve();
+                }, $reject);
+            }, $reject);
+        }));
+    }
+    
+    /**
+     * Set your username.
+     * @param string $username
+     * @return \React\Promise\Promise<void>
+     */
+    function setUsername(string $username) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
+            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
+                $resolve();
+            }, $reject);
+        }));
+    }
+    
+    /**
      * Set your status.
      * @param string $status  Valid values are: online, idle, dnd and offline.
      * @return \React\Promise\Promise<void>
@@ -112,6 +152,10 @@ class ClientUser extends User { //TODO: Implementation
      * @return \React\Promise\Promise<void>
      */
     function setPresence(array $presence) {
+        if(empty($presence)) {
+            return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
+        }
+        
         $packet = array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['STATUS_UPDATE'],
             'd' => array(

@@ -170,13 +170,13 @@ class Client extends EventEmitter { //TODO: Implementation
      * @event debug
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
-        if(!$loop) {
-            $loop = \React\EventLoop\Factory::create();
-        }
-        
         if(!empty($options)) {
             $this->validateClientOptions($options);
             $this->options = \array_merge($this->options, $options);
+        }
+        
+        if(!$loop) {
+            $loop = \React\EventLoop\Factory::create();
         }
         
         $this->loop = $loop;
@@ -453,43 +453,9 @@ class Client extends EventEmitter { //TODO: Implementation
             $errors = $validator->errors();
             foreach($errors as $name => $error) {
                 if(\array_key_exists($name, $options)) {
-                    throw new \InvalidArgumentException($name.' '.\lcfirst($error));
+                    throw new \InvalidArgumentException('Client Option '.$name.' '.\lcfirst($error));
                 }
             }
         }
-        
-        /* General */
-        
-        /*if(\array_key_exists('disableClones', $options) && !\is_array($options['disableClones'])) {
-            throw new \InvalidArgumentException('Client Option disableClones is not an array');
-        }
-        
-        if(\array_key_exists('fetchAllMembers', $options) && !\is_bool($options['fetchAllMembers'])) {
-            throw new \InvalidArgumentException('Client Option fetchAllMembers is not a boolean');
-        }*/
-        
-        /* HTTP */
-        
-        /*if(\array_key_exists('http.restTimeOffset', $options) && !\is_int($options['http.restTimeOffset'])) {
-            throw new \InvalidArgumentException('Client Option http.restTimeOffset is not an integer');
-        }*/
-        
-        /* WS */
-        
-        /*if(\array_key_exists('ws.compression', $options) && !\is_string($options['ws.compression'])) {
-            throw new \InvalidArgumentException('Client Option ws.compression is not a string');
-        }
-        
-        if(\array_key_exists('ws.disabledEvents', $options) && !\is_array($options['ws.disabledEvents'])) {
-            throw new \InvalidArgumentException('Client Option ws.disabledEvents is not an array');
-        }
-        
-        if(\array_key_exists('ws.largeThreshold', $options) && (!\is_int($options['ws.largeThreshold']) || $options['ws.largeThreshold'] < 50 || $options['ws.largeThreshold'] > 250)) {
-            throw new \InvalidArgumentException('Client Option ws.largeThreshold is not an integer or smaller than 50 or larger than 250');
-        }
-        
-        if(\array_key_exists('ws.presence', $options) && !\is_array($options['ws.presence'])) {
-            throw new \InvalidArgumentException('Client Option ws.presence is not an array');
-        }*/
     }
 }
