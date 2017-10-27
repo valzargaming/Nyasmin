@@ -223,7 +223,7 @@ class APIManager {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
             try {
                 $request = $gateway->request();
-                $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::getHTTPClient()->send($request);
+                $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
                 
                 $status = $response->getStatusCode();
                 $body = \json_decode($response->getBody(), true);

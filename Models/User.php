@@ -63,10 +63,10 @@ class User extends Structure
      *
      * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
      * @property-read int                                                  $defaultAvatar      The identifier of the default avatar for this user.
-     * @property-read \CharlotteDunois\Yasmin\Models\DMChannel|null    $dmChannel          The DM channel for this user, if it exists.
-     * @property-read \CharlotteDunois\Yasmin\Models\Message|null      $lastMessage        The laste message the user sent while the client was online, or null.
+     * @property-read \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists.
+     * @property-read \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
      * @property-read string|null                                          $notes              The notes of the Client User for this user. (User Accounts only)
-     * @property-read \CharlotteDunois\Yasmin\Models\Presence|null     $presence           The presence for this user.
+     * @property-read \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
      * @property-read string                                               $tag                Username#Discriminator.
      */
     function __get($name) {
@@ -88,6 +88,13 @@ class User extends Structure
                 
                 if($channel) {
                     return $channel;
+                }
+            break;
+            case 'lastMessage':
+                if($this->lastMessageID) {
+                    return $this->client->channels->first(function ($channel) {
+                        return $channel->messages->has($this->lastMessageID);
+                    });
                 }
             break;
             case 'notes': //TODO: User Account only

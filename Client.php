@@ -122,6 +122,13 @@ class Client extends EventEmitter { //TODO: Implementation
     private $timers = array();
     
     /**
+     * Loaded Utils with a loop instance.
+     * @var array
+     * @access private
+     */
+    private $utils = array();
+    
+    /**
      * What do you expect this to do? It makes a new Client instance.
      * @param array                           $options  Any client options.
      * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
@@ -167,8 +174,6 @@ class Client extends EventEmitter { //TODO: Implementation
             $loop = \React\EventLoop\Factory::create();
         }
         
-        \CharlotteDunois\Yasmin\Utils\URLHelpers::setLoop($loop);
-        
         if(!empty($options)) {
             $this->validateClientOptions($options);
             $this->options = \array_merge($this->options, $options);
@@ -186,6 +191,17 @@ class Client extends EventEmitter { //TODO: Implementation
         $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
         $this->voiceConnections = new \CharlotteDunois\Yasmin\Models\Collection();
         $this->voiceStates = new \CharlotteDunois\Yasmin\Models\Collection();
+        
+        $utils = \glob(__DIR__.'/Utils/*.php');
+        foreach($utils as $util) {
+            $name = \substr(\explode('/', $util)[0], 0, -4);
+            $fqn = '\\CharlotteDunoi\\Yasmin\\Utils\\'.$name;
+            
+            if(\method_exists($fqn, 'setLoop')) {
+                $fqn::setLoop($loop);
+                $this->utils[] = $fqn;
+            }
+        }
     }
     
     /**
@@ -300,10 +316,11 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Cleanly logs out of Discord.
+     * @param  bool  $destroyUtils  Stop timers of utils which have an instanceof event loop. They need to implement a stopTimer method.
      * @return \React\Promise\Promise<void>
      */
-    function destroy() {
-        return (new \React\Promise\Promise(function (callable $resolve) {
+    function destroy(bool $destroyUtils = true) {
+        return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
             foreach($this->timers as $key => &$timer) {
                 $timer['timer']->cancel();
                 unset($this->timers[$key], $timer);
@@ -311,6 +328,15 @@ class Client extends EventEmitter { //TODO: Implementation
             
             $this->api->destroy();
             $this->ws->disconnect();
+            
+            if($destroyUtils) {
+                foreach($this->utils as $util) {
+                    if(\method_exists($util, 'stopTimer')) {
+                        $util::stopTimer();
+                    }
+                }
+            }
+            
             $resolve();
         }));
     }
@@ -351,7 +377,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * Adds a "client-dependant" periodic timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
      * @param float|int  $interval
      * @param callable   $callback
-     * @param bool       $ignoreWS
+     * @param bool       $ignoreWS  This will ignore a disconnected or (re)connecting WS connection and run the callback anyway.
      * @return \React\EventLoop\Timer\Timer
      */
     function addPeriodicTimer(float $interval, callable $callback, bool $ignoreWS = false) {

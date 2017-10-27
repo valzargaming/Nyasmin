@@ -53,7 +53,7 @@ $client->on('message', function ($message) use ($client) {
                 $code .= ';';
             }
             
-            try {
+            (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($code, $message) {
                 while(@\ob_end_clean());
                 \ob_start('mb_output_handler');
                 
@@ -67,7 +67,7 @@ $client->on('message', function ($message) use ($client) {
                     $result = \React\Promise\resolve($result);
                 }
                 
-                $result->done(function ($result) use ($code, $message) {
+                $result->done(function ($result) use ($code, $message, $resolve, $reject) {
                     @\ob_clean();
                     \var_dump($result);
                     $result = @\ob_get_clean();
@@ -76,18 +76,12 @@ $client->on('message', function ($message) use ($client) {
                     $result = \implode(PHP_EOL, $result);
                     
                     while(@\ob_end_clean());
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```')->done();
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```')->then($resolve, $reject);
                 });
-            } catch(\Throwable $e) {
+            }))->then(function () { }, function ($e) use ($code, $message) {
                 while(@\ob_end_clean());
                 $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
-            } catch(\Exception $e) {
-                while(@\ob_end_clean());
-                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
-            } catch(\Error $e) {
-                while(@\ob_end_clean());
-                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
-            }
+            });
         }
     }
 });
