@@ -27,7 +27,7 @@ class GuildMember extends ClientBase { //TODO: Implementation
         
         $this->id = $member['user']['id'];
         $this->user = $this->client->users->patch($member['user']);
-        $this->nickname = $member['nickname'] ?? null;
+        $this->nickname = $member['nick'] ?? null;
         $this->deaf = $member['deaf'];
         $this->mute = $member['mute'];
         
@@ -92,5 +92,28 @@ class GuildMember extends ClientBase { //TODO: Implementation
     
     function __toString() {
         return '<@'.(!empty($this->nickname) ? '!' : '').$this->id.'>';
+    }
+    
+    /**
+     * @access private
+     */
+    function _patch(array $data) {
+        if(!isset($data['nick']) && $this->nickname) {
+            $this->nickname = null;
+        } elseif($data['nick'] !== $this->nickname) {
+            $this->nickname = $data['nick'];
+        }
+        
+        foreach($this->roles->all() as $id => $role) {
+            if(!\in_array($id, $data['roles'])) {
+                $this->roles->delete($id);
+            }
+        }
+        
+        foreach($data['roles'] as $role) {
+            if(!$this->roles->has($role)) {
+                $this->roles->set($role, $this->guild->roles->get($role));
+            }
+        }
     }
 }

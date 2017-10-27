@@ -60,7 +60,9 @@ class Base implements \JsonSerializable, \Serializable { //TODO: Nya
                     
                     foreach($val as $element) {
                         $instance = $this->$key->get($element['id']);
-                        $instance->_patch($element);
+                        if($instance) {
+                            $instance->_patch($element);
+                        }
                     }
                 } else {
                     if(\is_object($this->$key)) {
