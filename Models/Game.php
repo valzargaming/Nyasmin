@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Something someone plays.
  */
-class Game extends Structure {
+class Game extends ClientBase {
     protected $name;
     protected $type;
     protected $url;

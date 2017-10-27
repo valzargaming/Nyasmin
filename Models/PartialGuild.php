@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a partial guild.
  */
-class PartialGuild extends Structure {
+class PartialGuild extends ClientBase {
     protected $id;
     protected $name;
     protected $icon;

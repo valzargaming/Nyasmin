@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message reaction.
  */
-class MessageReaction extends Structure { //TODO: Implementation
+class MessageReaction extends ClientBase { //TODO: Implementation
     protected $message;
     
     protected $count;

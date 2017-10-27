@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents an attachment (from a message).
  */
-class MessageAttachment extends Part {
+class MessageAttachment extends Base {
     protected $id;
     protected $filename;
     protected $size;

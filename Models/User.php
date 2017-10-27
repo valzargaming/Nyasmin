@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class User extends Structure
+class User extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
     
     protected $id;

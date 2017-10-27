@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a received message.
  */
-class Message extends Structure { //TODO: Implementation
+class Message extends ClientBase { //TODO: Implementation
     protected $id;
     protected $author;
     protected $channel;

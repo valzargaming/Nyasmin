@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Something all Models, with the need for a client, extend. Do not use this.
  */
-class Structure extends Part { //TODO: Nya
+class ClientBase extends Base { //TODO: Nya
     /**
      * @access private
      */

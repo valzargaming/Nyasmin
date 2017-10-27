@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Something all Models extend. Do not use this.
  * @access private
  */
-class Part implements \JsonSerializable, \Serializable { //TODO: Nya
+class Base implements \JsonSerializable, \Serializable { //TODO: Nya
     /**
      * @access private
      */

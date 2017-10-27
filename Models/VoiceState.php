@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents an user's voice state.
  */
-class VoiceState extends Structure { //TODO: Implementation
+class VoiceState extends ClientBase { //TODO: Implementation
     protected $channel;
     
     protected $sessionID;

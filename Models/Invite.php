@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents an invite.
  */
-class Invite extends Structure {
+class Invite extends ClientBase {
     protected $code;
     protected $guild;
     protected $channel;

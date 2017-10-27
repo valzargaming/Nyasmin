@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a presence.
  */
-class Presence extends Structure {
+class Presence extends ClientBase {
     /**
      * The user this presence belongs to.
      * @var \CharlotteDunois\Yasmin\Models\User|null

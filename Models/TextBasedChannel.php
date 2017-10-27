@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class TextBasedChannel extends Structure
+class TextBasedChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
                 \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
                     

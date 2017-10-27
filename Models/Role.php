@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class Role extends Structure { //TODO: Implementation
+class Role extends ClientBase { //TODO: Implementation
     protected $guild;
     
     protected $id;

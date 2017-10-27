@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Permissions. Something fabulous.
  */
-class Permissions extends Structure { //TODO: Docs
+class Permissions extends ClientBase { //TODO: Docs
     const ALL = 2146958591;
     protected $bitfield;
     

@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild.
  */
-class Guild extends Structure { //TODO: Implementation
+class Guild extends ClientBase { //TODO: Implementation
     protected $channels;
     protected $emojis;
     protected $members;

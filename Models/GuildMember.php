@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class GuildMember extends Structure { //TODO: Implementation
+class GuildMember extends ClientBase { //TODO: Implementation
     protected $guild;
     
     protected $id;

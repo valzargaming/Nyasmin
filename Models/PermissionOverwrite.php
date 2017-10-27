@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a permission overwrite.
  */
-class PermissionOverwite extends Structure { //TODO: Implementation
+class PermissionOverwite extends ClientBase { //TODO: Implementation
     protected $channel;
     
     protected $id;

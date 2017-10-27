@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a received embed from a message. This class can also be used to make a Rich Embed.
  */
-class MessageEmbed extends Part {
+class MessageEmbed extends Base {
     protected $type;
     protected $title;
     protected $author;
