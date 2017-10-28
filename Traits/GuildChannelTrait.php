@@ -27,41 +27,16 @@ trait GuildChannelTrait {
      *
      * @param array $options
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Invite>
-     * @throws \InvalidArgumentException
      */
     function createInvite(array $options = array()) {
-        $data = array();
+        $data = array(
+            'max_uses' => $options['maxUses'] ?? 0,
+            'temporary' => $options['temporary'] ?? false,
+            'unique' => $options['unique'] ?? false
+        );
         
         if(isset($options['maxAge'])) {
-            if(empty($options['maxAge']) || !\is_int($options['maxAge'])) {
-                throw new \InvalidArgumentException('Can not create invite with empty or non-integer max age');
-            }
-            
             $data['max_age'] = $options['maxAge'];
-        }
-        
-        if(isset($options['maxUses'])) {
-            if(!\is_int($options['maxUses'])) {
-                throw new \InvalidArgumentException('Can not create invite with non-integer max uses');
-            }
-            
-            $data['max_uses'] = $options['maxUses'];
-        }
-        
-        if(isset($options['temporary'])) {
-            if(!\is_bool($options['temporary'])) {
-                throw new \InvalidArgumentException('Can not create invite with non-boolean temporary membership');
-            }
-            
-            $data['temporary'] = $options['temporary'];
-        }
-        
-        if(isset($options['unique'])) {
-            if(!\is_bool($options['unique'])) {
-                throw new \InvalidArgumentException('Can not create invite with non-boolean unique');
-            }
-            
-            $data['unique'] = $options['unique'];
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data) {
@@ -137,18 +112,10 @@ trait GuildChannelTrait {
         $data = array();
         
         if(isset($options['name'])) {
-            if(empty($options['name']) || !\is_string($options['name'])) {
-                throw new \InvalidArgumentException('Can not set channel name to empty');
-            }
-            
             $data['name'] = $options['name'];
         }
         
         if(isset($options['position'])) {
-            if(!\is_int($options['positon'])) {
-                throw new \InvalidArgumentException('Can not set channel position to something non-integer');
-            }
-            
             $data['position'] = $options['position'];
         }
         
@@ -157,20 +124,12 @@ trait GuildChannelTrait {
                 throw new \InvalidArgumentException('Can not set channel bitrate of a text channel');
             }
             
-            if(!\is_int($options['bitrate'])) {
-                throw new \InvalidArgumentException('Can not set channel bitrate to something non-integer');
-            }
-            
             $data['bitrate'] = $options['bitrate'];
         }
         
         if(isset($options['userLimit'])) {
             if($this instanceof \CharlotteDunois\Yasmin\Models\TextChannel) {
                 throw new \InvalidArgumentException('Can not set channel user limit of a text channel');
-            }
-            
-            if(!\is_int($options['userLimit'])) {
-                throw new \InvalidArgumentException('Can not set channel user limit to something non-integer');
             }
             
             $data['user_limit'] = $options['userLimit'];
