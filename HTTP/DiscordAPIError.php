@@ -54,10 +54,10 @@ class DiscordAPIError extends \Exception {
                 }
             }
             
-            if(isset($val['errors'])) {
+            if(isset($val['_errors'])) {
                 $messages[] = $newKey.': '.\implode(' ', \array_map(function ($element) {
                     return $element['message'];
-                }, $val['errors']));
+                }, $val['_errors']));
             } else if(isset($val['code']) || isset($val['message'])) {
                 $messages[] = \trim(($val['code'] ?? '').': '.($val['message'] ?? ''));
             } else if(\is_array($val)) {

@@ -32,7 +32,7 @@ class MessageEmbed extends Base {
      */
     function __construct(array $embed = array()) {
         if(!empty($embed)) {
-            $this->type = $embed['type'];
+            $this->type = $embed['type'] ?? 'rich';
             $this->title = $embed['title'] ?? null;
             
             if(!empty($embed['author'])) {
@@ -266,7 +266,7 @@ class MessageEmbed extends Base {
         }
         
         $this->fields[] = array(
-            'title' => $title,
+            'name' => $title,
             'value' => $value,
             'inline' => $inline
         );
