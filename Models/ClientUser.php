@@ -76,7 +76,8 @@ class ClientUser extends User { //TODO: Implementation
                 $img = \getimagesizefromstring($data);
                 $image = 'data:'.$img['mime'].';base64,'.\base64_encode($data);
                 
-                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function ($data) use ($resolve) {
+                    $this->_patch($data);
                     $resolve();
                 }, $reject);
             }, $reject);
@@ -91,6 +92,7 @@ class ClientUser extends User { //TODO: Implementation
     function setUsername(string $username) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
             $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
+                $this->_patch($data);
                 $resolve();
             }, $reject);
         }));

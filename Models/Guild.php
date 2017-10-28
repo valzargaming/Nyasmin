@@ -226,8 +226,9 @@ class Guild extends ClientBase { //TODO: Implementation
                 )
             ));
             
-            $this->client->addTimer(120, function () use ($reject) {
+            $this->client->addTimer(120, function () use (&$listener, $reject) {
                 if($this->members->count() < $this->memberCount) {
+                    $this->client->removeListener('guildMembersChunk', $listener);
                     $reject(new \Exception('Members did not arrive in time'));
                 }
             });
