@@ -12,11 +12,16 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild's voice channel.
  */
-class VoiceChannel extends TextBasedChannel
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface { //TODO: Implementation
+class VoiceChannel extends ClientBase
+    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface { //TODO: Implementation
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     protected $guild;
+    
+    protected $id;
+    protected $type;
+    protected $createdTimestamp;
     
     protected $name;
     protected $bitrate;
@@ -30,11 +35,15 @@ class VoiceChannel extends TextBasedChannel
      * @access private
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
-        parent::__construct($client, $channel);
+        parent::__construct($client);
         $this->guild = $guild;
         
         $this->members = new \CharlotteDunois\Yasmin\Models\Collection();
         $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        
+        $this->id = $channel['id'];
+        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->bitrate = $channel['bitrate'] ?? $this->bitrate ?? 0;
@@ -42,9 +51,10 @@ class VoiceChannel extends TextBasedChannel
         $this->position = $channel['position'] ?? $this->position ?? 0;
         $this->userLimit = $channel['user_limit'] ?? $this->userLimit ?? 0;
         
-        if(!empty($channel['permissions_overwrites'])) {
-            foreach($channel['permissions_overwrites'] as $permission) {
-                $this->permissionsOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission));
+        if(!empty($channel['permission_overwrites'])) {
+            foreach($channel['permission_overwrites'] as $permission) {
+                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission);
+                $this->permissionsOverwrites->set($overwrite->id, $overwrite);
             }
         }
     }

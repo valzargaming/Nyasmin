@@ -73,4 +73,17 @@ class Invite extends ClientBase {
         
         return null;
     }
+    
+    /**
+     * Deletes the invite.
+     * @param string  $reason
+     * @return \React\Promise\Promise<void>
+     */
+    function delete(string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->invite->deleteInvite($this->id, $reason)->then(function () use ($resolve) {
+                $resolve();
+            }, $reject);
+        }));
+    }
 }

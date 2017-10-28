@@ -20,21 +20,14 @@ class DiscordAPIError extends \Exception {
     public $path;
     
     /**
-     * Error code returned by Discord.
-     * @var int
-     */
-    public $code;
-    
-    /**
      * @param string $path
      * @param array  $error
      */
     function __construct($path, array $error) {
         $this->path = $path;
-        $this->code = (int) ($error['code'] ?? 0);
-        
         $flattened = \implode('\n', self::flattenErrors(($error['errors'] ?? $error)));
-        $this->message = (!empty($error['message']) && !empty($flattened) ? $error['message'].PHP_EOL.$flattened : ($error['message'] ?? $flattened));
+        
+        parent::__construct((!empty($error['message']) && !empty($flattened) ? $error['message'].PHP_EOL.$flattened : ($error['message'] ?? $flattened)), (int) ($error['code'] ?? 0));
     }
     
     /**

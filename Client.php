@@ -79,54 +79,54 @@ class Client extends EventEmitter { //TODO: Implementation
      * @var \React\EventLoop\LoopInterface
      * @access private
      */
-    private $loop;
+    protected $loop;
     
     /**
      * Client Options.
      * @var array
      * @access private
      */
-    private $options = array();
+    protected $options = array();
     
     /**
      * The Client User.
      * @var \CharlotteDunois\Yasmin\Models\ClientUser
      * @access private
      */
-    private $user;
+    protected $user;
     
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      * @access private
      */
-    private $api;
+    protected $api;
     
     /**
      * @var \CharlotteDunois\Yasmin\WebSocket\WSManager
      * @access private
      */
-    private $ws;
+    protected $ws;
     
     /**
      * Gateway address.
      * @var string
      * @access private
      */
-    private $gateway;
+    protected $gateway;
     
     /**
      * Timers which automatically get cancelled on destroy and only get run when we have a WS connection.
      * @var \React\EventLoop\Timer\Timer[]
      * @access private
      */
-    private $timers = array();
+    protected $timers = array();
     
     /**
      * Loaded Utils with a loop instance.
      * @var array
      * @access private
      */
-    private $utils = array();
+    protected $utils = array();
     
     /**
      * What do you expect this to do? It makes a new Client instance.
@@ -271,7 +271,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @return \React\Promise\Promise<void>
      */
     function login(string $token, bool $force = false) {
-        $this->token = $token;
+        $this->token = \trim($token);
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
             if($this->gateway && !$force) {
@@ -438,7 +438,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @param array
      * @throws \InvalidArgumentException
      */
-    private function validateClientOptions(array $options) {
+    protected function validateClientOptions(array $options) {
         $validator = \CharlotteDunois\Validation\Validator::make($options, array(
             'disableClones' => 'array',
             'fetchAllMembers' => 'boolean',

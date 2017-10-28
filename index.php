@@ -11,7 +11,7 @@ ini_set('xdebug.max_nesting_level', -1);
 define('IN_DIR', str_replace('\\', '/', __DIR__));
 require_once(IN_DIR.'/vendor/autoload.php');
 
-$token = trim(file_get_contents(IN_DIR."/Yasmin.token"));
+$token = file_get_contents(IN_DIR."/Yasmin.token");
 
 $client = new \CharlotteDunois\Yasmin\Client();
 
@@ -54,34 +54,38 @@ $client->on('message', function ($message) use ($client) {
                 $code .= ';';
             }
             
+            if(\strpos($code, 'return') === false && \strpos($code, 'echo') === false) {
+                $code = 'return '.$code;
+            }
+            
             (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($code, $message) {
                 while(@\ob_end_clean());
-                \ob_start('mb_output_handler');
                 
                 $result = eval($code);
                 
                 if(!($result instanceof \React\Promise\Promise)) {
-                    if(!$result) {
-                        $result = @\ob_get_clean();
-                    }
-                    
                     $result = \React\Promise\resolve($result);
                 }
                 
-                $result->done(function ($result) use ($code, $message, $resolve, $reject) {
-                    @\ob_clean();
+                $result->then(function ($result) use ($code, $message, $resolve, $reject) {
+                    \ob_start('mb_output_handler');
                     \var_dump($result);
                     $result = @\ob_get_clean();
+                    
                     $result = \explode("\n", \str_replace("\r", "", $result));
                     \array_shift($result);
                     $result = \implode(PHP_EOL, $result);
                     
+                    if(\strlen($result) > 5000) {
+                        $result = \substr($result, 0, 5000);
+                    }
+                    
                     while(@\ob_end_clean());
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```')->then($resolve, $reject);
-                });
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```', array('split' => array('before' => "```\n", 'after' => "\n```")))->then($resolve, $reject);
+                }, $reject);
             }))->then(function () { }, function ($e) use ($code, $message) {
                 while(@\ob_end_clean());
-                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
+                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```', array('split' => array('before' => "```\n", 'after' => "\n```")));
             });
         }
     }

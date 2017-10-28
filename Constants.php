@@ -123,7 +123,7 @@ class Constants {
      * Channel Types.
      * @access private
      */
-    const CHANNEL_TYPE = array(
+    const CHANNEL_TYPES = array(
         0 => 'text',
         1 => 'dm',
         2 => 'voice',

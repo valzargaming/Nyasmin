@@ -17,27 +17,27 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     /**
      * @var \CharlotteDunois\Yasmin\Client
      */
-    private $client;
+    protected $client;
     
     /**
      * @var \Ratchet\Client\Connector
      */
-    private $connector;
+    protected $connector;
     
     /**
      * @var \CharlotteDunois\Yasmin\WebSocket\WSHandler
      */
-    private $wshandler;
+    protected $wshandler;
     
     /**
      * @var \Ratchet\Client\WebSocket
      */
-    private $ws;
+    protected $ws;
     
     /**
      * @var resource
      */
-    private $compressContext;
+    protected $compressContext;
     
     /**
      * The WS ratelimits.
@@ -64,37 +64,37 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
      * The WS queue.
      * @var array
      */
-    private $queue = array();
+    protected $queue = array();
     
     /**
      * The WS queue processing status.
      * @var bool
      */
-    private $running = false;
+    protected $running = false;
     
     /**
      * If the connection got closed, did we expect it?
      * @var bool
      */
-    private $expectedClose = false;
+    protected $expectedClose = false;
     
     /**
      * The WS gateway address.
      * @var string
      */
-    private $gateway;
+    protected $gateway;
     
     /**
      * The WS connection status
      * @var int
      */
-    private $wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
+    protected $wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
     
     /**
      * The Discord Session ID.
      * @var string|null
      */
-    private $wsSessionID;
+    protected $wsSessionID;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;

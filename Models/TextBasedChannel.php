@@ -29,7 +29,7 @@ class TextBasedChannel extends ClientBase
         $this->typings = new \CharlotteDunois\Yasmin\Models\Collection();
         
         $this->id = $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPE[$channel['type']];
+        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
         $this->lastMessageID = $channel['last_message_id'] ?? null;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
@@ -131,10 +131,71 @@ class TextBasedChannel extends ClientBase
                     $msg['embed'] = $options['embed'];
                 }
                 
+                if(!empty($options['split'])) {
+                    $split = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
+                    if(\is_array($options['split'])) {
+                        $split = \array_merge($split, $options['split']);
+                    }
+                    
+                    if(\strlen($msg['content']) > $split['maxLength']) {
+                        $collection = new \CharlotteDunois\Yasmin\Models\Collection();
+                        
+                        $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
+                            return $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($collection) {
+                                $msg = $this->_createMessage($response);
+                                $collection->set($msg->id, $msg);
+                            }, $reject);
+                        };
+                        
+                        $i = 0;
+                        $messages = array();
+                        
+                        $parts = \explode($split['char'], $msg['content']);
+                        foreach($parts as $part) {
+                            if(empty($messages[$i])) {
+                                $messages[$i] = '';
+                            }
+                            
+                            if((\strlen($messages[$i]) + \strlen($part) + 2) >= $split['maxLength']) {
+                                $i++;
+                                $messages[$i] = '';
+                            }
+                            
+                            $messages[$i] .= $part.$split['char'];
+                        }
+                        
+                        $promise = \React\Promise\resolve();
+                        foreach($messages as $key => $message) {
+                            $promise = $promise->then(function () use ($chunkedSend, &$files, $key, $i, $message, &$msg, $split) {
+                                $fs = null;
+                                if($files) {
+                                    $fs = $files;
+                                    $files = nulL;
+                                }
+                                
+                                $message = array(
+                                    'content' => ($key > 0 ? $split['before'] : '').$message.($key < $i ? $split['after'] : '')
+                                );
+                                
+                                if(!empty($msg['embed'])) {
+                                    $message['embed'] = $msg['embed'];
+                                    $msg['embed'] = null;
+                                }
+                                
+                                return $chunkedSend($message, $fs);
+                            }, $reject);
+                        }
+                        
+                        return $promise->then(function () use ($collection, $resolve) {
+                            $resolve($collection);
+                        }, $reject);
+                    }
+                }
+                
                 $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($resolve) {
                     $resolve($this->_createMessage($response));
                 }, $reject);
-            });
+            }, $reject);
         }));
     }
     

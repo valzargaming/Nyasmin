@@ -40,9 +40,10 @@ class TextChannel extends TextBasedChannel
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
-        if(!empty($channel['permissions_overwrites'])) {
-            foreach($channel['permissions_overwrites'] as $permission) {
-                $this->permissionsOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission));
+        if(!empty($channel['permission_overwrites'])) {
+            foreach($channel['permission_overwrites'] as $permission) {
+                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission);
+                $this->permissionsOverwrites->set($overwrite->id, $overwrite);
             }
         }
     }

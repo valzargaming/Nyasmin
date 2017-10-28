@@ -90,7 +90,9 @@ class Message extends ClientBase { //TODO: Implementation
                     $this->mentions['users']->set($user->id, $user);
                     if($guild) {
                         $member = $guild->members->get($mention['id']);
-                        $this->mentions['members']->set($member->id, $member);
+                        if($member) {
+                            $this->mentions['members']->set($member->id, $member);
+                        }
                     }
                     
                     $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
