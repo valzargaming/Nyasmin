@@ -143,6 +143,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @event guildCreate
      * @event guildUpdate
      * @event guildDelete
+     * @event guildUnavailable
      * @event guildBanAdd
      * @event guildBanRemove
      * @event guildMemberAdd
