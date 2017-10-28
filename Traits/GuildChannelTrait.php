@@ -14,6 +14,104 @@ namespace CharlotteDunois\Yasmin\Traits;
  */
 trait GuildChannelTrait {
     abstract function __get($name);
+    
+    /**
+     * Creates an invite. Options are as following (all are optional).
+     *
+     *  array(
+     *    'maxAge' => int,
+     *    'maxUses' => int, (0 = unlimited)
+     *    'temporary' => bool,
+     *    'unique' => bool
+     *  )
+     *
+     * @param array $options
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Invite>
+     * @throws \InvalidArgumentException
+     */
+    function createInvite(array $options = array()) {
+        $data = array();
+        
+        if(isset($options['maxAge'])) {
+            if(empty($options['maxAge']) || !\is_int($options['maxAge'])) {
+                throw new \InvalidArgumentException('Can not create invite with empty or non-integer max age');
+            }
+            
+            $data['max_age'] = $options['maxAge'];
+        }
+        
+        if(isset($options['maxUses'])) {
+            if(!\is_int($options['maxUses'])) {
+                throw new \InvalidArgumentException('Can not create invite with non-integer max uses');
+            }
+            
+            $data['max_uses'] = $options['maxUses'];
+        }
+        
+        if(isset($options['temporary'])) {
+            if(!\is_bool($options['temporary'])) {
+                throw new \InvalidArgumentException('Can not create invite with non-boolean temporary membership');
+            }
+            
+            $data['temporary'] = $options['temporary'];
+        }
+        
+        if(isset($options['unique'])) {
+            if(!\is_bool($options['unique'])) {
+                throw new \InvalidArgumentException('Can not create invite with non-boolean unique');
+            }
+            
+            $data['unique'] = $options['unique'];
+        }
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data) {
+            $this->client->apimanager()->endpoints->channel->createChannelInvite($this->id, $data)->then(function ($data) use ($resolve) {
+                $invite = new \CharlotteDunois\Yasmin\Models\Invite($data);
+                $resolve($invite);
+            }, $reject);
+        }));
+    }
+    
+    /**
+     * Clones a guild channel.
+     * @param string  $name             Optional name for the new channel, otherwise it has the name of this channel.
+     * @param bool    $withPermissions  Whether to clone the channel with this channel's permission overwrites
+     * @param bool    $withTopic        Whether to clone the channel with this channel's topic.
+     * @param string  $reason
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface>
+     */
+    function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '') {
+        $data = array(
+            'name' => (string) (!empty($name) ? $name : $this->name),
+            'type' => (int) (\array_keys(\CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES)[\array_search($this->type, \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES)])
+        );
+        
+        if($withPermissions) {
+            $data['permissions_overwrites'] = $this->permissionsOverwrites->all();
+        }
+        
+        if($withTopic) {
+            $data['topic'] = $this->topic;
+        }
+        
+        if($this->parentID) {
+            $data['parent_id'] = $this->parentID;
+        }
+        
+        if($this->type === 'voice') {
+            $data['bitrate'] = $this->bitrate;
+            $data['user_limit'] = $this->userLimit;
+        } else {
+            $data['nsfw'] = $this->nsfw;
+        }
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
+            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->guild->id, $data, $reason)->then(function ($data) use ($resolve) {
+                $channel = \CharlotteDunois\Yasmin\Models\GuildChannel::factory($this->client, $this->guild, $data);
+                $resolve($channel);
+            }, $reject);
+        }));
+    }
      
     /**
      * Edits the channel. Options are as following (at least one is required).
@@ -79,7 +177,8 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannel($this->id, $data, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->editChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
+                $this->_patch($data);
                 $resolve();
             }, $reject);
         }));
@@ -99,7 +198,7 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Fetches all invites for this channel.
+     * Fetches all invites of this channel.
      * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\Invite>>
      */
     function fetchInvites() {
