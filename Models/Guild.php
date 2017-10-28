@@ -178,17 +178,44 @@ class Guild extends ClientBase { //TODO: Implementation
     
     /**
      * Fetches all guild members.
+     * @param string  $query  Limit fetch to members with similar usernames
+     * @param int     $limit  Maximum number of members to request
      * @return \React\Promise\Promise<this>
      */
-    function fetchMembers() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->guild->listGuildMembers($this->id)->then(function ($data) use ($resolve) {
-                foreach($data as $user) {
-                    $this->_addMember($user);
+    function fetchMembers(string $query = '', int $limit = 0) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($query, $limit) {
+            if($this->members->count() === $this->memberCount) {
+                $resolve($this);
+                return;
+            }
+            
+            $listener = function ($guild) use(&$listener, $resolve, $reject) {
+                if($guild->id !== $this->id) {
+                    return;
                 }
                 
-                $resolve($this);
-            }, $reject);
+                if($this->members->count() === $this->memberCount) {
+                    $this->client->removeListener('guildMembersChunk', $listener);
+                    $resolve($this);
+                }
+            };
+            
+            $this->client->on('guildMembersChunk', $listener);
+            
+            $this->client->wsmanager()->send(array(
+                'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['REQUEST_GUILD_MEMBERS'],
+                'd' => array(
+                    'guild_id' => $this->id,
+                    'query' => $query ?? '',
+                    'limit' => $limit ?? 0
+                )
+            ));
+            
+            $this->client->addTimer(120, function () use ($reject) {
+                if($this->members->count() < $this->memberCount) {
+                    $reject(new \Exception('Members did not arrive in time'));
+                }
+            });
         }));
     }
     
