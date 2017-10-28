@@ -66,7 +66,7 @@ trait GuildChannelTrait {
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data) {
             $this->client->apimanager()->endpoints->channel->createChannelInvite($this->id, $data)->then(function ($data) use ($resolve) {
-                $invite = new \CharlotteDunois\Yasmin\Models\Invite($data);
+                $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
                 $resolve($invite);
             }, $reject);
         }));
@@ -338,7 +338,7 @@ trait GuildChannelTrait {
             $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
                 $options['id'] = $memberOrRole->id;
                 
-                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwite($this->client, $this, $options);
+                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $options);
                 $this->permissionsOverwrites->set($overwrite->id, $overwrite);
                 
                 $resolve($overwrite);
