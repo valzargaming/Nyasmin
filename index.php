@@ -14,7 +14,7 @@ require_once(IN_DIR.'/vendor/autoload.php');
 $game = 'with Neko nya';
 $timer = null;
 
-$token = file_get_contents(IN_DIR."/Yasmin.token");
+$token = file_get_contents(IN_DIR.'/Yasmin.token');
 
 $client = new \CharlotteDunois\Yasmin\Client(array(
     'ws.presence' => array(
