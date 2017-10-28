@@ -17,7 +17,7 @@
         "react/promise": "^2.5",
         "charlottedunois/collection": "^0.1.1",
         "guzzlehttp/guzzle": "^6.3",
-        "charlottedunois/validator": "^0.1.1"
+        "charlottedunois/validator": "^0.1.2"
     },
     "repositories": {
         "packagist.neko.run": {

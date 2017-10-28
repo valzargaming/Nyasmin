@@ -58,7 +58,7 @@ class Constants {
         'url' => 'https://cdn.discordapp.com/',
         'emojis' => 'emojis/%s.png',
         'icons' => 'icons/%s/%s.png',
-        'splashs' => 'splashes/%s/%s.png',
+        'splashes' => 'splashes/%s/%s.png',
         'defaultavatars' => 'embed/avatars/%s.png',
         'avatars' => 'avatars/%s/%s.%s',
         'appicons' => 'app-icons/%s/%s.png'

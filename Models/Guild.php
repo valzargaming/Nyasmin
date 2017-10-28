@@ -143,11 +143,13 @@ class Guild extends ClientBase { //TODO: Implementation
      * @property-read string                                          $id                  The guild ID.
      * @property-read string                                          $name                The guild name.
      * @property-read int                                             $createdTimestamp    The timestmap when this guild was created.
-     * @property-read string|null                                     $icon                The guild icon.
-     * @property-read string|null                                     $splash              The guild splash.
+     * @property-read string|null                                     $icon                The guild icon hash, or null.
+     * @property-read string|null                                     $splash              The guild splash hash, or null.
      *
      * @property-read \DateTime                                       $createdAt           The DateTime object of createdTimestamp.
-     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember  $me                  The guild member of the client user.
+     * @property-read string|null                                     $iconURL             The guild icon URL, or null.
+     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember      $me                  The guild member of the client user.
+     * @property-read string|null                                     $splashURL           The guild splash URL, or null.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -155,8 +157,21 @@ class Guild extends ClientBase { //TODO: Implementation
         }
         
         switch($name) {
+            case 'createdAt':
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+            break;
+            case 'iconURL':
+                if($this->icon) {
+                    return \CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon);
+                }
+            break;
             case 'me':
                 return $this->members->get($this->client->getClientUser()->id);
+            break;
+            case 'splashURL':
+                if($this->splash) {
+                    return \CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash);
+                }
             break;
         }
         

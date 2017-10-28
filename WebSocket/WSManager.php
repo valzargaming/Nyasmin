@@ -100,7 +100,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
         
-        $compression = $this->client->getOption('ws.compression', \CharlotteDunois\Yasmin\Constants::WS_DEFAULT_COMPRESSION);
+        $compression = $this->client->getOption('ws.compression');
+        if($compression === true || $compression === null) {
+            $compression = \CharlotteDunois\Yasmin\Constants::WS_DEFAULT_COMPRESSION;
+        }
+        
         switch($compression) {
             default:
                 $name = \str_replace('-', '', \ucwords($compression, '-'));
