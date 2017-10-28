@@ -11,9 +11,20 @@ ini_set('xdebug.max_nesting_level', -1);
 define('IN_DIR', str_replace('\\', '/', __DIR__));
 require_once(IN_DIR.'/vendor/autoload.php');
 
+$game = 'with Neko nya';
+$timer = null;
+
 $token = file_get_contents(IN_DIR."/Yasmin.token");
 
-$client = new \CharlotteDunois\Yasmin\Client();
+$client = new \CharlotteDunois\Yasmin\Client(array(
+    'ws.presence' => array(
+        'game' => array(
+            'name' => $game,
+            'type' => 0,
+            'url' => null
+        )
+    )
+));
 
 echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
 
@@ -24,20 +35,32 @@ $client->on('error', function ($error) {
     echo $error.PHP_EOL;
 });
 
-$client->on('ready', function () use($client) {
+$client->on('ready', function () use($client, $game, &$timer) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
+    
+    if($timer) {
+        $timer->cancel();
+    }
     
     $user = $client->getClientUser();
     echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
-    $user->setGame('with Yasmin | '.\bin2hex(\random_bytes(3)));
-    $client->addPeriodicTimer(30, function () use ($user) {
-        $user->setGame('with Yasmin | '.\bin2hex(\random_bytes(3)));
+    $client->addPeriodicTimer(30, function () use ($user, $game) {
+        $user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
     });
+    
+    //$client->channels->get('323433852590751754')->send('Hello, my name is Yasmin!', array('files' => array('https://i.imgur.com/ML7aui6.png')))->done();
 });
-$client->on('disconnect', function ($code, $reason) use ($client) {
+$client->on('disconnect', function ($code, $reason) use ($client, &$timer) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     echo 'Disconnected! (Code: '.$code.' | Reason: '.$reason.')'.PHP_EOL;
+    
+    $timer = $client->addTimer(30, function ($client) {
+        if($client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED) {
+            echo 'Connection forever lost'.PHP_EOL;
+            $client->destroy();
+        }
+    });
 });
 $client->on('reconnect', function () use ($client) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
@@ -58,7 +81,7 @@ $client->on('message', function ($message) use ($client) {
                 $code = 'return '.$code;
             }
             
-            (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($code, $message) {
+            (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($client, $code, $message) {
                 while(@\ob_end_clean());
                 
                 $result = eval($code);
@@ -95,16 +118,6 @@ $client->login($token)->done(function () use ($client) {
     $client->addPeriodicTimer(60, function ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
-    
-    /*$client->addTimer(10, function () use ($client) {
-        //var_dump($client->channels);
-        //var_dump($client->guilds);
-        //var_dump($client->presences);
-        //var_dump($client->users);
-        
-        echo 'Making API request...'.PHP_EOL;
-        $client->channels->get('323433852590751754')->send('Hello, my name is Onee-sama!', array('files' => array('https://i.imgur.com/TCmzLbI.png')))->done();
-    });*/
     
     $client->addTimer(3600, function ($client) {
         echo 'Ending session'.PHP_EOL;

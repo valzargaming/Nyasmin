@@ -442,9 +442,11 @@ class Client extends EventEmitter { //TODO: Implementation
     protected function validateClientOptions(array $options) {
         $validator = \CharlotteDunois\Validation\Validator::make($options, array(
             'disableClones' => 'array',
+            'shardID' => 'integer',
+            'shardCount' => 'integer',
             'fetchAllMembers' => 'boolean',
             'http.restTimeOffset' => 'integer',
-            'ws.compression' => 'string|nullable',
+            'ws.compression' => 'string|boolean',
             'ws.disabledEvents' => 'array',
             'ws.largeThreshold' => 'integer|min:50|max:250',
             'ws.presence' => 'array'
@@ -452,11 +454,11 @@ class Client extends EventEmitter { //TODO: Implementation
         
         if($validator->fails()) {
             $errors = $validator->errors();
-            foreach($errors as $name => $error) {
-                if(\array_key_exists($name, $options)) {
-                    throw new \InvalidArgumentException('Client Option '.$name.' '.\lcfirst($error));
-                }
-            }
+            
+            $name = \array_keys($errors)[0];
+            $error = $errors[$name];
+            
+            throw new \InvalidArgumentException('Client Option '.$name.' '.\lcfirst($error));
         }
     }
 }
