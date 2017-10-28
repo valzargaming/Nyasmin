@@ -254,21 +254,18 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 }
                 
                 $this->emit('close', $code, $reason);
+                $this->client->emit('disconnect', $code, $reason);
                 
                 if($this->expectedClose === true) {
                     return;
                 }
                 
-                $this->client->emit('disconnect', $code, $reason);
-                
-                if($code !== 1000) {
-                    if($code >= 4000) {
-                        $this->wsSessionID = null;
-                    }
-                    
-                    $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
-                    $this->connect($this->gateway);
+                if($code === 1000 || $code >= 4000) {
+                    $this->wsSessionID = null;
                 }
+                
+                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
+                $this->connect($this->gateway);
             });
         }, function($error) {
             if($reconnect) {

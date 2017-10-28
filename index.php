@@ -106,7 +106,7 @@ $client->login($token)->done(function () use ($client) {
         $client->channels->get('323433852590751754')->send('Hello, my name is Onee-sama!', array('files' => array('https://i.imgur.com/TCmzLbI.png')))->done();
     });*/
     
-    $client->addTimer(600, function ($client) {
+    $client->addTimer(3600, function ($client) {
         echo 'Ending session'.PHP_EOL;
         $client->destroy()->then(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
