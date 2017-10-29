@@ -26,7 +26,7 @@ class Collection {
     }
     
     /**
-     * @access private
+     * @internal
      */
     function __debugInfo() {
         return $this->data;
@@ -34,8 +34,8 @@ class Collection {
     
     /**
      * Sets a new key-value pair (or overwrites an existing key-value pair).
-     * @param string $key
-     * @param mixed $value
+     * @param mixed  $key
+     * @param mixed  $value
      * @return this
      */
     function set($key, $value) {
@@ -45,12 +45,11 @@ class Collection {
     
     /**
      * Removes an item from the collection by its key.
-     *
      * @param  mixed  $key
      * @return this
     */
     function delete($key) {
-        $this->data[$key] = NULL;
+        $this->data[$key] = null;
         unset($this->data[$key]);
         return $this;
     }
@@ -66,7 +65,6 @@ class Collection {
     
     /**
      * Returns all items.
-     *
      * @return mixed[]
      */
     function all() {
@@ -75,11 +73,10 @@ class Collection {
     
     /**
      * Gets the average of all items.
-     *
-     * @param  \Closure|NULL  $closure
+     * @param  callable|null  $closure
      * @return mixed
      */
-    function avg($closure = NULL) {
+    function avg(callable $closure = null) {
         $count = $this->count();
         if($count > 0) {
             return ($this->sum($closure) / $count);
@@ -90,22 +87,21 @@ class Collection {
     
     /**
      * Breaks the collection into multiple, smaller collections of a given size.
-     *
      * @param  int  $numitems
      * @param  bool $preserve_keys
      * @return Collection
     */
-    function chunk($numitems, $preserve_keys = false) {
+    function chunk(int $numitems, bool $preserve_keys = false) {
         return (new self(\array_chunk($this->data, $numitems, $preserve_keys)));
     }
     
     /**
      * Collapses a collection of arrays into a flat collection.
-     *
      * @return Collection
     */
     function collapse() {
         $new = array();
+        
         foreach($this->data as $values) {
             if($values instanceof self) {
                 $values = $values->all();
@@ -121,7 +117,6 @@ class Collection {
     
     /**
      * Combines the keys of the collection with the values of another array or collection.
-     *
      * @param  mixed  $values
      * @return Collection
     */
@@ -131,20 +126,21 @@ class Collection {
     
     /**
      * Determines whether the collection contains a given item.
-     *
-     * @param  string  $item
-     * @param  mixed   $value
-     * @return this|bool
+     * @param  callable|mixed   $item
+     * @param  mixed            $value
+     * @return bool
     */
     function contains($item, $value = "") {
-        if(!empty($item)) {
-            return $this;
+        if(empty($item)) {
+            return false;
         }
         
         foreach($this->data as $key => $val) {
-            if($item instanceof Closure) {
-                $bool = $item($val, $key);
-                return $bool;
+            if($item instanceof \Closure) {
+                $bool = (bool) $item($val, $key);
+                if($bool) {
+                    return $true;
+                }
             } else {
                 if(!empty($value)) {
                     if($key == $item && $val == $value) {
@@ -157,11 +153,12 @@ class Collection {
                 }
             }
         }
+        
+        return false;
     }
     
     /**
      * Returns the total number of items in the collection.
-     *
      * @return int
     */
     function count() {
@@ -169,8 +166,15 @@ class Collection {
     }
     
     /**
+     * Returns a copy of itself.
+     * @return Collection
+     */
+    function copy() {
+        return (new self($this->data));
+    }
+    
+    /**
      * Compares the collection against another collection or a plain PHP array based on its value.
-     *
      * @param  mixed[]|Collection  $arr
      * @return Collection
     */
@@ -184,7 +188,6 @@ class Collection {
     
     /**
      * Compares the collection against another collection or a plain PHP array based on its key.
-     *
      * @param  mixed[]|Collection  $arr
      * @return Collection
     */
@@ -198,11 +201,10 @@ class Collection {
     
     /**
      * Iterates over the items in the collection and passes each item to a given callback.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return this
     */
-    function each(\Closure $closure) {
+    function each(callable $closure) {
         foreach($this->data as $key => $val) {
             $feed = $closure($val, $key);
             if($feed === false) {
@@ -215,16 +217,11 @@ class Collection {
     
     /**
      * Creates a new collection consisting of every n-th element.
-     *
      * @param  int  $nth
      * @param  int  $offset
      * @return Collection
     */
-    function every($nth, $offset = 0) {
-        if(!\is_int($nth)) {
-            return $this;
-        }
-        
+    function every(int $nth, int $offset = 0) {
         $new = array();
         for($i = $offset; $i < \count($this->data); $i += $nth) {
             $new[] = $this->data[$i];
@@ -235,15 +232,10 @@ class Collection {
     
     /**
      * Returns all items in the collection except for those with the specified keys.
-     *
      * @param  mixed[]  $keys
      * @return Collection
     */
-    function except($keys) {
-        if(!\is_array($keys)) {
-            $keys = array($keys);
-        }
-        
+    function except(array $keys) {
         $new = array();
         foreach($this->data as $key => $val) {
             if(!\in_array($key, $keys)) {
@@ -256,11 +248,10 @@ class Collection {
     
     /**
      * Filters the collection by a given callback, keeping only those items that pass a given truth test.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return Collection
     */
-    function filter(\Closure $closure) {
+    function filter(callable $closure) {
         $new = array();
         foreach($this->data as $key => $val) {
             $feed = (bool) $closure($val, $key);
@@ -274,11 +265,10 @@ class Collection {
     
     /**
      * Returns the first element in the collection that passes a given truth test.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return Collection
     */
-    function first(\Closure $closure) {
+    function first(callable $closure) {
         foreach($this->data as $key => $val) {
             $feed = (bool) $closure($val, $key);
             if($feed) {
@@ -291,34 +281,31 @@ class Collection {
     
     /**
      * Iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return Collection
     */
-    function flatMap(\Closure $closure) {
+    function flatMap(callable $closure) {
         $data = $this->data;
         foreach($data as $key => $val) {
             $data[$key] = $closure($val, $key);
         }
         
-        $data = $this->flatten_do($data, 1);
+        $data = $this->flattenDo($data, 1);
         return (new self($data));
     }
     
     /**
      * Flattens a multi-dimensional collection into a single dimension.
-     *
      * @param  int  $depth
      * @return Collection
     */
     function flatten($depth = 0) {
-        $data = $this->flatten_do($this->data, $depth);
+        $data = $this->flattenDo($this->data, $depth);
         return (new self($data));
     }
     
     /**
      * Swaps the collection's keys with their corresponding values.
-     *
      * @return Collection
     */
     function flip() {
@@ -328,18 +315,19 @@ class Collection {
     
     /**
      * Returns a new collection containing the items that would be present on a given page number.
-     *
      * @param  int  $page
      * @param  int  $numitems
      * @return Collection
     */
-    function forPage($page, $numitems) {
+    function forPage(int $page, int $numitems) {
         $start = ($page * $numitems) - $numitems - 1;
         
+        $keys = \array_keys($this->data);
         $data = \array_values($this->data);
+        
         $new = array();
         for($i = $start; $i <= $start + $numitems; $i++) {
-            $new[] = $data[$i];
+            $new[$keys[$i]] = $data[$i];
         }
         
         return (new self($new));
@@ -347,17 +335,16 @@ class Collection {
     
     /**
      * Returns the item at a given key. If the key does not exist, $default is returned.
-     *
      * @param  mixed  $key
      * @param  mixed  $default
      * @return Collection
     */
-    function get($key, $default = NULL) {
+    function get($key, $default = null) {
         if(isset($this->data[$key])) {
             return $this->data[$key];
         }
         
-        if($default instanceof Closure) {
+        if($default instanceof \Closure) {
             return $default();
         } else {
             return $default;
@@ -366,7 +353,6 @@ class Collection {
     
     /**
      * Groups the collection's items by a given key.
-     *
      * @param  mixed  $column
      * @return Collection
     */
@@ -377,7 +363,7 @@ class Collection {
         
         $new = array();
         foreach($this->data as $key => $val) {
-            if($column instanceof Closure) {
+            if($column instanceof \Closure) {
                 $key = $column($val, $key);
             } else {
                 $key = $val[$column];
@@ -391,26 +377,26 @@ class Collection {
     
     /**
      * Determines if a given key exists in the collection.
-     *
      * @param  mixed  $key
      * @return bool
     */
     function has($key) {
-        return (bool) isset($this->data[$key]);
+        return isset($this->data[$key]);
     }
     
     /**
      * Joins the items in a collection. Its arguments depend on the type of items in the collection. If the collection contains arrays or objects, you should pass the key of the attributes you wish to join, and the "glue" string you wish to place between the values.
-     *
      * @param  mixed  $col
      * @param  string $glue
      * @return string
     */
-    function implode($col, $glue = ', ') {
+    function implode($col, string $glue = ', ') {
         $data = "";
         foreach($this->data as $key => $val) {
             if(\is_array($val)) {
                 $data .= $glue.$val[$col];
+            } elseif(\is_object($val)) {
+                $data .= $glue.$val->$col;
             } else {
                 $data .= $col.$val;
             }
@@ -420,8 +406,25 @@ class Collection {
     }
     
     /**
+     * Returns the position of the given value in the collection. Returns null if the given value couldn't be found.
+     * @param  mixed  $value
+     * @return int|null
+     */
+    function indexOf($value) {
+        $i = 0;
+        foreach($this->data as $val) {
+            if($val === $value) {
+                return $i;
+            }
+            
+            $i++;
+        }
+        
+        return null;
+    }
+    
+    /**
      * Removes any values that are not present in the given array or collection.
-     *
      * @param  mixed[]|Collection  $arr
      * @return Collection
     */
@@ -435,7 +438,6 @@ class Collection {
     
     /**
      * Returns true if the collection is empty; otherwise, false is returned.
-     *
      * @return bool
     */
     function isEmpty() {
@@ -444,21 +446,24 @@ class Collection {
     
     /**
      * Keys the collection by the given key.
-     *
      * @param  mixed  $col
      * @return Collection
     */
     function keyBy($col) {
         $data = array();
         foreach($this->data as $key => $val) {
-            if(!\is_array($val)) {
+            if(!\is_array($val) && !\is_object($val)) {
                 continue;
             }
             
-            if($col instanceof Closure) {
+            if($col instanceof \Closure) {
                 $k = $col($val, $key);
             } else {
-                $k = $val[$col];
+                if(\is_object($val)) {
+                    $k = $val->$col;
+                } else {
+                    $k = $val[$col];
+                }
             }
             
             $data[$k] = $val;
@@ -469,7 +474,6 @@ class Collection {
     
     /**
      * Returns all of the collection's keys.
-     *
      * @return Collection
     */
     function keys() {
@@ -478,11 +482,10 @@ class Collection {
     
     /**
      * Returns the last element in the collection that passes a given truth test.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return Collection
     */
-    function last(\Closure $closure) {
+    function last(callable $closure) {
         $data = false;
         foreach($this->data as $key => $val) {
             $feed = $closure($val, $key);
@@ -496,19 +499,17 @@ class Collection {
     
     /**
      * Iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return Collection
     */
-    function map(\Closure $closure) {
+    function map(callable $closure) {
         $keys = \array_keys($this->data);
-        $items = \array_map(closure, $this->data, $keys);
+        $items = \array_map($closure, $this->data, $keys);
         return (new self(\array_combine($keys, $items)));
     }
     
     /**
      * Return the maximum value of a given key.
-     *
      * @param  mixed  $key
      * @return int
     */
@@ -524,7 +525,6 @@ class Collection {
     
     /**
      * Merges the given array into the collection. Any string key in the array matching a string key in the collection will overwrite the value in the collection.
-     *
      * @param  string[]  $arr
      * @return Collection
     */
@@ -534,7 +534,6 @@ class Collection {
     
     /**
      * Return the minimum value of a given key.
-     *
      * @param  mixed  $key
      * @return int
     */
@@ -550,15 +549,10 @@ class Collection {
     
     /**
      * Returns the items in the collection with the specified keys.
-     *
      * @param mixed[]  $keys
      * @return Collection
     */
-    function only($keys) {
-        if(!\is_array($keys)) {
-            $keys = array($keys);
-        }
-        
+    function only(array $keys) {
         $new = array();
         foreach($this->data as $key => $val) {
             if(\in_array($key, $keys)) {
@@ -571,18 +565,29 @@ class Collection {
     
     /**
      * Return the values from a single column in the input array.
-     *
-     * @param  string      $key
-     * @param  string|NULL $index
+     * @param  mixed    $key
+     * @param  mixed    $index
      * @return Collection
     */
-    function pluck($key, $index = NULL) {
-        return (new self(\array_column($this->data, $key, $index)));
+    function pluck($key, $index = null) {
+        $data = array();
+        
+        foreach($this->data as $v) {
+            $count = \count($data);
+            $k = ($index ? (\is_array($v) ? (\array_key_exists($index, $v) ? $v[$index] : $count) : (\is_object($v) ? (\property_exists($v, $index) ? $v->$index : $count) : $count)) : $count);
+            
+            if(\is_array($v) && \array_key_exists($key, $v)) {
+                $data[$k] = $v[$key];
+            } elseif(\is_object($v) && \property_exists($v, $key)) {
+                $data[$k] = $v->$key;
+            }
+        }
+        
+        return (new self($data));
     }
     
     /**
      * Removes and returns the last item from the collection.
-     *
      * @return mixed
     */
     function pop() {
@@ -591,12 +596,11 @@ class Collection {
     
     /**
      * Adds an item to the beginning of the collection.
-     *
      * @param  mixed       $value
-     * @param  mixed|NULL  $key
+     * @param  mixed|null  $key
      * @return Collection
     */
-    function prepend($value, $key = NULL) {
+    function prepend($value, $key = null) {
         if(!empty($key) && !\is_int($key)) {
             $data = \array_unshift($this->data, $value);
         } else {
@@ -608,13 +612,12 @@ class Collection {
     
     /**
      * Removes and returns an item from the collection by its key.
-     *
      * @param  mixed  $key
      * @return mixed
     */
     function pull($key) {
         $value = $this->data[$key];
-        $this->data[$key] = NULL;
+        $this->data[$key] = null;
         unset($this->data[$key]);
         
         return $value;
@@ -622,12 +625,11 @@ class Collection {
     
     /**
      * Appends an item to the end of the collection.
-     *
      * @param  mixed  $value
      * @param  mixed  $key
      * @return this
     */
-    function push($value, $key = NULL) {
+    function push($value, $key = null) {
         if(!empty($key) && !\is_int($key)) {
             $data = \array_push($this->data, $value);
         } else {
@@ -638,24 +640,11 @@ class Collection {
     }
     
     /**
-     * Sets the given key and value in the collection.
-     *
-     * @param  mixed  $key
-     * @param  mixed  $value
-     * @return this
-    */
-    function put($key, $value) {
-        $this->data[$key] = $value;
-        return $this;
-    }
-    
-    /**
      * Returns a random item from the collection.
-     *
      * @param  int  $num
      * @return mixed|Collection
     */
-    function random($num = 1) {
+    function random(int $num = 1) {
         $rand = \array_rand($this->data, $num);
         if(\is_array($rand)) {
             return (new self($rand));
@@ -666,12 +655,11 @@ class Collection {
     
     /**
      * Reduces the collection to a single value, passing the result of each iteration into the subsequent iteration.
-     *
-     * @param  \Closure  $closure
-     * @param  mixed|NULL $carry
-     * @return mixed|NULL|void
+     * @param  callable   $closure
+     * @param  mixed|null $carry
+     * @return mixed|null|void
     */
-    function reduce(\Closure $closure, $carry = NULL) {
+    function reduce(callable $closure, $carry = null) {
         foreach($this->data as $val) {
             $carry = $closure($carry, $val);
         }
@@ -681,15 +669,14 @@ class Collection {
     
     /**
      * Filters the collection using the given callback. The callback should return true for any items it wishes to remove from the resulting collection.
-     *
-     * @param  \Closure  $closure
+     * @param  callable  $closure
      * @return Collection
     */
-    function reject(\Closure $closure) {
+    function reject(callable $closure) {
         $new = array();
         foreach($this->data as $key => $val) {
-            $feed = $closure($val, $key);
-            if($feed !== true) {
+            $feed = (bool) $closure($val, $key);
+            if(!$feed) {
                 $new[$key] = $val;
             }
         }
@@ -699,25 +686,23 @@ class Collection {
     
     /**
      * Reverses the order of the collection's items.
-     *
      * @param  bool $preserve_keys
      * @return Collection
     */
-    function reverse($preserve_keys = false) {
+    function reverse(bool $preserve_keys = false) {
         return (new self(\array_reverse($this->data, $preserve_keys)));
     }
     
     /**
      * Searches the collection for the given value and returns its key if found. If the item is not found, false is returned.
-     *
-     * @param  \Closure|mixed  $needle
+     * @param  callable|mixed   $needle
      * @param  bool             $strict
      * @return mixed|bool
     */
-    function search($needle, $strict = false) {
-        if($needle instanceof Closure) {
+    function search($needle, bool $strict = false) {
+        if($needle instanceof \Closure) {
             foreach($this->data as $key => $val) {
-                $feed = $needle($val, $key);
+                $feed = (bool) $needle($val, $key);
                 if($feed) {
                     return $key;
                 }
@@ -731,7 +716,6 @@ class Collection {
     
     /**
      * Removes and returns the first item from the collection.
-     *
      * @return mixed
     */
     function shift() {
@@ -740,38 +724,37 @@ class Collection {
     
     /**
      * Randomly shuffles the items in the collection.
-     *
      * @return Collection
     */
     function shuffle() {
         $data = $this->data;
         \shuffle($data);
+        
         return (new self($data));
     }
     
     /**
      * Returns a slice of the collection starting at the given index.
-     *
      * @param  int      $offset
-     * @param  int|NULL $limit
+     * @param  int      $limit
      * @param  bool     $preserve_keys
      * @return Collection
     */
-    function slice($offset, $limit = NULL, $preserve_keys = false) {
+    function slice(int $offset, int $limit = null, bool $preserve_keys = false) {
         $data = $this->data;
         return (new self(\array_slice($data, $offset, $limit, $preserve_keys)));
     }
     
     /**
      * Sorts the collection.
-     *
-     * @param  \Closure|NULL  $closure
-     * @param  const           $options
+     * @param  callable    $closure
+     * @param  const       $options
      * @return Collection
     */
-    function sort($closure = NULL, $options = SORT_REGULAR) {
+    function sort(callable $closure = null, $options = SORT_REGULAR) {
         $data = $this->data;
-        if($closure instanceof Closure) {
+        
+        if($closure instanceof \Closure) {
             \uasort($data, $closure);
         } else {
             \asort($data);
@@ -782,18 +765,17 @@ class Collection {
     
     /**
      * Sorts the collection by the given key.
-     *
-     * @param  mixed  $sortkey
-     * @param  const  $options
-     * @param  bool   $descending
+     * @param  mixed|\Closure  $sortkey
+     * @param  const           $options
+     * @param  bool            $descending
      * @return Collection
     */
-    function sortBy($sortkey, $options = SORT_REGULAR, $descending = false) {
-        $sortkey = $this->value_retriever($sortkey);
+    function sortBy($sortkey, $options = SORT_REGULAR, bool $descending = false) {
+        $sortkey = $this->valueRetriever($sortkey);
         
         $new = array();
         foreach($this->data as $key => $val) {
-            $new[$key] = $sortkey($value, $key);
+            $new[$key] = $sortkey($val, $key);
         }
         
         if($descending) {
@@ -802,7 +784,8 @@ class Collection {
             \asort($new, $options);
         }
         
-        foreach(\array_keys($new) as $key) {
+        $keys = \array_keys($new);
+        foreach($keys as $key) {
             $new[$key] = $this->data[$key];
         }
         
@@ -811,9 +794,8 @@ class Collection {
     
     /**
      * Sorts the collection by the given key in descending order.
-     *
-     * @param  mixed  $sortkey
-     * @param  const  $options
+     * @param  mixed|\Closure  $sortkey
+     * @param  const           $options
      * @return Collection
     */
     function sortByDesc($sortkey, $options = SORT_REGULAR) {
@@ -822,28 +804,26 @@ class Collection {
     
     /**
      * Removes and returns a slice of items starting at the specified index.
-     *
      * @param  int      $offset
      * @param  int      $length
      * @param  mixed[]  $replacement
      * @return Collection
     */
-    function splice($offset, $length = NULL, $replacement = array()) {
+    function splice(int $offset, int $length = null, array $replacement = array()) {
         return (new self(\array_splice($this->data, $offset, $length, $replacement)));
     }
     
     /**
      * Returns the sum of all items in the collection.
-     *
-     * @param  \Closure|NULL $closure
+     * @param  callable $closure
      * @return int
     */
-    function sum($closure = NULL) {
-        if($closure === NULL) {
+    function sum(callable $closure = null) {
+        if($closure === null) {
             return \array_sum($this->data);
         }
         
-        $closure = $this->value_retriever($closure);
+        $closure = $this->valueRetriever($closure);
         
         return $this->reduce(function ($result, $item) use ($closure) {
             return $result += $closure($item);
@@ -852,11 +832,10 @@ class Collection {
     
     /**
      * Returns a new collection with the specified number of items.
-     *
      * @param  int  $limit
      * @return Collection
     */
-    function take($limit) {
+    function take(int $limit) {
         if($limit < 0) {
             return $this->slice($limit, \abs($limit));
         }
@@ -865,49 +844,12 @@ class Collection {
     }
     
     /**
-     * Converts the collection into a plain PHP array.
-     *
-     * @return mixed[]
-    */
-    function toArray() {
-        return \array_map(function ($value) {
-            if($value instanceof Arrayable) {
-                return $value->toArray();
-            } else {
-                return $value;
-            }
-        }, $this->data);
-    }
-    
-    /**
-     * Converts the collection into a JSON string.
-     *
-     * @param  mixed  $options
-     * @return string
-    */
-    function toJSON($options = 0) {
-        return \json_encode($this->json_serialize(), $options);
-    }
-    
-    /**
-     * Iterates over the collection and calls the given callback with each item in the collection. The items in the collection will be replaced by the values returned by the callback.
-     *
-     * @param  \Closure  $closure
-     * @return this
-    */
-    function transform(\Closure $closure) {
-        $this->data = $this->map($closure)->all();
-        return $this;
-    }
-    
-    /**
      * Returns all of the unique items in the collection.
-     *
      * @param  mixed  $key
      * @return Collection
     */
     function unique($key) {
-        if($key === NULL) {
+        if($key === null) {
             return (new self(\array_unique($this->data, SORT_REGULAR)));
         }
         
@@ -919,13 +861,14 @@ class Collection {
             if(\in_array($id, $exists)) {
                 return true;
             }
+            
             $exists[] = $id;
+            return false;
         });
     }
     
     /**
      * Returns a new collection with the keys reset to consecutive integers.
-     *
      * @return Collection
     */
     function values() {
@@ -934,14 +877,14 @@ class Collection {
     
     /**
      * Filters the collection by a given key / value pair.
-     *
      * @param  mixed  $key
      * @param  mixed  $value
      * @param  bool   $strict
      * @return Collection
     */
-    function where($key, $value, $strict = false) {
+    function where($key, $value, bool $strict = false) {
         $data = array();
+        
         foreach($this->data as $val) {
             if($strict) {
                 $bool = ($val[$key] === $value);
@@ -959,15 +902,15 @@ class Collection {
     
     /**
      * Filters the collection by a given key / value pair.
-     *
      * @param  mixed[]  $arr
      * @param  bool     $strict
      * @return Collection
     */
-    function whereIn($arr, $strict = false) {
+    function whereIn(array $arr, bool $strict = false) {
         $data = array();
+        
         foreach($this->data as $val) {
-            foreach(arr as $key => $value) {
+            foreach($arr as $key => $value) {
                 if($strict) {
                     $bool = ($val[$key] === $value);
                 } else {
@@ -985,15 +928,10 @@ class Collection {
     
     /**
      * Merges together the values of the given array with the values of the collection at the corresponding index.
-     *
      * @param  mixed[]  $arr
      * @return this|Collection
     */
-    function zip($arr) {
-        if(!\is_array($zip)) {
-            return $this;
-        }
-        
+    function zip(array $arr) {
         $data = $this->data;
         foreach($arr as $key => $val) {
             if(isset($data[$key])) {
@@ -1006,7 +944,7 @@ class Collection {
         return (new self($data));
     }
     
-    private function data_get($target, $key, $default = NULL) {
+    protected function dataGet($target, $key, $default = null) {
         if(\is_null($key)) {
             return $target;
         }
@@ -1020,7 +958,7 @@ class Collection {
                 if($target instanceof Collection) {
                     $target = $target->all();
                 } elseif(!\is_array($target)) {
-                    return value($default);
+                    return $this->valueRetriever($default);
                 }
                 
                 $result = \array_column($target, $key);
@@ -1036,21 +974,22 @@ class Collection {
             } elseif(\is_object($target) && isset($target->$segment)) {
                 $target = $target->$segment;
             } else {
-                if($value instanceof Closure) {
+                if($value instanceof \Closure) {
                     return $value();
                 } else {
                     return $value;
                 }
             }
         }
+        
         return $target;
     }
     
-    private function flatten_do($array, $depth, $in_depth = 0) {
+    protected function flattenDo(array $array, int $depth, int $in_depth = 0) {
         $data = array();
         foreach($array as $val) {
             if(\is_array($val) && ($depth == 0 || $depth > $in_depth)) {
-                $data = \array_merge($data, $this->flatten_do($val, $depth, ($in_depth + 1)));
+                $data = \array_merge($data, $this->flattenDo($val, $depth, ($in_depth + 1)));
             } else {
                 $data[] = $val;
             }
@@ -1059,23 +998,13 @@ class Collection {
         return $data;
     }
     
-    private function json_serialize() {
-        return \array_map(function ($value) {
-            if ($value instanceof JsonSerializable) {
-                return $value->json_serialize();
-            } else {
-                return $value;
-            }
-        }, $this->data);
-    }
-    
-    protected function value_retriever($value) {
-        if($value instanceof Closure) {
+    protected function valueRetriever($value) {
+        if($value instanceof \Closure) {
             return $value;
         }
         
         return function ($item) use ($value) {
-            return $this->data_get($item, $value);
+            return $this->dataGet($item, $value);
         };
     }
 }

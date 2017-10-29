@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
  * Interface for WS compressions.
- * @access private
+ * @internal
  */
 interface CompressionInterface {
     /**

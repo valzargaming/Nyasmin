@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#guild-emojis-update
- * @access private
+ * @internal
  */
 class GuildEmojisUpdate {
     protected $client;

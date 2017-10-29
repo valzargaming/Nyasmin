@@ -13,7 +13,7 @@ use \CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the API endpoints "Emoji".
- * @access private
+ * @internal
  */
 class Emoji {
     /**

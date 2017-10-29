@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#typing-start
- * @access private
+ * @internal
  */
 class TypingStart {
     protected $client;

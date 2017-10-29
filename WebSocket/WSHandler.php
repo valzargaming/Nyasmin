@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket;
 
 /**
  * Handles WS messages.
- * @access private
+ * @internal
  */
 class WSHandler {
     private $handlers = array();

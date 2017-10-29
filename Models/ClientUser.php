@@ -15,14 +15,14 @@ namespace CharlotteDunois\Yasmin\Models;
 class ClientUser extends User { //TODO: Implementation
     /**
      * @var array
-     * @access private
+     * @internal
      */
     protected $clientPresence;
     
     /**
      * @param \CharlotteDunois\Yasmin\Client $client
      * @param array                          $user
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, $user) {
         parent::__construct($client, $user);
@@ -48,7 +48,7 @@ class ClientUser extends User { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function __debugInfo() {
         $vars = parent::__debugInfo();

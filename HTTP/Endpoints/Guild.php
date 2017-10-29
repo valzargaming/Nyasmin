@@ -13,7 +13,7 @@ use \CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the API endpoints "Guild".
- * @access private
+ * @internal
  */
 class Guild {
     /**

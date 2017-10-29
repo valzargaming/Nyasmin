@@ -52,7 +52,7 @@ class Game extends ClientBase {
     }
     
     /**
-     * @access private
+     * @internal
      */
     function jsonSerialize() {
         return array(

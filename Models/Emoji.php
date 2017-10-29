@@ -25,7 +25,7 @@ class Emoji extends ClientBase { //TODO: Implementation
     protected $createdTimestamp;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild = null, array $emoji) {
         parent::__construct($client);

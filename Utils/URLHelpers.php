@@ -21,7 +21,7 @@ class URLHelpers {
     /**
      * Sets the Event Loop.
      * @param \React\EventLoop\LoopInterface  $loop
-     * @access private
+     * @internal
      */
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
         self::$loop = $loop;
@@ -29,7 +29,7 @@ class URLHelpers {
     
     /**
      * Sets the Guzzle handler and client.
-     * @access private
+     * @internal
      */
     static private function setHTTPClient() {
         self::$handler = new \GuzzleHttp\Handler\CurlMultiHandler();

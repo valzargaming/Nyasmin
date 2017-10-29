@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @access private
+ * @internal
  */
 class UserStorage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs

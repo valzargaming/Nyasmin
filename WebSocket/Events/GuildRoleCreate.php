@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#guild-role-create
- * @access private
+ * @internal
  */
 class GuildRoleCreate {
     protected $client;

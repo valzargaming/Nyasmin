@@ -20,7 +20,7 @@ class Constants {
     
     /**
      * WS OP codes.
-     * @access private
+     * @internal
      */
     const OPCODES = array(
         'DISPATCH' => 0,
@@ -52,7 +52,7 @@ class Constants {
     
     /**
      * CDN constants.
-     * @access private
+     * @internal
      */
     const CDN = array(
         'url' => 'https://cdn.discordapp.com/',
@@ -66,7 +66,7 @@ class Constants {
     
     /**
      * HTTP constants.
-     * @access private
+     * @internal
      */
     const HTTP = array(
         'url' => 'https://discordapp.com/api/',
@@ -76,7 +76,7 @@ class Constants {
     
     /**
      * WS constants.
-     * @access private
+     * @internal
      */
     const WS = array(
         'baseurl' => 'wss://gateway.discord.gg/',
@@ -121,7 +121,7 @@ class Constants {
     
     /**
      * Channel Types.
-     * @access private
+     * @internal
      */
     const CHANNEL_TYPES = array(
         0 => 'text',
@@ -133,7 +133,7 @@ class Constants {
     
     /**
      * Endpoints Channels.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_CHANNELS = array(
         'get' => 'channels/%s',
@@ -176,7 +176,7 @@ class Constants {
     
     /**
      * Endpoints Emojis.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_EMOJIS = array(
         'list' => 'guilds/%s/emojis',
@@ -188,7 +188,7 @@ class Constants {
     
     /**
      * Endpoints Guilds.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_GUILDS = array(
         'get' => 'guilds/%s',
@@ -247,7 +247,7 @@ class Constants {
     
     /**
      * Endpoints Invites.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_INVITES = array(
         'get' => 'invites/%s',
@@ -257,7 +257,7 @@ class Constants {
     
     /**
      * Endpoints Users.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_USERS = array(
         'get' => 'users/%s',
@@ -275,7 +275,7 @@ class Constants {
     
     /**
      * Endpoints Voice.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_VOICE = array(
         'regions' => 'voice/regions'
@@ -283,7 +283,7 @@ class Constants {
     
     /**
      * Endpoints Webhooks.
-     * @access private
+     * @internal
      */
     const ENDPOINTS_WEBHOOKS = array(
         'create' => 'channels/%s/webhooks',
@@ -340,7 +340,7 @@ class Constants {
      * @param  string  $endpoint
      * @param  string  $args
      * @return string
-     * @access private
+     * @internal
      */
     static function format(string $endpoint, ...$args) {
         return sprintf($endpoint, ...$args);

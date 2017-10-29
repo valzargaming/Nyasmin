@@ -20,7 +20,7 @@ class MessageReaction extends ClientBase { //TODO: Implementation
     protected $emoji;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Message $message, \CharlotteDunois\Yasmin\Models\Emoji $emoji, array $reaction) { //TODO: Implementation
         parent::__construct($client);
@@ -51,7 +51,7 @@ class MessageReaction extends ClientBase { //TODO: Implementation
     
     /**
      * Increments the count.
-     * @access private
+     * @internal
      */
     function _incrementCount() {
         $this->count++;
@@ -59,7 +59,7 @@ class MessageReaction extends ClientBase { //TODO: Implementation
     
     /**
      * Decrements the count.
-     * @access private
+     * @internal
      */
     function _decrementCount() {
         $this->count--;

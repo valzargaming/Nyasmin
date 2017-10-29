@@ -23,7 +23,7 @@ class PartialChannel extends ClientBase
     protected $createdTimestamp;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client);

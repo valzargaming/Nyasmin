@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#channel-update
- * @access private
+ * @internal
  */
 class ChannelUpdate {
     protected $client;

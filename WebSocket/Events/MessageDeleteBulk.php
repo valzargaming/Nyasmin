@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#message-delete-bulk
- * @access private
+ * @internal
  */
 class MessageDeleteBulk {
     protected $client;

@@ -26,7 +26,7 @@ class Invite extends ClientBase {
     protected $uses;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $invite) {
         parent::__construct($client);

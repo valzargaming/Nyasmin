@@ -32,7 +32,7 @@ class VoiceChannel extends ClientBase
     protected $userLimit;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
         parent::__construct($client);

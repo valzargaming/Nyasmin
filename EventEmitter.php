@@ -15,13 +15,13 @@ namespace CharlotteDunois\Yasmin;
 class EventEmitter {
     /**
      * @var array
-     * @access private
+     * @internal
      */
     protected $listeners = array();
     
     /**
      * @var array
-     * @access private
+     * @internal
      */
     protected $onceListeners = array();
     

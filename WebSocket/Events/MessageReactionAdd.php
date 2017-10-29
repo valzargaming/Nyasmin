@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#message-reaction-add
- * @access private
+ * @internal
  */
 class MessageReactionAdd {
     protected $client;

@@ -21,7 +21,7 @@ class PartialGuild extends ClientBase {
     protected $createdTimestamp;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild) {
         parent::__construct($client);

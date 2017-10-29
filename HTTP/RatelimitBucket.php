@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
  * Manages a route ratelimit.
- * @access private
+ * @internal
  */
 class RatelimitBucket {
     /**

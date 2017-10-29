@@ -13,7 +13,7 @@ use \CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the API endpoints "Voice".
- * @access private
+ * @internal
  */
 class Voice {
     /**

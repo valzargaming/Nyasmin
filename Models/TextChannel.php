@@ -26,7 +26,7 @@ class TextChannel extends TextBasedChannel
     protected $permissionOverwrites;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
         parent::__construct($client, $channel);

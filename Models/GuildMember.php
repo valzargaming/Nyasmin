@@ -34,6 +34,7 @@ class GuildMember extends ClientBase { //TODO: Implementation
         $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->roles->set($this->guild->id, $this->guild->roles->get($this->guild->id));
         
         foreach($member['roles'] as $role) {
             $role = $guild->roles->get($role);
@@ -96,7 +97,7 @@ class GuildMember extends ClientBase { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _patch(array $data) {
         if(!isset($data['nick']) && $this->nickname) {

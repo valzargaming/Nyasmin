@@ -34,7 +34,7 @@ class User extends ClientBase
     public $lastMessageID;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $user, bool $isWebhook = false) {
         parent::__construct($client);

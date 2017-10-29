@@ -16,7 +16,7 @@ class GroupDMChannel extends DMChannel {
     protected $applicationID;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);

@@ -35,7 +35,7 @@ class DiscordAPIError extends \Exception {
      * @param array   $obj  Discord error object
      * @param string  $key  Used internally to determine key names of nested fields
      * @return string[]
-     * @access private
+     * @internal
      */
     static function flattenErrors($obj, $key = '') {
         $messages = array();

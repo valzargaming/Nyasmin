@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
 
 /**
  * WS Event handler
- * @access private
+ * @internal
  */
 class Hello {
     public $heartbeat = null;

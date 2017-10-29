@@ -32,7 +32,7 @@ class Message extends ClientBase { //TODO: Implementation
     protected $reactions;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $message) {
         parent::__construct($client);

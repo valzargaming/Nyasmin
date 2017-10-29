@@ -14,17 +14,17 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class ClientBase extends Base { //TODO: Nya
     /**
-     * @access private
+     * @internal
      */
     protected $client;
     
     /**
-     * @access private
+     * @internal
      */
     static public $serializeClient;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
@@ -44,7 +44,7 @@ class ClientBase extends Base { //TODO: Nya
     }
     
     /**
-     * @access private
+     * @internal
      */
     function __debugInfo() {
         $vars = \get_object_vars($this);
@@ -53,7 +53,7 @@ class ClientBase extends Base { //TODO: Nya
     }
     
     /**
-     * @access private
+     * @internal
      */
     function jsonSerialize() {
         $vars = parent::jsonSerialize();
@@ -62,7 +62,7 @@ class ClientBase extends Base { //TODO: Nya
     }
     
     /**
-     * @access private
+     * @internal
      */
     function unserialize($data) {
         $exp = \ReflectionMethod::export($this, '__construct', true);

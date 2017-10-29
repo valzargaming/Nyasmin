@@ -50,7 +50,7 @@ class Guild extends ClientBase { //TODO: Implementation
     protected $createdTimestamp;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild) {
         parent::__construct($client);
@@ -75,7 +75,7 @@ class Guild extends ClientBase { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _patch(array $guild) {
         $this->available = (empty($guild['unavailable']));
@@ -236,7 +236,7 @@ class Guild extends ClientBase { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _addMember(array $member, bool $initial = false) {
         $guildmember = $this->members->factory($member);
@@ -249,7 +249,7 @@ class Guild extends ClientBase { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _removeMember(string $userid) {
         if($this->members->has($userid)) {

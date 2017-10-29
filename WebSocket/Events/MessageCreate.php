@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#message-create
- * @access private
+ * @internal
  */
 class MessageCreate {
     protected $client;

@@ -11,18 +11,18 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Something all Models extend. Do not use this.
- * @access private
+ * @internal
  */
 class Base implements \JsonSerializable, \Serializable { //TODO: Nya
     /**
-     * @access private
+     * @internal
      */
     function jsonSerialize() {
         return get_object_vars($this);
     }
     
     /**
-     * @access private
+     * @internal
      */
     function serialize() {
         $vars = \get_object_vars($this);
@@ -37,14 +37,14 @@ class Base implements \JsonSerializable, \Serializable { //TODO: Nya
     }
     
     /**
-     * @access private
+     * @internal
      */
     function unserialize($data) {
         $this->__construct(\unserialize($data));
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _patch(array $data) {
         foreach($data as $key => $val) {
@@ -101,7 +101,7 @@ class Base implements \JsonSerializable, \Serializable { //TODO: Nya
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _shouldUpdate(array $data) {
         $oldData = \json_decode(\json_encode($this), true);

@@ -24,7 +24,7 @@ class VoiceState extends ClientBase { //TODO: Implementation
     protected $suppress;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel = null, array $voice) {
         parent::__construct($client);
@@ -62,7 +62,7 @@ class VoiceState extends ClientBase { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function _updateChannel(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel = null) {
         $this->channel = $channel;

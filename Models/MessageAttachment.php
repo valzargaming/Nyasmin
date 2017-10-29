@@ -23,7 +23,7 @@ class MessageAttachment extends Base {
     protected $createdTimestamp;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(array $attachment = array()) {
         if(!empty($attachment)) {

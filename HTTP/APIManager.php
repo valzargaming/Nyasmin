@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
  * Handles the API.
- * @access private
+ * @internal
  */
 class APIManager {
     /**

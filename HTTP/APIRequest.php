@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
  * Represents a single HTTP request.
- * @access private
+ * @internal
  */
 class APIRequest {
     /**

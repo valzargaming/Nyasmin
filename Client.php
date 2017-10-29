@@ -34,7 +34,7 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * It holds all cached presences (latest ones), mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
-     * @access private
+     * @internal
      */
     public $presences;
     
@@ -77,54 +77,54 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * The Event Loop.
      * @var \React\EventLoop\LoopInterface
-     * @access private
+     * @internal
      */
     protected $loop;
     
     /**
      * Client Options.
      * @var array
-     * @access private
+     * @internal
      */
     protected $options = array();
     
     /**
      * The Client User.
      * @var \CharlotteDunois\Yasmin\Models\ClientUser
-     * @access private
+     * @internal
      */
     protected $user;
     
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
-     * @access private
+     * @internal
      */
     protected $api;
     
     /**
      * @var \CharlotteDunois\Yasmin\WebSocket\WSManager
-     * @access private
+     * @internal
      */
     protected $ws;
     
     /**
      * Gateway address.
      * @var string
-     * @access private
+     * @internal
      */
     protected $gateway;
     
     /**
      * Timers which automatically get cancelled on destroy and only get run when we have a WS connection.
      * @var \React\EventLoop\Timer\Timer[]
-     * @access private
+     * @internal
      */
     protected $timers = array();
     
     /**
      * Loaded Utils with a loop instance.
      * @var array
-     * @access private
+     * @internal
      */
     protected $utils = array();
     
@@ -198,7 +198,7 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * You don't need to know.
      * @return \CharlotteDunois\Yasmin\HTTP\APIManager
-     * @access private
+     * @internal
      */
     function apimanager() {
         return $this->api;
@@ -207,7 +207,7 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * You don't need to know.
      * @return \CharlotteDunois\Yasmin\WebSocket\WSManager
-     * @access private
+     * @internal
      */
     function wsmanager() {
         return $this->ws;
@@ -397,7 +397,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Make an instance of {ClientUser} and store it.
-     * @access private
+     * @internal
      */
     function setClientUser(array $user) {
         $this->user = new \CharlotteDunois\Yasmin\Models\ClientUser($this, $user);
@@ -405,7 +405,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Registers Utils which have a setLoop method.
-     * @access private
+     * @internal
      */
     function registerUtils() {
         $utils = \glob(__DIR__.'/Utils/*.php');
@@ -423,7 +423,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * Destroys or stops all timers from Utils (requires that they are registered as such).
-     * @access private
+     * @internal
      */
     function destroyUtils() {
         foreach($this->utils as $util) {

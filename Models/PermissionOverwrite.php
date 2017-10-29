@@ -22,7 +22,7 @@ class PermissionOverwrite extends ClientBase { //TODO: Implementation
     protected $deny;
     
     /**
-     * @access private
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, array $permission) {
         parent::__construct($client);
@@ -60,7 +60,7 @@ class PermissionOverwrite extends ClientBase { //TODO: Implementation
     }
     
     /**
-     * @access private
+     * @internal
      */
     function JsonSerialize() {
         return array(

@@ -13,7 +13,7 @@ use \CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the API endpoints "User".
- * @access private
+ * @internal
  */
 class User {
     /**

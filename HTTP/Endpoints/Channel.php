@@ -13,7 +13,7 @@ use \CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the API endpoints "Channel".
- * @access private
+ * @internal
  */
 class Channel {
     /**

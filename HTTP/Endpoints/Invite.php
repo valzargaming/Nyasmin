@@ -13,7 +13,7 @@ use \CharlotteDunois\Yasmin\Constants;
 
 /**
  * Handles the API endpoints "Invite".
- * @access private
+ * @internal
  */
 class Invite {
     /**

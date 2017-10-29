@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 /**
  * WS Event
  * @see https://discordapp.com/developers/docs/topics/gateway#guild-members-chunk
- * @access private
+ * @internal
  */
 class GuildMembersChunk {
     protected $client;

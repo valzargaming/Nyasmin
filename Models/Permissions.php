@@ -35,7 +35,7 @@ class Permissions extends ClientBase { //TODO: Docs
     }
     
     /**
-     * @access private
+     * @internal
      */
     function jsonSerialize() {
         return $this->bitfield;

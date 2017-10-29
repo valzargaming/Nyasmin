@@ -56,7 +56,7 @@ class Presence extends ClientBase {
     }
     
     /**
-     * @access private
+     * @internal
      */
      function jsonSerialize() {
          return array(

@@ -402,7 +402,7 @@ class TextBasedChannel extends ClientBase
     
     /**
      * @param array  $message
-     * @access private
+     * @internal
      */
     function _createMessage(array $message) {
         if($this->messages->has($message['id'])) {
@@ -417,7 +417,7 @@ class TextBasedChannel extends ClientBase
     /**
      * @param \CharlotteDunois\Yasmin\Models\User  $user
      * @param int                                  $timestamp
-     * @access private
+     * @internal
      */
     function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, int $timestamp = null) {
         if($timestamp === null) {
