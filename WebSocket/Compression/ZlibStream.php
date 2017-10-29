@@ -47,6 +47,14 @@ class ZlibStream
     }
     
     /**
+     * Returns a boolean for the OP code 2 IDENTIFY packet 'compress' parameter. The parameter is for payload compression.
+     * @return bool
+     */
+    function payloadCompression() {
+        return false;
+    }
+    
+    /**
      * Decompresses data.
      * @param string  $data
      * @return string

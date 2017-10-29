@@ -14,44 +14,44 @@ namespace CharlotteDunois\Yasmin;
  */
 class Client extends EventEmitter { //TODO: Implementation
     /**
-     * It holds all cached channels.
+     * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage
      */
     public $channels;
     
     /**
-     * It holds all guilds.
+     * It holds all guilds, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\GuildStorage
      */
     public $guilds;
     
     /**
-     * It holds all emojis.
+     * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
      * @var \CharlotteDunois\Yasmin\Models\Collection
      */
     public $emojis;
     
     /**
-     * It holds all cached presences.
+     * It holds all cached presences (latest ones), mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
      * @access private
      */
     public $presences;
     
     /**
-     * It holds all cached users.
+     * It holds all cached users, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\UserStorage
      */
     public $users;
     
     /**
-     * It holds all open voice connections.
+     * It holds all open voice connections, mapped by guild ID.
      * @var \CharlotteDunois\Yasmin\Models\Collection
      */
     public $voiceConnections;
     
     /**
-     * It holds all voice states.
+     * It holds non-guild related voice states, mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Models\Collection
      */
     public $voiceStates;
@@ -130,9 +130,8 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * What do you expect this to do? It makes a new Client instance.
-     * @param array                           $options  Any client options.
-     * @param \React\EventLoop\LoopInterface  $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
-     * @return this
+     * @param array                            $options  Any client options.
+     * @param \React\EventLoop\LoopInterface   $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
      *
      * @event ready
      * @event disconnect

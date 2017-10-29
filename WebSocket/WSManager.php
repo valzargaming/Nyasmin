@@ -35,7 +35,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     protected $ws;
     
     /**
-     * @var resource
+     * @var resource|null
      */
     protected $compressContext;
     
@@ -48,7 +48,8 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         'time' => 60,
         'remaining' => 120,
         'timer' => null,
-        'dateline' => 0
+        'dateline' => 0,
+        'heartbeatRoom' => 2
     );
     
     /**
@@ -73,7 +74,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     protected $running = false;
     
     /**
-     * If the connection got closed, did we expect it?
+     * If the connection gets closed, did we expect it?
      * @var bool
      */
     protected $expectedClose = false;
@@ -162,9 +163,13 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         }
         
         $reconnect = false;
-        if($this->gateway) {
+        if($this->gateway && (!$gateway || $this->gateway === $gateway)) {
             $this->client->emit('reconnect');
             $reconnect = true;
+            
+            if(!$gateway) {
+                $gateway = $this->gateway;
+            }
         } elseif(!empty($querystring)) {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
@@ -198,7 +203,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             
             $ratelimits = &$this->ratelimits;
             $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer($ratelimits['time'], function () use($ratelimits) {
-                $ratelimits['remaining'] = $ratelimits['total'];
+                $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
             });
             
             if(empty($this->wsSessionID)) {
@@ -242,8 +247,9 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                     $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                 }
                 
-                $this->ratelimits['remaining'] = $this->ratelimits['total'];
+                $this->ratelimits['remaining'] = $this->ratelimits['total'] - $ratelimits['heartbeatRoom'];
                 $this->ratelimits['timer'] = null;
+                
                 $this->queue = array();
                 $this->wsHeartbeat['ack'] = true;
                 
@@ -269,9 +275,9 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 }
                 
                 $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
-                $this->connect($this->gateway);
+                $this->connect();
             });
-        }, function($error) {
+        }, function($error) use ($reconnect) {
             if($reconnect) {
                 return $this->client->login($this->client->token, true);
             }
@@ -296,10 +302,15 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->wsSessionID = null;
     }
     
+    /**
+     * @param array $packet
+     * @return \React\Promise\Promise
+     * @throws \RuntimeException
+     */
     function send(array $packet) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
             if($this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY && $this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                return $reject(new \Exception('Can not send WS message before a WS connection is established'));
+                return $reject(new \RuntimeException('Can not send WS message before a WS connection is established'));
             }
             
             $this->queue[] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);
@@ -348,15 +359,15 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         }
         
         $packet = array(
-            'op' => (!empty($sessionid) && \is_string($sessionid) ? \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME'] : \CharlotteDunois\Yasmin\Constants::OPCODES['IDENTIFY']),
+            'op' => (!empty($sessionid) ? \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME'] : \CharlotteDunois\Yasmin\Constants::OPCODES['IDENTIFY']),
             'd' => array(
                 'token' => $this->client->token,
                 'properties' => array(
                     '$os' => \php_uname('s'),
-                    '$browser' => 'Yasmin',
-                    '$device' => 'Yasmin'
+                    '$browser' => 'Yasmin '.\CharlotteDunois\Yasmin\Constants::VERSION,
+                    '$device' => 'Yasmin '.\CharlotteDunois\Yasmin\Constants::VERSION
                 ),
-                'compress' => false,
+                'compress' => ($this->compressContext ? $this->compressContext->payloadCompression() : false),
                 'large_threshold' => (int) $this->client->getOption('ws.largeThreshold', 250),
                 'shard' => array(
                     (int) $this->client->getOption('shardID', 0),
@@ -388,7 +399,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         $this->wsHeartbeat['ack'] = false;
         $this->wsHeartbeat['dateline'] = microtime(true);
         
-        $this->send(array(
+        $this->_send(array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT'],
             'd' => $this->wshandler->sequence
         ));

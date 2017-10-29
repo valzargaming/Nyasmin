@@ -27,6 +27,7 @@ class Hello {
     
     function handle(array $packet) {
         $interval = $packet['d']['heartbeat_interval'] / 1000;
+        $this->wshandler->wsmanager->ratelimits['heartbeatRoom'] = (int) \ceil($this->wshandler->wsmanager->ratelimits['total'] / $interval);
         
         $this->heartbeat = $this->wshandler->client->getLoop()->addPeriodicTimer($interval, function () {
             $this->wshandler->wsmanager->heartbeat();
