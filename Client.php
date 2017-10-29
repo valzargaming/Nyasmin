@@ -34,7 +34,6 @@ class Client extends EventEmitter { //TODO: Implementation
     /**
      * It holds all cached presences (latest ones), mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
-     * @internal
      */
     public $presences;
     
@@ -133,41 +132,41 @@ class Client extends EventEmitter { //TODO: Implementation
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
      *
-     * @event ready
-     * @event disconnect
-     * @event reconnect
-     * @event channelCreate
-     * @event channelUpdate
-     * @event channelDelete
-     * @event guildCreate
-     * @event guildUpdate
-     * @event guildDelete
-     * @event guildUnavailable
-     * @event guildBanAdd
-     * @event guildBanRemove
-     * @event guildMemberAdd
-     * @event guildMemberRemove
-     * @event guildMembersChunk
-     * @event roleCreate
-     * @event roleUpdate
-     * @event roleDelete
-     * @event message
-     * @event messageUpdate
-     * @event messageDelete
-     * @event messageDeleteBulk
-     * @event messageReactionAdd
-     * @event messageReactionRemove
-     * @event messageReactionRemoveAll
-     * @event presenceUpdate
-     * @event typingStart
-     * @event userUpdate
-     * @event voiceStateUpdate
+     * @ event ready
+     * @ event disconnect
+     * @ event reconnect
+     * @ event channelCreate
+     * @ event channelUpdate
+     * @ event channelDelete
+     * @ event guildCreate
+     * @ event guildUpdate
+     * @ event guildDelete
+     * @ event guildUnavailable
+     * @ event guildBanAdd
+     * @ event guildBanRemove
+     * @ event guildMemberAdd
+     * @ event guildMemberRemove
+     * @ event guildMembersChunk
+     * @ event roleCreate
+     * @ event roleUpdate
+     * @ event roleDelete
+     * @ event message
+     * @ event messageUpdate
+     * @ event messageDelete
+     * @ event messageDeleteBulk
+     * @ event messageReactionAdd
+     * @ event messageReactionRemove
+     * @ event messageReactionRemoveAll
+     * @ event presenceUpdate
+     * @ event typingStart
+     * @ event userUpdate
+     * @ event voiceStateUpdate
      *
-     * @event raw
-     * @event messageDeleteRaw
-     * @event messageDeleteBulkRaw
-     * @event error
-     * @event debug
+     * @ event raw
+     * @ event messageDeleteRaw
+     * @ event messageDeleteBulkRaw
+     * @ event error
+     * @ event debug
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!empty($options)) {
