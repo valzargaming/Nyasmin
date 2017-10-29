@@ -12,6 +12,6 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 /**
  * Something all voicechannels implement.
  */
-interface VoiceChannelInterface { //TODO: Implementation
+interface VoiceChannelInterface {
     
 }

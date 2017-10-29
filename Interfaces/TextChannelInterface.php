@@ -12,14 +12,6 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 /**
  * Something all textchannels (all text-based channels) implement.
  */
-interface TextChannelInterface { //TODO: Implementation
-    function acknowledge();
-    function awaitMessages(callable $filter, array $options = array());
-    function bulkDelete($messages);
-    function search(array $options = array());
+interface TextChannelInterface {
     
-    function send(string $message, array $options = array());
-    
-    function startTyping();
-    function stopTyping(bool $force = false);
 }

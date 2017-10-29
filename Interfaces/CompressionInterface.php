@@ -7,7 +7,7 @@
  * License: https://github.com/CharlotteDunois/Yasmin/blob/master/LICENSE
 */
 
-namespace CharlotteDunois\Yasmin\WebSocket\Compression;
+namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
  * Interface for WS compressions.
