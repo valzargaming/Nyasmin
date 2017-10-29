@@ -23,7 +23,7 @@ class TextChannel extends TextBasedChannel
     protected $topic;
     protected $nsfw;
     protected $position;
-    protected $permissionsOverwrites;
+    protected $permissionOverwrites;
     
     /**
      * @access private
@@ -32,7 +32,7 @@ class TextChannel extends TextBasedChannel
         parent::__construct($client, $channel);
         $this->guild = $guild;
         
-        $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->topic = $channel['topic'] ?? $this->topic ?? '';
@@ -43,15 +43,23 @@ class TextChannel extends TextBasedChannel
         if(!empty($channel['permission_overwrites'])) {
             foreach($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission);
-                $this->permissionsOverwrites->set($overwrite->id, $overwrite);
+                $this->permissionOverwrites->set($overwrite->id, $overwrite);
             }
         }
     }
     
     /**
      * @inheritdoc
-     * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null  $parent             Returns the channel's parent, or null.
-     * @property-read  bool|null                                                $permissionsLocked  If the permissionOverwrites match the parent channel, null if no parent.
+     * @property-read  \CharlotteDunois\Yasmin\Models\Guild                     $guild                  The associated guild.
+     * @property-read  string                                                   $name                   The channel name.
+     * @property-read  string                                                   $topic                  The channel topic.
+     * @property-read  bool                                                     $nsfw                   Whether the channel is marked as NSFW or not.
+     * @property-read  string|null                                              $parentID               The ID of the parent channel, or null.
+     * @property-read  int                                                      $position               The channel position.
+     * @property-read \CharlotteDunois\Collect\Collection                       $permissionOverwrites   A collection of PermissionOverwrite objects.
+     *
+     * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null      $parent                 Returns the channel's parent, or null.
+     * @property-read  bool|null                                                $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -65,12 +73,12 @@ class TextChannel extends TextBasedChannel
             case 'permissionsLocked':
                 $parent = $this->__get('parent');
                 if($parent) {
-                    if($parent->permissionsOverwrites->count() !== $this->permissionsOverwrites->count()) {
+                    if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
                         return false;
                     }
                     
-                    return !((bool) $this->permissionsOverwrites->first(function ($perm) use ($parent) {
-                        $permp = $parent->permissionsOverwrites->get($perm->id);
+                    return !((bool) $this->permissionOverwrites->first(function ($perm) use ($parent) {
+                        $permp = $parent->permissionOverwrites->get($perm->id);
                         return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
                     }));
                 }

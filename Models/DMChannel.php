@@ -9,19 +9,38 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class DMChannel extends TextBasedChannel { //TODO: Implementation
+/**
+ * Represents a classic DM channel.
+ */
+class DMChannel extends TextBasedChannel {
     protected $ownerID;
     protected $recipients;
     
+    /**
+     * @access private
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);
         
         $this->ownerID = $channel['owner_id'] ?? null;
-        $this->recipients = $channel['recipients'] ?? array();
+        $this->recipients = new \CharlotteDunois\Yasmin\Models\Collection();
+        
+        if(!empty($channel['recipients'])) {
+            foreach($channel['recipients'] as $rec) {
+                $user = $client->users->patch($rec);
+                if($user) {
+                    $this->recipients->set($user->id, $user);
+                }
+            }
+        }
     }
     
     /**
      * @inheritdoc
+     * @property-read  string|null                                $ownerID      The owner ID of this channel.
+     * @property-read  \CharlotteDunois\Yasmin\Models\Collection  $recipients   The recipients of this channel.
+     *
+     * @property-read  \CharlotteDunois\Yasmin\Models\User|null   $owner        The owner of this channel, or not.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -37,5 +56,16 @@ class DMChannel extends TextBasedChannel { //TODO: Implementation
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * Determines whether a given user is a recipient of this channel.
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user  The user object or user ID.
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    function isRecipient($user) {
+        $user = $this->client->users->resolve($user);
+        return $this->recipients->has($user->id);
     }
 }

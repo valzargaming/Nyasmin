@@ -176,4 +176,36 @@ class ClientUser extends User { //TODO: Implementation
         
         return $this->client->wsmanager()->send($packet);
     }
+    
+    /**
+     * Creates a new Group DM with the owner of the access tokens. The structure of the array is as following:
+     *
+     *  array(
+     *      'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
+     *  )
+     *
+     * The nicks array is an associative array of userID => nick. The nick defaults to the username.
+     *
+     * @param array  $userWithAccessTokens
+     * @param array  $nicks
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\GroupDMChannel>
+     */
+    function createGroupDM(array $userWithAccessTokens, array $nicks = array()) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userWithAccessTokens) {
+            $tokens = array();
+            $users = array();
+            
+            foreach($userWithAccessTokens as $token => $user) {
+                $user = $this->client->users->resolve($user);
+                
+                $tokens[] = $token;
+                $users[$user->id] = (!empty($nicks[$user->id]) ? $nicks[$user->id] : $user->username);
+            }
+            
+            $this->client->apimanager()->endpoints->user->createGroupDM($tokens, $users)->then(function ($data) use ($resolve) {
+                $channel = $this->client->channels->factory($data);
+                $resolve($channel);
+            }, $reject);
+        }));
+    }
 }

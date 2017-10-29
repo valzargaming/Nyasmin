@@ -9,22 +9,27 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class GroupDMChannel extends DMChannel { //TODO: Implementation
+/**
+ * Represents a Group DM channel.
+ */
+class GroupDMChannel extends DMChannel {
     protected $applicationID;
     
+    /**
+     * @access private
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);
         
         $this->applicationID = $channel['application_id'] ?? null;
     }
     
+    /**
+     * @property-read  string|null  $applicationID  Returns the application ID which created the group DM channel.
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
-        }
-        
-        switch($name) {
-            
         }
         
         return parent::__get($name);

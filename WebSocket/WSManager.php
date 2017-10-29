@@ -116,7 +116,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $name::supported();
                 
                 $interfaces = \class_implements($name);
-                if(!in_array('CharlotteDunois\\Yasmin\\WebSocket\\Compression\\CompressionInterface', $interfaces)) {
+                if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\CompressionInterface', $interfaces)) {
                     throw new \Exception('Specified WS compression class does not implement necessary interface');
                 }
                 
@@ -247,7 +247,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                     $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                 }
                 
-                $this->ratelimits['remaining'] = $this->ratelimits['total'] - $ratelimits['heartbeatRoom'];
+                $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];
                 $this->ratelimits['timer'] = null;
                 
                 $this->queue = array();

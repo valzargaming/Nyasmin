@@ -62,7 +62,7 @@ trait GuildChannelTrait {
         );
         
         if($withPermissions) {
-            $data['permissions_overwrites'] = $this->permissionsOverwrites->all();
+            $data['permissions_overwrites'] = $this->permissionOverwrites->all();
         }
         
         if($withTopic) {
@@ -245,7 +245,7 @@ trait GuildChannelTrait {
         $memberOverwrites = null;
         $rolesOverwrites = array();
         
-        foreach($this->permissionsOverwrites->all() as $overwrite) {
+        foreach($this->permissionOverwrites->all() as $overwrite) {
             if($overwrite->id === $this->guild->id) {
                 $everyoneOverwrites = $overwrite;
             } elseif($overwrite->id === $member->id) {
@@ -298,7 +298,7 @@ trait GuildChannelTrait {
                 $options['id'] = $memberOrRole->id;
                 
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $options);
-                $this->permissionsOverwrites->set($overwrite->id, $overwrite);
+                $this->permissionOverwrites->set($overwrite->id, $overwrite);
                 
                 $resolve($overwrite);
             }, $reject);
@@ -316,7 +316,7 @@ trait GuildChannelTrait {
             throw new \BadMethodCallException('This channel does not have a parent');
         }
         
-        $overwrites = \array_values($this->__get('parent')->permissionsOverwrites->map(function ($overwrite) {
+        $overwrites = \array_values($this->__get('parent')->permissionOverwrites->map(function ($overwrite) {
             return array(
                 'id' => $overwrite->id,
                 'type' => $overwrite->type,

@@ -39,7 +39,7 @@ $client->on('ready', function () use($client, $game, &$timer) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     
     if($timer) {
-        $timer->cancel();
+        $client->cancelTimer($timer);
     }
     
     $user = $client->getClientUser();

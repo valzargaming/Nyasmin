@@ -350,10 +350,12 @@ class Client extends EventEmitter { //TODO: Implementation
      * @return \React\EventLoop\Timer\Timer
      */
     function addTimer(float $timeout, callable $callback, bool $ignoreWS = false) {
-        $timer = $this->loop->addTimer($timeout, function () use ($callback, $ignoreWS) {
+        $timer = $this->loop->addTimer($timeout, function () use ($callback, $ignoreWS, &$timer) {
             if($ignoreWS || $this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                 $callback($this);
             }
+            
+            $this->cancelTimer($timer);
         });
         
         $this->timers[] = array('type' => 1, 'timer' => $timer);

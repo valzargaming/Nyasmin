@@ -28,7 +28,7 @@ class VoiceChannel extends ClientBase
     protected $members;
     protected $parentID;
     protected $position;
-    protected $permissionsOverwrites;
+    protected $permissionOverwrites;
     protected $userLimit;
     
     /**
@@ -39,7 +39,7 @@ class VoiceChannel extends ClientBase
         $this->guild = $guild;
         
         $this->members = new \CharlotteDunois\Yasmin\Models\Collection();
-        $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
         
         $this->id = $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
@@ -54,7 +54,7 @@ class VoiceChannel extends ClientBase
         if(!empty($channel['permission_overwrites'])) {
             foreach($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission);
-                $this->permissionsOverwrites->set($overwrite->id, $overwrite);
+                $this->permissionOverwrites->set($overwrite->id, $overwrite);
             }
         }
     }
@@ -75,12 +75,12 @@ class VoiceChannel extends ClientBase
             case 'permissionsLocked':
                 $parent = $this->__get('parent');
                 if($parent) {
-                    if($parent->permissionsOverwrites->count() !== $this->permissionsOverwrites->count()) {
+                    if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
                         return false;
                     }
                     
-                    return !((bool) $this->permissionsOverwrites->first(function ($perm) use ($parent) {
-                        $permp = $parent->permissionsOverwrites->get($perm->id);
+                    return !((bool) $this->permissionOverwrites->first(function ($perm) use ($parent) {
+                        $permp = $parent->permissionOverwrites->get($perm->id);
                         return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
                     }));
                 }

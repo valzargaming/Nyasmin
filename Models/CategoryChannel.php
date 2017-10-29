@@ -20,7 +20,7 @@ class CategoryChannel extends TextBasedChannel {
     protected $name;
     protected $parentID;
     protected $position;
-    protected $permissionsOverwrites;
+    protected $permissionOverwrites;
     
     /**
      * @access private
@@ -29,7 +29,7 @@ class CategoryChannel extends TextBasedChannel {
         parent::__construct($client, $channel);
         $this->guild = $guild;
         
-        $this->permissionsOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
@@ -37,7 +37,7 @@ class CategoryChannel extends TextBasedChannel {
         
         if(!empty($channel['permissions_overwrites'])) {
             foreach($channel['permissions_overwrites'] as $permission) {
-                $this->permissionsOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission));
+                $this->permissionOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission));
             }
         }
     }

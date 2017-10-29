@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Compression;
  * @access private
  */
 class ZlibStream
-    implements \CharlotteDunois\Yasmin\WebSocket\Compression\CompressionInterface {
+    implements \CharlotteDunois\Yasmin\Interfaces\CompressionInterface {
     
     protected $context;
     

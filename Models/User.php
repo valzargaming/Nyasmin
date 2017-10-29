@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
+/**
+ * Represents an user on Discord.
+ */
 class User extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
     
@@ -134,14 +137,19 @@ class User extends ClientBase
     
     /**
      * Opens a DM channel to this user.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\DMChannel|null>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\DMChannel>
      */
-    function createDM() { //TODO
+    function createDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
             if($channel) {
                 return $resolve($channel);
             }
+            
+            $this->client->apimanager()->endpoints->user->createUserDM($this->user->id)->then(function ($data) use ($resolve) {
+                $channel = $this->client->channels->factory($data);
+                $resolve($channel);
+            }, $reject);
         }));
     }
     
@@ -149,12 +157,14 @@ class User extends ClientBase
      * Deletes an existing DM channel to this user.
      * @return \React\Promise\Promise<void>
      */
-    function deleteDM() { //TODO
+    function deleteDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->__get('dmChannel');
             if(!$channel) {
                 return $resolve();
             }
+            
+            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->then($resolve, $reject);
         }));
     }
     
@@ -196,108 +206,83 @@ class User extends ClientBase
     }
     
     /**
-     * Get the userprofile of this user. (User Accounts only)
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Userprofile>
+     * Fetches the User's connections. Requires connections scope.
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Collection<array>>
+     * @todo Make UserConnection object.
      */
-    function fetchProfile() {
+    function fetchUserConnections() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            
+            $this->client->apimanager()->user->getUserConnections()->then(function ($data) use ($resolve) {
+                $collect = new \CharlotteDunois\Yasmin\Models\Collection();
+                foreach($data as $conn) {
+                    $collect->set($conn['id'], $conn);
+                }
+                
+                $resolve($collect);
+            }, $reject);
         }));
     }
     
     /**
-     * Set notes for this user. (User Accounts only)
+     * Deletes multiple messages at once.
+     * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::bulkDelete
      * @return \React\Promise\Promise<void>
      */
-    function setNote(string $note) { //TODO: User Account only
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            
-        }));
+    function bulkDelete($messages, string $reason = '') {
+        return $this->createDM()->then(function ($channel) use ($messages, $reason) {
+            $channel->bulkDelete($messages, $reason);
+        });
     }
     
-    function acknowledge() {
-        $channel = $this->__get('dmChannel');
-        if(!$channel) {
-            return \React\Promise\resolve();
-        }
-        
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel) {
-            
-        }));
-    }
-    
-    function awaitMessages(callable $filter, array $options = array()) {
-        $channel = $this->__get('dmChannel');
-        if($channel) {
-            $channel = \React\Promise\resolve($channel);
-        } else {
-            $channel = $this->createDM();
-        }
-        
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channel, $filter, $options) {
-            return $channel->then(function ($dm) use ($filter, $options, $resolve, $reject) {
+    /**
+     * Collects messages during a specific duration (and max. amount).
+     * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::collectMessages
+     * @return \React\Promise\Promise<void>
+     */
+    function collectMessages(callable $filter, array $options = array()) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
+            $this->createDM()->then(function ($dm) use ($filter, $options, $resolve, $reject) {
                 return $dm->awaitMessages($filter, $options)->then($resolve, $reject);
             }, $reject);
         }));
     }
     
-    function bulkDelete($messages) {
-        $channel = $this->__get('dmChannel');
-        if(!$channel) {
-            return \React\Promise\reject(new \BadMethodCallException('You can not bulk delete inside a non-existing channel'));
-        }
-        
-        return $channel->bulkDelete($messages);
-    }
-    
-    function search(array $options = array()) {
-        $channel = $this->__get('dmChannel');
-        if(!$channel) {
-            return \React\Promise\reject(new \BadMethodCallException('You can not bulk delete inside a non-existing channel'));
-        }
-        
-        return $channel->search($options);
-    }
-    
+    /**
+     * Sends a message to a channel.
+     * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::send
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>
+     */
     function send(string $message, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
-            $channel = $this->__get('dmChannel');
-            if($channel) {
-                $channel = \React\Promise\resolve($channel);
-            } else {
-                $channel = $this->createDM();
-            }
-            
-            $channel->then(function ($channel) use ($message, $options, $resolve, $reject) {
+            $this->createDM()->then(function ($channel) use ($message, $options, $resolve, $reject) {
                 return $channel->send($message, $options)->then($resolve, $reject);
             }, $reject);
         }));
     }
     
+    /**
+     * Starts sending the typing indicator in this channel. Counts up a triggered typing counter.
+     */
     function startTyping() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $channel = $this->__get('dmChannel');
-            if($channel) {
-                $channel = \React\Promise\resolve($channel);
-            } else {
-                $channel = $this->createDM();
-            }
-            
-            $channel->then(function ($channel) use ($resolve, $reject) {
-                return $channel->startTyping()->then($resolve, $reject);
-            }, $reject);
-        }));
+        $this->createDM()->then(function ($channel) {
+            return $channel->startTyping();
+        });
     }
     
+    /**
+     * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
+     * @param  bool  $force  Reset typing counter and stop sending the indicator.
+     */
     function stopTyping(bool $force = false) {
-        $channel = $this->__get('dmChannel');
-        if(!$channel) {
-            return \React\Promise\resolve();
-        }
-        
-        return $channel->stopTyping($force);
+        $this->createDM()->then(function ($channel) {
+            $channel->stopTyping($force);
+        });
     }
     
+    /**
+     * Returns the amount of user typing in the DM channel.
+     * @return int
+     */
     function typingCount() {
         $channel = $this->__get('dmChannel');
         if(!$channel) {
@@ -307,17 +292,29 @@ class User extends ClientBase
         return $channel->typingCount();
     }
     
+    /**
+     * Determines whether the user is typing in the given channel or not.
+     * @param \CharlotteDunois\Yasmin\Models\User  $user
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
     function typingIn($channel) {
         $channel = $this->client->channels->resolve($channel);
         return $channel->isTyping($this);
     }
     
+    /**
+     * Determines whether how long the user has been typing in the given channel. Returns -1 if the user is not typing.
+     * @param \CharlotteDunois\Yasmin\Models\User  $user
+     * @return int
+     * @throws \InvalidArgumentException
+     */
     function typingSinceIn($channel) {
         $channel = $this->client->channels->resolve($channel);
         return $channel->isTypingSince($this);
     }
     
-    private function getAvatarExtension() {
+    protected function getAvatarExtension() {
         return (strpos($this->avatar, 'a_') === 0 ? 'gif' : 'webp');
     }
 }
