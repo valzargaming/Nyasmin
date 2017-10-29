@@ -51,7 +51,7 @@ class Message extends ClientBase { //TODO: Implementation
         
         $this->author->lastMessageID = $message['id'];
         
-        $this->attachments = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
         foreach($message['attachments'] as $attachment) {
             $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment)));
         }
@@ -61,10 +61,10 @@ class Message extends ClientBase { //TODO: Implementation
         }
         
         $this->mentions = array(
-            'channels' => (new \CharlotteDunois\Yasmin\Models\Collection()),
-            'members' => (new \CharlotteDunois\Yasmin\Models\Collection()),
-            'roles' => (new \CharlotteDunois\Yasmin\Models\Collection()),
-            'users' => (new \CharlotteDunois\Yasmin\Models\Collection())
+            'channels' => (new \CharlotteDunois\Yasmin\Utils\Collection()),
+            'members' => (new \CharlotteDunois\Yasmin\Utils\Collection()),
+            'roles' => (new \CharlotteDunois\Yasmin\Utils\Collection()),
+            'users' => (new \CharlotteDunois\Yasmin\Utils\Collection())
         );
         
         $guild = $channel->guild;
@@ -110,7 +110,7 @@ class Message extends ClientBase { //TODO: Implementation
             }
         }
         
-        $this->reactions = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
         if(!empty($message['reactions'])) {
             foreach($message['reactions'] as $reaction) {
                 $emoji = ($client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($client, $this->channel->guild, $reaction['emoji'])));

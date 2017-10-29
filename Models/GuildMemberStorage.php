@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * @access private
  */
-class GuildMemberStorage extends Collection
+class GuildMemberStorage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;

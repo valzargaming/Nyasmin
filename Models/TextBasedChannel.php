@@ -32,8 +32,8 @@ class TextBasedChannel extends ClientBase
     function __construct(\CharlotteDunois\Yasmin\Client $client, $channel) {
         parent::__construct($client);
         
-        $this->messages = new \CharlotteDunois\Yasmin\Models\Collection();
-        $this->typings = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->messages = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->id = $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
@@ -47,7 +47,7 @@ class TextBasedChannel extends ClientBase
      * @property-read string                                       $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
      * @property-read string|null                                  $lastMessageID      The last message ID, or null.
      * @property-read int                                          $createdTimestamp   The timestamp of when this channel was created.
-     * @property-read \CharlotteDunois\Yasmin\Models\Collection    $messages           The collection with all cached messages.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $messages           The collection with all cached messages.
      *
      * @property-read \DateTime                                    $createdAt          The DateTime object of createdTimestamp.
      * @property-read \CharlotteDunois\Yasmin\Models\Message|null  $lastMessage        The last message, or null.
@@ -73,7 +73,7 @@ class TextBasedChannel extends ClientBase
     
     /**
      * Deletes multiple messages at once.
-     * @param \CharlotteDunois\Yasmin\Models\Collection|array|int  $messages  A collection or array of Message objects, or the number of messages to delete (2-100).
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages  A collection or array of Message objects, or the number of messages to delete (2-100).
      * @param string                                               $reason
      * @return \React\Promise\Promise<void>
      */
@@ -87,7 +87,7 @@ class TextBasedChannel extends ClientBase
                 $messages = $this->messages->slice(($this->messages->count() - $messages), $messages);
             }
             
-            if($messages instanceof \CharlotteDunois\Yasmin\Models\Collection) {
+            if($messages instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
                 $messages = $messages->all();
             }
             
@@ -117,7 +117,7 @@ class TextBasedChannel extends ClientBase
      */
     function collectMessages(callable $filter, array $options) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $collect = new \CharlotteDunois\Yasmin\Models\Collection();
+            $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             $timer = null;
             
             $listener = function ($message) use ($collect, $filter, &$listener, $options, $resolve, $reject, &$timer) {
@@ -164,7 +164,7 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Fetches a specific messages in this channel. Options are as following:
+     * Fetches messages of this channel. Options are as following:
      *
      *  array(
      *      'after' => string, (message ID)
@@ -174,12 +174,12 @@ class TextBasedChannel extends ClientBase
      *  )
      *
      * @param  array  $options
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Collection<\CharlotteDunois\Yasmin\Models\Message>>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
      */
     function fetchMessages(array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
-            $this->client->apimanager()->endpoints->channel->getChannelMessage($this->id, $options)->then(function ($data) use ($resolve) {
-                $collect = new \CharlotteDunois\Yasmin\Models\Collection();
+            $this->client->apimanager()->endpoints->channel->getChannelMessages($this->id, $options)->then(function ($data) use ($resolve) {
+                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $m) {
                     $message = $this->_createMessage($m);
@@ -264,7 +264,7 @@ class TextBasedChannel extends ClientBase
                     }
                     
                     if(\strlen($msg['content']) > $split['maxLength']) {
-                        $collection = new \CharlotteDunois\Yasmin\Models\Collection();
+                        $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
                             return $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($collection) {

@@ -38,8 +38,8 @@ class VoiceChannel extends ClientBase
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->members = new \CharlotteDunois\Yasmin\Models\Collection();
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->members = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->id = $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];

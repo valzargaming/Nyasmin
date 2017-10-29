@@ -27,7 +27,7 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
-     * @var \CharlotteDunois\Yasmin\Models\Collection
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
      */
     public $emojis;
     
@@ -46,13 +46,13 @@ class Client extends EventEmitter { //TODO: Implementation
     
     /**
      * It holds all open voice connections, mapped by guild ID.
-     * @var \CharlotteDunois\Yasmin\Models\Collection
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
      */
     public $voiceConnections;
     
     /**
      * It holds non-guild related voice states, mapped by user ID.
-     * @var \CharlotteDunois\Yasmin\Models\Collection
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
      */
     public $voiceStates;
     
@@ -185,12 +185,12 @@ class Client extends EventEmitter { //TODO: Implementation
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
         $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($this);
-        $this->emojis = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->emojis = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->guilds = new \CharlotteDunois\Yasmin\Models\GuildStorage($this);
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($this);
         $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
-        $this->voiceConnections = new \CharlotteDunois\Yasmin\Models\Collection();
-        $this->voiceStates = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->voiceConnections = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->voiceStates = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->registerUtils();
     }

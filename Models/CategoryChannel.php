@@ -29,7 +29,7 @@ class CategoryChannel extends TextBasedChannel {
         parent::__construct($client, $channel);
         $this->guild = $guild;
         
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
@@ -44,7 +44,7 @@ class CategoryChannel extends TextBasedChannel {
     
     /**
      * @inheritdoc
-     * @property-read \CharlotteDunois\Yasmin\Models\Collection  $children  Returns all channels which are childrens of this category.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $children  Returns all channels which are childrens of this category.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

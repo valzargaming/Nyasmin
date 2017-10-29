@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * @access private
  */
-class UserStorage extends Collection
+class UserStorage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
@@ -66,7 +66,7 @@ class UserStorage extends Collection
     }
     
     function delete($key) {
-        parent::forget($key);
+        parent::delete($key);
         if($this !== $this->client->users) {
             $this->client->users->delete($key);
         }

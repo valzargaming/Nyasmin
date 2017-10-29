@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * @access private
  */
-class ChannelStorage extends Collection
+class ChannelStorage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
@@ -54,7 +54,7 @@ class ChannelStorage extends Collection
     }
     
     function delete($key) {
-        parent::forget($key);
+        parent::delete($key);
         if($this !== $this->client->channels) {
             $this->client->channels->delete($key);
         }

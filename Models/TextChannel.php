@@ -32,7 +32,7 @@ class TextChannel extends TextBasedChannel
         parent::__construct($client, $channel);
         $this->guild = $guild;
         
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->topic = $channel['topic'] ?? $this->topic ?? '';

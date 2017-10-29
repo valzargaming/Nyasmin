@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * @access private
  */
-class PresenceStorage extends Collection
+class PresenceStorage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;
@@ -54,7 +54,7 @@ class PresenceStorage extends Collection
     }
     
     function delete($key) {
-        parent::forget($key);
+        parent::delete($key);
         if($this !== $this->client->presences) {
             $this->client->presences->delete($key);
         }

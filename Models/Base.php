@@ -53,7 +53,7 @@ class Base implements \JsonSerializable, \Serializable { //TODO: Nya
             }
             
             if(\property_exists($this, $key)) {
-                if($this->$key instanceof \CharlotteDunois\Yasmin\Models\Collection) {
+                if($this->$key instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
                     if(!\is_array($val)) {
                         $val = array($val);
                     }

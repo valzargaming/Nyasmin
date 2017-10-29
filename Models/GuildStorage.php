@@ -9,7 +9,7 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class GuildStorage extends Collection
+class GuildStorage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
     
     protected $client;

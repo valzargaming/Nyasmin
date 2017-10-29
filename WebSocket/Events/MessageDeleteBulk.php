@@ -24,7 +24,7 @@ class MessageDeleteBulk {
     function handle(array $data) {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
-            $messages = new \CharlotteDunois\Yasmin\Models\Collection();
+            $messages = new \CharlotteDunois\Yasmin\Utils\Collection();
             $messagesRaw = array();
             
             foreach($data['ids'] as $id) {

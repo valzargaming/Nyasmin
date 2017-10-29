@@ -38,7 +38,7 @@ class Emoji extends ClientBase { //TODO: Implementation
         $this->managed = $emoji['managed'] ?? false;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
-        $this->roles = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         if(!empty($emoji['roles'])) {
             foreach($emoji['roles'] as $role) {
@@ -55,7 +55,7 @@ class Emoji extends ClientBase { //TODO: Implementation
      * @property-read \CharlotteDunois\Yasmin\Models\User|null         $user               The user that created the emoji.
      * @property-read boolean                                              $requireColons      Does the emoji require colons?
      * @property-read boolean                                              $managed            Is the emoji managed?
-     * @property-read \CharlotteDunois\Yasmin\Models\Collection        $roles              A collection of roles that this emoji is active for (empty if all).
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection        $roles              A collection of roles that this emoji is active for (empty if all).
      * @property-read int                                                  $createdTimestamp   The timestamp of when this emoji was created.
      *
      * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.

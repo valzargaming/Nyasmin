@@ -33,10 +33,11 @@ class GuildMember extends ClientBase { //TODO: Implementation
         
         $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         
-        $this->roles = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
         
-        foreach($this->roles as $role) {
-            $this->roles->set($role['id'], $guild->roles->get($role['id']));
+        foreach($member['roles'] as $role) {
+            $role = $guild->roles->get($role);
+            $this->roles->set($role->id, $role);
         }
     }
     

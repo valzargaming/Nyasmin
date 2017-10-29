@@ -9,6 +9,9 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
+/**
+ * Represents a role.
+ */
 class Role extends ClientBase { //TODO: Implementation
     protected $guild;
     
@@ -16,7 +19,6 @@ class Role extends ClientBase { //TODO: Implementation
     protected $name;
     protected $color;
     protected $hoist;
-    protected $members;
     protected $position;
     protected $permissions;
     protected $managed;
@@ -29,8 +31,6 @@ class Role extends ClientBase { //TODO: Implementation
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->members = new \CharlotteDunois\Yasmin\Models\Collection();
-        
         $this->id = $role['id'];
         $this->name = $role['name'];
         $this->color = $role['color'];
@@ -41,13 +41,30 @@ class Role extends ClientBase { //TODO: Implementation
         $this->mentionable = $role['mentionable'];
     }
     
+    /**
+     * @property-read string                                      $id            The role ID.
+     * @property-read string                                      $name          The role name.
+     * @property-read int                                         $color         The color of the role.
+     * @property-read bool                                        $hoist         Whether the role gets displayed separately in the member list.
+     * @property-read int                                         $position      The position in the role manager.
+     * @property-read \CharlotteDunois\Yasmin\Models\Permissions  $permissions   The permissions of the role.
+     * @property-read bool                                        $managed       Whether the role is managed by an integration.
+     * @property-read bool                                        $mentionable   Whether the role is mentionable.
+     *
+     * @property-read \CharlotteDunois\Collect\Collection         $members       A collection of all (cached) guild members which have this role.
+     * @property-read
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
         }
         
         switch($name) {
-            
+            case 'members':
+                return $this->guild->members->filter(function ($member) {
+                    return $member->roles->has($this->id);
+                });
+            break;
         }
         
         return null;

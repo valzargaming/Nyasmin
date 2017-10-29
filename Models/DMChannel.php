@@ -23,7 +23,7 @@ class DMChannel extends TextBasedChannel {
         parent::__construct($client, $channel);
         
         $this->ownerID = $channel['owner_id'] ?? null;
-        $this->recipients = new \CharlotteDunois\Yasmin\Models\Collection();
+        $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         if(!empty($channel['recipients'])) {
             foreach($channel['recipients'] as $rec) {
@@ -38,7 +38,7 @@ class DMChannel extends TextBasedChannel {
     /**
      * @inheritdoc
      * @property-read  string|null                                $ownerID      The owner ID of this channel.
-     * @property-read  \CharlotteDunois\Yasmin\Models\Collection  $recipients   The recipients of this channel.
+     * @property-read  \CharlotteDunois\Yasmin\Utils\Collection  $recipients   The recipients of this channel.
      *
      * @property-read  \CharlotteDunois\Yasmin\Models\User|null   $owner        The owner of this channel, or not.
      */
