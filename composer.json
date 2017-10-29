@@ -15,7 +15,6 @@
         "ratchet/pawl": "^0.3.1",
         "react/event-loop": "^0.4.3",
         "react/promise": "^2.5",
-        "charlottedunois/collection": "^0.1.1",
         "guzzlehttp/guzzle": "^6.3",
         "charlottedunois/validator": "^0.1.2"
     },
