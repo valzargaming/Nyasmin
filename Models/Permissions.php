@@ -44,8 +44,8 @@ class Permissions extends ClientBase { //TODO: Docs
     /**
      * Checks if a given permission is granted.
      * @param array|int|string  $permissions
-     * @param boolean           $checkAdmin
-     * @return boolean
+     * @param bool           $checkAdmin
+     * @return bool
      * @throws \InvalidArgumentException
      */
     function has($permissions, bool $checkAdmin = true) {
@@ -70,8 +70,8 @@ class Permissions extends ClientBase { //TODO: Docs
     /**
      * Checks if a given permission is missing.
      * @param array|int|string  $permissions
-     * @param boolean           $checkAdmin
-     * @return boolean
+     * @param bool           $checkAdmin
+     * @return bool
      * @throws \InvalidArgumentException
      */
     function missing($permissions, bool $checkAdmin = true) {
@@ -81,7 +81,7 @@ class Permissions extends ClientBase { //TODO: Docs
     /**
      * Adds permissions to these ones.
      * @param int|string  $permissions
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function add(...$permissions) {
@@ -98,7 +98,7 @@ class Permissions extends ClientBase { //TODO: Docs
     /**
      * Removes permissions from these ones.
      * @param int|string  $permissions
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function remove(...$permissions) {

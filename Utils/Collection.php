@@ -36,7 +36,7 @@ class Collection {
      * Sets a new key-value pair (or overwrites an existing key-value pair).
      * @param mixed  $key
      * @param mixed  $value
-     * @return this
+     * @return $this
      */
     function set($key, $value) {
         $this->data[$key] = $value;
@@ -46,7 +46,7 @@ class Collection {
     /**
      * Removes an item from the collection by its key.
      * @param  mixed  $key
-     * @return this
+     * @return $this
     */
     function delete($key) {
         $this->data[$key] = null;
@@ -56,7 +56,7 @@ class Collection {
     
     /**
      * Clears the Collection.
-     * @return this
+     * @return $this
      */
     function clear() {
         $this->data = array();
@@ -202,7 +202,7 @@ class Collection {
     /**
      * Iterates over the items in the collection and passes each item to a given callback.
      * @param  callable  $closure
-     * @return this
+     * @return $this
     */
     function each(callable $closure) {
         foreach($this->data as $key => $val) {
@@ -627,7 +627,7 @@ class Collection {
      * Appends an item to the end of the collection.
      * @param  mixed  $value
      * @param  mixed  $key
-     * @return this
+     * @return $this
     */
     function push($value, $key = null) {
         if(!empty($key) && !\is_int($key)) {
@@ -929,7 +929,7 @@ class Collection {
     /**
      * Merges together the values of the given array with the values of the collection at the corresponding index.
      * @param  mixed[]  $arr
-     * @return this|Collection
+     * @return $this|Collection
     */
     function zip(array $arr) {
         $data = $this->data;

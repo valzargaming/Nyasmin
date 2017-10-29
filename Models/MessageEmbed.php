@@ -125,7 +125,7 @@ class MessageEmbed extends Base {
      * @param string  $name      Maximum length is 256 characters.
      * @param string  $iconurl   The URL to the icon.
      * @param string  $url       The URL to the author.
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function setAuthor(string $name, string $iconurl = '', string $url = '') {
@@ -145,7 +145,7 @@ class MessageEmbed extends Base {
     /**
      * Set the color of this embed.
      * @param mixed   $color
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
      */
@@ -157,7 +157,7 @@ class MessageEmbed extends Base {
     /**
      * Set the description of this embed.
      * @param string  $description   Maxiumum length is 2048 characters.
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function setDescription(string $description) {
@@ -173,7 +173,7 @@ class MessageEmbed extends Base {
      * Set the footer of this embed.
      * @param string  $text     Maximum length is 2048 characters.
      * @param string  $iconurl  The URL to the icon.
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function setFooter(string $text, string $iconurl = '') {
@@ -192,7 +192,7 @@ class MessageEmbed extends Base {
     /**
      * Set the image of this embed.
      * @param string  $url
-     * @return this
+     * @return $this
      */
     function setImage(string $url) {
         $this->image = $url;
@@ -202,7 +202,7 @@ class MessageEmbed extends Base {
     /**
      * Set the thumbnail of this embed.
      * @param string  $url
-     * @return this
+     * @return $this
      */
     function setThumbnail(string $url) {
         $this->thumbnail = $url;
@@ -212,7 +212,7 @@ class MessageEmbed extends Base {
     /**
      * Set the timestamp of this embed.
      * @param int  $timestamp
-     * @return this
+     * @return $this
      */
     function setTimestamp(int $timestamp = null) {
         $this->timestamp = (new \DateTime(($timestamp !== null ? '@'.$timestamp : 'now')))->format('r');
@@ -222,7 +222,7 @@ class MessageEmbed extends Base {
     /**
      * Set the title of this embed.
      * @param string  $title    Maximum length is 256 characters.
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function setTitle(string $title) {
@@ -237,7 +237,7 @@ class MessageEmbed extends Base {
     /**
      * Set the URL of this embed.
      * @param string  $url
-     * @return this
+     * @return $this
      */
     function setURL(string $url) {
         $this->url = $url;
@@ -249,7 +249,7 @@ class MessageEmbed extends Base {
      * @param string  $title    Maximum length is 256 characters.
      * @param string  $value    Maximum lengt is 1024 characters.
      * @param bool    $inline
-     * @return this
+     * @return $this
      * @throws \RangeException|\InvalidArgumentException
      */
     function addField(string $title, string $value, bool $inline = false) {

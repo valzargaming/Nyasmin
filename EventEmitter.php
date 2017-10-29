@@ -29,7 +29,7 @@ class EventEmitter {
      * Attach a listener to an event.
      * @param string    $event
      * @param callable  $listener
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function on($event, callable $listener) {
@@ -50,7 +50,7 @@ class EventEmitter {
      * Attach a listener to an event, for exactly once.
      * @param string    $event
      * @param callable  $listener
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function once($event, callable $listener) {
@@ -71,7 +71,7 @@ class EventEmitter {
      * Remove specified listener from an event.
      * @param string    $event
      * @param callable  $listener
-     * @return this
+     * @return $this
      * @throws \InvalidArgumentException
      */
     function removeListener($event, callable $listener) {
@@ -105,7 +105,7 @@ class EventEmitter {
     /**
      * Remove all listeners from an event (or all listeners).
      * @param string|null  $event
-     * @return this
+     * @return $this
      */
     function removeAllListeners($event = null) {
         if($event !== null) {

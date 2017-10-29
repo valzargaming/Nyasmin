@@ -92,7 +92,7 @@ class Snowflake { //TODO: 64bit
     
     /**
      * Is this a valid Snowflake or not? This does not determine if a given Snowflake exists in Discord.
-     * @return boolean
+     * @return bool
      */
     function isValid() {
         return ($this->timestamp < \time() && $this->workerID >= 0 && $this->processID >= 0 && $this->increment >= 0 && $this->increment <= 4095);
