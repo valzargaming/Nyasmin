@@ -138,6 +138,7 @@ class Client extends EventEmitter { //TODO: Implementation
      * @ event channelCreate
      * @ event channelUpdate
      * @ event channelDelete
+     * @ event channelPinsUpdate
      * @ event guildCreate
      * @ event guildUpdate
      * @ event guildDelete
