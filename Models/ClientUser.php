@@ -20,6 +20,18 @@ class ClientUser extends User { //TODO: Implementation
     protected $clientPresence;
     
     /**
+     * @var int
+     * @internal
+     */
+    protected $firstPresence;
+    
+    /**
+     * @var int
+     * @internal
+     */
+    protected $firstPresenceCount = 0;
+    
+    /**
      * @param \CharlotteDunois\Yasmin\Client $client
      * @param array                          $user
      * @internal
@@ -152,10 +164,22 @@ class ClientUser extends User { //TODO: Implementation
      *
      * @param array $presence
      * @return \React\Promise\Promise<void>
+     * @throws \BadMethodCallException
      */
     function setPresence(array $presence) {
         if(empty($presence)) {
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
+        }
+        
+        if($this->firstPresence && $this->firstPresence > (\time() - 60)) {
+            if($this->firstPresenceCount >= 5) {
+                throw new \BadMethodCallException('Stop spamming setPresence you idiot');
+            }
+            
+            $this->firstPresenceCount++;
+        } else {
+            $this->firstPresence = \time();
+            $this->firstPresence = 1;
         }
         
         $packet = array(

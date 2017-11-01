@@ -86,6 +86,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     protected $gateway;
     
     /**
+     * The timestamp of the latest identify (Ratelimit 1/5s).
+     */
+    protected $lastIdentify;
+    
+    /**
      * The WS connection status
      * @var int
      */
@@ -174,6 +179,14 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
         
+        if($this->lastIdentify && $this->lastIdentify > (\time() - 5)) {
+            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway) {
+                $this->client->getLoop()->addTimer((\time() - 5 - $this->lastIdentify), function () use ($gateway, $resolve, $reject) {
+                    $this->connect($gateway)->then($resolve, $reject);
+                });
+            }));
+        }
+        
         $this->gateway = $gateway;
         $this->expectedClose = false;
         
@@ -206,6 +219,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
             });
             
+            $this->lastIdentify = \time();
             if(empty($this->wsSessionID)) {
                 $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
                 $this->sendIdentify();
@@ -278,6 +292,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 $this->connect();
             });
         }, function($error) use ($reconnect) {
+            if($this->ws) {
+                $this->ws->close(1006);
+            }
+            
             if($reconnect) {
                 return $this->client->login($this->client->token, true);
             }
@@ -300,6 +318,15 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         
         $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
         $this->wsSessionID = null;
+    }
+    
+    function reconnect() {
+        if(!$this->ws) {
+            return;
+        }
+        
+        $this->client->emit('debug', 'Disconnecting from WS in order to reconnect');
+        $this->ws->close(1006, 'Reconnect required');
     }
     
     /**
