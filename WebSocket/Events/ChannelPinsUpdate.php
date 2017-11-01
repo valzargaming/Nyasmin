@@ -28,7 +28,7 @@ class ChannelPinsUpdate {
     function handle(array $data) {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
-            $time = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime(($data['last_pin_timestamp'] ?? 'now'));
+            $time = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((!empty($data['last_pin_timestamp']) ? ((int) $data['last_pin_timestamp']) : \time()));
             $this->client->emit('channelPinsUpdate', $channel, $time);
         }
     }
