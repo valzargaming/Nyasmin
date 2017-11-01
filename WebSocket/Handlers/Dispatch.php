@@ -26,6 +26,7 @@ class Dispatch {
             'CHANNEL_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelCreate',
             'CHANNEL_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelUpdate',
             'CHANNEL_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelDelete',
+            'CHANNEL_PINS_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\ChannelPinsUpdate',
             'GUILD_CREATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildCreate',
             'GUILD_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildUpdate',
             'GUILD_DELETE' => '\CharlotteDunois\Yasmin\WebSocket\Events\GuildDelete',

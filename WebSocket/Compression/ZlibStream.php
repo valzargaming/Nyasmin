@@ -27,6 +27,9 @@ class ZlibStream
      */
     function init() {
         $this->context = \inflate_init(ZLIB_ENCODING_DEFLATE);
+        if(!$this->context) {
+            throw new \Exception('Unable to initialize Zlib Inflate');
+        }
     }
     
     /**
