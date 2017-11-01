@@ -160,7 +160,7 @@ class ClientUser extends User { //TODO: Implementation
      *      )|null
      *  )
      *
-     *  Any field in the first dimension is optional and will be automatically filled with the last known value.
+     *  Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude.
      *
      * @param array $presence
      * @return \React\Promise\Promise<void>
