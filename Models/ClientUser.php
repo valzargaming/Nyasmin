@@ -20,6 +20,7 @@ class ClientUser extends User { //TODO: Implementation
     protected $clientPresence;
     
     /**
+     * WS Presence Update ratelimit 5/60s.
      * @var int
      * @internal
      */

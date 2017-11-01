@@ -335,6 +335,10 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function fetchUser(string $userid) {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use  ($userid) {
+            if($this->users->has($userid)) {
+                return $resolve($this->users->get($userid));
+            }
+            
             $this->api->endpoints->user->getUser($userid)->then(function ($user) use ($resolve) {
                 $user = $this->users->factory($user);
                 $resolve($user);
@@ -387,6 +391,7 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function cancelTimer(\React\EventLoop\Timer\Timer $timer) {
         $timer->cancel();
+        
         $key = \array_search($timer, $this->timers, true);
         if($key !== false) {
             unset($this->timers[$key]);
