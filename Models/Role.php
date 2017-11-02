@@ -62,7 +62,6 @@ class Role extends ClientBase {
      * @property-read bool                                        $editable            Whether the role can be edited by the client user.
      * @property-read string                                      $hexColor            Returns the hex color of the role color.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.
-     * @property-read
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
