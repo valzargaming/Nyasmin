@@ -40,7 +40,7 @@ class MessageReactionAdd {
                     
                     $reaction = new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $message, $emoji, array(
                         'count' => 0,
-                        'me' => (bool) ($this->client->getClientUser()->id === $data['user_id']),
+                        'me' => (bool) ($this->client->user->id === $data['user_id']),
                         'emoji' => $emoji
                     ));
                     

@@ -81,7 +81,11 @@ class Constants {
     const WS = array(
         'baseurl' => 'wss://gateway.discord.gg/',
         'encoding' => 'json',
-        'version' => 6
+        'version' => 6,
+        'query' => array(
+            'v' => 6,
+            'encoding' => 'json'
+        )
     );
     
     /**

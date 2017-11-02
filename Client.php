@@ -11,49 +11,50 @@ namespace CharlotteDunois\Yasmin;
 
 /**
  * The client. What else do you expect this to say?
+ * @todo Implementation
  */
-class Client extends EventEmitter { //TODO: Implementation
+class Client extends EventEmitter {
     /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage
      */
-    public $channels;
-    
-    /**
-     * It holds all guilds, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\GuildStorage
-     */
-    public $guilds;
+    protected $channels;
     
     /**
      * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
      * @var \CharlotteDunois\Yasmin\Utils\Collection
      */
-    public $emojis;
+    protected $emojis;
+    
+    /**
+     * It holds all guilds, mapped by ID.
+     * @var \CharlotteDunois\Yasmin\Models\GuildStorage
+     */
+    protected $guilds;
     
     /**
      * It holds all cached presences (latest ones), mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
      */
-    public $presences;
+    protected $presences;
     
     /**
      * It holds all cached users, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\UserStorage
      */
-    public $users;
+    protected $users;
     
     /**
      * It holds all open voice connections, mapped by guild ID.
      * @var \CharlotteDunois\Yasmin\Utils\Collection
      */
-    public $voiceConnections;
+    protected $voiceConnections;
     
     /**
      * It holds non-guild related voice states, mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Utils\Collection
      */
-    public $voiceStates;
+    protected $voiceStates;
     
     /**
      * The last 3 websocket pings (in ms).
@@ -196,6 +197,48 @@ class Client extends EventEmitter { //TODO: Implementation
     }
     
     /**
+     * @property-read \CharlotteDunois\Yasmin\Models\ChannelStorage  $channels          It holds all cached channels, mapped by ID.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+     * @property-read \CharlotteDunois\Yasmin\Models\GuildStorage    $guilds            It holds all guilds, mapped by ID.
+     * @property-read \CharlotteDunois\Yasmin\Models\PresenceStorage $presences         It holds all cached presences (latest ones), mapped by user ID.
+     * @property-read \CharlotteDunois\Yasmin\Models\UserStorage     $users             It holds all cached users, mapped by ID.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceConnections  It holds all open voice connections, mapped by guild ID.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceStates       It holds non-guild related voice states, mapped by user ID.
+     *
+     * @property-read \CharlotteDunois\Yasmin\Models\ClientUser|null $user              Get the Client User instance.
+     */
+    function __get($name) {
+        switch($name) {
+            case 'channels':
+                return $this->channels;
+            break;
+            case 'emojis':
+                return $this->emojis;
+            break;
+            case 'guilds':
+                return $this->guilds;
+            break;
+            case 'presences':
+                return $this->presences;
+            break;
+            case 'users':
+                return $this->users;
+            break;
+            case 'voiceConnections':
+                return $this->voiceConnections;
+            break;
+            case 'voiceStates':
+                return $this->voiceStates;
+            break;
+            case 'user':
+                return $this->user;
+            break;
+        }
+        
+        throw new \Exception('Notice: Unknown property Client::'.$name);
+    }
+    
+    /**
      * You don't need to know.
      * @return \CharlotteDunois\Yasmin\HTTP\APIManager
      * @internal
@@ -219,14 +262,6 @@ class Client extends EventEmitter { //TODO: Implementation
      */
     function getLoop() {
         return $this->loop;
-    }
-    
-    /**
-     * Get the Client User instance.
-     * @return \CharlotteDunois\Yasmin\Models\ClientUser|null
-     */
-    function getClientUser() {
-        return $this->user;
     }
     
     /**
@@ -291,17 +326,14 @@ class Client extends EventEmitter { //TODO: Implementation
             $gateway->then(function ($url) use ($resolve, $reject) {
                 $this->gateway = $url;
                 
-                $this->ws->connect($url, array(
-                    'v' => \CharlotteDunois\Yasmin\Constants::WS['version'],
-                    'encoding' => \CharlotteDunois\Yasmin\Constants::WS['encoding']
-                ))->then(function () use ($resolve) {
+                $this->ws->connect($url, \CharlotteDunois\Yasmin\Constants::WS['query'])->then(function () use ($resolve) {
                     $this->ws->on('ready', function () {
                         $this->emit('ready');
                     });
                     
                     $resolve();
                 }, $reject);
-            });
+            }, $reject);
         }));
     }
     

@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a permission overwrite.
  */
-class PermissionOverwrite extends ClientBase { //TODO: Implementation
+class PermissionOverwrite extends ClientBase {
     protected $channel;
     
     protected $id;
@@ -57,6 +57,19 @@ class PermissionOverwrite extends ClientBase { //TODO: Implementation
         }
         
         return null;
+    }
+    
+    /**
+     * Deletes the permission overwrite.
+     * @param string  $reason
+     * @return \React\Promise\Promise<void>
+     */
+    function delete(string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->channel->deleteChannelPermission($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
+                $resolve();
+            }, $reject);
+        }));
     }
     
     /**

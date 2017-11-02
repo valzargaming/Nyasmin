@@ -177,7 +177,7 @@ class APIManager {
             throw new \Exception('Can not make a HTTP request without a token');
         }
         
-        $user = $this->client->getClientUser();
+        $user = $this->client->user;
         if($user && $user->bot === true) {
             return 'Bot '.$this->client->token;
         }
@@ -208,7 +208,7 @@ class APIManager {
      * Gets the Gateway from the Discord API.
      * @param bool $bot Should we use the bot endpoint?
      */
-    function getGateway($bot = false) {
+    function getGateway(bool $bot = false) {
         $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
         return $this->add($gateway);
     }
@@ -217,7 +217,7 @@ class APIManager {
      * Gets the Gateway from the Discord API synchronously.
      * @param bool $bot Should we use the bot endpoint?
      */
-    function getGatewaySync($bot = false) {
+    function getGatewaySync(bool $bot = false) {
         $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
         
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {

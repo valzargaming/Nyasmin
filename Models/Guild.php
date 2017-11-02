@@ -166,7 +166,7 @@ class Guild extends ClientBase { //TODO: Implementation
                 }
             break;
             case 'me':
-                return $this->members->get($this->client->getClientUser()->id);
+                return $this->members->get($this->client->user->id);
             break;
             case 'splashURL':
                 if($this->splash) {

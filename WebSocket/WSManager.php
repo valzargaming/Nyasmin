@@ -381,7 +381,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     
     function sendIdentify($sessionid = null) {
         if(empty($this->client->token)) {
-            $this->client->emit('Debug', 'No client token to start with');
+            $this->client->emit('debug', 'No client token to start with');
             return;
         }
         

@@ -42,7 +42,7 @@ $client->on('ready', function () use($client, $game, &$timer) {
         $client->cancelTimer($timer);
     }
     
-    $user = $client->getClientUser();
+    $user = $client->user;
     echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
     $client->addPeriodicTimer(30, function () use ($user, $game) {
@@ -114,7 +114,7 @@ $client->on('message', function ($message) use ($client) {
     }
 });
 
-$client->login($token)->done(function () use ($client) {
+$client->login($token)->then(function () use ($client) {
     $client->addPeriodicTimer(60, function ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
@@ -125,6 +125,8 @@ $client->login($token)->done(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
         });
     });
-});
+}, function ($error) {
+    echo $error.PHP_EOL;
+})->done();
 
 $client->getLoop()->run();

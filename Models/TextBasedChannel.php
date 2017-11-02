@@ -332,9 +332,9 @@ class TextBasedChannel extends ClientBase
         if($this->typingTriggered['count'] === 0) {
             $this->typingTriggerd['timer'] = $this->client->addPeriodicTimer(7, function () {
                 $this->client->apimanager()->endpoints->channel->triggerChannelTyping($this->id)->then(function () {
-                    $this->_updateTyping($this->client->getClientUser(), \time());
+                    $this->_updateTyping($this->client->user, \time());
                 }, function () {
-                    $this->_updateTyping($this->client->getClientUser());
+                    $this->_updateTyping($this->client->user);
                     $this->typingTriggered['count'] = 0;
                     
                     if($this->typingTriggerd['timer']) {

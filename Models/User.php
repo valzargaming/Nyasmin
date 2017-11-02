@@ -101,8 +101,8 @@ class User extends ClientBase
                 }
             break;
             case 'notes': //TODO: User Account only
-                if($this->client->getClientUser()->notes->has($this->id)) {
-                    $this->client->getClientUser()->notes->get($this->id);
+                if($this->client->user->notes->has($this->id)) {
+                    $this->client->user->notes->get($this->id);
                 }
             break;
             case 'presence':

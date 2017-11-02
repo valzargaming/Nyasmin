@@ -17,6 +17,7 @@ class GuildMember extends ClientBase { //TODO: Implementation
     protected $nickname;
     protected $deaf;
     protected $mute;
+    protected $speaking = false;
     
     protected $joinedTimestamp;
     protected $roles;
@@ -49,28 +50,92 @@ class GuildMember extends ClientBase { //TODO: Implementation
         
         switch($name) {
             case 'bannable':
+                if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
+                    return false;
+                }
+                
+                $member = $this->guild->me;
+                if($member->permissions->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['BAN_MEMBERS']) === false) {
+                    return false;
+                }
+                
+                return ($member->highestRole->comparePositionTo($this->__get('highestRole')) > 0);
             break;
             case 'colorRole':
+                $roles = $this->roles->filter(function ($role) {
+                    return $role->color;
+                });
+                
+                if($roles->count() === 0) {
+                    return null;
+                }
+                
+                return $roles->reduce(function ($prev, $role) {
+                    if($prev === null) {
+                        return $role;
+                    }
+                    
+                    return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
+                });
             break;
             case 'displayColor':
+                $colorRole = $this->__get('colorRole');
+                if($colorRole !== null && $colorRole->color > 0) {
+                    return $colorRole->color;
+                }
             break;
             case 'displayHexColor':
+                $colorRole = $this->__get('colorRole');
+                if($colorRole !== null && $colorRole->color > 0) {
+                    return $colorRole->hexColor;
+                }
             break;
             case 'displayName':
                 return ($this->nickname ?? $this->user->username);
             break;
             case 'highestRole':
+                return $this->roles->reduce(function ($prev, $role) {
+                    if($prev === null) {
+                        return $role;
+                    }
+                    
+                    return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
+                });
             break;
             case 'hoistRole':
+                $roles = $this->roles->filter(function ($role) {
+                    return $role->hoist;
+                });
+                
+                if($roles->count() === 0) {
+                    return null;
+                }
+                
+                return $roles->reduce(function ($prev, $role) {
+                    if($prev === null) {
+                        return $role;
+                    }
+                    
+                    return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
+                });
             break;
             case 'joinedAt':
                 return (new \DateTime($this->joinedTimestamp));
             break;
             case 'kickable':
+                if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
+                    return false;
+                }
+                
+                $member = $this->guild->me;
+                if($member->permissions->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['KICK_MEMBERS']) === false) {
+                    return false;
+                }
+                
+                return ($member->highestRole->comparePositionTo($this->__get('highestRole')) > 0);
             break;
             case 'presence':
-            break;
-            case 'speaking':
+                return $this->guild->presences->get($this->id);
             break;
             case 'voiceChannel':
                 $vc = $this->guild->channels->first(function ($channel) {
@@ -92,8 +157,18 @@ class GuildMember extends ClientBase { //TODO: Implementation
         return null;
     }
     
+    /**
+     * Automatically converts to a mention.
+     */
     function __toString() {
         return '<@'.(!empty($this->nickname) ? '!' : '').$this->id.'>';
+    }
+    
+    /**
+     * @internal
+     */
+    function _setSpeaking(bool $speaking) {
+        $this->speaking = $speaking;
     }
     
     /**
