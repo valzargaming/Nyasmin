@@ -226,7 +226,7 @@ class User extends ClientBase
     /**
      * Deletes multiple messages at once.
      * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::bulkDelete
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise<this>
      */
     function bulkDelete($messages, string $reason = '') {
         return $this->createDM()->then(function ($channel) use ($messages, $reason) {

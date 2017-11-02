@@ -75,7 +75,7 @@ class TextBasedChannel extends ClientBase
      * Deletes multiple messages at once.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages  A collection or array of Message objects, or the number of messages to delete (2-100).
      * @param string                                               $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise<this>
      */
     function bulkDelete($messages, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($messages, $reason) {
@@ -96,7 +96,7 @@ class TextBasedChannel extends ClientBase
             });
             
             $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function ($data) use ($resolve) {
-                $resolve();
+                $resolve($this);
             }, $reject);
         }));
     }
@@ -202,7 +202,7 @@ class TextBasedChannel extends ClientBase
      *
      * @param  string  $message  The message content.
      * @param  array   $options  Any message options.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message|\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
      */
     function send(string $message, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {

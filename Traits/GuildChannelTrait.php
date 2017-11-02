@@ -116,7 +116,7 @@ trait GuildChannelTrait {
         }
         
         if(isset($options['position'])) {
-            $data['position'] = $options['position'];
+            $data['position'] = (int) $options['position'];
         }
         
         if(isset($options['bitrate'])) {
@@ -124,7 +124,7 @@ trait GuildChannelTrait {
                 throw new \InvalidArgumentException('Can not set channel bitrate of a text channel');
             }
             
-            $data['bitrate'] = $options['bitrate'];
+            $data['bitrate'] = (int) $options['bitrate'];
         }
         
         if(isset($options['userLimit'])) {
@@ -132,13 +132,13 @@ trait GuildChannelTrait {
                 throw new \InvalidArgumentException('Can not set channel user limit of a text channel');
             }
             
-            $data['user_limit'] = $options['userLimit'];
+            $data['user_limit'] = (int) $options['userLimit'];
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
             $this->client->apimanager()->endpoints->channel->editChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
                 $this->_patch($data);
-                $resolve();
+                $resolve($this);
             }, $reject);
         }));
     }
@@ -332,7 +332,7 @@ trait GuildChannelTrait {
             }
             
             \React\Promise\all($promises)->then(function () use ($resolve) {
-                $resolve();
+                $resolve($this);
             }, $reject);
         }));
     }
@@ -386,7 +386,7 @@ trait GuildChannelTrait {
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($newPositions, $reason) {
             $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->guild->id, $newPositions, $reason)->then(function () use ($resolve) {
-                $resolve();
+                $resolve($this);
             }, $reject);
         }));
     }
