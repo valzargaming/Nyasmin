@@ -49,7 +49,7 @@ class Role extends ClientBase {
      * @property-read \CharlotteDunois\Yasmin\Models\Guild        $guild               The guild the role belongs to.
      * @property-read string                                      $id                  The role ID.
      * @property-read string                                      $name                The role name.
-     * @property-read int                                         $createdTimestamp    When the role was creted.
+     * @property-read int                                         $createdTimestamp    When the role was created.
      * @property-read int                                         $color               The color of the role.
      * @property-read bool                                        $hoist               Whether the role gets displayed separately in the member list.
      * @property-read int                                         $position            The position of the role in the API.
