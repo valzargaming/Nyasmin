@@ -380,16 +380,7 @@ class APIManager {
                     return;
                 }
                 
-                $body = $response->getBody();
-                if($body instanceof \GuzzleHttp\Psr7\Stream) {
-                    $body = $body->getContents();
-                }
-                
-                $body = \json_decode($body, true);
-                
-                if($body === null) {
-                    throw new \Exception('Unkown API response');
-                }
+                $body = $this->decodeBody($response);
                 
                 if($status >= 400) {
                     if($status === 429 || ($status >= 500 && $status < 600)) {
@@ -456,5 +447,19 @@ class APIManager {
         } else if($response->hasHeader('X-RateLimit-Reset')) {
             $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
         }
+    }
+    
+    /**
+     * Gets the response body from the response.
+     * @param \GuzzleHttp\Psr7\Response  $response
+     * @return mixed
+     */
+    private function decodeBody(\GuzzleHttp\Psr7\Response $response) {
+        $body = $response->getBody();
+        if($body instanceof \GuzzleHttp\Psr7\Stream) {
+            $body = $body->getContents();
+        }
+        
+        return \json_decode($body, true);
     }
 }
