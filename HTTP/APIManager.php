@@ -473,7 +473,7 @@ class APIManager {
                 if($status >= 400 && $status < 500) {
                     $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($item->getEndpoint(), $body);
                 } else {
-                    $error = new \HttpException($response->getReasonPhrase());
+                    $error = new \Exception($response->getReasonPhrase());
                 }
                 
                 throw $error;
