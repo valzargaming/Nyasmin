@@ -375,6 +375,10 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
          $this->running = false;
     }
     
+    function getSessionID() {
+        return $this->wsSessionID;
+    }
+    
     function setSessionID(string $id) {
         $this->wsSessionID = $id;
     }

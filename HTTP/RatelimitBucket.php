@@ -74,7 +74,7 @@ class RatelimitBucket {
             
             if($response->hasHeader('Retry-After')) {
                 $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
-            } else if($response->hasHeader('X-RateLimit-Reset')) {
+            } elseif($response->hasHeader('X-RateLimit-Reset')) {
                 $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
             }
         } else {

@@ -20,9 +20,9 @@ class InvalidateSession {
         $this->wshandler = $wshandler;
     }
     
-    function handle() {
-        $this->wshandler->client->getLoop()->addTimer(5, function () {
-            $this->wshandler->wsmanager->sendIdentify();
+    function handle($data) {
+        $this->wshandler->client->getLoop()->addTimer(5, function () use ($data) {
+            $this->wshandler->wsmanager->sendIdentify(($data['d'] ? $this->wshandler->wsmanager->getSessionID() : null));
         });
     }
 }
