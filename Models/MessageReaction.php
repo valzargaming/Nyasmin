@@ -11,8 +11,9 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a message reaction.
+ * @todo Implementation
  */
-class MessageReaction extends ClientBase { //TODO: Implementation
+class MessageReaction extends ClientBase {
     protected $message;
     
     protected $count;
@@ -22,7 +23,7 @@ class MessageReaction extends ClientBase { //TODO: Implementation
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Message $message, \CharlotteDunois\Yasmin\Models\Emoji $emoji, array $reaction) { //TODO: Implementation
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Message $message, \CharlotteDunois\Yasmin\Models\Emoji $emoji, array $reaction) {
         parent::__construct($client);
         $this->message = $message;
         

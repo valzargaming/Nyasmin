@@ -11,8 +11,9 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Permissions. Something fabulous.
+ * @todo Docs
  */
-class Permissions extends ClientBase { //TODO: Docs
+class Permissions extends ClientBase {
     const ALL = 2146958591;
     protected $bitfield;
     
@@ -26,7 +27,7 @@ class Permissions extends ClientBase { //TODO: Docs
     /**
      * @property-read int  $bitfield  The bitfield value.
      *
-     * @throws \Exceptionw
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

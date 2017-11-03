@@ -11,8 +11,9 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents an emoji.
+ * @todo Implementation
  */
-class Emoji extends ClientBase { //TODO: Implementation
+class Emoji extends ClientBase {
     protected $guild;
     
     protected $id;

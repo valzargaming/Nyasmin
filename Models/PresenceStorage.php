@@ -11,25 +11,11 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * @internal
+ * @todo Docs
  */
-class PresenceStorage extends \CharlotteDunois\Yasmin\Utils\Collection
-    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
-    
-    protected $client;
-    
+class PresenceStorage extends Storage {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
-        parent::__construct($data);
-        $this->client = $client;
-    }
-    
-    function __get($name) {
-        switch($name) {
-            case 'client':
-                return $this->client;
-            break;
-        }
-        
-        return parent::__get($name);
+        parent::__construct($client, $data);
     }
     
     function resolve($presence) {

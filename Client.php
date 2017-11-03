@@ -340,8 +340,8 @@ class Client extends EventEmitter {
                     });
                     
                     $resolve();
-                }, $reject);
-            }, $reject);
+                }, $reject)->done();
+            }, $reject)->done();
         }));
     }
     
@@ -478,6 +478,14 @@ class Client extends EventEmitter {
                 $util::stopTimer();
             }
         }
+    }
+    
+    /**
+     * Emits an error event for a rejected promise.
+     * @internal
+     */
+    function handlePromiseRejection(\Exception $error) {
+        $this->client->emit('error', $error);
     }
     
     /**

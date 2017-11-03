@@ -45,7 +45,7 @@ class Channel {
     
     function getChannelMessages(string $channelid, array $options = array()) {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['messages']['list'], $channelid);
-        return $this->api->makeRequest('GET', $url, array('data' => $options));
+        return $this->api->makeRequest('GET', $url, array('querystring' => $options));
     }
     
     function getChannelMessage(string $channelid, string $messageid) {
@@ -70,7 +70,7 @@ class Channel {
     
     function bulkDeleteMessages(string $channelid, array $snowflakes, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['messages']['bulkDelete'], $channelid);
-        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason, 'data' => array('messages' => $snowflakes)));
+        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => array('messages' => $snowflakes)));
     }
     
     function createMessageReaction(string $channelid, string $messageid, string $emoji) {

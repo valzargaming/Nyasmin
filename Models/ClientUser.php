@@ -11,8 +11,9 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents the Client User.
+ * @todo Implementation
  */
-class ClientUser extends User { //TODO: Implementation
+class ClientUser extends User {
     /**
      * @var array
      * @internal
@@ -74,7 +75,7 @@ class ClientUser extends User { //TODO: Implementation
     /**
      * Set your avatar.
      * @param string $avatar  An URL or the filepath or the data.
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise<this>
      */
     function setAvatar(string $avatar) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
@@ -93,23 +94,23 @@ class ClientUser extends User { //TODO: Implementation
                 
                 $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function ($data) use ($resolve) {
                     $this->_patch($data);
-                    $resolve();
-                }, $reject);
-            }, $reject);
+                    $resolve($this);
+                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
     /**
      * Set your username.
      * @param string $username
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise<this>
      */
     function setUsername(string $username) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
             $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
                 $this->_patch($data);
-                $resolve();
-            }, $reject);
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -166,7 +167,7 @@ class ClientUser extends User { //TODO: Implementation
      *  Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude. Ratelimit is 5/60s.
      *
      * @param array $presence
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise<this>
      * @throws \BadMethodCallException
      */
     function setPresence(array $presence) {
@@ -202,7 +203,9 @@ class ClientUser extends User { //TODO: Implementation
             $presence->_patch($this->clientPresence);
         }
         
-        return $this->client->wsmanager()->send($packet);
+        return $this->client->wsmanager()->send($packet)->then(function () {
+            return $this;
+        });
     }
     
     /**
@@ -233,7 +236,7 @@ class ClientUser extends User { //TODO: Implementation
             $this->client->apimanager()->endpoints->user->createGroupDM($tokens, $users)->then(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
 }

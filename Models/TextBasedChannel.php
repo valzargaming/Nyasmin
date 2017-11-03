@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class TextBasedChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
+                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
                     
     protected $messages;
     protected $typings;
@@ -77,31 +77,42 @@ class TextBasedChannel extends ClientBase
     
     /**
      * Deletes multiple messages at once.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages  A collection or array of Message objects, or the number of messages to delete (2-100).
-     * @param string                                               $reason
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message objects, or the number of messages to delete (2-100).
+     * @param string                                              $reason
+     * @param bool                                                $filterOldMessages  Automatically filters out too old messages (14 days).
      * @return \React\Promise\Promise<this>
      */
-    function bulkDelete($messages, string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($messages, $reason) {
+    function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filterOldMessages, $messages, $reason) {
             if(\is_int($messages)) {
-                if($messages < 2 || $messages > 100) {
+                $messages = $this->fetchMessages(array('limit' => $messages));
+            } else {
+                $messages = \React\Promise\resolve($messages);
+            }
+            
+            $messages->then(function ($messages) use ($filterOldMessages, $reason, $resolve, $reject) {
+                if($messages instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+                    $messages = $messages->all();
+                }
+                
+                if($filterOldMessages) {
+                    $messages = \array_filter($messages, function ($message) {
+                        return ((\time() - $message->createdTimestamp) < 1209600);
+                    });
+                }
+                
+                $messages = \array_map(function ($message) {
+                    return $message->id;
+                }, $messages);
+                
+                if(\count($messages) < 2 || \count($messages) > 100) {
                     return $reject(new \InvalidArgumentException('Can not bulk delete less than 2 or more than 100 messages'));
                 }
                 
-                $messages = $this->messages->slice(($this->messages->count() - $messages), $messages);
-            }
-            
-            if($messages instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
-                $messages = $messages->all();
-            }
-            
-            $messages = \array_filter($messages, function ($message) {
-                return $message->id;
-            });
-            
-            $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function ($data) use ($resolve) {
-                $resolve($this);
-            }, $reject);
+                $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function ($data) use ($resolve) {
+                    $resolve($this);
+                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -163,7 +174,7 @@ class TextBasedChannel extends ClientBase
             $this->client->apimanager()->endpoints->channel->getChannelMessage($this->id, $id)->then(function ($data) use ($resolve) {
                 $message = $this->_createMessage($data);
                 $resolve($message);
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -191,7 +202,7 @@ class TextBasedChannel extends ClientBase
                 }
                 
                 $resolve($collect);
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -274,7 +285,7 @@ class TextBasedChannel extends ClientBase
                             return $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($collection) {
                                 $msg = $this->_createMessage($response);
                                 $collection->set($msg->id, $msg);
-                            }, $reject);
+                            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                         };
                         
                         $i = 0;
@@ -318,13 +329,13 @@ class TextBasedChannel extends ClientBase
                         
                         return $promise->then(function () use ($collection, $resolve) {
                             $resolve($collection);
-                        }, $reject);
+                        }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                     }
                 }
                 
                 $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($resolve) {
                     $resolve($this->_createMessage($response));
-                }, $reject);
+                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             }, $reject);
         }));
     }
@@ -345,7 +356,7 @@ class TextBasedChannel extends ClientBase
                         $this->client->cancelTimer($this->typingTriggerd['timer']);
                         $this->typingTriggerd['timer'] = null;
                     }
-                });
+                })->done(null, array($this->client, 'handlePromiseRejection'));
             });
         }
         

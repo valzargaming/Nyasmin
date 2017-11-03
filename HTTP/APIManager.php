@@ -139,7 +139,7 @@ class APIManager {
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
             $apirequest->deferred = new \React\Promise\Deferred();
-            $apirequest->deferred->promise()->then($resolve, $reject);
+            $apirequest->deferred->promise()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             
             $endpoint = $this->getRatelimitEndpoint($apirequest->getEndpoint());
             if(!empty($endpoint)) {
@@ -271,7 +271,7 @@ class APIManager {
             if(\time() < $this->resetTime) {
                 $this->client->emit('debug', 'We are API-wise globally ratelimited');
                 
-                $this->client->addTimer((\time() - $this->resetTime), function () {
+                $this->client->addTimer(($this->resetTime + 1 - \time()), function () {
                     $this->_process();
                 }, true);
                 
@@ -300,7 +300,28 @@ class APIManager {
                     $this->queue[] = $item;
                 }
                 
-                $this->_process();
+                $cLimited = \array_reduce($this->queue, function ($prev, $val) {
+                    if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
+                        $rs = (int) $val->getResetTime();
+                        if($rs < $prev) {
+                            return $rs;
+                        }
+                    }
+                    
+                    return $prev;
+                }, \INF);
+                
+                if($cLimited === 0 || $cLimited === \INF || $cLimited < 0) {
+                    $this->_process();
+                } else {
+                    $this->client->emit('debug', 'Pausing API manager queue due to ratelimits');
+                    
+                    $this->running = false;
+                    $this->client->addTimer(($cLimited + 1 - \time()), function () {
+                        $this->processQueue();
+                    });
+                }
+                
                 return;
             }
         }
@@ -359,7 +380,16 @@ class APIManager {
                     return;
                 }
                 
-                $body = \json_decode($response->getBody(), true);
+                $body = $response->getBody();
+                if($body instanceof \GuzzleHttp\Psr7\Stream) {
+                    $body = $body->getContents();
+                }
+                
+                $body = \json_decode($body, true);
+                
+                if($body === null) {
+                    throw new \Exception('Unkown API response');
+                }
                 
                 if($status >= 400) {
                     if($status === 429 || ($status >= 500 && $status < 600)) {

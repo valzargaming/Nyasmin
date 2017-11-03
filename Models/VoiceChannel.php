@@ -11,10 +11,11 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild's voice channel.
+ * @todo Implementation
  */
 class VoiceChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface { //TODO: Implementation
+                \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     protected $guild;

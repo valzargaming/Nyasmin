@@ -9,7 +9,11 @@
 
 namespace CharlotteDunois\Yasmin\Models;
 
-class GuildChannel extends ClientBase { //TODO: Implementation
+/**
+ * @internal
+ * @todo Implementation
+ */
+class GuildChannel extends ClientBase {
     static function factory(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
         switch($channel['type']) {
             case 0:

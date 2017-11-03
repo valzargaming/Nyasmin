@@ -72,10 +72,14 @@ $client->on('message', function ($message) use ($client) {
     if($message->author->id === '200317799350927360') {
         if(\strpos($message->content, '#shutdown') === 0) {
             $message->channel->send(':white_check_mark: Ok')->then(function () use ($client) {
-                echo 'Shutting down...'.PHP_EOL;
-                $client->destroy()->then(function () use ($client) {
-                    echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
-                });
+                (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($client) {
+                    $client->addTimer(2, $resolve);
+                }))->then(function () use ($client) {
+                    echo 'Shutting down...'.PHP_EOL;
+                    $client->destroy()->then(function () use ($client) {
+                        echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
+                    })->done();
+                })->done();
             });
         } elseif(\strpos($message->content, '#eval') === 0) {
             $code = \substr($message->content, 6);
@@ -119,7 +123,7 @@ $client->on('message', function ($message) use ($client) {
                         $result = \substr($result, 0, $maxlen).PHP_EOL.'...';
                     }
                     
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```'.($len > $maxlen ? PHP_EOL.'Original length: '.$len : ''))->then($resolve, $reject);
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```php'.PHP_EOL.$result.PHP_EOL.'```'.($len > $maxlen ? PHP_EOL.'Original length: '.$len : ''))->then($resolve, $reject)->done();
                 }, $reject);
             }))->then(function () { }, function ($e) use ($code, $message) {
                 while(@\ob_end_clean());
@@ -132,8 +136,8 @@ $client->on('message', function ($message) use ($client) {
                     $e = \substr($e, 0, $maxlen).PHP_EOL.'...';
                 }
                 
-                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
-            });
+                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```')->done();
+            })->done();
         }
     }
 });
@@ -142,13 +146,6 @@ $client->login($token)->then(function () use ($client) {
     $client->addPeriodicTimer(60, function ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
-    
-    /*$client->addTimer(3600, function ($client) {
-        echo 'Ending session'.PHP_EOL;
-        $client->destroy()->then(function () use ($client) {
-            echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
-        });
-    });*/
 }, function ($error) {
     echo $error.PHP_EOL;
 })->done();

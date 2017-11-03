@@ -11,27 +11,14 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * @internal
+ * @todo Docs
  */
-class RoleStorage extends \CharlotteDunois\Yasmin\Utils\Collection
-    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface { //TODO: Docs
-    
-    protected $client;
+class RoleStorage extends Storage {
     protected $guild;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $data = null) {
-        parent::__construct($data);
-        $this->client = $client;
+        parent::__construct($client, $data);
         $this->guild = $guild;
-    }
-    
-    function __get($name) {
-        switch($name) {
-            case 'client':
-                return $this->client;
-            break;
-        }
-        
-        return parent::__get($name);
     }
     
     function resolve($role) {

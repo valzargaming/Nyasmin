@@ -131,6 +131,14 @@ class RatelimitBucket {
     }
     
     /**
+     * Returns the reset time.
+     * @return int|null
+     */
+    function getResetTime() {
+        return $this->resetTime;
+    }
+    
+    /**
      * Returns the first queue item or false. Modifies remaining ratelimit.
      * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|false
      */

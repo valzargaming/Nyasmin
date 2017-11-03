@@ -11,8 +11,9 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild.
+ * @todo Implementation
  */
-class Guild extends ClientBase { //TODO: Implementation
+class Guild extends ClientBase {
     protected $channels;
     protected $emojis;
     protected $members;
@@ -193,7 +194,7 @@ class Guild extends ClientBase { //TODO: Implementation
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
             $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
                 $resolve($this->_addMember($data));
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -230,7 +231,7 @@ class Guild extends ClientBase { //TODO: Implementation
                     'query' => $query ?? '',
                     'limit' => $limit ?? 0
                 )
-            ));
+            ))->done(null, array($this->client, 'handlePromiseRejection'));
             
             $this->client->addTimer(120, function () use (&$listener, $reject) {
                 if($this->members->count() < $this->memberCount) {

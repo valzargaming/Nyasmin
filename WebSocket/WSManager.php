@@ -182,7 +182,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         if($this->lastIdentify && $this->lastIdentify > (\time() - 5)) {
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway) {
                 $this->client->getLoop()->addTimer((\time() - 5 - $this->lastIdentify), function () use ($gateway, $resolve, $reject) {
-                    $this->connect($gateway)->then($resolve, $reject);
+                    $this->connect($gateway)->then($resolve, $reject)->done();
                 });
             }));
         }

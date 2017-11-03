@@ -11,9 +11,10 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents an user on Discord.
+ * @todo Implementation
  */
 class User extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface { //TODO: Implementation
+    implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
     
     protected $id;
     protected $username;
@@ -159,7 +160,7 @@ class User extends ClientBase
             $this->client->apimanager()->endpoints->user->createUserDM($this->user->id)->then(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -174,7 +175,7 @@ class User extends ClientBase
                 return $resolve();
             }
             
-            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->then($resolve, $reject);
+            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -229,7 +230,7 @@ class User extends ClientBase
                 }
                 
                 $resolve($collect);
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -253,7 +254,7 @@ class User extends ClientBase
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $this->createDM()->then(function ($dm) use ($filter, $options, $resolve, $reject) {
                 return $dm->awaitMessages($filter, $options)->then($resolve, $reject);
-            }, $reject);
+            }, $reject)->done();
         }));
     }
     
@@ -266,7 +267,7 @@ class User extends ClientBase
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
             $this->createDM()->then(function ($channel) use ($message, $options, $resolve, $reject) {
                 return $channel->send($message, $options)->then($resolve, $reject);
-            }, $reject);
+            }, $reject)->done();
         }));
     }
     
@@ -275,7 +276,7 @@ class User extends ClientBase
      */
     function startTyping() {
         $this->createDM()->then(function ($channel) {
-            return $channel->startTyping();
+            return $channel->startTyping()->done();
         });
     }
     
@@ -285,7 +286,7 @@ class User extends ClientBase
      */
     function stopTyping(bool $force = false) {
         $this->createDM()->then(function ($channel) {
-            $channel->stopTyping($force);
+            $channel->stopTyping($force)->done();
         });
     }
     

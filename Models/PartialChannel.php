@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a partial channel.
  */
 class PartialChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface { //TODO: Implementation
+    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
     
     protected $id;
     protected $name;
