@@ -457,23 +457,10 @@ class APIManager {
             $body = $this->decodeBody($response);
             
             if($status >= 400) {
-                if($status === 429 || $status >= 500) {
-                    $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
-                    
-                    if($ratelimit !== null) {
-                        $ratelimit->unshift($item);
-                    } else {
-                        \array_unshift($this->queue, $item);
-                    }
-                    
+                $error = $this->handleAPIError($response, $item, $body, $ratelimit);
+                if($error === null) {
                     $this->_process(true);
                     return;
-                }
-                
-                if($status >= 400 && $status < 500) {
-                    $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($item->getEndpoint(), $body);
-                } else {
-                    $error = new \Exception($response->getReasonPhrase());
                 }
                 
                 throw $error;
@@ -487,5 +474,37 @@ class APIManager {
         }
         
         $this->_process(true);
+    }
+    
+    /**
+     * Handles an API error.
+     * @param \GuzzleHttp\Psr7\Response                          $response
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest            $item
+     * @param mixed                                              $body
+     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
+     * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\Exception|null
+     */
+    private function handleAPIError(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, $body, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        $status = $response->getStatusCode();
+        
+        if($status === 429 || $status >= 500) {
+            $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
+            
+            if($ratelimit !== null) {
+                $ratelimit->unshift($item);
+            } else {
+                \array_unshift($this->queue, $item);
+            }
+            
+            return null;
+        }
+        
+        if($status >= 400 && $status < 500) {
+            $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($item->getEndpoint(), $body);
+        } else {
+            $error = new \Exception($response->getReasonPhrase());
+        }
+        
+        return $error;
     }
 }
