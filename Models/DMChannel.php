@@ -38,9 +38,11 @@ class DMChannel extends TextBasedChannel {
     /**
      * @inheritdoc
      * @property-read  string|null                                $ownerID      The owner ID of this channel.
-     * @property-read  \CharlotteDunois\Yasmin\Utils\Collection  $recipients   The recipients of this channel.
+     * @property-read  \CharlotteDunois\Yasmin\Utils\Collection   $recipients   The recipients of this channel.
      *
      * @property-read  \CharlotteDunois\Yasmin\Models\User|null   $owner        The owner of this channel, or not.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

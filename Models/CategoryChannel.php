@@ -45,6 +45,8 @@ class CategoryChannel extends TextBasedChannel {
     /**
      * @inheritdoc
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $children  Returns all channels which are childrens of this category.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -59,6 +61,6 @@ class CategoryChannel extends TextBasedChannel {
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
 }

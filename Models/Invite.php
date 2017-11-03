@@ -57,6 +57,8 @@ class Invite extends ClientBase {
      * @property-read int|null                                                                                               $uses                Number of times this invite has been used, or null.
      *
      * @property-read \DateTime|null                                                                                         $createdAt           The DateTime object of the createdTimestamp, if not null.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -68,10 +70,12 @@ class Invite extends ClientBase {
                 if($this->createdTimestamp) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
                 }
+                
+                return null;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

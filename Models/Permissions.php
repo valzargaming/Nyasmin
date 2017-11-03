@@ -25,13 +25,15 @@ class Permissions extends ClientBase { //TODO: Docs
     
     /**
      * @property-read int  $bitfield  The bitfield value.
+     *
+     * @throws \Exceptionw
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

@@ -29,7 +29,7 @@ class ChannelStorage extends \CharlotteDunois\Yasmin\Utils\Collection
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     function resolve($channel) {

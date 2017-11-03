@@ -25,7 +25,10 @@ class GroupDMChannel extends DMChannel {
     }
     
     /**
+     * @inheritdoc
      * @property-read  string|null  $applicationID  Returns the application ID which created the group DM channel.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

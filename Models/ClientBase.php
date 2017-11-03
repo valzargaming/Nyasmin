@@ -40,7 +40,7 @@ class ClientBase extends Base { //TODO: Nya
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

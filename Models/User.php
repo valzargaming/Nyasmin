@@ -71,6 +71,8 @@ class User extends ClientBase
      * @property-read string|null                                          $notes              The notes of the Client User for this user. (User Accounts only)
      * @property-read \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
      * @property-read string                                               $tag                Username#Discriminator.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -92,6 +94,8 @@ class User extends ClientBase
                 if($channel) {
                     return $channel;
                 }
+                
+                return null;
             break;
             case 'lastMessage':
                 if($this->lastMessageID !== null) {
@@ -99,11 +103,15 @@ class User extends ClientBase
                         return $channel->messages->has($this->lastMessageID);
                     });
                 }
+                
+                return null;
             break;
             case 'notes': //TODO: User Account only
                 if($this->client->user->notes->has($this->id)) {
                     $this->client->user->notes->get($this->id);
                 }
+                
+                return null;
             break;
             case 'presence':
                 if($this->client->presences->has($this->id)) {
@@ -119,13 +127,15 @@ class User extends ClientBase
                         return $presence;
                     }
                 }
+                
+                return null;
             break;
             case 'tag':
                 return $this->username.'#'.$this->discriminator;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

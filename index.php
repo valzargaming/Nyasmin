@@ -98,16 +98,25 @@ $client->on('message', function ($message) use ($client) {
                     $result = \explode("\n", \str_replace("\r", "", $result));
                     \array_shift($result);
                     $result = \implode(PHP_EOL, $result);
+                    $len = \strlen($result);
                     
-                    if(\strlen($result) > 5000) {
-                        $result = \substr($result, 0, 5000);
+                    if($len > 1800) {
+                        $result = \substr($result, 0, 1800).PHP_EOL.'...';
                     }
                     
                     while(@\ob_end_clean());
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```', array('split' => array('before' => "```\n", 'after' => "\n```")))->then($resolve, $reject);
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```'.($len > 1800 ? PHP_EOL.'Original length: '.$len : ''), array('split' => array('before' => "```\n", 'after' => "\n```")))->then($resolve, $reject);
                 }, $reject);
             }))->then(function () { }, function ($e) use ($code, $message) {
                 while(@\ob_end_clean());
+                
+                $e = (string) $e;
+                $len = \strlen($e);
+                
+                if($len > 1800) {
+                    $e = \substr($e, 0, 1800).PHP_EOL.'...';
+                }
+                
                 $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```', array('split' => array('before' => "```\n", 'after' => "\n```")));
             });
         }

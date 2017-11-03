@@ -45,7 +45,7 @@ class MessageEmbed extends Base {
             
             $this->description = $embed['description'] ?? null;
             $this->url = $embed['url'] ?? null;
-            $this->timestamp = (!empty($this->timestamp) ? (new \DateTime($this->timestamp))->getTimestamp() : null);
+            $this->timestamp = (!empty($embed['timestamp']) ? (new \DateTime($embed['timestamp']))->getTimestamp() : null);
             $this->color = $embed['color'] ?? null;
             
             if(!empty($embed['footer'])) {
@@ -105,6 +105,8 @@ class MessageEmbed extends Base {
      * @property-read array|null        $provider           The provider (array of name, url), or null.
      *
      * @property-read \DateTime         $datetime           The DateTime object of timestamp.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -113,11 +115,11 @@ class MessageEmbed extends Base {
         
         switch($name) {
             case 'datetime':
-                return (new \DateTime('@'.$timestamp));
+                return (new \DateTime('@'.$this->timestamp));
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

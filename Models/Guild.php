@@ -150,6 +150,8 @@ class Guild extends ClientBase { //TODO: Implementation
      * @property-read string|null                                     $iconURL             The guild icon URL, or null.
      * @property-read \CharlotteDunois\Yasmin\Models\GuildMember      $me                  The guild member of the client user.
      * @property-read string|null                                     $splashURL           The guild splash URL, or null.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -164,6 +166,8 @@ class Guild extends ClientBase { //TODO: Implementation
                 if($this->icon) {
                     return \CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon);
                 }
+                
+                return null;
             break;
             case 'me':
                 return $this->members->get($this->client->user->id);
@@ -172,10 +176,12 @@ class Guild extends ClientBase { //TODO: Implementation
                 if($this->splash) {
                     return \CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash);
                 }
+                
+                return null;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

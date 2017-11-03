@@ -48,6 +48,8 @@ class MessageAttachment extends Base {
      * @property-read int                                              $createdTimestamp   The timestamp of when this attachment was created.
      *
      * @property-read \DateTime                                        $createdAt          An DateTime object of the createdTimestamp.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -60,6 +62,6 @@ class MessageAttachment extends Base {
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
 }

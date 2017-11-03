@@ -43,6 +43,11 @@ class GuildMember extends ClientBase { //TODO: Implementation
         }
     }
     
+    /**
+     *
+     *
+     * @throws \Exception
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
@@ -83,12 +88,16 @@ class GuildMember extends ClientBase { //TODO: Implementation
                 if($colorRole !== null && $colorRole->color > 0) {
                     return $colorRole->color;
                 }
+                
+                return null;
             break;
             case 'displayHexColor':
                 $colorRole = $this->__get('colorRole');
                 if($colorRole !== null && $colorRole->color > 0) {
                     return $colorRole->hexColor;
                 }
+                
+                return null;
             break;
             case 'displayName':
                 return ($this->nickname ?? $this->user->username);
@@ -145,16 +154,20 @@ class GuildMember extends ClientBase { //TODO: Implementation
                 if($vc) {
                     return $vc;
                 }
+                
+                return null;
             break;
             case 'voiceChannelID':
                 $vc = $this->__get('voiceChannel');
                 if($vc) {
                     return $vc->id;
                 }
+                
+                return null;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

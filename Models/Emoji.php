@@ -60,6 +60,8 @@ class Emoji extends ClientBase { //TODO: Implementation
      *
      * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
      * @property-read string                                               $identifier         The identifier for the emoji.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -79,7 +81,7 @@ class Emoji extends ClientBase { //TODO: Implementation
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     function edit(array $data) {

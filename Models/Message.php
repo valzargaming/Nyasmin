@@ -130,6 +130,8 @@ class Message extends ClientBase { //TODO: Implementation
      * @property-read \DateTime|null                                                      $editedAt           An DateTime object of the editedTimestamp.
      * @property-read \CharlotteDunois\Yasmin\Models\Guild|null                           $guild              The correspondending guild (if message posted in a guild).
      * @property-read \CharlotteDunois\Yasmin\Models\GuildMember|null                     $member             The correspondending guildmember of the author (if message posted in a guild).
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -144,6 +146,8 @@ class Message extends ClientBase { //TODO: Implementation
                 if($this->editedTimestamp !== null) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->editedTimestamp);
                 }
+                
+                return null;
             break;
             case 'guild':
                 return $this->channel->guild;
@@ -152,13 +156,15 @@ class Message extends ClientBase { //TODO: Implementation
                 if($this->channel->guild) {
                     return $this->channel->guild->members->get($this->author->id);
                 }
+                
+                return null;
             break;
             case 'type':
                 return $this->channel->type;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     function edit(array $data) {

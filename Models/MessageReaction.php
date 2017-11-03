@@ -34,19 +34,16 @@ class MessageReaction extends ClientBase { //TODO: Implementation
     /**
      * @property-read int                                         $count     Times this emos emoji has been reacted.
      * @property-read bool                                        $me        Whether the current user has reacted using this emoji.
+     * @property-read \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
      *
-     * @property-read \CharlotteDunois\Yasmin\Models\Message  $message   The message this reaction belongs to.
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
-            
-        }
-        
-        return null;
+        return parent::__get($name);
     }
     
     /**

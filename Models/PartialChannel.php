@@ -42,6 +42,8 @@ class PartialChannel extends ClientBase
      * @property-read string       $type              The type of the channel.
      *
      * @property-read \DateTime   $createdAt          The DateTime object of createdTimestamp.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -54,6 +56,6 @@ class PartialChannel extends ClientBase
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
 }

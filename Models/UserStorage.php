@@ -29,7 +29,7 @@ class UserStorage extends \CharlotteDunois\Yasmin\Utils\Collection
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     function resolve($user) {

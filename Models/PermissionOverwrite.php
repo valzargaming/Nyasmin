@@ -44,6 +44,8 @@ class PermissionOverwrite extends ClientBase {
      *
      * @property-read  \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface                              $channel   The channel this Permission Overwrite belongs to.
      * @property-read  \CharlotteDunois\Yasmin\Models\Guild                                                  $guild     The guild this Permission Overwrite belongs to.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -56,7 +58,7 @@ class PermissionOverwrite extends ClientBase {
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

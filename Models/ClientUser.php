@@ -51,6 +51,8 @@ class ClientUser extends User { //TODO: Implementation
     
     /**
      * @inheritdoc
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -65,7 +67,7 @@ class ClientUser extends User { //TODO: Implementation
      */
     function __debugInfo() {
         $vars = parent::__debugInfo();
-        unset($vars['clientPresence']);
+        unset($vars['clientPresence'], $vars['firstPresence'], $vars['firstPresenceCount']);
         return $vars;
     }
     

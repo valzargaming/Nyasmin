@@ -204,8 +204,9 @@ class Client extends EventEmitter {
      * @property-read \CharlotteDunois\Yasmin\Models\UserStorage     $users             It holds all cached users, mapped by ID.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceConnections  It holds all open voice connections, mapped by guild ID.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceStates       It holds non-guild related voice states, mapped by user ID.
-     *
      * @property-read \CharlotteDunois\Yasmin\Models\ClientUser|null $user              Get the Client User instance.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         switch($name) {
@@ -235,7 +236,7 @@ class Client extends EventEmitter {
             break;
         }
         
-        throw new \Exception('Notice: Unknown property Client::'.$name);
+        throw new \Exception('Unknown property \CharlotteDunois\Yasmin\Client::'.$name);
     }
     
     /**

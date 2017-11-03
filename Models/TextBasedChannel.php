@@ -51,6 +51,8 @@ class TextBasedChannel extends ClientBase
      *
      * @property-read \DateTime                                    $createdAt          The DateTime object of createdTimestamp.
      * @property-read \CharlotteDunois\Yasmin\Models\Message|null  $lastMessage        The last message, or null.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -65,10 +67,12 @@ class TextBasedChannel extends ClientBase
                 if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
                     return $this->messages->get($this->lastMessageID);
                 }
+                
+                return null;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

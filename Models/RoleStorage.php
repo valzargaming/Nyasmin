@@ -31,7 +31,7 @@ class RoleStorage extends \CharlotteDunois\Yasmin\Utils\Collection
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     function resolve($role) {

@@ -62,6 +62,9 @@ class VoiceChannel extends ClientBase
     /**
      * @inheritdoc
      * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null  $parent  Returns the channel's parent, or null.
+     * @property-read  bool|null                                            $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -84,9 +87,11 @@ class VoiceChannel extends ClientBase
                         return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
                     }));
                 }
+                
+                return null;
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
 }

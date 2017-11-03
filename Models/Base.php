@@ -14,6 +14,10 @@ namespace CharlotteDunois\Yasmin\Models;
  * @internal
  */
 class Base implements \JsonSerializable, \Serializable { //TODO: Nya
+    function __get($name) {
+        throw new \Exception('Unknown property '.\get_class($this).'::'.$name);
+    }
+    
     /**
      * @internal
      */

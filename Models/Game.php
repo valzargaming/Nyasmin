@@ -36,6 +36,8 @@ class Game extends ClientBase {
      * @property-read string|null  $url         The stream url, if streaming.
      *
      * @property-read bool         $streaming   Whether or not the game is being streamed.
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
@@ -48,7 +50,7 @@ class Game extends ClientBase {
             break;
         }
         
-        return null;
+        return parent::__get($name);
     }
     
     /**

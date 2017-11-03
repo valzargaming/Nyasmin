@@ -33,7 +33,7 @@ class Collection {
     }
     
     /**
-     * Sets a new key-value pair (or overwrites an existing key-value pair).
+     * Sets a key-value pair.
      * @param mixed  $key
      * @param mixed  $value
      * @return $this

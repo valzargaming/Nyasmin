@@ -41,24 +41,22 @@ class VoiceState extends ClientBase { //TODO: Implementation
     
     /**
      * @property-read string                                                    $sessionID   The voice session ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\User                   $user        The user this voice state belongs to.
+     * @property-read \CharlotteDunois\Yasmin\Models\User                       $user        The user this voice state belongs to.
      * @property-read \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null  $channel     The channel this voice state is for.
      * @property-read bool                                                      $deaf        Whether the user is server deafened.
      * @property-read bool                                                      $mute        Whether the user is server muted.
      * @property-read bool                                                      $selfDeaf    Whether the user is locally deafened.
      * @property-read bool                                                      $selfMute    Whether the user is locally muted.
      * @property-read bool                                                      $suppress    Do you suppress the user or what?
+     *
+     * @throws \Exception
      */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
-            
-        }
-        
-        return null;
+        return parent::__get($name);
     }
     
     /**
