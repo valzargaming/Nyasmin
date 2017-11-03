@@ -42,11 +42,10 @@ $client->on('ready', function () use($client, $game, &$timer) {
         $client->cancelTimer($timer);
     }
     
-    $user = $client->user;
-    echo 'Logged in as '.$user->tag.' created on '.$user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
+    echo 'Logged in as '.$client->user->tag.' created on '.$client->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
-    $client->addPeriodicTimer(30, function () use ($user, $game) {
-        $user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
+    $client->addPeriodicTimer(30, function () use ($client, $game) {
+        $client->user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
     });
     
     //$client->channels->get('323433852590751754')->send('Hello, my name is Yasmin!', array('files' => array('https://i.imgur.com/ML7aui6.png')))->done();
@@ -85,9 +84,9 @@ $client->on('message', function ($message) use ($client) {
             }
             
             if(\strpos($code, 'return') === false && \strpos($code, 'echo') === false) {
-                $code = \explode("\n", \str_replace("\r", "", $code));
-                $code[(\count($code) - 1)] = 'return '.$code[(\count($code) - 1)];
-                $code = \implode(PHP_EOL, $code);
+                $code = \explode(';', $code);
+                $code[(\count($code) - 2)] = PHP_EOL.'return '.\trim($code[(\count($code) - 2)]);
+                $code = \implode(';', $code);
             }
             
             (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($client, $code, $message) {

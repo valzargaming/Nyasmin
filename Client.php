@@ -17,42 +17,49 @@ class Client extends EventEmitter {
     /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage
+     * @internal
      */
     protected $channels;
     
     /**
      * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
      * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @internal
      */
     protected $emojis;
     
     /**
      * It holds all guilds, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\GuildStorage
+     * @internal
      */
     protected $guilds;
     
     /**
      * It holds all cached presences (latest ones), mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
+     * @internal
      */
     protected $presences;
     
     /**
      * It holds all cached users, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\UserStorage
+     * @internal
      */
     protected $users;
     
     /**
      * It holds all open voice connections, mapped by guild ID.
      * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @internal
      */
     protected $voiceConnections;
     
     /**
      * It holds non-guild related voice states, mapped by user ID.
      * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @internal
      */
     protected $voiceStates;
     
