@@ -380,23 +380,28 @@ class APIManager {
     
     /**
      * Handles ratelimit headers.
-     * @param \GuzzleHttp\Psr7\Response $response
+     * @param \GuzzleHttp\Psr7\Response                          $response
+     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    private function handleRatelimit(\GuzzleHttp\Psr7\Response $response) {
-        $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
-        
-        if($response->hasHeader('X-RateLimit-Limit')) {
-            $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];
-        }
-        
-        if($response->hasHeader('X-RateLimit-Remaining')) {
-            $this->remaining = (int) $response->getHeader('X-RateLimit-Remaining')[0];
-        }
-        
-        if($response->hasHeader('Retry-After')) {
-            $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
-        } else if($response->hasHeader('X-RateLimit-Reset')) {
-            $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
+    private function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        if($response->hasHeader('X-RateLimit-Global')) {
+            $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
+            
+            if($response->hasHeader('X-RateLimit-Limit')) {
+                $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];
+            }
+            
+            if($response->hasHeader('X-RateLimit-Remaining')) {
+                $this->remaining = (int) $response->getHeader('X-RateLimit-Remaining')[0];
+            }
+            
+            if($response->hasHeader('Retry-After')) {
+                $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
+            } else if($response->hasHeader('X-RateLimit-Reset')) {
+                $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
+            }
+        } elseif($ratelimit !== null) {
+            $ratelimit->handleRatelimit($response);
         }
     }
     
@@ -441,11 +446,7 @@ class APIManager {
             $status = $response->getStatusCode();
             $this->client->emit('debug', 'Got response for item "'.$item->getEndpoint().'" with HTTP status code '.$status);
             
-            if($response->hasHeader('X-RateLimit-Global')) {
-                $this->handleRatelimit($response);
-            } elseif($ratelimit !== null) {
-                $ratelimit->handleRatelimit($response);
-            }
+            $this->handleRatelimit($response, $ratelimit);
             
             if($status === 204) {
                 $item->deferred->resolve();
@@ -456,7 +457,7 @@ class APIManager {
             $body = $this->decodeBody($response);
             
             if($status >= 400) {
-                if($status === 429 || ($status >= 500 && $status < 600)) {
+                if($status === 429 || $status >= 500) {
                     $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
                     
                     if($ratelimit !== null) {
@@ -470,19 +471,21 @@ class APIManager {
                 }
                 
                 if($status >= 400 && $status < 500) {
-                    $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
+                    $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($item->getEndpoint(), $body);
                 } else {
-                    $error = new \Exception($response->getReasonPhrase());
+                    $error = new \HttpException($response->getReasonPhrase());
                 }
                 
                 throw $error;
             }
             
             $item->deferred->resolve($body);
-            $this->_process(true);
+        } catch(\Throwable $e) {
+            $item->deferred->reject($e);
         } catch(\Exception $e) {
             $item->deferred->reject($e);
-            $this->_process(true);
         }
+        
+        $this->_process(true);
     }
 }

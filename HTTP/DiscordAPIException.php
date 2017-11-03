@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 /**
  * Represents an error from the Discord API.
  */
-class DiscordAPIError extends \Exception {
+class DiscordAPIException extends \Exception {
     /**
      * The path of the request relative to the HTTP endpoint.
      * @var string
