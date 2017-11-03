@@ -300,26 +300,9 @@ class APIManager {
                     $this->queue[] = $item;
                 }
                 
-                $cLimited = \array_reduce($this->queue, function ($prev, $val) {
-                    if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
-                        $rs = (int) $val->getResetTime();
-                        if($rs < $prev) {
-                            return $rs;
-                        }
-                    }
-                    
-                    return $prev;
-                }, \INF);
-                
-                if($cLimited === 0 || $cLimited === \INF || $cLimited < 0) {
+                $continue = $this->handleQueueTiming();
+                if($continue) {
                     $this->_process();
-                } else {
-                    $this->client->emit('debug', 'Pausing API manager queue due to ratelimits');
-                    
-                    $this->running = false;
-                    $this->client->addTimer(($cLimited + 1 - \time()), function () {
-                        $this->processQueue();
-                    });
                 }
                 
                 return;
@@ -364,54 +347,22 @@ class APIManager {
                 return;
             }
             
-            try {
-                $status = $response->getStatusCode();
-                $this->client->emit('debug', 'Got response for item "'.$item->getEndpoint().'" with HTTP status code '.$status);
-                
-                if($response->hasHeader('X-RateLimit-Global')) {
-                    $this->handleRatelimit($response);
-                } elseif($ratelimit !== null) {
-                    $ratelimit->handleRatelimit($response);
-                }
-                
-                if($status === 204) {
-                    $item->deferred->resolve();
-                    $this->_process(true);
-                    return;
-                }
-                
-                $body = $this->decodeBody($response);
-                
-                if($status >= 400) {
-                    if($status === 429 || ($status >= 500 && $status < 600)) {
-                        $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
-                        
-                        if($ratelimit !== null) {
-                            $ratelimit->unshift($item);
-                        } else {
-                            \array_unshift($this->queue, $item);
-                        }
-                        
-                        $this->_process(true);
-                        return;
-                    }
-                    
-                    if($status >= 400 && $status < 500) {
-                        $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
-                    } else {
-                        $error = new \Exception($response->getReasonPhrase());
-                    }
-                    
-                    throw $error;
-                }
-                
-                $item->deferred->resolve($body);
-                $this->_process(true);
-            } catch(\Exception $e) {
-                $item->deferred->reject($e);
-                $this->_process(true);
-            }
-        });
+            $this->handleAPIResponse($response, $item, $ratelimit);
+        })->then(null, array($this->client, 'handlePromiseRejection'));
+    }
+    
+    /**
+     * Gets the response body from the response.
+     * @param \GuzzleHttp\Psr7\Response  $response
+     * @return mixed
+     */
+    private function decodeBody(\GuzzleHttp\Psr7\Response $response) {
+        $body = $response->getBody();
+        if($body instanceof \GuzzleHttp\Psr7\Stream) {
+            $body = $body->getContents();
+        }
+        
+        return \json_decode($body, true);
     }
     
     /**
@@ -450,16 +401,88 @@ class APIManager {
     }
     
     /**
-     * Gets the response body from the response.
-     * @param \GuzzleHttp\Psr7\Response  $response
-     * @return mixed
+     * Handles the timing of the queue (ratelimits).
+     * @return bool
      */
-    private function decodeBody(\GuzzleHttp\Psr7\Response $response) {
-        $body = $response->getBody();
-        if($body instanceof \GuzzleHttp\Psr7\Stream) {
-            $body = $body->getContents();
+    private function handleQueueTiming() {
+        $cLimited = \array_reduce($this->queue, function ($prev, $val) {
+            if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
+                $rs = (int) $val->getResetTime();
+                if($rs < $prev) {
+                    return $rs;
+                }
+            }
+            
+            return $prev;
+        }, \INF);
+        
+        if($cLimited === 0 || $cLimited === \INF || $cLimited < 0) {
+            return true;
         }
         
-        return \json_decode($body, true);
+        $this->client->emit('debug', 'Pausing API manager queue due to ratelimits');
+        
+        $this->running = false;
+        $this->client->addTimer(($cLimited + 1 - \time()), function () {
+            $this->processQueue();
+        });
+        
+        return false;
+    }
+    
+    /**
+     * Handles a response of an API request.
+     * @param \GuzzleHttp\Psr7\Response                          $response
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest            $item
+     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
+     */
+    private function handleAPIResponse(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        try {
+            $status = $response->getStatusCode();
+            $this->client->emit('debug', 'Got response for item "'.$item->getEndpoint().'" with HTTP status code '.$status);
+            
+            if($response->hasHeader('X-RateLimit-Global')) {
+                $this->handleRatelimit($response);
+            } elseif($ratelimit !== null) {
+                $ratelimit->handleRatelimit($response);
+            }
+            
+            if($status === 204) {
+                $item->deferred->resolve();
+                $this->_process(true);
+                return;
+            }
+            
+            $body = $this->decodeBody($response);
+            
+            if($status >= 400) {
+                if($status === 429 || ($status >= 500 && $status < 600)) {
+                    $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
+                    
+                    if($ratelimit !== null) {
+                        $ratelimit->unshift($item);
+                    } else {
+                        \array_unshift($this->queue, $item);
+                    }
+                    
+                    $this->_process(true);
+                    return;
+                }
+                
+                if($status >= 400 && $status < 500) {
+                    $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIError($item->getEndpoint(), $body);
+                } else {
+                    $error = new \Exception($response->getReasonPhrase());
+                }
+                
+                throw $error;
+            }
+            
+            $item->deferred->resolve($body);
+            $this->_process(true);
+        } catch(\Exception $e) {
+            $item->deferred->reject($e);
+            $this->_process(true);
+        }
     }
 }
