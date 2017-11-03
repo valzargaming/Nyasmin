@@ -10,9 +10,10 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Represents a received message.
+ * Represents a message.
+ * @todo Implementation
  */
-class Message extends ClientBase { //TODO: Implementation
+class Message extends ClientBase {
     protected $id;
     protected $author;
     protected $channel;

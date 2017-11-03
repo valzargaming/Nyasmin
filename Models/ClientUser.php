@@ -163,7 +163,7 @@ class ClientUser extends User { //TODO: Implementation
      *      )|null
      *  )
      *
-     *  Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude.
+     *  Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude. Ratelimit is 5/60s.
      *
      * @param array $presence
      * @return \React\Promise\Promise<void>
@@ -174,7 +174,7 @@ class ClientUser extends User { //TODO: Implementation
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
         }
         
-        if($this->firstPresence && $this->firstPresence > (\time() - 60)) {
+        if($this->firstPresence > (\time() - 60)) {
             if($this->firstPresenceCount >= 5) {
                 throw new \BadMethodCallException('Stop spamming setPresence you idiot');
             }
@@ -182,7 +182,7 @@ class ClientUser extends User { //TODO: Implementation
             $this->firstPresenceCount++;
         } else {
             $this->firstPresence = \time();
-            $this->firstPresence = 1;
+            $this->firstPresenceCount = 1;
         }
         
         $packet = array(
@@ -196,6 +196,7 @@ class ClientUser extends User { //TODO: Implementation
         );
         
         $this->clientPresence = $packet['d'];
+        
         $presence = $this->presence;
         if($presence) {
             $presence->_patch($this->clientPresence);

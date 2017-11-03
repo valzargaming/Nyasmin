@@ -56,6 +56,13 @@ class URLHelpers {
         if(!self::$timer) {
             self::$timer = self::$loop->addPeriodicTimer(0, \Closure::bind(function () {
                 $this->tick();
+                
+                $queue = \GuzzleHttp\Promise\queue();
+                $handles = $this->handles;
+                
+                if($queue->isEmpty() && \count($handles) === 0) {
+                    URLHelpers::stopTimer();
+                }
             }, self::$handler, self::$handler));
         }
     }

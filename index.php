@@ -71,19 +71,26 @@ $client->on('message', function ($message) use ($client) {
     echo 'Received Message from '.$message->author->tag.' in channel #'.$message->channel->name.' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
     
     if($message->author->id === '200317799350927360') {
-        if(\strpos($message->content, '#eval') === 0) {
+        if(\strpos($message->content, '#shutdown') === 0) {
+            $message->channel->send(':white_check_mark: Ok')->then(function () use ($client) {
+                echo 'Shutting down...'.PHP_EOL;
+                $client->destroy()->then(function () use ($client) {
+                    echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
+                });
+            });
+        } elseif(\strpos($message->content, '#eval') === 0) {
             $code = \substr($message->content, 6);
             if(\substr($code, -1) !== ';') {
                 $code .= ';';
             }
             
             if(\strpos($code, 'return') === false && \strpos($code, 'echo') === false) {
-                $code = 'return '.$code;
+                $code = \explode("\n", \str_replace("\r", "", $code));
+                $code[(\count($code) - 1)] = 'return '.$code[(\count($code) - 1)];
+                $code = \implode(PHP_EOL, $code);
             }
             
             (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($client, $code, $message) {
-                while(@\ob_end_clean());
-                
                 $result = eval($code);
                 
                 if(!($result instanceof \React\Promise\Promise)) {
@@ -92,32 +99,41 @@ $client->on('message', function ($message) use ($client) {
                 
                 $result->then(function ($result) use ($code, $message, $resolve, $reject) {
                     \ob_start('mb_output_handler');
+                    
+                    $old = \ini_get('xdebug.var_display_max_depth');
+                    \ini_set('xdebug.var_display_max_depth', 1);
+                    
                     \var_dump($result);
+                    \ini_set('xdebug.var_display_max_depth', $old);
                     $result = @\ob_get_clean();
                     
                     $result = \explode("\n", \str_replace("\r", "", $result));
                     \array_shift($result);
                     $result = \implode(PHP_EOL, $result);
-                    $len = \strlen($result);
-                    
-                    if($len > 1800) {
-                        $result = \substr($result, 0, 1800).PHP_EOL.'...';
-                    }
                     
                     while(@\ob_end_clean());
-                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```'.($len > 1800 ? PHP_EOL.'Original length: '.$len : ''), array('split' => array('before' => "```\n", 'after' => "\n```")))->then($resolve, $reject);
+                    
+                    $len = \strlen($result);
+                    $maxlen = 1900 - \strlen($code);
+                    
+                    if($len > $maxlen) {
+                        $result = \substr($result, 0, $maxlen).PHP_EOL.'...';
+                    }
+                    
+                    $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Result:'.PHP_EOL.'```'.PHP_EOL.$result.PHP_EOL.'```'.($len > $maxlen ? PHP_EOL.'Original length: '.$len : ''))->then($resolve, $reject);
                 }, $reject);
             }))->then(function () { }, function ($e) use ($code, $message) {
                 while(@\ob_end_clean());
                 
                 $e = (string) $e;
                 $len = \strlen($e);
+                $maxlen = 1900 - \strlen($code);
                 
-                if($len > 1800) {
-                    $e = \substr($e, 0, 1800).PHP_EOL.'...';
+                if($len > $maxlen) {
+                    $e = \substr($e, 0, $maxlen).PHP_EOL.'...';
                 }
                 
-                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```', array('split' => array('before' => "```\n", 'after' => "\n```")));
+                $message->channel->send($message->author.PHP_EOL.'```php'.PHP_EOL.$code.PHP_EOL.'```'.PHP_EOL.'Error: ```'.PHP_EOL.$e.PHP_EOL.'```');
             });
         }
     }
@@ -128,12 +144,12 @@ $client->login($token)->then(function () use ($client) {
         echo 'Avg. Ping is '.$client->getPing().'ms'.PHP_EOL;
     });
     
-    $client->addTimer(3600, function ($client) {
+    /*$client->addTimer(3600, function ($client) {
         echo 'Ending session'.PHP_EOL;
         $client->destroy()->then(function () use ($client) {
             echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
         });
-    });
+    });*/
 }, function ($error) {
     echo $error.PHP_EOL;
 })->done();
