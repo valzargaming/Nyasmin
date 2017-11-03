@@ -485,7 +485,7 @@ class Client extends EventEmitter {
      * @internal
      */
     function handlePromiseRejection(\Exception $error) {
-        $this->client->emit('error', $error);
+        $this->emit('error', $error);
     }
     
     /**
