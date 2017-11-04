@@ -40,6 +40,24 @@ class Message extends ClientBase {
         $this->channel = $channel;
         
         $this->id = $message['id'];
+        $this->author = (empty($message['webhook_id']) ? $this->client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($this->client, $message['author'], true));
+        
+        $this->author->lastMessageID = $this->id;
+        $this->createdTimestamp = (new \DateTime($message['timestamp']))->getTimestamp();
+        
+        $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
+        foreach($message['attachments'] as $attachment) {
+            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment)));
+        }
+        
+        $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
+        if(!empty($message['reactions'])) {
+            foreach($message['reactions'] as $reaction) {
+                $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->channel->guild, $reaction['emoji'])));
+                $this->reactions->set($emoji->id, (new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, $reaction)));
+            }
+        }
+        
         $this->_patch($message);
     }
     
@@ -114,25 +132,20 @@ class Message extends ClientBase {
      * @internal
      */
     function _patch(array $message) {
-        $this->author = (empty($message['webhook_id']) ? $this->client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($this->client, $message['author'], true));
         $this->content = $message['content'];
-        $this->createdTimestamp = (new \DateTime($message['timestamp']))->getTimestamp();
         $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : null);
-        $this->tts = (bool) $message['tts'];
-        $this->mentionEveryone = (bool) $message['mention_everyone'];
+        
+        $this->tts = (!empty($message['tts']));
+        $this->mentionEveryone = (!empty($message['mention_everyone']));
         $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
-        $this->pinned = (bool) $message['pinned'];
-        $this->system = ($message['type'] > 0 ? true : false);
+        $this->pinned = (!empty($message['pinned']));
+        $this->system = (!empty($message['type']) ? ($message['type'] > 0 ? true : false) : $this->system);
         
-        $this->author->lastMessageID = $message['id'];
-        
-        $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
-        foreach($message['attachments'] as $attachment) {
-            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment)));
-        }
-        
-        foreach($message['embeds'] as $embed) {
-            $this->embeds[] = new \CharlotteDunois\Yasmin\Models\MessageEmbed($embed);
+        if(!empty($message['embeds'])) {
+            $this->embeds = array();
+            foreach($message['embeds'] as $embed) {
+                $this->embeds[] = new \CharlotteDunois\Yasmin\Models\MessageEmbed($embed);
+            }
         }
         
         $this->cleanContent = $this->content;
@@ -148,14 +161,6 @@ class Message extends ClientBase {
         
         foreach($this->mentions->users as $user) {
             $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
-        }
-        
-        $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
-        if(!empty($message['reactions'])) {
-            foreach($message['reactions'] as $reaction) {
-                $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->channel->guild, $reaction['emoji'])));
-                $this->reactions->set($emoji->id, (new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, $reaction)));
-            }
         }
     }
 }

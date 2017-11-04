@@ -39,6 +39,7 @@ class Presence extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $presence) {
         parent::__construct($client);
         $this->user = $this->client->users->get($presence['user']['id']);
+        
         $this->_patch($presence);
     }
     

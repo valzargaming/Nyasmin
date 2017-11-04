@@ -21,7 +21,18 @@ class DMChannel extends TextBasedChannel {
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);
-        $this->_patch($channel);
+        
+        $this->ownerID = $channel['owner_id'] ?? null;
+        $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        if(!empty($channel['recipients'])) {
+            foreach($channel['recipients'] as $rec) {
+                $user = $this->client->users->patch($rec);
+                if($user) {
+                    $this->recipients->set($user->id, $user);
+                }
+            }
+        }
     }
     
     /**
@@ -58,22 +69,5 @@ class DMChannel extends TextBasedChannel {
     function isRecipient($user) {
         $user = $this->client->users->resolve($user);
         return $this->recipients->has($user->id);
-    }
-    
-    /**
-     * @internal
-     */
-    function _patch(array $channel) {
-        $this->ownerID = $channel['owner_id'] ?? null;
-        $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
-        if(!empty($channel['recipients'])) {
-            foreach($channel['recipients'] as $rec) {
-                $user = $this->client->users->patch($rec);
-                if($user) {
-                    $this->recipients->set($user->id, $user);
-                }
-            }
-        }
     }
 }
