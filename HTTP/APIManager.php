@@ -192,7 +192,7 @@ class APIManager {
      */
     function getRatelimitEndpoint(string $endpoint) {
         \preg_match('/((?:.*?)\/(?:\d+))/', $endpoint, $matches);
-        if($matches && !empty($matches[1])) {
+        if(!empty($matches) && !empty($matches[1])) {
             return $matches[1];
         }
         
