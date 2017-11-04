@@ -35,17 +35,17 @@ class TextChannel extends TextBasedChannel
     }
     
     /**
-     * @inheritdoc
-     * @property-read  \CharlotteDunois\Yasmin\Models\Guild                     $guild                  The associated guild.
-     * @property-read  string                                                   $name                   The channel name.
-     * @property-read  string                                                   $topic                  The channel topic.
-     * @property-read  bool                                                     $nsfw                   Whether the channel is marked as NSFW or not.
-     * @property-read  string|null                                              $parentID               The ID of the parent channel, or null.
-     * @property-read  int                                                      $position               The channel position.
-     * @property-read \CharlotteDunois\Collect\Collection                       $permissionOverwrites   A collection of PermissionOverwrite objects.
+     * @inheritDoc
+     * @property-read  \CharlotteDunois\Yasmin\Models\Guild                                                    $guild                  The associated guild.
+     * @property-read  string                                                                                  $name                   The channel name.
+     * @property-read  string                                                                                  $topic                  The channel topic.
+     * @property-read  bool                                                                                    $nsfw                   Whether the channel is marked as NSFW or not.
+     * @property-read  string|null                                                                             $parentID               The ID of the parent channel, or null.
+     * @property-read  int                                                                                     $position               The channel position.
+     * @property-read \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
      *
-     * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null      $parent                 Returns the channel's parent, or null.
-     * @property-read  bool|null                                                $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
+     * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                     $parent                 Returns the channel's parent, or null.
+     * @property-read  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
      *
      * @throws \Exception
      */

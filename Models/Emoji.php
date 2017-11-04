@@ -41,10 +41,11 @@ class Emoji extends ClientBase {
     /**
      * @property-read string|null                                          $id                 The emoji ID.
      * @property-read string                                               $name               The emoji name.
-     * @property-read \CharlotteDunois\Yasmin\Models\User|null         $user               The user that created the emoji.
+     * @property-read \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.
+     * @property-read \CharlotteDunois\Yasmin\Models\Guild                 $guild              The guild this emoji belongs to.
      * @property-read boolean                                              $requireColons      Does the emoji require colons?
      * @property-read boolean                                              $managed            Is the emoji managed?
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection        $roles              A collection of roles that this emoji is active for (empty if all).
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
      * @property-read int                                                  $createdTimestamp   The timestamp of when this emoji was created.
      *
      * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.

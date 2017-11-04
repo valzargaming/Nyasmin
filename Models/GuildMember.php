@@ -18,9 +18,15 @@ class GuildMember extends ClientBase {
     protected $id;
     protected $user;
     protected $nickname;
+    
     protected $deaf;
     protected $mute;
+    protected $selfDeaf = false;
+    protected $selfMute = false;
     protected $speaking = false;
+    protected $suppress = false;
+    protected $voiceChannelID;
+    protected $voiceSessionID;
     
     protected $joinedTimestamp;
     protected $roles;
@@ -49,6 +55,32 @@ class GuildMember extends ClientBase {
     /**
      *
      *
+     * @property-read string                                                         $id               The ID of the member.
+     * @property-read \CharlotteDunois\Yasmin\Models\User                            $user             The user object of the member.
+     * @property-read string|null                                                    $nickname         The nickname of the member, or null.
+     * @property-read bool                                                           $deaf             Whether the member is server deafened.
+     * @property-read bool                                                           $mute             Whether the member is server muted.
+     * @property-read \CharlotteDunois\Yasmin\Models\Guild                           $guild            The guild this member belongs to.
+     * @property-read int                                                            $joinedTimestamp  The timestamp of when this member joined.
+     * @property-read bool                                                           $selfDeaf         Whether the member is locally deafened.
+     * @property-read bool                                                           $selfMute         Whether the member is locally muted.
+     * @property-read bool                                                           $speaking         If the member is currently speaking.
+     * @property-read bool                                                           $suppress         Whether you suppress the member.
+     * @property-read string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
+     * @property-read string                                                         $voiceSessionID   The voice session ID, or null.
+     *
+     * @property-read bool                                                           $bannable         Whether the member is bannable by the client user.
+     * @property-read \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        The role of the member used to set their color.
+     * @property-read int|null                                                       $displayColor     The displayed color of the member.
+     * @property-read string|null                                                    $displayHexColor  The displayed color of the member as hex string.
+     * @property-read string                                                         $displayName      The displayed name.
+     * @property-read \CharlotteDunois\Yasmin\Models\Role                            $highestRole      The role of the member with the highest position.
+     * @property-read \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist.
+     * @property-read \DateTime                                                      $joinedAt         An DateTime object of joinedTimestamp.
+     * @property-read bool                                                           $kickable         Whether the guild member is kickable by the client user.
+     * @property-read \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
+     * @property-read \CharlotteDunois\Yasmin\Models\Presence                        $presence         The presence of the member in this guild.
+     * @property-read \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $voiceChannel     The voice channel the member is in, if connected to voice, or null.
      * @throws \Exception
      */
     function __get($name) {
@@ -132,7 +164,7 @@ class GuildMember extends ClientBase {
                 });
             break;
             case 'joinedAt':
-                return (new \DateTime($this->joinedTimestamp));
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->joinedTimestamp);
             break;
             case 'kickable':
                 if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
@@ -162,20 +194,8 @@ class GuildMember extends ClientBase {
                 return $this->guild->presences->get($this->id);
             break;
             case 'voiceChannel':
-                $vc = $this->guild->channels->first(function ($channel) {
-                    return ($channel->type === 'voice' && $channel->members->has($this->id));
-                });
-                
-                if($vc) {
-                    return $vc;
-                }
-                
-                return null;
-            break;
-            case 'voiceChannelID':
-                $vc = $this->__get('voiceChannel');
-                if($vc) {
-                    return $vc->id;
+                if($this->guild->channels->has($this->voiceChannelID)) {
+                    return $this->guild->channels->get($this->voiceChannelID);
                 }
                 
                 return null;
@@ -419,6 +439,19 @@ class GuildMember extends ClientBase {
      */
     function _setSpeaking(bool $speaking) {
         $this->speaking = $speaking;
+    }
+    
+    /**
+     * @internal
+     */
+    function _setVoiceState(array $voice) {
+        $this->voiceChannelID = $voice['channel_id'];
+        $this->voiceSessionID = $voice['session_id'];
+        $this->deaf = (bool) $voice['deaf'];
+        $this->mute = (bool) $voice['mute'];
+        $this->selfDeaf = (bool) $voice['self_deaf'];
+        $this->selfMute = (bool) $voice['self_mute'];
+        $this->suppress = (bool) $voice['suppress'];
     }
     
     /**

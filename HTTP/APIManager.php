@@ -169,7 +169,7 @@ class APIManager {
     }
     
     /**
-     * Returns the Authorization header.
+     * Returns the Authorization header value.
      * @return string
      */
     function getAuthorization() {
@@ -177,12 +177,7 @@ class APIManager {
             throw new \Exception('Can not make a HTTP request without a token');
         }
         
-        $user = $this->client->user;
-        if($user && $user->bot === true) {
-            return 'Bot '.$this->client->token;
-        }
-        
-        return $this->client->token;
+        return 'Bot '.$this->client->token;
     }
     
     /**

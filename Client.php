@@ -16,52 +16,45 @@ namespace CharlotteDunois\Yasmin;
 class Client extends EventEmitter {
     /**
      * It holds all cached channels, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\ChannelStorage
+     * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>
      * @internal
      */
     protected $channels;
     
     /**
      * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Emoji>
      * @internal
      */
     protected $emojis;
     
     /**
      * It holds all guilds, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\GuildStorage
+     * @var \CharlotteDunois\Yasmin\Models\GuildStorage<\CharlotteDunois\Yasmin\Models\Guild>
      * @internal
      */
     protected $guilds;
     
     /**
      * It holds all cached presences (latest ones), mapped by user ID.
-     * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
+     * @var \CharlotteDunois\Yasmin\Models\PresenceStorage<\CharlotteDunois\Yasmin\Models\PresenceStorage>
      * @internal
      */
     protected $presences;
     
     /**
      * It holds all cached users, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\UserStorage
+     * @var \CharlotteDunois\Yasmin\Models\UserStorage<\CharlotteDunois\Yasmin\Models\User
      * @internal
      */
     protected $users;
     
     /**
      * It holds all open voice connections, mapped by guild ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Voice\VoiceConnection>
      * @internal
      */
     protected $voiceConnections;
-    
-    /**
-     * It holds non-guild related voice states, mapped by user ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
-     * @internal
-     */
-    protected $voiceStates;
     
     /**
      * The last 3 websocket pings (in ms).
@@ -97,7 +90,7 @@ class Client extends EventEmitter {
     
     /**
      * The Client User.
-     * @var \CharlotteDunois\Yasmin\Models\ClientUser
+     * @var \CharlotteDunois\Yasmin\Models\ClientUser|null
      * @internal
      */
     protected $user;
@@ -210,13 +203,12 @@ class Client extends EventEmitter {
      * @property-read \CharlotteDunois\Yasmin\Models\PresenceStorage $presences         It holds all cached presences (latest ones), mapped by user ID.
      * @property-read \CharlotteDunois\Yasmin\Models\UserStorage     $users             It holds all cached users, mapped by ID.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceConnections  It holds all open voice connections, mapped by guild ID.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceStates       It holds non-guild related voice states, mapped by user ID.
      * @property-read \CharlotteDunois\Yasmin\Models\ClientUser|null $user              Get the Client User instance.
      *
      * @throws \Exception
      */
     function __get($name) {
-        $props = array('channels', 'emojis', 'guilds', 'presences', 'users', 'voiceConnections', 'voiceStates', 'user');
+        $props = array('channels', 'emojis', 'guilds', 'presences', 'users', 'voiceConnections', 'user');
         
         if(\in_array($name, $props)) {
             return $this->$name;

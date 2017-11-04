@@ -28,33 +28,53 @@ class VoiceStateUpdate {
     function handle(array $data) {
         $user = $this->client->users->get($data['user_id']);
         if($user) {
+            if(empty($data['channel_id'])) {
+                if(empty($data['guild_id'])) {
+                    return;
+                }
+                
+                $guild = $this->client->guilds->get($data['guild_id']);
+                $member = $guild->members->get($user->id);
+                if(!$member) {
+                    return;
+                }
+                
+                $oldMember = null;
+                if($this->clones) {
+                    $oldMember = clone $member;
+                }
+                
+                if($member->voiceChannel) {
+                    $member->voiceChannel->members->delete($user->id);
+                }
+                
+                $member->_setVoiceState($data);
+                $this->client->emit('voiceStateUpdate', $member, $oldMember);
+                
+                return;
+            }
+            
             $channel = $this->client->channels->get($data['channel_id']);
             if($channel) {
-                $oldVoice = null;
-                if($channel->guild) {
-                    $voice = $channel->guild->voiceStates->get($user->id);
-                } else {
-                    $voice = $this->client->voiceStates->get($user->id);
+                if(!$channel->guild) {
+                    return;
                 }
                 
-                if($voice) {
-                    if($this->clones) {
-                        $oldVoice = clone $voice;
-                    }
-                    
-                    $voice->_patch($data);
-                    $voice->_updateChannel($channel);
-                } else {
-                    $voice = new \CharlotteDunois\Yasmin\Models\VoiceState($this->client, $channel, $data);
-                    
-                    if($channel->guild) {
-                        $channel->guild->voiceStates->set($user->id, $voice);
-                    } else {
-                        $this->client->voiceStates->set($user->id, $voice);
-                    }
+                $member = $channel->guild->members->get($user->id);
+                if(!$member) {
+                    return;
                 }
                 
-                $this->client->emit('voiceStateUpdate', $voice, $oldVoice);
+                $oldMember = null;
+                if($this->clones) {
+                    $oldMember = clone $member;
+                }
+                
+                $member->_setVoiceState($data);
+                $channel->members->delete($user->id);
+                $channel->members->set($user->id, $member);
+                
+                $this->client->emit('voiceStateUpdate', $member, $oldMember);
             }
         }
     }

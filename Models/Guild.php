@@ -63,7 +63,6 @@ class Guild extends ClientBase {
         $this->members = new \CharlotteDunois\Yasmin\Models\GuildMemberStorage($client, $this);
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($client);
         $this->roles = new \CharlotteDunois\Yasmin\Models\RoleStorage($client, $this);
-        $this->voiceStates = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->id = $guild['id'];
         $this->available = (empty($guild['unavailable']));
@@ -262,9 +261,10 @@ class Guild extends ClientBase {
         
         if(!empty($guild['voice_states'])) {
             foreach($guild['voice_states'] as $state) {
-                $voice = new \CharlotteDunois\Yasmin\Models\VoiceState($this->client, $this->channels->get($state['channel_id']), $state);
-                $this->client->voiceStates->set($state['user_id'], $voice);
-                $this->voiceStates->set($state['user_id'], $voice);
+                $member = $this->members->get($state['user_id']);
+                if($member) {
+                    $member->_setVoiceState($state);
+                }
             }
         }
     }

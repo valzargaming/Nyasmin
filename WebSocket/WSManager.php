@@ -159,7 +159,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         return null;
     }
     
-    function connect($gateway, array $querystring = array()) {
+    function connect(string $gateway = null, array $querystring = array()) {
         if($this->ws) {
             return \React\Promise\resolve();
         }
