@@ -421,18 +421,9 @@ class APIManager {
      * @return bool
      */
     private function handleQueueTiming() {
-        $cLimited = \array_reduce($this->queue, function ($prev, $val) {
-            if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
-                $rs = (int) $val->getResetTime();
-                if($rs < $prev) {
-                    return $rs;
-                }
-            }
-            
-            return $prev;
-        }, \INF);
+        $cLimited = $this->getQueueReset();
         
-        if($cLimited === 0 || $cLimited === \INF || $cLimited < 0) {
+        if($cLimited <= 0 || $cLimited === \INF) {
             return true;
         }
         
@@ -444,6 +435,28 @@ class APIManager {
         });
         
         return false;
+    }
+    
+    /**
+     * Returns the reset time of the first reseted item.
+     */
+    private function getQueueReset() {
+        $cLimited = \array_reduce($this->queue, function ($prev, $val) {
+            if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
+                $rs = (int) $val->getResetTime();
+                if($rs < $prev) {
+                    return $rs;
+                }
+            }
+            
+            return $prev;
+        }, \INF);
+        
+        if($cLimited === \INF && $this->resetTime) {
+            $cLimited = $this->resetTime;
+        }
+        
+        return $cLimited;
     }
     
     /**
