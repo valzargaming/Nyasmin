@@ -14,7 +14,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @todo Implementation
  */
 class VoiceChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
+    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
                 \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     

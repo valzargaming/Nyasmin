@@ -216,31 +216,10 @@ class Client extends EventEmitter {
      * @throws \Exception
      */
     function __get($name) {
-        switch($name) {
-            case 'channels':
-                return $this->channels;
-            break;
-            case 'emojis':
-                return $this->emojis;
-            break;
-            case 'guilds':
-                return $this->guilds;
-            break;
-            case 'presences':
-                return $this->presences;
-            break;
-            case 'users':
-                return $this->users;
-            break;
-            case 'voiceConnections':
-                return $this->voiceConnections;
-            break;
-            case 'voiceStates':
-                return $this->voiceStates;
-            break;
-            case 'user':
-                return $this->user;
-            break;
+        $props = array('channels', 'emojis', 'guilds', 'presences', 'users', 'voiceConnections', 'voiceStates', 'user');
+        
+        if(\in_array($name, $props)) {
+            return $this->$name;
         }
         
         throw new \Exception('Unknown property \CharlotteDunois\Yasmin\Client::'.$name);
@@ -496,8 +475,8 @@ class Client extends EventEmitter {
     protected function validateClientOptions(array $options) {
         $validator = \CharlotteDunois\Validation\Validator::make($options, array(
             'disableClones' => 'array',
-            'shardID' => 'integer',
-            'shardCount' => 'integer',
+            'shardID' => 'integer|min:0',
+            'shardCount' => 'integer|min:1',
             'fetchAllMembers' => 'boolean',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string|boolean',

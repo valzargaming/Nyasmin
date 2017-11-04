@@ -112,7 +112,7 @@ trait GuildChannelTrait {
         $data = array();
         
         if(isset($options['name'])) {
-            $data['name'] = $options['name'];
+            $data['name'] = (string) $options['name'];
         }
         
         if(isset($options['position'])) {
@@ -120,18 +120,10 @@ trait GuildChannelTrait {
         }
         
         if(isset($options['bitrate'])) {
-            if($this instanceof \CharlotteDunois\Yasmin\Models\TextChannel) {
-                throw new \InvalidArgumentException('Can not set channel bitrate of a text channel');
-            }
-            
             $data['bitrate'] = (int) $options['bitrate'];
         }
         
         if(isset($options['userLimit'])) {
-            if($this instanceof \CharlotteDunois\Yasmin\Models\TextChannel) {
-                throw new \InvalidArgumentException('Can not set channel user limit of a text channel');
-            }
-            
             $data['user_limit'] = (int) $options['userLimit'];
         }
         

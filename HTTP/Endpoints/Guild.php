@@ -78,6 +78,11 @@ class Guild {
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
+    function removeGuildMember(string $guildid, string $userid, string $reason = '') {
+        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['remove'], $guildid, $userid);
+        return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
+    }
+    
     function modifyCurrentNick(string $guildid, string $userid, string $nick) {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['modifyCurrentNick'], $guildid, $userid);
         return $this->api->makeRequest('PATCH', $url, array('data' => array('nick' => $nick)));
@@ -100,7 +105,7 @@ class Guild {
     
     function createGuildBan(string $guildid, string $userid, int $daysDeleteMessages = 0, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['bans']['create'], $guildid, $userid);
-        return $this->api->makeRequest('PUT', $url, array('auditLogReason' => $reason, 'data' => array('delete-message-days' => $daysDeleteMessages)));
+        return $this->api->makeRequest('PUT', $url, array('auditLogReason' => $reason, 'querystring' => array('delete-message-days' => $daysDeleteMessages)));
     }
     
     function removeGuildBan(string $guildid, string $userid, string $reason = '') {
@@ -135,7 +140,7 @@ class Guild {
     
     function getGuildPruneCount(string $guildid, int $days) {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['prune']['count'], $guildid);
-        return $this->api->makeRequest('GET', $url, array('data' => array('days' => $days)));
+        return $this->api->makeRequest('GET', $url, array('querystring' => array('days' => $days)));
     }
     
     function beginGuildPrune(string $guildid, int $days) {

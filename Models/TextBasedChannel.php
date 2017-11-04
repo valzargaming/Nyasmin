@@ -84,8 +84,8 @@ class TextBasedChannel extends ClientBase
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filterOldMessages, $messages, $reason) {
-            if(\is_int($messages)) {
-                $messages = $this->fetchMessages(array('limit' => $messages));
+            if(\is_numeric($messages)) {
+                $messages = $this->fetchMessages(array('limit' => (int) $messages));
             } else {
                 $messages = \React\Promise\resolve($messages);
             }
