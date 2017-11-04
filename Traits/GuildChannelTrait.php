@@ -193,32 +193,18 @@ trait GuildChannelTrait {
         $overwrites = $this->overwritesFor($member);
         
         if($overwrites['everyone']) {
-            if($overwrites['everyone']->allow->bitfield) {
-                $permissions->add($overwrites['everyone']->allow->bitfield);
-            }
-            
-            if($overwrites['everyone']->deny->bitfield) {
-                $permissions->remove($overwrites['everyone']->deny->bitfield);
-            }
+            $permissions->add($overwrites['everyone']->allow->bitfield);
+            $permissions->remove($overwrites['everyone']->deny->bitfield);
         }
         
         if($overwrites['member']) {
-            if($overwrites['member']->allow) {
-                $permissions->add($overwrites['member']->allow->bitfield);
-            }
-            
-            if($overwrites['member']->deny) {
-                $permissions->remove($overwrites['member']->deny->bitfield);
-            }
+            $permissions->add($overwrites['member']->allow->bitfield);
+            $permissions->remove($overwrites['member']->deny->bitfield);
         }
         
         foreach($overwrites['roles'] as $role) {
-            if($role->allow->bitfield) {
-                $permissions->add($role->allow->bitfield);
-            }
-            if($role->deny->bitfield) {
-                $permissions->remove($role->deny->bitfield);
-            }
+            $permissions->add($role->allow->bitfield);
+            $permissions->remove($role->deny->bitfield);
         }
         
         return $permissions;
