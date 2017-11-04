@@ -29,17 +29,7 @@ class CategoryChannel extends TextBasedChannel {
         parent::__construct($client, $channel);
         $this->guild = $guild;
         
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
-        $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
-        $this->position = $channel['position'] ?? $this->position ?? 0;
-        
-        if(!empty($channel['permissions_overwrites'])) {
-            foreach($channel['permissions_overwrites'] as $permission) {
-                $this->permissionOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission));
-            }
-        }
+        $this->_patch($channel);
     }
     
     /**
@@ -62,5 +52,22 @@ class CategoryChannel extends TextBasedChannel {
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $channel) {
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        $this->name = $channel['name'] ?? $this->name ?? '';
+        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
+        $this->position = $channel['position'] ?? $this->position ?? 0;
+        
+        if(!empty($channel['permissions_overwrites'])) {
+            foreach($channel['permissions_overwrites'] as $permission) {
+                $this->permissionOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission));
+            }
+        }
     }
 }

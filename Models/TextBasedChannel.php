@@ -29,7 +29,7 @@ class TextBasedChannel extends ClientBase
     
     protected $createdTimestamp;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client, $channel) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client);
         
         $this->messages = new \CharlotteDunois\Yasmin\Utils\Collection();

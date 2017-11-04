@@ -33,21 +33,9 @@ class Emoji extends ClientBase {
         $this->guild = $guild;
         
         $this->id = (!empty($emoji['id']) ? $emoji['id'] : null);
-        $this->name = $emoji['name'];
-        $this->user = (!empty($emoji['user']) ? $client->users->patch($emoji['user']) : null);
-        $this->requireColons = $emoji['require_colons'] ?? true;
-        $this->managed = $emoji['managed'] ?? false;
-        
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
-        $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
         
-        if(!empty($emoji['roles'])) {
-            foreach($emoji['roles'] as $role) {
-                $this->roles->set($role['id'], $this->guild->roles->get($role['id']));
-            }
-        }
-        
-        $client->emojis->set($this->id ?? $this->name, $this);
+        $this->_patch($emoji);
     }
     
     /**
@@ -110,5 +98,25 @@ class Emoji extends ClientBase {
         }
         
         return '<:'.$this->name.':'.$this->id.'>';
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $emoji) {
+        $this->name = $emoji['name'];
+        $this->user = (!empty($emoji['user']) ? $this->client->users->patch($emoji['user']) : null);
+        $this->requireColons = $emoji['require_colons'] ?? true;
+        $this->managed = $emoji['managed'] ?? false;
+        
+        $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        if(!empty($emoji['roles'])) {
+            foreach($emoji['roles'] as $role) {
+                $this->roles->set($role['id'], $this->guild->roles->get($role['id']));
+            }
+        }
+        
+        $this->client->emojis->set($this->id ?? $this->name, $this);
     }
 }

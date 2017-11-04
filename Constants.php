@@ -75,17 +75,12 @@ class Constants {
     );
     
     /**
-     * WS constants.
+     * WS constants. Query string parameters.
      * @internal
      */
     const WS = array(
-        'baseurl' => 'wss://gateway.discord.gg/',
-        'encoding' => 'json',
-        'version' => 6,
-        'query' => array(
-            'v' => 6,
-            'encoding' => 'json'
-        )
+        'v' => 6,
+        'encoding' => 'json'
     );
     
     /**

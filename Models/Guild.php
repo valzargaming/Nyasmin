@@ -67,76 +67,10 @@ class Guild extends ClientBase {
         
         $this->id = $guild['id'];
         $this->available = (empty($guild['unavailable']));
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         if($this->available) {
             $this->_patch($guild);
-        }
-        
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
-    }
-    
-    /**
-     * @internal
-     */
-    function _patch(array $guild) {
-        $this->available = (empty($guild['unavailable']));
-        
-        $this->name = $guild['name'];
-        $this->icon = $guild['icon'];
-        $this->splash = $guild['splash'];
-        $this->ownerID = $guild['owner_id'];
-        $this->large =  $guild['large'] ?? $this->large;
-        $this->memberCount = $guild['member_count']  ?? $this->memberCount;
-        
-        $this->defaultMessageNotifications = $guild['default_message_notifications'];
-        $this->explicitContentFilter = $guild['explicit_content_filter'];
-        $this->region = $guild['region'];
-        $this->verificationLevel = $guild['verification_level'];
-        $this->systemChannelID = $guild['system_channel_id'];
-        
-        $this->afkChannelID = $guild['afk_channel_id'];
-        $this->afkTimeout = $guild['afk_timeout'];
-        $this->features = $guild['features'];
-        $this->mfaLevel = $guild['mfa_level'];
-        $this->applicationID = $guild['application_id'];
-        
-        $this->embedEnabled = $guild['embed_enabled'] ?? $this->embedEnabled;
-        $this->embedChannelID = $guild['embed_channel_id'] ?? $this->embedChannelID;
-        $this->widgetEnabled = $guild['widget_enabled'] ?? $this->widgetEnabled;
-        $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
-        
-        foreach($guild['roles'] as $role) {
-            $this->roles->set($role['id'], (new \CharlotteDunois\Yasmin\Models\Role($this->client, $this, $role)));
-        }
-        
-        foreach($guild['emojis'] as $emoji) {
-            $this->emojis->set($emoji['id'], (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this, $emoji)));
-        }
-        
-        if(!empty($guild['channels'])) {
-            foreach($guild['channels'] as $channel) {
-                $this->channels->set($channel['id'], \CharlotteDunois\Yasmin\Models\GuildChannel::factory($this->client, $this, $channel));
-            }
-        }
-        
-        if(!empty($guild['members'])) {
-            foreach($guild['members'] as $member) {
-                $this->_addMember($member, true);
-            }
-        }
-        
-        if(!empty($guild['presences'])) {
-            foreach($guild['presences'] as $presence) {
-                $this->presences->factory($presence);
-            }
-        }
-        
-        if(!empty($guild['voice_states'])) {
-            foreach($guild['voice_states'] as $state) {
-                $voice = new \CharlotteDunois\Yasmin\Models\VoiceState($this->client, $this->channels->get($state['channel_id']), $state);
-                $client->voiceStates->set($state['user_id'], $voice);
-                $this->voiceStates->set($state['user_id'], $voice);
-            }
         }
     }
     
@@ -268,5 +202,70 @@ class Guild extends ClientBase {
         }
         
         return null;
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $guild) {
+        $this->available = (empty($guild['unavailable']));
+        
+        $this->name = $guild['name'];
+        $this->icon = $guild['icon'];
+        $this->splash = $guild['splash'];
+        $this->ownerID = $guild['owner_id'];
+        $this->large =  $guild['large'] ?? $this->large;
+        $this->memberCount = $guild['member_count']  ?? $this->memberCount;
+        
+        $this->defaultMessageNotifications = $guild['default_message_notifications'];
+        $this->explicitContentFilter = $guild['explicit_content_filter'];
+        $this->region = $guild['region'];
+        $this->verificationLevel = $guild['verification_level'];
+        $this->systemChannelID = $guild['system_channel_id'];
+        
+        $this->afkChannelID = $guild['afk_channel_id'];
+        $this->afkTimeout = $guild['afk_timeout'];
+        $this->features = $guild['features'];
+        $this->mfaLevel = $guild['mfa_level'];
+        $this->applicationID = $guild['application_id'];
+        
+        $this->embedEnabled = $guild['embed_enabled'] ?? $this->embedEnabled;
+        $this->embedChannelID = $guild['embed_channel_id'] ?? $this->embedChannelID;
+        $this->widgetEnabled = $guild['widget_enabled'] ?? $this->widgetEnabled;
+        $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
+        
+        foreach($guild['roles'] as $role) {
+            $this->roles->set($role['id'], (new \CharlotteDunois\Yasmin\Models\Role($this->client, $this, $role)));
+        }
+        
+        foreach($guild['emojis'] as $emoji) {
+            $this->emojis->set($emoji['id'], (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this, $emoji)));
+        }
+        
+        if(!empty($guild['channels'])) {
+            foreach($guild['channels'] as $channel) {
+                $this->channels->set($channel['id'], \CharlotteDunois\Yasmin\Models\GuildChannel::factory($this->client, $this, $channel));
+            }
+        }
+        
+        if(!empty($guild['members'])) {
+            foreach($guild['members'] as $member) {
+                $this->_addMember($member, true);
+            }
+        }
+        
+        if(!empty($guild['presences'])) {
+            foreach($guild['presences'] as $presence) {
+                $this->presences->factory($presence);
+            }
+        }
+        
+        if(!empty($guild['voice_states'])) {
+            foreach($guild['voice_states'] as $state) {
+                $voice = new \CharlotteDunois\Yasmin\Models\VoiceState($this->client, $this->channels->get($state['channel_id']), $state);
+                $this->client->voiceStates->set($state['user_id'], $voice);
+                $this->voiceStates->set($state['user_id'], $voice);
+            }
+        }
     }
 }

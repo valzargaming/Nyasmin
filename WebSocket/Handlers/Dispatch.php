@@ -87,6 +87,6 @@ class Dispatch {
     }
     
     private function register($name, $class) {
-        $this->wsevents[$name] = new $class($this->wshandler->client);
+        $this->wsevents[$name] = new $class($this->wshandler->client, $this->wshandler->wsmanager);
     }
 }

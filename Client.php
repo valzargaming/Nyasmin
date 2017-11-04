@@ -313,11 +313,7 @@ class Client extends EventEmitter {
             $gateway->then(function ($url) use ($resolve, $reject) {
                 $this->gateway = $url;
                 
-                $this->ws->connect($url, \CharlotteDunois\Yasmin\Constants::WS['query'])->then(function () use ($resolve) {
-                    $this->ws->on('ready', function () {
-                        $this->emit('ready');
-                    });
-                    
+                $this->ws->connect($url, \CharlotteDunois\Yasmin\Constants::WS)->then(function () use ($resolve) {
                     $resolve();
                 }, $reject)->done();
             }, $reject)->done();

@@ -34,15 +34,9 @@ class Role extends ClientBase {
         $this->guild = $guild;
         
         $this->id = $role['id'];
-        $this->name = $role['name'];
-        $this->color = $role['color'];
-        $this->hoist = $role['hoist'];
-        $this->position = $role['position'];
-        $this->permissions = new \CharlotteDunois\Yasmin\Models\Permissions($role['permissions']);
-        $this->managed = $role['managed'];
-        $this->mentionable = $role['mentionable'];
-        
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        
+        $this->_patch($role);
     }
     
     /**
@@ -265,5 +259,18 @@ class Role extends ClientBase {
      */
     function __toString() {
         return '<@&'.$this->id.'>';
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $role) {
+        $this->name = $role['name'];
+        $this->color = $role['color'];
+        $this->hoist = $role['hoist'];
+        $this->position = $role['position'];
+        $this->permissions = new \CharlotteDunois\Yasmin\Models\Permissions($role['permissions']);
+        $this->managed = $role['managed'];
+        $this->mentionable = $role['mentionable'];
     }
 }

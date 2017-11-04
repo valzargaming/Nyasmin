@@ -41,16 +41,10 @@ class User extends ClientBase
         parent::__construct($client);
         
         $this->id = $user['id'];
-        $this->username = $user['username'];
-        $this->discriminator = $user['discriminator'] ?? '0000';
-        $this->bot = (!empty($user['bot']));
-        $this->avatar = $user['avatar'];
-        $this->email = (!empty($user['email']) ? $user['email'] : '');
-        $this->mfaEnabled = (isset($user['mfa_enabled']) ? !empty($user['mfa_enabled']) : null);
-        $this->verified = (isset($user['verified']) ? !empty($user['verified']) : null);
         $this->webhook = $isWebhook;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        $this->_patch($user);
     }
     
     /**
@@ -137,13 +131,6 @@ class User extends ClientBase
         }
         
         return parent::__get($name);
-    }
-    
-    /**
-     * Automatically converts the User object to a mention.
-     */
-    function __toString() {
-        return '<@'.$this->id.'>';
     }
     
     /**
@@ -325,6 +312,30 @@ class User extends ClientBase
         return $channel->isTypingSince($this);
     }
     
+    /**
+     * Automatically converts the User object to a mention.
+     */
+    function __toString() {
+        return '<@'.$this->id.'>';
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $user) {
+        $this->username = $user['username'];
+        $this->discriminator = $user['discriminator'] ?? '0000';
+        $this->bot = (!empty($user['bot']));
+        $this->avatar = $user['avatar'];
+        $this->email = (!empty($user['email']) ? $user['email'] : '');
+        $this->mfaEnabled = (isset($user['mfa_enabled']) ? !empty($user['mfa_enabled']) : null);
+        $this->verified = (isset($user['verified']) ? !empty($user['verified']) : null);
+    }
+    
+    /**
+     * Returns default extension for the avatar.
+     * @return string
+     */
     protected function getAvatarExtension() {
         return (strpos($this->avatar, 'a_') === 0 ? 'gif' : 'webp');
     }

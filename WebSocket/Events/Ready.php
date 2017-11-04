@@ -16,14 +16,28 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  */
 class Ready {
     protected $client;
+    protected $ready = false;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
+        
+        $wsmanager->once('ready', function () {
+            $this->ready = true;
+        });
     }
     
     function handle($data) {
-        $this->client->setClientUser($data['user']);
+        $this->client->emit('debug', 'Connected to Gateway version '.$data['v']);
+        
         $this->client->wsmanager()->setSessionID($data['session_id']);
+        
+        if($this->ready) {
+            $this->client->user->_patch($data['user']);
+            $this->client->wsmanager()->emit('ready');
+            return;
+        }
+        
+        $this->client->setClientUser($data['user']);
         
         foreach($data['private_channels'] as $channel) {
             if(!$this->client->channels->has($channel['id'])) {

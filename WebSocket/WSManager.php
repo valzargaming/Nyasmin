@@ -131,6 +131,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
                 /* Nothing to do */
             break;
         }
+        
+        $this->on('ready', function () {
+            $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
+            $this->client->emit('ready');
+        });
     }
     
     /**
@@ -206,10 +211,6 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             }
             
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
-            
-            $this->on('ready', function () {
-                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
-            });
             
             $this->emit('open');
             $this->client->emit('debug', 'Connected to WS');

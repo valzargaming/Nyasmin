@@ -37,87 +37,10 @@ class Message extends ClientBase {
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $message) {
         parent::__construct($client);
+        $this->channel = $channel;
         
         $this->id = $message['id'];
-        $this->author = (empty($message['webhook_id']) ? $client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($client, $message['author'], true));
-        $this->channel = $channel;
-        $this->content = $message['content'];
-        $this->createdTimestamp = (new \DateTime($message['timestamp']))->getTimestamp();
-        $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : null);
-        $this->tts = (bool) $message['tts'];
-        $this->mentionEveryone = (bool) $message['mention_everyone'];
-        $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
-        $this->pinned = (bool) $message['pinned'];
-        $this->system = ($message['type'] > 0 ? true : false);
-        
-        $this->author->lastMessageID = $message['id'];
-        
-        $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
-        foreach($message['attachments'] as $attachment) {
-            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment)));
-        }
-        
-        foreach($message['embeds'] as $embed) {
-            $this->embeds[] = new \CharlotteDunois\Yasmin\Models\MessageEmbed($embed);
-        }
-        
-        $this->mentions = array(
-            'channels' => (new \CharlotteDunois\Yasmin\Utils\Collection()),
-            'members' => (new \CharlotteDunois\Yasmin\Utils\Collection()),
-            'roles' => (new \CharlotteDunois\Yasmin\Utils\Collection()),
-            'users' => (new \CharlotteDunois\Yasmin\Utils\Collection())
-        );
-        
-        $guild = $channel->guild;
-        $this->cleanContent = $this->content;
-        
-        \preg_match_all('/<#(\d+)>/', $this->content, $matches);
-        if(!empty($matches[1])) {
-            foreach($matches[1] as $match) {
-                $channel = $this->client->channels->get($match);
-                if($channel) {
-                    $this->mentions->channels->set($channel->id, $channel);
-                    $this->cleanContent = \str_replace($channel->__toString(), $channel->name, $this->cleanContent);
-                }
-            }
-        }
-        
-        if(!empty($message['mentions'])) {
-            foreach($message['mentions'] as $mention) {
-                $user = $this->client->users->patch($mention);
-                if($user) {
-                    $member = null;
-                    
-                    $this->mentions['users']->set($user->id, $user);
-                    if($guild) {
-                        $member = $guild->members->get($mention['id']);
-                        if($member) {
-                            $this->mentions['members']->set($member->id, $member);
-                        }
-                    }
-                    
-                    $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
-                }
-            }
-        }
-        
-        if($guild && !empty($message['mention_roles'])) {
-            foreach($message['mention_roles'] as $id) {
-                $role = $guild->roles->get($id);
-                if($role) {
-                    $this->mentions['roles']->set($role->id, $role);
-                    $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
-                }
-            }
-        }
-        
-        $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
-        if(!empty($message['reactions'])) {
-            foreach($message['reactions'] as $reaction) {
-                $emoji = ($client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($client, $this->channel->guild, $reaction['emoji'])));
-                $this->reactions->set($emoji->id, (new \CharlotteDunois\Yasmin\Models\MessageReaction($client, $this, $emoji, $reaction)));
-            }
-        }
+        $this->_patch($message);
     }
     
     /**
@@ -185,5 +108,54 @@ class Message extends ClientBase {
         }
         
         return '<:'.$this->name.':'.$this->id.'>';
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $message) {
+        $this->author = (empty($message['webhook_id']) ? $this->client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($this->client, $message['author'], true));
+        $this->content = $message['content'];
+        $this->createdTimestamp = (new \DateTime($message['timestamp']))->getTimestamp();
+        $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : null);
+        $this->tts = (bool) $message['tts'];
+        $this->mentionEveryone = (bool) $message['mention_everyone'];
+        $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
+        $this->pinned = (bool) $message['pinned'];
+        $this->system = ($message['type'] > 0 ? true : false);
+        
+        $this->author->lastMessageID = $message['id'];
+        
+        $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
+        foreach($message['attachments'] as $attachment) {
+            $this->attachments->set($attachment['id'], (new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment)));
+        }
+        
+        foreach($message['embeds'] as $embed) {
+            $this->embeds[] = new \CharlotteDunois\Yasmin\Models\MessageEmbed($embed);
+        }
+        
+        $this->cleanContent = $this->content;
+        $this->mentions = new \CharlotteDunois\Yasmin\Models\MessageMentions($this->client, $this, $message);
+        
+        foreach($this->mentions->channels as $channel) {
+            $this->cleanContent = \str_replace($channel->__toString(), $channel->name, $this->cleanContent);
+        }
+        
+        foreach($this->mentions->roles as $role) {
+            $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
+        }
+        
+        foreach($this->mentions->users as $user) {
+            $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
+        }
+        
+        $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
+        if(!empty($message['reactions'])) {
+            foreach($message['reactions'] as $reaction) {
+                $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->channel->guild, $reaction['emoji'])));
+                $this->reactions->set($emoji->id, (new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, $reaction)));
+            }
+        }
     }
 }

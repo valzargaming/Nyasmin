@@ -38,10 +38,8 @@ class Presence extends ClientBase {
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $presence) {
         parent::__construct($client);
-        
-        $this->user = $client->users->get($presence['user']['id']);
-        $this->game = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Game($client, $presence['game'])) : null);
-        $this->status = $presence['status'];
+        $this->user = $this->client->users->get($presence['user']['id']);
+        $this->_patch($presence);
     }
     
     /**
@@ -65,5 +63,13 @@ class Presence extends ClientBase {
              'status' => $this->status,
              'game' => $this->game
          );
+     }
+     
+     /**
+      * @internal
+      */
+     function _patch(array $presence) {
+         $this->game = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Game($this->client, $presence['game'])) : null);
+         $this->status = $presence['status'];
      }
 }

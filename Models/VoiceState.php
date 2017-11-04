@@ -30,14 +30,7 @@ class VoiceState extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel = null, array $voice) {
         parent::__construct($client);
         $this->channel = $channel;
-        
-        $this->sessionID = $voice['session_id'];
-        $this->user = $client->users->get($voice['user_id']);
-        $this->deaf = (bool) $voice['deaf'];
-        $this->mute = (bool) $voice['mute'];
-        $this->selfDeaf = (bool) $voice['self_deaf'];
-        $this->selfMute = (bool) $voice['self_mute'];
-        $this->suppress = (bool) $voice['suppress'];
+        $this->_patch($voice);
     }
     
     /**
@@ -65,5 +58,18 @@ class VoiceState extends ClientBase {
      */
     function _updateChannel(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel = null) {
         $this->channel = $channel;
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $voice) {
+        $this->sessionID = $voice['session_id'];
+        $this->user = $this->client->users->get($voice['user_id']);
+        $this->deaf = (bool) $voice['deaf'];
+        $this->mute = (bool) $voice['mute'];
+        $this->selfDeaf = (bool) $voice['self_deaf'];
+        $this->selfMute = (bool) $voice['self_mute'];
+        $this->suppress = (bool) $voice['suppress'];
     }
 }

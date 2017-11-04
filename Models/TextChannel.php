@@ -31,21 +31,7 @@ class TextChannel extends TextBasedChannel
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
         parent::__construct($client, $channel);
         $this->guild = $guild;
-        
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
-        $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->topic = $channel['topic'] ?? $this->topic ?? '';
-        $this->nsfw = $channel['nsfw'] ?? $this->nsfw ?? false;
-        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
-        $this->position = $channel['position'] ?? $this->position ?? 0;
-        
-        if(!empty($channel['permission_overwrites'])) {
-            foreach($channel['permission_overwrites'] as $permission) {
-                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($client, $this, $permission);
-                $this->permissionOverwrites->set($overwrite->id, $overwrite);
-            }
-        }
+        $this->_patch($channel);
     }
     
     /**
@@ -97,5 +83,25 @@ class TextChannel extends TextBasedChannel
      */
     function __toString() {
         return '<#'.$this->id.'>';
+    }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $channel) {
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        $this->name = $channel['name'] ?? $this->name ?? '';
+        $this->topic = $channel['topic'] ?? $this->topic ?? '';
+        $this->nsfw = $channel['nsfw'] ?? $this->nsfw ?? false;
+        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
+        $this->position = $channel['position'] ?? $this->position ?? 0;
+        
+        if(!empty($channel['permission_overwrites'])) {
+            foreach($channel['permission_overwrites'] as $permission) {
+                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission);
+                $this->permissionOverwrites->set($overwrite->id, $overwrite);
+            }
+        }
     }
 }
