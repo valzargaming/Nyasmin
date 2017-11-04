@@ -58,7 +58,7 @@ class WSHandler {
             $packet = \json_decode($message, true);
             $this->client->emit('raw', $packet);
             
-            if($packet['s']) {
+            if(isset($packet['s'])) {
                 $this->sequence = $packet['s'];
             }
             

@@ -251,22 +251,27 @@ class APIManager {
     }
     
     /**
-     * Processes the queue.
+     * Processes the queue delayed, depends on rest time offset.
      */
-    private function _process(bool $executeContext = false) {
-        if($executeContext) {
-            $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
-            if($offset > 0) {
-                $offset = $offset / 1000;
-                
-                $this->client->addTimer($offset, function () {
-                    $this->_process();
-                }, true);
-                
-                return;
-            }
+    private function _processDelayed() {
+        $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
+        if($offset > 0) {
+            $offset = $offset / 1000;
+            
+            $this->client->addTimer($offset, function () {
+                $this->_process();
+            }, true);
+            
+            return;
         }
         
+        $this->_process();
+    }
+    
+    /**
+     * Processes the queue.
+     */
+    private function _process() {
         if($this->limited === true) {
             if(\time() < $this->resetTime) {
                 $this->client->emit('debug', 'We are API-wise globally ratelimited');
@@ -290,7 +295,13 @@ class APIManager {
         }
         
         $item = \array_shift($this->queue);
-        
+        $this->_processItem($item);
+    }
+    
+    /**
+     * Processes a queue item.
+     */
+    private function _processItem($item) {
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
             if($item->size() > 0 && $item->limited() === false) {
                 $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
@@ -343,7 +354,7 @@ class APIManager {
             return null;
         })->then(function ($response) use ($item, $ratelimit) {
             if(!$response) {
-                $this->_process(true);
+                $this->_processDelayed();
                 return;
             }
             
@@ -450,7 +461,7 @@ class APIManager {
             
             if($status === 204) {
                 $item->deferred->resolve();
-                $this->_process(true);
+                $this->_processDelayed();
                 return;
             }
             
@@ -459,7 +470,7 @@ class APIManager {
             if($status >= 400) {
                 $error = $this->handleAPIError($response, $item, $body, $ratelimit);
                 if($error === null) {
-                    $this->_process(true);
+                    $this->_processDelayed();
                     return;
                 }
                 
@@ -473,7 +484,7 @@ class APIManager {
             $item->deferred->reject($e);
         }
         
-        $this->_process(true);
+        $this->_processDelayed();
     }
     
     /**
