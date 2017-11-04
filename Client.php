@@ -191,7 +191,6 @@ class Client extends EventEmitter {
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($this);
         $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
         $this->voiceConnections = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->voiceStates = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->registerUtils();
     }

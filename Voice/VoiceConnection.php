@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Voice;
  * Represents a voice connection.
  * @todo Implementation of Voice
  */
-class VoiceConnection extends ClientBase {
+class VoiceConnection extends \CharlotteDunois\Yasmin\Models\ClientBase {
     protected $channel;
     
     protected $sessionID;
