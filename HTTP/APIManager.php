@@ -170,7 +170,7 @@ class APIManager {
     
     /**
      * Returns the Authorization header.
-     * @return string;
+     * @return string
      */
     function getAuthorization() {
         if(empty($this->client->token)) {
@@ -192,11 +192,11 @@ class APIManager {
      */
     function getRatelimitEndpoint(string $endpoint) {
         \preg_match('/((?:.*?)\/(?:\d+))/', $endpoint, $matches);
-        if($matches && $matches[1]) {
+        if($matches && !empty($matches[1])) {
             return $matches[1];
         }
         
-        $pos = (int) strpos($endpoint, '/');
+        $pos = (int) \strpos($endpoint, '/');
         if($pos > 0) {
             return \substr($endpoint, 0, $pos);
         }

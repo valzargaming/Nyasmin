@@ -45,7 +45,11 @@ $client->on('ready', function () use($client, $game, &$timer) {
     echo 'Logged in as '.$client->user->tag.' created on '.$client->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
     $client->addPeriodicTimer(30, function () use ($client, $game) {
-        $client->user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
+        try {
+            $client->user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
+        } catch(\BadMethodCallException $e) {
+            /* Continue regardless of error */
+        }
     });
     
     //$client->channels->get('323433852590751754')->send('Hello, my name is Yasmin!', array('files' => array('https://i.imgur.com/ML7aui6.png')))->done();
