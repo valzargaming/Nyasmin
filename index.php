@@ -52,7 +52,7 @@ $client->on('ready', function () use($client, $game, &$timer) {
         }
     });
     
-    //$client->channels->get('323433852590751754')->send('Hello, my name is Yasmin!', array('files' => array('https://i.imgur.com/ML7aui6.png')))->done();
+    //$client->channels->get('323433852590751754')->send('Hello, my name is Yasmin!', array('files' => array('https://i.imgur.com/ML7aui6.png')))->done(null, array($client, 'handlePromiseRejection'));
 });
 $client->on('disconnect', function ($code, $reason) use ($client, &$timer) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;

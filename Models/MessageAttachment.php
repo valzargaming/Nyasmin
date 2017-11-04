@@ -25,6 +25,11 @@ class MessageAttachment extends Base {
     /**
      * @internal
      */
+    protected $attachment;
+    
+    /**
+     * @internal
+     */
     function __construct(array $attachment = array()) {
         if(!empty($attachment)) {
             $this->id = $attachment['id'];
@@ -63,5 +68,45 @@ class MessageAttachment extends Base {
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * Sets the attachment. Requires allow_url_fopen to be enabled in the php.ini for URLs.
+     * @param string  $attachment  An URL or the filepath or the data.
+     * @param string  $filename    The filename.
+     * @return $this
+     */
+    function setAttachment($attachment, string $filename = '') {
+        $this->attachment = $attachment;
+        $this->filename = $filename;
+        return $this;
+    }
+    
+    /**
+     * @internal
+     */
+    function jsonSerialize() {
+        $props = array(
+            'filename' => $this->filename
+        );
+        
+        $file = @\realpath($this->attachment);
+        if($file) {
+            $props['path'] = $file;
+        } elseif(\filter_var($this->attachment, FILTER_VALIDATE_URL)) {
+            $props['path'] = $this->attachment;
+        } else {
+            $props['data'] = $this->attachment;
+        }
+        
+        if(empty($props['filename'])) {
+            if(!empty($props['path'])) {
+                $props['filename'] = \basename($props['path']);
+            } else {
+                $props['filename'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
+            }
+        }
+        
+        return $props;
     }
 }
