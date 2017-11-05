@@ -28,8 +28,5 @@
         "psr-4": {
             "CharlotteDunois\\Yasmin\\": ""
         }
-    },
-    "require-dev": {
-        "phpstan/phpstan": "^0.8.5"
     }
 }
