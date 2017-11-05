@@ -318,13 +318,12 @@ class Client extends EventEmitter {
      */
     function destroy(bool $destroyUtils = true) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
-            foreach($this->timers as $key => &$timer) {
-                $timer['timer']->cancel();
-                unset($this->timers[$key], $timer);
-            }
-            
             $this->api->destroy();
-            $this->ws->disconnect();
+            $this->ws->destroy();
+            
+            foreach($this->timers as $timer) {
+                $this->cancelTimer($timer['timer']);
+            }
             
             if($destroyUtils) {
                 $this->destroyUtils();
