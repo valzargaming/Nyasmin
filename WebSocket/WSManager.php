@@ -456,7 +456,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     
     function _pong($end) {
         $time = \ceil(($end - $this->wsHeartbeat['dateline']) * 1000);
-        $this->client->pings[] = $time;
+        $this->client->pings[] = (int) $time;
         
         $pings = \count($this->client->pings);
         if($pings > 3) {
