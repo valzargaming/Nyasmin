@@ -257,8 +257,8 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     }
     
     /**
-     * Gets the average ping.
-     * @return int
+     * Gets the average ping. Or NAN.
+     * @return int|double
      */
     function getPing() {
         $cpings = \count($this->pings);
