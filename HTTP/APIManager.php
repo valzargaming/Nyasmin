@@ -281,21 +281,7 @@ class APIManager {
      */
     protected function processItem($item) {
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
-            if($item->size() > 0 && $item->limited() === false) {
-                $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
-                $item = $item->shift();
-            } else {
-                if($item->size() > 0) {
-                    $this->queue[] = $item;
-                }
-                
-                $continue = $this->handleQueueTiming();
-                if($continue) {
-                    $this->process();
-                }
-                
-                return;
-            }
+            $item = $this->extractFromBucket($item);
         }
         
         if(!$item) {
@@ -304,6 +290,31 @@ class APIManager {
         }
         
         $this->execute($item);
+    }
+    
+    /**
+     * Extracts an item from a ratelimit bucket.
+     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
+     * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|void
+     */
+    protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
+        if($item->size() > 0 && $item->limited() === false) {
+            $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
+            $item = $item->shift();
+        } else {
+            if($item->size() > 0) {
+                $this->queue[] = $item;
+            }
+            
+            $continue = $this->handleQueueTiming();
+            if($continue) {
+                $this->process();
+            }
+            
+            return;
+        }
+        
+        return $item;
     }
     
     /**
@@ -376,7 +387,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @return array
      */
-    function extractRateLimit(\GuzzleHttp\Psr7\Response $response) {
+    function extractRatelimit(\GuzzleHttp\Psr7\Response $response) {
         $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
@@ -390,7 +401,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
     function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
-        \extract($this->extractRateLimit($response));
+        \extract($this->extractRatelimit($response));
         
         $global = false;
         if($response->hasHeader('X-RateLimit-Global')) {
