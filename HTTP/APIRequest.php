@@ -123,7 +123,7 @@ class APIRequest {
             $options['query'] = \http_build_query($this->options['querystring'], '', '&', \PHP_QUERY_RFC3986);
         }
         
-        if(!empty($this->options['auditLogReason']) && \is_string($this->options['auditLogReason'])) {
+        if(!empty($this->options['auditLogReason'])) {
             $options['headers']['X-Audit-Log-Reason'] = \trim($this->options['auditLogReason']);
         }
         

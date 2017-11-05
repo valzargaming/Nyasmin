@@ -36,7 +36,7 @@ $client->on('error', function ($error) {
 });
 
 $client->on('ratelimit', function ($rl) {
-    echo 'Ratelimits: Global: '.($rl['global'] ? 'yes' : 'no').' | Limit: '.(int) $rl['limit'].' | Remaining '.(int) $rl['remaining'].' | Reset: '.((int) $rl['resetTime'] > 0 ? 'in '.($rl['resetTime'] - \time()).'s' : 'null').PHP_EOL;
+    echo 'Ratelimit: Global: '.($rl['global'] ? 'yes' : 'no').' | Limit: '.(int) $rl['limit'].' | Remaining '.(int) $rl['remaining'].' | Reset: '.((int) $rl['resetTime'] > 0 ? 'in '.($rl['resetTime'] - \time()).'s' : 'null').PHP_EOL;
 });
 
 $client->on('ready', function () use($client, $game, &$timer) {

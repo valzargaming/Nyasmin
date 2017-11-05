@@ -115,14 +115,21 @@ class Message extends ClientBase {
     
     /**
      * Deletes the message.
+     * @param int     $timeout  An integer timeout in seconds, after which the message gets deleted.
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise<void>
      */
-    function delete(string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
-                $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+    function delete(int $timeout = 0, string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($timeout, $reason) {
+            if($timeout > 0) {
+                $this->client->addTimer($timeout, function () use ($reason, $resolve, $reject) {
+                    $this->delete(0, $reason)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, true);
+            } else {
+                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
+                    $resolve();
+                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }
         }));
     }
     

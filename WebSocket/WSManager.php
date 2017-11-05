@@ -441,14 +441,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         ));
     }
     
-    function heartbeatAck() {
-        $this->client->emit('debug', 'Sending WS heartbeat ack');
-        $this->send(array(
-            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT_ACK'],
-            'd' => null
-        ));
-    }
-    
     function heartFailure() {
         $this->client->emit('debug', 'WS heart failure');
         
@@ -466,8 +458,9 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $time = \ceil(($end - $this->wsHeartbeat['dateline']) * 1000);
         $this->client->pings[] = $time;
         
-        if(\count($this->client->pings) > 3) {
-            $this->client->pings = \array_slice($this->client->pings, 0, 3);
+        $pings = \count($this->client->pings);
+        if($pings > 3) {
+            $this->client->pings = \array_slice($this->client->pings, ($pings - 3));
         }
         
         $this->wsHeartbeat['ack'] = true;
@@ -481,6 +474,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         }
         
         $this->client->emit('debug', 'Sending WS packet with OP code '.$packet['op']);
-        return $this->ws->send(json_encode($packet));
+        return $this->ws->send(\json_encode($packet));
     }
 }
