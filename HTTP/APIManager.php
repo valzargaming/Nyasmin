@@ -285,7 +285,10 @@ class APIManager {
         }
         
         if(!($item instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
-            $this->process();
+            if($item !== true) {
+                $this->process();
+            }
+            
             return;
         }
         
@@ -309,6 +312,7 @@ class APIManager {
         
         if($this->handleQueueTiming()) {
             $this->process();
+            return true;
         }
     }
     
