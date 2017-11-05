@@ -295,7 +295,7 @@ class APIManager {
     /**
      * Extracts an item from a ratelimit bucket.
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
-     * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|void
+     * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|bool|null|void
      */
     protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
         if($item->size() > 0) {
