@@ -34,6 +34,7 @@ class MessageMentions extends ClientBase {
     protected $message;
     
     protected $channels;
+    protected $everyone;
     protected $members;
     protected $roles;
     protected $users;
@@ -49,6 +50,8 @@ class MessageMentions extends ClientBase {
         $this->members = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->users = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        $this->everyone = !empty($msg['mention_everyone']);
         
         \preg_match_all(self::PATTERN_CHANNELS, $message->content, $matches);
         if(!empty($matches[1])) {
@@ -89,6 +92,7 @@ class MessageMentions extends ClientBase {
     
     /**
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $channels  The collection which holds all channel mentions.
+     * @property-read bool                                        $everyone  Whether the message mentions @everyone or @here.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $members   The collection which holds all members mentions (only in guild channels).
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $roles     The collection which holds all roles mentions.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $users     The collection which holds all users mentions.

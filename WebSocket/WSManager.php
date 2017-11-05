@@ -121,7 +121,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                 $name::supported();
                 
                 $interfaces = \class_implements($name);
-                if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\CompressionInterface', $interfaces)) {
+                if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
                     throw new \Exception('Specified WS compression class does not implement necessary interface');
                 }
                 

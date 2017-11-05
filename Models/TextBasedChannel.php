@@ -212,64 +212,38 @@ class TextBasedChannel extends ClientBase
      *  array(
      *    'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or instance of MessageEmbed)
      *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
+     *    'nonce' => string, (a snowflake used for optimistic sending)
+     *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
+     *    'tts' => bool,
      *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
      *  )
      *
-     * @param  string  $message  The message content.
+     * @param  string  $content  The message content.
      * @param  array   $options  Any message options.
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message|\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
      */
-    function send(string $message, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
-            if(!empty($options['files'])) {
-                $promises = array();
-                foreach($options['files'] as $file) {
-                    if(\is_string($file)) {
-                        if(\filter_var($file, FILTER_VALIDATE_URL)) {
-                            $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
-                                return array('name' => \basename($file), 'data' => $data);
-                            });
-                        } else {
-                            $promises[] = \React\Promise\resolve(array('name' => 'file-'.\bin2hex(\random_bytes(3)).'.jpg', 'data' => $file));
-                        }
-                        
-                        continue;
-                    }
-                    
-                    if(!\is_array($file)) {
-                        continue;
-                    }
-                    
-                    if(!isset($file['name'])) {
-                        if(isset($file['path'])) {
-                            $file['name'] = \basename($file['path']);
-                        } else {
-                            $file['name'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
-                        }
-                    }
-                    
-                    if(!isset($file['data']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
-                        $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
-                            $file['data'] = $data;
-                            return $file;
-                        });
-                    } else {
-                        $promises[] = \React\Promise\resolve($file);
-                    }
-                }
-                
-                $files = \React\Promise\all($promises);
-            } else {
-                $files = \React\Promise\resolve();
-            }
-            
-            $files->then(function ($files = null) use ($message, $options, $resolve, $reject) {
+    function send(string $content, array $options = array()) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
+            self::resolveMessageOptionsFiles($options)->then(function ($files) use ($content, $options, $resolve, $reject) {
                 $msg = array(
-                    'content' => $message
+                    'content' => $content
                 );
                 
                 if(!empty($options['embed'])) {
                     $msg['embed'] = $options['embed'];
+                }
+                
+                if(!empty($options['none'])) {
+                    $msg['nonce'] = $options['nonce'];
+                }
+                
+                $disableEveryone = (isset($options['disableEveryone']) ? ((bool) $options['disableEveryone']) : $this->client->getOption('disableEveryone', false));
+                if($disableEveryone) {
+                    $msg['content'] = \str_replace(array('@everyone', '@here'), array("@\u{200b}everyone", "@\u{200b}here"), $msg['content']);
+                }
+                
+                if(!empty($options['tts'])) {
+                    $msg['tts'] = true;
                 }
                 
                 if(!empty($options['split'])) {
@@ -448,5 +422,49 @@ class TextBasedChannel extends ClientBase
             'timestamp' => (int) $timestamp,
             'timer' => $timer
         ));
+    }
+    
+    static function resolveMessageOptionsFiles(array $options) {
+        if(empty($options['files'])) {
+            return \React\Promise\resolve(array());
+        }
+        
+        $promises = array();
+        foreach($options['files'] as $file) {
+            if(\is_string($file)) {
+                if(\filter_var($file, FILTER_VALIDATE_URL)) {
+                    $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
+                        return array('name' => \basename($file), 'data' => $data);
+                    });
+                } else {
+                    $promises[] = \React\Promise\resolve(array('name' => 'file-'.\bin2hex(\random_bytes(3)).'.jpg', 'data' => $file));
+                }
+                
+                continue;
+            }
+            
+            if(!\is_array($file)) {
+                continue;
+            }
+            
+            if(!isset($file['name'])) {
+                if(isset($file['path'])) {
+                    $file['name'] = \basename($file['path']);
+                } else {
+                    $file['name'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
+                }
+            }
+            
+            if(!isset($file['data']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
+                $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
+                    $file['data'] = $data;
+                    return $file;
+                });
+            } else {
+                $promises[] = \React\Promise\resolve($file);
+            }
+        }
+        
+        return \React\Promise\all($promises);
     }
 }

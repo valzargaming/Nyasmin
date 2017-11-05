@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * Interface for WS compressions.
  * @internal
  */
-interface CompressionInterface {
+interface WSCompressionInterface {
     /**
      * Returns compression name (for gateway query string).
      */

@@ -461,9 +461,10 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     protected function validateClientOptions(array $options) {
         $validator = \CharlotteDunois\Validation\Validator::make($options, array(
             'disableClones' => 'array',
+            'disableEveryone' => 'boolean',
+            'fetchAllMembers' => 'boolean',
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
-            'fetchAllMembers' => 'boolean',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string|boolean',
             'ws.disabledEvents' => 'array',
