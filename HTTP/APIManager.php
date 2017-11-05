@@ -85,6 +85,7 @@ class APIManager {
     }
     
     /**
+     * @property-read \CharlotteDunois\Yasmin\Client             $client
      * @property-read \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
      */
     function __get($name) {
@@ -160,6 +161,14 @@ class APIManager {
     }
     
     /**
+     * Unshifts an item into the queue.
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $item
+     */
+    function unshiftQueue(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
+        \array_unshift($this->queue, $apirequest);
+    }
+    
+    /**
      * Starts the queue.
      */
     function startQueue() {
@@ -169,18 +178,6 @@ class APIManager {
         
         $this->running = true;
         $this->processFuture();
-    }
-    
-    /**
-     * Returns the Authorization header value.
-     * @return string
-     */
-    function getAuthorization() {
-        if(empty($this->client->token)) {
-            throw new \Exception('Can not make a HTTP request without a token');
-        }
-        
-        return 'Bot '.$this->client->token;
     }
     
     /**
@@ -206,7 +203,7 @@ class APIManager {
                 $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
                 
                 $status = $response->getStatusCode();
-                $body = $this->decodeBody($response);
+                $body = \CharlotteDunois\Yasmin\HTTP\APIRequest::decodeBody($response);
                 
                 if($status >= 300) {
                     $error = new \Exception($response->getReasonPhrase());
@@ -326,6 +323,7 @@ class APIManager {
         $item->execute($ratelimit)->then(function ($data) use ($item) {
             if($data === 0) {
                 $item->deferred->resolve();
+                $this->processDelayed();
             } elseif($data === -1) {
                 $this->processDelayed();
             } else {

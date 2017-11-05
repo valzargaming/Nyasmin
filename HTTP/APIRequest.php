@@ -84,12 +84,16 @@ class APIRequest {
     function request() {
         $url = $this->url.$this->endpoint;
         
+        if(empty($this->api->client->token)) {
+            throw new \Exception('Can not make a HTTP request without a token');
+        }
+        
         $options = array(
             'http_errors' => false,
             'protocols' => array('https'),
             'expect' => false,
             'headers' => array(
-                'Authorization' => $this->api->getAuthorization(),
+                'Authorization' => 'Bot '.$this->api->client->token,
                 'User-Agent' => 'CharlotteDunois/Yasmin (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Constants::VERSION.')'
             )
         );
@@ -157,7 +161,7 @@ class APIRequest {
                 return 0;
             }
             
-            $body = $this->decodeBody($response);
+            $body = self::decodeBody($response);
             
             if($status >= 400) {
                 $error = $this->handleAPIError($response, $body, $ratelimit);
@@ -177,7 +181,7 @@ class APIRequest {
      * @param \GuzzleHttp\Psr7\Response  $response
      * @return mixed
      */
-    protected function decodeBody(\GuzzleHttp\Psr7\Response $response) {
+    static function decodeBody(\GuzzleHttp\Psr7\Response $response) {
         $body = $response->getBody();
         if($body instanceof \GuzzleHttp\Psr7\Stream) {
             $body = $body->getContents();
@@ -205,9 +209,9 @@ class APIRequest {
             $this->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
             
             if($ratelimit !== null) {
-                $ratelimit->unshift($item);
+                $ratelimit->unshift($this);
             } else {
-                \array_unshift($this->queue, $item);
+                $this->api->unshiftQueue($this);
             }
             
             return null;
