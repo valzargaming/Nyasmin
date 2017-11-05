@@ -161,7 +161,6 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
     
     function destroy() {
         $this->disconnect();
-        $this->emit('close');
     }
     
     function connect(string $gateway = null, array $querystring = array()) {
