@@ -8,7 +8,6 @@
 */
 
 namespace CharlotteDunois\Yasmin\HTTP;
-use CharlotteDunois\Validation\Rule\StringRule;
 
 /**
  * Represents a single HTTP request.
@@ -131,5 +130,95 @@ class APIRequest {
         $request->requestOptions = $options;
         
         return $request;
+    }
+    
+    function execute(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        $request = $this->request();
+        
+        return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) {
+            return $response;
+        }, function ($error) {
+            if($error->hasResponse()) {
+                return $error->getResponse();
+            }
+            
+            throw new \Exception($error->getMessage());
+        })->then(function ($response) use ($ratelimit) {
+            if(!$response) {
+                return -1;
+            }
+            
+            $status = $response->getStatusCode();
+            $this->api->client->emit('debug', 'Got response for item "'.$this->endpoint.'" with HTTP status code '.$status);
+            
+            $this->api->handleRatelimit($response, $ratelimit);
+            
+            if($status === 204) {
+                return 0;
+            }
+            
+            $body = $this->decodeBody($response);
+            
+            if($status >= 400) {
+                $error = $this->handleAPIError($response, $body, $ratelimit);
+                if($error === null) {
+                    return -1;
+                }
+                
+                throw $error;
+            }
+            
+            return $body;
+        });
+    }
+    
+    /**
+     * Gets the response body from the response.
+     * @param \GuzzleHttp\Psr7\Response  $response
+     * @return mixed
+     */
+    protected function decodeBody(\GuzzleHttp\Psr7\Response $response) {
+        $body = $response->getBody();
+        if($body instanceof \GuzzleHttp\Psr7\Stream) {
+            $body = $body->getContents();
+        }
+        
+        $json = \json_decode($body, true);
+        if(!$json) {
+            throw new \Exception('Invalid API response: '.\json_last_error_msg());
+        }
+        
+        return $json;
+    }
+    
+    /**
+     * Handles an API error.
+     * @param \GuzzleHttp\Psr7\Response                          $response
+     * @param mixed                                              $body
+     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
+     * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\Exception|null
+     */
+    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, $body, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        $status = $response->getStatusCode();
+        
+        if($status === 429 || $status >= 500) {
+            $this->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
+            
+            if($ratelimit !== null) {
+                $ratelimit->unshift($item);
+            } else {
+                \array_unshift($this->queue, $item);
+            }
+            
+            return null;
+        }
+        
+        if($status >= 400 && $status < 500) {
+            $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($this->endpoint, $body);
+        } else {
+            $error = new \Exception($response->getReasonPhrase());
+        }
+        
+        return $error;
     }
 }

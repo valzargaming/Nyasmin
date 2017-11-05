@@ -89,6 +89,9 @@ class APIManager {
      */
     function __get($name) {
         switch($name) {
+            case 'client':
+                return $this->client;
+            break;
             case 'endpoints':
                 return $this->endpoints;
             break;
@@ -320,43 +323,18 @@ class APIManager {
         
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().'"');
         
-        $request = $item->request();
-        \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) {
-            return $response;
-        }, function ($error) use ($item) {
-            if($error->hasResponse()) {
-                return $error->getResponse();
-            }
-            
-            $item->deferred->reject($error->getMessage());
-            return null;
-        })->then(function ($response) use ($item, $ratelimit) {
-            if(!$response) {
+        $item->execute($ratelimit)->then(function ($data) use ($item) {
+            if($data === 0) {
+                $item->deferred->resolve();
+            } elseif($data === -1) {
                 $this->processDelayed();
-                return;
+            } else {
+                $item->deferred->resolve($data);
+                $this->processDelayed();
             }
-            
-            $this->handleAPIResponse($response, $item, $ratelimit);
+        }, function ($error) use ($item) {
+            $item->deferred->reject($error);
         })->then(null, array($this->client, 'handlePromiseRejection'));
-    }
-    
-    /**
-     * Gets the response body from the response.
-     * @param \GuzzleHttp\Psr7\Response  $response
-     * @return mixed
-     */
-    protected function decodeBody(\GuzzleHttp\Psr7\Response $response) {
-        $body = $response->getBody();
-        if($body instanceof \GuzzleHttp\Psr7\Stream) {
-            $body = $body->getContents();
-        }
-        
-        $json = \json_decode($body, true);
-        if(!$json) {
-            throw new \Exception('Invalid API response: '.\json_last_error_msg());
-        }
-        
-        return $json;
     }
     
     /**
@@ -400,7 +378,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    protected function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
@@ -474,78 +452,5 @@ class APIManager {
         }
         
         return $cLimited;
-    }
-    
-    /**
-     * Handles a response of an API request.
-     * @param \GuzzleHttp\Psr7\Response                          $response
-     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest            $item
-     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
-     */
-    protected function handleAPIResponse(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
-        try {
-            $status = $response->getStatusCode();
-            $this->client->emit('debug', 'Got response for item "'.$item->getEndpoint().'" with HTTP status code '.$status);
-            
-            $this->handleRatelimit($response, $ratelimit);
-            
-            if($status === 204) {
-                $item->deferred->resolve();
-                $this->processDelayed();
-                return;
-            }
-            
-            $body = $this->decodeBody($response);
-            
-            if($status >= 400) {
-                $error = $this->handleAPIError($response, $item, $body, $ratelimit);
-                if($error === null) {
-                    $this->processDelayed();
-                    return;
-                }
-                
-                throw $error;
-            }
-            
-            $item->deferred->resolve($body);
-        } catch(\Throwable $e) {
-            $item->deferred->reject($e);
-        } catch(\Exception $e) {
-            $item->deferred->reject($e);
-        }
-        
-        $this->processDelayed();
-    }
-    
-    /**
-     * Handles an API error.
-     * @param \GuzzleHttp\Psr7\Response                          $response
-     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest            $item
-     * @param mixed                                              $body
-     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
-     * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\Exception|null
-     */
-    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, $body, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
-        $status = $response->getStatusCode();
-        
-        if($status === 429 || $status >= 500) {
-            $this->client->emit('debug', 'Unshifting item "'.$item->getEndpoint().'" due to HTTP '.$status);
-            
-            if($ratelimit !== null) {
-                $ratelimit->unshift($item);
-            } else {
-                \array_unshift($this->queue, $item);
-            }
-            
-            return null;
-        }
-        
-        if($status >= 400 && $status < 500) {
-            $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($item->getEndpoint(), $body);
-        } else {
-            $error = new \Exception($response->getReasonPhrase());
-        }
-        
-        return $error;
     }
 }
