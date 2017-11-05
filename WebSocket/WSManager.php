@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\WebSocket;
  * Handles the WS connection.
  * @internal
  */
-class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
+class WSManager extends \CharlotteDunois\Events\EventEmitter {
     /**
      * @var \CharlotteDunois\Yasmin\Client
      */
