@@ -266,7 +266,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             return \NAN;
         }
         
-        return \ceil(\array_sum($this->pings) / $cpings);
+        return ((int) \ceil(\array_sum($this->pings) / $cpings));
     }
     
     /**
