@@ -55,30 +55,26 @@ class RatelimitBucket {
     
     /**
      * Sets the ratelimits from the response
-     * @param \GuzzleHttp\Psr7\Response $response
+     * @param int|null  $limit
+     * @param int|null  $remaining
+     * @param int|null  $resetTime
      */
-    function handleRatelimit(\GuzzleHttp\Psr7\Response $response) {
-        $dateDiff = 0;
-        if($response->hasHeader('Date')) {
-            $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
+    function handleRatelimit(int $limit = null, int $remaining = null, int $resetTime = null) {
+        if($limit === null && $remaining === null && $resetTime === null) {
+            $this->remaining++; // there is no ratelimit...
+            return;
         }
         
-        if($response->hasHeader('X-RateLimit-Limit')) {
-            if($response->hasHeader('X-RateLimit-Limit')) {
-                $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];
-            }
-            
-            if($response->hasHeader('X-RateLimit-Remaining')) {
-                $this->remaining = (int) $response->getHeader('X-RateLimit-Remaining')[0];
-            }
-            
-            if($response->hasHeader('Retry-After')) {
-                $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
-            } elseif($response->hasHeader('X-RateLimit-Reset')) {
-                $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
-            }
-        } else {
-            $this->remaining++; // there is no ratelimit...
+        if($limit !== null) {
+            $this->limit = $limit;
+        }
+        
+        if($remaining !== null) {
+            $this->remaining = $remaining;
+        }
+        
+        if($resetTime !== null) {
+            $this->resetTime = $resetTime;
         }
     }
     
@@ -127,7 +123,7 @@ class RatelimitBucket {
             return false;
         }
         
-        return ($this->remaining === 0);
+        return ($this->limit !== 0 && $this->remaining === 0);
     }
     
     /**

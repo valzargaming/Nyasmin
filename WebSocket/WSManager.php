@@ -159,6 +159,11 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
         return null;
     }
     
+    function destroy() {
+        $this->disconnect();
+        $this->emit('close');
+    }
+    
     function connect(string $gateway = null, array $querystring = array()) {
         if($this->ws) {
             return \React\Promise\resolve();
@@ -259,7 +264,7 @@ class WSManager extends \CharlotteDunois\Yasmin\EventEmitter {
             
             $this->ws->on('close', function ($code, $reason) {
                 if($this->ratelimits['timer']) {
-                    $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
+                    $this->ratelimits['timer']->cancel();
                 }
                 
                 $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];

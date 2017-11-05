@@ -141,7 +141,7 @@ class APIManager {
             $apirequest->deferred = new \React\Promise\Deferred();
             $apirequest->deferred->promise()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             
-            $endpoint = $this->getRatelimitEndpoint($apirequest->getEndpoint());
+            $endpoint = $this->getRatelimitEndpoint($apirequest->getEndpoint(), $apirequest);
             if(!empty($endpoint)) {
                 $this->client->emit('debug', 'Adding request "'.$apirequest->getEndpoint().'" to ratelimit bucket');
                 $bucket = $this->getRatelimitBucket($endpoint);
@@ -152,20 +152,20 @@ class APIManager {
                 $this->queue[] = $apirequest;
             }
             
-            $this->processQueue();
+            $this->startQueue();
         }));
     }
     
     /**
      * Starts the queue.
      */
-    function processQueue() {
+    function startQueue() {
         if($this->running === true) {
             return;
         }
         
         $this->running = true;
-        $this->process();
+        $this->processFuture();
     }
     
     /**
@@ -181,25 +181,6 @@ class APIManager {
     }
     
     /**
-     * Turns an endpoint path to the ratelimit path.
-     * @param string $endpoint
-     * @return string
-     */
-    function getRatelimitEndpoint(string $endpoint) {
-        \preg_match('/((?:.*?)\/(?:\d+))/', $endpoint, $matches);
-        if(!empty($matches) && !empty($matches[1])) {
-            return $matches[1];
-        }
-        
-        $pos = (int) \strpos($endpoint, '/');
-        if($pos > 0) {
-            return \substr($endpoint, 0, $pos);
-        }
-        
-        return $endpoint;
-    }
-    
-    /**
      * Gets the Gateway from the Discord API.
      * @param bool $bot Should we use the bot endpoint?
      */
@@ -211,6 +192,7 @@ class APIManager {
     /**
      * Gets the Gateway from the Discord API synchronously.
      * @param bool $bot Should we use the bot endpoint?
+     * @return \React\Promise\Promise
      */
     function getGatewaySync(bool $bot = false) {
         $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
@@ -221,7 +203,7 @@ class APIManager {
                 $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
                 
                 $status = $response->getStatusCode();
-                $body = \json_decode($response->getBody(), true);
+                $body = $this->decodeBody($response);
                 
                 if($status >= 300) {
                     $error = new \Exception($response->getReasonPhrase());
@@ -236,43 +218,43 @@ class APIManager {
     }
     
     /**
-     * Processes the queue on next tick.
+     * Processes the queue on future tick.
      */
-    private function process() {
+    protected function processFuture() {
         $this->loop->futureTick(function () {
             $this->client->emit('debug', 'Starting API Manager queue');
-            $this->_process();
+            $this->process();
         });
     }
     
     /**
      * Processes the queue delayed, depends on rest time offset.
      */
-    private function _processDelayed() {
+    protected function processDelayed() {
         $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
         if($offset > 0) {
             $offset = $offset / 1000;
             
             $this->client->addTimer($offset, function () {
-                $this->_process();
+                $this->process();
             }, true);
             
             return;
         }
         
-        $this->_process();
+        $this->process();
     }
     
     /**
      * Processes the queue.
      */
-    private function _process() {
+    protected function process() {
         if($this->limited === true) {
             if(\time() < $this->resetTime) {
                 $this->client->emit('debug', 'We are API-wise globally ratelimited');
                 
                 $this->client->addTimer(($this->resetTime + 1 - \time()), function () {
-                    $this->_process();
+                    $this->process();
                 }, true);
                 
                 return;
@@ -290,13 +272,14 @@ class APIManager {
         }
         
         $item = \array_shift($this->queue);
-        $this->_processItem($item);
+        $this->processItem($item);
     }
     
     /**
      * Processes a queue item.
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest|\CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $item
      */
-    private function _processItem($item) {
+    protected function processItem($item) {
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
             if($item->size() > 0 && $item->limited() === false) {
                 $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
@@ -308,7 +291,7 @@ class APIManager {
                 
                 $continue = $this->handleQueueTiming();
                 if($continue) {
-                    $this->_process();
+                    $this->process();
                 }
                 
                 return;
@@ -316,7 +299,7 @@ class APIManager {
         }
         
         if(!$item) {
-            $this->_process();
+            $this->process();
             return;
         }
         
@@ -325,10 +308,10 @@ class APIManager {
     
     /**
      * Executes an API Request.
-     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest $item
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $item
      */
-    private function execute(\CharlotteDunois\Yasmin\HTTP\APIRequest $item) {
-        $endpoint = $this->getRatelimitEndpoint($item->getEndpoint());
+    protected function execute(\CharlotteDunois\Yasmin\HTTP\APIRequest $item) {
+        $endpoint = $this->getRatelimitEndpoint($item->getEndpoint(), $item);
         $ratelimit = null;
         
         if(!empty($endpoint)) {
@@ -349,7 +332,7 @@ class APIManager {
             return null;
         })->then(function ($response) use ($item, $ratelimit) {
             if(!$response) {
-                $this->_processDelayed();
+                $this->processDelayed();
                 return;
             }
             
@@ -362,13 +345,41 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response  $response
      * @return mixed
      */
-    private function decodeBody(\GuzzleHttp\Psr7\Response $response) {
+    protected function decodeBody(\GuzzleHttp\Psr7\Response $response) {
         $body = $response->getBody();
         if($body instanceof \GuzzleHttp\Psr7\Stream) {
             $body = $body->getContents();
         }
         
-        return \json_decode($body, true);
+        $json = \json_decode($body, true);
+        if(!$json) {
+            throw new \Exception('Invalid API response: '.\json_last_error_msg());
+        }
+        
+        return $json;
+    }
+    
+    /**
+     * Turns an endpoint path to the ratelimit path.
+     * @param string $endpoint
+     * @return string
+     */
+    function getRatelimitEndpoint(string $endpoint, \CharlotteDunois\Yasmin\HTTP\APIRequest $request = null) {
+        \preg_match('/((?:.*?)\/(?:\d+)(?:\/messages\/bulk(?:-|_)delete){0,1})/', $endpoint, $matches);
+        if(!empty($matches) && !empty($matches[1])) {
+            if($request !== null && $request->getMethod() === 'DELETE' && \preg_match('/channels\/(\d+)\/messages\/(\d+)/i', $endpoint) === 1) {
+                $matches[1] = 'delete@'.$matches[1];
+            }
+            
+            return $matches[1];
+        }
+        
+        $pos = (int) \strpos($endpoint, '/');
+        if($pos > 0) {
+            return \substr($endpoint, 0, $pos);
+        }
+        
+        return $endpoint;
     }
     
     /**
@@ -376,7 +387,7 @@ class APIManager {
      * @param string $endpoint
      * @return \CharlotteDunois\Yasmin\HTTP\RatelimitBucket
      */
-    private function getRatelimitBucket(string $endpoint) {
+    protected function getRatelimitBucket(string $endpoint) {
         if(empty($this->ratelimits[$endpoint])) {
             $this->ratelimits[$endpoint] = new \CharlotteDunois\Yasmin\HTTP\RatelimitBucket($this, $endpoint);
         }
@@ -389,33 +400,44 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    private function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    protected function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
+        $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
+        $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
+        $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) $response->getHeader('Retry-After')[0])) : ($response->hasHeader('X-RateLimit-Reset') ? (((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff) : null));
+        
+        $global = false;
         if($response->hasHeader('X-RateLimit-Global')) {
-            $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
+            $global = true;
             
-            if($response->hasHeader('X-RateLimit-Limit')) {
-                $this->limit = (int) $response->getHeader('X-RateLimit-Limit')[0];
+            if($limit !== null) {
+                $this->limit = $limit;
             }
             
-            if($response->hasHeader('X-RateLimit-Remaining')) {
-                $this->remaining = (int) $response->getHeader('X-RateLimit-Remaining')[0];
+            if($remaining !== null) {
+                $this->remaining = $remaining;
             }
             
-            if($response->hasHeader('Retry-After')) {
-                $this->resetTime = \time() + ((int) $response->getHeader('Retry-After')[0]);
-            } elseif($response->hasHeader('X-RateLimit-Reset')) {
-                $this->resetTime = ((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff;
+            if($resetTime !== null) {
+                $this->resetTime = $resetTime;
             }
         } elseif($ratelimit !== null) {
-            $ratelimit->handleRatelimit($response);
+            $ratelimit->handleRatelimit($limit, $remaining, $resetTime);
         }
+        
+        $this->client->emit('ratelimit', array(
+            'global' => $global,
+            'limit' => $limit,
+            'remaining' => $remaining,
+            'resetTime' => $resetTime
+        ));
     }
     
     /**
      * Handles the timing of the queue (ratelimits).
      * @return bool
      */
-    private function handleQueueTiming() {
+    protected function handleQueueTiming() {
         $cLimited = $this->getQueueReset();
         
         if($cLimited <= 0 || $cLimited === \INF) {
@@ -426,7 +448,7 @@ class APIManager {
         
         $this->running = false;
         $this->client->addTimer(($cLimited + 1 - \time()), function () {
-            $this->processQueue();
+            $this->startQueue();
         });
         
         return false;
@@ -435,7 +457,7 @@ class APIManager {
     /**
      * Returns the reset time of the first reseted item.
      */
-    private function getQueueReset() {
+    protected function getQueueReset() {
         $cLimited = \array_reduce($this->queue, function ($prev, $val) {
             if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
                 $rs = (int) $val->getResetTime();
@@ -460,7 +482,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest            $item
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    private function handleAPIResponse(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    protected function handleAPIResponse(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         try {
             $status = $response->getStatusCode();
             $this->client->emit('debug', 'Got response for item "'.$item->getEndpoint().'" with HTTP status code '.$status);
@@ -469,7 +491,7 @@ class APIManager {
             
             if($status === 204) {
                 $item->deferred->resolve();
-                $this->_processDelayed();
+                $this->processDelayed();
                 return;
             }
             
@@ -478,7 +500,7 @@ class APIManager {
             if($status >= 400) {
                 $error = $this->handleAPIError($response, $item, $body, $ratelimit);
                 if($error === null) {
-                    $this->_processDelayed();
+                    $this->processDelayed();
                     return;
                 }
                 
@@ -492,7 +514,7 @@ class APIManager {
             $item->deferred->reject($e);
         }
         
-        $this->_processDelayed();
+        $this->processDelayed();
     }
     
     /**
@@ -503,7 +525,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\Exception|null
      */
-    private function handleAPIError(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, $body, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\APIRequest $item, $body, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         $status = $response->getStatusCode();
         
         if($status === 429 || $status >= 500) {

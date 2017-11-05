@@ -8,6 +8,7 @@
 */
 
 namespace CharlotteDunois\Yasmin\HTTP;
+use CharlotteDunois\Validation\Rule\StringRule;
 
 /**
  * Represents a single HTTP request.
@@ -59,6 +60,15 @@ class APIRequest {
         $this->endpoint = $endpoint;
         $this->options = $options;
     }
+    
+    /**
+     * Returns the request method.
+     * @return string
+     */
+    function getMethod() {
+        return $this->method;
+    }
+    
     
     /**
      * Returns the endpoint path.

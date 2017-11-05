@@ -36,7 +36,7 @@ class Hello {
     
     private function close() {
         if($this->heartbeat !== null) {
-            $this->wshandler->client->getLoop()->cancelTimer($this->heartbeat);
+            $this->heartbeat->cancel();
             $this->heartbeat = null;
         }
     }

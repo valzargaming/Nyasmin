@@ -35,6 +35,10 @@ $client->on('error', function ($error) {
     echo $error.PHP_EOL;
 });
 
+$client->on('ratelimit', function ($rl) {
+    echo 'Ratelimits: Global: '.($rl['global'] ? 'yes' : 'no').' | Limit: '.(int) $rl['limit'].' | Remaining '.(int) $rl['remaining'].' | Reset: '.((int) $rl['resetTime'] > 0 ? 'in '.($rl['resetTime'] - \time()).'s' : 'null').PHP_EOL;
+});
+
 $client->on('ready', function () use($client, $game, &$timer) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;
     
@@ -45,11 +49,7 @@ $client->on('ready', function () use($client, $game, &$timer) {
     echo 'Logged in as '.$client->user->tag.' created on '.$client->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
     
     $client->addPeriodicTimer(30, function () use ($client, $game) {
-        try {
-            $client->user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
-        } catch(\BadMethodCallException $e) {
-            /* Continue regardless of error */
-        }
+        $client->user->setGame($game.' | '.\bin2hex(\random_bytes(3)));
     });
     
     //$client->channels->get('323433852590751754')->send('Hello, my name is Yasmin!', array('files' => array('https://i.imgur.com/ML7aui6.png')))->done(null, array($client, 'handlePromiseRejection'));
@@ -63,7 +63,7 @@ $client->on('disconnect', function ($code, $reason) use ($client, &$timer) {
             echo 'Connection forever lost'.PHP_EOL;
             $client->destroy();
         }
-    });
+    }, true);
 });
 $client->on('reconnect', function () use ($client) {
     echo 'WS status is: '.$client->getWSstatus().PHP_EOL;

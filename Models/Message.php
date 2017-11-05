@@ -113,8 +113,17 @@ class Message extends ClientBase {
         
     }
     
-    function delete(string $reason) {
-        
+    /**
+     * Deletes the message.
+     * @param string  $reason
+     * @return \React\Promise\Promise<this>
+     */
+    function delete(string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
     }
     
     /**
@@ -132,7 +141,7 @@ class Message extends ClientBase {
      * @internal
      */
     function _patch(array $message) {
-        $this->content = $message['content'];
+        $this->content = $message['content'] ?? $this->content ?? '';
         $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : null);
         
         $this->tts = (!empty($message['tts']));
