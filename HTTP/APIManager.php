@@ -284,7 +284,7 @@ class APIManager {
             $item = $this->extractFromBucket($item);
         }
         
-        if(!$item) {
+        if(!($item instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
             $this->process();
             return;
         }
