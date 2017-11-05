@@ -298,23 +298,18 @@ class APIManager {
      * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|void
      */
     protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
-        if($item->size() > 0 && $item->limited() === false) {
-            $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
-            $item = $item->shift();
-        } else {
-            if($item->size() > 0) {
-                $this->queue[] = $item;
+        if($item->size() > 0) {
+            if($item->limited() === false) {
+                $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
+                return $item->shift();
             }
             
-            $continue = $this->handleQueueTiming();
-            if($continue) {
-                $this->process();
-            }
-            
-            return;
+            $this->queue[] = $item;
         }
         
-        return $item;
+        if($this->handleQueueTiming()) {
+            $this->process();
+        }
     }
     
     /**
