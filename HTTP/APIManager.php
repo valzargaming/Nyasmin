@@ -351,22 +351,19 @@ class APIManager {
      * @param string $endpoint
      * @return string
      */
-    function getRatelimitEndpoint(string $endpoint, \CharlotteDunois\Yasmin\HTTP\APIRequest $request = null) {
+    function getRatelimitEndpoint(string $endpoint, \CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
+        $endpoint = \ltrim($endpoint, '/');
+        
         \preg_match('/((?:.*?)\/(?:\d+)(?:\/messages\/bulk(?:-|_)delete){0,1})/', $endpoint, $matches);
-        if(!empty($matches) && !empty($matches[1])) {
-            if($request !== null && $request->getMethod() === 'DELETE' && \preg_match('/channels\/(\d+)\/messages\/(\d+)/i', $endpoint) === 1) {
+        if(!empty($matches[1])) {
+            if($request->getMethod() === 'DELETE' && \preg_match('/channels\/(\d+)\/messages\/(\d+)/i', $endpoint) === 1) {
                 $matches[1] = 'delete@'.$matches[1];
             }
             
             return $matches[1];
         }
         
-        $pos = (int) \strpos($endpoint, '/');
-        if($pos > 0) {
-            return \substr($endpoint, 0, $pos);
-        }
-        
-        return $endpoint;
+        return \substr($endpoint, 0, (\strpos($endpoint, '/') ?: \strlen($endpoint)));
     }
     
     /**
