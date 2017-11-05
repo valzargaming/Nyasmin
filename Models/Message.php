@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class Message extends ClientBase {
     /**
-     * The character used to in Message::reply after the message and before the content.
+     * The character used in Message::reply to separate the mention and the content.
      * @var string
      */
     static public $replySeparator = ' ';
