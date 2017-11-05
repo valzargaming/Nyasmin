@@ -372,31 +372,33 @@ class APIManager {
     }
     
     /**
-     * Handles ratelimit headers.
+     * Extracts ratelimits from a response.
      * @param \GuzzleHttp\Psr7\Response                          $response
-     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
+     * @return array
      */
-    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    function extractRateLimit(\GuzzleHttp\Psr7\Response $response) {
         $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
         $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) $response->getHeader('Retry-After')[0])) : ($response->hasHeader('X-RateLimit-Reset') ? (((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff) : null));
+        return \compact('limit', 'remaining', 'resetTime');
+    }
+    
+    /**
+     * Handles ratelimits.
+     * @param \GuzzleHttp\Psr7\Response                          $response
+     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
+     */
+    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+        \extract($this->extractRateLimit($response));
         
         $global = false;
         if($response->hasHeader('X-RateLimit-Global')) {
             $global = true;
             
-            if($limit !== null) {
-                $this->limit = $limit;
-            }
-            
-            if($remaining !== null) {
-                $this->remaining = $remaining;
-            }
-            
-            if($resetTime !== null) {
-                $this->resetTime = $resetTime;
-            }
+            $this->limit = $limit ?? $this->limit;
+            $this->remaining = $remaining ?? $this->remaining;
+            $this->resetTime = $resetTime ?? $this->resetTime;
         } elseif($ratelimit !== null) {
             $ratelimit->handleRatelimit($limit, $remaining, $resetTime);
         }
