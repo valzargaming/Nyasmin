@@ -16,19 +16,15 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  */
 class ChannelPinsUpdate {
     protected $client;
-    protected $clones = false;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
-        
-        $clones = (array) $this->client->getOption('disableClones', array());
-        $this->clones = !\in_array('channelUpdate', $clones);
     }
     
     function handle(array $data) {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
-            $time = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((!empty($data['last_pin_timestamp']) ? ((int) $data['last_pin_timestamp']) : \time()));
+            $time = (!empty($data['last_pin_timestamp']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $data['last_pin_timestamp']) : \time());
             $this->client->emit('channelPinsUpdate', $channel, $time);
         }
     }

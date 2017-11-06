@@ -145,7 +145,7 @@ class APIManager {
             $apirequest->deferred = new \React\Promise\Deferred();
             $apirequest->deferred->promise()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             
-            $endpoint = $this->getRatelimitEndpoint($apirequest->getEndpoint(), $apirequest);
+            $endpoint = $this->getRatelimitEndpoint($apirequest);
             if(!empty($endpoint)) {
                 $this->client->emit('debug', 'Adding request "'.$apirequest->getEndpoint().'" to ratelimit bucket');
                 $bucket = $this->getRatelimitBucket($endpoint);
@@ -322,7 +322,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $item
      */
     protected function execute(\CharlotteDunois\Yasmin\HTTP\APIRequest $item) {
-        $endpoint = $this->getRatelimitEndpoint($item->getEndpoint(), $item);
+        $endpoint = $this->getRatelimitEndpoint($item);
         $ratelimit = null;
         
         if(!empty($endpoint)) {
@@ -348,15 +348,15 @@ class APIManager {
     
     /**
      * Turns an endpoint path to the ratelimit path.
-     * @param string $endpoint
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $request
      * @return string
      */
-    function getRatelimitEndpoint(string $endpoint, \CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
-        $endpoint = \ltrim($endpoint, '/');
+    function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
+        $endpoint = $request->getEndpoint();
         
-        \preg_match('/((?:.*?)\/(?:\d+)(?:\/messages\/bulk(?:-|_)delete){0,1})/', $endpoint, $matches);
+        \preg_match('/((?:.*?)\/(?:\d+)(?:\/messages\/((?:bulk(?:-|_)delete)|(?:\d+)){0,1})?)/', $endpoint, $matches);
         if(!empty($matches[1])) {
-            if($request->getMethod() === 'DELETE' && \preg_match('/channels\/(\d+)\/messages\/(\d+)/i', $endpoint) === 1) {
+            if(\is_numeric(($matches[2] ?? null)) && $request->getMethod() === 'DELETE') {
                 $matches[1] = 'delete@'.$matches[1];
             }
             

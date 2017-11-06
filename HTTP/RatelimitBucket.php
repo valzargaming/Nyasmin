@@ -65,17 +65,9 @@ class RatelimitBucket {
             return;
         }
         
-        if($limit !== null) {
-            $this->limit = $limit;
-        }
-        
-        if($remaining !== null) {
-            $this->remaining = $remaining;
-        }
-        
-        if($resetTime !== null) {
-            $this->resetTime = $resetTime;
-        }
+        $this->limit = $limit ?? $this->limit;
+        $this->remaining = $remaining ?? $this->remaining;
+        $this->resetTime = $resetTime ?? $this->resetTime;
     }
     
     /**

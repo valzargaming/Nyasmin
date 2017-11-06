@@ -56,7 +56,7 @@ class APIRequest {
         $this->url = \CharlotteDunois\Yasmin\Constants::HTTP['url'].'v'.\CharlotteDunois\Yasmin\Constants::HTTP['version'].'/';
         
         $this->method = $method;
-        $this->endpoint = $endpoint;
+        $this->endpoint = \ltrim($endpoint, '/');
         $this->options = $options;
     }
     
