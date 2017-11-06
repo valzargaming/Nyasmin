@@ -34,6 +34,12 @@ class GuildMemberStorage extends Storage {
     }
     
     function factory(array $data) {
+        if($this->has($data['user']['id'])) {
+            $member = $this->get($data['user']['id']);
+            $member->_patch($data);
+            return $member;
+        }
+        
         $member = new \CharlotteDunois\Yasmin\Models\GuildMember($this->client, $this->guild, $data);
         $this->set($member->id, $member);
         return $member;

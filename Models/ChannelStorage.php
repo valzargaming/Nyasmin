@@ -51,6 +51,12 @@ class ChannelStorage extends Storage {
     function factory(array $data) {
         $guild = (!empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null);
         
+        if($this->has($data['id'])) {
+            $channel = $this->get($data['id']);
+            $channel->_patch($data);
+            return $channel;
+        }
+        
         switch($data['type']) {
             default:
                 throw new \InvalidArgumentException('Unknown channel type');
