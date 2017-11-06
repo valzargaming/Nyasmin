@@ -126,7 +126,7 @@ class Emoji extends ClientBase {
      */
     function jsonSerialize() {
         if($this->requireColons === false) {
-            return \urlencode($this->name);
+            return \rawurlencode($this->name);
         }
         
         return '<:'.$this->name.':'.$this->id.'>';
