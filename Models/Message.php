@@ -112,7 +112,11 @@ class Message extends ClientBase {
                 return null;
             break;
             case 'guild':
-                return $this->channel->guild;
+                if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                    return $this->channel->guild;
+                }
+                
+                return null;
             break;
             case 'member':
                 if($this->channel->guild) {
@@ -154,11 +158,11 @@ class Message extends ClientBase {
     
     /**
      * Deletes the message.
-     * @param int     $timeout  An integer timeout in seconds, after which the message gets deleted.
-     * @param string  $reason
+     * @param float|int  $timeout  An integer or float as timeout in seconds, after which the message gets deleted.
+     * @param string     $reason
      * @return \React\Promise\Promise<void>
      */
-    function delete(int $timeout = 0, string $reason = '') {
+    function delete($timeout = 0, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($timeout, $reason) {
             if($timeout > 0) {
                 $this->client->addTimer($timeout, function () use ($reason, $resolve, $reject) {

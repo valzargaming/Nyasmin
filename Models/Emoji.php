@@ -120,4 +120,15 @@ class Emoji extends ClientBase {
         
         $this->client->emojis->set($this->id ?? $this->name, $this);
     }
+    
+    /**
+     * @internal
+     */
+    function jsonSerialize() {
+        if($this->requireColons === false) {
+            return \urlencode($this->name);
+        }
+        
+        return '<:'.$this->name.':'.$this->id.'>';
+    }
 }

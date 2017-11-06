@@ -80,7 +80,7 @@ class MessageMentions extends ClientBase {
             }
         }
         
-        if($message->channel->guild && !empty($msg['mention_roles'])) {
+        if($message->channel->type === 'text' && !empty($msg['mention_roles'])) {
             foreach($msg['mention_roles'] as $id) {
                 $role = $message->channel->guild->roles->get($id);
                 if($role) {

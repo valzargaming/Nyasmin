@@ -47,7 +47,7 @@ class TextBasedChannel extends ClientBase
      * @property-read string                                       $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
      * @property-read string|null                                  $lastMessageID      The last message ID, or null.
      * @property-read int                                          $createdTimestamp   The timestamp of when this channel was created.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $messages           The collection with all cached messages.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection     $messages           The collection with all cached messages.
      *
      * @property-read \DateTime                                    $createdAt          The DateTime object of createdTimestamp.
      * @property-read \CharlotteDunois\Yasmin\Models\Message|null  $lastMessage        The last message, or null.

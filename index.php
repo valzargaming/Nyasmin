@@ -71,7 +71,7 @@ $client->on('reconnect', function () use ($client) {
 });
 
 $client->on('message', function ($message) use ($client) {
-    echo 'Received Message from '.$message->author->tag.' in channel #'.$message->channel->name.' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
+    echo 'Received Message from '.$message->author->tag.' in '.($message->channel->type === 'text' ? 'channel #'.$message->channel->name : 'DM').' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
     
     if($message->author->id === '200317799350927360') {
         if(\strpos($message->content, '#shutdown') === 0) {
