@@ -39,13 +39,6 @@ class Ready {
         
         $this->client->setClientUser($data['user']);
         
-        foreach($data['private_channels'] as $channel) {
-            if(!$this->client->channels->has($channel['id'])) {
-                $channel = $this->client->channels->factory($channel);
-                $this->client->emit('channelCreate', $channel);
-            }
-        }
-        
         foreach($data['guilds'] as $guild) {
             if(!$this->client->guilds->has($guild['id'])) {
                 $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $guild);
