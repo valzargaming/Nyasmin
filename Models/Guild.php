@@ -59,7 +59,7 @@ class Guild extends ClientBase {
         $this->client->guilds->set($guild['id'], $this);
         
         $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($client);
-        $this->emojis = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->emojis = new \CharlotteDunois\Yasmin\Models\EmojiStorage($client, $this);
         $this->members = new \CharlotteDunois\Yasmin\Models\GuildMemberStorage($client, $this);
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($client);
         $this->roles = new \CharlotteDunois\Yasmin\Models\RoleStorage($client, $this);

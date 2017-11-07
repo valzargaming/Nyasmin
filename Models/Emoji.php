@@ -30,10 +30,10 @@ class Emoji extends ClientBase {
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild = null, array $emoji) {
         parent::__construct($client);
-        $this->guild = $guild;
         
         $this->id = (!empty($emoji['id']) ? $emoji['id'] : null);
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        $this->createdTimestamp = ($this->id ? (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp : null);
+        $this->guild = ($this->id ? $guild : null);
         
         $this->_patch($emoji);
     }
@@ -42,13 +42,13 @@ class Emoji extends ClientBase {
      * @property-read string|null                                          $id                 The emoji ID.
      * @property-read string                                               $name               The emoji name.
      * @property-read \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild                 $guild              The guild this emoji belongs to.
+     * @property-read \CharlotteDunois\Yasmin\Models\Guild|null            $guild              The guild this emoji belongs to, or null.
      * @property-read boolean                                              $requireColons      Does the emoji require colons?
      * @property-read boolean                                              $managed            Is the emoji managed?
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
-     * @property-read int                                                  $createdTimestamp   The timestamp of when this emoji was created.
+     * @property-read int|null                                             $createdTimestamp   The timestamp of when this emoji was created.
      *
-     * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
+     * @property-read \DateTime|null                                       $createdAt          An DateTime object of the createdTimestamp.
      * @property-read string                                               $identifier         The identifier for the emoji.
      *
      * @throws \Exception
@@ -60,14 +60,18 @@ class Emoji extends ClientBase {
         
         switch($name) {
             case 'createdAt':
-                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+                if($this->id) {
+                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+                }
+                
+                return null;
             break;
             case 'identifier':
                 if($this->id) {
                     return $this->name.':'.$this->id;
                 }
                 
-                return \urlencode($this->name);
+                return \rawurlencode($this->name);
             break;
         }
         
@@ -119,16 +123,5 @@ class Emoji extends ClientBase {
         }
         
         $this->client->emojis->set($this->id ?? $this->name, $this);
-    }
-    
-    /**
-     * @internal
-     */
-    function jsonSerialize() {
-        if($this->requireColons === false) {
-            return \rawurlencode($this->name);
-        }
-        
-        return '<:'.$this->name.':'.$this->id.'>';
     }
 }

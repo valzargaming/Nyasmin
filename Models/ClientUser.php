@@ -89,8 +89,7 @@ class ClientUser extends User {
             }
             
             $promise->then(function ($data) use ($resolve, $reject) {
-                $img = \getimagesizefromstring($data);
-                $image = 'data:'.$img['mime'].';base64,'.\base64_encode($data);
+                $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 
                 $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function ($data) use ($resolve) {
                     $this->_patch($data);

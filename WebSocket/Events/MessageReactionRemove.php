@@ -32,8 +32,13 @@ class MessageReactionRemove {
                 if($reaction) {
                     $reaction->_decrementCount();
                     
+                    $user = $this->client->users->get($data['user_id']);
+                    if($user) {
+                        $reaction->users->delete($user->id);
+                    }
+                    
                     if($reaction->count === 0) {
-                        $message->reactions->delete($reaction->emoji->id);
+                        $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
                     }
                     
                     $this->client->emit('messageReactionRemove', $reaction);

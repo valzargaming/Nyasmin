@@ -23,7 +23,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     
     /**
      * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
-     * @var \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Emoji>
+     * @var \CharlotteDunois\Yasmin\Models\EmojiStorage<\CharlotteDunois\Yasmin\Models\Emoji>
      * @internal
      */
     protected $emojis;
@@ -186,7 +186,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         
         $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($this);
-        $this->emojis = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->emojis = new \CharlotteDunois\Yasmin\Models\EmojiStorage($this);
         $this->guilds = new \CharlotteDunois\Yasmin\Models\GuildStorage($this);
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($this);
         $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
@@ -197,7 +197,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     
     /**
      * @property-read \CharlotteDunois\Yasmin\Models\ChannelStorage  $channels          It holds all cached channels, mapped by ID.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+     * @property-read \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
      * @property-read \CharlotteDunois\Yasmin\Models\GuildStorage    $guilds            It holds all guilds, mapped by ID.
      * @property-read \CharlotteDunois\Yasmin\Models\PresenceStorage $presences         It holds all cached presences (latest ones), mapped by user ID.
      * @property-read \CharlotteDunois\Yasmin\Models\UserStorage     $users             It holds all cached users, mapped by ID.
@@ -463,6 +463,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             'disableClones' => 'array',
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
+            'messageCacheLifetime' => 'integer|min:0',
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
             'http.restTimeOffset' => 'integer',

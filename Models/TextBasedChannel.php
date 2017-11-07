@@ -32,7 +32,7 @@ class TextBasedChannel extends ClientBase
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client);
         
-        $this->messages = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->messages = new \CharlotteDunois\Yasmin\Models\MessageStorage($this->client);
         $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->id = $channel['id'];
@@ -43,14 +43,14 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * @property-read string                                       $id                 The channel ID.
-     * @property-read string                                       $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
-     * @property-read string|null                                  $lastMessageID      The last message ID, or null.
-     * @property-read int                                          $createdTimestamp   The timestamp of when this channel was created.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection     $messages           The collection with all cached messages.
+     * @property-read string                                         $id                 The channel ID.
+     * @property-read string                                         $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
+     * @property-read string|null                                    $lastMessageID      The last message ID, or null.
+     * @property-read int                                            $createdTimestamp   The timestamp of when this channel was created.
+     * @property-read \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
      *
-     * @property-read \DateTime                                    $createdAt          The DateTime object of createdTimestamp.
-     * @property-read \CharlotteDunois\Yasmin\Models\Message|null  $lastMessage        The last message, or null.
+     * @property-read \DateTime                                      $createdAt          The DateTime object of createdTimestamp.
+     * @property-read \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
      *
      * @throws \Exception
      */
@@ -117,7 +117,7 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Collects messages during a specific duration (and max. amount). Options are as following:
+     * Collects messages during a specific duration (and max. amount). Resolves with a Collection, mapped by their IDs. Options are as following (all are optional):
      *
      *  array(
      *      'time' => int, (duration, in seconds, default 30)
@@ -127,7 +127,7 @@ class TextBasedChannel extends ClientBase
      *
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
-     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
      *
      */
     function collectMessages(callable $filter, array $options) {
@@ -259,7 +259,7 @@ class TextBasedChannel extends ClientBase
                             return $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($collection) {
                                 $msg = $this->_createMessage($response);
                                 $collection->set($msg->id, $msg);
-                            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                            }, $reject);
                         };
                         
                         $i = 0;

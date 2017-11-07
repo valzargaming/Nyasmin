@@ -38,19 +38,19 @@ class Webhook {
         return $this->api->makeRequest('GET', $url, array());
     }
     
-    function getGuildsWebhooks(string $guildid, string $reason = '') {
+    function getGuildsWebhooks(string $guildid) {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['guilds'], $guildid);
-        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
+        return $this->api->makeRequest('GET', $url, array());
     }
     
-    function getWebhook(string $webhookid, string $reason = '') {
+    function getWebhook(string $webhookid) {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['get'], $webhookid);
-        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
+        return $this->api->makeRequest('GET', $url, array());
     }
     
-    function getWebhookToken(string $webhookid, string $token, string $reason = '') {
+    function getWebhookToken(string $webhookid, string $token) {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['getToken'], $webhookid, $token);
-        return $this->api->makeRequest('GET', $url, array('auditLogReason' => $reason));
+        return $this->api->makeRequest('GET', $url, array());
     }
     
     function modifyWebhook(string $webhookid, array $options, string $reason = '') {
@@ -73,8 +73,8 @@ class Webhook {
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
-    function executeWebhook(string $webhookid, string $token, array $options, array $files = array()) {
+    function executeWebhook(string $webhookid, string $token, array $options, array $files = array(), array $querystring = array()) {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['execute'], $webhookid, $token);
-        return $this->api->makeRequest('POST', $url, array('data' => $options, 'files' => $files));
+        return $this->api->makeRequest('POST', $url, array('data' => $options, 'files' => $files, 'querystring' => $querystring));
     }
 }

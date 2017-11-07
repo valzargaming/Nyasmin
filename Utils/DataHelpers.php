@@ -46,4 +46,19 @@ class DataHelpers {
         $zone = new \DateTimeZone(\date_default_timezone_get());
         return (new \DateTime('@'.$timestamp))->setTimezone($zone);
     }
+    
+    /**
+     * Turns input into a base64-encoded data URI.
+     * @param string  $data
+     * @return string
+     * @throws \BadMethodCallException
+     */
+    static function makeBase64URI(string $data) {
+        $img = \getimagesizefromstring($data);
+        if(!$img) {
+            throw new \BadMethodCallException('Bad input data');
+        }
+        
+        return 'data:'.$img['mime'].';base64,'.\base64_encode($data);
+    }
 }

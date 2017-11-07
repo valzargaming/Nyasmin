@@ -88,9 +88,9 @@ class Channel {
         return $this->api->makeRequest('DELETE', $url, array());
     }
     
-    function getMessageReactions(string $channelid, string $messageid, string $emoji) {
+    function getMessageReactions(string $channelid, string $messageid, string $emoji, array $querystring = array()) {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['messages']['reactions']['get'], $channelid, $messageid, $emoji);
-        return $this->api->makeRequest('GET', $url, array());
+        return $this->api->makeRequest('GET', $url, array('querystring' => $querystring));
     }
     
     function deleteMessageReactions(string $channelid, string $messageid) {

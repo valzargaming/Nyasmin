@@ -26,28 +26,13 @@ class MessageReactionAdd {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
-                $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
+                $reaction = $message->_addReaction($data);
                 
-                $reaction = $message->reactions->get($id);
-                if(!$reaction) {
-                    $emoji = $this->client->emojis->get($id);
-                    if(!$emoji) {
-                        $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $channel->guild, $data['emoji']);
-                        if($channel->guild) {
-                            $channel->guild->emojis->set($emoji->id, $emoji);
-                        }
-                    }
-                    
-                    $reaction = new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $message, $emoji, array(
-                        'count' => 0,
-                        'me' => (bool) ($this->client->user->id === $data['user_id']),
-                        'emoji' => $emoji
-                    ));
-                    
-                    $message->reactions->set($id, $reaction);
+                $user = $this->client->users->get($data['user_id']);
+                if($user) {
+                    $reaction->users->set($user->id, $user);
                 }
                 
-                $reaction->_incrementCount();
                 $this->client->emit('messageReactionAdd', $reaction);
             }
         }
