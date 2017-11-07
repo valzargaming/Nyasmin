@@ -23,6 +23,10 @@ class UserStorage extends Storage {
             return $user;
         }
         
+        if($user instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+            return $user->user;
+        }
+        
         if(\is_string($user) && $this->has($user)) {
             return $this->get($user);
         }

@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin;
  * The client. What else do you expect this to say?
  * @todo Implementation
  */
-class Client extends \CharlotteDunois\Events\EventEmitter {
+class Client extends \CharlotteDunois\Events\EventEmitter2 {
     /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>

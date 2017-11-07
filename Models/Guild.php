@@ -119,6 +119,25 @@ class Guild extends ClientBase {
     }
     
     /**
+     * Bans the given user.
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  $user     A guild member or user object, or the user ID.
+     * @param int                                                                                    $days     Number of days of messages to delete (0-7).
+     * @param string                                                                                 $reason
+     * @return \React\Promise\Promise<this>
+     */
+    function ban($user, int $days = 0, string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $days, $reason) {
+            if($user instanceof \CharlotteDunois\Yasmin\Models\User || $user instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+                $user = $user->id;
+            }
+            
+            $this->client->apimanager()->endpoints->guild->createGuildBan($this->id, $user, $days, $reason)->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Fetches a specific guild member.
      * @param string  $userid  The ID of the guild member.
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\GuildMember>
@@ -172,6 +191,24 @@ class Guild extends ClientBase {
                     $reject(new \Exception('Members did not arrive in time'));
                 }
             });
+        }));
+    }
+    
+    /**
+     * Unbans the given user.
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user     An user object or the user ID.
+     * @param string                                      $reason
+     * @return \React\Promise\Promise<this>
+     */
+    function unban($user, string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $reason) {
+            if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+                $user = $user->id;
+            }
+            
+            $this->client->apimanager()->endpoints->guild->removeGuildBan($this->id, $user, $reason)->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
