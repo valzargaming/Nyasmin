@@ -449,7 +449,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
      * Emits an error event for a rejected promise.
      * @internal
      */
-    function handlePromiseRejection(\Exception $error) {
+    function handlePromiseRejection($error) {
         $this->emit('error', $error);
     }
     

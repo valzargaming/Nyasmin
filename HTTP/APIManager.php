@@ -334,16 +334,16 @@ class APIManager {
         $item->execute($ratelimit)->then(function ($data) use ($item) {
             if($data === 0) {
                 $item->deferred->resolve();
-                $this->processDelayed();
-            } elseif($data === -1) {
-                $this->processDelayed();
+            } elseif($data !== -1) {
+                /* Do the next then */
             } else {
                 $item->deferred->resolve($data);
-                $this->processDelayed();
             }
         }, function ($error) use ($item) {
             $item->deferred->reject($error);
-        })->then(null, array($this->client, 'handlePromiseRejection'));
+        })->then(function () {
+            $this->processDelayed();
+        }, array($this->client, 'handlePromiseRejection'));
     }
     
     /**
