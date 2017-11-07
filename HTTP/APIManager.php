@@ -335,8 +335,6 @@ class APIManager {
             if($data === 0) {
                 $item->deferred->resolve();
             } elseif($data !== -1) {
-                /* Do the next then */
-            } else {
                 $item->deferred->resolve($data);
             }
         }, function ($error) use ($item) {
