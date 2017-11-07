@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a message reaction.
- * @todo Implementation
  */
 class MessageReaction extends ClientBase {
     protected $message;

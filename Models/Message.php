@@ -208,8 +208,7 @@ class Message extends ClientBase {
                 $msg['embed'] = $options['embed'];
             }
             
-            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->id, $this->id, $msg)->then(function ($data) use ($resolve) {
-                $this->_patch($data);
+            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->id, $this->id, $msg)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -267,10 +266,17 @@ class Message extends ClientBase {
     
     /**
      * Reacts to the message with the specified unicode emoji or custom emoji.
-     * @param \CharlotteDunois\Yasmin\Models\Emoji|string  $emoji
+     * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string  $emoji
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\MessageReaction>
+     *
      */
     function react($emoji) {
+        try {
+            $emoji = $this->client->emojis->resolve($emoji);
+        } catch(\InvalidArgumentException $e) {
+            /* Continue regardless of error */
+        }
+        
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($emoji) {
             if($emoji instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
                 $emoji = $emoji->identifier;

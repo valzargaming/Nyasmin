@@ -22,8 +22,12 @@ class EmojiStorage extends Storage {
     }
     
     function resolve($emoji) {
-        if($role instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
-            return $role;
+        if($emoji instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
+            return $emoji;
+        }
+        
+        if($emoji instanceof \CharlotteDunois\Yasmin\Models\MessageReaction) {
+            return $emoji->emoji;
         }
         
         if(\is_string($emoji) && $this->has($emoji)) {

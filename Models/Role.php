@@ -167,8 +167,7 @@ class Role extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->guild->modifyGuildRole($this->id, $data, $reason)->then(function ($data) use ($resolve) {
-                $this->_patch($data);
+            $this->client->apimanager()->endpoints->guild->modifyGuildRole($this->id, $data, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
