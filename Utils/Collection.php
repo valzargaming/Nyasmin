@@ -265,18 +265,22 @@ class Collection {
     
     /**
      * Returns the first element in the collection that passes a given truth test.
-     * @param  callable  $closure
-     * @return Collection
+     * @param  callable|null  $closure
+     * @return mixed|null
     */
-    function first(callable $closure) {
+    function first(callable $closure = null) {
         foreach($this->data as $key => $val) {
+            if($closure === null) {
+                return $val;
+            }
+            
             $feed = (bool) $closure($val, $key);
             if($feed) {
                 return $val;
             }
         }
         
-        return false;
+        return null;
     }
     
     /**
@@ -314,41 +318,16 @@ class Collection {
     }
     
     /**
-     * Returns a new collection containing the items that would be present on a given page number.
-     * @param  int  $page
-     * @param  int  $numitems
-     * @return Collection
-    */
-    function forPage(int $page, int $numitems) {
-        $start = ($page * $numitems) - $numitems - 1;
-        
-        $keys = \array_keys($this->data);
-        $data = \array_values($this->data);
-        
-        $new = array();
-        for($i = $start; $i <= $start + $numitems; $i++) {
-            $new[$keys[$i]] = $data[$i];
-        }
-        
-        return (new self($new));
-    }
-    
-    /**
-     * Returns the item at a given key. If the key does not exist, $default is returned.
+     * Returns the item at a given key. If the key does not exist, null is returned.
      * @param  mixed  $key
-     * @param  mixed  $default
-     * @return Collection
+     * @return mixed|null
     */
-    function get($key, $default = null) {
+    function get($key) {
         if(isset($this->data[$key])) {
             return $this->data[$key];
         }
         
-        if($default instanceof \Closure) {
-            return $default();
-        } else {
-            return $default;
-        }
+        return null;
     }
     
     /**
@@ -482,15 +461,19 @@ class Collection {
     
     /**
      * Returns the last element in the collection that passes a given truth test.
-     * @param  callable  $closure
-     * @return Collection
+     * @param  callable|null  $closure
+     * @return mixed|null
     */
-    function last(callable $closure) {
-        $data = false;
+    function last(callable $closure = null) {
+        $data = null;
         foreach($this->data as $key => $val) {
-            $feed = $closure($val, $key);
-            if($feed) {
+            if($closure === null) {
                 $data = $val;
+            } else {
+                $feed = $closure($val, $key);
+                if($feed) {
+                    $data = $val;
+                }
             }
         }
         
@@ -640,7 +623,7 @@ class Collection {
     }
     
     /**
-     * Returns a random item from the collection.
+     * Returns one random item, or multiple random items inside a Collection, from the Collection.
      * @param  int  $num
      * @return mixed|Collection
     */
@@ -665,23 +648,6 @@ class Collection {
         }
         
         return $carry;
-    }
-    
-    /**
-     * Filters the collection using the given callback. The callback should return true for any items it wishes to remove from the resulting collection.
-     * @param  callable  $closure
-     * @return Collection
-    */
-    function reject(callable $closure) {
-        $new = array();
-        foreach($this->data as $key => $val) {
-            $feed = (bool) $closure($val, $key);
-            if(!$feed) {
-                $new[$key] = $val;
-            }
-        }
-        
-        return (new self($new));
     }
     
     /**
@@ -810,7 +776,8 @@ class Collection {
      * @return Collection
     */
     function splice(int $offset, int $length = null, array $replacement = array()) {
-        return (new self(\array_splice($this->data, $offset, $length, $replacement)));
+        $data = $this->data;
+        return (new self(\array_splice($data, $offset, $length, $replacement)));
     }
     
     /**
