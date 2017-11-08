@@ -79,16 +79,7 @@ class ClientUser extends User {
      */
     function setAvatar(string $avatar) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
-            $file = @\realpath($avatar);
-            if($file) {
-                $promise = \React\Promise\resolve(\file_get_contents($file));
-            } elseif(\filter_var($avatar, FILTER_VALIDATE_URL)) {
-                $promise = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($avatar);
-            } else {
-                $promise = \React\Promise\resolve($avatar);
-            }
-            
-            $promise->then(function ($data) use ($resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->then(function ($data) use ($resolve, $reject) {
                 $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 
                 $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function ($data) use ($resolve) {

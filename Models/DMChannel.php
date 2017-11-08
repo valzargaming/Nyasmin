@@ -51,9 +51,7 @@ class DMChannel extends TextBasedChannel {
         
         switch($name) {
             case 'owner':
-                if($this->client->users->has($this->ownerID)) {
-                    return $this->client->users->get($this->ownerID);
-                }
+                return $this->client->users->get($this->ownerID);
             break;
         }
         

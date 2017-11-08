@@ -61,4 +61,22 @@ class DataHelpers {
         
         return 'data:'.$img['mime'].';base64,'.\base64_encode($data);
     }
+    
+    /**
+     * Resolves filepath and URL into file data - returns it if it's neither.
+     * @param string  $file
+     * @return \React\Promise\Promise<string>
+     */
+    static function resolveFileResolvable(string $file) {
+        $rfile = @\realpath($file);
+        if($rfile) {
+            $promise = \React\Promise\resolve(\file_get_contents($rfile));
+        } elseif(\filter_var($file, FILTER_VALIDATE_URL)) {
+            $promise = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file);
+        } else {
+            $promise = \React\Promise\resolve($file);
+        }
+        
+        return $promise;
+    }
 }

@@ -127,6 +127,12 @@ class Constants {
         2 => 'voice',
         3 => 'group',
         4 => 'category',
+        
+        'text' => 0,
+        'dm' => 1,
+        'voice' => 2,
+        'group' => 3,
+        'category' => 4
     );
     
     /**

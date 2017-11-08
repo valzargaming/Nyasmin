@@ -72,25 +72,12 @@ class Webhook extends ClientBase {
             $data['name'] = $options['name'];
         }
         
-        if(!empty($options['avatar'])) {
-            $file = @\realpath($options['avatar']);
-            if($file) {
-                $promise = \React\Promise\resolve(\file_get_contents($file));
-            } elseif(\filter_var($options['avatar'], FILTER_VALIDATE_URL)) {
-                $promise = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($options['avatar']);
-            } else {
-                $promise = \React\Promise\resolve($options['avatar']);
-            }
-        } else {
-            $promise = \React\Promise\resolve();
-        }
-        
         if(!empty($options['channel'])) {
             $data['channel'] = $this->client->channels->resolve($options['channel']);
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $promise, $reason) {
-            $promise->then(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $options, $reason) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['avatar'])->then(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
                 if(!empty($avatar)) {
                     $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 }

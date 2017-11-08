@@ -63,7 +63,6 @@ class User extends ClientBase
      * @property-read int                                                  $defaultAvatar      The identifier of the default avatar for this user.
      * @property-read \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists.
      * @property-read \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
-     * @property-read string|null                                          $notes              The notes of the Client User for this user. (User Accounts only)
      * @property-read \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
      * @property-read string                                               $tag                Username#Discriminator.
      *
@@ -86,24 +85,13 @@ class User extends ClientBase
                     return ($channel->type === 'dm' && $channel->isRecipient($this));
                 });
                 
-                if($channel) {
-                    return $channel;
-                }
-                
-                return null;
+                return $channel;
             break;
             case 'lastMessage':
                 if($this->lastMessageID !== null) {
                     return $this->client->channels->first(function ($channel) {
                         return $channel->messages->has($this->lastMessageID);
                     });
-                }
-                
-                return null;
-            break;
-            case 'notes': //TODO: User Account only
-                if($this->client->user->notes->has($this->id)) {
-                    $this->client->user->notes->get($this->id);
                 }
                 
                 return null;

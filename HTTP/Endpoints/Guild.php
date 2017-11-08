@@ -143,9 +143,9 @@ class Guild {
         return $this->api->makeRequest('GET', $url, array('querystring' => array('days' => $days)));
     }
     
-    function beginGuildPrune(string $guildid, int $days) {
+    function beginGuildPrune(string $guildid, int $days, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['prune']['begin'], $guildid);
-        return $this->api->makeRequest('POST', $url, array('data' => array('days' => $days)));
+        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'querystring' => array('days' => $days)));
     }
     
     function getGuildVoiceRegions(string $guildid) {
@@ -173,7 +173,7 @@ class Guild {
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function deleteGuildInegration(string $guildid, string $integrationid, string $reason = '') {
+    function deleteGuildIntegration(string $guildid, string $integrationid, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['integrations']['delete'], $guildid, $integrationid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
@@ -191,5 +191,10 @@ class Guild {
     function modifyGuildEmbed(string $guildid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['embed']['modify'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
+    }
+    
+    function getGuildAuditLog(string $guildid, array $query) {
+        $url = Constants::format(Constants::ENDPOINTS_GUILDS['audit-logs'], $guildid);
+        return $this->api->makeRequest('GET', $url, array('querystring' => $query));
     }
 }

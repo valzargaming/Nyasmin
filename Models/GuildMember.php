@@ -194,11 +194,7 @@ class GuildMember extends ClientBase {
                 return $this->guild->presences->get($this->id);
             break;
             case 'voiceChannel':
-                if($this->guild->channels->has($this->voiceChannelID)) {
-                    return $this->guild->channels->get($this->voiceChannelID);
-                }
-                
-                return null;
+                return $this->guild->channels->get($this->voiceChannelID);
             break;
         }
         

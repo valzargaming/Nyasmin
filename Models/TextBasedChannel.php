@@ -117,7 +117,7 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Collects messages during a specific duration (and max. amount). Resolves with a Collection, mapped by their IDs. Options are as following (all are optional):
+     * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs. Options are as following (all are optional):
      *
      *  array(
      *      'time' => int, (duration, in seconds, default 30)

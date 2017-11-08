@@ -51,7 +51,7 @@ class MessageReaction extends ClientBase {
     }
     
     /**
-     * Fetches all the users that gave this reaction. Resolves with a collection of users, mapped by their IDs.
+     * Fetches all the users that gave this reaction. Resolves with a collection of User instances, mapped by their IDs.
      * @param int     $limit   The maximum amount of users to fetch, defaults to 100.
      * @param string  $before  Limit fetching users to those with an ID smaller than the given ID.
      * @param string  $after   Limit fetching users to those with an ID greater than the given ID.

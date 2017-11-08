@@ -48,7 +48,7 @@ class User {
         return $this->api->makeRequest('GET', $url, array());
     }
     
-    function leaveCurrentUserGuild(string $guildid) {
+    function leaveUserGuild(string $guildid) {
         $url = Constants::format(Constants::ENDPOINTS_USERS['current']['leaveGuild'], $guildid);
         return $this->api->makeRequest('DELETE', $url, array());
     }

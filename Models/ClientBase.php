@@ -31,7 +31,7 @@ class ClientBase extends Base { //TODO: Nya
     }
     
     /**
-     * @property-read \CharlotteDunois\Yasmin\Client  $client
+     * @property-read \CharlotteDunois\Yasmin\Client  $client  The client which initiated the instance.
      */
     function __get($name) {
         switch($name) {

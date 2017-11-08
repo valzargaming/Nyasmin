@@ -73,11 +73,7 @@ class VoiceChannel extends ClientBase
         
         switch($name) {
             case 'connection':
-                if($this->client->voiceConnections->has($this->channel->guild->id)) {
-                    return $this->client->voiceConnections->get($this->channel->guild->id);
-                }
-                
-                return null;
+                return $this->client->voiceConnections->get($this->channel->guild->id);
             break;
             case 'full':
                 return ($this->userLimit > 0 && $this->userLimit > $this->members->count());
