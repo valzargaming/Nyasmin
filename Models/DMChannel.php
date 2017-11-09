@@ -36,7 +36,8 @@ class DMChannel extends TextBasedChannel {
     }
     
     /**
-     * @inheritdoc
+     * @inheritDoc
+     *
      * @property-read  string|null                                $ownerID      The owner ID of this channel.
      * @property-read  \CharlotteDunois\Yasmin\Utils\Collection   $recipients   The recipients of this channel.
      *

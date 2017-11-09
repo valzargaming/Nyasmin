@@ -31,6 +31,8 @@ class Game extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string       $name        The name of the game.
      * @property-read int          $type        The type.
      * @property-read string|null  $url         The stream url, if streaming.

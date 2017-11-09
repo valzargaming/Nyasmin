@@ -36,6 +36,8 @@ class PermissionOverwrite extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read  string                                                                                $id        The ID of the Permission Overwrite.
      * @property-read  string                                                                                $type      The type of the overwrite (role or user).
      * @property-read  \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guildmember, or null if uncached.

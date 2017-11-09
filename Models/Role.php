@@ -40,6 +40,8 @@ class Role extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read \CharlotteDunois\Yasmin\Models\Guild        $guild               The guild the role belongs to.
      * @property-read string                                      $id                  The role ID.
      * @property-read string                                      $name                The role name.

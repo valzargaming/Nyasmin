@@ -69,6 +69,8 @@ class Message extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string                                                                                      $id                 The message ID.
      * @property-read \CharlotteDunois\Yasmin\Models\User                                                         $author             The user that created the message.
      * @property-read \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface                                     $channel            The channel this message was created in.

@@ -36,6 +36,8 @@ class PartialChannel extends ClientBase
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string       $id                The channel ID.
      * @property-read string       $name              The channel name.
      * @property-read int          $createdTimestamp  The timestmap when this channel was created.

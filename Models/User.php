@@ -48,6 +48,8 @@ class User extends ClientBase
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string                                               $id                 The user ID.
      * @property-read string                                               $username           The username.
      * @property-read string                                               $discriminator      The discriminator of this user.

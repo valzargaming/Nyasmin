@@ -25,6 +25,8 @@ class Permissions extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read int  $bitfield  The bitfield value.
      *
      * @throws \Exception

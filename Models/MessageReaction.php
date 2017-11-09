@@ -35,6 +35,8 @@ class MessageReaction extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read int                                         $count     Times this emoji has been reacted.
      * @property-read bool                                        $me        Whether the current user has reacted using this emoji.
      * @property-read \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.

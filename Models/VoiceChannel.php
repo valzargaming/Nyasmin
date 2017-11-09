@@ -46,6 +46,7 @@ class VoiceChannel extends ClientBase
     
     /**
      * @inheritDoc
+     *
      * @property-read  string                                                                                   $id                     The ID of the channel.
      * @property-read  string                                                                                   $type                   The type of the channel.
      * @property-read  int                                                                                      $createdTimestamp       When this channel was created.

@@ -74,18 +74,41 @@ class Guild extends ClientBase {
     }
     
     /**
-     * @property-read string                                            $id                  The guild ID.
-     * @property-read string                                            $name                The guild name.
-     * @property-read int                                               $createdTimestamp    The timestmap when this guild was created.
-     * @property-read string|null                                       $icon                The guild icon hash, or null.
-     * @property-read string|null                                       $splash              The guild splash hash, or null.
+     * @inheritDoc
      *
-     * @property-read \CharlotteDunois\Yasmin\Models\VoiceChannel|null  $afkChannel          The guild afk channel, or null.
-     * @property-read \DateTime                                         $createdAt           The DateTime object of createdTimestamp.
-     * @property-read \CharlotteDunois\Yasmin\Models\Role               $defaultRole         The guild's default role.
-     * @property-read string|null                                       $iconURL             The guild icon URL, or null.
-     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember        $me                  The guild member of the client user.
-     * @property-read string|null                                       $splashURL           The guild splash URL, or null.
+     * @property-read string                                                         $id                           The guild ID.
+     * @property-read string                                                         $name                        The guild name.
+     * @property-read int                                                            $createdTimestamp             The timestamp when this guild was created.
+     * @property-read string|null                                                    $icon                         The guild icon hash, or null.
+     * @property-read string|null                                                    $splash                       The guild splash hash, or null.
+     * @property-read string                                                         $ownerID                      The ID of the owner.
+     * @property-read bool                                                           $large                        Whether the guild is considered large.
+     * @property-read int                                                            $memberCount                  How many members the guild has.
+     * @property-read string                                                         $defaultMessageNotifications  The type of message that should notify you. {@see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS}
+     * @property-read string                                                         $explicitContentFilter        The explicit content filter level of the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER}
+     * @property-read string                                                         $region                       The region the guild is located in.
+     * @property-read string                                                         $verificationLevel            The verification level of the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL}
+     * @property-read string|null                                                    $systemChannelID              The ID of the system channel, or null.
+     * @property-read string|null                                                    $afkChannelID                 The ID of the afk channel, or null.
+     * @property-read int|null                                                       $afkTimeout                   The time in seconds before an user is counted as "away from keyboard".
+     * @property-read string[]                                                       $features                     An array of guild features.
+     * @property-read string                                                         $mfaLevel                     The required MFA level for the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL}
+     * @property-read string|null                                                    $applicationID                Application OD of the guild creator, if it is bot-created.
+     * @property-read bool                                                           $embedEnabled                 Whether the guild is embeddable or not (e.g. widget).
+     * @property-read string|null                                                    $embedChannelID               The ID of the embed channel.
+     * @property-read bool                                                           $widgetEnabled                Whether the guild widget is enabled or not.
+     * @property-read string|null                                                    $widgetChannelID              The ID of the widget channel.
+     *
+     * @property-read \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $afkChannel                   The guild's afk channel, or null.
+     * @property-read \DateTime                                                      $createdAt                    The DateTime object of createdTimestamp.
+     * @property-read \CharlotteDunois\Yasmin\Models\Role                            $defaultRole                  The guild's default role.
+     * @property-read \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $embedChannel                 The guild's embed channel, or null.
+     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember                     $me                           The guild member of the client user.
+     * @property-read string                                                         $nameAcronym                  The acronym that shows up in place of a guild icon.
+     * @property-read \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $systemChannel                The guild's system channel, or null.
+     * @property-read bool                                                           $verified                     Whether the guild is verified.
+     * @property-read \CharlotteDunois\Yasmin\Voice\VoiceConnection|null             $voiceConnection              The open voice connection for the guild, or null.
+     * @property-read \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $widgetChannel                The guild's widget channel, or null.
      *
      * @throws \Exception
      */
@@ -104,22 +127,30 @@ class Guild extends ClientBase {
             case 'defaultRole':
                 return $this->roles->get($this->id);
             break;
-            case 'iconURL':
-                if($this->icon) {
-                    return \CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon);
-                }
-                
-                return null;
+            case 'embedChannel':
+                return $this->channels->get($this->embedChannelID);
             break;
             case 'me':
                 return $this->members->get($this->client->user->id);
             break;
-            case 'splashURL':
-                if($this->splash) {
-                    return \CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash);
+            case 'nameAcronym':
+                \preg_match_all('/\w+/iu', $this->name, $matches);
+                
+                $name = '';
+                foreach($matches[0] as $word) {
+                    $name .= $word[0];
                 }
                 
-                return null;
+                return \strtoupper($name);
+            break;
+            case 'verified':
+                return \in_array('VERIFIED', $this->features);
+            break;
+            case 'voiceConnection':
+                return $this->client->voiceConnections->get($this->id);
+            break;
+            case 'widgetChannel':
+                return $this->channels->get($this->widgetChannelID);
             break;
         }
         
@@ -275,7 +306,7 @@ class Guild extends ClientBase {
      *      'explicitContentFilter' => int,
      *      'defaultMessageNotifications' => int,
      *      'afkChannel' => string|\CharlotteDunois\Yasmin\Models\VoiceChannel|null,
-     *      'afkTimeout' => int,
+     *      'afkTimeout' => int|null,
      *      'systemChannel' => string|\CharlotteDunois\Yasmin\Models\TextChannel|null,
      *      'owner' => string|\CharlotteDunois\Yasmin\Models\GuildMember,
      *      'icon' => string, (file path or URL, or data)
@@ -315,8 +346,8 @@ class Guild extends ClientBase {
                 $data['afk_channel_id'] = ($options['afkChannel'] === null ? null : ($options['afkChannel'] instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel ? $options['afkChannel']->id : $options['afkChannel']));
             }
             
-            if(isset($options['afkTimeout'])) {
-                $data['afk_timeout'] = (int) $options['afkTimeout'];
+            if(\array_key_exists('afkTimeout', $options)) {
+                $data['afk_timeout'] = $options['afkTimeout'];
             }
             
             if(\array_key_exists('systemChannel', $options)) {
@@ -386,7 +417,7 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Fetch audit logs for the guild. Options are as following (all are optional):
+     * Fetch audit log for the guild. Options are as following (all are optional):
      *
      *  array(
      *      'before' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
@@ -399,7 +430,7 @@ class Guild extends ClientBase {
      * @param array  $options
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\GuildAuditLog>
      */
-    function fetchAuditLogs(array $options = array()) {
+    function fetchAuditLog(array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
             if(!empty($options['before'])) {
                 $options['before'] = ($options['before'] instanceof \CharlotteDunois\Yasmin\Models\GuildAuditLogEntry ? $options['before']->id : $options['before']);
@@ -538,6 +569,43 @@ class Guild extends ClientBase {
     }
     
     /**
+     * Returns the guild's icon URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     */
+    function getIconURL(string $format = 'png', int $size = null) {
+        if($this->icon) {
+            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format);
+            
+            if($size !== null) {
+                $url .= '?size='.$size;
+            }
+            
+            return $url;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Returns the guild's splash URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     */
+    function getSplashURL(string $format = 'png', int $size = null) {
+        if($this->splash) {
+            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format);
+            if($size !== null) {
+                $url .= '?size='.$size;
+            }
+            
+            return $url;
+        }
+        
+        return null;
+    }
+    
+    /**
      * Leaves the guild.
      * @return \React\Promise\Promise<void>
      */
@@ -577,11 +645,11 @@ class Guild extends ClientBase {
     
     /**
      * Edits the AFK timeout of the guild.
-     * @param int     $channel
-     * @param string  $reason
+     * @param int|null $timeout
+     * @param string   $reason
      * @return \React\Promise\Promise<this>
      */
-    function setAFKTimeout(int $timeout, string $reason = '') {
+    function setAFKTimeout($timeout, string $reason = '') {
         return $this->edit(array('afkTimeout' => $timeout), $reason);
     }
     
@@ -748,16 +816,16 @@ class Guild extends ClientBase {
         $this->large =  $guild['large'] ?? $this->large;
         $this->memberCount = $guild['member_count']  ?? $this->memberCount;
         
-        $this->defaultMessageNotifications = $guild['default_message_notifications'];
-        $this->explicitContentFilter = $guild['explicit_content_filter'];
+        $this->defaultMessageNotifications = \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']];
+        $this->explicitContentFilter = \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER[$guild['explicit_content_filter']];
         $this->region = $guild['region'];
-        $this->verificationLevel = $guild['verification_level'];
+        $this->verificationLevel = \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL[$guild['verification_level']];
         $this->systemChannelID = $guild['system_channel_id'];
         
         $this->afkChannelID = $guild['afk_channel_id'];
         $this->afkTimeout = $guild['afk_timeout'];
         $this->features = $guild['features'];
-        $this->mfaLevel = $guild['mfa_level'];
+        $this->mfaLevel = \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL[$guild['mfa_level']];
         $this->applicationID = $guild['application_id'];
         
         $this->embedEnabled = $guild['embed_enabled'] ?? $this->embedEnabled;

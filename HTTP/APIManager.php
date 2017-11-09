@@ -298,7 +298,7 @@ class APIManager {
     /**
      * Extracts an item from a ratelimit bucket.
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
-     * @return mixed
+     * @return array
      */
     protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
         if($item->size() > 0) {
@@ -380,13 +380,13 @@ class APIManager {
     /**
      * Extracts ratelimits from a response.
      * @param \GuzzleHttp\Psr7\Response                          $response
-     * @return array
+     * @return mixed[]
      */
     function extractRatelimit(\GuzzleHttp\Psr7\Response $response) {
         $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
-        $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) $response->getHeader('Retry-After')[0])) : ($response->hasHeader('X-RateLimit-Reset') ? (((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff) : null));
+        $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) (((int) $response->getHeader('Retry-After')[0]) / 1000))) : ($response->hasHeader('X-RateLimit-Reset') ? (((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff) : null));
         return \compact('limit', 'remaining', 'resetTime');
     }
     

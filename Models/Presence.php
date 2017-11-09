@@ -44,6 +44,8 @@ class Presence extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read \CharlotteDunois\Yasmin\Models\User        $user    The user this presence belongs to.
      * @property-read \CharlotteDunois\Yasmin\Models\Game|null   $game    The game the user is playing.
      * @property-read string                                         $status  What do you expect this to be?

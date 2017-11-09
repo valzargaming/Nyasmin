@@ -44,6 +44,8 @@ class MessageAttachment extends Base {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string                                           $id                 The attachment ID.
      * @property-read string                                           $filename           The filename.
      * @property-read int                                              $size               The filename in bytes.

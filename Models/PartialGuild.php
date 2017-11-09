@@ -35,6 +35,8 @@ class PartialGuild extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string       $id                The guild ID.
      * @property-read string       $name              The guild name.
      * @property-read int          $createdTimestamp  The timestmap when this guild was created.

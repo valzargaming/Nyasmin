@@ -8,6 +8,7 @@
 */
 
 namespace CharlotteDunois\Yasmin\Models;
+use PHPStan\Type\NullType;
 
 /**
  * Represents a webhook.
@@ -33,13 +34,15 @@ class Webhook extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string                                    $id         The webhook ID.
      * @property-read string|null                               $name       The webhook default name, or null.
      * @property-read string|null                               $avatar     The webhook default avatar, or null.
-     * @property-read string                                    $channelID  The channel the webhook belongs to.
+     * @property-read string|null                               $channelID  The channel the webhook belongs to.
      * @property-read string|null                               $guildID    The guild the webhook belongs to, or null.
      * @property-read \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
-     * @property-read string                                    $token      The webhook token.
+     * @property-read string|null                               $token      The webhook token.
      *
      * @throws \Exception
      */
@@ -228,9 +231,9 @@ class Webhook extends ClientBase {
     function _patch(array $webhook) {
         $this->name = $webhook['name'] ?? null;
         $this->avatar = $webhook['avatar'] ?? null;
-        $this->channelID = $webhook['channel_id'];
+        $this->channelID = $webhook['channel_id'] ?? null;
         $this->guildID = $webhook['guild_id'] ?? null;
         $this->owner = (!empty($webhook['user']) ? $this->client->users->patch($webhook['user']) : null);
-        $this->token = $webhook['token'];
+        $this->token = $webhook['token'] ?? null;
     }
 }

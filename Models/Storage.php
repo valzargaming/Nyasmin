@@ -22,6 +22,9 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         $this->client = $client;
     }
     
+    /**
+     * @inheritDoc
+     */
     function __get($name) {
         if(\property_exists($this, $name)) {
             return $this->$name;

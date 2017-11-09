@@ -91,6 +91,8 @@ class MessageEmbed extends Base {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string            $type               The embed type.
      * @property-read string|null       $title              The title.
      * @property-read array|null        $author             The author (array of name, icon, url), or null.

@@ -53,7 +53,7 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     *
+     * @inheritDoc
      *
      * @property-read string                                                         $id               The ID of the member.
      * @property-read \CharlotteDunois\Yasmin\Models\User                            $user             The user object of the member.

@@ -51,7 +51,7 @@ class ClientUser extends User {
     }
     
     /**
-     * @inheritdoc
+     * @inheritDoc
      *
      * @throws \Exception
      */

@@ -45,6 +45,8 @@ class Invite extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string                                                                                                 $code                The invite code.
      * @property-read \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild               $guild               The guild which this invite belongs to.
      * @property-read \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  $channel             The channel which this invite belongs to.

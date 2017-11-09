@@ -15,11 +15,13 @@ namespace CharlotteDunois\Yasmin\Models;
 class ClientBase extends Base { //TODO: Nya
     /**
      * @internal
+     * @var \CharlotteDunois\Yasmin\Client
      */
     protected $client;
     
     /**
      * @internal
+     * @var \CharlotteDunois\Yasmin\Client|null
      */
     static public $serializeClient;
     
@@ -31,6 +33,8 @@ class ClientBase extends Base { //TODO: Nya
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read \CharlotteDunois\Yasmin\Client  $client  The client which initiated the instance.
      */
     function __get($name) {

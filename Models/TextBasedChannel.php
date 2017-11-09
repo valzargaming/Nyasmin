@@ -43,6 +43,8 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string                                         $id                 The channel ID.
      * @property-read string                                         $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
      * @property-read string|null                                    $lastMessageID      The last message ID, or null.

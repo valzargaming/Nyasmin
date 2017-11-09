@@ -127,7 +127,7 @@ class APIRequest {
         }
         
         if(!empty($this->options['auditLogReason'])) {
-            $options['headers']['X-Audit-Log-Reason'] = \trim($this->options['auditLogReason']);
+            $options['headers']['X-Audit-Log-Reason'] = \rawurlencode(\trim($this->options['auditLogReason']));
         }
         
         $request = new \GuzzleHttp\Psr7\Request($this->method, $url);

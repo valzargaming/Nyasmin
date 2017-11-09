@@ -57,8 +57,8 @@ class Constants {
     const CDN = array(
         'url' => 'https://cdn.discordapp.com/',
         'emojis' => 'emojis/%s.png',
-        'icons' => 'icons/%s/%s.png',
-        'splashes' => 'splashes/%s/%s.png',
+        'icons' => 'icons/%s/%s.%s',
+        'splashes' => 'splashes/%s/%s.%s',
         'defaultavatars' => 'embed/avatars/%s.png',
         'avatars' => 'avatars/%s/%s.%s',
         'appicons' => 'app-icons/%s/%s.png'
@@ -147,6 +147,42 @@ class Constants {
         5 => 'CHANNEL_ICON_CHANGE',
         6 => 'CHANNEL_PINNED_MESSAGE',
         7 => 'GUILD_MEMBER_JOIN'
+    );
+    
+    /**
+     * Guild default message notifications. One of EVERYTHING or ONLY_MENTIONS.
+     */
+    const GUILD_DEFAULT_MESSAGE_NOTIFICATIONS = array(
+        0 => 'EVERYTHING',
+        1 => 'ONLY_MENTIONS'
+    );
+    
+    /**
+     * Guild explicit content filter. One of DISABLED, MEMBERS_WITHOUT_ROLES or ALL_MEMBERS.
+     */
+    const GUILD_EXPLICIT_CONTENT_FILTER = array(
+        0 => 'DISABLED',
+        1 => 'MEMBERS_WITHOUT_ROLES',
+        2 => 'ALL_MEMBERS'
+    );
+    
+    /**
+     * Guild MFA level. One of NONE or ELEVATED.
+     */
+    const GUILD_MFA_LEVEL = array(
+        0 => 'NONE',
+        1 => 'ELEVATED'
+    );
+    
+    /**
+     * Guild verification level. One of NONE, LOW, MEDIUM, HIGH or VERY_HIGH.
+     */
+    const GUILD_VERIFICATION_LEVEL = array(
+        0 => 'NONE',
+        1 => 'LOW',
+        2 => 'MEDIUM',
+        3 => 'HIGH',
+        4 => 'VERY_HIGH'
     );
     
     /**

@@ -91,6 +91,8 @@ class MessageMentions extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $channels  The collection which holds all channel mentions.
      * @property-read bool                                        $everyone  Whether the message mentions @everyone or @here.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $members   The collection which holds all members mentions (only in guild channels).

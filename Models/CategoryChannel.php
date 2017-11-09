@@ -33,7 +33,8 @@ class CategoryChannel extends TextBasedChannel {
     }
     
     /**
-     * @inheritdoc
+     * @inheritDoc
+     *
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $children  Returns all channels which are childrens of this category.
      *
      * @throws \Exception

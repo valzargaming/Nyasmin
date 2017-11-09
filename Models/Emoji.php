@@ -40,6 +40,8 @@ class Emoji extends ClientBase {
     }
     
     /**
+     * @inheritDoc
+     *
      * @property-read string|null                                          $id                 The emoji ID.
      * @property-read string                                               $name               The emoji name.
      * @property-read \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.

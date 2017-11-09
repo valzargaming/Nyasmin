@@ -36,6 +36,7 @@ class TextChannel extends TextBasedChannel
     
     /**
      * @inheritDoc
+     *
      * @property-read  \CharlotteDunois\Yasmin\Models\Guild                                                    $guild                  The associated guild.
      * @property-read  string                                                                                  $name                   The channel name.
      * @property-read  string                                                                                  $topic                  The channel topic.

@@ -25,7 +25,7 @@ class GroupDMChannel extends DMChannel {
     }
     
     /**
-     * @inheritdoc
+     * @inheritDoc
      * @property-read  string|null  $applicationID  Returns the application ID which created the group DM channel.
      *
      * @throws \Exception
