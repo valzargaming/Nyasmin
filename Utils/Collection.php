@@ -258,7 +258,9 @@ class Collection implements \Iterator {
     */
     function every(int $nth, int $offset = 0) {
         $new = array();
-        for($i = $offset; $i < \count($this->data); $i += $nth) {
+        $size = \count($this->data);
+        
+        for($i = $offset; $i < $size; $i += $nth) {
             $new[] = $this->data[$i];
         }
         
@@ -649,9 +651,9 @@ class Collection implements \Iterator {
     */
     function push($value, $key = null) {
         if(!empty($key) && !\is_int($key)) {
-            $data = \array_push($this->data, $value);
+            \array_push($this->data, $value);
         } else {
-            $data = \array_merge($this->data, array($key => $value));
+            $this->data = \array_merge($this->data, array($key => $value));
         }
         
         return $this;
@@ -749,7 +751,7 @@ class Collection implements \Iterator {
     /**
      * Sorts the collection.
      * @param  callable    $closure
-     * @param  const       $options
+     * @param  int         $options
      * @return Collection
     */
     function sort(callable $closure = null, $options = SORT_REGULAR) {
@@ -758,7 +760,7 @@ class Collection implements \Iterator {
         if($closure instanceof \Closure) {
             \uasort($data, $closure);
         } else {
-            \asort($data);
+            \asort($data, $options);
         }
         
         return (new self($data));
@@ -767,7 +769,7 @@ class Collection implements \Iterator {
     /**
      * Sorts the collection by the given key.
      * @param  mixed|\Closure  $sortkey
-     * @param  const           $options
+     * @param  int             $options
      * @param  bool            $descending
      * @return Collection
     */
@@ -796,7 +798,7 @@ class Collection implements \Iterator {
     /**
      * Sorts the collection by the given key in descending order.
      * @param  mixed|\Closure  $sortkey
-     * @param  const           $options
+     * @param  int             $options
      * @return Collection
     */
     function sortByDesc($sortkey, $options = SORT_REGULAR) {
@@ -858,14 +860,14 @@ class Collection implements \Iterator {
         $key = $this->valueRetriever($key);
         
         $exists = array();
-        return $this->reject(function ($item) use ($key, &$exists) {
+        return $this->filter(function ($item) use ($key, &$exists) {
             $id = $key($item);
             if(\in_array($id, $exists)) {
-                return true;
+                return false;
             }
             
             $exists[] = $id;
-            return false;
+            return true;
         });
     }
     
@@ -957,7 +959,7 @@ class Collection implements \Iterator {
         
         while(($segment = \array_shift($key)) !== null) {
             if($segment === '*') {
-                if($target instanceof Collection) {
+                if($target instanceof self) {
                     $target = $target->all();
                 } elseif(!\is_array($target)) {
                     return $this->valueRetriever($default);
@@ -975,12 +977,10 @@ class Collection implements \Iterator {
                 $target = $target[$segment];
             } elseif(\is_object($target) && isset($target->$segment)) {
                 $target = $target->$segment;
+            } elseif($target instanceof \Closure) {
+                return $target();
             } else {
-                if($value instanceof \Closure) {
-                    return $value();
-                } else {
-                    return $value;
-                }
+                return $target;
             }
         }
         

@@ -135,7 +135,7 @@ class TextBasedChannel extends ClientBase
     function collectMessages(callable $filter, array $options) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
-            $timer = null;
+            $timer = array();
             
             $listener = function ($message) use ($collect, $filter, &$listener, $options, $resolve, &$timer) {
                 if($message->channel->id === $this->id && $filter($message)) {
@@ -143,8 +143,8 @@ class TextBasedChannel extends ClientBase
                     
                     if($collect->count() >= $options['max']) {
                         $this->client->removeListener('message', $listener);
-                        if($timer) {
-                            $this->client->cancelTimer($timer);
+                        if(!empty($timer)) {
+                            $this->client->cancelTimer($timer[0]);
                         }
                         
                         $resolve($collect);
@@ -152,7 +152,7 @@ class TextBasedChannel extends ClientBase
                 }
             };
             
-            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $options, $resolve, $reject) {
+            $timer[0] = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('message', $listener);
                 
                 if(\in_array('time', $options['errors']) && $collect->count() < $options['max']) {
