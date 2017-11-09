@@ -221,8 +221,8 @@ class GuildMember extends ClientBase {
     
     /**
      * Adds roles to the guild member.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
-     * @param string                                                                                $reason
+     * @param \CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role>|array<string|\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
+     * @param string                                                                                                                                   $reason
      * @return \React\Promise\Promise<this>
      */
     function addRoles($roles, string $reason = '') {
@@ -230,7 +230,7 @@ class GuildMember extends ClientBase {
             $roles = $roles->all();
         }
         
-        $roles = \array_merge($this->roles, $roles);
+        $roles = \array_merge($this->roles->all(), $roles);
         return $this->edit(array('roles' => $roles), $reason);
     }
     
@@ -357,7 +357,7 @@ class GuildMember extends ClientBase {
             $roles = $roles->all();
         }
         
-        $roles = \array_filter($this->roles, function ($role) {
+        $roles = \array_filter($this->roles->all(), function ($role) use ($roles) {
             return (!\in_array($role, $roles, true));
         });
         

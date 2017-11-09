@@ -211,7 +211,7 @@ class Emoji extends ClientBase {
         
         foreach($role as $r) {
             $id = ($r instanceof \CharlotteDunois\Yasmin\Models\Role ? $r->id : $r);
-            $key = \array_search($roles, $id, true);
+            $key = \array_search($id, $roles, true);
             if($key !== false) {
                 unset($roles[$key]);
             }
