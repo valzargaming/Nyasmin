@@ -35,7 +35,7 @@ class GuildEmojisUpdate {
                 }
             }
             
-            foreach($guild->emojis->all() as $emoji) {
+            foreach($guild->emojis as $emoji) {
                 if(!in_array($emoji->id, $ids)) {
                     $this->client->emojis->delete($emoji->id);
                     $guild->emojis->delete($emoji->id);

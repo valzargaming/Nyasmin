@@ -96,7 +96,7 @@ class Permissions extends ClientBase {
             $total |= $perm;
         }
         
-        $this->bitfield |= $perm;
+        $this->bitfield |= $total;
         return $this;
     }
     
@@ -113,7 +113,7 @@ class Permissions extends ClientBase {
             $total |= $perm;
         }
         
-        $this->bitfield &= ~$perm;
+        $this->bitfield &= ~$total;
         return $this;
     }
     

@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Utils;
 /**
  * Collection, an util to conventionally store a key-value pair.
  */
-class Collection {
+class Collection implements \Iterator {
     protected $data = array();
     
     /**
@@ -30,6 +30,41 @@ class Collection {
      */
     function __debugInfo() {
         return $this->data;
+    }
+    
+    /**
+     * @internal
+     */
+    function current() {
+        return \current($this->data);
+    }
+    
+    /**
+     * @internal
+     */
+    function key() {
+        return \key($this->data);
+    }
+    
+    /**
+     * @internal
+     */
+    function next() {
+        return \next($this->data);
+    }
+    
+    /**
+     * @internal
+     */
+    function rewind() {
+        return \reset($this->data);
+    }
+    
+    /**
+     * @internal
+     */
+    function valid() {
+        return (\current($this->data) !== false);
     }
     
     /**

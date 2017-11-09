@@ -223,7 +223,7 @@ trait GuildChannelTrait {
         $memberOverwrites = null;
         $rolesOverwrites = array();
         
-        foreach($this->permissionOverwrites->all() as $overwrite) {
+        foreach($this->permissionOverwrites as $overwrite) {
             if($overwrite->id === $this->guild->id) {
                 $everyoneOverwrites = $overwrite;
             } elseif($overwrite->id === $member->id) {

@@ -176,13 +176,13 @@ class Message extends ClientBase {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             
-            $listener = function ($reaction) use ($collect, $filter, &$listener, $resolve, $reject) {
+            $listener = function ($reaction) use ($collect, $filter, &$listener) {
                 if($this->id === $reaction->message->id && $filter($reaction)) {
                     $collect->set(($reaction->emoji->id ?? $reaction->emoji->name), $reaction);
                 }
             };
             
-            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $resolve, $reject) {
+            $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $resolve) {
                 $this->client->removeListener('messageReactionAdd', $listener);
                 $resolve($collect);
             });
@@ -238,7 +238,7 @@ class Message extends ClientBase {
     
     /**
      * Fetches the webhook used to create this message.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Webhook>
      * @throws \BadMethodCallException
      */
     function fetchWebhook() {
@@ -248,7 +248,7 @@ class Message extends ClientBase {
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->webhook->getWebhook($this->webhookID)->then(function ($data) use ($resolve) {
-                $webhook = new \CharlotteDunois\Yasmin\Webhook($this->client, $data);
+                $webhook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $data);
                 $resolve($webhook);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -383,7 +383,7 @@ class Message extends ClientBase {
         }
         
         foreach($this->mentions->users as $user) {
-            $this->cleanContent = \str_replace($user->__toString(), ($guild ? $member->displayName : $user->username), $this->cleanContent);
+            $this->cleanContent = \str_replace($user->__toString(), ($this->channel->guild ? $this->channel->guild->members->get($user->id)->displayName : $user->username), $this->cleanContent);
         }
     }
 }

@@ -138,13 +138,13 @@ class Emoji extends ClientBase {
                     $options['roles'] = $options['roles']->all();
                 }
                 
-                $options['roles'] = \array_map($options['roles'], function ($role) {
+                $options['roles'] = \array_map(function ($role) {
                     if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
                         return $role->id;
                     }
                     
                     return $role;
-                });
+                }, $options['roles']);
                 
                 $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->then(function () use ($resolve) {
                     $resolve($this);

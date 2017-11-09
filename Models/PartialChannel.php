@@ -18,7 +18,7 @@ class PartialChannel extends ClientBase
     protected $id;
     protected $name;
     protected $icon;
-    protected $splash;
+    protected $type;
     
     protected $createdTimestamp;
     
@@ -29,7 +29,7 @@ class PartialChannel extends ClientBase
         parent::__construct($client);
         
         $this->id = $channel['id'];
-        $this->name = $guild['name'];
+        $this->name = $channel['name'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;

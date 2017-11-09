@@ -184,7 +184,7 @@ class GuildMember extends ClientBase {
                 }
                 
                 $permissions = 0;
-                foreach($this->roles->all() as $role) {
+                foreach($this->roles as $role) {
                     $permissions |= $role->permissions->bitfield;
                 }
                 
@@ -213,7 +213,7 @@ class GuildMember extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($role, $reason) {
-            $this->client->apimanager()->endpoints->guild->addGuildMemberRole($this->guild->id, $this->id, $role, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->addGuildMemberRole($this->guild->id, $this->id, $role, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -242,7 +242,7 @@ class GuildMember extends ClientBase {
      */
     function ban(int $days = 0, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days, $reason) {
-            $this->client->apimanager()->endpoints->guild->createGuildBan($this->guild->id, $this->id, $days, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->createGuildBan($this->guild->id, $this->id, $days, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -276,13 +276,13 @@ class GuildMember extends ClientBase {
                 $options['roles'] = $options['roles']->all();
             }
             
-            $data['roles'] = \array_unique(\array_map($options['roles'], function ($role) {
+            $data['roles'] = \array_unique(\array_map(function ($role) {
                 if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
                     return $role->id;
                 }
                 
                 return $role;
-            }));
+            }, $options['roles']));
         }
         
         if(isset($options['deaf'])) {
@@ -298,7 +298,7 @@ class GuildMember extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->guild->modifyGuildMember($this->guild->id, $this->id, $data, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildMember($this->guild->id, $this->id, $data, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -311,7 +311,7 @@ class GuildMember extends ClientBase {
      */
     function kick(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->guild->removeGuildMember($this->guild->id, $this->id, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->removeGuildMember($this->guild->id, $this->id, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -340,7 +340,7 @@ class GuildMember extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($role, $reason) {
-            $this->client->apimanager()->endpoints->guild->removeGuildMemberRole($this->guild->id, $this->id, $role, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->removeGuildMemberRole($this->guild->id, $this->id, $role, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -393,7 +393,7 @@ class GuildMember extends ClientBase {
     function setNickname(string $nickname, string $reason = '') {
         if($this->id === $this->client->user->id) {
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($nickname) {
-                $this->client->apimanager()->endpoints->guild->modifyCurrentNick($this->guild->id, $this->id, $nickname)->then(function ($data) use ($resolve) {
+                $this->client->apimanager()->endpoints->guild->modifyCurrentNick($this->guild->id, $this->id, $nickname)->then(function () use ($resolve) {
                     $resolve($this);
                 }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             }));
@@ -460,7 +460,7 @@ class GuildMember extends ClientBase {
             $this->nickname = $data['nick'];
         }
         
-        foreach($this->roles->all() as $id => $role) {
+        foreach($this->roles as $id => $role) {
             if(!\in_array($id, $data['roles'])) {
                 $this->roles->delete($id);
             }

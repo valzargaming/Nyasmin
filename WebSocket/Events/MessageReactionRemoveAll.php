@@ -26,7 +26,7 @@ class MessageReactionRemoveAll {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
-                foreach($message->reactions->all() as &$reaction) {
+                foreach($message->reactions as &$reaction) {
                     unset($reaction);
                 }
                 

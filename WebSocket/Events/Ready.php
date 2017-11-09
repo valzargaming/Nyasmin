@@ -47,7 +47,7 @@ class Ready {
         }
         
         $unavailableGuilds = 0;
-        foreach($this->client->guilds->all() as $guild) {
+        foreach($this->client->guilds as $guild) {
             if($guild->available === false) {
                 $unavailableGuilds++;
             }
@@ -62,7 +62,7 @@ class Ready {
                 }
                 
                 $unavailableGuilds = 0;
-                foreach($this->client->guilds->all() as $guild) {
+                foreach($this->client->guilds as $guild) {
                     if($guild->available === false) {
                         $unavailableGuilds++;
                     }
