@@ -139,7 +139,7 @@ class Collection {
             if($item instanceof \Closure) {
                 $bool = (bool) $item($val, $key);
                 if($bool) {
-                    return $true;
+                    return true;
                 }
             } else {
                 if(!empty($value)) {

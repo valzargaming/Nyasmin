@@ -182,9 +182,14 @@ class Emoji extends ClientBase {
             return \React\Promise\resolve($this);
         }
         
-        $roles = \array_diff($this->roles->map(function ($role) {
+        $roles = $this->roles->map(function ($role) {
             return $role->id;
-        })->all(), ($role instanceof \CharlotteDunois\Yasmin\Models\Role ? $role->id : $role));
+        })->all();
+        
+        $key = \array_search(($role instanceof \CharlotteDunois\Yasmin\Models\Role ? $role->id : $role), $roles, true);
+        if($key !== false) {
+            unset($roles[$key]);
+        }
         
         return $this->edit(array('roles' => $roles));
     }

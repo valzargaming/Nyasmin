@@ -81,7 +81,7 @@ class ClientBase extends Base { //TODO: Nya
                 $this->__construct(\unserialize($data));
             break;
             case 2:
-                $this->__construct(\CharlotteDunois\Yasmin\Models\Structure::$serializeClient, unserialize($data));
+                $this->__construct(self::$serializeClient, unserialize($data));
             break;
         }
     }

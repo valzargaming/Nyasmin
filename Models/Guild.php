@@ -234,13 +234,13 @@ class Guild extends ClientBase {
                     $roles = $roles->all();
                 }
                 
-                $roles = \array_map($roles, function ($role) {
+                $roles = \array_map(function ($role) {
                     if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
                         return $role->id;
                     }
                     
                     return $role;
-                });
+                }, $roles);
                 
                 $options = array(
                     'name' => $name,
@@ -289,7 +289,7 @@ class Guild extends ClientBase {
      * @return \React\Promise\Promise<void>
      */
     function delete() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->guild->deleteGuild($this->id)->then(function () use ($resolve) {
                 $resolve();
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
@@ -390,7 +390,7 @@ class Guild extends ClientBase {
                 }
                 
                 return $file;
-            })->then(function ($file) use ($icon, $splash, $options) {
+            })->then(function ($file) use ($icon, $splash) {
                 if($file === null) {
                     return null;
                 }
@@ -400,7 +400,7 @@ class Guild extends ClientBase {
                 } elseif($icon === true) {
                     $icon = $file;
                 }
-            })->then(function () use ($data, $icon, $splash, $options, $reason, $resolve, $reject) {
+            })->then(function () use ($data, $icon, $splash, $reason, $resolve, $reject) {
                 if(\is_string($icon)) {
                     $data['icon'] = $icon;
                 }
@@ -518,7 +518,7 @@ class Guild extends ClientBase {
                 return;
             }
             
-            $listener = function ($guild) use(&$listener, $resolve, $reject) {
+            $listener = function ($guild) use(&$listener, $resolve) {
                 if($guild->id !== $this->id) {
                     return;
                 }

@@ -206,7 +206,7 @@ class APIRequest {
         $status = $response->getStatusCode();
         
         if($status === 429 || $status >= 500) {
-            $this->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
+            $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
             
             if($ratelimit !== null) {
                 $ratelimit->unshift($this);

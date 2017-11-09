@@ -46,7 +46,7 @@ class CategoryChannel extends TextBasedChannel {
         
         switch($name) {
             case 'children':
-                return $this->guilds->channels->filter(function ($channel) {
+                return $this->guild->channels->filter(function ($channel) {
                     return $channel->parentID === $this->id;
                 });
             break;

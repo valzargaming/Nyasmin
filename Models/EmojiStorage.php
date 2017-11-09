@@ -42,7 +42,7 @@ class EmojiStorage extends Storage {
         $id = ($emoji->id ?? $emoji->name);
         
         $this->set($id, $emoji);
-        $this->client->emojis($id, $emoji);
+        $this->client->emojis->set($id, $emoji);
             
         return $emoji;
     }

@@ -196,13 +196,13 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * @property-read \CharlotteDunois\Yasmin\Models\ChannelStorage  $channels          It holds all cached channels, mapped by ID.
+     * @property-read \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels          It holds all cached channels, mapped by ID.
      * @property-read \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
-     * @property-read \CharlotteDunois\Yasmin\Models\GuildStorage    $guilds            It holds all guilds, mapped by ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\PresenceStorage $presences         It holds all cached presences (latest ones), mapped by user ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\UserStorage     $users             It holds all cached users, mapped by ID.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection       $voiceConnections  It holds all open voice connections, mapped by guild ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\ClientUser|null $user              Get the Client User instance.
+     * @property-read \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
+     * @property-read \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
+     * @property-read \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
+     * @property-read \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
+     * @property-read \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              Get the Client User instance.
      *
      * @throws \Exception
      */

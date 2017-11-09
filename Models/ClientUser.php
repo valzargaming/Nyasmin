@@ -82,8 +82,7 @@ class ClientUser extends User {
             \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->then(function ($data) use ($resolve, $reject) {
                 $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 
-                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function ($data) use ($resolve) {
-                    $this->_patch($data);
+                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function () use ($resolve) {
                     $resolve($this);
                 }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
@@ -98,7 +97,6 @@ class ClientUser extends User {
     function setUsername(string $username) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
             $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
-                $this->_patch($data);
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -212,7 +210,7 @@ class ClientUser extends User {
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\GroupDMChannel>
      */
     function createGroupDM(array $userWithAccessTokens, array $nicks = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userWithAccessTokens) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($nicks, $userWithAccessTokens) {
             $tokens = array();
             $users = array();
             
