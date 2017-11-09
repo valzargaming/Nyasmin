@@ -133,11 +133,11 @@ class TextBasedChannel extends ClientBase
      *
      */
     function collectMessages(callable $filter, array $options) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             $timer = null;
             
-            $listener = function ($message) use ($collect, $filter, &$listener, $options, $resolve, $reject, &$timer) {
+            $listener = function ($message) use ($collect, $filter, &$listener, $options, $resolve, &$timer) {
                 if($message->channel->id === $this->id && $filter($message)) {
                     $collect->set($message->id, $message);
                     
@@ -155,7 +155,7 @@ class TextBasedChannel extends ClientBase
             $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('message', $listener);
                 
-                if(\in_array('time', $options['errors']) && $collect->count < $options['max']) {
+                if(\in_array('time', $options['errors']) && $collect->count() < $options['max']) {
                     return $reject(new \RangeException('Not reached max messages in specified duration'));
                 }
                 
@@ -321,16 +321,16 @@ class TextBasedChannel extends ClientBase
      */
     function startTyping() {
         if($this->typingTriggered['count'] === 0) {
-            $this->typingTriggerd['timer'] = $this->client->addPeriodicTimer(7, function () {
+            $this->typingTriggered['timer'] = $this->client->addPeriodicTimer(7, function () {
                 $this->client->apimanager()->endpoints->channel->triggerChannelTyping($this->id)->then(function () {
                     $this->_updateTyping($this->client->user, \time());
                 }, function () {
                     $this->_updateTyping($this->client->user);
                     $this->typingTriggered['count'] = 0;
                     
-                    if($this->typingTriggerd['timer']) {
-                        $this->client->cancelTimer($this->typingTriggerd['timer']);
-                        $this->typingTriggerd['timer'] = null;
+                    if($this->typingTriggered['timer']) {
+                        $this->client->cancelTimer($this->typingTriggered['timer']);
+                        $this->typingTriggered['timer'] = null;
                     }
                 })->done(null, array($this->client, 'handlePromiseRejection'));
             });
@@ -354,9 +354,9 @@ class TextBasedChannel extends ClientBase
         }
         
         if($this->typingTriggered['count'] === 0) {
-            if($this->typingTriggerd['timer']) {
-                $this->client->cancelTimer($this->typingTriggerd['timer']);
-                $this->typingTriggerd['timer'] = null;
+            if($this->typingTriggered['timer']) {
+                $this->client->cancelTimer($this->typingTriggered['timer']);
+                $this->typingTriggered['timer'] = null;
             }
         }
     }

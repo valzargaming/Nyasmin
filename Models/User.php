@@ -200,7 +200,7 @@ class User extends ClientBase
      */
     function fetchUserConnections() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->user->getUserConnections()->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->getUserConnections()->then(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 foreach($data as $conn) {
                     $collect->set($conn['id'], $conn);
@@ -262,7 +262,7 @@ class User extends ClientBase
      * @param  bool  $force  Reset typing counter and stop sending the indicator.
      */
     function stopTyping(bool $force = false) {
-        $this->createDM()->then(function ($channel) {
+        $this->createDM()->then(function ($channel) use ($force) {
             $channel->stopTyping($force)->done();
         });
     }
