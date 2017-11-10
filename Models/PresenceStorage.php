@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Presence Storage, which utilizes Collection.
- * @todo Docs
  */
 class PresenceStorage extends Storage {
     /**

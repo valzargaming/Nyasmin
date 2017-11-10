@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * User Storage to store and cache users, which utlizies Collection.
- * @todo Docs
  */
 class UserStorage extends Storage {
     /**

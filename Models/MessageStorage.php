@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Message Storage to store and handle messages, utilizes Collection.
- * @todo Docs
  */
 class MessageStorage extends Storage {
     protected $channel;

@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Role Storage to store a guild's roles, utilizes Collection.
- * @todo Docs
  */
 class RoleStorage extends Storage {
     protected $guild;

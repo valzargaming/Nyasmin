@@ -467,7 +467,7 @@ class TextBasedChannel extends ClientBase
      * @return string[]|null
      */
     static function resolveMessageOptionsSplit(string $content, array $options) {
-        $split = $options['split'];
+        $split = &$options['split'];
         
         if(\strlen($content) > $split['maxLength']) {
             $i = 0;

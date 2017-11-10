@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Channel Storage to store channels, which utilizes Collection.
- * @todo Docs
  */
 class ChannelStorage extends Storage {
     /**

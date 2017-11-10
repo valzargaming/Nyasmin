@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Emoji Storage to store emojis, utilizes Collection.
- * @todo Docs
  */
 class EmojiStorage extends Storage {
     protected $guild;
