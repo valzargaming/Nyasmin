@@ -29,7 +29,7 @@ class PermissionOverwrite extends ClientBase {
         $this->channel = $channel;
         
         $this->id = $permission['id'];
-        $this->type = $permission['type'] ?? $this->type;
+        $this->type = $permission['type'];
         $this->target = ($this->type === 'role' ? $this->channel->guild->roles->get($permission['id']) : $this->channel->guild->members->get($permission['id']));
         $this->allow = new \CharlotteDunois\Yasmin\Models\Permissions(($permission['allow'] ?? 0));
         $this->deny = new \CharlotteDunois\Yasmin\Models\Permissions(($permission['deny'] ?? 0));

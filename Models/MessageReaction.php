@@ -53,11 +53,11 @@ class MessageReaction extends ClientBase {
     }
     
     /**
-     * Fetches all the users that gave this reaction. Resolves with a collection of User instances, mapped by their IDs.
+     * Fetches all the users that gave this reaction. Resolves with a Collection of User instances, mapped by their IDs.
      * @param int     $limit   The maximum amount of users to fetch, defaults to 100.
      * @param string  $before  Limit fetching users to those with an ID smaller than the given ID.
      * @param string  $after   Limit fetching users to those with an ID greater than the given ID.
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\User>>
      */
     function fetchUsers(int $limit = 100, string $before = '', string $after = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($limit, $before, $after) {
@@ -77,7 +77,7 @@ class MessageReaction extends ClientBase {
                     $this->users->set($user->id, $user);
                 }
                 
-                $resolve($this);
+                $resolve($this->users);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }

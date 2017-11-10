@@ -74,7 +74,7 @@ class MessageAttachment extends Base {
     
     /**
      * Sets the attachment. Requires allow_url_fopen to be enabled in the php.ini for URLs.
-     * @param string  $attachment  An URL or the filepath or the data.
+     * @param string  $attachment  An URL or the filepath, or the data.
      * @param string  $filename    The filename.
      * @return $this
      */

@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class Message extends ClientBase {
     /**
-     * The character used in Message::reply to separate the mention and the content.
+     * The string used in Message::reply to separate the mention and the content.
      * @var string
      */
     static public $replySeparator = ' ';
@@ -267,7 +267,7 @@ class Message extends ClientBase {
     }
     
     /**
-     * Reacts to the message with the specified unicode emoji or custom emoji.
+     * Reacts to the message with the specified unicode or custom emoji.
      * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string  $emoji
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\MessageReaction>
      *
@@ -284,10 +284,25 @@ class Message extends ClientBase {
                 $emoji = $emoji->identifier;
             }
             
-            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->then(function ($data) use ($resolve) {
-                $reaction = $this->_addReaction($data);
-                $resolve($reaction);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            $timer = array();
+            $listener = function ($reaction) use (&$listener, $timer, $emoji, $resolve) {
+                if($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji) {
+                    if(!empty($timer[0])) {
+                        $this->client->cancelTimer($timer[0]);
+                    }
+                    
+                    $this->client->removeListener('messageReactionAdd', $listener);
+                    $resolve($reaction);
+                }
+            };
+
+            $timer[0] = $this->client->addTimer(30, function () use (&$listener, $reject) {
+                $this->client->removeListener('messageReactionAdd', $listener);
+                $reject(new \Exception('Message Reaction did not arrive in time'));
+            });
+            
+            $this->client->on('messageReactionAdd', $listener);
+            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->otherwise($reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -355,14 +370,14 @@ class Message extends ClientBase {
      */
     function _patch(array $message) {
         $this->content = $message['content'] ?? $this->content ?? '';
-        $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : null);
+        $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : $this->editedTimestamp);
         
         $this->tts = $message['tts'] ?? $this->tts;
         $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
         $this->pinned = $message['pinned'] ?? $this->pinned;
         $this->system = (!empty($message['type']) ? ($message['type'] > 0 ? true : false) : $this->system);
         $this->type = (!empty($message['type']) ? \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES[$message['type']] : $this->type);
-        $this->webhookID = $message['webhook_id'] ?? null;
+        $this->webhookID = $message['webhook_id'] ?? $this->webhookID;
         
         if(!empty($message['embeds'])) {
             $this->embeds = array();

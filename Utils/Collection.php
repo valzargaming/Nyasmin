@@ -13,6 +13,9 @@ namespace CharlotteDunois\Yasmin\Utils;
  * Collection, an util to conventionally store a key-value pair.
  */
 class Collection implements \Iterator {
+    /**
+     * @var array
+     */
     protected $data = array();
     
     /**
@@ -33,35 +36,38 @@ class Collection implements \Iterator {
     }
     
     /**
-     * @internal
+     * Returns the current element.
+     * @return mixed
      */
     function current() {
         return \current($this->data);
     }
     
     /**
-     * @internal
+     * Fetch the key from the current element.
      */
     function key() {
         return \key($this->data);
     }
     
     /**
-     * @internal
+     * Advances the internal pointer.
+     * @return mixed|false
      */
     function next() {
         return \next($this->data);
     }
     
     /**
-     * @internal
+     * Resets the internal pointer.
      */
     function rewind() {
         return \reset($this->data);
     }
     
     /**
-     * @internal
+     * Checks if current position is valid.
+     * @return bool
      */
     function valid() {
         return (\current($this->data) !== false);
@@ -121,7 +127,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Breaks the collection into multiple, smaller collections of a given size.
+     * Breaks the collection into multiple, smaller collections of a given size. Returns a new Collection.
      * @param  int  $numitems
      * @param  bool $preserve_keys
      * @return Collection
@@ -131,7 +137,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Collapses a collection of arrays into a flat collection.
+     * Collapses a collection of arrays into a flat collection. Returns a new Collection.
      * @return Collection
     */
     function collapse() {
@@ -151,7 +157,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Combines the keys of the collection with the values of another array or collection.
+     * Combines the keys of the collection with the values of another array or collection. Returns a new Collection.
      * @param  mixed  $values
      * @return Collection
     */
@@ -162,29 +168,23 @@ class Collection implements \Iterator {
     /**
      * Determines whether the collection contains a given item.
      * @param  callable|mixed   $item
-     * @param  mixed            $value
+     * @param  mixed|null       $value
      * @return bool
     */
-    function contains($item, $value = "") {
-        if(empty($item)) {
-            return false;
-        }
-        
+    function contains($item, $value = null) {
         foreach($this->data as $key => $val) {
-            if($item instanceof \Closure) {
+            if(\is_callable($item)) {
                 $bool = (bool) $item($val, $key);
                 if($bool) {
                     return true;
                 }
             } else {
-                if(!empty($value)) {
-                    if($key == $item && $val == $value) {
+                if($value !== null) {
+                    if($key === $item && $val === $value) {
                         return true;
                     }
-                } else {
-                    if($val == $item) {
-                        return true;
-                    }
+                } elseif($val === $item) {
+                    return true;
                 }
             }
         }
@@ -209,7 +209,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Compares the collection against another collection or a plain PHP array based on its value.
+     * Compares the collection against another collection or a plain PHP array based on its value. Returns a new Collection.
      * @param  mixed[]|Collection  $arr
      * @return Collection
     */
@@ -222,7 +222,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Compares the collection against another collection or a plain PHP array based on its key.
+     * Compares the collection against another collection or a plain PHP array based on its key. Returns a new Collection.
      * @param  mixed[]|Collection  $arr
      * @return Collection
     */
@@ -268,7 +268,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Returns all items in the collection except for those with the specified keys.
+     * Returns all items in the collection except for those with the specified keys. Returns a new Collection.
      * @param  mixed[]  $keys
      * @return Collection
     */
@@ -284,7 +284,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Filters the collection by a given callback, keeping only those items that pass a given truth test.
+     * Filters the collection by a given callback, keeping only those items that pass a given truth test. Returns a new Collection.
      * @param  callable  $closure
      * @return Collection
     */
@@ -321,22 +321,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level.
-     * @param  callable  $closure
-     * @return Collection
-    */
-    function flatMap(callable $closure) {
-        $data = $this->data;
-        foreach($data as $key => $val) {
-            $data[$key] = $closure($val, $key);
-        }
-        
-        $data = $this->flattenDo($data, 1);
-        return (new self($data));
-    }
-    
-    /**
-     * Flattens a multi-dimensional collection into a single dimension.
+     * Flattens a multi-dimensional collection into a single dimension. Returns a new Collection.
      * @param  int  $depth
      * @return Collection
     */
@@ -346,7 +331,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Swaps the collection's keys with their corresponding values.
+     * Swaps the collection's keys with their corresponding values. Returns a new Collection.
      * @return Collection
     */
     function flip() {
@@ -368,7 +353,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Groups the collection's items by a given key.
+     * Groups the collection's items by a given key. Returns a new Collection.
      * @param  mixed  $column
      * @return Collection
     */
@@ -418,7 +403,7 @@ class Collection implements \Iterator {
             }
         }
         
-        return $data;
+        return \rtrim($data, $glue);
     }
     
     /**
@@ -440,7 +425,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Removes any values that are not present in the given array or collection.
+     * Removes any values that are not present in the given array or collection. Returns a new Collection.
      * @param  mixed[]|Collection  $arr
      * @return Collection
     */
@@ -450,14 +435,6 @@ class Collection implements \Iterator {
         }
         
         return (new self(\array_intersect($this->data, $arr)));
-    }
-    
-    /**
-     * Returns true if the collection is empty; otherwise, false is returned.
-     * @return bool
-    */
-    function isEmpty() {
-        return (bool) empty($this->data);
     }
     
     /**
@@ -489,7 +466,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Returns all of the collection's keys.
+     * Returns all of the collection's keys. Returns a new Collection.
      * @return Collection
     */
     function keys() {
@@ -544,7 +521,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Merges the given array into the collection. Any string key in the array matching a string key in the collection will overwrite the value in the collection.
+     * Merges the given array into the collection. Any string key in the array matching a string key in the collection will overwrite the value in the collection. Returns a new Collection.
      * @param  string[]  $arr
      * @return Collection
     */
@@ -568,7 +545,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Returns the items in the collection with the specified keys.
+     * Returns the items in the collection with the specified keys. Returns a new Collection.
      * @param mixed[]  $keys
      * @return Collection
     */
@@ -584,7 +561,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Return the values from a single column in the input array.
+     * Return the values from a single column in the input array. Returns a new Collection.
      * @param  mixed    $key
      * @param  mixed    $index
      * @return Collection
@@ -615,22 +592,6 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Adds an item to the beginning of the collection.
-     * @param  mixed       $value
-     * @param  mixed|null  $key
-     * @return Collection
-    */
-    function prepend($value, $key = null) {
-        if(!empty($key) && !\is_int($key)) {
-            $data = \array_unshift($this->data, $value);
-        } else {
-            $data = \array_merge(array($key => $value), $this->data);
-        }
-        
-        return (new self($data));
-    }
-    
-    /**
      * Removes and returns an item from the collection by its key.
      * @param  mixed  $key
      * @return mixed
@@ -644,23 +605,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Appends an item to the end of the collection.
-     * @param  mixed  $value
-     * @param  mixed  $key
-     * @return $this
-    */
-    function push($value, $key = null) {
-        if(!empty($key) && !\is_int($key)) {
-            \array_push($this->data, $value);
-        } else {
-            $this->data = \array_merge($this->data, array($key => $value));
-        }
-        
-        return $this;
-    }
-    
-    /**
-     * Returns one random item, or multiple random items inside a Collection, from the Collection.
+     * Returns one random item, or multiple random items inside a Collection, from the Collection. May return a new Collection.
      * @param  int  $num
      * @return mixed|Collection
     */
@@ -688,7 +633,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Reverses the order of the collection's items.
+     * Reverses the order of the collection's items. Returns a new Collection.
      * @param  bool $preserve_keys
      * @return Collection
     */
@@ -703,7 +648,7 @@ class Collection implements \Iterator {
      * @return mixed|bool
     */
     function search($needle, bool $strict = false) {
-        if($needle instanceof \Closure) {
+        if(\is_callable($needle)) {
             foreach($this->data as $key => $val) {
                 $feed = (bool) $needle($val, $key);
                 if($feed) {
@@ -726,7 +671,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Randomly shuffles the items in the collection.
+     * Randomly shuffles the items in the collection. Returns a new Collection.
      * @return Collection
     */
     function shuffle() {
@@ -737,7 +682,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Returns a slice of the collection starting at the given index.
+     * Returns a slice of the collection starting at the given index. Returns a new Collection.
      * @param  int      $offset
      * @param  int      $limit
      * @param  bool     $preserve_keys
@@ -749,7 +694,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Sorts the collection.
+     * Sorts the collection. Returns a new Collection.
      * @param  callable    $closure
      * @param  int         $options
      * @return Collection
@@ -767,7 +712,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Sorts the collection by the given key.
+     * Sorts the collection by the given key. Returns a new Collection.
      * @param  mixed|\Closure  $sortkey
      * @param  int             $options
      * @param  bool            $descending
@@ -796,7 +741,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Sorts the collection by the given key in descending order.
+     * Sorts the collection by the given key in descending order. Returns a new Collection.
      * @param  mixed|\Closure  $sortkey
      * @param  int             $options
      * @return Collection
@@ -806,7 +751,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Removes and returns a slice of items starting at the specified index.
+     * Removes and returns a slice of items starting at the specified index. Returns a new Collection.
      * @param  int      $offset
      * @param  int      $length
      * @param  mixed[]  $replacement
@@ -848,7 +793,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Returns all of the unique items in the collection.
+     * Returns all of the unique items in the collection. Returns a new Collection.
      * @param  mixed  $key
      * @return Collection
     */
@@ -880,7 +825,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Filters the collection by a given key / value pair.
+     * Filters the collection by a given key / value pair. Returns a new Collection.
      * @param  mixed  $key
      * @param  mixed  $value
      * @param  bool   $strict
@@ -905,7 +850,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Filters the collection by a given key / value pair.
+     * Filters the collection by a given key / value pair array. Returns a new Collection.
      * @param  mixed[]  $arr
      * @param  bool     $strict
      * @return Collection
@@ -931,7 +876,7 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Merges together the values of the given array with the values of the collection at the corresponding index.
+     * Merges together the values of the given array with the values of the collection at the corresponding index. Returns a new Collection.
      * @param  mixed[]  $arr
      * @return $this|Collection
     */
@@ -948,6 +893,9 @@ class Collection implements \Iterator {
         return (new self($data));
     }
     
+    /**
+     * @internal
+     */
     protected function dataGet($target, $key, $default = null) {
         if(\is_null($key)) {
             return $target;
@@ -987,6 +935,9 @@ class Collection implements \Iterator {
         return $target;
     }
     
+    /**
+     * @internal
+     */
     protected function flattenDo(array $array, int $depth, int $in_depth = 0) {
         $data = array();
         foreach($array as $val) {
@@ -1000,6 +951,9 @@ class Collection implements \Iterator {
         return $data;
     }
     
+    /**
+     * @internal
+     */
     protected function valueRetriever($value) {
         if($value instanceof \Closure) {
             return $value;

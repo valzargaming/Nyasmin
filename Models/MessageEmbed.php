@@ -29,6 +29,7 @@ class MessageEmbed extends Base {
     
     /**
      * Constructs a new instance.
+     * @param array  $embed
      */
     function __construct(array $embed = array()) {
         if(!empty($embed)) {

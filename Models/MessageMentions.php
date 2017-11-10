@@ -93,12 +93,12 @@ class MessageMentions extends ClientBase {
     /**
      * @inheritDoc
      *
+     * @property-read \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $channels  The collection which holds all channel mentions.
      * @property-read bool                                        $everyone  Whether the message mentions @everyone or @here.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $members   The collection which holds all members mentions (only in guild channels).
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $roles     The collection which holds all roles mentions.
      * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $users     The collection which holds all users mentions.
-     * @property-read \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
      *
      * @throws \Exception
      */

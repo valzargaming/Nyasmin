@@ -48,10 +48,10 @@ class Invite extends ClientBase {
      * @inheritDoc
      *
      * @property-read string                                                                                                 $code                The invite code.
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild               $guild               The guild which this invite belongs to.
-     * @property-read \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  $channel             The channel which this invite belongs to.
+     * @property-read \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild                       $guild               The guild which this invite belongs to.
+     * @property-read \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel      $channel             The channel which this invite belongs to.
      * @property-read int|null                                                                                               $createdTimestamp    When this invite was created, or null.
-     * @property-read \CharlotteDunois\Yasmin\Models\User|null                                                           $inviter             The inviter, or null.
+     * @property-read \CharlotteDunois\Yasmin\Models\User|null                                                               $inviter             The inviter, or null.
      * @property-read int|null                                                                                               $maxUses             Maximum uses until the invite expires, or null.
      * @property-read int|null                                                                                               $maxAge              Duration (in seconds) until the invite expires, or null.
      * @property-read bool|null                                                                                              $revoked             If the invite is revoked, this will indicate it, or null.
