@@ -15,13 +15,6 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class GuildStorage extends Storage {
     /**
-     * @internal
-     */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
-        parent::__construct($client, $data);
-    }
-    
-    /**
      * Resolves given data to a guild.
      * @param \CharlotteDunois\Yasmin\Models\Guild|string  $guild  string = guild ID
      * @return \CharlotteDunois\Yasmin\Models\Guild

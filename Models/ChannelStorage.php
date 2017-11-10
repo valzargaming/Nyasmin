@@ -15,13 +15,6 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class ChannelStorage extends Storage {
     /**
-     * @internal
-     */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
-        parent::__construct($client, $data);
-    }
-    
-    /**
      * Resolves given data to a channel.
      * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|string  string = channel ID
      * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface

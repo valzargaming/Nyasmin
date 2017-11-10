@@ -15,13 +15,6 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class PresenceStorage extends Storage {
     /**
-     * @internal
-     */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
-        parent::__construct($client, $data);
-    }
-    
-    /**
      * Resolves given data to a presence.
      * @param \CharlotteDunois\Yasmin\Models\Presence|\CharlotteDunois\Yasmin\Models\User|string  string = user ID
      * @return \CharlotteDunois\Yasmin\Models\Presence

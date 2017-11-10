@@ -14,13 +14,15 @@ namespace CharlotteDunois\Yasmin\Models;
  * @todo Docs
  */
 class MessageStorage extends Storage {
+    protected $channel;
     protected $timer;
     
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $data = null) {
         parent::__construct($client, $data);
+        $this->channel = $channel;
         
         $time = (int) $this->client->getOption('messageCacheLifetime', 0);
         if($time > 0) {
