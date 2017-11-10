@@ -249,9 +249,15 @@ class TextBasedChannel extends ClientBase
                 }
                 
                 if(!empty($options['split'])) {
+                    $split = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
+                    if(\is_array(($options['split'] ?? null))) {
+                        $split = \array_merge($split, $options['split']);
+                    }
+                    
                     $messages = self::resolveMessageOptionsSplit($msg['content'], $options);
                     if($messages !== null) {
                         $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
+                        $i = \count($messages);
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
                             return $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($collection) {
@@ -461,10 +467,7 @@ class TextBasedChannel extends ClientBase
      * @return string[]|null
      */
     static function resolveMessageOptionsSplit(string $content, array $options) {
-        $split = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
-        if(\is_array(($options['split'] ?? null))) {
-            $split = \array_merge($split, $options['split']);
-        }
+        $split = $options['split'];
         
         if(\strlen($content) > $split['maxLength']) {
             $i = 0;
