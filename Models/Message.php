@@ -373,13 +373,13 @@ class Message extends ClientBase {
         $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : $this->editedTimestamp);
         
         $this->tts = $message['tts'] ?? $this->tts;
-        $this->nonce = (!empty($message['nonce']) ? $message['nonce'] : null);
+        $this->nonce = $message['nonce'] ?? null;
         $this->pinned = $message['pinned'] ?? $this->pinned;
-        $this->system = (!empty($message['type']) ? ($message['type'] > 0 ? true : false) : $this->system);
+        $this->system = (!empty($message['type']) ? ($message['type'] > 0) : $this->system);
         $this->type = (!empty($message['type']) ? \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES[$message['type']] : $this->type);
         $this->webhookID = $message['webhook_id'] ?? $this->webhookID;
         
-        if(!empty($message['embeds'])) {
+        if(isset($message['embeds'])) {
             $this->embeds = array();
             foreach($message['embeds'] as $embed) {
                 $this->embeds[] = new \CharlotteDunois\Yasmin\Models\MessageEmbed($embed);
