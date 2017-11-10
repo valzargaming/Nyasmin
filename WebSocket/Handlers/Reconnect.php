@@ -21,6 +21,6 @@ class Reconnect {
     }
     
     function handle($packet) {
-        $this->wshandler->wsmanager->reconnect();
+        $this->wshandler->wsmanager->reconnect($packet['d']);
     }
 }

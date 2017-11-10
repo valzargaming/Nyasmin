@@ -80,7 +80,7 @@ class VoiceChannel extends ClientBase
                 return ($this->userLimit > 0 && $this->userLimit > $this->members->count());
             break;
             case 'guild':
-                return $this->channel->guild;
+                return $this->guild;
             break;
             case 'parent':
                 return $this->guild->channels->get($this->parentID);

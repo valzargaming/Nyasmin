@@ -8,7 +8,6 @@
 */
 
 namespace CharlotteDunois\Yasmin\Models;
-use PHPStan\Type\NullType;
 
 /**
  * Represents a webhook.
@@ -82,7 +81,7 @@ class Webhook extends ClientBase {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $options, $reason) {
             \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['avatar'])->then(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
                 if(!empty($avatar)) {
-                    $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
+                    $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 }
                 
                 $this->client->apimanager()->endpoints->webhook->modifyWebhook($this->id, $data, $reason)->then(function ($data) use ($resolve) {
@@ -219,10 +218,10 @@ class Webhook extends ClientBase {
      * @internal
      */
     protected function executeWebhook(array $opts, array $files) {
-        return $this->client->apimanager()->endpoints->webhook->executeWebhook($this->id, $this->token, $opts, $files, array('wait' => true))->then(function ($data) use ($resolve) {
+        return $this->client->apimanager()->endpoints->webhook->executeWebhook($this->id, $this->token, $opts, $files, array('wait' => true))->then(function ($data) {
             $channel = $this->client->channels->get($this->channelID);
             return $channel->_createMessage($data);
-        }, $reject);
+        });
     }
     
     /**

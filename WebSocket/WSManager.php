@@ -35,7 +35,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
     protected $ws;
     
     /**
-     * @var resource|null
+     * @var \CharlotteDunois\Yasmin\Interfaces\WSCompressionInterface|null
      */
     protected $compressContext;
     
@@ -325,9 +325,13 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
         $this->wsSessionID = null;
     }
     
-    function reconnect() {
+    function reconnect($resumable = true) {
         if(!$this->ws) {
             return;
+        }
+        
+        if($resumable === false) {
+            $this->wsSessionID = null;
         }
         
         $this->client->emit('debug', 'Disconnecting from WS in order to reconnect');
