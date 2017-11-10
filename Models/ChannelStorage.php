@@ -10,14 +10,23 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * Channel Storage to store channels, which utilizes Collection.
  * @todo Docs
  */
 class ChannelStorage extends Storage {
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($client, $data);
     }
     
+    /**
+     * Resolves given data to a channel.
+     * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|string  string = channel ID
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface
+     * @throws \InvalidArgumentException
+     */
     function resolve($channel) {
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\ChannelInterface) {
             return $channel;
@@ -30,6 +39,9 @@ class ChannelStorage extends Storage {
         throw new \InvalidArgumentException('Unable to resolve unknown channel');
     }
     
+    /**
+     * @inheritDoc
+     */
     function set($key, $value) {
         parent::set($key, $value);
         if($this !== $this->client->channels) {
@@ -39,6 +51,9 @@ class ChannelStorage extends Storage {
         return $this;
     }
     
+    /**
+     * @inheritDoc
+     */
     function delete($key) {
         parent::delete($key);
         if($this !== $this->client->channels) {
@@ -48,6 +63,9 @@ class ChannelStorage extends Storage {
         return $this;
     }
     
+    /**
+     * @internal
+     */
     function factory(array $data) {
         $guild = (!empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null);
         

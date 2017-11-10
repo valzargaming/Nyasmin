@@ -10,14 +10,23 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * User Storage to store and cache users, which utlizies Collection.
  * @todo Docs
  */
 class UserStorage extends Storage {
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($client, $data);
     }
     
+    /**
+     * Resolves given data to an user.
+     * @param \CharlotteDunois\Yasmin\Models\User|\CharlotteDunois\Yasmin\Models\GuildMember|string  $user  string = user ID
+     * @return \CharlotteDunois\Yasmin\Models\User
+     * @throws \InvalidArgumentException
+     */
     function resolve($user) {
         if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
             return $user;
@@ -34,6 +43,9 @@ class UserStorage extends Storage {
         throw new \InvalidArgumentException('Unable to resolve unknown user');
     }
     
+    /**
+     * @internal
+     */
     function patch(array $user) {
         if($this->has($user['id'])) {
             return $this->get($user['id']);
@@ -46,6 +58,9 @@ class UserStorage extends Storage {
         return $this->factory($user);
     }
     
+    /**
+     * @inheritDoc
+     */
     function set($key, $value) {
         parent::set($key, $value);
         if($this !== $this->client->users) {
@@ -55,6 +70,9 @@ class UserStorage extends Storage {
         return $this;
     }
     
+    /**
+     * @inheritDoc
+     */
     function delete($key) {
         parent::delete($key);
         if($this !== $this->client->users) {
@@ -64,6 +82,9 @@ class UserStorage extends Storage {
         return $this;
     }
     
+    /**
+     * @internal
+     */
     function factory(array $data) {
         $user = new \CharlotteDunois\Yasmin\Models\User($this->client, $data);
         $this->set($user->id, $user);

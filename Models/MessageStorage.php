@@ -10,21 +10,39 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * Message Storage to store and handle messages, utilizes Collection.
  * @todo Docs
  */
 class MessageStorage extends Storage {
+    protected $timer;
+    
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($client, $data);
         
         $time = (int) $this->client->getOption('messageCacheLifetime', 0);
         if($time > 0) {
-            $this->client->addPeriodicTimer($time, function () use ($time) {
+            $this->timer = $this->client->addPeriodicTimer($time, function () use ($time) {
                 $this->sweep($time);
             });
         }
     }
     
+    /**
+     * @internal
+     */
+    function __destruct() {
+        if($this->timer) {
+            $this->client->cancelTimer($this->timer);
+        }
+    }
+    
+    /**
+     * Sweeps messages, deletes messages older than the parameter (timestamp - $time).
+     * @param int  $time  0 = clear all
+     */
     function sweep(int $time) {
         if($time === 0) {
             $this->clear();

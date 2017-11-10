@@ -10,17 +10,30 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * Presence Storage, which utilizes Collection.
  * @todo Docs
  */
 class PresenceStorage extends Storage {
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($client, $data);
     }
     
+    /**
+     * Resolves given data to a presence.
+     * @param \CharlotteDunois\Yasmin\Models\Presence|\CharlotteDunois\Yasmin\Models\User|string  string = user ID
+     * @return \CharlotteDunois\Yasmin\Models\Presence
+     * @throws \InvalidArgumentException
+     */
     function resolve($presence) {
         if($presence instanceof \CharlotteDunois\Yasmin\Models\Presence) {
             return $presence;
+        }
+        
+        if($presence instanceof \CharlotteDunois\Yasmin\Models\User) {
+            $presence = $presence->id;
         }
         
         if(\is_string($presence) && $this->has($presence)) {
@@ -30,6 +43,9 @@ class PresenceStorage extends Storage {
         throw new \InvalidArgumentException('Unable to resolve unknown presence');
     }
     
+    /**
+     * @inheritDoc
+     */
     function set($key, $value) {
         parent::set($key, $value);
         if($this !== $this->client->presences) {
@@ -39,6 +55,9 @@ class PresenceStorage extends Storage {
         return $this;
     }
     
+    /**
+     * @inheritDoc
+     */
     function delete($key) {
         parent::delete($key);
         if($this !== $this->client->presences) {
@@ -48,6 +67,9 @@ class PresenceStorage extends Storage {
         return $this;
     }
     
+    /**
+     * @internal
+     */
     function factory(array $data) {
         $presence = new \CharlotteDunois\Yasmin\Models\Presence($this->client, $data);
         $this->set($data['user']['id'], $presence);

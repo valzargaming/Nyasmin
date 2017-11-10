@@ -10,29 +10,23 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * Guild Storage to store guilds, utilizes Collection.
  * @todo Docs
  */
-class GuildStorage extends \CharlotteDunois\Yasmin\Utils\Collection
-    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface {
-    
-    protected $client;
-    
+class GuildStorage extends Storage {
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
-        parent::__construct($data);
-        $this->client = $client;
+        parent::__construct($client, $data);
     }
     
-    function __get($name) {
-        switch($name) {
-            case 'client':
-                return $this->client;
-            break;
-        }
-        
-        return parent::__get($name);
-    }
-    
+    /**
+     * Resolves given data to a guild.
+     * @param \CharlotteDunois\Yasmin\Models\Guild|string  $guild  string = guild ID
+     * @return \CharlotteDunois\Yasmin\Models\Guild
+     * @throws \InvalidArgumentException
+     */
     function resolve($guild) {
         if($guild instanceof \CharlotteDunois\Yasmin\Models\Guild) {
             return $guild;

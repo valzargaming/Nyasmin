@@ -379,7 +379,7 @@ class APIManager {
     
     /**
      * Extracts ratelimits from a response.
-     * @param \GuzzleHttp\Psr7\Response                          $response
+     * @param \GuzzleHttp\Psr7\Response  $response
      * @return mixed[]
      */
     function extractRatelimit(\GuzzleHttp\Psr7\Response $response) {

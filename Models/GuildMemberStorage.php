@@ -10,20 +10,33 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * Guild Member Storage to store guild members, utilizes Collection.
  * @todo Docs
  */
 class GuildMemberStorage extends Storage {
     protected $guild;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $data = null) {
         parent::__construct($client, $data);
         $this->guild = $guild;
     }
     
+    /**
+     * Resolves given data to a guildmember.
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  string = user ID
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember
+     * @throws \InvalidArgumentException
+     */
     function resolve($guildmember) {
         if($guildmember instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
             return $guildmember;
+        }
+        
+        if($guildmember instanceof \CharlotteDunois\Yasmin\Models\User) {
+            $guildmember = $guildmember->id;
         }
         
         if(\is_string($guildmember) && $this->has($guildmember)) {
@@ -33,6 +46,9 @@ class GuildMemberStorage extends Storage {
         throw new \InvalidArgumentException('Unable to resolve unknown guild member');
     }
     
+    /**
+     * @internal
+     */
     function factory(array $data) {
         if($this->has($data['user']['id'])) {
             $member = $this->get($data['user']['id']);

@@ -188,7 +188,7 @@ class APIRequest {
         }
         
         $json = \json_decode($body, true);
-        if(!$json) {
+        if($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \Exception('Invalid API response: '.\json_last_error_msg());
         }
         
