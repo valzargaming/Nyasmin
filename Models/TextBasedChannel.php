@@ -249,12 +249,8 @@ class TextBasedChannel extends ClientBase
                 }
                 
                 if(!empty($options['split'])) {
-                    $split = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
-                    if(\is_array($options['split'])) {
-                        $split = \array_merge($split, $options['split']);
-                    }
-                    
-                    if(\strlen($msg['content']) > $split['maxLength']) {
+                    $messages = self::resolveMessageOptionsSplit($msg['content'], $options);
+                    if($messages !== null) {
                         $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
@@ -263,23 +259,6 @@ class TextBasedChannel extends ClientBase
                                 $collection->set($msg->id, $msg);
                             }, $reject);
                         };
-                        
-                        $i = 0;
-                        $messages = array();
-                        
-                        $parts = \explode($split['char'], $msg['content']);
-                        foreach($parts as $part) {
-                            if(empty($messages[$i])) {
-                                $messages[$i] = '';
-                            }
-                            
-                            if((\strlen($messages[$i]) + \strlen($part) + 2) >= $split['maxLength']) {
-                                $i++;
-                                $messages[$i] = '';
-                            }
-                            
-                            $messages[$i] .= $part.$split['char'];
-                        }
                         
                         $promise = \React\Promise\resolve();
                         foreach($messages as $key => $message) {
@@ -426,6 +405,11 @@ class TextBasedChannel extends ClientBase
         ));
     }
     
+    /**
+     * Resolves files of Message Options.
+     * @param array $options
+     * @return \React\Promise\Promise
+     */
     static function resolveMessageOptionsFiles(array $options) {
         if(empty($options['files'])) {
             return \React\Promise\resolve(array());
@@ -468,5 +452,41 @@ class TextBasedChannel extends ClientBase
         }
         
         return \React\Promise\all($promises);
+    }
+    
+    /**
+     * Resolves split of Message Options. Returns null if no chunks needed.
+     * @param string $content
+     * @param array $options
+     * @return string[]|null
+     */
+    static function resolveMessageOptionsSplit(string $content, array $options) {
+        $split = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
+        if(\is_array(($options['split'] ?? null))) {
+            $split = \array_merge($split, $options['split']);
+        }
+        
+        if(\strlen($content) > $split['maxLength']) {
+            $i = 0;
+            $messages = array();
+            
+            $parts = \explode($split['char'], $content);
+            foreach($parts as $part) {
+                if(empty($messages[$i])) {
+                    $messages[$i] = '';
+                }
+                
+                if((\strlen($messages[$i]) + \strlen($part) + 2) >= $split['maxLength']) {
+                    $i++;
+                    $messages[$i] = '';
+                }
+                
+                $messages[$i] .= $part.$split['char'];
+            }
+            
+            return $messages;
+        }
+        
+        return null;
     }
 }
