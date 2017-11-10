@@ -155,7 +155,7 @@ class Webhook extends ClientBase {
                         $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
-                            return $this->executeWebhook($msg, ($files ?? array()))->then($resolve, $reject)->then(function ($message) use ($collection) {
+                            return $this->executeWebhook($msg, ($files ?? array()))->then(function ($message) use ($collection) {
                                 $collection->set($message->id, $message);
                             }, $reject);
                         };

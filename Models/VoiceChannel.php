@@ -101,7 +101,7 @@ class VoiceChannel extends ClientBase
                 return null;
             break;
             case 'speakable':
-                return $this->permissionsFor($this->channel->guild->me)->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['SPEAK']);
+                return $this->permissionsFor($this->guild->me)->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['SPEAK']);
             break;
         }
         
