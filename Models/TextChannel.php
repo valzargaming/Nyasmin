@@ -11,6 +11,17 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild's text channel.
+ *
+ * @property  \CharlotteDunois\Yasmin\Models\Guild                                                    $guild                  The associated guild.
+ * @property  string                                                                                  $name                   The channel name.
+ * @property  string                                                                                  $topic                  The channel topic.
+ * @property  bool                                                                                    $nsfw                   Whether the channel is marked as NSFW or not.
+ * @property  string|null                                                                             $parentID               The ID of the parent channel, or null.
+ * @property  int                                                                                     $position               The channel position.
+ * @property \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
+ *
+ * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                     $parent                 Returns the channel's parent, or null.
+ * @property  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
  */
 class TextChannel extends TextBasedChannel
     implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
@@ -36,17 +47,6 @@ class TextChannel extends TextBasedChannel
     
     /**
      * @inheritDoc
-     *
-     * @property-read  \CharlotteDunois\Yasmin\Models\Guild                                                    $guild                  The associated guild.
-     * @property-read  string                                                                                  $name                   The channel name.
-     * @property-read  string                                                                                  $topic                  The channel topic.
-     * @property-read  bool                                                                                    $nsfw                   Whether the channel is marked as NSFW or not.
-     * @property-read  string|null                                                                             $parentID               The ID of the parent channel, or null.
-     * @property-read  int                                                                                     $position               The channel position.
-     * @property-read \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
-     *
-     * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                     $parent                 Returns the channel's parent, or null.
-     * @property-read  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
      *
      * @throws \Exception
      */

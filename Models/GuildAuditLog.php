@@ -11,6 +11,11 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild audit log.
+ *
+ * @property \CharlotteDunois\Yasmin\Models\Guild      $guild     Which guild this audit log is for.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $entries   Holds the entries, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $users     Holds the found users in the audit log, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $webhooks  Holds the found webhooks in the audit log, mapped by their ID.
  */
 class GuildAuditLog extends ClientBase {
     protected $guild;
@@ -45,11 +50,6 @@ class GuildAuditLog extends ClientBase {
     
     /**
      * @inheritDoc
-     *
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild      $guild     Which guild this audit log is for.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $entries   Holds the entries, mapped by their ID.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $users     Holds the found users in the audit log, mapped by their ID.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $webhooks  Holds the found webhooks in the audit log, mapped by their ID.
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

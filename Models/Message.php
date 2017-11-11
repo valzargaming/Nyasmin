@@ -11,6 +11,32 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a message.
+ *
+ * @property string                                                                                      $id                 The message ID.
+ * @property \CharlotteDunois\Yasmin\Models\User                                                         $author             The user that created the message.
+ * @property \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface                                     $channel            The channel this message was created in.
+ * @property int                                                                                         $createdTimestamp   The timestamp of when this message was created.
+ * @property int|null                                                                                    $editedTimestamp    The timestamp of when this message was edited, or null.
+ * @property string                                                                                      $content            The message content.
+ * @property string                                                                                      $cleanContent       The message content with all mentions replaced.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\MessageAttachment>  $attachments        A collection of attachments in the message - mapped by their ID.
+ * @property array<\CharlotteDunois\Yasmin\Models\MessageEmbed>                                          $embeds             A list of embeds in the message.
+ * @property \CharlotteDunois\Yasmin\Models\MessageMentions                                              $mentions           All valid mentions that the message contains.
+ * @property bool                                                                                        $tts                Whether or not the message was Text-To-Speech.
+ * @property string|null                                                                                 $nonce              A random number or string used for checking message delivery, or null.
+ * @property bool                                                                                        $pinned             Whether the message is pinned or not.
+ * @property bool                                                                                        $system             Whether the message is a system message.
+ * @property string                                                                                      $type               The type of the message. {@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES}
+ * @property \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\MessageReaction>    $reactions          A collection of message reactions, mapped by ID (or name).
+ * @property string                                                                                      $webhookID          ID of the webhook that sent the message, if applicable.
+ *
+ * @property \DateTime                                                                                   $createdAt          An DateTime object of the createdTimestamp.
+ * @property \DateTime|null                                                                              $editedAt           An DateTime object of the editedTimestamp.
+ * @property bool                                                                                        $deletable          Whether the client user can delete the message.
+ * @property bool                                                                                        $editable           Whether the client user can edit the message.
+ * @property bool                                                                                        $pinnable           Whether the client user can pin the message.
+ * @property \CharlotteDunois\Yasmin\Models\Guild|null                                                   $guild              The correspondending guild (if message posted in a guild).
+ * @property \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild).
  */
 class Message extends ClientBase {
     /**
@@ -71,32 +97,6 @@ class Message extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @property-read string                                                                                      $id                 The message ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\User                                                         $author             The user that created the message.
-     * @property-read \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface                                     $channel            The channel this message was created in.
-     * @property-read int                                                                                         $createdTimestamp   The timestamp of when this message was created.
-     * @property-read int|null                                                                                    $editedTimestamp    The timestamp of when this message was edited, or null.
-     * @property-read string                                                                                      $content            The message content.
-     * @property-read string                                                                                      $cleanContent       The message content with all mentions replaced.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\MessageAttachment>  $attachments        A collection of attachments in the message - mapped by their ID.
-     * @property-read array<\CharlotteDunois\Yasmin\Models\MessageEmbed>                                          $embeds             A list of embeds in the message.
-     * @property-read \CharlotteDunois\Yasmin\Models\MessageMentions                                              $mentions           All valid mentions that the message contains.
-     * @property-read bool                                                                                        $tts                Whether or not the message was Text-To-Speech.
-     * @property-read string|null                                                                                 $nonce              A random number or string used for checking message delivery, or null.
-     * @property-read bool                                                                                        $pinned             Whether the message is pinned or not.
-     * @property-read bool                                                                                        $system             Whether the message is a system message.
-     * @property-read string                                                                                      $type               The type of the message. {@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES}
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\MessageReaction>    $reactions          A collection of message reactions, mapped by ID (or name).
-     * @property-read string                                                                                      $webhookID          ID of the webhook that sent the message, if applicable.
-     *
-     * @property-read \DateTime                                                                                   $createdAt          An DateTime object of the createdTimestamp.
-     * @property-read \DateTime|null                                                                              $editedAt           An DateTime object of the editedTimestamp.
-     * @property-read bool                                                                                        $deletable          Whether the client user can delete the message.
-     * @property-read bool                                                                                        $editable           Whether the client user can edit the message.
-     * @property-read bool                                                                                        $pinnable           Whether the client user can pin the message.
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild|null                                                   $guild              The correspondending guild (if message posted in a guild).
-     * @property-read \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild).
-     *
      * @throws \Exception
      */
     function __get($name) {
@@ -149,8 +149,8 @@ class Message extends ClientBase {
     }
     
     /**
-     * Removes all reactions from the message.
-     * @return \React\Promise\Promise<this>
+     * Removes all reactions from the message. Resolves with $this.
+     * @return \React\Promise\Promise
      */
     function clearReactions() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -161,15 +161,18 @@ class Message extends ClientBase {
     }
     
     /**
-     * Collects reactions during a specific duration. Resolves with a Collection, mapped by their IDs or names (unicode emojis). Options are as following:
+     * Collects reactions during a specific duration. Resolves with a Collection of MessageReaction instances, mapped by their IDs or names (unicode emojis).
      *
-     *  array(
-     *      'time' => int, (duration, in seconds, default 30)
+     * Options are as following:
+     *
+     *  array( <br />
+     *      'time' => int, (duration, in seconds, default 30) <br />
      *  )
      *
      * @param callable  $filter   The filter to only collect desired reactions.
      * @param array     $options  The collector options.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\MessageReaction>>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\MessageReaction
      *
      */
     function collectReactions(callable $filter, array $options = array()) {
@@ -192,10 +195,10 @@ class Message extends ClientBase {
     }
     
     /**
-     * Edits the message. You need to be the author of the message.
+     * Edits the message. You need to be the author of the message. Resolves with $this.
      * @param string|null  $content  The message contents.
      * @param array        $options  An array with options. Only embed is supported by edit.
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::send
      */
     function edit(string $content = null, array $options = array()) {
@@ -220,7 +223,7 @@ class Message extends ClientBase {
      * Deletes the message.
      * @param float|int  $timeout  An integer or float as timeout in seconds, after which the message gets deleted.
      * @param string     $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function delete($timeout = 0, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($timeout, $reason) {
@@ -237,9 +240,10 @@ class Message extends ClientBase {
     }
     
     /**
-     * Fetches the webhook used to create this message.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Webhook>
+     * Fetches the webhook used to create this message. Resolves with an instance of Webhook.
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
+     * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function fetchWebhook() {
         if($this->webhookID === null) {
@@ -255,8 +259,8 @@ class Message extends ClientBase {
     }
     
     /**
-     * Pins the message.
-     * @return \React\Promise\Promise<this>
+     * Pins the message. Resolves with $this.
+     * @return \React\Promise\Promise
      */
     function pin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -267,10 +271,10 @@ class Message extends ClientBase {
     }
     
     /**
-     * Reacts to the message with the specified unicode or custom emoji.
+     * Reacts to the message with the specified unicode or custom emoji. Resolves with an instance of MessageReaction
      * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string  $emoji
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\MessageReaction>
-     *
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\MessageReaction
      */
     function react($emoji) {
         try {
@@ -307,10 +311,10 @@ class Message extends ClientBase {
     }
     
     /**
-     * Replies to the message.
+     * Replies to the message. Resolves with an instance of Message, or with a Collection of Message instances, mapped by their ID.
      * @param string  $content
      * @param array   $options
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message|\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
+     * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::send
      */
     function reply(string $content, array $options = array()) {
@@ -318,8 +322,8 @@ class Message extends ClientBase {
     }
     
     /**
-     * Unpins the message.
-     * @return \React\Promise\Promise<this>
+     * Unpins the message. Resolves with $this.
+     * @return \React\Promise\Promise
      */
     function unpin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {

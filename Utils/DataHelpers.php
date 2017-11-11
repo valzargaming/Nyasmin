@@ -63,9 +63,9 @@ class DataHelpers {
     }
     
     /**
-     * Resolves filepath and URL into file data - returns it if it's neither.
+     * Resolves filepath and URL into file data - returns it if it's neither. Resolves with a string.
      * @param string  $file
-     * @return \React\Promise\Promise<string>
+     * @return \React\Promise\Promise
      */
     static function resolveFileResolvable(string $file) {
         $rfile = @\realpath($file);

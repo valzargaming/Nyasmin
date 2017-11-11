@@ -11,6 +11,8 @@ namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
  * Handles the API.
+ * @property \CharlotteDunois\Yasmin\Client             $client
+ * @property \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
  * @internal
  */
 class APIManager {
@@ -84,10 +86,6 @@ class APIManager {
         $this->destroy();
     }
     
-    /**
-     * @property-read \CharlotteDunois\Yasmin\Client             $client
-     * @property-read \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
-     */
     function __get($name) {
         switch($name) {
             case 'client':

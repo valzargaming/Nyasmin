@@ -11,6 +11,11 @@ namespace CharlotteDunois\Yasmin\WebSocket;
 
 /**
  * Handles the WS connection.
+ *
+ * @property \CharlotteDunois\Yasmin\Client               $client
+ * @property int                                          $status
+ * @property \CharlotteDunois\Yasmin\WebSocket\WSHandler  $wshandler
+ *
  * @internal
  */
 class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
@@ -138,11 +143,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
         });
     }
     
-    /**
-     * @property-read \CharlotteDunois\Yasmin\Client               $client
-     * @property-read int                                          $status
-     * @property-read \CharlotteDunois\Yasmin\WebSocket\WSHandler  $wshandler
-     */
     function __get($name) {
         switch($name) {
             case 'client':

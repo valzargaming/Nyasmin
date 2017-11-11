@@ -11,8 +11,15 @@ namespace CharlotteDunois\Yasmin\Utils;
 
 /**
  * Represents a Snowflake.
+ * @property float      $timestamp
+ * @property int        $workerID
+ * @property int        $processID
+ * @property int        $increment
+ * @property string     $binary
+ * @property \DateTime  $date
+ * @todo 64bit
  */
-class Snowflake { //TODO: 64bit
+class Snowflake {
     /**
      * @var int Time since UNIX epoch to Discord epoch.
      */
@@ -41,12 +48,7 @@ class Snowflake { //TODO: 64bit
     }
     
     /**
-     * @property-read float      $timestamp
-     * @property-read int        $workerID
-     * @property-read int        $processID
-     * @property-read int        $increment
-     * @property-read string     $binary
-     * @property-read \DateTime  $date
+     * @throws \Exception
      */
     function __get($name) {
         switch($name) {

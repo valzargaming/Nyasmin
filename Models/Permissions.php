@@ -11,7 +11,8 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Permissions. Something fabulous.
- * @todo Docs
+ *
+ * @property int  $bitfield  The bitfield value.
  */
 class Permissions extends ClientBase {
     const ALL = 2146958591;
@@ -26,8 +27,6 @@ class Permissions extends ClientBase {
     
     /**
      * @inheritDoc
-     *
-     * @property-read int  $bitfield  The bitfield value.
      *
      * @throws \Exception
      */

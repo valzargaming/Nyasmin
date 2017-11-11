@@ -11,6 +11,10 @@ namespace CharlotteDunois\Yasmin\Voice;
 
 /**
  * Represents a voice connection.
+ *
+ * @property string|null                                                    $sessionID   The voice session ID.
+ * @property \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface|null  $channel     The channel this voice state is for.
+ *
  * @todo Implementation of Voice
  */
 class VoiceConnection extends \CharlotteDunois\Yasmin\Models\ClientBase {
@@ -27,9 +31,6 @@ class VoiceConnection extends \CharlotteDunois\Yasmin\Models\ClientBase {
     }
     
     /**
-     * @property-read string|null                                                    $sessionID   The voice session ID.
-     * @property-read \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface|null  $channel     The channel this voice state is for.
-     *
      * @throws \Exception
      */
     function __get($name) {

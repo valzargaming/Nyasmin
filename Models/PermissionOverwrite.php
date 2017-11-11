@@ -11,6 +11,15 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a permission overwrite.
+ *
+ * @property  string                                                                                $id        The ID of the Permission Overwrite.
+ * @property  string                                                                                $type      The type of the overwrite (member or role).
+ * @property  \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guildmember, or null if uncached.
+ * @property  \CharlotteDunois\Yasmin\Models\Permissions                                            $allow     The allowed Permissions object.
+ * @property  \CharlotteDunois\Yasmin\Models\Permissions                                            $deny      The denied Permissions object.
+ *
+ * @property  \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface                              $channel   The channel this Permission Overwrite belongs to.
+ * @property  \CharlotteDunois\Yasmin\Models\Guild                                                  $guild     The guild this Permission Overwrite belongs to.
  */
 class PermissionOverwrite extends ClientBase {
     protected $channel;
@@ -38,15 +47,6 @@ class PermissionOverwrite extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @property-read  string                                                                                $id        The ID of the Permission Overwrite.
-     * @property-read  string                                                                                $type      The type of the overwrite (member or role).
-     * @property-read  \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guildmember, or null if uncached.
-     * @property-read  \CharlotteDunois\Yasmin\Models\Permissions                                            $allow     The allowed Permissions object.
-     * @property-read  \CharlotteDunois\Yasmin\Models\Permissions                                            $deny      The denied Permissions object.
-     *
-     * @property-read  \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface                              $channel   The channel this Permission Overwrite belongs to.
-     * @property-read  \CharlotteDunois\Yasmin\Models\Guild                                                  $guild     The guild this Permission Overwrite belongs to.
-     *
      * @throws \Exception
      */
     function __get($name) {
@@ -66,7 +66,7 @@ class PermissionOverwrite extends ClientBase {
     /**
      * Deletes the permission overwrite.
      * @param string  $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {

@@ -11,6 +11,18 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents an emoji.
+ *
+ * @property string|null                                          $id                 The emoji ID.
+ * @property string                                               $name               The emoji name.
+ * @property \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.
+ * @property \CharlotteDunois\Yasmin\Models\Guild|null            $guild              The guild this emoji belongs to, or null.
+ * @property boolean                                              $requireColons      Does the emoji require colons?
+ * @property boolean                                              $managed            Is the emoji managed?
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
+ * @property int|null                                             $createdTimestamp   The timestamp of when this emoji was created.
+ *
+ * @property \DateTime|null                                       $createdAt          An DateTime object of the createdTimestamp.
+ * @property string                                               $identifier         The identifier for the emoji.
  */
 class Emoji extends ClientBase {
     protected $guild;
@@ -42,18 +54,6 @@ class Emoji extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @property-read string|null                                          $id                 The emoji ID.
-     * @property-read string                                               $name               The emoji name.
-     * @property-read \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild|null            $guild              The guild this emoji belongs to, or null.
-     * @property-read boolean                                              $requireColons      Does the emoji require colons?
-     * @property-read boolean                                              $managed            Is the emoji managed?
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
-     * @property-read int|null                                             $createdTimestamp   The timestamp of when this emoji was created.
-     *
-     * @property-read \DateTime|null                                       $createdAt          An DateTime object of the createdTimestamp.
-     * @property-read string                                               $identifier         The identifier for the emoji.
-     *
      * @throws \Exception
      */
     function __get($name) {
@@ -82,9 +82,9 @@ class Emoji extends ClientBase {
     }
     
     /**
-     * Adds a role to the list of roles that can use this emoji.
+     * Adds a role to the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function addRestrictedRole($role) {
@@ -97,9 +97,9 @@ class Emoji extends ClientBase {
     }
     
     /**
-     * Adds multiple roles to the list of roles that can use this emoji.
+     * Adds multiple roles to the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function addRestrictedRoles(...$role) {
@@ -115,16 +115,18 @@ class Emoji extends ClientBase {
     }
     
     /**
-     * Edits the emoji. Options are as following (at least one required):
+     * Edits the emoji. Resolves with $this.
      *
-     *  array(
-     *      'name' => string,
-     *      'roles' => array<string|\CharlotteDunois\Yasmin\Models\Role>|\CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role>
+     * Options are as following (at least one required):
+     *
+     *  array( <br />
+     *      'name' => string, <br />
+     *      'roles' => array<string|\CharlotteDunois\Yasmin\Models\Role>|\CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role> <br />
      *  )
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function edit(array $options, string $reason = '') {
@@ -156,7 +158,7 @@ class Emoji extends ClientBase {
     /**
      * Deletes the emoji.
      * @param string  $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function delete(string $reason = '') {
@@ -172,9 +174,9 @@ class Emoji extends ClientBase {
     }
     
     /**
-     * Removes a role from the list of roles that can use this emoji.
+     * Removes a role from the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function removeRestrictedRole($role) {
@@ -195,9 +197,9 @@ class Emoji extends ClientBase {
     }
     
     /**
-     * Removes multiple roles from the list of roles that can use this emoji.
+     * Removes multiple roles from the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function removeRestrictedRoles(...$role) {
@@ -221,10 +223,10 @@ class Emoji extends ClientBase {
     }
     
     /**
-     * Sets the new name of the emoji.
+     * Sets the new name of the emoji. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function setName(string $name, string $reason = '') {

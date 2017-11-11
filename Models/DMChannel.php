@@ -11,6 +11,11 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a classic DM channel.
+ *
+ * @property  string|null                                $ownerID      The owner ID of this channel.
+ * @property  \CharlotteDunois\Yasmin\Utils\Collection   $recipients   The recipients of this channel.
+ *
+ * @property  \CharlotteDunois\Yasmin\Models\User|null   $owner        The owner of this channel, or not.
  */
 class DMChannel extends TextBasedChannel {
     protected $ownerID;
@@ -37,11 +42,6 @@ class DMChannel extends TextBasedChannel {
     
     /**
      * @inheritDoc
-     *
-     * @property-read  string|null                                $ownerID      The owner ID of this channel.
-     * @property-read  \CharlotteDunois\Yasmin\Utils\Collection   $recipients   The recipients of this channel.
-     *
-     * @property-read  \CharlotteDunois\Yasmin\Models\User|null   $owner        The owner of this channel, or not.
      *
      * @throws \Exception
      */

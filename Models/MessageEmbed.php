@@ -11,6 +11,21 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a received embed from a message. This class can also be used to make a Rich Embed.
+ *
+ * @property string            $type               The embed type.
+ * @property string|null       $title              The title.
+ * @property array|null        $author             The author (array of name, icon, url), or null.
+ * @property string|null       $description        The description, or null.
+ * @property string|null       $url                The URL, or null.
+ * @property int|null          $timestamp          The timestamp, or null.
+ * @property int|null          $color              The color, or null.
+ * @property array|null        $footer             The author (array of name, icon), or null.
+ * @property array|null        $image              The image (array of url, height, width), or null.
+ * @property array|null        $thumbnail          The thumbnail (array of url, height, width), or null.
+ * @property array|null        $video              The video (array of url, height, width), or null.
+ * @property array|null        $provider           The provider (array of name, url), or null.
+ *
+ * @property \DateTime         $datetime           The DateTime object of timestamp.
  */
 class MessageEmbed extends Base {
     protected $type;
@@ -93,21 +108,6 @@ class MessageEmbed extends Base {
     
     /**
      * @inheritDoc
-     *
-     * @property-read string            $type               The embed type.
-     * @property-read string|null       $title              The title.
-     * @property-read array|null        $author             The author (array of name, icon, url), or null.
-     * @property-read string|null       $description        The description, or null.
-     * @property-read string|null       $url                The URL, or null.
-     * @property-read int|null          $timestamp          The timestamp, or null.
-     * @property-read int|null          $color              The color, or null.
-     * @property-read array|null        $footer             The author (array of name, icon), or null.
-     * @property-read array|null        $image              The image (array of url, height, width), or null.
-     * @property-read array|null        $thumbnail          The thumbnail (array of url, height, width), or null.
-     * @property-read array|null        $video              The video (array of url, height, width), or null.
-     * @property-read array|null        $provider           The provider (array of name, url), or null.
-     *
-     * @property-read \DateTime         $datetime           The DateTime object of timestamp.
      *
      * @throws \Exception
      */

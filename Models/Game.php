@@ -11,6 +11,12 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Something someone plays.
+ *
+ * @property string       $name        The name of the game.
+ * @property int          $type        The type.
+ * @property string|null  $url         The stream url, if streaming.
+ *
+ * @property bool         $streaming   Whether or not the game is being streamed.
  */
 class Game extends ClientBase {
     protected $name;
@@ -32,12 +38,6 @@ class Game extends ClientBase {
     
     /**
      * @inheritDoc
-     *
-     * @property-read string       $name        The name of the game.
-     * @property-read int          $type        The type.
-     * @property-read string|null  $url         The stream url, if streaming.
-     *
-     * @property-read bool         $streaming   Whether or not the game is being streamed.
      *
      * @throws \Exception
      */

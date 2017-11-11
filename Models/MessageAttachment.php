@@ -11,6 +11,16 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents an attachment (from a message).
+ *
+ * @property string                                           $id                 The attachment ID.
+ * @property string                                           $filename           The filename.
+ * @property int                                              $size               The filename in bytes.
+ * @property string                                           $url                The url to the file.
+ * @property int|null                                         $height             The height (if image).
+ * @property int|null                                         $width              The width (if image).
+ * @property int                                              $createdTimestamp   The timestamp of when this attachment was created.
+ *
+ * @property \DateTime                                        $createdAt          An DateTime object of the createdTimestamp.
  */
 class MessageAttachment extends Base {
     protected $id;
@@ -45,16 +55,6 @@ class MessageAttachment extends Base {
     
     /**
      * @inheritDoc
-     *
-     * @property-read string                                           $id                 The attachment ID.
-     * @property-read string                                           $filename           The filename.
-     * @property-read int                                              $size               The filename in bytes.
-     * @property-read string                                           $url                The url to the file.
-     * @property-read int|null                                         $height             The height (if image).
-     * @property-read int|null                                         $width              The width (if image).
-     * @property-read int                                              $createdTimestamp   The timestamp of when this attachment was created.
-     *
-     * @property-read \DateTime                                        $createdAt          An DateTime object of the createdTimestamp.
      *
      * @throws \Exception
      */

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>CharlotteDunois\Yasmin\Models\ClientUser | Yasmin</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_ClientUser" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Yasmin</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>ClientUser</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            ClientUser
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>ClientUser</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php">View source</a>)
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Represents the Client User.</p>                                </div>
+    
+    
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_lastMessageID">
+                                                                                string|null
+                </td>
+                <td>$lastMessageID</td>
+                <td class="last">The last ID of the message the user sent while the client was online, or null.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_lastMessageID"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td>$id</td>
+                <td class="last">The user ID.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_id"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_username">
+                                                                                string
+                </td>
+                <td>$username</td>
+                <td class="last">The username.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_username"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_discriminator">
+                                                                                string
+                </td>
+                <td>$discriminator</td>
+                <td class="last">The discriminator of this user.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_discriminator"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_bot">
+                                                                                boolean
+                </td>
+                <td>$bot</td>
+                <td class="last">Is the user a bot? Or are you a bot?</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_bot"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_avatar">
+                                                                                string
+                </td>
+                <td>$avatar</td>
+                <td class="last">The hash of the user's avatar.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_avatar"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_email">
+                                                                                string
+                </td>
+                <td>$email</td>
+                <td class="last">An email address or maybe nothing at all. More likely to be nothing at all.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_email"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_mfaEnabled">
+                                                                                boolean|null
+                </td>
+                <td>$mfaEnabled</td>
+                <td class="last">Whether the user has two factor enabled on their account.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_mfaEnabled"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_verified">
+                                                                                boolean|null
+                </td>
+                <td>$verified</td>
+                <td class="last">Whether the email on this account has been verified.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_verified"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_webhook">
+                                                                                boolean
+                </td>
+                <td>$webhook</td>
+                <td class="last">Determines wether the user is a webhook or not.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_webhook"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdTimestamp">
+                                                                                int
+                </td>
+                <td>$createdTimestamp</td>
+                <td class="last">The timestamp of when this user was created.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_createdTimestamp"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdAt">
+                                                                                <a target="_blank" href="http://php.net/DateTime">DateTime</a>
+                </td>
+                <td>$createdAt</td>
+                <td class="last">An DateTime object of the createdTimestamp.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_createdAt"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultAvatar">
+                                                                                int
+                </td>
+                <td>$defaultAvatar</td>
+                <td class="last">The identifier of the default avatar for this user.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_defaultAvatar"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_dmChannel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/DMChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\DMChannel">DMChannel</abbr></a>|null
+                </td>
+                <td>$dmChannel</td>
+                <td class="last">The DM channel for this user, if it exists.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_dmChannel"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_lastMessage">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>|null
+                </td>
+                <td>$lastMessage</td>
+                <td class="last">The laste message the user sent while the client was online, or null.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_lastMessage"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_presence">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a>|null
+                </td>
+                <td>$presence</td>
+                <td class="last">The presence for this user.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_presence"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_tag">
+                                                                                string
+                </td>
+                <td>$tag</td>
+                <td class="last">Username#Discriminator.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#property_tag"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___get">__get</a>($name)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createDM">createDM</a>()
+        
+                                            <p>Opens a DM channel to this user. Resolves with an instance of DMChannel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_createDM"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteDM">deleteDM</a>()
+        
+                                            <p>Deletes an existing DM channel to this user.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_deleteDM"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getDefaultAvatarURL">getDefaultAvatarURL</a>(int $size = 256)
+        
+                                            <p>Get the default Avatar URL.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_getDefaultAvatarURL"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAvatarURL">getAvatarURL</a>(int $size = 256, string $format = &#039;&#039;)
+        
+                                            <p>Get the Avatar URL.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_getAvatarURL"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getDisplayAvatarURL">getDisplayAvatarURL</a>(int $size = 256, string $format = &#039;&#039;)
+        
+                                            <p>Get the URL of the displayed avatar.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_getDisplayAvatarURL"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchUserConnections">fetchUserConnections</a>()
+        
+                                            <p>Fetches the User's connections. Requires connections scope. Resolves with a Collection of connection arrays, mapped by the connection array's ID.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_fetchUserConnections"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_bulkDelete">bulkDelete</a>($messages, string $reason = &#039;&#039;)
+        
+                                            <p>Deletes multiple messages at once. Resolves with $this.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_collectMessages">collectMessages</a>(callable $filter, array $options = array())
+        
+                                            <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their ID.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_send">send</a>(string $message, array $options = array())
+        
+                                            <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_startTyping">startTyping</a>()
+        
+                                            <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_stopTyping">stopTyping</a>(bool $force = false)
+        
+                                            <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_typingCount">typingCount</a>()
+        
+                                            <p>Returns the amount of user typing in the DM channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_typingIn">typingIn</a>($channel)
+        
+                                            <p>Determines whether the user is typing in the given channel or not.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_typingIn"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_typingSinceIn">typingSinceIn</a>($channel)
+        
+                                            <p>Determines whether how long the user has been typing in the given channel. Returns -1 if the user is not typing.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_typingSinceIn"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___toString">__toString</a>()
+        
+                                            <p>Automatically converts the User object to a mention.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/User.html#method___toString"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setAvatar">setAvatar</a>(string $avatar)
+        
+                                            <p>Set your avatar. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setUsername">setUsername</a>(string $username)
+        
+                                            <p>Set your username. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setStatus">setStatus</a>(string $status)
+        
+                                            <p>Set your status. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setGame">setGame</a>(string $name, string $url = &#039;&#039;)
+        
+                                            <p>Set your playing game. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setPresence">setPresence</a>(array $presence)
+        
+                                            <p>Set your presence. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createGroupDM">createGroupDM</a>(array $userWithAccessTokens, array $nicks = array())
+        
+                                            <p>Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___get">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L58">line 58</a></div>
+        <code>                    
+    <strong>__get</strong>($name)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createDM">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_createDM"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L132">line 132</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>createDM</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Opens a DM channel to this user. Resolves with an instance of DMChannel.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\DMChannel</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteDM">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_deleteDM"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L150">line 150</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>deleteDM</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes an existing DM channel to this user.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDefaultAvatarURL">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_getDefaultAvatarURL"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L166">line 166</a></div>
+        <code>                    string
+    <strong>getDefaultAvatarURL</strong>(int $size = 256)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the default Avatar URL.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$size</td>
+                <td>Any powers of 2.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAvatarURL">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_getAvatarURL"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L176">line 176</a></div>
+        <code>                    string|null
+    <strong>getAvatarURL</strong>(int $size = 256, string $format = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the Avatar URL.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$size</td>
+                <td>Any powers of 2.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>Any image format (empty = default format).</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDisplayAvatarURL">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_getDisplayAvatarURL"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L194">line 194</a></div>
+        <code>                    string
+    <strong>getDisplayAvatarURL</strong>(int $size = 256, string $format = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the URL of the displayed avatar.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$size</td>
+                <td>Any powers of 2.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>Any image format (empty = default format).</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchUserConnections">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_fetchUserConnections"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L203">line 203</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>fetchUserConnections</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches the User's connections. Requires connections scope. Resolves with a Collection of connection arrays, mapped by the connection array's ID.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_bulkDelete">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L221">line 221</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>bulkDelete</strong>($messages, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes multiple messages at once. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$messages</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\TextBasedChannel::bulkDelete</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_collectMessages">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L233">line 233</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>collectMessages</strong>(callable $filter, array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their ID.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>callable</td>
+                <td>$filter</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\TextBasedChannel::collectMessages</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Message</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_send">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L247">line 247</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>send</strong>(string $message, array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\TextBasedChannel::send</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Message</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_startTyping">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L258">line 258</a></div>
+        <code>                    
+    <strong>startTyping</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_stopTyping">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L268">line 268</a></div>
+        <code>                    
+    <strong>stopTyping</strong>(bool $force = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$force</td>
+                <td>Reset typing counter and stop sending the indicator.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_typingCount">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L278">line 278</a></div>
+        <code>                    int
+    <strong>typingCount</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the amount of user typing in the DM channel.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_typingIn">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_typingIn"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L293">line 293</a></div>
+        <code>                    bool
+    <strong>typingIn</strong>($channel)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Determines whether the user is typing in the given channel or not.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_typingSinceIn">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method_typingSinceIn"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L304">line 304</a></div>
+        <code>                    int
+    <strong>typingSinceIn</strong>($channel)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Determines whether how long the user has been typing in the given channel. Returns -1 if the user is not typing.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___toString">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/User.html#method___toString"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/User.php#L312">line 312</a></div>
+        <code>                    
+    <strong>__toString</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Automatically converts the User object to a mention.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setAvatar">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L80">line 80</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>setAvatar</strong>(string $avatar)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set your avatar. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$avatar</td>
+                <td>An URL or the filepath or the data.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setUsername">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L97">line 97</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>setUsername</strong>(string $username)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set your username. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$username</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setStatus">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L110">line 110</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>setStatus</strong>(string $status)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set your status. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$status</td>
+                <td>Valid values are: online, idle, dnd and offline.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setGame">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L124">line 124</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>setGame</strong>(string $name, string $url = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set your playing game. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The game name.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$url</td>
+                <td>If you're streaming, this is the url to the stream.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setPresence">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L161">line 161</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>setPresence</strong>(array $presence)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set your presence. Resolves with $this.</p>                    <p>$presence = array(
+     'afk' => bool,
+     'since' => integer|null,
+     'status' => string,
+     'game' => array(
+         'name' => string,
+         'type' => int,
+         'url' => string|null
+     )|null
+ )</p>
+
+<p>Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude. Ratelimit is 5/60s.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$presence</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/BadMethodCallException">BadMethodCallException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createGroupDM">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/ClientUser.php#L213">line 213</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>createGroupDM</strong>(array $userWithAccessTokens, array $nicks = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:</p>                    <p>array(
+     'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
+ )</p>
+
+<p>The nicks array is an associative array of userID => nick. The nick defaults to the username.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$userWithAccessTokens</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$nicks</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\GroupDMChannel</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

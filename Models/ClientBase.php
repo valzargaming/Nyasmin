@@ -11,6 +11,7 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Something all Models, with the need for a client, extend. Do not use this.
+ * @property \CharlotteDunois\Yasmin\Client  $client  The client which initiated the instance.
  */
 class ClientBase extends Base { //TODO: Nya
     /**
@@ -34,8 +35,6 @@ class ClientBase extends Base { //TODO: Nya
     
     /**
      * @inheritDoc
-     *
-     * @property-read \CharlotteDunois\Yasmin\Client  $client  The client which initiated the instance.
      */
     function __get($name) {
         switch($name) {

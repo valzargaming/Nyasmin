@@ -30,7 +30,7 @@ class MessageDelete {
                 $this->client->emit('messageDelete', $message);
             }
             
-            $this->client->emit('messageDeleteRaw', $data['id']);
+            $this->client->emit('messageDeleteRaw', $channel, $data['id']);
         }
     }
 }

@@ -11,6 +11,11 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a message reaction.
+ *
+ * @property int                                         $count     Times this emoji has been reacted.
+ * @property bool                                        $me        Whether the current user has reacted using this emoji.
+ * @property \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection    $users     The users that have given this reaction, mapped by their ID.
  */
 class MessageReaction extends ClientBase {
     protected $message;
@@ -37,11 +42,6 @@ class MessageReaction extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @property-read int                                         $count     Times this emoji has been reacted.
-     * @property-read bool                                        $me        Whether the current user has reacted using this emoji.
-     * @property-read \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $users     The users that have given this reaction, mapped by their ID.
-     *
      * @throws \Exception
      */
     function __get($name) {
@@ -57,7 +57,8 @@ class MessageReaction extends ClientBase {
      * @param int     $limit   The maximum amount of users to fetch, defaults to 100.
      * @param string  $before  Limit fetching users to those with an ID smaller than the given ID.
      * @param string  $after   Limit fetching users to those with an ID greater than the given ID.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\User>>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\User
      */
     function fetchUsers(int $limit = 100, string $before = '', string $after = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($limit, $before, $after) {
@@ -83,9 +84,9 @@ class MessageReaction extends ClientBase {
     }
     
     /**
-     * Removes an user from the reaction.
+     * Removes an user from the reaction. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user  Defaults to the client user.
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function remove($user = null) {

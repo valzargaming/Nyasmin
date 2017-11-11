@@ -11,6 +11,8 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a Group DM channel.
+ *
+ * @property  string|null  $applicationID  Returns the application ID which created the group DM channel.
  */
 class GroupDMChannel extends DMChannel {
     protected $applicationID;
@@ -26,7 +28,6 @@ class GroupDMChannel extends DMChannel {
     
     /**
      * @inheritDoc
-     * @property-read  string|null  $applicationID  Returns the application ID which created the group DM channel.
      *
      * @throws \Exception
      */

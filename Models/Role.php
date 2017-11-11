@@ -11,6 +11,23 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a role.
+ *
+ * @property \CharlotteDunois\Yasmin\Models\Guild        $guild               The guild the role belongs to.
+ * @property string                                      $id                  The role ID.
+ * @property string                                      $name                The role name.
+ * @property int                                         $createdTimestamp    When the role was created.
+ * @property int                                         $color               The color of the role.
+ * @property bool                                        $hoist               Whether the role gets displayed separately in the member list.
+ * @property int                                         $position            The position of the role in the API.
+ * @property \CharlotteDunois\Yasmin\Models\Permissions  $permissions         The permissions of the role.
+ * @property bool                                        $managed             Whether the role is managed by an integration.
+ * @property bool                                        $mentionable         Whether the role is mentionable.
+ *
+ * @property int                                         $calculatedPosition  The role position in the role manager.
+ * @property \DateTime                                   $createdAt           The DateTime object of createdTimestamp.
+ * @property bool                                        $editable            Whether the role can be edited by the client user.
+ * @property string                                      $hexColor            Returns the hex color of the role color.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.
  */
 class Role extends ClientBase {
     protected $guild;
@@ -41,23 +58,6 @@ class Role extends ClientBase {
     
     /**
      * @inheritDoc
-     *
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild        $guild               The guild the role belongs to.
-     * @property-read string                                      $id                  The role ID.
-     * @property-read string                                      $name                The role name.
-     * @property-read int                                         $createdTimestamp    When the role was created.
-     * @property-read int                                         $color               The color of the role.
-     * @property-read bool                                        $hoist               Whether the role gets displayed separately in the member list.
-     * @property-read int                                         $position            The position of the role in the API.
-     * @property-read \CharlotteDunois\Yasmin\Models\Permissions  $permissions         The permissions of the role.
-     * @property-read bool                                        $managed             Whether the role is managed by an integration.
-     * @property-read bool                                        $mentionable         Whether the role is mentionable.
-     *
-     * @property-read int                                         $calculatedPosition  The role position in the role manager.
-     * @property-read \DateTime                                   $createdAt           The DateTime object of createdTimestamp.
-     * @property-read bool                                        $editable            Whether the role can be edited by the client user.
-     * @property-read string                                      $hexColor            Returns the hex color of the role color.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.
      *
      * @throws \Exception
      */
@@ -120,20 +120,22 @@ class Role extends ClientBase {
     }
     
     /**
-     * Edits the role with the given options. Options are as following (only one is required):
+     * Edits the role with the given options. Resolves with $this.
      *
-     *  array(
-     *      'name' => string,
-     *      'color' => int|string,
-     *      'hoist' => bool,
-     *      'position' => int,
-     *      'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions,
-     *      'mentionable' => bool
+     * Options are as following (only one is required):
+     *
+     *  array( <br />
+     *      'name' => string, <br />
+     *      'color' => int|string, <br />
+     *      'hoist' => bool, <br />
+     *      'position' => int, <br />
+     *      'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions, <br />
+     *      'mentionable' => bool <br />
      *  )
      *
      * @param array  $options
      * @param string $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
      */
@@ -178,7 +180,7 @@ class Role extends ClientBase {
     /**
      * Deletes the role.
      * @param string  $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -189,10 +191,10 @@ class Role extends ClientBase {
     }
     
     /**
-     * Set the color of the role.
+     * Set the color of the role. Resolves with $this.
      * @param int|string  $color
      * @param string      $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
      */
@@ -201,10 +203,10 @@ class Role extends ClientBase {
     }
     
     /**
-     * Set whether or not the role should be hoisted.
+     * Set whether or not the role should be hoisted. Resolves with $this.
      * @param bool    $hoist
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setHoist(bool $hoist, string $reason = '') {
@@ -212,10 +214,10 @@ class Role extends ClientBase {
     }
     
     /**
-     * Set whether the role is mentionable.
+     * Set whether the role is mentionable. Resolves with $this.
      * @param bool    $mentionable
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setMentionable(bool $mentionable, string $reason = '') {
@@ -223,10 +225,10 @@ class Role extends ClientBase {
     }
     
     /**
-     * Set a new name for the role.
+     * Set a new name for the role. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setName(string $name, string $reason = '') {
@@ -234,10 +236,10 @@ class Role extends ClientBase {
     }
     
     /**
-     * Set the permissions of the role.
+     * Set the permissions of the role. Resolves with $this.
      * @param int|\CharlotteDunois\Yasmin\Models\Permissions  $permissions
      * @param string                                          $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setPermissions($permissions, string $reason = '') {
@@ -245,10 +247,10 @@ class Role extends ClientBase {
     }
     
     /**
-     * Set the position of the role.
+     * Set the position of the role. Resolves with $this.
      * @param int     $position
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {

@@ -11,6 +11,16 @@ namespace CharlotteDunois\Yasmin;
 
 /**
  * The client. What else do you expect this to say?
+ *
+ * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels          It holds all cached channels, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+ * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
+ * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
+ * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              Get the Client User instance.
+ *
+ * @see \CharlotteDunois\Yasmin\ClientEvents
  * @todo Implementation
  */
 class Client extends \CharlotteDunois\Events\EventEmitter2 {
@@ -44,7 +54,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     
     /**
      * It holds all cached users, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\UserStorage<\CharlotteDunois\Yasmin\Models\User
+     * @var \CharlotteDunois\Yasmin\Models\UserStorage<\CharlotteDunois\Yasmin\Models\User>
      * @internal
      */
     protected $users;
@@ -63,7 +73,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     public $pings = array();
     
     /**
-     * The UNIX timestamp of the last emitted ready event (or null if none yet).
+     * The UNIX timestamp of the last emitted ready var $(or null if none yet).
      * @var int|null
      */
     public $readyTimestamp = null;
@@ -75,7 +85,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     public $token;
     
     /**
-     * The Event Loop.
+     * The var $Loop.
      * @var \React\EventLoop\LoopInterface
      * @internal
      */
@@ -129,46 +139,24 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     protected $utils = array();
     
     /**
-     * What do you expect this to do? It makes a new Client instance.
+     * What do you expect this to do? It makes a new Client instance. Available client options are as following (all are optional):
+     *
+     *  array( <br />
+     *      'disableClones' => string[], (disables cloning of objects (for perfomance), affects update events) <br />
+     *      'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext) <br />
+     *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched) <br />
+     *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration) <br />
+     *      'shardID' => int, (shard ID, important for sharding) <br />
+     *      'shardCount' => int, (shard count, important for sharding) <br />
+     *      'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done) <br />
+     *      'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream) <br />
+     *      'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START)) <br />
+     *      'ws.largeThreshold' => int, (50-250, threshold after which guilds gets counted as large, defaults to 250) <br />
+     *      'ws.presence' => array (the presence to send on WS connect) <br />
+     *  )
+     *
      * @param array                            $options  Any client options.
-     * @param \React\EventLoop\LoopInterface   $loop     You can pass an Event Loop to the class, or it will automatically create one (you still need to make it run yourself).
-     *
-     * @ event ready
-     * @ event disconnect
-     * @ event reconnect
-     * @ event channelCreate
-     * @ event channelUpdate
-     * @ event channelDelete
-     * @ event channelPinsUpdate
-     * @ event guildCreate
-     * @ event guildUpdate
-     * @ event guildDelete
-     * @ event guildUnavailable
-     * @ event guildBanAdd
-     * @ event guildBanRemove
-     * @ event guildMemberAdd
-     * @ event guildMemberRemove
-     * @ event guildMembersChunk
-     * @ event roleCreate
-     * @ event roleUpdate
-     * @ event roleDelete
-     * @ event message
-     * @ event messageUpdate
-     * @ event messageDelete
-     * @ event messageDeleteBulk
-     * @ event messageReactionAdd
-     * @ event messageReactionRemove
-     * @ event messageReactionRemoveAll
-     * @ event presenceUpdate
-     * @ event typingStart
-     * @ event userUpdate
-     * @ event voiceStateUpdate
-     *
-     * @ event raw
-     * @ event messageDeleteRaw
-     * @ event messageDeleteBulkRaw
-     * @ event error
-     * @ event debug
+     * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!empty($options)) {
@@ -196,13 +184,13 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * @property-read \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels          It holds all cached channels, mapped by ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
-     * @property-read \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
-     * @property-read \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              Get the Client User instance.
+     * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels          It holds all cached channels, mapped by ID.
+     * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+     * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
+     * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
+     * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
+     * @property \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
+     * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              Get the Client User instance.
      *
      * @throws \Exception
      */
@@ -235,7 +223,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * Get the React Event Loop that is stored in this class.
+     * Get the React var $Loop that is stored in this class.
      * @return \React\EventLoop\LoopInterface
      */
     function getLoop() {
@@ -281,7 +269,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
      * Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been established (does not mean the client is ready).
      * @param string $token  Your token.
      * @param bool   $force  Forces the client to get the gateway address from Discord.
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function login(string $token, bool $force = false) {
         $this->token = \trim($token);
@@ -313,8 +301,8 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     
     /**
      * Cleanly logs out of Discord.
-     * @param  bool  $destroyUtils  Stop timers of utils which have an instanceof event loop. They need to implement a stopTimer method.
-     * @return \React\Promise\Promise<void>
+     * @param  bool  $destroyUtils  Stop timers of utils which have an instanceof var $loop. They need to implement a stopTimer method.
+     * @return \React\Promise\Promise
      */
     function destroy(bool $destroyUtils = true) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
@@ -334,9 +322,10 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * Fetches an User from the API.
+     * Fetches an User from the API. Resolves with an User.
      * @param string  $userid  The User ID to fetch.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\User>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\User
      */
     function fetchUser(string $userid) {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use  ($userid) {
@@ -446,7 +435,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * Emits an error event for a rejected promise.
+     * Emits an error var $for a rejected promise.
      * @internal
      */
     function handlePromiseRejection($error) {

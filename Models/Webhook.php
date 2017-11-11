@@ -11,6 +11,15 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a webhook.
+ *
+ * @property string                                    $id         The webhook ID.
+ * @property string|null                               $name       The webhook default name, or null.
+ * @property string|null                               $avatar     The webhook default avatar, or null.
+ * @property string                                    $channelID  The channel the webhook belongs to.
+ * @property string|null                               $guildID    The guild the webhook belongs to, or null.
+ * @property \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
+ * @property string                                    $token      The webhook token.
+ *
  * @todo Implementation
  */
 class Webhook extends ClientBase {
@@ -35,14 +44,6 @@ class Webhook extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @property-read string                                    $id         The webhook ID.
-     * @property-read string|null                               $name       The webhook default name, or null.
-     * @property-read string|null                               $avatar     The webhook default avatar, or null.
-     * @property-read string                                    $channelID  The channel the webhook belongs to.
-     * @property-read string|null                               $guildID    The guild the webhook belongs to, or null.
-     * @property-read \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
-     * @property-read string                                    $token      The webhook token.
-     *
      * @throws \Exception
      */
     function __get($name) {
@@ -54,17 +55,19 @@ class Webhook extends ClientBase {
     }
     
     /**
-     * Edits the webhook. Options are as following (at least one is required):
+     * Edits the webhook. Resolves with $this.
      *
-     *  array(
-     *    'name' => string,
-     *    'avatar' => string, (data, filepath or URL)
-     *    'channel' => \CharlotteDunois\Yasmin\Models\TextChannel|string
+     * Options are as following (at least one is required):
+     *
+     *  array( <br />
+     *    'name' => string, <br />
+     *    'avatar' => string, (data, filepath or URL) <br />
+     *    'channel' => \CharlotteDunois\Yasmin\Models\TextChannel|string <br />
      *  )
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
@@ -95,7 +98,7 @@ class Webhook extends ClientBase {
     /**
      * Deletes the webhook.
      * @param string  $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -106,20 +109,23 @@ class Webhook extends ClientBase {
     }
     
     /**
-     * Executes the webhooks and sends a message to the channel. Options are as following (all are optional):
+     * Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
      *
-     *  array(
-     *    'embeds' => array<\CharlotteDunois\Yasmin\Models\MessageEmbed|array>, (an array of (embed) array or instance of MessageEmbed)
-     *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
-     *    'nonce' => string, (a snowflake used for optimistic sending)
-     *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
-     *    'tts' => bool,
-     *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
+     * Options are as following (all are optional):
+     *
+     *  array( <br />
+     *    'embeds' => array<\CharlotteDunois\Yasmin\Models\MessageEmbed|array>, (an array of (embed) array or instance of MessageEmbed) <br />
+     *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs) <br />
+     *    'nonce' => string, (a snowflake used for optimistic sending) <br />
+     *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false)) <br />
+     *    'tts' => bool, <br />
+     *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message) <br />
      *  )
      *
      * @param string  $content  The webhook message content.
      * @param array   $options  Any webhook message options.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message|\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function send(string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
@@ -211,10 +217,10 @@ class Webhook extends ClientBase {
     }
     
     /**
-     * Executes the webhook effectively.
+     * Executes the webhook effectively. Resolves with an instance of Message.
      * @param array  $opts
      * @param array  $files
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>
+     * @return \React\Promise\Promise
      * @internal
      */
     protected function executeWebhook(array $opts, array $files) {

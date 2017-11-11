@@ -11,6 +11,14 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a partial guild.
+ *
+ * @property string       $id                The guild ID.
+ * @property string       $name              The guild name.
+ * @property int          $createdTimestamp  The timestmap when this guild was created.
+ * @property string|null  $icon              The guild icon.
+ * @property string|null  $splash            The guild splash.
+ *
+ * @property \DateTime   $createdAt          The DateTime object of createdTimestamp.
  */
 class PartialGuild extends ClientBase {
     protected $id;
@@ -36,14 +44,6 @@ class PartialGuild extends ClientBase {
     
     /**
      * @inheritDoc
-     *
-     * @property-read string       $id                The guild ID.
-     * @property-read string       $name              The guild name.
-     * @property-read int          $createdTimestamp  The timestmap when this guild was created.
-     * @property-read string|null  $icon              The guild icon.
-     * @property-read string|null  $splash            The guild splash.
-     *
-     * @property-read \DateTime   $createdAt          The DateTime object of createdTimestamp.
      *
      * @throws \Exception
      */

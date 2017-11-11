@@ -11,6 +11,10 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a presence.
+ *
+ * @property \CharlotteDunois\Yasmin\Models\User        $user    The user this presence belongs to.
+ * @property \CharlotteDunois\Yasmin\Models\Game|null   $game    The game the user is playing.
+ * @property string                                     $status  What do you expect this to be?
  */
 class Presence extends ClientBase {
     /**
@@ -45,10 +49,6 @@ class Presence extends ClientBase {
     
     /**
      * @inheritDoc
-     *
-     * @property-read \CharlotteDunois\Yasmin\Models\User        $user    The user this presence belongs to.
-     * @property-read \CharlotteDunois\Yasmin\Models\Game|null   $game    The game the user is playing.
-     * @property-read string                                         $status  What do you expect this to be?
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

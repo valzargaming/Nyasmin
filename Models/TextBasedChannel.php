@@ -11,6 +11,15 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * The text based channel.
+ *
+ * @property string                                         $id                 The channel ID.
+ * @property string                                         $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
+ * @property string|null                                    $lastMessageID      The last message ID, or null.
+ * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
+ * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
+ *
+ * @property \DateTime                                      $createdAt          The DateTime object of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
  */
 class TextBasedChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
@@ -45,15 +54,6 @@ class TextBasedChannel extends ClientBase
     /**
      * @inheritDoc
      *
-     * @property-read string                                         $id                 The channel ID.
-     * @property-read string                                         $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
-     * @property-read string|null                                    $lastMessageID      The last message ID, or null.
-     * @property-read int                                            $createdTimestamp   The timestamp of when this channel was created.
-     * @property-read \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
-     *
-     * @property-read \DateTime                                      $createdAt          The DateTime object of createdTimestamp.
-     * @property-read \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
-     *
      * @throws \Exception
      */
     function __get($name) {
@@ -78,11 +78,11 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Deletes multiple messages at once.
+     * Deletes multiple messages at once. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message objects, or the number of messages to delete (2-100).
      * @param string                                              $reason
      * @param bool                                                $filterOldMessages  Automatically filters out too old messages (14 days).
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filterOldMessages, $messages, $reason) {
@@ -119,18 +119,20 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs. Options are as following (all are optional):
+     * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.
      *
-     *  array(
-     *      'time' => int, (duration, in seconds, default 30)
-     *      'max' => int, (max. messages to collect)
-     *      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
+     * Options are as following (all are optional):
+     *
+     *  array( <br />
+     *      'time' => int, (duration, in seconds, default 30) <br />
+     *      'max' => int, (max. messages to collect) <br />
+     *      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to []) <br />
      *  )
      *
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
-     *
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function collectMessages(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
@@ -167,9 +169,10 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Fetches a specific message using the ID. Bot account endpoint only.
+     * Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.
      * @param  string  $id
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function fetchMessage(string $id) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($id) {
@@ -181,17 +184,20 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Fetches messages of this channel. Options are as following:
+     * Fetches messages of this channel. Resolves with a Collection of Message instances, mapped by their ID.
      *
-     *  array(
-     *      'after' => string, (message ID)
-     *      'around' => string, (message ID)
-     *      'before' => string, (message ID)
-     *      'limit' => int, (1-100, defaults to 50)
+     * Options are as following:
+     *
+     *  array( <br />
+     *      'after' => string, (message ID) <br />
+     *      'around' => string, (message ID) <br />
+     *      'before' => string, (message ID) <br />
+     *      'limit' => int, (1-100, defaults to 50) <br />
      *  )
      *
      * @param  array  $options
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function fetchMessages(array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
@@ -209,20 +215,23 @@ class TextBasedChannel extends ClientBase
     }
     
     /**
-     * Sends a message to a channel. Options are as following (all are optional):
+     * Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
      *
-     *  array(
-     *    'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or instance of MessageEmbed)
-     *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
-     *    'nonce' => string, (a snowflake used for optimistic sending)
-     *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
-     *    'tts' => bool,
-     *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
+     * Options are as following (all are optional):
+     *
+     *  array( <br />
+     *    'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or an instance of MessageEmbed) <br />
+     *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs) <br />
+     *    'nonce' => string, (a snowflake used for optimistic sending) <br />
+     *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false)) <br />
+     *    'tts' => bool, <br />
+     *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message) <br />
      *  )
      *
      * @param  string  $content  The message content.
      * @param  array   $options  Any message options.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message|\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function send(string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {

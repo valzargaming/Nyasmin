@@ -13,20 +13,21 @@ namespace CharlotteDunois\Yasmin\Traits;
  * The trait all guild channels use.
  */
 trait GuildChannelTrait {
-    abstract function __get($name);
-    
     /**
-     * Creates an invite. Options are as following (all are optional).
+     * Creates an invite. Resolves with an instance of Invite.
      *
-     *  array(
-     *    'maxAge' => int,
-     *    'maxUses' => int, (0 = unlimited)
-     *    'temporary' => bool,
-     *    'unique' => bool
+     * Options are as following (all are optional).
+     *
+     *  array( <br />
+     *    'maxAge' => int, <br />
+     *    'maxUses' => int, (0 = unlimited) <br />
+     *    'temporary' => bool, <br />
+     *    'unique' => bool <br />
      *  )
      *
      * @param array $options
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Invite>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function createInvite(array $options = array()) {
         $data = array(
@@ -48,12 +49,13 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Clones a guild channel.
+     * Clones a guild channel. Resolves with an instance of GuildChannelInterface.
      * @param string  $name             Optional name for the new channel, otherwise it has the name of this channel.
      * @param bool    $withPermissions  Whether to clone the channel with this channel's permission overwrites
      * @param bool    $withTopic        Whether to clone the channel with this channel's topic.
      * @param string  $reason
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface
      */
     function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '') {
         $data = array(
@@ -89,19 +91,21 @@ trait GuildChannelTrait {
     }
      
     /**
-     * Edits the channel. Options are as following (at least one is required).
+     * Edits the channel. Resolves with $this.
+     *
+     * Options are as following (at least one is required).
      *
      *  array(
-     *    'name' => string,
-     *    'position' => int,
-     *    'topic' => string,
-     *    'bitrate' => int, (voice channels only)
-     *    'userLimit' => int (voice channels only)
+     *    'name' => string, <br />
+     *    'position' => int, <br />
+     *    'topic' => string, <br />
+     *    'bitrate' => int, (voice channels only) <br />
+     *    'userLimit' => int (voice channels only) <br />
      *  )
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
@@ -142,7 +146,7 @@ trait GuildChannelTrait {
     /**
      * Deletes the channel.
      * @param string  $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -153,8 +157,9 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Fetches all invites of this channel.
-     * @return \React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\Invite>>
+     * Fetches all invites of this channel. Resolves with a Collection of Invite instances, mapped by their code.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -245,13 +250,14 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Overwrites the permissions for a member or role in this channel.
+     * Overwrites the permissions for a member or role in this channel. Resolves with an instance of PermissionOverwrite.
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\Role|string  $memberOrRole  The member or role.
      * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                             $allow         Which permissions should be allowed?
      * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                             $deny          Which permissions should be denied?
      * @param string                                                                                         $reason        The reason for this.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\PermissionOverwite>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
+     * @see \CharlotteDunois\Yasmin\Models\PermissionOverwrite
      */
     function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '') {
         $options = array();
@@ -288,9 +294,9 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Locks in the permission overwrites from the parent channel.
+     * Locks in the permission overwrites from the parent channel. Resolves with $this.
      * @param string  $reason  The reason for this.
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function lockPermissions(string $reason = '') {
@@ -320,10 +326,10 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Sets the name of the channel.
+     * Sets the name of the channel. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setName(string $name, string $reason = '') {
@@ -331,10 +337,10 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Sets the position of the channel.
+     * Sets the position of the channel. Resolves with $this.
      * @param int     $position
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {
@@ -374,10 +380,10 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Sets the topic of the channel.
+     * Sets the topic of the channel. Resolves with $this.
      * @param string  $topic
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setTopic(string $topic, string $reason = '') {

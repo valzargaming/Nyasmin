@@ -108,9 +108,9 @@ class URLHelpers {
     }
     
     /**
-     * Asynchronously resolves a given URL to the response body.
+     * Asynchronously resolves a given URL to the response body. Resolves with a string.
      * @param string  $url
-     * @return \React\Promise\Promise<string>
+     * @return \React\Promise\Promise
      */
     static function resolveURLToData(string $url) {
         if(!self::$http) {

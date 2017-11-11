@@ -11,6 +11,7 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild's category channel.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $children  Returns all channels which are childrens of this category.
  */
 class CategoryChannel extends TextBasedChannel {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
@@ -34,8 +35,6 @@ class CategoryChannel extends TextBasedChannel {
     
     /**
      * @inheritDoc
-     *
-     * @property-read \CharlotteDunois\Yasmin\Utils\Collection  $children  Returns all channels which are childrens of this category.
      *
      * @throws \Exception
      */

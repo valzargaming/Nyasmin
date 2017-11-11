@@ -41,7 +41,7 @@ class MessageDeleteBulk {
                 $this->client->emit('messageDeleteBulk', $messages);
             }
             
-            $this->client->emit('messageDeleteBulkRaw', $messagesRaw);
+            $this->client->emit('messageDeleteBulkRaw', $channel, $messagesRaw);
         }
     }
 }

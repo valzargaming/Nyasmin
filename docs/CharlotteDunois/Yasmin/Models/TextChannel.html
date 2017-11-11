@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>CharlotteDunois\Yasmin\Models\TextChannel | Yasmin</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_TextChannel" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Yasmin</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>TextChannel</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            TextChannel
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>TextChannel</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a>        implements
+        <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextChannel.php">View source</a>)
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Represents a guild's text channel.</p>                                </div>
+    
+            <h2>Traits</h2>
+
+        
+    <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a>
+                                            
+                </div>
+                <div class="col-md-6">
+                    The trait all guild channels use.
+                </div>
+            </div>
+            </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td>$id</td>
+                <td class="last">The channel ID.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_id"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_type">
+                                                                                string
+                </td>
+                <td>$type</td>
+                <td class="last">The channel type ({see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_type"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_lastMessageID">
+                                                                                string|null
+                </td>
+                <td>$lastMessageID</td>
+                <td class="last">The last message ID, or null.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_lastMessageID"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdTimestamp">
+                                                                                int
+                </td>
+                <td>$createdTimestamp</td>
+                <td class="last">The timestamp of when this channel was created.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_createdTimestamp"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_messages">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/MessageStorage.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageStorage">MessageStorage</abbr></a>
+                </td>
+                <td>$messages</td>
+                <td class="last">The storage with all cached messages.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_messages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdAt">
+                                                                                <a target="_blank" href="http://php.net/DateTime">DateTime</a>
+                </td>
+                <td>$createdAt</td>
+                <td class="last">The DateTime object of createdTimestamp.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_createdAt"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_lastMessage">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>|null
+                </td>
+                <td>$lastMessage</td>
+                <td class="last">The last message, or null.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_lastMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_guild">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>
+                </td>
+                <td>$guild</td>
+                <td class="last">The associated guild.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string
+                </td>
+                <td>$name</td>
+                <td class="last">The channel name.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_topic">
+                                                                                string
+                </td>
+                <td>$topic</td>
+                <td class="last">The channel topic.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_nsfw">
+                                                                                bool
+                </td>
+                <td>$nsfw</td>
+                <td class="last">Whether the channel is marked as NSFW or not.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_parentID">
+                                                                                string|null
+                </td>
+                <td>$parentID</td>
+                <td class="last">The ID of the parent channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_position">
+                                                                                int
+                </td>
+                <td>$position</td>
+                <td class="last">The channel position.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_permissionOverwrites">
+                                                                                <abbr title="CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>">PermissionOverwrite></abbr>
+                </td>
+                <td>$permissionOverwrites</td>
+                <td class="last">A collection of PermissionOverwrite objects.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_parent">
+                                                                                <abbr title="CharlotteDunois\Yasmin\Models\ChannelCategory">ChannelCategory</abbr>|null
+                </td>
+                <td>$parent</td>
+                <td class="last">Returns the channel's parent, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_permissionsLocked">
+                                                                                bool|null
+                </td>
+                <td>$permissionsLocked</td>
+                <td class="last">If the permissionOverwrites match the parent channel, null if no parent.</td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___get">__get</a>($name)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $channel)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method___construct"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_bulkDelete">bulkDelete</a>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int $messages, string $reason = &#039;&#039;, bool $filterOldMessages = false)
+        
+                                            <p>Deletes multiple messages at once.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_collectMessages">collectMessages</a>(callable $filter, array $options = array())
+        
+                                            <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs. Options are as following (all are optional):</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>">Message></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchMessage">fetchMessage</a>(string $id)
+        
+                                            <p>Fetches a specific message using the ID. Bot account endpoint only.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchMessages">fetchMessages</a>(array $options = array())
+        
+                                            <p>Fetches messages of this channel. Options are as following:</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message">Message</abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_send">send</a>(string $content, array $options = array())
+        
+                                            <p>Sends a message to a channel. Options are as following (all are optional):</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_startTyping">startTyping</a>()
+        
+                                            <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_stopTyping">stopTyping</a>(bool $force = false)
+        
+                                            <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_typingCount">typingCount</a>()
+        
+                                            <p>Returns the amount of user typing in this channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isTyping">isTyping</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Determines whether the given user is typing in this channel or not.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isTypingSince">isTypingSince</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Determines whether how long the given user has been typing in this channel. Returns -1 if the user is not typing.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_resolveMessageOptionsFiles">resolveMessageOptionsFiles</a>(array $options)
+        
+                                            <p>Resolves files of Message Options.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;string[]|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_resolveMessageOptionsSplit">resolveMessageOptionsSplit</a>(string $content, array $options)
+        
+                                            <p>Resolves split of Message Options. Returns null if no chunks needed.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsSplit"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Invite>">Invite></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createInvite">createInvite</a>(array $options = array())
+        
+                                            <p>Creates an invite. Options are as following (all are optional).</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_createInvite"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface>">GuildChannelInterface></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_clone">clone</a>(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = &#039;&#039;)
+        
+                                            <p>Clones a guild channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_clone"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the channel. Options are as following (at least one is required).</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_edit"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<void>">Promise<void></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
+        
+                                            <p>Deletes the channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\Invite>>">Invite>></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchInvites">fetchInvites</a>()
+        
+                                            <p>Fetches all invites of this channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_fetchInvites"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_permissionsFor">permissionsFor</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+        
+                                            <p>Returns the permissions for the given member.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_permissionsFor"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_overwritesFor">overwritesFor</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+        
+                                            <p>Returns the permissions overwrites for the given member.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_overwritesFor"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\PermissionOverwite>">PermissionOverwite></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_overwritePermissions">overwritePermissions</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $memberOrRole, <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int $allow, <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int $deny, string $reason = &#039;&#039;)
+        
+                                            <p>Overwrites the permissions for a member or role in this channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_overwritePermissions"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_lockPermissions">lockPermissions</a>(string $reason = &#039;&#039;)
+        
+                                            <p>Locks in the permission overwrites from the parent channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_lockPermissions"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setName">setName</a>(string $name, string $reason = &#039;&#039;)
+        
+                                            <p>Sets the name of the channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setName"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setPosition">setPosition</a>(int $position, string $reason = &#039;&#039;)
+        
+                                            <p>Sets the position of the channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setPosition"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setTopic">setTopic</a>(string $topic, string $reason = &#039;&#039;)
+        
+                                            <p>Sets the topic of the channel.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setTopic"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___toString">__toString</a>()
+        
+                                            <p>Automatically converts to a mention.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___get">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextChannel.php#L53">line 53</a></div>
+        <code>                    
+    <strong>__get</strong>($name)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method___construct"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L41">line 41</a></div>
+        <code>                    
+    <strong>__construct</strong>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $channel)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a></td>
+                <td>$client</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_bulkDelete">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L87">line 87</a></div>
+        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+    <strong>bulkDelete</strong>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int $messages, string $reason = &#039;&#039;, bool $filterOldMessages = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes multiple messages at once.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int</td>
+                <td>$messages</td>
+                <td>A collection or array of Message objects, or the number of messages to delete (2-100).</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$filterOldMessages</td>
+                <td>Automatically filters out too old messages (14 days).</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_collectMessages">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L135">line 135</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+    <strong>collectMessages</strong>(callable $filter, array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs. Options are as following (all are optional):</p>                    <p>array(
+     'time' => int, (duration, in seconds, default 30)
+     'max' => int, (max. messages to collect)
+     'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
+ )</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>callable</td>
+                <td>$filter</td>
+                <td>The filter to only collect desired messages.</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>The collector options.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchMessage">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L174">line 174</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>">Message></abbr>
+    <strong>fetchMessage</strong>(string $id)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches a specific message using the ID. Bot account endpoint only.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>">Message></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchMessages">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L196">line 196</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+    <strong>fetchMessages</strong>(array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches messages of this channel. Options are as following:</p>                    <p>array(
+     'after' => string, (message ID)
+     'around' => string, (message ID)
+     'before' => string, (message ID)
+     'limit' => int, (1-100, defaults to 50)
+ )</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_send">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L227">line 227</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message">Message</abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+    <strong>send</strong>(string $content, array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sends a message to a channel. Options are as following (all are optional):</p>                    <p>array(
+   'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or instance of MessageEmbed)
+   'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
+   'nonce' => string, (a snowflake used for optimistic sending)
+   'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
+   'tts' => bool,
+   'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
+ )</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$content</td>
+                <td>The message content.</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>Any message options.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message">Message</abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_startTyping">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L307">line 307</a></div>
+        <code>                    
+    <strong>startTyping</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_stopTyping">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L334">line 334</a></div>
+        <code>                    
+    <strong>stopTyping</strong>(bool $force = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$force</td>
+                <td>Reset typing counter and stop sending the indicator.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_typingCount">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L356">line 356</a></div>
+        <code>                    int
+    <strong>typingCount</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the amount of user typing in this channel.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isTyping">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L365">line 365</a></div>
+        <code>                    bool
+    <strong>isTyping</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Determines whether the given user is typing in this channel or not.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isTypingSince">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L374">line 374</a></div>
+        <code>                    int
+    <strong>isTypingSince</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Determines whether how long the given user has been typing in this channel. Returns -1 if the user is not typing.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_resolveMessageOptionsFiles">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L423">line 423</a></div>
+        <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>resolveMessageOptionsFiles</strong>(array $options)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Resolves files of Message Options.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_resolveMessageOptionsSplit">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsSplit"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L477">line 477</a></div>
+        <code>        static            string[]|null
+    <strong>resolveMessageOptionsSplit</strong>(string $content, array $options)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Resolves split of Message Options. Returns null if no chunks needed.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$content</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string[]|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createInvite">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_createInvite"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L29">line 29</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Invite>">Invite></abbr>
+    <strong>createInvite</strong>(array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates an invite. Options are as following (all are optional).</p>                    <p>array(
+   'maxAge' => int,
+   'maxUses' => int, (0 = unlimited)
+   'temporary' => bool,
+   'unique' => bool
+ )</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Invite>">Invite></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_clone">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_clone"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L56">line 56</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface>">GuildChannelInterface></abbr>
+    <strong>clone</strong>(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Clones a guild channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>Optional name for the new channel, otherwise it has the name of this channel.</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$withPermissions</td>
+                <td>Whether to clone the channel with this channel's permission overwrites</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$withTopic</td>
+                <td>Whether to clone the channel with this channel's topic.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface>">GuildChannelInterface></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_edit">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_edit"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L105">line 105</a></div>
+        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+    <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the channel. Options are as following (at least one is required).</p>                    <p>array(
+   'name' => string,
+   'position' => int,
+   'topic' => string,
+   'bitrate' => int, (voice channels only)
+   'userLimit' => int (voice channels only)
+ )</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L145">line 145</a></div>
+        <code>                    <abbr title="React\Promise\Promise<void>">Promise<void></abbr>
+    <strong>delete</strong>(string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<void>">Promise<void></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchInvites">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_fetchInvites"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L157">line 157</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\Invite>>">Invite>></abbr>
+    <strong>fetchInvites</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches all invites of this channel.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\Invite>>">Invite>></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_permissionsFor">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_permissionsFor"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L178">line 178</a></div>
+        <code>                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+    <strong>permissionsFor</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the permissions for the given member.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
+                <td>$member</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_overwritesFor">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_overwritesFor"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L221">line 221</a></div>
+        <code>                    array
+    <strong>overwritesFor</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the permissions overwrites for the given member.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
+                <td>$member</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_overwritePermissions">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_overwritePermissions"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L254">line 254</a></div>
+        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\PermissionOverwite>">PermissionOverwite></abbr>
+    <strong>overwritePermissions</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $memberOrRole, <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int $allow, <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int $deny, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Overwrites the permissions for a member or role in this channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string</td>
+                <td>$memberOrRole</td>
+                <td>The member or role.</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int</td>
+                <td>$allow</td>
+                <td>Which permissions should be allowed?</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int</td>
+                <td>$deny</td>
+                <td>Which permissions should be denied?</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td>The reason for this.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\PermissionOverwite>">PermissionOverwite></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_lockPermissions">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_lockPermissions"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L294">line 294</a></div>
+        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+    <strong>lockPermissions</strong>(string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Locks in the permission overwrites from the parent channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td>The reason for this.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/BadMethodCallException">BadMethodCallException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setName">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setName"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L327">line 327</a></div>
+        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+    <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sets the name of the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setPosition">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setPosition"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L338">line 338</a></div>
+        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+    <strong>setPosition</strong>(int $position, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sets the position of the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$position</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setTopic">
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setTopic"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L381">line 381</a></div>
+        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+    <strong>setTopic</strong>(string $topic, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sets the topic of the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$topic</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___toString">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextChannel.php#L85">line 85</a></div>
+        <code>                    
+    <strong>__toString</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Automatically converts to a mention.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

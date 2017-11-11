@@ -11,6 +11,33 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild member.
+ *
+ * @property string                                                         $id               The ID of the member.
+ * @property \CharlotteDunois\Yasmin\Models\User                            $user             The user object of the member.
+ * @property string|null                                                    $nickname         The nickname of the member, or null.
+ * @property bool                                                           $deaf             Whether the member is server deafened.
+ * @property bool                                                           $mute             Whether the member is server muted.
+ * @property \CharlotteDunois\Yasmin\Models\Guild                           $guild            The guild this member belongs to.
+ * @property int                                                            $joinedTimestamp  The timestamp of when this member joined.
+ * @property bool                                                           $selfDeaf         Whether the member is locally deafened.
+ * @property bool                                                           $selfMute         Whether the member is locally muted.
+ * @property bool                                                           $speaking         If the member is currently speaking.
+ * @property bool                                                           $suppress         Whether you suppress the member.
+ * @property string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
+ * @property string                                                         $voiceSessionID   The voice session ID, or null.
+ *
+ * @property bool                                                           $bannable         Whether the member is bannable by the client user.
+ * @property \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        The role of the member used to set their color.
+ * @property int|null                                                       $displayColor     The displayed color of the member.
+ * @property string|null                                                    $displayHexColor  The displayed color of the member as hex string.
+ * @property string                                                         $displayName      The displayed name.
+ * @property \CharlotteDunois\Yasmin\Models\Role                            $highestRole      The role of the member with the highest position.
+ * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist.
+ * @property \DateTime                                                      $joinedAt         An DateTime object of joinedTimestamp.
+ * @property bool                                                           $kickable         Whether the guild member is kickable by the client user.
+ * @property \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
+ * @property \CharlotteDunois\Yasmin\Models\Presence                        $presence         The presence of the member in this guild.
+ * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $voiceChannel     The voice channel the member is in, if connected to voice, or null.
  */
 class GuildMember extends ClientBase {
     protected $guild;
@@ -55,32 +82,6 @@ class GuildMember extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @property-read string                                                         $id               The ID of the member.
-     * @property-read \CharlotteDunois\Yasmin\Models\User                            $user             The user object of the member.
-     * @property-read string|null                                                    $nickname         The nickname of the member, or null.
-     * @property-read bool                                                           $deaf             Whether the member is server deafened.
-     * @property-read bool                                                           $mute             Whether the member is server muted.
-     * @property-read \CharlotteDunois\Yasmin\Models\Guild                           $guild            The guild this member belongs to.
-     * @property-read int                                                            $joinedTimestamp  The timestamp of when this member joined.
-     * @property-read bool                                                           $selfDeaf         Whether the member is locally deafened.
-     * @property-read bool                                                           $selfMute         Whether the member is locally muted.
-     * @property-read bool                                                           $speaking         If the member is currently speaking.
-     * @property-read bool                                                           $suppress         Whether you suppress the member.
-     * @property-read string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
-     * @property-read string                                                         $voiceSessionID   The voice session ID, or null.
-     *
-     * @property-read bool                                                           $bannable         Whether the member is bannable by the client user.
-     * @property-read \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        The role of the member used to set their color.
-     * @property-read int|null                                                       $displayColor     The displayed color of the member.
-     * @property-read string|null                                                    $displayHexColor  The displayed color of the member as hex string.
-     * @property-read string                                                         $displayName      The displayed name.
-     * @property-read \CharlotteDunois\Yasmin\Models\Role                            $highestRole      The role of the member with the highest position.
-     * @property-read \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist.
-     * @property-read \DateTime                                                      $joinedAt         An DateTime object of joinedTimestamp.
-     * @property-read bool                                                           $kickable         Whether the guild member is kickable by the client user.
-     * @property-read \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
-     * @property-read \CharlotteDunois\Yasmin\Models\Presence                        $presence         The presence of the member in this guild.
-     * @property-read \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $voiceChannel     The voice channel the member is in, if connected to voice, or null.
      * @throws \Exception
      */
     function __get($name) {
@@ -202,10 +203,10 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Adds a role to the guild member.
+     * Adds a role to the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role object or role ID.
      * @param string                                       $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function addRole($role, string $reason = '') {
         if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
@@ -220,10 +221,10 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Adds roles to the guild member.
+     * Adds roles to the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role>|array<string|\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
      * @param string                                                                                                                                   $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function addRoles($roles, string $reason = '') {
         if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
@@ -235,7 +236,7 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Bans the guild member.
+     * Bans the guild member. Resolves with $this.
      * @param int     $days     Number of days of messages to delete (0-7).
      * @param string  $reason
      * @return \React\Promise\Promise<void>
@@ -247,19 +248,21 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Edits the guild member. Options are as following (only one required):
+     * Edits the guild member. Resolves with $this.
      *
-     *  array(
-     *      'nick' => string,
-     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role objects or role IDs)
-     *      'deaf' => bool,
-     *      'mute' => bool,
-     *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
+     * Options are as following (only one required):
+     *
+     *  array( <br />
+     *      'nick' => string, <br />
+     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role objects or role IDs) <br />
+     *      'deaf' => bool, <br />
+     *      'mute' => bool, <br />
+     *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice) <br />
      *  )
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
@@ -305,12 +308,12 @@ class GuildMember extends ClientBase {
     /**
      * Kicks the guild member.
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function kick(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
             $this->client->apimanager()->endpoints->guild->removeGuildMember($this->guild->id, $this->id, $reason)->then(function () use ($resolve) {
-                $resolve($this);
+                $resolve();
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
@@ -327,10 +330,10 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Removes a role from the guild member.
+     * Removes a role from the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role object or role ID.
      * @param string                                       $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function removeRole($role, string $reason = '') {
         if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
@@ -345,10 +348,10 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Removes roles from the guild member.
+     * Removes roles from the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
      * @param string                                                                                $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function removeRoles($roles, string $reason = '') {
         if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
@@ -363,30 +366,30 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Deafen/undeafen a guild member.
+     * Deafen/undeafen a guild member. Resolves with $this.
      * @param bool    $deaf
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function setDeaf(bool $deaf, string $reason = '') {
         return $this->edit(array('deaf' => $deaf), $reason);
     }
     
     /**
-     * Mute/unmute a guild member.
+     * Mute/unmute a guild member. Resolves with $this.
      * @param bool    $mute
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function setMute(bool $mute, string $reason = '') {
         return $this->edit(array('mute' => $mute), $reason);
     }
     
     /**
-     * Set the nickname of the guild member.
+     * Set the nickname of the guild member. Resolves with $this.
      * @param string  $nickname
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function setNickname(string $nickname, string $reason = '') {
         if($this->id === $this->client->user->id) {
@@ -401,20 +404,20 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Sets the roles of the guild member.
+     * Sets the roles of the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
      * @param string                                                                                $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function setRoles($roles, string $reason = '') {
         return $this->edit(array('roles' => $roles), $reason);
     }
     
     /**
-     * Moves the guild member to the given voice channel, if connected to voice.
+     * Moves the guild member to the given voice channel, if connected to voice. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\VoiceChannel|string  $channel
      * @param string                                              $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setVoiceChannel($channel) {

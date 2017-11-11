@@ -11,6 +11,25 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild's voice channel.
+ *
+ * @property  string                                                                                   $id                     The ID of the channel.
+ * @property  string                                                                                   $type                   The type of the channel.
+ * @property  int                                                                                      $createdTimestamp       When this channel was created.
+ * @property  string                                                                                   $name                   The name of the channel.
+ * @property  int                                                                                      $bitrate                The bitrate of the channel.
+ * @property  \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\GuildMember>     $members                Holds all members which currently are in the voice channel.
+ * @property  string|null                                                                              $parentID               The ID of the parent channel, or null.
+ * @property  int                                                                                      $position               The position of the channel.
+ * @property  \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
+ * @property  int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
+ *
+ * @property  \CharlotteDunois\Yasmin\Voice\VoiceConnection|null                                       $connection             he voice connection for this voice channel, if the client is connected.
+ * @property  bool                                                                                     $full                   Checks if the voice channel is full.
+ * @property  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
+ * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                      $parent                 Returns the channel's parent, or null.
+ * @property  bool|null                                                                                $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
+ * @property  bool                                                                                     $speakable              Whether the client has permission to send audio to the channel.
+ *
  * @todo Implementation
  */
 class VoiceChannel extends ClientBase
@@ -46,24 +65,6 @@ class VoiceChannel extends ClientBase
     
     /**
      * @inheritDoc
-     *
-     * @property-read  string                                                                                   $id                     The ID of the channel.
-     * @property-read  string                                                                                   $type                   The type of the channel.
-     * @property-read  int                                                                                      $createdTimestamp       When this channel was created.
-     * @property-read  string                                                                                   $name                   The name of the channel.
-     * @property-read  int                                                                                      $bitrate                The bitrate of the channel.
-     * @property-read  \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\GuildMember>     $members                Holds all members which currently are in the voice channel.
-     * @property-read  string|null                                                                              $parentID               The ID of the parent channel, or null.
-     * @property-read  int                                                                                      $position               The position of the channel.
-     * @property-read  \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
-     * @property-read  int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
-     *
-     * @property-read  \CharlotteDunois\Yasmin\Voice\VoiceConnection|null                                       $connection             he voice connection for this voice channel, if the client is connected.
-     * @property-read  bool                                                                                     $full                   Checks if the voice channel is full.
-     * @property-read  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
-     * @property-read  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                      $parent                 Returns the channel's parent, or null.
-     * @property-read  bool|null                                                                                $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
-     * @property-read  bool                                                                                     $speakable              Whether the client has permission to send audio to the channel.
      *
      * @throws \Exception
      */
@@ -109,8 +110,9 @@ class VoiceChannel extends ClientBase
     }
     
     /**
-     * Joins the voice channel.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Voice\VoiceConnection>
+     * Joins the voice channel. Resolves with an instance of VoiceConnection.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Voice\VoiceConnection
      * @todo Implementation of Voice
      */
     function join() {
@@ -138,10 +140,10 @@ class VoiceChannel extends ClientBase
     }
     
     /**
-     * Sets the bitrate of the channel.
+     * Sets the bitrate of the channel. Resolves with $this.
      * @param int     $bitrate
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setBitrate(int $bitrate, string $reason = '') {
@@ -149,10 +151,10 @@ class VoiceChannel extends ClientBase
     }
     
     /**
-     * Sets the user limit of the channel.
+     * Sets the user limit of the channel. Resolves with $this.
      * @param int     $userLimit
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
     function setUserLimit(int $userLimit, string $reason = '') {

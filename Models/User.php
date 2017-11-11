@@ -11,6 +11,25 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents an user on Discord.
+ *
+ * @property string                                               $id                 The user ID.
+ * @property string                                               $username           The username.
+ * @property string                                               $discriminator      The discriminator of this user.
+ * @property boolean                                              $bot                Is the user a bot? Or are you a bot?
+ * @property string                                               $avatar             The hash of the user's avatar.
+ * @property string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
+ * @property boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account.
+ * @property boolean|null                                         $verified           Whether the email on this account has been verified.
+ * @property boolean                                              $webhook            Determines wether the user is a webhook or not.
+ * @property int                                                  $createdTimestamp   The timestamp of when this user was created.
+ *
+ * @property \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
+ * @property int                                                  $defaultAvatar      The identifier of the default avatar for this user.
+ * @property \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
+ * @property string                                               $tag                Username#Discriminator.
+ *
  * @todo Implementation
  */
 class User extends ClientBase
@@ -49,24 +68,6 @@ class User extends ClientBase
     
     /**
      * @inheritDoc
-     *
-     * @property-read string                                               $id                 The user ID.
-     * @property-read string                                               $username           The username.
-     * @property-read string                                               $discriminator      The discriminator of this user.
-     * @property-read boolean                                              $bot                Is the user a bot? Or are you a bot?
-     * @property-read string                                               $avatar             The hash of the user's avatar.
-     * @property-read string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
-     * @property-read boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account.
-     * @property-read boolean|null                                         $verified           Whether the email on this account has been verified.
-     * @property-read boolean                                              $webhook            Determines wether the user is a webhook or not.
-     * @property-read int                                                  $createdTimestamp   The timestamp of when this user was created.
-     *
-     * @property-read \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
-     * @property-read int                                                  $defaultAvatar      The identifier of the default avatar for this user.
-     * @property-read \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists.
-     * @property-read \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
-     * @property-read \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
-     * @property-read string                                               $tag                Username#Discriminator.
      *
      * @throws \Exception
      */
@@ -124,8 +125,9 @@ class User extends ClientBase
     }
     
     /**
-     * Opens a DM channel to this user.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\DMChannel>
+     * Opens a DM channel to this user. Resolves with an instance of DMChannel.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\DMChannel
      */
     function createDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -143,7 +145,7 @@ class User extends ClientBase
     
     /**
      * Deletes an existing DM channel to this user.
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function deleteDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -194,8 +196,8 @@ class User extends ClientBase
     }
     
     /**
-     * Fetches the User's connections. Requires connections scope.
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<array>>
+     * Fetches the User's connections. Requires connections scope. Resolves with a Collection of connection arrays, mapped by the connection array's ID.
+     * @return \React\Promise\Promise
      * @todo Make UserConnection object.
      */
     function fetchUserConnections() {
@@ -212,9 +214,9 @@ class User extends ClientBase
     }
     
     /**
-     * Deletes multiple messages at once.
+     * Deletes multiple messages at once. Resolves with $this.
      * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::bulkDelete
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function bulkDelete($messages, string $reason = '') {
         return $this->createDM()->then(function ($channel) use ($messages, $reason) {
@@ -223,22 +225,24 @@ class User extends ClientBase
     }
     
     /**
-     * Collects messages during a specific duration (and max. amount).
+     * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their ID.
      * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::collectMessages
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function collectMessages(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $this->createDM()->then(function ($dm) use ($filter, $options, $resolve, $reject) {
-                return $dm->awaitMessages($filter, $options)->then($resolve, $reject);
+                return $dm->collectMessages($filter, $options)->then($resolve, $reject);
             }, $reject)->done();
         }));
     }
     
     /**
-     * Sends a message to a channel.
+     * Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
      * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::send
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function send(string $message, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {

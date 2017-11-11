@@ -73,9 +73,9 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your avatar.
+     * Set your avatar. Resolves with $this.
      * @param string $avatar  An URL or the filepath or the data.
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function setAvatar(string $avatar) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
@@ -90,9 +90,9 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your username.
+     * Set your username. Resolves with $this.
      * @param string $username
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      */
     function setUsername(string $username) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
@@ -103,9 +103,9 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your status.
+     * Set your status. Resolves with $this.
      * @param string $status  Valid values are: online, idle, dnd and offline.
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function setStatus(string $status) {
         $presence = array(
@@ -116,10 +116,10 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your playing game.
+     * Set your playing game. Resolves with $this.
      * @param string       $name  The game name.
      * @param string|void  $url   If you're streaming, this is the url to the stream.
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function setGame(string $name, string $url = '') {
         $presence = array(
@@ -139,7 +139,7 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your presence.
+     * Set your presence. Resolves with $this.
      *
      *  $presence = array(
      *      'afk' => bool,
@@ -155,7 +155,7 @@ class ClientUser extends User {
      *  Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude. Ratelimit is 5/60s.
      *
      * @param array $presence
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
     function setPresence(array $presence) {
@@ -197,7 +197,7 @@ class ClientUser extends User {
     }
     
     /**
-     * Creates a new Group DM with the owner of the access tokens. The structure of the array is as following:
+     * Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:
      *
      *  array(
      *      'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
@@ -207,7 +207,8 @@ class ClientUser extends User {
      *
      * @param array  $userWithAccessTokens
      * @param array  $nicks
-     * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Models\GroupDMChannel>
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\GroupDMChannel
      */
     function createGroupDM(array $userWithAccessTokens, array $nicks = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($nicks, $userWithAccessTokens) {

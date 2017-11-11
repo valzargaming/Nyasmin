@@ -11,6 +11,13 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a partial channel.
+ *
+ * @property string       $id                The channel ID.
+ * @property string       $name              The channel name.
+ * @property int          $createdTimestamp  The timestmap when this channel was created.
+ * @property string       $type              The type of the channel.
+ *
+ * @property \DateTime   $createdAt          The DateTime object of createdTimestamp.
  */
 class PartialChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
@@ -37,13 +44,6 @@ class PartialChannel extends ClientBase
     
     /**
      * @inheritDoc
-     *
-     * @property-read string       $id                The channel ID.
-     * @property-read string       $name              The channel name.
-     * @property-read int          $createdTimestamp  The timestmap when this channel was created.
-     * @property-read string       $type              The type of the channel.
-     *
-     * @property-read \DateTime   $createdAt          The DateTime object of createdTimestamp.
      *
      * @throws \Exception
      */

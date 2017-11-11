@@ -2,3 +2,7 @@ vendor
 vendor/*
 composer.lock
 *.token
+sami.phar
+sami.php
+cache
+cache/*
