@@ -87,7 +87,7 @@ class MessageAttachment extends Base {
     /**
      * @internal
      */
-    function jsonSerialize() {
+    function getMessageFilesArray() {
         $props = array(
             'filename' => $this->filename
         );

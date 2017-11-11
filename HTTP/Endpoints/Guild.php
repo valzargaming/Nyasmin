@@ -35,7 +35,7 @@ class Guild {
     
     function modifyGuild(string $guildid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['modify'], $guildid);
-        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => $options));
+        return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function deleteGuild(string $guildid) {

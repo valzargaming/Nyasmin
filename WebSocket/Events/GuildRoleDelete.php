@@ -24,7 +24,7 @@ class GuildRoleDelete {
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
-            $role = $guild->roles->get($data['role']['id']);
+            $role = $guild->roles->get($data['role_id']);
             if($role) {
                 $guild->roles->delete($role->id);
                 $this->client->emit('roleDelete', $role);

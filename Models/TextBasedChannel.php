@@ -132,7 +132,7 @@ class TextBasedChannel extends ClientBase
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>
      *
      */
-    function collectMessages(callable $filter, array $options) {
+    function collectMessages(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             $timer = array();
@@ -141,7 +141,7 @@ class TextBasedChannel extends ClientBase
                 if($message->channel->id === $this->id && $filter($message)) {
                     $collect->set($message->id, $message);
                     
-                    if($collect->count() >= $options['max']) {
+                    if(!empty($options['max']) && $collect->count() >= $options['max']) {
                         $this->client->removeListener('message', $listener);
                         if(!empty($timer)) {
                             $this->client->cancelTimer($timer[0]);
@@ -155,7 +155,7 @@ class TextBasedChannel extends ClientBase
             $timer[0] = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('message', $listener);
                 
-                if(\in_array('time', $options['errors']) && $collect->count() < $options['max']) {
+                if(\in_array('time', $options['errors']) && !empty($options['max']) && $collect->count() < $options['max']) {
                     return $reject(new \RangeException('Not reached max messages in specified duration'));
                 }
                 
@@ -306,7 +306,7 @@ class TextBasedChannel extends ClientBase
      */
     function startTyping() {
         if($this->typingTriggered['count'] === 0) {
-            $this->typingTriggered['timer'] = $this->client->addPeriodicTimer(7, function () {
+            $fn = function () {
                 $this->client->apimanager()->endpoints->channel->triggerChannelTyping($this->id)->then(function () {
                     $this->_updateTyping($this->client->user, \time());
                 }, function () {
@@ -318,7 +318,10 @@ class TextBasedChannel extends ClientBase
                         $this->typingTriggered['timer'] = null;
                     }
                 })->done(null, array($this->client, 'handlePromiseRejection'));
-            });
+            };
+            
+            $this->typingTriggered['timer'] = $this->client->addPeriodicTimer(7, $fn);
+            $fn();
         }
         
         $this->typingTriggered['count']++;
@@ -378,6 +381,7 @@ class TextBasedChannel extends ClientBase
     
     /**
      * @param array  $message
+     * @return \CharlotteDunois\Yasmin\Models\Message
      * @internal
      */
     function _createMessage(array $message) {
@@ -423,6 +427,10 @@ class TextBasedChannel extends ClientBase
         
         $promises = array();
         foreach($options['files'] as $file) {
+            if($file instanceof \CharlotteDunois\Yasmin\Models\MessageAttachment) {
+                $file = $file->getMessageFilesArray();
+            }
+            
             if(\is_string($file)) {
                 if(\filter_var($file, FILTER_VALIDATE_URL)) {
                     $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {

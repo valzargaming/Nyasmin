@@ -172,7 +172,7 @@ class Message extends ClientBase {
      * @return \React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\MessageReaction>>
      *
      */
-    function collectReactions(callable $filter, array $options) {
+    function collectReactions(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             

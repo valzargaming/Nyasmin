@@ -119,6 +119,10 @@ trait GuildChannelTrait {
             $data['position'] = (int) $options['position'];
         }
         
+        if(isset($options['topic'])) {
+            $data['topic'] = (string) $options['topic'];
+        }
+        
         if(isset($options['bitrate'])) {
             $data['bitrate'] = (int) $options['bitrate'];
         }
@@ -128,7 +132,7 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
                 $this->_patch($data);
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
@@ -254,7 +258,7 @@ trait GuildChannelTrait {
         
         try {
             $memberOrRole = $this->guild->members->resolve($memberOrRole);
-            $options['type'] = 'user';
+            $options['type'] = 'member';
         } catch(\InvalidArgumentException $e) {
             $memberOrRole = $this->guild->roles->resolve($memberOrRole);
             $options['type'] = 'role';
@@ -272,7 +276,7 @@ trait GuildChannelTrait {
         $options['deny'] = $deny;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
-            $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
                 $options['id'] = $memberOrRole->id;
                 
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $options);
@@ -306,7 +310,7 @@ trait GuildChannelTrait {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($overwrites, $reason) {
             $promises = array();
             foreach($overwrites as $overwrite) {
-                $promises[] = $this->client->apimanager()->endpoints->guild->editChannelPermissions($this->id, $overwrite['id'], $overwrite, $reason);
+                $promises[] = $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $overwrite['id'], $overwrite, $reason);
             }
             
             \React\Promise\all($promises)->then(function () use ($resolve) {

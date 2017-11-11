@@ -238,14 +238,12 @@ class GuildMember extends ClientBase {
      * Bans the guild member.
      * @param int     $days     Number of days of messages to delete (0-7).
      * @param string  $reason
-     * @return \React\Promise\Promise<this>
+     * @return \React\Promise\Promise<void>
      */
     function ban(int $days = 0, string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days, $reason) {
-            $this->client->apimanager()->endpoints->guild->createGuildBan($this->guild->id, $this->id, $days, $reason)->then(function () use ($resolve) {
-                $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-        }));
+        return $this->guild->ban($this, $days, $reason)->then(function () {
+            return;
+        });
     }
     
     /**
@@ -256,7 +254,7 @@ class GuildMember extends ClientBase {
      *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role objects or role IDs)
      *      'deaf' => bool,
      *      'mute' => bool,
-     *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (if member is connected to voice)
+     *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
      *  )
      *
      * @param array   $options

@@ -45,6 +45,10 @@ class RoleStorage extends Storage {
      * @internal
      */
     function factory(array $data) {
+        if($this->has($data['id'])) {
+            return $this->get($data['id']);
+        }
+        
         $role = new \CharlotteDunois\Yasmin\Models\Role($this->client, $this->guild, $data);
         $this->set($role->id, $role);
         return $role;

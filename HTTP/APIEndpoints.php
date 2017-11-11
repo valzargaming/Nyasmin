@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 use \CharlotteDunois\Yasmin\Constants;
 
 /**
- * Handles the API.
+ * Handles the API endpoints.
  * @internal
  */
 class APIEndpoints {

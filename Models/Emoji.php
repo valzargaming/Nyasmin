@@ -145,11 +145,11 @@ class Emoji extends ClientBase {
                     
                     return $role;
                 }, $options['roles']);
-                
-                $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->then(function () use ($resolve) {
-                    $resolve($this);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             }
+            
+            $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
