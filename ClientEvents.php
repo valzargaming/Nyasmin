@@ -10,17 +10,19 @@
 namespace CharlotteDunois\Yasmin;
 
 /**
- * Documents all Client events. ($client->on('name here', $callable))
+ * Documents all Client events. ($client->on('name here', callable))
+ *
+ * The second parameter of all *Update events is null, if cloning for that event is disabled.
  *
  * @method  ready()                                                                                                                                  Emitted when the client is ready.
  * @method  disconnect()                                                                                                                             Emitted when the client gets disconnected from the gateway.
  * @method  reconnect()                                                                                                                              Emitted when the client tries to reconnect.
  * @method  channelCreate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel)                                                              Emitted when a channel gets created.
- * @method  channelUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $new, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null $old)   Emitted when a channel gets updated.
+ * @method  channelUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $new, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $old)        Emitted when a channel gets updated.
  * @method  channelDelete(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel)                                                              Emitted when a channel gets deleted.
  * @method  channelPinsUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, \DateTime|null $time)                                    Emitted when a channel's pins gets updated. Due to the nature of the event, it's not possible to do much.
  * @method  guildCreate(\CharlotteDunois\Yasmin\Models\Guild $guild)                                                                                 Emitted when a guild gets joined.
- * @method  guildUpdate(\CharlotteDunois\Yasmin\Models\Guild $new, \CharlotteDunois\Yasmin\Models\Guild|null $old)                                   Emitted when a guild gets updated.
+ * @method  guildUpdate(\CharlotteDunois\Yasmin\Models\Guild $new, \CharlotteDunois\Yasmin\Models\Guild $old)                                        Emitted when a guild gets updated.
  * @method  guildDelete(\CharlotteDunois\Yasmin\Models\Guild $guild)                                                                                 Emitted when a guild gets left.
  * @method  guildUnavailable(\CharlotteDunois\Yasmin\Models\Guild $guild)                                                                            Emitted when a guild becomes (in)available.
  * @method  guildBanAdd(\CharlotteDunois\Yasmin\Models\Guild $guild, \CharlotteDunois\Yasmin\Models\User $user)                                      Emitted when someone gets banned.

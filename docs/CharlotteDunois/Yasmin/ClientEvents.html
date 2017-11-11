@@ -86,7 +86,7 @@
     
 
             <div class="description">
-            <p>Documents all Client events. ($client->on('name here', $callable))</p>                                </div>
+            <p>Documents all Client events. ($client->on('name here', callable))</p>            <p>The second parameter of all *Update events is null, if cloning for that event is disabled.</p>                    </div>
     
     
     
@@ -139,7 +139,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_channelUpdate">channelUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null ">ChannelInterface|null </abbr> $old)
+                    <a href="#method_channelUpdate">channelUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $old)
         
                                             <p>Emitted when a channel gets updated.</p>                </div>
                 <div class="col-md-2"></div>
@@ -179,7 +179,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildUpdate">guildUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild|null ">Guild|null </abbr> $old)
+                    <a href="#method_guildUpdate">guildUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $old)
         
                                             <p>Emitted when a guild gets updated.</p>                </div>
                 <div class="col-md-2"></div>
@@ -462,7 +462,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_ready">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>ready</strong>()
         </code>
@@ -483,7 +483,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_disconnect">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>disconnect</strong>()
         </code>
@@ -504,7 +504,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_reconnect">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>reconnect</strong>()
         </code>
@@ -525,7 +525,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_channelCreate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>channelCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel)
         </code>
@@ -556,9 +556,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_channelUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>channelUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null ">ChannelInterface|null </abbr> $old)
+    <strong>channelUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $old)
         </code>
     </h3>
     <div class="details">
@@ -577,7 +577,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null ">ChannelInterface|null </abbr></td>
+                <td><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr></td>
                 <td>$old</td>
                 <td></td>
             </tr>
@@ -592,7 +592,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_channelDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>channelDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel)
         </code>
@@ -623,7 +623,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_channelPinsUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>channelPinsUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel, DateTime|null  $time)
         </code>
@@ -659,7 +659,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildCreate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         </code>
@@ -690,9 +690,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>guildUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild|null ">Guild|null </abbr> $old)
+    <strong>guildUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $old)
         </code>
     </h3>
     <div class="details">
@@ -711,7 +711,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild|null ">Guild|null </abbr></td>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
                 <td>$old</td>
                 <td></td>
             </tr>
@@ -726,7 +726,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         </code>
@@ -757,7 +757,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildUnavailable">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildUnavailable</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         </code>
@@ -788,7 +788,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildBanAdd">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildBanAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
@@ -824,7 +824,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildBanRemove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildBanRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
@@ -860,7 +860,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildMemberAdd">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMemberAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
         </code>
@@ -891,7 +891,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildMemberUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMemberUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $old)
         </code>
@@ -927,7 +927,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildMemberRemove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMemberRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
         </code>
@@ -958,7 +958,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildMembersChunk">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMembersChunk</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $members)
         </code>
@@ -994,7 +994,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_roleCreate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>roleCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
         </code>
@@ -1025,7 +1025,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_roleUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>roleUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $old)
         </code>
@@ -1061,7 +1061,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_roleDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>roleDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
         </code>
@@ -1092,7 +1092,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_message">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>message</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
         </code>
@@ -1123,7 +1123,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $old)
         </code>
@@ -1159,7 +1159,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
         </code>
@@ -1190,7 +1190,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageDeleteBulk">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageDeleteBulk</strong>(<abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $messages)
         </code>
@@ -1221,7 +1221,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageReactionAdd">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageReactionAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
         </code>
@@ -1252,7 +1252,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageReactionRemove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageReactionRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
         </code>
@@ -1283,7 +1283,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageReactionRemoveAll">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageReactionRemoveAll</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
         </code>
@@ -1314,7 +1314,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_presenceUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>presenceUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Presence ">Presence </abbr> $presence)
         </code>
@@ -1345,7 +1345,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_typingStart">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>typingStart</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
@@ -1381,7 +1381,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_userUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>userUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $old)
         </code>
@@ -1417,7 +1417,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_voiceStateUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>voiceStateUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $old)
         </code>
@@ -1453,7 +1453,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_raw">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>raw</strong>(array  $message)
         </code>
@@ -1484,7 +1484,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageDeleteRaw">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageDeleteRaw</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, string  $messageID)
         </code>
@@ -1520,7 +1520,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_messageDeleteBulkRaw">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageDeleteBulkRaw</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, array  $messageIDs)
         </code>
@@ -1556,7 +1556,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_error">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>error</strong>(Exception  $error)
         </code>
@@ -1587,7 +1587,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_debug">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L53">line 53</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>debug</strong>(string  $message)
         </code>
