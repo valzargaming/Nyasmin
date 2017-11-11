@@ -9,6 +9,10 @@ Getting started with Yasmin is pretty trivial. All you need to do, is to use com
 composer require charlottedunois/yasmin
 ```
 
+<br>
+
+**Important Information**: All properties on class instances, which are implemented using a magic method (which means pretty much all properties), are **throwing** if the property doesn't exist.
+
 # Example
 This is a fairly trivial example of using Yasmin.
 
