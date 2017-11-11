@@ -172,6 +172,14 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             throw new \Exception('Can not connect to unknown gateway');
         }
         
+        if(($this->lastIdentify ?? 0) > (\time() - 5)) {
+            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway, $querystring) {
+                $this->client->getLoop()->addTimer((5 - (\time() - $this->lastIdentify)), function () use ($gateway, $querystring, $resolve, $reject) {
+                    $this->connect($gateway, $querystring)->then($resolve, $reject)->done();
+                });
+            }));
+        }
+        
         if($this->compressContext) {
             $querystring['compress'] = $this->compressContext->getName();
         }
@@ -186,14 +194,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             }
         } elseif(!empty($querystring)) {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
-        }
-        
-        if($this->lastIdentify && $this->lastIdentify > (\time() - 5)) {
-            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway) {
-                $this->client->getLoop()->addTimer((\time() - 5 - $this->lastIdentify), function () use ($gateway, $resolve, $reject) {
-                    $this->connect($gateway)->then($resolve, $reject)->done();
-                });
-            }));
         }
         
         $this->gateway = $gateway;
@@ -321,6 +321,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
         $this->expectedClose = true;
         $this->ws->close(1000);
         
+        $this->gateway = null;
         $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
         $this->wsSessionID = null;
     }
