@@ -141,7 +141,7 @@ class TextBasedChannel extends ClientBase
                 if($message->channel->id === $this->id && $filter($message)) {
                     $collect->set($message->id, $message);
                     
-                    if(!empty($options['max']) && $collect->count() >= $options['max']) {
+                    if($collect->count() >= ($options['max'] ?? \INF)) {
                         $this->client->removeListener('message', $listener);
                         if(!empty($timer)) {
                             $this->client->cancelTimer($timer[0]);
@@ -155,7 +155,7 @@ class TextBasedChannel extends ClientBase
             $timer[0] = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('message', $listener);
                 
-                if(\in_array('time', $options['errors']) && !empty($options['max']) && $collect->count() < $options['max']) {
+                if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {
                     return $reject(new \RangeException('Not reached max messages in specified duration'));
                 }
                 
