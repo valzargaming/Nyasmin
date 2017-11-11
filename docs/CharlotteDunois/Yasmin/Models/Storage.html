@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>CharlotteDunois\Yasmin\Models\UserStorage | Yasmin</title>
+    <title>CharlotteDunois\Yasmin\Models\Storage | Yasmin</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_UserStorage" data-root-path="../../../">
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_Storage" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,27 +66,28 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>UserStorage</li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>Storage</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            UserStorage
+            Storage
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>UserStorage</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/Storage.html"><abbr title="CharlotteDunois\Yasmin\Models\Storage">Storage</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/UserStorage.php">View source</a>)
+    <strong>Storage</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>        implements
+        <a href="../../../CharlotteDunois/Yasmin/Interfaces/StorageInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\StorageInterface">StorageInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Storage.php">View source</a>)
 </p>
 
         
     
 
             <div class="description">
-            <p>User Storage to store and cache users, which utlizies Collection.</p>                                </div>
+            <p>Base class for all storages.</p>                                </div>
     
     
     
@@ -161,9 +162,8 @@
                 <div class="col-md-8 type">
                     <a href="#method_set">set</a>(mixed $key, mixed $value)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
+                                            <p>Sets a key-value pair.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_set"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -172,9 +172,8 @@
                 <div class="col-md-8 type">
                     <a href="#method_delete">delete</a>(mixed $key)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
+                                            <p>Removes an item from the collection by its key.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -715,16 +714,6 @@
         
                                             <p class="no-description">No description</p>
                                     </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/Storage.html#method___get"><abbr title="CharlotteDunois\Yasmin\Models\Storage">Storage</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_resolve">resolve</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $user)
-        
-                                            <p>Resolves given data to an user.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -898,7 +887,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_set">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/UserStorage.php#L56">line 56</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_set"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Collection.php#L82">line 82</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>
     <strong>set</strong>(mixed $key, mixed $value)
         </code>
@@ -907,6 +896,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Sets a key-value pair.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -941,7 +932,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/UserStorage.php#L68">line 68</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Collection.php#L92">line 92</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>
     <strong>delete</strong>(mixed $key)
         </code>
@@ -950,6 +941,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Removes an item from the collection by its key.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -3079,7 +3072,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___get">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/Storage.html#method___get"><abbr title="CharlotteDunois\Yasmin\Models\Storage">Storage</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Storage.php#L31">line 31</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Storage.php#L31">line 31</a></div>
         <code>                    
     <strong>__get</strong>($name)
         </code>
@@ -3101,55 +3094,6 @@
 
             
             
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_resolve">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/UserStorage.php#L22">line 22</a></div>
-        <code>                    <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>
-    <strong>resolve</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $user)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Resolves given data to an user.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
-                <td>$user</td>
-                <td>string = user ID</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>

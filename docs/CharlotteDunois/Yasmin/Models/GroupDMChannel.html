@@ -219,52 +219,52 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+                    <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_bulkDelete">bulkDelete</a>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int $messages, string $reason = &#039;&#039;, bool $filterOldMessages = false)
         
-                                            <p>Deletes multiple messages at once.</p>                </div>
+                                            <p>Deletes multiple messages at once. Resolves with $this.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+                    <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_collectMessages">collectMessages</a>(callable $filter, array $options = array())
         
-                                            <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs. Options are as following (all are optional):</p>                </div>
+                                            <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>">Message></abbr>
+                    <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_fetchMessage">fetchMessage</a>(string $id)
         
-                                            <p>Fetches a specific message using the ID. Bot account endpoint only.</p>                </div>
+                                            <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+                    <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_fetchMessages">fetchMessages</a>(array $options = array())
         
-                                            <p>Fetches messages of this channel. Options are as following:</p>                </div>
+                                            <p>Fetches messages of this channel. Resolves with a Collection of Message instances, mapped by their ID.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message">Message</abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+                    <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_send">send</a>(string $content, array $options = array())
         
-                                            <p>Sends a message to a channel. Options are as following (all are optional):</p>                </div>
+                                            <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
             </div>
                     <div class="row">
@@ -428,7 +428,7 @@
                     <div class="method-item">
                     <h3 id="method_bulkDelete">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L87">line 87</a></div>
-        <code>                    <abbr title="React\Promise\Promise<this>">Promise<this></abbr>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>bulkDelete</strong>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int $messages, string $reason = &#039;&#039;, bool $filterOldMessages = false)
         </code>
     </h3>
@@ -437,7 +437,7 @@
     
 
                     <div class="method-description">
-                                    <p>Deletes multiple messages at once.</p>                                                </div>
+                                    <p>Deletes multiple messages at once. Resolves with $this.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -464,7 +464,7 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="React\Promise\Promise<this>">Promise<this></abbr></td>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
             <td></td>
         </tr>
     </table>
@@ -477,8 +477,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_collectMessages">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L135">line 135</a></div>
-        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L137">line 137</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>collectMessages</strong>(callable $filter, array $options = array())
         </code>
     </h3>
@@ -487,10 +487,12 @@
     
 
                     <div class="method-description">
-                                    <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs. Options are as following (all are optional):</p>                    <p>array(
-     'time' => int, (duration, in seconds, default 30)
-     'max' => int, (max. messages to collect)
-     'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
+                                    <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.</p>                    <p>Options are as following (all are optional):</p>
+
+<p>array( <br />
+     'time' => int, (duration, in seconds, default 30) <br />
+     'max' => int, (max. messages to collect) <br />
+     'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to []) <br />
  )</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
@@ -513,21 +515,30 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr></td>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
             <td></td>
         </tr>
     </table>
 
             
             
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Message</td>
+                <td></td>
+            </tr>
+            </table>
+
                     </div>
     </div>
 
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMessage">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L174">line 174</a></div>
-        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>">Message></abbr>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L177">line 177</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMessage</strong>(string $id)
         </code>
     </h3>
@@ -536,7 +547,7 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches a specific message using the ID. Bot account endpoint only.</p>                                                </div>
+                                    <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -553,21 +564,30 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message>">Message></abbr></td>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
             <td></td>
         </tr>
     </table>
 
             
             
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Message</td>
+                <td></td>
+            </tr>
+            </table>
+
                     </div>
     </div>
 
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMessages">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L196">line 196</a></div>
-        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L202">line 202</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMessages</strong>(array $options = array())
         </code>
     </h3>
@@ -576,11 +596,13 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches messages of this channel. Options are as following:</p>                    <p>array(
-     'after' => string, (message ID)
-     'around' => string, (message ID)
-     'before' => string, (message ID)
-     'limit' => int, (1-100, defaults to 50)
+                                    <p>Fetches messages of this channel. Resolves with a Collection of Message instances, mapped by their ID.</p>                    <p>Options are as following:</p>
+
+<p>array( <br />
+     'after' => string, (message ID) <br />
+     'around' => string, (message ID) <br />
+     'before' => string, (message ID) <br />
+     'limit' => int, (1-100, defaults to 50) <br />
  )</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
@@ -598,21 +620,30 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr></td>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
             <td></td>
         </tr>
     </table>
 
             
             
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Message</td>
+                <td></td>
+            </tr>
+            </table>
+
                     </div>
     </div>
 
             </div>
                     <div class="method-item">
                     <h3 id="method_send">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L227">line 227</a></div>
-        <code>                    <abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message">Message</abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L236">line 236</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>send</strong>(string $content, array $options = array())
         </code>
     </h3>
@@ -621,13 +652,15 @@
     
 
                     <div class="method-description">
-                                    <p>Sends a message to a channel. Options are as following (all are optional):</p>                    <p>array(
-   'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or instance of MessageEmbed)
-   'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
-   'nonce' => string, (a snowflake used for optimistic sending)
-   'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
-   'tts' => bool,
-   'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
+                                    <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                    <p>Options are as following (all are optional):</p>
+
+<p>array( <br />
+   'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or an instance of MessageEmbed) <br />
+   'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs) <br />
+   'nonce' => string, (a snowflake used for optimistic sending) <br />
+   'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false)) <br />
+   'tts' => bool, <br />
+   'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message) <br />
  )</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
@@ -650,20 +683,29 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="React\Promise\Promise<\CharlotteDunois\Yasmin\Models\Message">Message</abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\Message>>">Message>></abbr></td>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
             <td></td>
         </tr>
     </table>
 
             
             
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Message</td>
+                <td></td>
+            </tr>
+            </table>
+
                     </div>
     </div>
 
             </div>
                     <div class="method-item">
                     <h3 id="method_startTyping">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L307">line 307</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L316">line 316</a></div>
         <code>                    
     <strong>startTyping</strong>()
         </code>
@@ -684,7 +726,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_stopTyping">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L334">line 334</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L343">line 343</a></div>
         <code>                    
     <strong>stopTyping</strong>(bool $force = false)
         </code>
@@ -715,7 +757,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_typingCount">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L356">line 356</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L365">line 365</a></div>
         <code>                    int
     <strong>typingCount</strong>()
         </code>
@@ -745,7 +787,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTyping">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L365">line 365</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L374">line 374</a></div>
         <code>                    bool
     <strong>isTyping</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
@@ -785,7 +827,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTypingSince">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L374">line 374</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L383">line 383</a></div>
         <code>                    int
     <strong>isTypingSince</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
@@ -825,7 +867,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveMessageOptionsFiles">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L423">line 423</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L432">line 432</a></div>
         <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>resolveMessageOptionsFiles</strong>(array $options)
         </code>
@@ -865,7 +907,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveMessageOptionsSplit">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsSplit"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L477">line 477</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsSplit"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextBasedChannel.php#L486">line 486</a></div>
         <code>        static            string[]|null
     <strong>resolveMessageOptionsSplit</strong>(string $content, array $options)
         </code>

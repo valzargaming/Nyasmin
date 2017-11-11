@@ -10,13 +10,16 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * @internal
+ * Base class for all storages.
  */
 class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface {
     
     protected $client;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($data);
         $this->client = $client;
