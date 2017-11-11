@@ -20,7 +20,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property  \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\GuildMember>     $members                Holds all members which currently are in the voice channel.
  * @property  string|null                                                                              $parentID               The ID of the parent channel, or null.
  * @property  int                                                                                      $position               The position of the channel.
- * @property  \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                                                  $permissionOverwrites   A collection of PermissionOverwrite objects.
  * @property  int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
  *
  * @property  \CharlotteDunois\Yasmin\Voice\VoiceConnection|null                                       $connection             he voice connection for this voice channel, if the client is connected.

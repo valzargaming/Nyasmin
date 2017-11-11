@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property  bool                                                                                    $nsfw                   Whether the channel is marked as NSFW or not.
  * @property  string|null                                                                             $parentID               The ID of the parent channel, or null.
  * @property  int                                                                                     $position               The channel position.
- * @property \CharlotteDunois\Collect\Collection<\CharlotteDunois\Yasmin\Models\PermissionOverwrite>  $permissionOverwrites   A collection of PermissionOverwrite objects.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                                                 $permissionOverwrites   A collection of PermissionOverwrite objects.
  *
  * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                     $parent                 Returns the channel's parent, or null.
  * @property  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.

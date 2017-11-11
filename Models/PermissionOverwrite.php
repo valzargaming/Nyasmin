@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property  \CharlotteDunois\Yasmin\Models\Permissions                                            $allow     The allowed Permissions object.
  * @property  \CharlotteDunois\Yasmin\Models\Permissions                                            $deny      The denied Permissions object.
  *
- * @property  \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface                              $channel   The channel this Permission Overwrite belongs to.
+ * @property  \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface                             $channel   The channel this Permission Overwrite belongs to.
  * @property  \CharlotteDunois\Yasmin\Models\Guild                                                  $guild     The guild this Permission Overwrite belongs to.
  */
 class PermissionOverwrite extends ClientBase {
@@ -33,7 +33,7 @@ class PermissionOverwrite extends ClientBase {
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, array $permission) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface $channel, array $permission) {
         parent::__construct($client);
         $this->channel = $channel;
         
