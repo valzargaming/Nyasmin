@@ -27,3 +27,9 @@ $client->on('message', function ($message) {
 $client->login('YOUR_TOKEN');
 $loop->run();
 ```
+
+# Voice Support
+There is currently no support for Voice - it's planned but it's still uncertain if it definitely will make it.
+
+# Documentation
+https://charlottedunois.github.io/Yasmin/
