@@ -78,10 +78,11 @@ class URLHelpers {
     }
     
     /**
-     * Makes an asynchronous request.
+     * Makes an asynchronous request. Resolves with an instance of Response.
      * @param \GuzzleHttp\Psr7\Request  $request
      * @param array|null                $requestOptions
-     * @return \GuzzleHttp\Promise\Promise<\GuzzleHttp\Psr7\Response>
+     * @return \GuzzleHttp\Promise\Promise
+     * @see \GuzzleHttp\Psr7\Response
      */
     static function makeRequest(\GuzzleHttp\Psr7\Request $request, array $requestOptions = null) {
         if(!self::$http) {

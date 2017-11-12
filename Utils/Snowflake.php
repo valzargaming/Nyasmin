@@ -21,7 +21,8 @@ namespace CharlotteDunois\Yasmin\Utils;
  */
 class Snowflake {
     /**
-     * @var int Time since UNIX epoch to Discord epoch.
+     * Time since UNIX epoch to Discord epoch.
+     * @var int
      */
     const EPOCH = 1420070400;
     
