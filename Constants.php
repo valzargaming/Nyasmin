@@ -15,11 +15,13 @@ namespace CharlotteDunois\Yasmin;
 class Constants {
     /**
      * The version of Yasmin.
+     * @var string
      */
     const VERSION = '0.0.1';
     
     /**
      * WS OP codes.
+     * @var array
      * @internal
      */
     const OPCODES = array(
@@ -52,6 +54,7 @@ class Constants {
     
     /**
      * CDN constants.
+     * @var array
      * @internal
      */
     const CDN = array(
@@ -66,6 +69,7 @@ class Constants {
     
     /**
      * HTTP constants.
+     * @var array
      * @internal
      */
     const HTTP = array(
@@ -76,6 +80,7 @@ class Constants {
     
     /**
      * WS constants. Query string parameters.
+     * @var array
      * @internal
      */
     const WS = array(
@@ -85,41 +90,49 @@ class Constants {
     
     /**
      * WS connection status: Disconnected.
+     * @var int
      */
     const WS_STATUS_DISCONNECTED = 0;
     
     /**
      * WS connection status: Connecting.
+     * @var int
      */
     const WS_STATUS_CONNECTING = 1;
     
     /**
      * WS connection status: Reconnecting.
+     * @var int
      */
     const WS_STATUS_RECONNECTING = 2;
     
     /**
      * WS connection status: Connected (not ready yet - nearly).
+     * @var int
      */
     const WS_STATUS_NEARLY = 3;
     
     /**
      * WS connection status: Connected (ready).
+     * @var int
      */
     const WS_STATUS_CONNECTED = 4;
     
     /**
      * WS connection status: Idling (disconnected and no reconnect planned).
+     * @var int
      */
     const WS_STATUS_IDLE = 5;
     
     /**
      * WS default compression.
+     * @var string
      */
     const WS_DEFAULT_COMPRESSION = 'zlib-stream';
     
     /**
      * Channel Types.
+     * @var array
      */
     const CHANNEL_TYPES = array(
         0 => 'text',
@@ -137,6 +150,7 @@ class Constants {
     
     /**
      * Messages Types.
+     * @var array<int, string>
      */
     const MESSAGE_TYPES = array(
         0 => 'DEFAULT',
@@ -151,6 +165,7 @@ class Constants {
     
     /**
      * Guild default message notifications. One of EVERYTHING or ONLY_MENTIONS.
+     * @var array<int, string>
      */
     const GUILD_DEFAULT_MESSAGE_NOTIFICATIONS = array(
         0 => 'EVERYTHING',
@@ -159,6 +174,7 @@ class Constants {
     
     /**
      * Guild explicit content filter. One of DISABLED, MEMBERS_WITHOUT_ROLES or ALL_MEMBERS.
+     * @var array<int, string>
      */
     const GUILD_EXPLICIT_CONTENT_FILTER = array(
         0 => 'DISABLED',
@@ -168,6 +184,7 @@ class Constants {
     
     /**
      * Guild MFA level. One of NONE or ELEVATED.
+     * @var array<int, string>
      */
     const GUILD_MFA_LEVEL = array(
         0 => 'NONE',
@@ -176,6 +193,7 @@ class Constants {
     
     /**
      * Guild verification level. One of NONE, LOW, MEDIUM, HIGH or VERY_HIGH.
+     * @var array<int, string>
      */
     const GUILD_VERIFICATION_LEVEL = array(
         0 => 'NONE',
@@ -186,7 +204,17 @@ class Constants {
     );
     
     /**
+     * Endpoints General.
+     * @var array
+     * @internal
+     */
+    const ENDPOINTS_GENERAL = array(
+        'currentOAuthApplication' => 'oauth2/applications/@me'
+    );
+    
+    /**
      * Endpoints Channels.
+     * @var array
      * @internal
      */
     const ENDPOINTS_CHANNELS = array(
@@ -230,6 +258,7 @@ class Constants {
     
     /**
      * Endpoints Emojis.
+     * @var array
      * @internal
      */
     const ENDPOINTS_EMOJIS = array(
@@ -242,6 +271,7 @@ class Constants {
     
     /**
      * Endpoints Guilds.
+     * @var array
      * @internal
      */
     const ENDPOINTS_GUILDS = array(
@@ -301,6 +331,7 @@ class Constants {
     
     /**
      * Endpoints Invites.
+     * @var array
      * @internal
      */
     const ENDPOINTS_INVITES = array(
@@ -311,6 +342,7 @@ class Constants {
     
     /**
      * Endpoints Users.
+     * @var array
      * @internal
      */
     const ENDPOINTS_USERS = array(
@@ -329,6 +361,7 @@ class Constants {
     
     /**
      * Endpoints Voice.
+     * @var array
      * @internal
      */
     const ENDPOINTS_VOICE = array(
@@ -337,6 +370,7 @@ class Constants {
     
     /**
      * Endpoints Webhooks.
+     * @var array
      * @internal
      */
     const ENDPOINTS_WEBHOOKS = array(
@@ -354,6 +388,7 @@ class Constants {
     
     /**
      * Available Permissions in Discord.
+     * @var array<string, int>
      */
     const PERMISSIONS = array(
         'CREATE_INSTANT_INVITE' => 1 << 0,

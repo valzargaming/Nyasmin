@@ -8,6 +8,7 @@
 */
 
 namespace CharlotteDunois\Yasmin;
+use CharlotteDunois\Validation\Rule\URL;
 
 /**
  * The client. What else do you expect this to say?
@@ -322,6 +323,40 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
+     * Obtains the OAuth Application of the bot from Discord.
+     * @return \React\Promise\Promise
+     * @see \
+     */
+    function fetchApplication() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->api->endpoints->getCurrentApplication()->then(function ($data) use ($resolve) {
+                $app = new \CharlotteDunois\Yasmin\Models\OAuthApplication($this, $data);
+                $resolve($app);
+            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
+     * Obtains an invite from Discord. Resolves with an instance of Invite.
+     * @param string  $invite  The invite code or an invite URL.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Invite
+     */
+    function fetchInvite(string $invite) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($invite) {
+            \preg_match('/discord(?:app\.com\/invite|\.gg)\/([\w-]{2,255})/i', $invite, $matches);
+            if(!empty($matches[1])) {
+                $invite = $matches[1];
+            }
+            
+            $this->api->endpoints->invite->getInvite($invite)->then(function ($data) use ($resolve) {
+                $invite = new \CharlotteDunois\Yasmin\Models\Invite($this, $data);
+                $resolve($invite);
+            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Fetches an User from the API. Resolves with an User.
      * @param string  $userid  The User ID to fetch.
      * @return \React\Promise\Promise
@@ -338,6 +373,61 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
                 $resolve($user);
             }, $reject);
         }));
+    }
+    
+    /**
+     * Obtains the available voice regions from Discord. Resolves with a Collection of Voice Region instances, mapped by their ID.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\VoiceRegion
+     */
+    function fetchVoiceRegions() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->api->endpoints->voice->listVoiceRegions()->then(function ($data) use ($resolve) {
+                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+                
+                foreach($data as $region) {
+                    $voice = new \CharlotteDunois\Yasmin\Models\VoiceRegion($this, $region);
+                    $collect->set($voice->id, $voice);
+                }
+                
+                $resolve($collect);
+            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
+     * Fetches a webhook from Discord. Resolves with an instance of Webhook.
+     * @param string       $id
+     * @param string|null  $token
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Webhook
+     */
+    function fetchWebhook(string $id, string $token = null) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($id, $token) {
+            $method = (!empty($token) ? 'getWebhookToken' : 'getWebhook');
+            
+            $this->api->endpoints->webhook->$method($id, $token)->then(function ($data) use ($resolve) {
+                $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this, $data);
+                $resolve($hook);
+            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
+     * Generates a link that can be used to invite the bot to a guild. Resolves with a string.
+     * @param string|int|\CharlotteDunois\Yasmin\Models\Permissions  $permissions
+     * @return \React\Promise\Promise
+     * @throws \InvalidArgumentException
+     */
+    function generateOAuthInvite(...$permissions) {
+        $perm = new \CharlotteDunois\Yasmin\Models\Permissions();
+        if(!empty($permissions)) {
+            $perm->add(...$permissions);
+        }
+        
+        return $this->fetchApplication()->then(function ($app) use ($perm) {
+            return 'https://discordapp.com/oauth2/authorize?client_id='.$app->id.'&permissions='.$perm->bitfield.'&scope=bot';
+        });
     }
     
     /**

@@ -71,4 +71,9 @@ class APIEndpoints {
         $this->voice = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Voice($api);
         $this->webhook = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook($api);
     }
+    
+    function getCurrentApplication() {
+        $url = Constants::ENDPOINTS_GENERAL['currentOAuthApplication'];
+        return $this->api->makeRequest('GET', $url, array());
+    }
 }
