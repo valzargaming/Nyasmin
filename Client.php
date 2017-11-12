@@ -85,7 +85,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     public $token;
     
     /**
-     * The var $Loop.
+     * The event loop.
      * @var \React\EventLoop\LoopInterface
      * @internal
      */
@@ -223,7 +223,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * Get the React var $Loop that is stored in this class.
+     * Get the React Event Loop that is stored in this class.
      * @return \React\EventLoop\LoopInterface
      */
     function getLoop() {
@@ -301,7 +301,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     
     /**
      * Cleanly logs out of Discord.
-     * @param  bool  $destroyUtils  Stop timers of utils which have an instanceof var $loop. They need to implement a stopTimer method.
+     * @param  bool  $destroyUtils  Stop timers of utils which have an instance of the event loop.
      * @return \React\Promise\Promise
      */
     function destroy(bool $destroyUtils = true) {
