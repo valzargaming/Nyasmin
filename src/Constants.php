@@ -17,7 +17,7 @@ class Constants {
      * The version of Yasmin.
      * @var string
      */
-    const VERSION = '0.0.1';
+    const VERSION = '0.1.0';
     
     /**
      * WS OP codes.

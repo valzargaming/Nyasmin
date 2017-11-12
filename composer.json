@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CharlotteDunois\\Yasmin\\": ""
+            "CharlotteDunois\\Yasmin\\": "src"
         }
     },
     "require-dev": {
