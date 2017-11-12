@@ -89,6 +89,9 @@ class GuildAuditLogEntry extends ClientBase {
     protected $extra;
     protected $target;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\GuildAuditLog $log, array $entry) {
         parent::__construct($client);
         $this->log = $log;

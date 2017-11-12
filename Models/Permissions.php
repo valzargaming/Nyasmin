@@ -19,6 +19,7 @@ class Permissions extends ClientBase {
     protected $bitfield;
     
     /**
+     * Constructs a new instance.
      * @param int  $permission
      */
     function __construct(int $permission = 0) {

@@ -29,6 +29,9 @@ class VoiceRegion extends ClientBase {
     protected $deprecated;
     protected $custom;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $region) {
         parent::__construct($client);
         

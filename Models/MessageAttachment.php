@@ -38,7 +38,8 @@ class MessageAttachment extends Base {
     protected $attachment;
     
     /**
-     * @internal
+     * Constructs a new instance.
+     * @param array  $attachment  This parameter is used internally and should not be used.
      */
     function __construct(array $attachment = array()) {
         if(!empty($attachment)) {

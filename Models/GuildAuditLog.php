@@ -24,6 +24,9 @@ class GuildAuditLog extends ClientBase {
     protected $users;
     protected $webhooks;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $audit) {
         parent::__construct($client);
         $this->guild = $guild;

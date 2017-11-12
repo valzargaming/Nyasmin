@@ -20,6 +20,7 @@ class DiscordAPIException extends \Exception {
     public $path;
     
     /**
+     * Constructor.
      * @param string $path
      * @param array  $error
      */

@@ -38,6 +38,9 @@ class TextBasedChannel extends ClientBase
     
     protected $createdTimestamp;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client);
         

@@ -58,6 +58,9 @@ class GuildMember extends ClientBase {
     protected $joinedTimestamp;
     protected $roles;
     
+    /**
+     * @internal
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $member) {
         parent::__construct($client);
         $this->guild = $guild;
