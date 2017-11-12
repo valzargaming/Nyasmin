@@ -240,10 +240,10 @@ class GuildMember extends ClientBase {
     }
     
     /**
-     * Bans the guild member. Resolves with $this.
+     * Bans the guild member.
      * @param int     $days     Number of days of messages to delete (0-7).
      * @param string  $reason
-     * @return \React\Promise\Promise<void>
+     * @return \React\Promise\Promise
      */
     function ban(int $days = 0, string $reason = '') {
         return $this->guild->ban($this, $days, $reason)->then(function () {
