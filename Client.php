@@ -8,7 +8,6 @@
 */
 
 namespace CharlotteDunois\Yasmin;
-use CharlotteDunois\Validation\Rule\URL;
 
 /**
  * The client. What else do you expect this to say?
