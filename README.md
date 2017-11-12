@@ -2,7 +2,7 @@
 
 Yasmin is a Discord API library, which interacts with the HTTP REST API, but also with the WebSocket Real Time Gateway.
 
-This library is **only** for PHP 7 and use in CLI. This library can only be used with bot accounts. User accounts are not supported.
+This library is **only** for PHP 7 and use in CLI. Only bot accounts are supported by Yasmin.
 
 # Getting Started
 Getting started with Yasmin is pretty trivial. All you need to do, is to use [composer](https://packagist.org/packages/charlottedunois/yasmin) to install Yasmin and its dependencies.
