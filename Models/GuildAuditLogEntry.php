@@ -180,6 +180,7 @@ class GuildAuditLogEntry extends ClientBase {
     
     /**
      * @inheritDoc
+     * @internal
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

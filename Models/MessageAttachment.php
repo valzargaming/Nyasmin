@@ -58,6 +58,7 @@ class MessageAttachment extends Base {
      * @inheritDoc
      *
      * @throws \Exception
+     * @internal
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

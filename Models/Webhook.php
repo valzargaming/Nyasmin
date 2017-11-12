@@ -33,6 +33,7 @@ class Webhook extends ClientBase {
     
     /**
      * @internal
+     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $webhook) {
         parent::__construct($client);

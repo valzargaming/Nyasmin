@@ -27,6 +27,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * @inheritDoc
+     * @internal
      */
     function __get($name) {
         if(\property_exists($this, $name)) {

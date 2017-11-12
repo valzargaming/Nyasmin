@@ -35,6 +35,8 @@ class ClientBase extends Base { //TODO: Nya
     
     /**
      * @inheritDoc
+     *
+     * @internal
      */
     function __get($name) {
         switch($name) {
