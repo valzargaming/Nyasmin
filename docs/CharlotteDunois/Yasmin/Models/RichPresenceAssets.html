@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>CharlotteDunois\Yasmin\Models\Game | Yasmin</title>
+    <title>CharlotteDunois\Yasmin\Models\RichPresenceAssets | Yasmin</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_Game" data-root-path="../../../">
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_RichPresenceAssets" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,27 +66,27 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>Game</li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>RichPresenceAssets</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            Game
+            RichPresenceAssets
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>Game</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Game.php">View source</a>)
+    <strong>RichPresenceAssets</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/RichPresenceAssets.php">View source</a>)
 </p>
 
         
     
 
             <div class="description">
-            <p>Something someone plays.</p>                                </div>
+            <p>Something someone needs (or wants) in games. Or in Rich Presence.</p>                                </div>
     
     
     
@@ -102,83 +102,43 @@
                 <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
                     <tr>
-                <td class="type" id="property_name">
-                                                                                string
+                <td class="type" id="property_game">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Game.html"><abbr title="CharlotteDunois\Yasmin\Models\Game">Game</abbr></a>
                 </td>
-                <td>$name</td>
-                <td class="last">The name of the game.</td>
+                <td>$game</td>
+                <td class="last">The game which these assets belong to.</td>
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_type">
-                                                                                int
-                </td>
-                <td>$type</td>
-                <td class="last">The type.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_url">
+                <td class="type" id="property_largeImage">
                                                                                 string|null
                 </td>
-                <td>$url</td>
-                <td class="last">The stream url, if streaming.</td>
+                <td>$largeImage</td>
+                <td class="last">The ID of the large image, or null.</td>
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_applicationID">
+                <td class="type" id="property_largeText">
                                                                                 string|null
                 </td>
-                <td>$applicationID</td>
-                <td class="last">The application ID associated with the game, or null.</td>
+                <td>$largeText</td>
+                <td class="last">The text of the large image, or null.</td>
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_assets">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/RichPresenceAssets.html"><abbr title="CharlotteDunois\Yasmin\Models\RichPresenceAssets">RichPresenceAssets</abbr></a>|null
-                </td>
-                <td>$assets</td>
-                <td class="last">Assets for rich presence, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_details">
+                <td class="type" id="property_smallImage">
                                                                                 string|null
                 </td>
-                <td>$details</td>
-                <td class="last">Details about the game, or null.</td>
+                <td>$smallImage</td>
+                <td class="last">The ID of the small image, or null.</td>
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_party">
-                                                                                array|null
-                </td>
-                <td>$party</td>
-                <td class="last">Party of the game, an array of ('id', 'size' => [ size, max ]), or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_state">
+                <td class="type" id="property_smallText">
                                                                                 string|null
                 </td>
-                <td>$state</td>
-                <td class="last">State of the game, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_timestamps">
-                                                                                array|null
-                </td>
-                <td>$timestamps</td>
-                <td class="last">Timestamps for the game, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_streaming">
-                                                                                bool
-                </td>
-                <td>$streaming</td>
-                <td class="last">Whether or not the game is being streamed.</td>
+                <td>$smallText</td>
+                <td class="last">The text of the small image, or null.</td>
                 <td></td>
             </tr>
             </table>
@@ -189,12 +149,22 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    string|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $game)
+                    <a href="#method_getLargeImageURL">getLargeImageURL</a>(int $size = null)
         
-                                            <p>The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.</p>                </div>
+                                            <p>Returns the URL of the large image.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getSmallImageURL">getSmallImageURL</a>(int $size = null)
+        
+                                            <p>Returns the URL of the small image.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -204,10 +174,10 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Game.php#L45">line 45</a></div>
-        <code>                    
-    <strong>__construct</strong>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $game)
+                    <h3 id="method_getLargeImageURL">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/RichPresenceAssets.php#L70">line 70</a></div>
+        <code>                    string|null
+    <strong>getLargeImageURL</strong>(int $size = null)
         </code>
     </h3>
     <div class="details">
@@ -215,24 +185,68 @@
     
 
                     <div class="method-description">
-                                    <p>The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.</p>                                                </div>
+                                    <p>Returns the URL of the large image.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a></td>
-                <td>$client</td>
-                <td>The client this object is for.</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$game</td>
-                <td>An array containing name, type (as int) and url (nullable).</td>
+                <td>int</td>
+                <td>$size</td>
+                <td>Any powers of 2.</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSmallImageURL">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/RichPresenceAssets.php#L83">line 83</a></div>
+        <code>                    string|null
+    <strong>getSmallImageURL</strong>(int $size = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the URL of the small image.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$size</td>
+                <td>Any powers of 2.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>

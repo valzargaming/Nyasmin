@@ -16,12 +16,12 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int          $type        The type.
  * @property string|null  $url         The stream url, if streaming.
  *
- * @property string|null                                     $applicationID  The application ID associated with the game, or null.
- * @property \CharlotteDunois\Yasmin\Models\GameAssets|null  $assets         Assets for rich presence, or null.
- * @property string|null                                     $details        Details about the activity, or null.
- * @property array|null                                      $party          Party of the activity, an array of ('id', 'size' => [ size, max ]), or null.
- * @property string|null                                     $state          State of the activity, or null.
- * @property array|null                                      $timestamps     Timestamps for the activity, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.
+ * @property string|null                                             $applicationID  The application ID associated with the game, or null.
+ * @property \CharlotteDunois\Yasmin\Models\RichPresenceAssets|null  $assets         Assets for rich presence, or null.
+ * @property string|null                                             $details        Details about the game, or null.
+ * @property array|null                                              $party          Party of the game, an array of ('id', 'size' => [ size, max ]), or null.
+ * @property string|null                                             $state          State of the game, or null.
+ * @property array|null                                              $timestamps     Timestamps for the game, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.
  *
  * @property bool         $streaming   Whether or not the game is being streamed.
  */
@@ -54,7 +54,7 @@ class Game extends ClientBase {
         $this->party = $game['party'] ?? null;
         $this->state = $game['state'] ?? null;
         
-        $this->assets = (!empty($game['assets']) ? (new \CharlotteDunois\Yasmin\Models\GameAssets($this->client, $this, $game['assets'])) : null);
+        $this->assets = (!empty($game['assets']) ? (new \CharlotteDunois\Yasmin\Models\RichPresenceAssets($this->client, $this, $game['assets'])) : null);
         $this->timestamps = (!empty($game['timestamps']) ? array(
             'start' => (!empty($game['timestamps']['start']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($game['timestamps']['start']) : null),
             'end' => (!empty($game['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($game['timestamps']['end']) : null)

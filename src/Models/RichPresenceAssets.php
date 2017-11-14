@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                          $smallImage  The ID of the small image, or null.
  * @property string|null                          $smallText   The text of the small image, or null.
  */
-class GameAssets extends ClientBase {
+class RichPresenceAssets extends ClientBase {
     protected $game;
     protected $largeImage;
     protected $largeText;
