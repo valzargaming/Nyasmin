@@ -53,12 +53,6 @@ class RichPresenceAssets extends ClientBase {
             return $this->$name;
         }
         
-        switch($name) {
-            case 'streaming':
-                return (bool) ($this->type === 1);
-            break;
-        }
-        
         return parent::__get($name);
     }
     

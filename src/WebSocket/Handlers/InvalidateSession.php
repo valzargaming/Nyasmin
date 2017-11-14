@@ -22,7 +22,11 @@ class InvalidateSession {
     
     function handle($data) {
         $this->wshandler->client->getLoop()->addTimer(5, function () use ($data) {
-            $this->wshandler->wsmanager->sendIdentify(($data['d'] ? $this->wshandler->wsmanager->getSessionID() : null));
+            if($data['d'] === false) {
+                $this->wshandler->wsmanager->setSessionID('');
+            }
+            
+            $this->wshandler->wsmanager->sendIdentify();
         });
     }
 }
