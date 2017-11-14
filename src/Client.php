@@ -259,7 +259,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     /**
-     * Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been established (does not mean the client is ready).
+     * Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been successfully established (does not mean the client is ready).
      * @param string $token  Your token.
      * @param bool   $force  Forces the client to get the gateway address from Discord.
      * @return \React\Promise\Promise
@@ -287,7 +287,17 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
                 
                 $this->ws->connect($url, \CharlotteDunois\Yasmin\Constants::WS)->then(function () use ($resolve) {
                     $resolve();
-                }, $reject)->done();
+                }, function ($error) use ($reject) {
+                    $this->api->destroy();
+                    $this->ws->destroy();
+                    
+                    foreach($this->timers as $timer) {
+                        $this->cancelTimer($timer['timer']);
+                    }
+                    
+                    $this->destroyUtils();
+                    $reject($error);
+                })->done();
             }, $reject)->done();
         }));
     }

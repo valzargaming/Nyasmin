@@ -89,6 +89,17 @@ class Constants {
     );
     
     /**
+     * WS Close codes.
+     * @var array
+     * @internal
+     */
+    const WS_CLOSE_CODES = array(
+        4004 => 'Tried to identify with an invalid token',
+        4010 => 'Sharding data provided was invalid',
+        4011 => 'Shard would be on too many guilds if connected'
+    );
+    
+    /**
      * WS connection status: Disconnected.
      * @var int
      */
@@ -131,7 +142,7 @@ class Constants {
     const WS_DEFAULT_COMPRESSION = 'zlib-stream';
     
     /**
-     * Channel Types.
+     * Channel Types. One of text, dm, voice, group or category.
      * @var array
      */
     const CHANNEL_TYPES = array(
@@ -149,7 +160,7 @@ class Constants {
     );
     
     /**
-     * Messages Types.
+     * Messages Types. One of DEFAULT, RECIPIENT_ADD, RECIPIENT_REMOVE, CALL, CHANNEL_NAME_CHANGE, CHANNEL_ICON_CHANGE, CHANNEL_PINNED_MESSAGE or GUILD_MEMBER_JOIN.
      * @var array<int, string>
      */
     const MESSAGE_TYPES = array(
