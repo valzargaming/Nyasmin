@@ -161,17 +161,17 @@ class User extends ClientBase
     
     /**
      * Get the default Avatar URL.
-     * @param int    $size   Any powers of 2.
+     * @param int  $size   Any powers of 2.
      * @return string
      */
     function getDefaultAvatarURL($size = 256) {
-        return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['defaultavatars'], ($this->discriminator % 5)).'?size='.$size;
+        return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['defaultavatars'], ($this->discriminator % 5)).(!empty($size) ? '?size='.$size : '');
     }
     
     /**
      * Get the Avatar URL.
-     * @param int    $size   Any powers of 2.
-     * @param string $format Any image format (empty = default format).
+     * @param int     $size   Any powers of 2.
+     * @param string  $format One of png, webp, jpg or gif (empty = default format).
      * @return string|null
      */
     function getAvatarURL($size = 256, $format = '') {
@@ -183,13 +183,13 @@ class User extends ClientBase
             $format = $this->getAvatarExtension();
         }
         
-        return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['avatars'], $this->id, $this->avatar, $format).'?size='.$size;
+        return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['avatars'], $this->id, $this->avatar, $format).(!empty($size) ? '?size='.$size : '');
     }
     
     /**
      * Get the URL of the displayed avatar.
-     * @param int    $size   Any powers of 2.
-     * @param string $format Any image format (empty = default format).
+     * @param int     $size   Any powers of 2.
+     * @param string  $format One of png, webp, jpg or gif (empty = default format).
      * @return string
      */
     function getDisplayAvatarURL($size = 256, $format = '') {

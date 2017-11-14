@@ -64,7 +64,8 @@ class Constants {
         'splashes' => 'splashes/%s/%s.%s',
         'defaultavatars' => 'embed/avatars/%s.png',
         'avatars' => 'avatars/%s/%s.%s',
-        'appicons' => 'app-icons/%s/%s.png'
+        'appicons' => 'app-icons/%s/%s.png',
+        'appassets' => 'app-assets/%s/%s.png'
     );
     
     /**

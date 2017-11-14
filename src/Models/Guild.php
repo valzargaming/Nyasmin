@@ -593,11 +593,7 @@ class Guild extends ClientBase {
      */
     function getIconURL(string $format = 'png', int $size = null) {
         if($this->icon) {
-            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format);
-            
-            if($size !== null) {
-                $url .= '?size='.$size;
-            }
+            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
             
             return $url;
         }
@@ -613,10 +609,7 @@ class Guild extends ClientBase {
      */
     function getSplashURL(string $format = 'png', int $size = null) {
         if($this->splash) {
-            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format);
-            if($size !== null) {
-                $url .= '?size='.$size;
-            }
+            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
             
             return $url;
         }
