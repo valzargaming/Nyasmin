@@ -96,6 +96,18 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
     protected $lastIdentify;
     
     /**
+     * WS close codes, sorted by new session and ends everything.
+     */
+    protected $wsCloseCodes = array(
+        'end' => array(
+            4004, 4010, 4011
+        ),
+        'restart' => array(
+            4007, 4009
+        )
+    );
+    
+    /**
      * The WS connection status
      * @var int
      */
@@ -207,106 +219,109 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTING;
         }
         
-        return $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) {
-            $this->ws = &$conn;
-            
-            if($this->compressContext) {
-                $this->compressContext->init();
-            }
-            
-            $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
-            
-            $this->emit('open');
-            $this->client->emit('debug', 'Connected to WS');
-            
-            $ratelimits = &$this->ratelimits;
-            $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer($ratelimits['time'], function () use($ratelimits) {
-                $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
-            });
-            
-            $this->lastIdentify = \time();
-            if(empty($this->wsSessionID)) {
-                $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
-                $this->sendIdentify();
-            } else {
-                $this->client->emit('debug', 'Sending RESUME "'.$this->wsSessionID.'" packet to WS');
-                $this->sendIdentify($this->wsSessionID);
-            }
-            
-            $this->ws->on('message', function ($message) {
-                $message = $message->getPayload();
-                if(!$message) {
-                    return;
-                }
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($connector, $gateway, $reconnect) {
+            $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
+                $this->ws = &$conn;
                 
                 if($this->compressContext) {
-                    try {
-                        $message = $this->compressContext->decompress($message);
-                    } catch(\InvalidArgumentException $e) {
-                        return;
-                    } catch(\BadMethodCallException $e) {
-                        $this->client->emit('error', $e);
+                    $this->compressContext->init();
+                }
+                
+                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
+                
+                $this->emit('open');
+                $this->client->emit('debug', 'Connected to WS');
+                
+                $ratelimits = &$this->ratelimits;
+                $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer($ratelimits['time'], function () use($ratelimits) {
+                    $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
+                });
+                
+                $this->lastIdentify = \time();
+                $this->sendIdentify();
+                $this->once('self.ws.ready', function () use ($resolve) {
+                    $resolve();
+                });
+                
+                $this->ws->on('message', function ($message) {
+                    $message = $message->getPayload();
+                    if(!$message) {
                         return;
                     }
+                    
+                    if($this->compressContext) {
+                        try {
+                            $message = $this->compressContext->decompress($message);
+                        } catch(\InvalidArgumentException $e) {
+                            return;
+                        } catch(\BadMethodCallException $e) {
+                            $this->client->emit('error', $e);
+                            return;
+                        }
+                    }
+                    
+                    $this->wshandler->handle($message);
+                });
+                
+                $this->ws->on('error', function ($error) {
+                    if(!$this->client->readyTimestamp) {
+                        throw $error;
+                    }
+                    
+                    $this->client->emit('error', $error);
+                });
+                
+                $this->ws->on('close', function ($code, $reason) use ($reject) {
+                    if($this->ratelimits['timer']) {
+                        $this->ratelimits['timer']->cancel();
+                    }
+                    
+                    $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];
+                    $this->ratelimits['timer'] = null;
+                    
+                    $this->queue = array();
+                    $this->wsHeartbeat['ack'] = true;
+                    
+                    if($this->compressContext) {
+                        $this->compressContext->destroy();
+                    }
+                    
+                    $this->ws = null;
+                    
+                    if($this->wsStatus <= \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                        $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
+                    }
+                    
+                    $this->emit('close', $code, $reason);
+                    $this->client->emit('disconnect', $code, $reason);
+                    
+                    if(\in_array($code, $this->wsCloseCodes['end'])) {
+                        return $reject(new \Exception(\CharlotteDunois\Yasmin\Constants::WS_CLOSE_CODES[$code]));
+                    }
+                    
+                    if($this->expectedClose === true) {
+                        return;
+                    }
+                    
+                    if($code === 1000 || \in_array($code, $this->wsCloseCodes['restart'])) {
+                        $this->wsSessionID = null;
+                    }
+                    
+                    $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
+                    $this->connect();
+                });
+            }, function($error) use ($reconnect) {
+                if($this->ws) {
+                    $this->ws->close(1006);
                 }
                 
-                $this->wshandler->handle($message);
+                if($reconnect) {
+                    return $this->client->login($this->client->token, true);
+                }
+                
+                throw $error;
             });
-            
-            $this->ws->on('error', function ($error) {
-                if(!$this->client->readyTimestamp) {
-                    throw $error;
-                }
-                
-                $this->client->emit('error', $error);
-            });
-            
-            $this->ws->on('close', function ($code, $reason) {
-                if($this->ratelimits['timer']) {
-                    $this->ratelimits['timer']->cancel();
-                }
-                
-                $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];
-                $this->ratelimits['timer'] = null;
-                
-                $this->queue = array();
-                $this->wsHeartbeat['ack'] = true;
-                
-                if($this->compressContext) {
-                    $this->compressContext->destroy();
-                }
-                
-                $this->ws = null;
-                
-                if($this->wsStatus <= \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                    $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_DISCONNECTED;
-                }
-                
-                $this->emit('close', $code, $reason);
-                $this->client->emit('disconnect', $code, $reason);
-                
-                if($this->expectedClose === true) {
-                    return;
-                }
-                
-                if($code === 1000 || $code >= 4000) {
-                    $this->wsSessionID = null;
-                }
-                
-                $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
-                $this->connect();
-            });
-        }, function($error) use ($reconnect) {
-            if($this->ws) {
-                $this->ws->close(1006);
-            }
-            
-            if($reconnect) {
-                return $this->client->login($this->client->token, true);
-            }
-            
-            throw $error;
-        });
+        }));
     }
     
     function disconnect() {
@@ -393,14 +408,22 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
         $this->wsSessionID = $id;
     }
     
-    function sendIdentify($sessionid = null) {
+    function sendIdentify() {
         if(empty($this->client->token)) {
             $this->client->emit('debug', 'No client token to start with');
             return;
         }
         
+        $op = \CharlotteDunois\Yasmin\Constants::OPCODES['IDENTIFY'];
+        if(empty($this->wsSessionID)) {
+            $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
+        } else {
+            $op = \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME'];
+            $this->client->emit('debug', 'Sending RESUME "'.$this->wsSessionID.'" packet to WS');
+        }
+        
         $packet = array(
-            'op' => (!empty($sessionid) ? \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME'] : \CharlotteDunois\Yasmin\Constants::OPCODES['IDENTIFY']),
+            'op' => $op,
             'd' => array(
                 'token' => $this->client->token,
                 'properties' => array(
@@ -422,12 +445,12 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             $packet['d']['presence'] = $presence;
         }
         
-        if($packet['op'] === \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME']) {
-            $packet['d']['session_id'] = $sessionid;
+        if($op === \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME']) {
+            $packet['d']['session_id'] = $this->wsSessionID;
             $packet['d']['seq'] = $this->wshandler->sequence;
         }
         
-        $this->send($packet);
+        return $this->_send($packet);
     }
     
     function heartbeat() {

@@ -94,7 +94,7 @@ class APIRequest {
             'expect' => false,
             'headers' => array(
                 'Authorization' => 'Bot '.$this->api->client->token,
-                'User-Agent' => 'CharlotteDunois/Yasmin (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Constants::VERSION.')'
+                'User-Agent' => 'DiscordBot (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Constants::VERSION.')'
             )
         );
         
