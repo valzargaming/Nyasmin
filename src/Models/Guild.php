@@ -586,6 +586,26 @@ class Guild extends ClientBase {
     }
     
     /**
+     * Fetches the guild's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Webhook
+     */
+    function fetchWebhooks() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->webhook->getGuildsWebhooks($this->id)->then(function ($data) use ($resolve) {
+                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+                
+                foreach($data as $web) {
+                    $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $web);
+                    $collect->set($hook->id, $hook);
+                }
+                
+                $resolve($collect);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Returns the guild's icon URL, or null.
      * @param string    $format  One of png, jpg or webp.
      * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
@@ -666,7 +686,7 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Batch-updates the guild's channels positions. Channels is an array of channelID (string)|GuildChannelInterface => position (int) pairs. Resolves with $this.
+     * Batch-updates the guild's channels positions. Channels is an array of channel ID (string)|GuildChannelInterface => position (int) pairs. Resolves with $this.
      * @param array   $channels
      * @param string  $reason
      * @return \React\Promise\Promise
@@ -683,7 +703,31 @@ class Guild extends ClientBase {
                 $options[] = array('id' => $chan, 'position' => (int) $position);
             }
             
-            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->id, $options, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->id, $options, $reason)->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
+     * Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.
+     * @param array   $roles
+     * @param string  $reason
+     * @return \React\Promise\Promise
+     */
+    function setRolePositions(array $roles, string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($roles, $reason) {
+            $options = array();
+            
+            foreach($roles as $role => $position) {
+                if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+                    $role = $role->id;
+                }
+                
+                $options[] = array('id' => $role, 'position' => (int) $position);
+            }
+            
+            $this->client->apimanager()->endpoints->guild->modifyGuildRolePositions($this->id, $options, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));

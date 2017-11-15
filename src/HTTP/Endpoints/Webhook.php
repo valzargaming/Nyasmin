@@ -28,9 +28,9 @@ class Webhook {
         $this->api = $api;
     }
     
-    function createWebhook(string $channelid, string $nick, string $avatarBase64) {
+    function createWebhook(string $channelid, string $name, string $avatarBase64, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_WEBHOOKS['create'], $channelid);
-        return $this->api->makeRequest('POST', $url, array('data' => array('nick' => $nick, 'avatar' => $avatarBase64)));
+        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => array('name' => $name, 'avatar' => $avatarBase64)));
     }
     
     function getChannelWebhooks(string $channelid) {

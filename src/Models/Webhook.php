@@ -103,7 +103,15 @@ class Webhook extends ClientBase {
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->webhook->deleteWebhook($this->id, $reason)->then(function () use ($resolve) {
+            $method = 'deleteWebhook';
+            $args = array($this->id, $reason);
+            
+            if(!empty($this->token)) {
+                $method = 'deleteWebhookToken';
+                $args = array($this->id, $this->token, $reason);
+            }
+            
+            $this->client->apimanager()->endpoints->webhook->$method(...$args)->then(function () use ($resolve) {
                 $resolve();
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));

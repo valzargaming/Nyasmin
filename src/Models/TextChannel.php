@@ -81,6 +81,53 @@ class TextChannel extends TextBasedChannel
     }
     
     /**
+     * Create a webhook for the channel. Resolves with the new Webhook instance.
+     * @param string       $name
+     * @param string|null  $avatar  An URL or file path, or data.
+     * @param string       $reason
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Webhook
+     */
+    function createWebhook(string $name, string $avatar = null, string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($name, $avatar, $reason) {
+            if(!empty($avatar)) {
+                $file = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->then(function ($avatar) {
+                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
+                });
+            } else {
+                $file = \React\Promise\resolve('');
+            }
+            
+            $file->then(function ($avatar = null) use ($name, $reason, $resolve, $reject) {
+                $this->client->apimanager()->endpoints->webhook->createWebhook($this->id, $name, ($avatar ?? ''), $reason)->then(function ($data) use ($resolve) {
+                    $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $data);
+                    $resolve($hook);
+                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
+     * Fetches the channel's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Webhook
+     */
+    function fetchWebhooks() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->webhook->getChannelWebhooks($this->id)->then(function ($data) use ($resolve) {
+                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+                
+                foreach($data as $web) {
+                    $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $web);
+                    $collect->set($hook->id, $hook);
+                }
+                
+                $resolve($collect);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Automatically converts to a mention.
      */
     function __toString() {

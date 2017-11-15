@@ -138,9 +138,9 @@ class Channel {
         return $this->api->makeRequest('DELETE', $url, array());
     }
     
-    function groupDMAddRecipient(string $channelid, string $userid) {
+    function groupDMAddRecipient(string $channelid, string $userid, string $accessToken, string $nick) {
         $url = Constants::format(Constants::ENDPOINTS_CHANNELS['groupDM']['add'], $channelid, $userid);
-        return $this->api->makeRequest('PUT', $url, array());
+        return $this->api->makeRequest('PUT', $url, array('data' => array('access_token' => $accessToken, 'nick' => $nick)));
     }
     
     function groupDMRemoveRecipient(string $channelid, string $userid) {

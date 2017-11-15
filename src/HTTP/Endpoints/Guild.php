@@ -123,8 +123,8 @@ class Guild {
         return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
-    function modifyGuildRolePositions(string $guildid, string $roleid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['modifyPositions'], $guildid, $roleid);
+    function modifyGuildRolePositions(string $guildid, array $options, string $reason = '') {
+        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['modifyPositions'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     

@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin;
  * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
  * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
  * @property \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
- * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              Get the Client User instance.
+ * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as.
  *
  * @see \CharlotteDunois\Yasmin\ClientEvents
  * @todo Implementation
@@ -126,7 +126,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter2 {
     
     /**
      * Timers which automatically get cancelled on destroy and only get run when we have a WS connection.
-     * @var \React\EventLoop\Timer\Timer[]
+     * @var array
      * @internal
      */
     protected $timers = array();

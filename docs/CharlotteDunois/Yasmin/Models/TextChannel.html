@@ -80,7 +80,7 @@
 
     <p>    class
     <strong>TextChannel</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a>        implements
-        <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextChannel.php">View source</a>)
+        <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/TextChannel.php">View source</a>)
 </p>
 
         
@@ -489,6 +489,26 @@
         
                                             <p>Sets the topic of the channel. Resolves with $this.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setTopic"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createWebhook">createWebhook</a>(string $name, string $avatar = null, string $reason = &#039;&#039;)
+        
+                                            <p>Create a webhook for the channel. Resolves with the new Webhook instance.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchWebhooks">fetchWebhooks</a>()
+        
+                                            <p>Fetches the channel's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.</p>                </div>
+                <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -1675,8 +1695,106 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_createWebhook">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/TextChannel.php#L91">line 91</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>createWebhook</strong>(string $name, string $avatar = null, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Create a webhook for the channel. Resolves with the new Webhook instance.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$avatar</td>
+                <td>An URL or file path, or data.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Webhook</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchWebhooks">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/TextChannel.php#L115">line 115</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>fetchWebhooks</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches the channel's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Webhook</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/TextChannel.php#L86">line 86</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/TextChannel.php#L133">line 133</a></div>
         <code>                    
     <strong>__toString</strong>()
         </code>

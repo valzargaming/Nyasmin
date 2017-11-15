@@ -24,7 +24,7 @@ This is a fairly trivial example of using Yasmin.
 $loop = \React\EventLoop\Factory::create();
 $client = new \CharlotteDunois\Yasmin\Client(array(), $loop);
 
-$client->on('ready', function () use($client) {
+$client->on('ready', function () use ($client) {
     echo 'Logged in as '.$client->user->tag.' created on '.$client->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
 });
 

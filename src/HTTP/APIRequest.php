@@ -106,7 +106,7 @@ class APIRequest {
                 }
                 
                 $options['multipart'][] = array(
-                    'name' => $file['field'] ?? 'file-'.\bin2hex(\random_bytes(3)),
+                    'name' => ($file['field'] ?? 'file-'.\bin2hex(\random_bytes(3))),
                     'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'], 'r')),
                     'filename' => (isset($file['name']) ? $file['name'] : (isset($file['path']) ? \basename($file['path']) : $file['name'].'jpg'))
                 );
@@ -115,7 +115,7 @@ class APIRequest {
             if(!empty($this->options['data'])) {
                 $options['multipart'][] = array(
                     'name' => 'payload_json',
-                    'contents' => json_encode($this->options['data'])
+                    'contents' => \json_encode($this->options['data'])
                 );
             }
         } elseif(!empty($this->options['data'])) {
