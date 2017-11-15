@@ -16,7 +16,7 @@ composer require charlottedunois/yasmin
 **Important Information**: All properties on class instances, which are implemented using a magic method (which means pretty much all properties), are **throwing** if the property doesn't exist.
 
 # Example
-This is a fairly trivial example of using Yasmin.
+This is a fairly trivial example of using Yasmin. You should put all your listener code into try-catch blocks and handle exceptions accordingly.
 
 ```php
 // Include composer autoloader

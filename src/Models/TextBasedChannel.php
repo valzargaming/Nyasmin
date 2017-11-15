@@ -417,6 +417,11 @@ class TextBasedChannel extends ClientBase
             return $this->typings->delete($user->id);
         }
         
+        $typing = $this->typings->get($user->id);
+        if($typing && $typing['timer'] instanceof \React\EventLoop\Timer\Timer) {
+            $this->client->cancelTimer($typing['timer']);
+        }
+        
         $timer = $this->client->addTimer(6, function ($client) use ($user) {
             $this->typings->delete($user->id);
             $client->emit('typingStop', $this, $user);

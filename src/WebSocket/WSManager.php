@@ -103,7 +103,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             4004, 4010, 4011
         ),
         'restart' => array(
-            4007, 4009
+            4006, 4007, 4009
         )
     );
     
@@ -404,7 +404,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
         return $this->wsSessionID;
     }
     
-    function setSessionID(string $id) {
+    function setSessionID(string $id = null) {
         $this->wsSessionID = $id;
     }
     

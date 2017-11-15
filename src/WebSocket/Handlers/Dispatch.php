@@ -55,7 +55,7 @@ class Dispatch {
             'VOICE_SERVER_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\VoiceServerUpdate'
         );
         
-        $events = \array_diff($allEvents, (array) $this->wshandler->client->getOption('ws.disabledEvents', array()));
+        $events = \array_diff_key($allEvents, \array_flip((array) $this->wshandler->client->getOption('ws.disabledEvents', array())));
         foreach($events as $name => $class) {
             $this->register($name, $class);
         }
