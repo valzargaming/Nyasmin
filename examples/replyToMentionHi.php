@@ -8,7 +8,8 @@
 */
 
 /*
- * This example will demonstrate how to listen on the message event and reply to the message, if the message mentions the bot and says hi.
+ * This example will demonstrate how to listen on the message event and reply to the message,
+ * if the message mentions the bot and says hi.
  */
 
 require_once(__DIR__.'/vendor/autoload.php');
