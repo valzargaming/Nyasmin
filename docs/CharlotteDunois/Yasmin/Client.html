@@ -365,10 +365,10 @@
      'shardID' => int, (shard ID, important for sharding) <br />
      'shardCount' => int, (shard count, important for sharding) <br />
      'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done) <br />
-     'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream) <br />
-     'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START)) <br />
+     'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream, which is currently the only available compression) <br />
+     'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do) <br />
      'ws.largeThreshold' => int, (50-250, threshold after which guilds gets counted as large, defaults to 250) <br />
-     'ws.presence' => array (the presence to send on WS connect) <br />
+     'ws.presence' => array (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update) <br />
  )</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
