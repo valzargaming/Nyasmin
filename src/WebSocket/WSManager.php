@@ -96,14 +96,14 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
     protected $lastIdentify;
     
     /**
-     * WS close codes, sorted by new session and ends everything.
+     * WS close codes, sorted by resumable session and ends everything.
      */
     protected $wsCloseCodes = array(
         'end' => array(
             4004, 4010, 4011
         ),
-        'restart' => array(
-            4006, 4007, 4009
+        'resumable' => array(
+            4000, 4001, 4002, 4003, 4005, 4008
         )
     );
     
@@ -303,7 +303,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
                         return;
                     }
                     
-                    if($code === 1000 || \in_array($code, $this->wsCloseCodes['restart'])) {
+                    if($code === 1000 || !\in_array($code, $this->wsCloseCodes['resumable'])) {
                         $this->wsSessionID = null;
                     }
                     
