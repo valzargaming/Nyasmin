@@ -5,7 +5,7 @@ Yasmin is a Discord API library, which interacts with the HTTP REST API, but als
 This library is **only** for PHP 7 and use in CLI. Only bot accounts are supported by Yasmin.
 
 # Getting Started
-Getting started with Yasmin is pretty straight forward. All you need to do, is to use [composer](https://packagist.org/packages/charlottedunois/yasmin) to install Yasmin and its dependencies, after that you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
+Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/charlottedunois/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
 
 ```
 composer require charlottedunois/yasmin
@@ -37,7 +37,10 @@ $loop->run();
 ```
 
 # Voice Support
-There is currently no support for Voice - it's planned but it's still uncertain if it definitely will make it.
+There is currently no support for Voice - it's planned but it's still uncertain if it will definitely make it.
 
 # Documentation
 https://charlottedunois.github.io/Yasmin/
+
+# Issues
+If you think something is wrong, or not working as expected, then try to listen on the `error` event. This event gets emitted when an error inside the library (or event listener) gets caught. Make sure you also have a rejection handler for all promises, as unhandled promise rejections get swallowed. Feel free to open an issue with as much as information you can get.

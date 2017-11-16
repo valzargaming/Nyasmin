@@ -310,7 +310,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
                     $this->connect();
                 });
-            }, function($error) use ($reconnect) {
+            }, function($error) use ($reconnect, $reject) {
                 if($this->ws) {
                     $this->ws->close(1006);
                 }
@@ -319,8 +319,8 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
                     return $this->client->login($this->client->token, true);
                 }
                 
-                throw $error;
-            });
+                $reject($error);
+            })->done();
         }));
     }
     

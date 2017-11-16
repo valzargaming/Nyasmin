@@ -23,13 +23,17 @@ $client = new \CharlotteDunois\Yasmin\Client(array(
 ), $loop);
 
 $client->on('message', function ($message) use ($client) {
-    if($message->mentions->users->has($client->user->id)) {
-        $args = explode(' ', $message->content);
-        if(strtolower($args[1]) === 'hi') {
-            $message->reply('Hi!')->otherwise(function ($error) {
-                echo $error.PHP_EOL;
-            });
+    try {
+        if($message->mentions->users->has($client->user->id)) {
+            $args = explode(' ', $message->content);
+            if(strtolower($args[1]) === 'hi') {
+                $message->reply('Hi!')->otherwise(function ($error) {
+                    echo $error.PHP_EOL;
+                });
+            }
         }
+    } catch(\Exception $error) {
+        // Handle exception
     }
 });
 
