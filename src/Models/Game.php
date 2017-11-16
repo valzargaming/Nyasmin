@@ -56,8 +56,8 @@ class Game extends ClientBase {
         
         $this->assets = (!empty($game['assets']) ? (new \CharlotteDunois\Yasmin\Models\RichPresenceAssets($this->client, $this, $game['assets'])) : null);
         $this->timestamps = (!empty($game['timestamps']) ? array(
-            'start' => (!empty($game['timestamps']['start']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($game['timestamps']['start']) : null),
-            'end' => (!empty($game['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($game['timestamps']['end']) : null)
+            'start' => (!empty($game['timestamps']['start']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $game['timestamps']['start']) : null),
+            'end' => (!empty($game['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $game['timestamps']['end']) : null)
         ) : null);
     }
     
