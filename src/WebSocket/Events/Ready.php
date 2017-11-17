@@ -27,10 +27,7 @@ class Ready {
     }
     
     function handle($data) {
-        $this->client->emit('debug', 'Connected to Gateway version '.$data['v']);
-        
         $this->client->wsmanager()->setSessionID($data['session_id']);
-        
         $this->client->wsmanager()->emit('self.ws.ready');
         
         if($this->ready) {
@@ -58,7 +55,14 @@ class Ready {
         if($unavailableGuilds === 0) {
             $this->client->wsmanager()->emit('ready');
         } else {
-            $this->client->wsmanager()->on('guildCreate', function () {
+            // Emit ready after waiting 2 minutes - we waited long enough for Discord to get the guilds to us
+            $timer = $this->client->addTimer(120, function () {
+                if($this->ready === false) {
+                    $this->client->wsmanager()->emit('ready');
+                }
+            });
+            
+            $this->client->wsmanager()->on('guildCreate', function () use (&$timer) {
                 if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
                     return;
                 }
@@ -71,6 +75,7 @@ class Ready {
                 }
                 
                 if($unavailableGuilds === 0) {
+                    $this->client->cancelTimer($timer);
                     $this->client->wsmanager()->emit('ready');
                 }
             });

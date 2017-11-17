@@ -26,6 +26,8 @@ class Hello {
     }
     
     function handle(array $packet) {
+        $this->wshandler->client->emit('debug', 'Connected to Gateway via '.\implode(', ', $packet['d']['_trace']));
+        
         $interval = $packet['d']['heartbeat_interval'] / 1000;
         $this->wshandler->wsmanager->ratelimits['heartbeatRoom'] = (int) \ceil($this->wshandler->wsmanager->ratelimits['total'] / $interval);
         
