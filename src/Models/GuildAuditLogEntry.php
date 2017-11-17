@@ -285,4 +285,11 @@ class GuildAuditLogEntry extends ClientBase {
         
         return self::TARGET_TYPES['UNKNOWN'];
     }
+    
+    /**
+     * @internal
+     */
+    function jsonSerialize() {
+        return $this->id;
+    }
 }
