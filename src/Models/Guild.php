@@ -10,11 +10,11 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Represents a guild.
- * @todo Implementation
+ * Represents a guild. It's recommended to see if a guild is available before performing operations or reading data from it.
  *
  * @property string                                                         $id                           The guild ID.
- * @property string                                                         $name                        The guild name.
+ * @property bool                                                           $available                    Whether the guild is available.
+ * @property string                                                         $name                         The guild name.
  * @property int                                                            $createdTimestamp             The timestamp when this guild was created.
  * @property string|null                                                    $icon                         The guild icon hash, or null.
  * @property string|null                                                    $splash                       The guild splash hash, or null.
