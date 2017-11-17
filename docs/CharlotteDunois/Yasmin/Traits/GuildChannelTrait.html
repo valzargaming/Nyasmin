@@ -79,7 +79,7 @@
     </div>
 
     <p>    trait
-    <strong>GuildChannelTrait</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php">View source</a>)
+    <strong>GuildChannelTrait</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php">View source</a>)
 </p>
 
         
@@ -99,16 +99,6 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createInvite">createInvite</a>(array $options = array())
-        
-                                            <p>Creates an invite. Resolves with an instance of Invite.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
-                </div>
-                <div class="col-md-8 type">
                     <a href="#method_clone">clone</a>(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = &#039;&#039;)
         
                                             <p>Clones a guild channel. Resolves with an instance of GuildChannelInterface.</p>                </div>
@@ -119,9 +109,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+                    <a href="#method_createInvite">createInvite</a>(array $options = array())
         
-                                            <p>Edits the channel. Resolves with $this.</p>                </div>
+                                            <p>Creates an invite. Resolves with an instance of Invite.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -139,6 +129,16 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the channel. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_fetchInvites">fetchInvites</a>()
         
                                             <p>Fetches all invites of this channel. Resolves with a Collection of Invite instances, mapped by their code.</p>                </div>
@@ -146,22 +146,12 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+                    <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_permissionsFor">permissionsFor</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+                    <a href="#method_lockPermissions">lockPermissions</a>(string $reason = &#039;&#039;)
         
-                                            <p>Returns the permissions for the given member.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    array
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_overwritesFor">overwritesFor</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
-        
-                                            <p>Returns the permissions overwrites for the given member.</p>                </div>
+                                            <p>Locks in the permission overwrites from the parent channel. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -176,12 +166,22 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_lockPermissions">lockPermissions</a>(string $reason = &#039;&#039;)
+                    <a href="#method_overwritesFor">overwritesFor</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
         
-                                            <p>Locks in the permission overwrites from the parent channel. Resolves with $this.</p>                </div>
+                                            <p>Returns the permissions overwrites for the given member.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_permissionsFor">permissionsFor</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+        
+                                            <p>Returns the permissions for the given member.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -221,64 +221,8 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_createInvite">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L32">line 32</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>createInvite</strong>(array $options = array())
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Creates an invite. Resolves with an instance of Invite.</p>                    <p>Options are as following (all are optional).</p>
-
-<p>array( <br />
-   'maxAge' => int, <br />
-   'maxUses' => int, (0 = unlimited) <br />
-   'temporary' => bool, <br />
-   'unique' => bool <br />
- )</p>                            </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                            <h4>See also</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Models\Invite</td>
-                <td></td>
-            </tr>
-            </table>
-
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_clone">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L60">line 60</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L60">line 60</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>clone</strong>(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = &#039;&#039;)
         </code>
@@ -341,8 +285,104 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_createInvite">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L32">line 32</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>createInvite</strong>(array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates an invite. Resolves with an instance of Invite.</p>                    <p>Options are as following (all are optional).</p>
+
+<p>array( <br />
+   'maxAge' => int, <br />
+   'maxUses' => int, (0 = unlimited) <br />
+   'temporary' => bool, <br />
+   'unique' => bool <br />
+ )</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\Invite</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L151">line 151</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>delete</strong>(string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L111">line 111</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L111">line 111</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -403,48 +443,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L151">line 151</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>delete</strong>(string $reason = &#039;&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Deletes the channel.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_fetchInvites">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L164">line 164</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L164">line 164</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchInvites</strong>()
         </code>
@@ -482,10 +482,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_permissionsFor">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L185">line 185</a></div>
-        <code>                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
-    <strong>permissionsFor</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+                    <h3 id="method_lockPermissions">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L302">line 302</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>lockPermissions</strong>(string $reason = &#039;&#039;)
         </code>
     </h3>
     <div class="details">
@@ -493,15 +493,15 @@
     
 
                     <div class="method-description">
-                                    <p>Returns the permissions for the given member.</p>                                                </div>
+                                    <p>Locks in the permission overwrites from the parent channel. Resolves with $this.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
-                <td>$member</td>
-                <td></td>
+                <td>string</td>
+                <td>$reason</td>
+                <td>The reason for this.</td>
             </tr>
             </table>
 
@@ -510,7 +510,7 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a></td>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
             <td></td>
         </tr>
     </table>
@@ -520,56 +520,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_overwritesFor">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L228">line 228</a></div>
-        <code>                    array
-    <strong>overwritesFor</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Returns the permissions overwrites for the given member.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
-                <td>$member</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>array</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td><a target="_blank" href="http://php.net/BadMethodCallException">BadMethodCallException</a></td>
                 <td></td>
             </tr>
             </table>
@@ -581,7 +532,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_overwritePermissions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L262">line 262</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L262">line 262</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>overwritePermissions</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $memberOrRole, <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int $allow, <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>|int $deny, string $reason = &#039;&#039;)
         </code>
@@ -653,10 +604,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_lockPermissions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L302">line 302</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>lockPermissions</strong>(string $reason = &#039;&#039;)
+                    <h3 id="method_overwritesFor">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L228">line 228</a></div>
+        <code>                    array
+    <strong>overwritesFor</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
         </code>
     </h3>
     <div class="details">
@@ -664,15 +615,15 @@
     
 
                     <div class="method-description">
-                                    <p>Locks in the permission overwrites from the parent channel. Resolves with $this.</p>                                                </div>
+                                    <p>Returns the permissions overwrites for the given member.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td>The reason for this.</td>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
+                <td>$member</td>
+                <td></td>
             </tr>
             </table>
 
@@ -681,7 +632,7 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td>array</td>
             <td></td>
         </tr>
     </table>
@@ -691,7 +642,56 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a target="_blank" href="http://php.net/BadMethodCallException">BadMethodCallException</a></td>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_permissionsFor">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L185">line 185</a></div>
+        <code>                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+    <strong>permissionsFor</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string $member)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the permissions for the given member.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|string</td>
+                <td>$member</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
                 <td></td>
             </tr>
             </table>
@@ -703,7 +703,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setName">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L335">line 335</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L335">line 335</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
         </code>
@@ -757,7 +757,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setPosition">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L346">line 346</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L346">line 346</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPosition</strong>(int $position, string $reason = &#039;&#039;)
         </code>
@@ -811,7 +811,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setTopic">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Traits/GuildChannelTrait.php#L389">line 389</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L389">line 389</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setTopic</strong>(string $topic, string $reason = &#039;&#039;)
         </code>

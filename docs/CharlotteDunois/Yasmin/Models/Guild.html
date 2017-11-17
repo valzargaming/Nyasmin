@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Guild</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php">View source</a>)
+    <strong>Guild</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php">View source</a>)
 </p>
 
         
@@ -94,123 +94,11 @@
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_client">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                <td class="type" id="property_afkChannel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null
                 </td>
-                <td>$client</td>
-                <td class="last">The client which initiated the instance.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_id">
-                                                                                string
-                </td>
-                <td>$id</td>
-                <td class="last">The guild ID.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_available">
-                                                                                bool
-                </td>
-                <td>$available</td>
-                <td class="last">Whether the guild is available.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_name">
-                                                                                string
-                </td>
-                <td>$name</td>
-                <td class="last">The guild name.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_createdTimestamp">
-                                                                                int
-                </td>
-                <td>$createdTimestamp</td>
-                <td class="last">The timestamp when this guild was created.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_icon">
-                                                                                string|null
-                </td>
-                <td>$icon</td>
-                <td class="last">The guild icon hash, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_splash">
-                                                                                string|null
-                </td>
-                <td>$splash</td>
-                <td class="last">The guild splash hash, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_ownerID">
-                                                                                string
-                </td>
-                <td>$ownerID</td>
-                <td class="last">The ID of the owner.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_large">
-                                                                                bool
-                </td>
-                <td>$large</td>
-                <td class="last">Whether the guild is considered large.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_memberCount">
-                                                                                int
-                </td>
-                <td>$memberCount</td>
-                <td class="last">How many members the guild has.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_defaultMessageNotifications">
-                                                                                string
-                </td>
-                <td>$defaultMessageNotifications</td>
-                <td class="last">The type of message that should notify you. {see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS}</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_explicitContentFilter">
-                                                                                string
-                </td>
-                <td>$explicitContentFilter</td>
-                <td class="last">The explicit content filter level of the guild. {see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER}</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_region">
-                                                                                string
-                </td>
-                <td>$region</td>
-                <td class="last">The region the guild is located in.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_verificationLevel">
-                                                                                string
-                </td>
-                <td>$verificationLevel</td>
-                <td class="last">The verification level of the guild. {see \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL}</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_systemChannelID">
-                                                                                string|null
-                </td>
-                <td>$systemChannelID</td>
-                <td class="last">The ID of the system channel, or null.</td>
+                <td>$afkChannel</td>
+                <td class="last">The guild's afk channel, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -230,22 +118,6 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_features">
-                                                                                string[]
-                </td>
-                <td>$features</td>
-                <td class="last">An array of guild features.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_mfaLevel">
-                                                                                string
-                </td>
-                <td>$mfaLevel</td>
-                <td class="last">The required MFA level for the guild. {see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL}</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_applicationID">
                                                                                 string|null
                 </td>
@@ -254,44 +126,20 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_embedEnabled">
+                <td class="type" id="property_available">
                                                                                 bool
                 </td>
-                <td>$embedEnabled</td>
-                <td class="last">Whether the guild is embeddable or not (e.g. widget).</td>
+                <td>$available</td>
+                <td class="last">Whether the guild is available.</td>
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_embedChannelID">
-                                                                                string|null
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
                 </td>
-                <td>$embedChannelID</td>
-                <td class="last">The ID of the embed channel.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_widgetEnabled">
-                                                                                bool
-                </td>
-                <td>$widgetEnabled</td>
-                <td class="last">Whether the guild widget is enabled or not.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_widgetChannelID">
-                                                                                string|null
-                </td>
-                <td>$widgetChannelID</td>
-                <td class="last">The ID of the widget channel.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_afkChannel">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null
-                </td>
-                <td>$afkChannel</td>
-                <td class="last">The guild's afk channel, or null.</td>
-                <td></td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type" id="property_createdAt">
@@ -299,6 +147,22 @@
                 </td>
                 <td>$createdAt</td>
                 <td class="last">The DateTime object of createdTimestamp.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdTimestamp">
+                                                                                int
+                </td>
+                <td>$createdTimestamp</td>
+                <td class="last">The timestamp when this guild was created.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultMessageNotifications">
+                                                                                string
+                </td>
+                <td>$defaultMessageNotifications</td>
+                <td class="last">The type of message that should notify you. {see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS}</td>
                 <td></td>
             </tr>
                     <tr>
@@ -318,11 +182,91 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_embedChannelID">
+                                                                                string|null
+                </td>
+                <td>$embedChannelID</td>
+                <td class="last">The ID of the embed channel.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_embedEnabled">
+                                                                                bool
+                </td>
+                <td>$embedEnabled</td>
+                <td class="last">Whether the guild is embeddable or not (e.g. widget).</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_explicitContentFilter">
+                                                                                string
+                </td>
+                <td>$explicitContentFilter</td>
+                <td class="last">The explicit content filter level of the guild. {see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER}</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_features">
+                                                                                string[]
+                </td>
+                <td>$features</td>
+                <td class="last">An array of guild features.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_icon">
+                                                                                string|null
+                </td>
+                <td>$icon</td>
+                <td class="last">The guild icon hash, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td>$id</td>
+                <td class="last">The guild ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_large">
+                                                                                bool
+                </td>
+                <td>$large</td>
+                <td class="last">Whether the guild is considered large.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_me">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>
                 </td>
                 <td>$me</td>
                 <td class="last">The guild member of the client user.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_memberCount">
+                                                                                int
+                </td>
+                <td>$memberCount</td>
+                <td class="last">How many members the guild has.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_mfaLevel">
+                                                                                string
+                </td>
+                <td>$mfaLevel</td>
+                <td class="last">The required MFA level for the guild. {see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL}</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string
+                </td>
+                <td>$name</td>
+                <td class="last">The guild name.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -334,11 +278,51 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_ownerID">
+                                                                                string
+                </td>
+                <td>$ownerID</td>
+                <td class="last">The ID of the owner.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_region">
+                                                                                string
+                </td>
+                <td>$region</td>
+                <td class="last">The region the guild is located in.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_splash">
+                                                                                string|null
+                </td>
+                <td>$splash</td>
+                <td class="last">The guild splash hash, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_systemChannel">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>|null
                 </td>
                 <td>$systemChannel</td>
                 <td class="last">The guild's system channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_systemChannelID">
+                                                                                string|null
+                </td>
+                <td>$systemChannelID</td>
+                <td class="last">The ID of the system channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_verificationLevel">
+                                                                                string
+                </td>
+                <td>$verificationLevel</td>
+                <td class="last">The verification level of the guild. {see \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL}</td>
                 <td></td>
             </tr>
                     <tr>
@@ -363,6 +347,22 @@
                 </td>
                 <td>$widgetChannel</td>
                 <td class="last">The guild's widget channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_widgetChannelID">
+                                                                                string|null
+                </td>
+                <td>$widgetChannelID</td>
+                <td class="last">The ID of the widget channel.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_widgetEnabled">
+                                                                                bool
+                </td>
+                <td>$widgetEnabled</td>
+                <td class="last">Whether the guild widget is enabled or not.</td>
                 <td></td>
             </tr>
             </table>
@@ -576,16 +576,6 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setRolePositions">setRolePositions</a>(array $roles, string $reason = &#039;&#039;)
-        
-                                            <p>Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
-                </div>
-                <div class="col-md-8 type">
                     <a href="#method_setExplicitContentFilter">setExplicitContentFilter</a>(int $filter, string $reason = &#039;&#039;)
         
                                             <p>Edits the level of the explicit content filter. Resolves with $this.</p>                </div>
@@ -636,6 +626,16 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_setRolePositions">setRolePositions</a>(array $roles, string $reason = &#039;&#039;)
+        
+                                            <p>Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_setSplash">setSplash</a>(string $splash, string $reason = &#039;&#039;)
         
                                             <p>Updates the guild splash. Resolves with $this.</p>                </div>
@@ -679,7 +679,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_ban">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L168">line 168</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L168">line 168</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>ban</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, int $days, string $reason = &#039;&#039;)
         </code>
@@ -729,7 +729,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createChannel">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L201">line 201</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L201">line 201</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createChannel</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -802,7 +802,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createEmoji">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L235">line 235</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L235">line 235</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createEmoji</strong>(string $file, string $name, <abbr title="CharlotteDunois\Yasmin\Models\array<string">array<string</abbr>|<abbr title="CharlotteDunois\Yasmin\Models\Role>">Role></abbr>|<abbr title="CharlotteDunois\Yasmin\Utils\Collection<string">Collection<string</abbr>|<abbr title="CharlotteDunois\Yasmin\Models\Role>">Role></abbr> $roles = array(), string $reason = &#039;&#039;)
         </code>
@@ -866,7 +866,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createRole">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L283">line 283</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L283">line 283</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createRole</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -937,7 +937,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L300">line 300</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L300">line 300</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>delete</strong>()
         </code>
@@ -967,7 +967,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L332">line 332</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L332">line 332</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -1027,7 +1027,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchAuditLog">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L447">line 447</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L447">line 447</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchAuditLog</strong>(array $options = array())
         </code>
@@ -1084,7 +1084,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchBans">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L472">line 472</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L472">line 472</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchBans</strong>()
         </code>
@@ -1114,7 +1114,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchInvites">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L495">line 495</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L495">line 495</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchInvites</strong>()
         </code>
@@ -1153,7 +1153,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMember">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L516">line 516</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L516">line 516</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMember</strong>(string $userid)
         </code>
@@ -1202,7 +1202,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMembers">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L530">line 530</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L530">line 530</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMembers</strong>(string $query = &#039;&#039;, int $limit)
         </code>
@@ -1247,7 +1247,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchVoiceRegions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L573">line 573</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L573">line 573</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchVoiceRegions</strong>()
         </code>
@@ -1286,7 +1286,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchWebhooks">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L593">line 593</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L593">line 593</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchWebhooks</strong>()
         </code>
@@ -1325,7 +1325,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIconURL">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L614">line 614</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L614">line 614</a></div>
         <code>                    string|null
     <strong>getIconURL</strong>(string $format = &#039;png&#039;, int $size = null)
         </code>
@@ -1370,7 +1370,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getSplashURL">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L630">line 630</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L630">line 630</a></div>
         <code>                    string|null
     <strong>getSplashURL</strong>(string $format = &#039;png&#039;, int $size = null)
         </code>
@@ -1415,7 +1415,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_leave">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L644">line 644</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L644">line 644</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>leave</strong>()
         </code>
@@ -1445,7 +1445,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_pruneMembers">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L659">line 659</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L659">line 659</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>pruneMembers</strong>(int $days, bool $dry = false, string $reason = &#039;&#039;)
         </code>
@@ -1495,7 +1495,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setAFKChannel">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L674">line 674</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L674">line 674</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setAFKChannel</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null $channel, string $reason = &#039;&#039;)
         </code>
@@ -1540,7 +1540,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setAFKTimeout">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L684">line 684</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L684">line 684</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setAFKTimeout</strong>(int|null $timeout, string $reason = &#039;&#039;)
         </code>
@@ -1585,7 +1585,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setChannelPositions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L694">line 694</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L694">line 694</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setChannelPositions</strong>(array $channels, string $reason = &#039;&#039;)
         </code>
@@ -1629,53 +1629,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setRolePositions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L718">line 718</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>setRolePositions</strong>(array $roles, string $reason = &#039;&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array</td>
-                <td>$roles</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_setExplicitContentFilter">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L742">line 742</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L742">line 742</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setExplicitContentFilter</strong>(int $filter, string $reason = &#039;&#039;)
         </code>
@@ -1720,7 +1675,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setIcon">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L752">line 752</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L752">line 752</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setIcon</strong>(string $icon, string $reason = &#039;&#039;)
         </code>
@@ -1765,7 +1720,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setName">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L762">line 762</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L762">line 762</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
         </code>
@@ -1810,7 +1765,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setOwner">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L772">line 772</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L772">line 772</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setOwner</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $owner, string $reason = &#039;&#039;)
         </code>
@@ -1855,7 +1810,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setRegion">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L782">line 782</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L782">line 782</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setRegion</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceRegion.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceRegion">VoiceRegion</abbr></a> $region, string $reason = &#039;&#039;)
         </code>
@@ -1899,8 +1854,53 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_setRolePositions">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L718">line 718</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>setRolePositions</strong>(array $roles, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$roles</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_setSplash">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L792">line 792</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L792">line 792</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setSplash</strong>(string $splash, string $reason = &#039;&#039;)
         </code>
@@ -1945,7 +1945,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setSystemChannel">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L802">line 802</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L802">line 802</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setSystemChannel</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/TextChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextChannel">TextChannel</abbr></a>|null $channel, string $reason = &#039;&#039;)
         </code>
@@ -1990,7 +1990,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setVerificationLevel">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L812">line 812</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L812">line 812</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setVerificationLevel</strong>(int $level, string $reason = &#039;&#039;)
         </code>
@@ -2035,7 +2035,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_unban">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Guild.php#L822">line 822</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Guild.php#L822">line 822</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>unban</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, string $reason = &#039;&#039;)
         </code>

@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Permissions</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php">View source</a>)
+    <strong>Permissions</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php">View source</a>)
 </p>
 
         
@@ -106,20 +106,20 @@
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_client">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
-                </td>
-                <td>$client</td>
-                <td class="last">The client which initiated the instance.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_bitfield">
                                                                                 int
                 </td>
                 <td>$bitfield</td>
                 <td class="last">The bitfield value.</td>
                 <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
             </table>
 
@@ -135,6 +135,16 @@
                     <a href="#method___construct">__construct</a>(int $permission)
         
                                             <p>Constructs a new instance.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_add">add</a>(int|string $permissions)
+        
+                                            <p>Adds permissions to these ones.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -155,16 +165,6 @@
                     <a href="#method_missing">missing</a>(array|int|string $permissions, bool $checkAdmin = true)
         
                                             <p>Checks if a given permission is missing.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_add">add</a>(int|string $permissions)
-        
-                                            <p>Adds permissions to these ones.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -195,7 +195,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php#L25">line 25</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php#L25">line 25</a></div>
         <code>                    
     <strong>__construct</strong>(int $permission)
         </code>
@@ -225,8 +225,57 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_add">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php#L93">line 93</a></div>
+        <code>                    <abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr>
+    <strong>add</strong>(int|string $permissions)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Adds permissions to these ones.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int|string</td>
+                <td>$permissions</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_has">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php#L57">line 57</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php#L57">line 57</a></div>
         <code>                    bool
     <strong>has</strong>(array|int|string $permissions, bool $checkAdmin = true)
         </code>
@@ -280,7 +329,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_missing">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php#L83">line 83</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php#L83">line 83</a></div>
         <code>                    bool
     <strong>missing</strong>(array|int|string $permissions, bool $checkAdmin = true)
         </code>
@@ -333,57 +382,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_add">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php#L93">line 93</a></div>
-        <code>                    <abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr>
-    <strong>add</strong>(int|string $permissions)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Adds permissions to these ones.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>int|string</td>
-                <td>$permissions</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_remove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php#L110">line 110</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php#L110">line 110</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Models\$this">$this</abbr>
     <strong>remove</strong>(int|string $permissions)
         </code>
@@ -432,7 +432,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolve">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Permissions.php#L127">line 127</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Permissions.php#L127">line 127</a></div>
         <code>        static            int
     <strong>resolve</strong>(int|string $permission)
         </code>

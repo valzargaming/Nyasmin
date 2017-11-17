@@ -5,6 +5,6 @@ vendor/*
 *.token
 composer.lock
 index.php
-sami.bat
-sami.phar
-sami.php
+sami
+sami/*
+sami.*

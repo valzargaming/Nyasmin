@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Role</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php">View source</a>)
+    <strong>Role</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php">View source</a>)
 </p>
 
         
@@ -94,6 +94,14 @@
 
             <table class="table table-condensed">
                     <tr>
+                <td class="type" id="property_calculatedPosition">
+                                                                                int
+                </td>
+                <td>$calculatedPosition</td>
+                <td class="last">The role position in the role manager.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_client">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
                 </td>
@@ -102,91 +110,11 @@
                 <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
                     <tr>
-                <td class="type" id="property_guild">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>
-                </td>
-                <td>$guild</td>
-                <td class="last">The guild the role belongs to.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_id">
-                                                                                string
-                </td>
-                <td>$id</td>
-                <td class="last">The role ID.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_name">
-                                                                                string
-                </td>
-                <td>$name</td>
-                <td class="last">The role name.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_createdTimestamp">
-                                                                                int
-                </td>
-                <td>$createdTimestamp</td>
-                <td class="last">When the role was created.</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_color">
                                                                                 int
                 </td>
                 <td>$color</td>
                 <td class="last">The color of the role.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_hoist">
-                                                                                bool
-                </td>
-                <td>$hoist</td>
-                <td class="last">Whether the role gets displayed separately in the member list.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_position">
-                                                                                int
-                </td>
-                <td>$position</td>
-                <td class="last">The position of the role in the API.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_permissions">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
-                </td>
-                <td>$permissions</td>
-                <td class="last">The permissions of the role.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_managed">
-                                                                                bool
-                </td>
-                <td>$managed</td>
-                <td class="last">Whether the role is managed by an integration.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_mentionable">
-                                                                                bool
-                </td>
-                <td>$mentionable</td>
-                <td class="last">Whether the role is mentionable.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_calculatedPosition">
-                                                                                int
-                </td>
-                <td>$calculatedPosition</td>
-                <td class="last">The role position in the role manager.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -198,11 +126,27 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_createdTimestamp">
+                                                                                int
+                </td>
+                <td>$createdTimestamp</td>
+                <td class="last">When the role was created.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_editable">
                                                                                 bool
                 </td>
                 <td>$editable</td>
                 <td class="last">Whether the role can be edited by the client user.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_guild">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>
+                </td>
+                <td>$guild</td>
+                <td class="last">The guild the role belongs to.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -214,11 +158,67 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_hoist">
+                                                                                bool
+                </td>
+                <td>$hoist</td>
+                <td class="last">Whether the role gets displayed separately in the member list.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td>$id</td>
+                <td class="last">The role ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_managed">
+                                                                                bool
+                </td>
+                <td>$managed</td>
+                <td class="last">Whether the role is managed by an integration.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_members">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </td>
                 <td>$members</td>
                 <td class="last">A collection of all (cached) guild members which have the role.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_mentionable">
+                                                                                bool
+                </td>
+                <td>$mentionable</td>
+                <td class="last">Whether the role is mentionable.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string
+                </td>
+                <td>$name</td>
+                <td class="last">The role name.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_permissions">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+                </td>
+                <td>$permissions</td>
+                <td class="last">The permissions of the role.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_position">
+                                                                                int
+                </td>
+                <td>$position</td>
+                <td class="last">The position of the role in the API.</td>
                 <td></td>
             </tr>
             </table>
@@ -227,6 +227,16 @@
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___toString">__toString</a>()
+        
+                                            <p>Automatically converts to a mention.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     int
@@ -242,9 +252,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
         
-                                            <p>Edits the role with the given options. Resolves with $this.</p>                </div>
+                                            <p>Deletes the role.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -252,9 +262,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
+                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
         
-                                            <p>Deletes the role.</p>                </div>
+                                            <p>Edits the role with the given options. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -317,16 +327,6 @@
                                             <p>Set the position of the role. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method___toString">__toString</a>()
-        
-                                            <p>Automatically converts to a mention.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -334,8 +334,29 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method___toString">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L264">line 264</a></div>
+        <code>                    
+    <strong>__toString</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Automatically converts to a mention.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_comparePositionTo">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L115">line 115</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L115">line 115</a></div>
         <code>                    int
     <strong>comparePositionTo</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $role)
         </code>
@@ -374,8 +395,48 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L186">line 186</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>delete</strong>(string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes the role.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L143">line 143</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L143">line 143</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -446,48 +507,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L186">line 186</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>delete</strong>(string $reason = &#039;&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Deletes the role.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_setColor">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L202">line 202</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L202">line 202</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setColor</strong>(int|string $color, string $reason = &#039;&#039;)
         </code>
@@ -550,7 +571,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setHoist">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L213">line 213</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L213">line 213</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setHoist</strong>(bool $hoist, string $reason = &#039;&#039;)
         </code>
@@ -604,7 +625,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setMentionable">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L224">line 224</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L224">line 224</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setMentionable</strong>(bool $mentionable, string $reason = &#039;&#039;)
         </code>
@@ -658,7 +679,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setName">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L235">line 235</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L235">line 235</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
         </code>
@@ -712,7 +733,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setPermissions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L246">line 246</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L246">line 246</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPermissions</strong>(int|<a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a> $permissions, string $reason = &#039;&#039;)
         </code>
@@ -766,7 +787,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setPosition">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L257">line 257</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Role.php#L257">line 257</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPosition</strong>(int $position, string $reason = &#039;&#039;)
         </code>
@@ -813,27 +834,6 @@
             </tr>
             </table>
 
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Role.php#L264">line 264</a></div>
-        <code>                    
-    <strong>__toString</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Automatically converts to a mention.</p>                                                </div>
-                <div class="tags">
-            
-            
             
                     </div>
     </div>

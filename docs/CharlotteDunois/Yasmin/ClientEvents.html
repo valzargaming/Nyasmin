@@ -79,7 +79,7 @@
     </div>
 
     <p>    interface
-    <strong>ClientEvents</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php">View source</a>)
+    <strong>ClientEvents</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php">View source</a>)
 </p>
 
         
@@ -99,49 +99,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_ready">ready</a>()
-        
-                                            <p>Emitted when the client is ready.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_disconnect">disconnect</a>()
-        
-                                            <p>Emitted when the client gets disconnected from the gateway.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_reconnect">reconnect</a>()
-        
-                                            <p>Emitted when the client tries to reconnect.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
                     <a href="#method_channelCreate">channelCreate</a>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel)
         
                                             <p>Emitted when a channel gets created.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_channelUpdate">channelUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $old)
-        
-                                            <p>Emitted when a channel gets updated.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -169,9 +129,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildCreate">guildCreate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+                    <a href="#method_channelUpdate">channelUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $old)
         
-                                            <p>Emitted when a guild gets joined.</p>                </div>
+                                            <p>Emitted when a channel gets updated.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -179,9 +139,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildUpdate">guildUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $old)
+                    <a href="#method_debug">debug</a>(string  $message)
         
-                                            <p>Emitted when a guild gets updated.</p>                </div>
+                                            <p>Debug messages.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -189,9 +149,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildDelete">guildDelete</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+                    <a href="#method_disconnect">disconnect</a>()
         
-                                            <p>Emitted when a guild gets left.</p>                </div>
+                                            <p>Emitted when the client gets disconnected from the gateway.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -199,9 +159,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildUnavailable">guildUnavailable</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+                    <a href="#method_error">error</a>(Exception  $error)
         
-                                            <p>Emitted when a guild becomes (in)available.</p>                </div>
+                                            <p>Emitted when an error happens.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -229,9 +189,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildMemberAdd">guildMemberAdd</a>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
+                    <a href="#method_guildCreate">guildCreate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         
-                                            <p>Emitted when an user joins a guild.</p>                </div>
+                                            <p>Emitted when a guild gets joined.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -239,9 +199,19 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_guildMemberUpdate">guildMemberUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $old)
+                    <a href="#method_guildDelete">guildDelete</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         
-                                            <p>Emitted when a member gets updated.</p>                </div>
+                                            <p>Emitted when a guild gets left.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildMemberAdd">guildMemberAdd</a>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
+        
+                                            <p>Emitted when an user joins a guild.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -259,6 +229,16 @@
                     
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_guildMemberUpdate">guildMemberUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $old)
+        
+                                            <p>Emitted when a member gets updated.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_guildMembersChunk">guildMembersChunk</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $members)
         
                                             <p>Emitted when the gateway sends requested members. The collection consists of GuildMember objects, mapped by their user ID. {see \CharlotteDunois\Yasmin\Models\GuildMember}</p>                </div>
@@ -269,9 +249,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_roleCreate">roleCreate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
+                    <a href="#method_guildUnavailable">guildUnavailable</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         
-                                            <p>Emitted when a role gets created.</p>                </div>
+                                            <p>Emitted when a guild becomes (in)available.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -279,19 +259,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_roleUpdate">roleUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $old)
+                    <a href="#method_guildUpdate">guildUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $old)
         
-                                            <p>Emitted when a role gets updated.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_roleDelete">roleDelete</a>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
-        
-                                            <p>Emitted when a role gets deleted.</p>                </div>
+                                            <p>Emitted when a guild gets updated.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -302,16 +272,6 @@
                     <a href="#method_message">message</a>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
         
                                             <p>Emitted when a message gets received.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_messageUpdate">messageUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $old)
-        
-                                            <p>Emitted when a (cached) message gets updated.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -332,6 +292,26 @@
                     <a href="#method_messageDeleteBulk">messageDeleteBulk</a>(<abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $messages)
         
                                             <p>Emitted when multiple (cached) message gets deleted. The collection consists of Message objects, mapped by their ID. {see \CharlotteDunois\Yasmin\Models\Message}</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageDeleteBulkRaw">messageDeleteBulkRaw</a>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, array  $messageIDs)
+        
+                                            <p>Emitted when multple uncached messages gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageDeleteRaw">messageDeleteRaw</a>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, string  $messageID)
+        
+                                            <p>Emitted when an uncached message gets deleted.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -369,9 +349,79 @@
                     
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_messageUpdate">messageUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $old)
+        
+                                            <p>Emitted when a (cached) message gets updated.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_presenceUpdate">presenceUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Presence ">Presence </abbr> $presence)
         
                                             <p>Emitted when a presence updates.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_raw">raw</a>(array  $message)
+        
+                                            <p>Emitted when we receive a message from the gateway.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_ready">ready</a>()
+        
+                                            <p>Emitted when the client is ready.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_reconnect">reconnect</a>()
+        
+                                            <p>Emitted when the client tries to reconnect.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_roleCreate">roleCreate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
+        
+                                            <p>Emitted when a role gets created.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_roleDelete">roleDelete</a>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
+        
+                                            <p>Emitted when a role gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_roleUpdate">roleUpdate</a>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $old)
+        
+                                            <p>Emitted when a role gets updated.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -404,56 +454,6 @@
                                             <p>Emitted when a member's voice state changes (leaves/joins/etc.).</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_raw">raw</a>(array  $message)
-        
-                                            <p>Emitted when we receive a message from the gateway.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_messageDeleteRaw">messageDeleteRaw</a>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, string  $messageID)
-        
-                                            <p>Emitted when an uncached message gets deleted.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_messageDeleteBulkRaw">messageDeleteBulkRaw</a>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, array  $messageIDs)
-        
-                                            <p>Emitted when multple uncached messages gets deleted.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_error">error</a>(Exception  $error)
-        
-                                            <p>Emitted when an error happens.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_debug">debug</a>(string  $message)
-        
-                                            <p>Debug messages.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -461,71 +461,8 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_ready">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>ready</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when the client is ready.</p>                                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_disconnect">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>disconnect</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when the client gets disconnected from the gateway.</p>                                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_reconnect">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>reconnect</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when the client tries to reconnect.</p>                                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_channelCreate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>channelCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel)
         </code>
@@ -555,44 +492,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_channelUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>channelUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $old)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when a channel gets updated.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr></td>
-                <td>$new</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr></td>
-                <td>$old</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_channelDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>channelDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel)
         </code>
@@ -623,7 +524,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_channelPinsUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>channelPinsUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $channel, DateTime|null  $time)
         </code>
@@ -658,10 +559,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_guildCreate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+                    <h3 id="method_channelUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>guildCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+    <strong>channelUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr> $old)
         </code>
     </h3>
     <div class="details">
@@ -669,49 +570,18 @@
     
 
                     <div class="method-description">
-                                    <p>Emitted when a guild gets joined.</p>                                                </div>
+                                    <p>Emitted when a channel gets updated.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
-                <td>$guild</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_guildUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>guildUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $old)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when a guild gets updated.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
+                <td><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr></td>
                 <td>$new</td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
+                <td><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface ">ChannelInterface </abbr></td>
                 <td>$old</td>
                 <td></td>
             </tr>
@@ -725,10 +595,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_guildDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+                    <h3 id="method_debug">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>guildDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+    <strong>debug</strong>(string  $message)
         </code>
     </h3>
     <div class="details">
@@ -736,14 +606,14 @@
     
 
                     <div class="method-description">
-                                    <p>Emitted when a guild gets left.</p>                                                </div>
+                                    <p>Debug messages.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
-                <td>$guild</td>
+                <td>string </td>
+                <td>$message</td>
                 <td></td>
             </tr>
             </table>
@@ -756,10 +626,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_guildUnavailable">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+                    <h3 id="method_disconnect">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>guildUnavailable</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+    <strong>disconnect</strong>()
         </code>
     </h3>
     <div class="details">
@@ -767,14 +637,35 @@
     
 
                     <div class="method-description">
-                                    <p>Emitted when a guild becomes (in)available.</p>                                                </div>
+                                    <p>Emitted when the client gets disconnected from the gateway.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_error">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>error</strong>(Exception  $error)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an error happens.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
-                <td>$guild</td>
+                <td>Exception </td>
+                <td>$error</td>
                 <td></td>
             </tr>
             </table>
@@ -788,7 +679,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildBanAdd">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildBanAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
@@ -824,7 +715,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_guildBanRemove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildBanRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
@@ -859,8 +750,70 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_guildCreate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>guildCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a guild gets joined.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>guildDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a guild gets left.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_guildMemberAdd">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMemberAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
         </code>
@@ -890,8 +843,39 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_guildMemberRemove">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>guildMemberRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an user leaves a guild.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr></td>
+                <td>$member</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_guildMemberUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMemberUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $old)
         </code>
@@ -926,39 +910,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_guildMemberRemove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>guildMemberRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $member)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when an user leaves a guild.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr></td>
-                <td>$member</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_guildMembersChunk">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>guildMembersChunk</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild, <abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $members)
         </code>
@@ -993,10 +946,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_roleCreate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+                    <h3 id="method_guildUnavailable">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>roleCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
+    <strong>guildUnavailable</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $guild)
         </code>
     </h3>
     <div class="details">
@@ -1004,14 +957,14 @@
     
 
                     <div class="method-description">
-                                    <p>Emitted when a role gets created.</p>                                                </div>
+                                    <p>Emitted when a guild becomes (in)available.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
-                <td>$role</td>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
+                <td>$guild</td>
                 <td></td>
             </tr>
             </table>
@@ -1024,10 +977,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_roleUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+                    <h3 id="method_guildUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>roleUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $old)
+    <strong>guildUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr> $old)
         </code>
     </h3>
     <div class="details">
@@ -1035,18 +988,18 @@
     
 
                     <div class="method-description">
-                                    <p>Emitted when a role gets updated.</p>                                                </div>
+                                    <p>Emitted when a guild gets updated.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
                 <td>$new</td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Guild ">Guild </abbr></td>
                 <td>$old</td>
                 <td></td>
             </tr>
@@ -1060,39 +1013,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_roleDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>roleDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when a role gets deleted.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
-                <td>$role</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_message">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>message</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
         </code>
@@ -1122,8 +1044,235 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_messageDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a (cached) message gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr></td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDeleteBulk">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageDeleteBulk</strong>(<abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $messages)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when multiple (cached) message gets deleted. The collection consists of Message objects, mapped by their ID. {see \CharlotteDunois\Yasmin\Models\Message}</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr></td>
+                <td>$messages</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDeleteBulkRaw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageDeleteBulkRaw</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, array  $messageIDs)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when multple uncached messages gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array </td>
+                <td>$messageIDs</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDeleteRaw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageDeleteRaw</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, string  $messageID)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an uncached message gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string </td>
+                <td>$messageID</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageReactionAdd">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageReactionAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone reacts to a (cached) message.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr></td>
+                <td>$reaction</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageReactionRemove">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageReactionRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a reaction from a (cached) message gets removed.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr></td>
+                <td>$reaction</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageReactionRemoveAll">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>messageReactionRemoveAll</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when all reactions from a (cached) message gets removed.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr></td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_messageUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>messageUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $old)
         </code>
@@ -1158,163 +1307,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_messageDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when a (cached) message gets deleted.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr></td>
-                <td>$message</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_messageDeleteBulk">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageDeleteBulk</strong>(<abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr> $messages)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when multiple (cached) message gets deleted. The collection consists of Message objects, mapped by their ID. {see \CharlotteDunois\Yasmin\Models\Message}</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Utils\Collection ">Collection </abbr></td>
-                <td>$messages</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_messageReactionAdd">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageReactionAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when someone reacts to a (cached) message.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr></td>
-                <td>$reaction</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_messageReactionRemove">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageReactionRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when a reaction from a (cached) message gets removed.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr></td>
-                <td>$reaction</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_messageReactionRemoveAll">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageReactionRemoveAll</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr> $message)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when all reactions from a (cached) message gets removed.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\Message ">Message </abbr></td>
-                <td>$message</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_presenceUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>presenceUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Presence ">Presence </abbr> $presence)
         </code>
@@ -1344,8 +1338,179 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_raw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>raw</strong>(array  $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when we receive a message from the gateway.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array </td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_ready">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>ready</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when the client is ready.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_reconnect">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>reconnect</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when the client tries to reconnect.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_roleCreate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>roleCreate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a role gets created.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
+                <td>$role</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_roleDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>roleDelete</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $role)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a role gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
+                <td>$role</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_roleUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
+        <code>                    
+    <strong>roleUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr> $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a role gets updated.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\Role ">Role </abbr></td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_typingStart">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>typingStart</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
@@ -1381,7 +1546,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_userUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>userUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $old)
         </code>
@@ -1417,7 +1582,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_voiceStateUpdate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
     <strong>voiceStateUpdate</strong>(<abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $new, <abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr> $old)
         </code>
@@ -1440,171 +1605,6 @@
                     <tr>
                 <td><abbr title="CharlotteDunois\Yasmin\Models\GuildMember ">GuildMember </abbr></td>
                 <td>$old</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_raw">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>raw</strong>(array  $message)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when we receive a message from the gateway.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array </td>
-                <td>$message</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_messageDeleteRaw">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageDeleteRaw</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, string  $messageID)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when an uncached message gets deleted.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr></td>
-                <td>$channel</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string </td>
-                <td>$messageID</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_messageDeleteBulkRaw">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>messageDeleteBulkRaw</strong>(<abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr> $channel, array  $messageIDs)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when multple uncached messages gets deleted.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel ">TextBasedChannel </abbr></td>
-                <td>$channel</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array </td>
-                <td>$messageIDs</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_error">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>error</strong>(Exception  $error)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Emitted when an error happens.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>Exception </td>
-                <td>$error</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_debug">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/ClientEvents.php#L55">line 55</a></div>
-        <code>                    
-    <strong>debug</strong>(string  $message)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Debug messages.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string </td>
-                <td>$message</td>
                 <td></td>
             </tr>
             </table>

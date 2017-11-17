@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Snowflake</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php">View source</a>)
+    <strong>Snowflake</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php">View source</a>)
 </p>
 
         
@@ -106,38 +106,6 @@
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_timestamp">
-                                                                                float
-                </td>
-                <td>$timestamp</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_workerID">
-                                                                                int
-                </td>
-                <td>$workerID</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_processID">
-                                                                                int
-                </td>
-                <td>$processID</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_increment">
-                                                                                int
-                </td>
-                <td>$increment</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_binary">
                                                                                 string
                 </td>
@@ -150,6 +118,38 @@
                                                                                 <a target="_blank" href="http://php.net/DateTime">DateTime</a>
                 </td>
                 <td>$date</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_increment">
+                                                                                int
+                </td>
+                <td>$increment</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_processID">
+                                                                                int
+                </td>
+                <td>$processID</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_timestamp">
+                                                                                float
+                </td>
+                <td>$timestamp</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_workerID">
+                                                                                int
+                </td>
+                <td>$workerID</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -183,6 +183,16 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    static&nbsp;
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_convertBase">convertBase</a>(string $input, int $fromBase, int $toBase)
+        
+                                            <p>Converts numbers from one base to another.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     static&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Snowflake.html"><abbr title="CharlotteDunois\Yasmin\Utils\Snowflake">Snowflake</abbr></a>
                 </div>
                 <div class="col-md-8 type">
@@ -211,16 +221,6 @@
                                             <p>Is this a valid Snowflake or not? This does not determine if a given Snowflake exists in Discord.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_convertBase">convertBase</a>(string $input, int $fromBase, int $toBase)
-        
-                                            <p>Converts numbers from one base to another.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -229,7 +229,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php#L40">line 40</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L40">line 40</a></div>
         <code>                    
     <strong>__construct</strong>(string $snowflake)
         </code>
@@ -258,7 +258,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___get">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php#L54">line 54</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L54">line 54</a></div>
         <code>                    
     <strong>__get</strong>($name)
         </code>
@@ -295,8 +295,49 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_convertBase">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L110">line 110</a></div>
+        <code>        static            
+    <strong>convertBase</strong>(string $input, int $fromBase, int $toBase)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Converts numbers from one base to another.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$input</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$fromBase</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$toBase</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_deconstruct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php#L76">line 76</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L76">line 76</a></div>
         <code>        static            <a href="../../../CharlotteDunois/Yasmin/Utils/Snowflake.html"><abbr title="CharlotteDunois\Yasmin\Utils\Snowflake">Snowflake</abbr></a>
     <strong>deconstruct</strong>(string $snowflake)
         </code>
@@ -336,7 +377,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php#L84">line 84</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L84">line 84</a></div>
         <code>        static            string
     <strong>generate</strong>()
         </code>
@@ -366,7 +407,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isValid">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php#L100">line 100</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L100">line 100</a></div>
         <code>                    bool
     <strong>isValid</strong>()
         </code>
@@ -388,47 +429,6 @@
         </tr>
     </table>
 
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_convertBase">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/Snowflake.php#L110">line 110</a></div>
-        <code>        static            
-    <strong>convertBase</strong>(string $input, int $fromBase, int $toBase)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Converts numbers from one base to another.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$input</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>int</td>
-                <td>$fromBase</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>int</td>
-                <td>$toBase</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
             
             
                     </div>

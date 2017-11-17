@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>PermissionOverwrite</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/PermissionOverwrite.php">View source</a>)
+    <strong>PermissionOverwrite</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/PermissionOverwrite.php">View source</a>)
 </p>
 
         
@@ -94,51 +94,11 @@
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_client">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
-                </td>
-                <td>$client</td>
-                <td class="last">The client which initiated the instance.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_id">
-                                                                                string
-                </td>
-                <td>$id</td>
-                <td class="last">The ID of the Permission Overwrite.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_type">
-                                                                                string
-                </td>
-                <td>$type</td>
-                <td class="last">The type of the overwrite (member or role).</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_target">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null
-                </td>
-                <td>$target</td>
-                <td class="last">The role or guildmember, or null if uncached.</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_allow">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
                 </td>
                 <td>$allow</td>
                 <td class="last">The allowed Permissions object.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_deny">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
-                </td>
-                <td>$deny</td>
-                <td class="last">The denied Permissions object.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -150,11 +110,51 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_deny">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
+                </td>
+                <td>$deny</td>
+                <td class="last">The denied Permissions object.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_guild">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>
                 </td>
                 <td>$guild</td>
                 <td class="last">The guild this Permission Overwrite belongs to.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td>$id</td>
+                <td class="last">The ID of the Permission Overwrite.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_target">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null
+                </td>
+                <td>$target</td>
+                <td class="last">The role or guildmember, or null if uncached.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_type">
+                                                                                string
+                </td>
+                <td>$type</td>
+                <td class="last">The type of the overwrite (member or role).</td>
                 <td></td>
             </tr>
             </table>
@@ -181,7 +181,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/PermissionOverwrite.php#L72">line 72</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/PermissionOverwrite.php#L72">line 72</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>delete</strong>(string $reason = &#039;&#039;)
         </code>

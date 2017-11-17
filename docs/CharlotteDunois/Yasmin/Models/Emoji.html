@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Emoji</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php">View source</a>)
+    <strong>Emoji</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php">View source</a>)
 </p>
 
         
@@ -102,59 +102,11 @@
                 <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
                     <tr>
-                <td class="type" id="property_id">
-                                                                                string|null
+                <td class="type" id="property_createdAt">
+                                                                                <a target="_blank" href="http://php.net/DateTime">DateTime</a>|null
                 </td>
-                <td>$id</td>
-                <td class="last">The emoji ID.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_name">
-                                                                                string
-                </td>
-                <td>$name</td>
-                <td class="last">The emoji name.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_user">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null
-                </td>
-                <td>$user</td>
-                <td class="last">The user that created the emoji.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_guild">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|null
-                </td>
-                <td>$guild</td>
-                <td class="last">The guild this emoji belongs to, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_requireColons">
-                                                                                boolean
-                </td>
-                <td>$requireColons</td>
-                <td class="last">Does the emoji require colons?</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_managed">
-                                                                                boolean
-                </td>
-                <td>$managed</td>
-                <td class="last">Is the emoji managed?</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_roles">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
-                </td>
-                <td>$roles</td>
-                <td class="last">A collection of roles that this emoji is active for (empty if all).</td>
+                <td>$createdAt</td>
+                <td class="last">An DateTime object of the createdTimestamp.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -166,11 +118,19 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_createdAt">
-                                                                                <a target="_blank" href="http://php.net/DateTime">DateTime</a>|null
+                <td class="type" id="property_guild">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|null
                 </td>
-                <td>$createdAt</td>
-                <td class="last">An DateTime object of the createdTimestamp.</td>
+                <td>$guild</td>
+                <td class="last">The guild this emoji belongs to, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string|null
+                </td>
+                <td>$id</td>
+                <td class="last">The emoji ID.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -181,12 +141,62 @@
                 <td class="last">The identifier for the emoji.</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td class="type" id="property_managed">
+                                                                                boolean
+                </td>
+                <td>$managed</td>
+                <td class="last">Is the emoji managed?</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string
+                </td>
+                <td>$name</td>
+                <td class="last">The emoji name.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_requireColons">
+                                                                                boolean
+                </td>
+                <td>$requireColons</td>
+                <td class="last">Does the emoji require colons?</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_roles">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
+                </td>
+                <td>$roles</td>
+                <td class="last">A collection of roles that this emoji is active for (empty if all).</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_user">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null
+                </td>
+                <td>$user</td>
+                <td class="last">The user that created the emoji.</td>
+                <td></td>
+            </tr>
             </table>
 
     
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___toString">__toString</a>()
+        
+                                            <p>Automatically converts to a mention.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     <abbr title="React\Promise\Promise">Promise</abbr>
@@ -212,9 +222,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
         
-                                            <p>Edits the emoji. Resolves with $this.</p>                </div>
+                                            <p>Deletes the emoji.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -222,9 +232,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
+                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
         
-                                            <p>Deletes the emoji.</p>                </div>
+                                            <p>Edits the emoji. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -257,16 +267,6 @@
                                             <p>Sets the new name of the emoji. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method___toString">__toString</a>()
-        
-                                            <p>Automatically converts to a mention.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -274,8 +274,29 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method___toString">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L240">line 240</a></div>
+        <code>                    
+    <strong>__toString</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Automatically converts to a mention.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_addRestrictedRole">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L91">line 91</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L91">line 91</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>addRestrictedRole</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role)
         </code>
@@ -324,7 +345,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addRestrictedRoles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L106">line 106</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L106">line 106</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>addRestrictedRoles</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role)
         </code>
@@ -372,8 +393,57 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L165">line 165</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>delete</strong>(string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes the emoji.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/BadMethodCallException">BadMethodCallException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L133">line 133</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L133">line 133</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -431,57 +501,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L165">line 165</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>delete</strong>(string $reason = &#039;&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Deletes the emoji.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/BadMethodCallException">BadMethodCallException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_removeRestrictedRole">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L183">line 183</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L183">line 183</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>removeRestrictedRole</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role)
         </code>
@@ -530,7 +551,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeRestrictedRoles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L206">line 206</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L206">line 206</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>removeRestrictedRoles</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role)
         </code>
@@ -579,7 +600,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setName">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L233">line 233</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L233">line 233</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
         </code>
@@ -626,27 +647,6 @@
             </tr>
             </table>
 
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Emoji.php#L240">line 240</a></div>
-        <code>                    
-    <strong>__toString</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Automatically converts to a mention.</p>                                                </div>
-                <div class="tags">
-            
-            
             
                     </div>
     </div>

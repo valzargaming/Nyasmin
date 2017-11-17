@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>MessageMentions</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/MessageMentions.php">View source</a>)
+    <strong>MessageMentions</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/MessageMentions.php">View source</a>)
 </p>
 
         
@@ -120,28 +120,20 @@
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_client">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
-                </td>
-                <td>$client</td>
-                <td class="last">The client which initiated the instance.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_message">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>
-                </td>
-                <td>$message</td>
-                <td class="last">The message this reaction belongs to.</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_channels">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </td>
                 <td>$channels</td>
                 <td class="last">The collection which holds all channel mentions.</td>
                 <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type" id="property_everyone">
@@ -157,6 +149,14 @@
                 </td>
                 <td>$members</td>
                 <td class="last">The collection which holds all members mentions (only in guild channels).</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_message">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>
+                </td>
+                <td>$message</td>
+                <td class="last">The message this reaction belongs to.</td>
                 <td></td>
             </tr>
                     <tr>

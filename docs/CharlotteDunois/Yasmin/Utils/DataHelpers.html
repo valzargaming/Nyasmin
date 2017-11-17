@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>DataHelpers</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/DataHelpers.php">View source</a>)
+    <strong>DataHelpers</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php">View source</a>)
 </p>
 
         
@@ -96,12 +96,12 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;int
+                    static&nbsp;string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_resolveColor">resolveColor</a>(array|int|string $color)
+                    <a href="#method_makeBase64URI">makeBase64URI</a>(string $data)
         
-                                            <p>Resolves a color to an int.</p>                </div>
+                                            <p>Turns input into a base64-encoded data URI.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -116,12 +116,12 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;string
+                    static&nbsp;int
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_makeBase64URI">makeBase64URI</a>(string $data)
+                    <a href="#method_resolveColor">resolveColor</a>(array|int|string $color)
         
-                                            <p>Turns input into a base64-encoded data URI.</p>                </div>
+                                            <p>Resolves a color to an int.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -141,97 +141,8 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_resolveColor">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/DataHelpers.php#L22">line 22</a></div>
-        <code>        static            int
-    <strong>resolveColor</strong>(array|int|string $color)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Resolves a color to an int.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array|int|string</td>
-                <td>$color</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>int</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_makeDateTime">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/DataHelpers.php#L45">line 45</a></div>
-        <code>        static            <a target="_blank" href="http://php.net/DateTime">DateTime</a>
-    <strong>makeDateTime</strong>(int $timestamp)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Makes a DateTime object from an UNIX timestamp and applies the default timezone.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>int</td>
-                <td>$timestamp</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><a target="_blank" href="http://php.net/DateTime">DateTime</a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_makeBase64URI">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/DataHelpers.php#L56">line 56</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L56">line 56</a></div>
         <code>        static            string
     <strong>makeBase64URI</strong>(string $data)
         </code>
@@ -279,8 +190,97 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_makeDateTime">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L45">line 45</a></div>
+        <code>        static            <a target="_blank" href="http://php.net/DateTime">DateTime</a>
+    <strong>makeDateTime</strong>(int $timestamp)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Makes a DateTime object from an UNIX timestamp and applies the default timezone.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$timestamp</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a target="_blank" href="http://php.net/DateTime">DateTime</a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_resolveColor">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L22">line 22</a></div>
+        <code>        static            int
+    <strong>resolveColor</strong>(array|int|string $color)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Resolves a color to an int.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|int|string</td>
+                <td>$color</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_resolveFileResolvable">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Utils/DataHelpers.php#L70">line 70</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L70">line 70</a></div>
         <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>resolveFileResolvable</strong>(string $file)
         </code>

@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Webhook</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Webhook.php">View source</a>)
+    <strong>Webhook</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php">View source</a>)
 </p>
 
         
@@ -93,30 +93,6 @@
             <h2>Properties</h2>
 
             <table class="table table-condensed">
-                    <tr>
-                <td class="type" id="property_client">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
-                </td>
-                <td>$client</td>
-                <td class="last">The client which initiated the instance.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_id">
-                                                                                string
-                </td>
-                <td>$id</td>
-                <td class="last">The webhook ID.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_name">
-                                                                                string|null
-                </td>
-                <td>$name</td>
-                <td class="last">The webhook default name, or null.</td>
-                <td></td>
-            </tr>
                     <tr>
                 <td class="type" id="property_avatar">
                                                                                 string|null
@@ -134,11 +110,35 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td>$client</td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_guildID">
                                                                                 string|null
                 </td>
                 <td>$guildID</td>
                 <td class="last">The guild the webhook belongs to, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td>$id</td>
+                <td class="last">The webhook ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string|null
+                </td>
+                <td>$name</td>
+                <td class="last">The webhook default name, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -179,9 +179,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
         
-                                            <p>Edits the webhook. Resolves with $this.</p>                </div>
+                                            <p>Deletes the webhook.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -189,9 +189,9 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_delete">delete</a>(string $reason = &#039;&#039;)
+                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
         
-                                            <p>Deletes the webhook.</p>                </div>
+                                            <p>Edits the webhook. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -212,7 +212,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___get">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Webhook.php#L50">line 50</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L50">line 50</a></div>
         <code>                    
     <strong>__get</strong>($name)
         </code>
@@ -249,8 +249,48 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L104">line 104</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>delete</strong>(string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes the webhook.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Webhook.php#L74">line 74</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L74">line 74</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -309,48 +349,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Webhook.php#L104">line 104</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>delete</strong>(string $reason = &#039;&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Deletes the webhook.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_send">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src//Models/Webhook.php#L139">line 139</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L139">line 139</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>send</strong>(string $content, array $options = array())
         </code>

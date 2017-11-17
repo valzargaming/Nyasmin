@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>OAuthApplication</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/OAuthApplication.php">View source</a>)
+    <strong>OAuthApplication</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/OAuthApplication.php">View source</a>)
 </p>
 
         
@@ -94,12 +94,44 @@
 
             <table class="table table-condensed">
                     <tr>
+                <td class="type" id="property_botPublic">
+                                                                                bool
+                </td>
+                <td>$botPublic</td>
+                <td class="last">Whether the bot is public.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_botRequireCodeGrant">
+                                                                                bool
+                </td>
+                <td>$botRequireCodeGrant</td>
+                <td class="last">Whether the bot requires a code grant (full OAuth flow).</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_client">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
                 </td>
                 <td>$client</td>
                 <td class="last">The client which initiated the instance.</td>
                 <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_description">
+                                                                                string|null
+                </td>
+                <td>$description</td>
+                <td class="last">The application's description, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_icon">
+                                                                                string|null
+                </td>
+                <td>$icon</td>
+                <td class="last">The hash of the application hash, or null.</td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_id">
@@ -118,19 +150,11 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_icon">
-                                                                                string|null
+                <td class="type" id="property_owner">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null
                 </td>
-                <td>$icon</td>
-                <td class="last">The hash of the application hash, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_description">
-                                                                                string|null
-                </td>
-                <td>$description</td>
-                <td class="last">The application's description, or null.</td>
+                <td>$owner</td>
+                <td class="last">The User instance of the owner, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -139,30 +163,6 @@
                 </td>
                 <td>$rpcOrigins</td>
                 <td class="last">An array of RPC origin url strings, if RPC is enabled.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_botPublic">
-                                                                                bool
-                </td>
-                <td>$botPublic</td>
-                <td class="last">Whether the bot is public.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_botRequireCodeGrant">
-                                                                                bool
-                </td>
-                <td>$botRequireCodeGrant</td>
-                <td class="last">Whether the bot requires a code grant (full OAuth flow).</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_owner">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null
-                </td>
-                <td>$owner</td>
-                <td class="last">The User instance of the owner, or null.</td>
                 <td></td>
             </tr>
             </table>
@@ -189,7 +189,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/OAuthApplication.php#L67">line 67</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/OAuthApplication.php#L67">line 67</a></div>
         <code>                    
     <strong>__toString</strong>()
         </code>

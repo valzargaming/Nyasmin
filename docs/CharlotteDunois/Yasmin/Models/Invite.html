@@ -79,7 +79,7 @@
     </div>
 
     <p>    class
-    <strong>Invite</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Invite.php">View source</a>)
+    <strong>Invite</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Invite.php">View source</a>)
 </p>
 
         
@@ -93,6 +93,14 @@
             <h2>Properties</h2>
 
             <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_channel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/PartialChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\PartialChannel">PartialChannel</abbr></a>
+                </td>
+                <td>$channel</td>
+                <td class="last">The channel which this invite belongs to.</td>
+                <td></td>
+            </tr>
                     <tr>
                 <td class="type" id="property_client">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
@@ -110,19 +118,11 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_guild">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/PartialGuild.html"><abbr title="CharlotteDunois\Yasmin\Models\PartialGuild">PartialGuild</abbr></a>
+                <td class="type" id="property_createdAt">
+                                                                                <a target="_blank" href="http://php.net/DateTime">DateTime</a>|null
                 </td>
-                <td>$guild</td>
-                <td class="last">The guild which this invite belongs to.</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_channel">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/PartialChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\PartialChannel">PartialChannel</abbr></a>
-                </td>
-                <td>$channel</td>
-                <td class="last">The channel which this invite belongs to.</td>
+                <td>$createdAt</td>
+                <td class="last">The DateTime object of the createdTimestamp, if not null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -134,6 +134,14 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_guild">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/PartialGuild.html"><abbr title="CharlotteDunois\Yasmin\Models\PartialGuild">PartialGuild</abbr></a>
+                </td>
+                <td>$guild</td>
+                <td class="last">The guild which this invite belongs to.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_inviter">
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null
                 </td>
@@ -142,19 +150,19 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_maxUses">
-                                                                                int|null
-                </td>
-                <td>$maxUses</td>
-                <td class="last">Maximum uses until the invite expires, or null.</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_maxAge">
                                                                                 int|null
                 </td>
                 <td>$maxAge</td>
                 <td class="last">Duration (in seconds) until the invite expires, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_maxUses">
+                                                                                int|null
+                </td>
+                <td>$maxUses</td>
+                <td class="last">Maximum uses until the invite expires, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -181,14 +189,6 @@
                 <td class="last">Number of times this invite has been used, or null.</td>
                 <td></td>
             </tr>
-                    <tr>
-                <td class="type" id="property_createdAt">
-                                                                                <a target="_blank" href="http://php.net/DateTime">DateTime</a>|null
-                </td>
-                <td>$createdAt</td>
-                <td class="last">The DateTime object of the createdTimestamp, if not null.</td>
-                <td></td>
-            </tr>
             </table>
 
     
@@ -213,7 +213,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/Models/Invite.php#L89">line 89</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Invite.php#L89">line 89</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>delete</strong>(string $reason = &#039;&#039;)
         </code>
