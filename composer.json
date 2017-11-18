@@ -23,7 +23,5 @@
         "psr-4": {
             "CharlotteDunois\\Yasmin\\": "src"
         }
-    },
-    "require-dev": {
     }
 }

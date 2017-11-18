@@ -24,7 +24,6 @@ namespace CharlotteDunois\Yasmin;
  * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.
  * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.
  *
- * @see \CharlotteDunois\Yasmin\ClientEvents
  * @todo Implementation
  */
 class Client extends \CharlotteDunois\Events\EventEmitter {
@@ -161,6 +160,8 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      *
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
+     *
+     * @see ClientEvents
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!empty($options)) {

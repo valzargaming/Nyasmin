@@ -865,6 +865,10 @@ class Guild extends ClientBase {
     function _patch(array $guild) {
         $this->available = (empty($guild['unavailable']));
         
+        if($this->available === false) {
+            return;
+        }
+        
         $this->name = $guild['name'];
         $this->icon = $guild['icon'];
         $this->splash = $guild['splash'];
