@@ -21,6 +21,10 @@ class InvalidateSession {
     }
     
     function handle($data) {
+        if($this->wshandler->wsmanager->getSessionID() === null) {
+            return $this->wshandler->wsmanager->disconnect(1006, 'Invalid OP code response to OP code 2 packet');
+        }
+        
         if(!$data['d']) {
             $this->wshandler->wsmanager->setSessionID(null);
         }

@@ -46,40 +46,29 @@ class Ready {
             }
         }
         
-        $unavailableGuilds = 0;
-        foreach($this->client->guilds as $guild) {
-            if($guild->available === false) {
-                $unavailableGuilds++;
+        // Emit ready after waiting 2 minutes - we waited long enough for Discord to get the guilds to us
+        $timer = $this->client->addTimer(\ceil(($this->client->guilds->count() * 1.2)), function () {
+            if($this->ready === false) {
+                $this->client->wsmanager()->emit('ready');
             }
-        }
+        });
         
-        if($unavailableGuilds === 0) {
-            $this->client->wsmanager()->emit('ready');
-        } else {
-            // Emit ready after waiting 2 minutes - we waited long enough for Discord to get the guilds to us
-            $timer = $this->client->addTimer(120, function () {
-                if($this->ready === false) {
-                    $this->client->wsmanager()->emit('ready');
-                }
-            });
+        $this->client->wsmanager()->on('guildCreate', function () use (&$timer) {
+            if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+                return;
+            }
             
-            $this->client->wsmanager()->on('guildCreate', function () use (&$timer) {
-                if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                    return;
+            $unavailableGuilds = 0;
+            foreach($this->client->guilds as $guild) {
+                if($guild->available === false) {
+                    $unavailableGuilds++;
                 }
-                
-                $unavailableGuilds = 0;
-                foreach($this->client->guilds as $guild) {
-                    if($guild->available === false) {
-                        $unavailableGuilds++;
-                    }
-                }
-                
-                if($unavailableGuilds === 0) {
-                    $this->client->cancelTimer($timer);
-                    $this->client->wsmanager()->emit('ready');
-                }
-            });
-        }
+            }
+            
+            if($unavailableGuilds === 0) {
+                $this->client->cancelTimer($timer);
+                $this->client->wsmanager()->emit('ready');
+            }
+        });
     }
 }
