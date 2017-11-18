@@ -50,7 +50,7 @@ class WSHandler {
             return $this->handlers[$name];
         }
         
-        throw new \Exception('Can not find handler');
+        throw new \Exception('Unable to find handler');
     }
     
     function handle($message) {

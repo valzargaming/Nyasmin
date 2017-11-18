@@ -187,7 +187,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         }
         
         if(!$gateway && !$this->gateway) {
-            throw new \Exception('Can not connect to unknown gateway');
+            throw new \Exception('Unable to connect to unknown gateway');
         }
         
         if(($this->lastIdentify ?? 0) > (\time() - 5)) {
@@ -382,7 +382,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     function send(array $packet) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
             if($this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY && $this->wsStatus !== \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                return $reject(new \RuntimeException('Can not send WS message before a WS connection is established'));
+                return $reject(new \RuntimeException('Unable to send WS message before a WS connection is established'));
             }
             
             $this->queue[] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);

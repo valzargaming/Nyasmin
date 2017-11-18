@@ -85,7 +85,7 @@ class APIRequest {
         $url = $this->url.$this->endpoint;
         
         if(empty($this->api->client->token)) {
-            throw new \Exception('Can not make a HTTP request without a token');
+            throw new \Exception('Unable to make a HTTP request without a token');
         }
         
         $options = array(

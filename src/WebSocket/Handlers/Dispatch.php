@@ -66,7 +66,7 @@ class Dispatch {
             return $this->wsevents[$name];
         }
         
-        throw new \Exception('Can not find WS event');
+        throw new \Exception('Unable to find WS event');
     }
     
     function handle(array $packet) {

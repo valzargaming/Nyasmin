@@ -76,7 +76,7 @@ class ClientBase extends Base {
         
         switch($count) {
             default:
-                throw new \Exception('Can not unserialize a class with more than 2 arguments');
+                throw new \Exception('Unable to unserialize a class with more than 2 arguments');
             break;
             case 1:
                 $this->__construct(\unserialize($data));

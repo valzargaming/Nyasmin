@@ -248,7 +248,7 @@ class Message extends ClientBase {
      */
     function fetchWebhook() {
         if($this->webhookID === null) {
-            throw new \BadMethodCallException('Can not fetch webhook from a message that was not posted by a webhook');
+            throw new \BadMethodCallException('Unable to fetch webhook from a message that was not posted by a webhook');
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {

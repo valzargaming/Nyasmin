@@ -142,7 +142,7 @@ class Role extends ClientBase {
      */
     function edit(array $options, string $reason = '') {
         if(empty($options)) {
-            throw new \InvalidArgumentException('Can not edit role with zero information');
+            throw new \InvalidArgumentException('Unable to edit role with zero information');
         }
         
         $data = array();

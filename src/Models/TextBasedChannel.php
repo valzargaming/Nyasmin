@@ -112,7 +112,7 @@ class TextBasedChannel extends ClientBase
                 }, $messages);
                 
                 if(\count($messages) < 2 || \count($messages) > 100) {
-                    return $reject(new \InvalidArgumentException('Can not bulk delete less than 2 or more than 100 messages'));
+                    return $reject(new \InvalidArgumentException('Unable to bulk delete less than 2 or more than 100 messages'));
                 }
                 
                 $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function ($data) use ($resolve) {

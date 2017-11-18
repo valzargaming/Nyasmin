@@ -132,7 +132,7 @@ class Emoji extends ClientBase {
      */
     function edit(array $options, string $reason = '') {
         if($this->id === null) {
-            throw new \BadMethodCallException('Can not edit a non-guild emoji');
+            throw new \BadMethodCallException('Unable to edit a non-guild emoji');
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
@@ -164,7 +164,7 @@ class Emoji extends ClientBase {
      */
     function delete(string $reason = '') {
         if($this->id === null) {
-            throw new \BadMethodCallException('Can not delete a non-guild emoji');
+            throw new \BadMethodCallException('Unable to delete a non-guild emoji');
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {

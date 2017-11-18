@@ -50,7 +50,7 @@ class Permissions extends ClientBase {
     /**
      * Checks if a given permission is granted.
      * @param array|int|string  $permissions
-     * @param bool           $checkAdmin
+     * @param bool              $checkAdmin
      * @return bool
      * @throws \InvalidArgumentException
      */
@@ -76,7 +76,7 @@ class Permissions extends ClientBase {
     /**
      * Checks if a given permission is missing.
      * @param array|int|string  $permissions
-     * @param bool           $checkAdmin
+     * @param bool              $checkAdmin
      * @return bool
      * @throws \InvalidArgumentException
      */
@@ -131,6 +131,25 @@ class Permissions extends ClientBase {
             return \CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission];
         }
         
-        throw new \InvalidArgumentException('Can not resolve unknown permission');
+        throw new \InvalidArgumentException('Unable to resolve unknown permission');
+    }
+    
+    /**
+     * Resolves a permission number to the name. Also checks if a given name is a valid permission.
+     * @param int|string  $permission
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    static function resolveToName($permission) {
+        if(\is_int($permission)) {
+            $index = \array_search($permission, \CharlotteDunois\Yasmin\Constants::PERMISSIONS, true);
+            if($index) {
+                return $index;
+            }
+        } elseif(\is_string($permission) && isset(\CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission])) {
+            return $permission;
+        }
+        
+        throw new \InvalidArgumentException('Unable to resolve unknown permission');
     }
 }

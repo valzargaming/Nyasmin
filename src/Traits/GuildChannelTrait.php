@@ -110,7 +110,7 @@ trait GuildChannelTrait {
      */
     function edit(array $options, string $reason = '') {
         if(empty($options)) {
-            throw new \InvalidArgumentException('Can not edit channel with zero information');
+            throw new \InvalidArgumentException('Unable to edit channel with zero information');
         }
         
         $data = array();
