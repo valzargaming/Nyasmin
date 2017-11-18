@@ -267,6 +267,8 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                         try {
                             $message = $this->compressContext->decompress($message);
                         } catch(\InvalidArgumentException $e) {
+                            $this->client->emit('error', $e);
+                            $this->reconnect(true);
                             return;
                         } catch(\BadMethodCallException $e) {
                             $this->client->emit('error', $e);

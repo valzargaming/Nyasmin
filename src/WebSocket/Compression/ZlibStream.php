@@ -69,7 +69,7 @@ class ZlibStream
         }
         
         $uncompressed = \inflate_add($this->context, $data);
-        if(!$uncompressed) {
+        if($uncompressed === false) {
             throw new \InvalidArgumentException('The inflate context was unable to decompress the data');
         }
         
