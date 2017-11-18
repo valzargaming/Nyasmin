@@ -20,6 +20,10 @@ namespace CharlotteDunois\Yasmin;
  * @property \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
  * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as.
  *
+ * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the parent class - only for documentation purpose here.
+ * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.
+ * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.
+ *
  * @see \CharlotteDunois\Yasmin\ClientEvents
  * @todo Implementation
  */

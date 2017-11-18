@@ -339,6 +339,36 @@
                                             <p>Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been successfully established (does not mean the client is ready).</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_on">on</a>(string  $event, callable  $listener)
+        
+                                            <p>Attach a listener to an event. The method is from the parent class - only for documentation purpose here.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_once">once</a>(string  $event, callable  $listener)
+        
+                                            <p>Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_removeListener">removeListener</a>(string  $event, callable  $listener)
+        
+                                            <p>Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -347,7 +377,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L161">line 161</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L165">line 165</a></div>
         <code>                    
     <strong>__construct</strong>(array $options = array(), <abbr title="React\EventLoop\LoopInterface">LoopInterface</abbr> $loop = null)
         </code>
@@ -395,7 +425,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addPeriodicTimer">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L462">line 462</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L466">line 466</a></div>
         <code>                    <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
     <strong>addPeriodicTimer</strong>(float $interval, callable $callback, bool $ignoreWS = false)
         </code>
@@ -445,7 +475,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addTimer">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L442">line 442</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L446">line 446</a></div>
         <code>                    <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
     <strong>addTimer</strong>(float $timeout, callable $callback, bool $ignoreWS = false)
         </code>
@@ -495,7 +525,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_cancelTimer">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L478">line 478</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L482">line 482</a></div>
         <code>                    bool
     <strong>cancelTimer</strong>(<abbr title="React\EventLoop\Timer\Timer">Timer</abbr> $timer)
         </code>
@@ -535,7 +565,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_destroy">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L310">line 310</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L314">line 314</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>destroy</strong>(bool $destroyUtils = true)
         </code>
@@ -575,7 +605,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchApplication">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L332">line 332</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L336">line 336</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchApplication</strong>()
         </code>
@@ -614,7 +644,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchInvite">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L347">line 347</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L351">line 351</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchInvite</strong>(string $invite)
         </code>
@@ -663,7 +693,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchUser">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L367">line 367</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L371">line 371</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchUser</strong>(string $userid)
         </code>
@@ -712,7 +742,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchVoiceRegions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L385">line 385</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L389">line 389</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchVoiceRegions</strong>()
         </code>
@@ -751,7 +781,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchWebhook">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L407">line 407</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L411">line 411</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchWebhook</strong>(string $id, string $token = null)
         </code>
@@ -805,7 +835,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generateOAuthInvite">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L424">line 424</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L428">line 428</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>generateOAuthInvite</strong>(string|int $permissions)
         </code>
@@ -854,7 +884,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getLoop">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L222">line 222</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L226">line 226</a></div>
         <code>                    <abbr title="React\EventLoop\LoopInterface">LoopInterface</abbr>
     <strong>getLoop</strong>()
         </code>
@@ -884,7 +914,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getOption">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L232">line 232</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L236">line 236</a></div>
         <code>                    mixed
     <strong>getOption</strong>(string $name, mixed $default = null)
         </code>
@@ -929,7 +959,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getPing">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L244">line 244</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L248">line 248</a></div>
         <code>                    int|double
     <strong>getPing</strong>()
         </code>
@@ -959,7 +989,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getWSstatus">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L257">line 257</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L261">line 261</a></div>
         <code>                    int
     <strong>getWSstatus</strong>()
         </code>
@@ -989,7 +1019,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_login">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L267">line 267</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L271">line 271</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>login</strong>(string $token, bool $force = false)
         </code>
@@ -1026,6 +1056,114 @@
         </tr>
     </table>
 
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_on">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L30">line 30</a></div>
+        <code>                    
+    <strong>on</strong>(string  $event, callable  $listener)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Attach a listener to an event. The method is from the parent class - only for documentation purpose here.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string </td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>callable </td>
+                <td>$listener</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_once">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L30">line 30</a></div>
+        <code>                    
+    <strong>once</strong>(string  $event, callable  $listener)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string </td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>callable </td>
+                <td>$listener</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_removeListener">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L30">line 30</a></div>
+        <code>                    
+    <strong>removeListener</strong>(string  $event, callable  $listener)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string </td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>callable </td>
+                <td>$listener</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
             
             
                     </div>
