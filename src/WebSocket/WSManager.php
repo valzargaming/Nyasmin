@@ -315,6 +315,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     }
                     
                     if($code === 1000 && $this->expectedClose === true) {
+                        $this->gateway = null;
                         return;
                     }
                     
@@ -339,7 +340,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         }));
     }
     
-    function disconnect(int $code = 1000) {
+    function disconnect(int $code = 1000, string $reason = '') {
         if(!$this->ws) {
             return;
         }
@@ -349,9 +350,8 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $this->client->emit('debug', 'Disconnecting from WS');
         
         $this->expectedClose = true;
-        $this->ws->close($code);
+        $this->ws->close($code, $reason);
         
-        $this->gateway = null;
         $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
         $this->wsSessionID = null;
     }
