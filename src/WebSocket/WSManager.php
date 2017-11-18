@@ -324,7 +324,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     }
                     
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
-                    $this->connect();
+                    $this->connect()->otherwise(function ($error) {
+                        $this->client->emit('error', $error);
+                        $this->client->destroy();
+                    });
                 });
             }, function($error) use ($reconnect, $reject) {
                 if($this->ws) {
