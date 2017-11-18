@@ -37,6 +37,9 @@ class GuildRoleUpdate {
                 
                 $role->_patch($data['role']);
                 $this->client->emit('roleUpdate', $role, $oldRole);
+            } else {
+                $role = $guild->roles->factory($data['role']);
+                $this->client->emit('roleCreate', $role);
             }
         }
     }

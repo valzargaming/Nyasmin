@@ -37,6 +37,8 @@ class GuildMemberUpdate {
                 
                 $guildmember->_patch($data);
                 $this->client->emit('guildMemberUpdate', $guildmember, $oldMember);
+            } else {
+                $guildmember = $guild->_addMember($data, true);
             }
         }
     }

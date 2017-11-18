@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\WebSocket;
  *
  * @internal
  */
-class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
+class WSManager extends \CharlotteDunois\Events\EventEmitter {
     /**
      * @var \CharlotteDunois\Yasmin\Client
      */
@@ -67,6 +67,12 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
     );
     
     /**
+     * The WS authentication state.
+     * @var bool
+     */
+    protected $authenticated = false;
+    
+    /**
      * The WS queue.
      * @var array
      */
@@ -103,7 +109,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             4004, 4010, 4011
         ),
         'resumable' => array(
-            4000, 4001, 4002, 4003, 4005, 4008
+            4001, 4002, 4003, 4005, 4008
         )
     );
     
@@ -187,23 +193,31 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
         if(($this->lastIdentify ?? 0) > (\time() - 5)) {
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway, $querystring) {
                 $this->client->getLoop()->addTimer((5 - (\time() - $this->lastIdentify)), function () use ($gateway, $querystring, $resolve, $reject) {
-                    $this->connect($gateway, $querystring)->then($resolve, $reject)->done();
+                    $this->connect($gateway, $querystring)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                 });
             }));
         }
         
-        if($this->compressContext) {
+        if($this->compressContext && $this->compressContext->getName()) {
             $querystring['compress'] = $this->compressContext->getName();
         }
         
         $reconnect = false;
         if($this->gateway && (!$gateway || $this->gateway === $gateway)) {
-            $this->client->emit('reconnect');
-            $reconnect = true;
-            
             if(!$gateway) {
                 $gateway = $this->gateway;
             }
+            
+            if(($this->lastIdentify ?? 0) > (\time() - 30)) { // Make sure we reconnect after at least 30 seconds, if there was like an outage, to prevent spamming
+                return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway, $querystring) {
+                    $this->client->getLoop()->addTimer((30 - (\time() - $this->lastIdentify)), function () use ($gateway, $querystring, $resolve, $reject) {
+                        $this->connect($gateway, $querystring)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                    });
+                }));
+            }
+            
+            $this->client->emit('reconnect');
+            $reconnect = true;
         } elseif(!empty($querystring)) {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
@@ -279,6 +293,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
                     $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];
                     $this->ratelimits['timer'] = null;
                     
+                    $this->authenticated = false;
                     $this->queue = array();
                     $this->wsHeartbeat['ack'] = true;
                     
@@ -320,7 +335,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
                 }
                 
                 $reject($error);
-            })->done();
+            })->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
@@ -400,6 +415,14 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
          $this->running = false;
     }
     
+    function setAuthenticated(bool $state) {
+        $this->authenticated = $state;
+    }
+    
+    function getLastIdentified() {
+        return $this->lastIdentify;
+    }
+    
     function getSessionID() {
         return $this->wsSessionID;
     }
@@ -409,6 +432,8 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
     }
     
     function sendIdentify() {
+        $this->authenticated = false;
+        
         if(empty($this->client->token)) {
             $this->client->emit('debug', 'No client token to start with');
             return;
@@ -419,7 +444,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
             $this->client->emit('debug', 'Sending IDENTIFY packet to WS');
         } else {
             $op = \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME'];
-            $this->client->emit('debug', 'Sending RESUME "'.$this->wsSessionID.'" packet to WS');
+            $this->client->emit('debug', 'Sending RESUME packet to WS');
         }
         
         $packet = array(
@@ -456,6 +481,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter2 {
     function heartbeat() {
         if($this->wsHeartbeat['ack'] === false) {
             return $this->heartFailure();
+        }
+        
+        if(!$this->authenticated) {
+            return; // Do not heartbeat if unauthenticated
         }
         
         $this->client->emit('debug', 'Sending WS heartbeat');

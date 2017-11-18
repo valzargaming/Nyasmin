@@ -27,6 +27,7 @@ class Ready {
     }
     
     function handle($data) {
+        $this->client->wsmanager()->setAuthenticated(true);
         $this->client->wsmanager()->setSessionID($data['session_id']);
         $this->client->wsmanager()->emit('self.ws.ready');
         

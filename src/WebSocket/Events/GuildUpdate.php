@@ -28,6 +28,12 @@ class GuildUpdate {
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
+            if($data['unavailable'] === true) {
+                $guild->_patch(array('unavailable' => true));
+                $this->client->emit('guildUnavailable', $guild);
+                return;
+            }
+            
             $oldGuild = null;
             if($this->clones) {
                 $oldGuild = clone $guild;

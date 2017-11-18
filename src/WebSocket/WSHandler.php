@@ -62,6 +62,8 @@ class WSHandler {
                 $this->sequence = $packet['s'];
             }
             
+            $this->client->emit('debug', 'Received WS packet with OP code '.$packet['op']);
+            
             if(isset($this->handlers[$packet['op']])) {
                 $this->handlers[$packet['op']]->handle($packet);
             }

@@ -23,7 +23,7 @@ namespace CharlotteDunois\Yasmin;
  * @see \CharlotteDunois\Yasmin\ClientEvents
  * @todo Implementation
  */
-class Client extends \CharlotteDunois\Events\EventEmitter2 {
+class Client extends \CharlotteDunois\Events\EventEmitter {
     /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>

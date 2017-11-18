@@ -37,6 +37,16 @@ class GuildCreate {
             $this->client->guilds->set($guild->id, $guild);
         }
         
+        if($guild->available === false) {
+            if($this->ready) {
+                $this->client->emit('guildUnavailable', $guild);
+            } else {
+                $this->client->wsmanager()->emit('guildCreate');
+            }
+            
+            return;
+        }
+        
         if(((bool) $this->client->getOption('fetchAllMembers', false)) === true && $guild->members->count() < $guild->memberCount) {
             $fetchAll = $guild->fetchMembers();
         } elseif($guild->me === null) {

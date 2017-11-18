@@ -17,7 +17,7 @@
         "react/promise": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
         "charlottedunois/validator": "^0.1.2",
-        "charlottedunois/eventemitter": "^0.1.1"
+        "charlottedunois/eventemitter": "^0.1.2"
     },
     "autoload": {
         "psr-4": {
