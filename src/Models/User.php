@@ -332,6 +332,6 @@ class User extends ClientBase
      * @return string
      */
     protected function getAvatarExtension() {
-        return (strpos($this->avatar, 'a_') === 0 ? 'gif' : 'webp');
+        return (strpos($this->avatar, 'a_') === 0 ? 'gif' : 'png');
     }
 }
