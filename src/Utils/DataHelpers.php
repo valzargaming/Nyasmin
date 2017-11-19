@@ -14,6 +14,11 @@ namespace CharlotteDunois\Yasmin\Utils;
  */
 class DataHelpers {
     /**
+     * Default Message Split Options.
+     */
+    const DEFAULT_MESSAGE_SPLIT_OPTIONS = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
+    
+    /**
      * Resolves a color to an int.
      * @param array|int|string  $color
      * @return int
@@ -82,9 +87,9 @@ class DataHelpers {
     
     /**
      * Escapes any Discord-flavour markdown in a string.
-     * @param string  $text            Content to escape
-     * @param bool    $onlyCodeBlock   Whether to only escape codeblocks (takes priority)
-     * @param bool    $onlyInlineCode  Whether to only escape inline code
+     * @param string  $text            Content to escape.
+     * @param bool    $onlyCodeBlock   Whether to only escape codeblocks (takes priority).
+     * @param bool    $onlyInlineCode  Whether to only escape inline code.
      * @return string
      */
     static function escapeMarkdown(string $text, bool $onlyCodeBlock = false, bool $onlyInlineCode = false) {
@@ -97,5 +102,38 @@ class DataHelpers {
         }
         
         return \preg_replace('/(\*|_|`|~|\\)/miu', '\\$1', \preg_replace('/\\(\*|_|`|~|\\)/miu', '$1', $text));
+    }
+    
+    /**
+     * Splits a string into multiple chunks at a designated character that do not exceed a specific length.
+     * @param string  $text
+     * @param array   $options  Options controlling the behaviour of the split.
+     * @return string[]
+     */
+    static function splitMessage(string $text, array $options = array()) {
+        $options = \array_merge(self::DEFAULT_MESSAGE_SPLIT_OPTIONS, $options);
+        
+        if(\strlen($text) > $options['maxLength']) {
+            $i = 0;
+            $messages = array();
+            
+            $parts = \explode($options['char'], $text);
+            foreach($parts as $part) {
+                if(empty($messages[$i])) {
+                    $messages[$i] = '';
+                }
+                
+                if((\strlen($messages[$i]) + \strlen($part) + 2) >= $options['maxLength']) {
+                    $i++;
+                    $messages[$i] = '';
+                }
+                
+                $messages[$i] .= $part.$options['char'];
+            }
+            
+            return $messages;
+        }
+        
+        return array($text);
     }
 }

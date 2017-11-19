@@ -161,12 +161,10 @@ class Webhook extends ClientBase {
                 }
                 
                 if(!empty($options['split'])) {
-                    $split = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
-                    if(\is_array($options['split'])) {
-                        $split = \array_merge($split, $options['split']);
-                    }
+                    $options['split'] = $split = \array_merge(\CharlotteDunois\Yasmin\Utils\DataHelpers::DEFAULT_MESSAGE_SPLIT_OPTIONS, (\is_array($options['split']) ? $options['split'] : array()));
+                    $messages = \CharlotteDunois\Yasmin\Utils\DataHelpers::splitMessage($msg['content'], $options['split']);
                     
-                    if(\strlen($msg['content']) > $split['maxLength']) {
+                    if(\count($messages) > 0) {
                         $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
@@ -176,21 +174,6 @@ class Webhook extends ClientBase {
                         };
                         
                         $i = 0;
-                        $messages = array();
-                        
-                        $parts = \explode($split['char'], $msg['content']);
-                        foreach($parts as $part) {
-                            if(empty($messages[$i])) {
-                                $messages[$i] = '';
-                            }
-                            
-                            if((\strlen($messages[$i]) + \strlen($part) + 2) >= $split['maxLength']) {
-                                $i++;
-                                $messages[$i] = '';
-                            }
-                            
-                            $messages[$i] .= $part.$split['char'];
-                        }
                         
                         $promise = \React\Promise\resolve();
                         foreach($messages as $key => $message) {
