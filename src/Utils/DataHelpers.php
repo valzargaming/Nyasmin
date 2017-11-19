@@ -79,4 +79,23 @@ class DataHelpers {
         
         return $promise;
     }
+    
+    /**
+     * Escapes any Discord-flavour markdown in a string.
+     * @param string  $text            Content to escape
+     * @param bool    $onlyCodeBlock   Whether to only escape codeblocks (takes priority)
+     * @param bool    $onlyInlineCode  Whether to only escape inline code
+     * @return string
+     */
+    static function escapeMarkdown(string $text, bool $onlyCodeBlock = false, bool $onlyInlineCode = false) {
+        if($onlyCodeBlock) {
+            return \preg_replace('/```/miu', "`\u{200b}``", $text);
+        }
+        
+        if($onlyInlineCode) {
+            return \preg_replace('/(`|\\)/miu', '\\$1', \preg_replace('/\\(`|\\)/miu', '$1', $text));
+        }
+        
+        return \preg_replace('/(\*|_|`|~|\\)/miu', '\\$1', \preg_replace('/\\(\*|_|`|~|\\)/miu', '$1', $text));
+    }
 }

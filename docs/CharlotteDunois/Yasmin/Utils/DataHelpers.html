@@ -99,6 +99,16 @@
                     static&nbsp;string
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_escapeMarkdown">escapeMarkdown</a>(string $text, bool $onlyCodeBlock = false, bool $onlyInlineCode = false)
+        
+                                            <p>Escapes any Discord-flavour markdown in a string.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;string
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_makeBase64URI">makeBase64URI</a>(string $data)
         
                                             <p>Turns input into a base64-encoded data URI.</p>                </div>
@@ -140,6 +150,56 @@
         <h2>Details</h2>
 
             <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_escapeMarkdown">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L90">line 90</a></div>
+        <code>        static            string
+    <strong>escapeMarkdown</strong>(string $text, bool $onlyCodeBlock = false, bool $onlyInlineCode = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Escapes any Discord-flavour markdown in a string.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$text</td>
+                <td>Content to escape</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$onlyCodeBlock</td>
+                <td>Whether to only escape codeblocks (takes priority)</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$onlyInlineCode</td>
+                <td>Whether to only escape inline code</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
                     <div class="method-item">
                     <h3 id="method_makeBase64URI">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L56">line 56</a></div>
