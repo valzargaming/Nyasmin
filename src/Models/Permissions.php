@@ -119,13 +119,13 @@ class Permissions extends ClientBase {
     }
     
     /**
-     * Resolves a permission name to number. Also checks if a given integer is a valid permission.
+     * Resolves a permission name to number.
      * @param int|string  $permission
      * @return int
      * @throws \InvalidArgumentException
      */
     static function resolve($permission) {
-        if(\is_int($permission) && \array_search($permission, \CharlotteDunois\Yasmin\Constants::PERMISSIONS, true) !== false) {
+        if(\is_int($permission)) {
             return $permission;
         } elseif(\is_string($permission) && isset(\CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission])) {
             return \CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission];
