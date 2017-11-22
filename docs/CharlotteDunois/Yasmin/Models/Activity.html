@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>CharlotteDunois\Yasmin\Models\Game | Yasmin</title>
+    <title>CharlotteDunois\Yasmin\Models\Activity | Yasmin</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_Game" data-root-path="../../../">
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_Activity" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,27 +66,27 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>Game</li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>Activity</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            Game
+            Activity
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>Game</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Game.php">View source</a>)
+    <strong>Activity</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Activity.php">View source</a>)
 </p>
 
         
     
 
             <div class="description">
-            <p>Something someone plays.</p>                                </div>
+            <p>Something someone does.</p>                                </div>
     
     
     
@@ -98,7 +98,7 @@
                                                                                 string|null
                 </td>
                 <td>$applicationID</td>
-                <td class="last">The application ID associated with the game, or null.</td>
+                <td class="last">The application ID associated with the activity, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -122,7 +122,7 @@
                                                                                 string|null
                 </td>
                 <td>$details</td>
-                <td class="last">Details about the game, or null.</td>
+                <td class="last">Details about the activity, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -130,7 +130,7 @@
                                                                                 string
                 </td>
                 <td>$name</td>
-                <td class="last">The name of the game.</td>
+                <td class="last">The name of the activity.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -138,7 +138,7 @@
                                                                                 array|null
                 </td>
                 <td>$party</td>
-                <td class="last">Party of the game, an array of ('id', 'size' => [ size, max ]), or null.</td>
+                <td class="last">Party of the activity, an array of ('id', 'size' => [ size, max ]), or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -146,7 +146,7 @@
                                                                                 string|null
                 </td>
                 <td>$state</td>
-                <td class="last">State of the game, or null.</td>
+                <td class="last">State of the activity, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -154,7 +154,7 @@
                                                                                 bool
                 </td>
                 <td>$streaming</td>
-                <td class="last">Whether or not the game is being streamed.</td>
+                <td class="last">Whether or not the activity is being streamed.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -162,7 +162,7 @@
                                                                                 array|null
                 </td>
                 <td>$timestamps</td>
-                <td class="last">Timestamps for the game, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.</td>
+                <td class="last">Timestamps for the activity, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -192,7 +192,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $game)
+                    <a href="#method___construct">__construct</a>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $activity)
         
                                             <p>The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.</p>                </div>
                 <div class="col-md-2"></div>
@@ -205,9 +205,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Game.php#L45">line 45</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Activity.php#L45">line 45</a></div>
         <code>                    
-    <strong>__construct</strong>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $game)
+    <strong>__construct</strong>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $activity)
         </code>
     </h3>
     <div class="details">
@@ -227,7 +227,7 @@
             </tr>
                     <tr>
                 <td>array</td>
-                <td>$game</td>
+                <td>$activity</td>
                 <td>An array containing name, type (as int) and url (nullable).</td>
             </tr>
             </table>

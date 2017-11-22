@@ -7,4 +7,5 @@ composer.lock
 index.php
 sami
 sami/*
-sami.*
+sami.bat
+sami.php

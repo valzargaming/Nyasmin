@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a presence.
  *
  * @property \CharlotteDunois\Yasmin\Models\User           $user      The user this presence belongs to.
- * @property \CharlotteDunois\Yasmin\Models\Game|null      $game      The game the user is playing.
+ * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity the user is doing.
  * @property string                                        $status    What do you expect this to be?
  */
 class Presence extends ClientBase {
@@ -24,9 +24,9 @@ class Presence extends ClientBase {
     protected $user;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Models\Game
+     * @var \CharlotteDunois\Yasmin\Models\Activity
      */
-    protected $game;
+    protected $activity;
     
     /**
      * @var string
@@ -36,7 +36,7 @@ class Presence extends ClientBase {
     /**
      * The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.
      * @param \CharlotteDunois\Yasmin\Client  $client  The client this object is for.
-     * @param array                           $game    An array containing user (as array, with an element id), game (as array) and status.
+     * @param array                           $activity    An array containing user (as array, with an element id), activity (as array) and status.
      *
      * @throws \Exception
      */
@@ -65,7 +65,7 @@ class Presence extends ClientBase {
      function jsonSerialize() {
          return array(
              'status' => $this->status,
-             'game' => $this->game
+             'game' => $this->activity
          );
      }
      
@@ -73,7 +73,7 @@ class Presence extends ClientBase {
       * @internal
       */
      function _patch(array $presence) {
-         $this->game = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Game($this->client, $presence['game'])) : null);
+         $this->activity = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $presence['game'])) : null);
          $this->status = $presence['status'];
      }
 }

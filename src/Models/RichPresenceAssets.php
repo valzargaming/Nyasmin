@@ -10,16 +10,16 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Something someone needs (or wants) in games. Or in Rich Presence.
+ * Rich Presence assets.
  *
- * @property \CharlotteDunois\Yasmin\Models\Game  $game        The game which these assets belong to.
- * @property string|null                          $largeImage  The ID of the large image, or null.
- * @property string|null                          $largeText   The text of the large image, or null.
- * @property string|null                          $smallImage  The ID of the small image, or null.
- * @property string|null                          $smallText   The text of the small image, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Activity  $activity    The activity which these assets belong to.
+ * @property string|null                              $largeImage  The ID of the large image, or null.
+ * @property string|null                              $largeText   The text of the large image, or null.
+ * @property string|null                              $smallImage  The ID of the small image, or null.
+ * @property string|null                              $smallText   The text of the small image, or null.
  */
 class RichPresenceAssets extends ClientBase {
-    protected $game;
+    protected $activity;
     protected $largeImage;
     protected $largeText;
     protected $smallImage;
@@ -27,14 +27,14 @@ class RichPresenceAssets extends ClientBase {
     
     /**
      * The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.
-     * @param \CharlotteDunois\Yasmin\Client       $client  The client this object is for.
-     * @param \CharlotteDunois\Yasmin\Models\Game  $game    The game instance
-     * @param array                                $assets  An array containing the presence data.
+     * @param \CharlotteDunois\Yasmin\Client           $client      The client this object is for.
+     * @param \CharlotteDunois\Yasmin\Models\Activity  $activity    The activity instance.
+     * @param array                                    $assets      An array containing the presence data.
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Game $game, array $assets) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Activity $activity, array $assets) {
         parent::__construct($client);
-        $this->game = $game;
+        $this->activity = $activity;
         
         $this->largeImage = $assets['large_image'] ?? null;
         $this->largeText = $assets['large_text'] ?? null;
@@ -63,7 +63,7 @@ class RichPresenceAssets extends ClientBase {
      */
     function getLargeImageURL(int $size = null) {
         if($this->largeImage) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->game->applicationID, $this->largeImage).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->largeImage).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
@@ -76,7 +76,7 @@ class RichPresenceAssets extends ClientBase {
      */
     function getSmallImageURL(int $size = null) {
         if($this->smallImage) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->game->applicationID, $this->smallImage).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->smallImage).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
