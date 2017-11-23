@@ -137,7 +137,7 @@ class User extends ClientBase
                 return $resolve($channel);
             }
             
-            $this->client->apimanager()->endpoints->user->createUserDM($this->user->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->createUserDM($this->id)->then(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
