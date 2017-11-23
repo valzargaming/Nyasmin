@@ -497,6 +497,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      */
     function setClientUser(array $user) {
         $this->user = new \CharlotteDunois\Yasmin\Models\ClientUser($this, $user);
+        $this->users->set($this->user->id, $this->user);
     }
     
     /**
