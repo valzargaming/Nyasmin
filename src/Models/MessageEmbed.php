@@ -140,7 +140,7 @@ class MessageEmbed extends Base {
         }
         
         $this->author = array(
-            'author' => $name,
+            'name' => $name,
             'icon_url' => $iconurl,
             'url' => $url
         );
