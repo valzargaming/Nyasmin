@@ -134,7 +134,9 @@ class MessageEmbed extends Base {
      * @return $this
      * @throws \InvalidArgumentException
      */
-    function setAuthor(string $name, string $iconurl = '', string $url = '') {
+    function setAuthor($name, string $iconurl = '', string $url = '') {
+        $name = (string) $name;
+        
         if(\mb_strlen($name) > 256) {
             throw new \InvalidArgumentException('Author name can not be longer than 256 characters.');
         }
@@ -166,7 +168,9 @@ class MessageEmbed extends Base {
      * @return $this
      * @throws \InvalidArgumentException
      */
-    function setDescription(string $description) {
+    function setDescription($description) {
+        $description = (string) $description;
+        
         if(\mb_strlen($description) > 2048) {
             throw new \InvalidArgumentException('Embed description can not be longer than 2048 characters');
         }
@@ -182,7 +186,9 @@ class MessageEmbed extends Base {
      * @return $this
      * @throws \InvalidArgumentException
      */
-    function setFooter(string $text, string $iconurl = '') {
+    function setFooter($text, string $iconurl = '') {
+        $text = (string) $text;
+        
         if(\mb_strlen($text) > 2048) {
             throw new \InvalidArgumentException('Footer text can not be longer than 2048 characters.');
         }
@@ -200,8 +206,8 @@ class MessageEmbed extends Base {
      * @param string  $url
      * @return $this
      */
-    function setImage(string $url) {
-        $this->image = $url;
+    function setImage($url) {
+        $this->image = array('url' => (string) $url);
         return $this;
     }
     
@@ -210,8 +216,8 @@ class MessageEmbed extends Base {
      * @param string  $url
      * @return $this
      */
-    function setThumbnail(string $url) {
-        $this->thumbnail = $url;
+    function setThumbnail($url) {
+        $this->thumbnail = array('url' => (string) $url);
         return $this;
     }
     
@@ -258,10 +264,13 @@ class MessageEmbed extends Base {
      * @return $this
      * @throws \RangeException|\InvalidArgumentException
      */
-    function addField(string $title, string $value, bool $inline = false) {
+    function addField($title, $value, bool $inline = false) {
         if(\count($this->fields) >= 25) {
             throw new \RangeException('Embeds can not have more than 25 fields');
         }
+        
+        $title = (string) $title;
+        $value = (string) $value;
         
         if(\mb_strlen($title) > 256) {
             throw new \InvalidArgumentException('Embed title can not be longer than 256 characters');
