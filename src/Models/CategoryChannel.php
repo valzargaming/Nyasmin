@@ -13,6 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild's category channel.
  * @property string                                    $id                     The ID of the channel.
  * @property string                                    $name                   The channel name.
+ * @property string                                    $type                   The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
  * @property int                                       $createdTimestamp       The timestamp of when this channel was created.
  * @property int                                       $position               The channel position.
  * @property \CharlotteDunois\Yasmin\Utils\Collection  $permissionOverwrites   A collection of PermissionOverwrite objects.
@@ -28,6 +29,7 @@ class CategoryChannel extends ClientBase
     protected $guild;
     
     protected $id;
+    protected $type;
     protected $name;
     protected $position;
     protected $permissionOverwrites;
