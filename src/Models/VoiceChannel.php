@@ -23,14 +23,12 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                  $permissionOverwrites   A collection of PermissionOverwrite objects.
  * @property  int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
  *
- * @property  \CharlotteDunois\Yasmin\Voice\VoiceConnection|null                                       $connection             he voice connection for this voice channel, if the client is connected.
+ * @property  \CharlotteDunois\Yasmin\Voice\VoiceConnection|null                                       $connection             The voice connection for this voice channel, if the client is connected.
  * @property  bool                                                                                     $full                   Checks if the voice channel is full.
  * @property  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
  * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                      $parent                 Returns the channel's parent, or null.
  * @property  bool|null                                                                                $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
  * @property  bool                                                                                     $speakable              Whether the client has permission to send audio to the channel.
- *
- * @todo Implementation
  */
 class VoiceChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,

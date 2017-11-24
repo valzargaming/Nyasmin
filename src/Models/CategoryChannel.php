@@ -11,24 +11,39 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents a guild's category channel.
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $children  Returns all channels which are childrens of this category.
+ * @property string                                    $id                     The ID of the channel.
+ * @property string                                    $name                   The channel name.
+ * @property int                                       $createdTimestamp       The timestamp of when this channel was created.
+ * @property int                                       $position               The channel position.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $permissionOverwrites   A collection of PermissionOverwrite objects.
+ *
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $children               Returns all channels which are childrens of this category.
+ * @property \DateTime                                 $createdAt              The DateTime object of createdTimestamp.
  */
-class CategoryChannel extends TextBasedChannel {
+class CategoryChannel extends ClientBase
+    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     protected $guild;
     
+    protected $id;
     protected $name;
-    protected $parentID;
     protected $position;
     protected $permissionOverwrites;
+    
+    protected $createdTimestamp;
     
     /**
      * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
-        parent::__construct($client, $channel);
+        parent::__construct($client);
         $this->guild = $guild;
+        
+        $this->id = $channel['id'];
+        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->_patch($channel);
     }
@@ -50,6 +65,9 @@ class CategoryChannel extends TextBasedChannel {
                     return $channel->parentID === $this->id;
                 });
             break;
+                case 'createdAt':
+                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+                break;
         }
         
         return parent::__get($name);
@@ -62,7 +80,6 @@ class CategoryChannel extends TextBasedChannel {
         $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
         if(!empty($channel['permissions_overwrites'])) {
