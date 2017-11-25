@@ -235,7 +235,7 @@ class APIManager {
             
             $this->client->addTimer($offset, function () {
                 $this->process();
-            }, true);
+            });
             
             return;
         }
@@ -253,7 +253,7 @@ class APIManager {
                 
                 $this->client->addTimer(($this->resetTime + 1 - \time()), function () {
                     $this->process();
-                }, true);
+                });
                 
                 return;
             }

@@ -296,7 +296,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     $this->ratelimits['timer'] = null;
                     
                     $this->authenticated = false;
-                    $this->queue = array();
                     $this->wsHeartbeat['ack'] = true;
                     
                     if($this->compressContext) {
@@ -318,6 +317,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     
                     if($code === 1000 && $this->expectedClose === true) {
                         $this->gateway = null;
+                        $this->queue = array();
                         return;
                     }
                     

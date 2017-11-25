@@ -438,40 +438,33 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     }
     
     /**
-     * Adds a "client-dependant" timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
+     * Adds a "client-dependant" timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
      * @param float|int  $timeout
      * @param callable   $callback
-     * @param bool       $ignoreWS
      * @return \React\EventLoop\Timer\Timer
      */
-    function addTimer(float $timeout, callable $callback, bool $ignoreWS = false) {
-        $timer = $this->loop->addTimer($timeout, function () use ($callback, $ignoreWS, &$timer) {
-            if($ignoreWS || $this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                $callback($this);
-            }
-            
+    function addTimer(float $timeout, callable $callback) {
+        $timer = $this->loop->addTimer($timeout, function () use ($callback, &$timer) {
+            $callback($this);
             $this->cancelTimer($timer);
         });
         
-        $this->timers[] = array('type' => 1, 'timer' => $timer);
+        $this->timers[] = $timer;
         return $timer;
     }
     
     /**
-     * Adds a "client-dependant" periodic timer (only gets run during an established WS connection). The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
+     * Adds a "client-dependant" periodic timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.
      * @param float|int  $interval
      * @param callable   $callback
-     * @param bool       $ignoreWS  This will ignore a disconnected or (re)connecting WS connection and run the callback anyway.
      * @return \React\EventLoop\Timer\Timer
      */
-    function addPeriodicTimer(float $interval, callable $callback, bool $ignoreWS = false) {
-        $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback, $ignoreWS) {
-            if($ignoreWS || $this->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
-                $callback($this);
-            }
+    function addPeriodicTimer(float $interval, callable $callback) {
+        $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback) {
+            $callback($this);
         });
         
-        $this->timers[] = array('type' => 0, 'timer' => $timer);
+        $this->timers[] = $timer;
         return $timer;
     }
     
