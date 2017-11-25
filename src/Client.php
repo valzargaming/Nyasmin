@@ -443,7 +443,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * @param callable   $callback
      * @return \React\EventLoop\Timer\Timer
      */
-    function addTimer(float $timeout, callable $callback) {
+    function addTimer($timeout, callable $callback) {
         $timer = $this->loop->addTimer($timeout, function () use ($callback, &$timer) {
             $callback($this);
             $this->cancelTimer($timer);
@@ -459,7 +459,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * @param callable   $callback
      * @return \React\EventLoop\Timer\Timer
      */
-    function addPeriodicTimer(float $interval, callable $callback) {
+    function addPeriodicTimer($interval, callable $callback) {
         $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback) {
             $callback($this);
         });

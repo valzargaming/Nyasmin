@@ -194,7 +194,7 @@
                     <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addPeriodicTimer">addPeriodicTimer</a>(float $interval, callable $callback)
+                    <a href="#method_addPeriodicTimer">addPeriodicTimer</a>(float|int $interval, callable $callback)
         
                                             <p>Adds a "client-dependant" periodic timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.</p>                </div>
                 <div class="col-md-2"></div>
@@ -204,7 +204,7 @@
                     <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addTimer">addTimer</a>(float $timeout, callable $callback)
+                    <a href="#method_addTimer">addTimer</a>(float|int $timeout, callable $callback)
         
                                             <p>Adds a "client-dependant" timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.</p>                </div>
                 <div class="col-md-2"></div>
@@ -436,7 +436,7 @@
                     <h3 id="method_addPeriodicTimer">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L462">line 462</a></div>
         <code>                    <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
-    <strong>addPeriodicTimer</strong>(float $interval, callable $callback)
+    <strong>addPeriodicTimer</strong>(float|int $interval, callable $callback)
         </code>
     </h3>
     <div class="details">
@@ -450,7 +450,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>float</td>
+                <td>float|int</td>
                 <td>$interval</td>
                 <td></td>
             </tr>
@@ -481,7 +481,7 @@
                     <h3 id="method_addTimer">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L446">line 446</a></div>
         <code>                    <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
-    <strong>addTimer</strong>(float $timeout, callable $callback)
+    <strong>addTimer</strong>(float|int $timeout, callable $callback)
         </code>
     </h3>
     <div class="details">
@@ -495,7 +495,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>float</td>
+                <td>float|int</td>
                 <td>$timeout</td>
                 <td></td>
             </tr>
