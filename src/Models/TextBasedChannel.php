@@ -342,8 +342,8 @@ class TextBasedChannel extends ClientBase
      * @param  bool  $force  Reset typing counter and stop sending the indicator.
      */
     function stopTyping(bool $force = false) {
-        if($this->typingCount() === 0) {
-            return \React\Promise\resolve();
+        if($this->typingTriggered['count'] === 0) {
+            return;
         }
         
         $this->typingTriggered['count']--;
