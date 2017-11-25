@@ -143,6 +143,17 @@ class Constants {
     const WS_DEFAULT_COMPRESSION = 'zlib-stream';
     
     /**
+     * Activity types. One of playing, streaming, listening or watching.
+     * @var array
+     */
+    const ACTIVITY_TYPES = array(
+        0 => 'playing',
+        1 => 'streaming',
+        2 => 'listening',
+        3 => 'watching'
+    );
+    
+    /**
      * Channel Types. One of text, dm, voice, group or category.
      * @var array
      */
