@@ -91,7 +91,7 @@ class URLHelpers {
         
         self::setTimer();
         
-        return self::$http->sendAsync($request, $requestOptions);
+        return self::$http->sendAsync($request, ($requestOptions ?? array()));
     }
     
     /**
@@ -105,7 +105,7 @@ class URLHelpers {
             self::setHTTPClient();
         }
         
-        return self::$http->send($request, $requestOptions);
+        return self::$http->send($request, ($requestOptions ?? array()));
     }
     
     /**
@@ -121,7 +121,7 @@ class URLHelpers {
         self::setTimer();
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($url) {
-            $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+            $request = new \GuzzleHttp\Psr7\Request('GET', $url, array('User-Agent' => \CharlotteDunois\Yasmin\Constants::DEFAULT_USER_AGENT));
             
             self::$http->sendAsync($request)->then(function ($response) use ($resolve) {
                 $resolve($response->getBody());

@@ -20,6 +20,13 @@ class Constants {
     const VERSION = '0.1.1';
     
     /**
+     * The default HTTP user agent.
+     * @var string
+     * @internal
+     */
+    const DEFAULT_USER_AGENT = 'Yasmin (https://github.com/CharlotteDunois/Yasmin)';
+    
+    /**
      * WS OP codes.
      * @var array
      * @internal
