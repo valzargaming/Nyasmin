@@ -139,7 +139,7 @@ class URLHelpers {
             $request = new \GuzzleHttp\Psr7\Request('GET', $url, $requestHeaders);
             
             self::$http->sendAsync($request)->then(function ($response) use ($resolve) {
-                $resolve($response->getBody());
+                $resolve((string) $response->getBody());
             }, $reject);
         }));
     }
