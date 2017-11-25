@@ -126,10 +126,10 @@ class URLHelpers {
                 $requestHeaders = array();
             }
             
-            foreach($requestHeaders as $key => &$val) {
+            foreach($requestHeaders as $key => $val) {
                 unset($requestHeaders[$key]);
-                $key = \ucwords($key, '-');
-                $requestHeaders[$key] = $val;
+                $nkey = \ucwords($key, '-');
+                $requestHeaders[$nkey] = $val;
             }
             
             if(empty($requestHeaders['User-Agent'])) {
