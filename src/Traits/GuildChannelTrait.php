@@ -252,9 +252,9 @@ trait GuildChannelTrait {
     /**
      * Overwrites the permissions for a member or role in this channel. Resolves with an instance of PermissionOverwrite.
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\Role|string  $memberOrRole  The member or role.
-     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                             $allow         Which permissions should be allowed?
-     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                             $deny          Which permissions should be denied?
-     * @param string                                                                                         $reason        The reason for this.
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $allow         Which permissions should be allowed?
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $deny          Which permissions should be denied?
+     * @param string                                                                                 $reason        The reason for this.
      * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Models\PermissionOverwrite

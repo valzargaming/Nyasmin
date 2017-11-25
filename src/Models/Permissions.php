@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property int  $bitfield  The bitfield value.
  */
-class Permissions extends ClientBase {
+class Permissions extends Base {
     const ALL = 2146958591;
     protected $bitfield;
     
