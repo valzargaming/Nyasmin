@@ -149,6 +149,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      *      'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext) <br />
      *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched) <br />
      *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration) <br />
+     *      'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime) <br />
      *      'shardID' => int, (shard ID, important for sharding) <br />
      *      'shardCount' => int, (shard count, important for sharding) <br />
      *      'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done) <br />
@@ -544,6 +545,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
             'messageCacheLifetime' => 'integer|min:0',
+            'messageSweepInterval' => 'integer|min:0',
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
             'http.restTimeOffset' => 'integer',
