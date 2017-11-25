@@ -459,7 +459,7 @@ class GuildMember extends ClientBase {
      * @internal
      */
     function _patch(array $data) {
-        if(!isset($data['nick']) && $this->nickname) {
+        if(!isset($data['nick'])) {
             $this->nickname = null;
         } elseif($data['nick'] !== $this->nickname) {
             $this->nickname = $data['nick'];
