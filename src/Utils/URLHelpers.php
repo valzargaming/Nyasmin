@@ -110,18 +110,33 @@ class URLHelpers {
     
     /**
      * Asynchronously resolves a given URL to the response body. Resolves with a string.
-     * @param string  $url
+     * @param string      $url
+     * @param array|null  $requestHeaders
      * @return \React\Promise\Promise
      */
-    static function resolveURLToData(string $url) {
+    static function resolveURLToData(string $url, array $requestHeaders = null) {
         if(!self::$http) {
             self::setHTTPClient();
         }
         
         self::setTimer();
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($url) {
-            $request = new \GuzzleHttp\Psr7\Request('GET', $url, array('User-Agent' => \CharlotteDunois\Yasmin\Constants::DEFAULT_USER_AGENT));
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($url, $requestHeaders) {
+            if($requestHeaders === null) {
+                $requestHeaders = array();
+            }
+            
+            foreach($requestHeaders as $key => &$val) {
+                unset($requestHeaders[$key]);
+                $key = \ucwords($key, '-');
+                $requestHeaders[$key] = $val;
+            }
+            
+            if(empty($requestHeaders['User-Agent'])) {
+                $requestHeaders['User-Agent'] = \CharlotteDunois\Yasmin\Constants::DEFAULT_USER_AGENT;
+            }
+            
+            $request = new \GuzzleHttp\Psr7\Request('GET', $url, $requestHeaders);
             
             self::$http->sendAsync($request)->then(function ($response) use ($resolve) {
                 $resolve($response->getBody());
