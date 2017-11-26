@@ -271,11 +271,11 @@ trait GuildChannelTrait {
         }
         
         if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
-            throw new \InvalidArgumentException('Allow has to be an int or instanceof Permissions');
+            throw new \InvalidArgumentException('Allow has to be an int or an instance of Permissions');
         }
         
         if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
-            throw new \InvalidArgumentException('Deny has to be an int or instanceof Permissions');
+            throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
         }
         
         $options['allow'] = $allow;
