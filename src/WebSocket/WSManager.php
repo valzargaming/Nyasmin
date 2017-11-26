@@ -270,8 +270,11 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                             $this->client->emit('error', $e);
                             $this->reconnect(true);
                             return;
-                        } catch(\BadMethodCallException $e) {
-                            $this->client->emit('error', $e);
+                        } catch(\Throwable $e) {
+                            $this->reconnect(true);
+                            return;
+                        } catch(\Exception $e) {
+                            $this->reconnect(true);
                             return;
                         }
                     }
