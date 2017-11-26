@@ -276,6 +276,9 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                         } catch(\Exception $e) {
                             $this->reconnect(true);
                             return;
+                        } catch(\ErrorException $e) {
+                            $this->reconnect(true);
+                            return;
                         }
                     }
                     
