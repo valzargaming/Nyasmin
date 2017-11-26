@@ -231,7 +231,7 @@ class Message extends ClientBase {
             if($timeout > 0) {
                 $this->client->addTimer($timeout, function () use ($reason, $resolve, $reject) {
                     $this->delete(0, $reason)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-                }, true);
+                });
             } else {
                 $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
                     $resolve();

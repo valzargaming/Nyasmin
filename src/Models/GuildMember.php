@@ -330,6 +330,10 @@ class GuildMember extends ClientBase {
      */
     function permissionsIn($channel) {
         $channel = $this->guild->channels->resolve($channel);
+        if(!($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface)) {
+            throw new \InvalidArgumentException('Given channel is not a guild channel');
+        }
+        
         return $channel->permissionsFor($this);
     }
     
