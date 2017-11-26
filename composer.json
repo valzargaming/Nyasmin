@@ -12,6 +12,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.0",
+        "ext-bcmath": "*",
         "ratchet/pawl": "^0.3.1",
         "react/event-loop": "^0.4.3",
         "react/promise": "^2.5",
