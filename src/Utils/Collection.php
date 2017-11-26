@@ -70,7 +70,7 @@ class Collection implements \Iterator {
      * @return bool
      */
     function valid() {
-        return (\current($this->data) !== false);
+        return (\key($this->data) !== null);
     }
     
     /**
