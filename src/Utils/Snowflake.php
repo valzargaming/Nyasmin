@@ -106,7 +106,7 @@ class Snowflake {
      * @param string $input
      * @return string
      */
-    function decimal2Binary(string $input) {
+    static function decimal2Binary(string $input) {
         $binary = '';
         
         while($input != '0') {
@@ -123,7 +123,7 @@ class Snowflake {
      * @param string $input
      * @return string
      */
-    function binary2Decimal(string $input) {
+    static function binary2Decimal(string $input) {
         $decimal = '';
 
         $leni = \strlen($input);
