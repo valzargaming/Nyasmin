@@ -118,11 +118,17 @@ class ClientUser extends User {
     
     /**
      * Set your playing game. Resolves with $this.
-     * @param string       $name  The game name.
-     * @param string|void  $url   If you're streaming, this is the url to the stream.
+     * @param string|null  $name  The game name.
+     * @param string       $url   If you're streaming, this is the url to the stream.
      * @return \React\Promise\Promise
      */
-    function setGame(string $name, string $url = '') {
+    function setGame(string $name = null, string $url = '') {
+        if($name === null) {
+            return $this->setPresence(array(
+                'game' => null
+            ));
+        }
+        
         $presence = array(
             'game' => array(
                 'name' => $name,
