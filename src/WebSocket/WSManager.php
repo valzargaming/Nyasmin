@@ -342,7 +342,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                 }
                 
                 if($reconnect) {
-                    return $this->client->login($this->client->token, true);
+                    return $this->renewConnection();
                 }
                 
                 $reject($error);
@@ -377,6 +377,18 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         
         $this->client->emit('debug', 'Disconnecting from WS in order to reconnect');
         $this->ws->close(1006, 'Reconnect required');
+    }
+    
+    protected function renewConnection() {
+        return $this->client->login($this->client->token, true)->otherwise(function ($error) {
+            $this->client->emit('debug', 'Error making new login after failed connection attempt... retrying in 30 seconds');
+            
+            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+                $this->client->addTimer(30, function () use ($resolve, $reject) {
+                    $this->renewConnection()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                });
+            }));
+        });
     }
     
     /**
