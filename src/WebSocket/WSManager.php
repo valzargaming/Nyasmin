@@ -210,7 +210,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             
             if(($this->lastIdentify ?? 0) > (\time() - 30)) { // Make sure we reconnect after at least 30 seconds, if there was like an outage, to prevent spamming
                 return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway, $querystring) {
-                    $this->client->getLoop()->addTimer((30 - (\time() - $this->lastIdentify)), function () use ($gateway, $querystring, $resolve, $reject) {
+                    $time = (30 - (\time() - $this->lastIdentify));
+                    $this->client->emit('debug', 'Reconnect will be attempted in '.$time.' seconds');
+                    
+                    $this->client->getLoop()->addTimer($time, function () use ($gateway, $querystring, $resolve, $reject) {
                         $this->connect($gateway, $querystring)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                     });
                 }));
@@ -253,6 +256,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                 
                 $this->lastIdentify = \time();
                 $this->sendIdentify();
+                
                 $this->once('self.ws.ready', function () use ($resolve) {
                     $resolve();
                 });
@@ -330,15 +334,12 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                         return;
                     }
                     
-                    if($code === 1000 || !\in_array($code, $this->wsCloseCodes['resumable'])) {
+                    if($code === 1000 || ($code >= 4000 && !\in_array($code, $this->wsCloseCodes['resumable']))) {
                         $this->wsSessionID = null;
                     }
                     
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
-                    $this->connect()->otherwise(function ($error) {
-                        $this->client->emit('error', $error);
-                        $this->client->destroy();
-                    });
+                    $this->renewConnection();
                 });
             }, function($error) use ($reconnect, $reject) {
                 if($this->ws) {
