@@ -323,6 +323,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     if($code === 1000 && $this->expectedClose === true) {
                         $this->gateway = null;
                         $this->queue = array();
+                        
+                        $this->wsSessionID = null;
+                        $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
+                        
                         return;
                     }
                     
@@ -361,9 +365,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         
         $this->expectedClose = true;
         $this->ws->close($code, $reason);
-        
-        $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_IDLE;
-        $this->wsSessionID = null;
     }
     
     function reconnect($resumable = true) {
