@@ -19,7 +19,7 @@ class DataHelpers {
     const DEFAULT_MESSAGE_SPLIT_OPTIONS = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
     
     /**
-     * Resolves a color to an int.
+     * Resolves a color to an integer.
      * @param array|int|string  $color
      * @return int
      * @throws \InvalidArgumentException
@@ -32,7 +32,7 @@ class DataHelpers {
         $input = (string) $color;
         
         if(!\is_array($color)) {
-            $color = \str_split(\str_replace('#', '', (string) $color), 2);
+            return \hexdec($input);
         }
         
         if(\count($color) < 1) {
