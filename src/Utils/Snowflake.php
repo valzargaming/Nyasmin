@@ -90,7 +90,7 @@ class Snowflake {
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\base_convert((self::$incrementIndex++), 10, 2), 12, 0, \STR_PAD_LEFT);
-        return \base_convert($binary);
+        return \base_convert($binary, 2, 10);
     }
     
     /**
