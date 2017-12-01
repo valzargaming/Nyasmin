@@ -119,10 +119,10 @@ class ClientUser extends User {
     /**
      * Set your activity. Resolves with $this.
      * @param string|null  $name  The activity name.
-     * @param int          $type  The type of your activity. Should be listening (2) or watching (3).
+     * @param int          $type  The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
      * @return \React\Promise\Promise
      */
-    function setActivity(string $name = null, int $type) {
+    function setActivity(string $name = null, int $type = 0) {
         if($name === null) {
             return $this->setPresence(array(
                 'game' => null
