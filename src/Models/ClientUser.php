@@ -118,14 +118,14 @@ class ClientUser extends User {
     
     /**
      * Set your activity. Resolves with $this.
-     * @param string|null  $name  The activity name.
-     * @param int          $type  The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
+     * @param \CharlotteDunois\Yasmin\Models\Activity|string|null  $name  The activity name.
+     * @param int                                                  $type  Optional if first argument is an Activity. The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
      * @return \React\Promise\Promise
      */
-    function setActivity(string $name = null, int $type = 0) {
-        if($name === null) {
+    function setActivity($name = null, int $type = 0) {
+        if($name === null || $name instanceof \CharlotteDunois\Yasmin\Models\Activity) {
             return $this->setPresence(array(
-                'game' => null
+                'game' => ($name instanceof \CharlotteDunois\Yasmin\Models\Activity ? $name->jsonSerialize() : $name)
             ));
         }
         
