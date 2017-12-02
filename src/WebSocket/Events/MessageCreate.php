@@ -26,15 +26,33 @@ class MessageCreate {
         if($channel) {
             $message = $channel->_createMessage($data);
             
-            if($message->guild && !$message->member && !$message->author->webhook) {
-                $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
-                    $this->client->emit('message', $message);
-                }, function () use ($message) {
-                    $this->client->emit('message', $message);
-                });
+            if($message->mentions->users->count() > 0 && $message->mentions->users->count() > $message->mentions->members->count()) {
+                $promise = array();
+                
+                foreach($message->mentions->users as $user) {
+                    $promise[] = $message->guild->fetchMember($user->id)->then(function ($member) use ($message) {
+                        $message->mentions->members->set($member->id, $member);
+                    }, function ($error) {
+                        $this->client->emit('error', $error);
+                    });
+                }
+                
+                $prm = \React\Promise\all($promise);
             } else {
-                $this->client->emit('message', $message);
+                $prm = \React\Promise\resolve();
             }
+            
+            $prm->then(function () use ($message) {
+                if($message->guild && !$message->member && !$message->author->webhook) {
+                    $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
+                        $this->client->emit('message', $message);
+                    }, function () use ($message) {
+                        $this->client->emit('message', $message);
+                    });
+                } else {
+                    $this->client->emit('message', $message);
+                }
+            })->done(null, array($this->client, 'handlePromiseRejection'));
         }
     }
 }
