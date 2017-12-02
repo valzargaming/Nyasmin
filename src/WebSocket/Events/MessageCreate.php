@@ -26,7 +26,7 @@ class MessageCreate {
         if($channel) {
             $message = $channel->_createMessage($data);
             
-            if($message->mentions->users->count() > 0 && $message->mentions->users->count() > $message->mentions->members->count()) {
+            if($message->guild && $message->mentions->users->count() > 0 && $message->mentions->users->count() > $message->mentions->members->count()) {
                 $promise = array();
                 
                 foreach($message->mentions->users as $user) {
