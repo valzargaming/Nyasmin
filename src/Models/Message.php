@@ -210,7 +210,7 @@ class Message extends ClientBase {
                 $msg['content'] = $content;
             }
             
-            if(!empty($options['embed'])) {
+            if(\array_key_exists('embed', $options)) {
                 $msg['embed'] = $options['embed'];
             }
             
