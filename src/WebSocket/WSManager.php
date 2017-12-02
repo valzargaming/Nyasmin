@@ -256,8 +256,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                 
                 $this->lastIdentify = \time();
                 $this->sendIdentify();
+                $ready = false;
                 
-                $this->once('self.ws.ready', function () use ($resolve) {
+                $this->once('self.ws.ready', function () use (&$ready, $resolve) {
+                    $ready = true;
                     $resolve();
                 });
                 
@@ -288,9 +290,9 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     $this->wshandler->handle($message);
                 });
                 
-                $this->ws->on('error', function ($error) {
-                    if(!$this->client->readyTimestamp) {
-                        throw $error;
+                $this->ws->on('error', function ($error) use (&$ready, $reject) {
+                    if($ready === false) {
+                        return $reject($error);
                     }
                     
                     $this->client->emit('error', $error);
@@ -339,9 +341,11 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     }
                     
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
-                    $this->renewConnection();
+                    $this->renewConnection(false);
                 });
             }, function($error) use ($reconnect, $reject) {
+                $this->client->emit('error', $error);
+                
                 if($this->ws) {
                     $this->ws->close(1006);
                 }
@@ -381,13 +385,13 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $this->ws->close(1006, 'Reconnect required');
     }
     
-    protected function renewConnection() {
-        return $this->client->login($this->client->token, true)->otherwise(function ($error) {
+    protected function renewConnection(bool $forceNewGateway = true) {
+        return $this->client->login($this->client->token, $forceNewGateway)->otherwise(function ($error) use ($forceNewGateway) {
             $this->client->emit('debug', 'Error making new login after failed connection attempt... retrying in 30 seconds');
             
-            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-                $this->client->addTimer(30, function () use ($resolve, $reject) {
-                    $this->renewConnection()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($forceNewGateway) {
+                $this->client->addTimer(30, function () use ($forceNewGateway, $resolve, $reject) {
+                    $this->renewConnection($forceNewGateway)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                 });
             }));
         });
