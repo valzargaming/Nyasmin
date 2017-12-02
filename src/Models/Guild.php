@@ -21,11 +21,11 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                         $ownerID                      The ID of the owner.
  * @property bool                                                           $large                        Whether the guild is considered large.
  * @property int                                                            $memberCount                  How many members the guild has.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $channels                     A collection of guild channels, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $emojis                       A collection of custom emojis, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $members                      A collection of cached members, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $roles                        A collection of guild roles, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $presences                    A collection of guild member presences, mapped by user ID.
+ * @property \CharlotteDunois\Yasmin\Models\ChannelStorage                  $channels                     Holds a guild's channels, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\EmojiStorage                    $emojis                       Holds a guild's emojis, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\GuildMemberStorage              $members                      Holds a guild's cached members, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\RoleStorage                     $roles                        Holds a guild's roles, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\PresenceStorage                 $presences                    Holds a guild's presences of members, mapped by user ID.
  * @property string                                                         $defaultMessageNotifications  The type of message that should notify you. {@see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS}
  * @property string                                                         $explicitContentFilter        The explicit content filter level of the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER}
  * @property string                                                         $region                       The region the guild is located in.
