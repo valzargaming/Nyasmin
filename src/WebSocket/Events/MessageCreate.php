@@ -44,7 +44,7 @@ class MessageCreate {
             
             $prm->then(function () use ($message) {
                 if($message->guild && !$message->member && !$message->author->webhook) {
-                    $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
+                    return $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
                         $this->client->emit('message', $message);
                     }, function () use ($message) {
                         $this->client->emit('message', $message);
