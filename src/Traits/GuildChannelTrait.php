@@ -64,7 +64,7 @@ trait GuildChannelTrait {
         );
         
         if($withPermissions) {
-            $data['permissions_overwrites'] = $this->permissionOverwrites->all();
+            $data['permission_overwrites'] = \array_values($this->permissionOverwrites->all());
         }
         
         if($withTopic) {

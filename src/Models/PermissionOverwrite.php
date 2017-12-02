@@ -83,7 +83,7 @@ class PermissionOverwrite extends ClientBase {
     function JsonSerialize() {
         return array(
             'type' => $this->type,
-            'target' => $this->id,
+            'id' => $this->id,
             'allow' => $this->allow,
             'deny' => $this->deny
         );
