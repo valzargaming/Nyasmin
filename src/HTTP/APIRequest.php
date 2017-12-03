@@ -105,10 +105,11 @@ class APIRequest {
                     continue;
                 }
                 
+                $field = ($file['field'] ?? 'file-'.\bin2hex(\random_bytes(3)));
                 $options['multipart'][] = array(
-                    'name' => ($file['field'] ?? 'file-'.\bin2hex(\random_bytes(3))),
+                    'name' => $field,
                     'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'], 'r')),
-                    'filename' => (isset($file['name']) ? $file['name'] : (isset($file['path']) ? \basename($file['path']) : $file['name'].'jpg'))
+                    'filename' => (isset($file['name']) ? $file['name'] : (isset($file['path']) ? \basename($file['path']) : $field.'jpg'))
                 );
             }
             

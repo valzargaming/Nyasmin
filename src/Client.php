@@ -527,7 +527,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     }
     
     /**
-     * Emits an error var $for a rejected promise.
+     * Emits an error for an unhandled promise rejection.
      * @internal
      */
     function handlePromiseRejection($error) {
