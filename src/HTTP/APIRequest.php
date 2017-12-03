@@ -109,7 +109,7 @@ class APIRequest {
                 $options['multipart'][] = array(
                     'name' => $field,
                     'contents' => (isset($file['data']) ? $file['data'] : \fopen($file['path'], 'r')),
-                    'filename' => (isset($file['name']) ? $file['name'] : (isset($file['path']) ? \basename($file['path']) : $field.'jpg'))
+                    'filename' => (isset($file['name']) ? $file['name'] : (isset($file['path']) ? \basename($file['path']) : $field.'.jpg'))
                 );
             }
             
