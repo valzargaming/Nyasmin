@@ -73,6 +73,12 @@ class APIManager {
     protected $running = false;
     
     /**
+     * Running buckets we are waiting for a response.
+     * @var array
+     */
+    protected $runningBuckets = array();
+    
+    /**
      * @param \CharlotteDunois\Yasmin\Client $client
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
@@ -279,6 +285,18 @@ class APIManager {
      */
     protected function processItem($item) {
         if($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) {
+            if(\in_array($item->getEndpoint(), $this->runningBuckets)) {
+                $this->queue[] = $item;
+                
+                foreach($this->queue as $qitem) {
+                    if(!($qitem instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) || !\in_array($qitem->getEndpoint(), $this->runningBuckets)) {
+                        $this->processItem($qitem);
+                    }
+                }
+                
+                return;
+            }
+            
             $item = $this->extractFromBucket($item);
         }
         
@@ -325,6 +343,7 @@ class APIManager {
         
         if(!empty($endpoint)) {
             $ratelimit = $this->getRatelimitBucket($endpoint);
+            $this->runningBuckets[] = $ratelimit->getEndpoint();
         }
         
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().'"');
@@ -337,7 +356,12 @@ class APIManager {
             }
         }, function ($error) use ($item) {
             $item->deferred->reject($error);
-        })->then(function () {
+        })->then(function () use ($ratelimit) {
+            $key = \array_search($ratelimit->getEndpoint(), $this->runningBuckets);
+            if($key !== false) {
+                unset($this->runningBuckets[$key]);
+            }
+            
             $this->processDelayed();
         }, array($this->client, 'handlePromiseRejection'));
     }
