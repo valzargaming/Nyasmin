@@ -67,12 +67,6 @@ class APIManager {
     protected $queue = array();
     
     /**
-     * Determines whether we're processing the queue or not.
-     * @var bool
-     */
-    protected $running = false;
-    
-    /**
      * Running buckets we are waiting for a response.
      * @var array
      */
@@ -160,7 +154,7 @@ class APIManager {
                 $this->queue[] = $apirequest;
             }
             
-            $this->startQueue();
+            $this->processFuture();
         }));
     }
     
@@ -170,18 +164,6 @@ class APIManager {
      */
     function unshiftQueue(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
         \array_unshift($this->queue, $apirequest);
-    }
-    
-    /**
-     * Starts the queue.
-     */
-    function startQueue() {
-        if($this->running === true) {
-            return;
-        }
-        
-        $this->running = true;
-        $this->processFuture();
     }
     
     /**
@@ -226,7 +208,6 @@ class APIManager {
      */
     protected function processFuture() {
         $this->loop->futureTick(function () {
-            $this->client->emit('debug', 'Starting API Manager queue');
             $this->process();
         });
     }
@@ -255,8 +236,6 @@ class APIManager {
     protected function process() {
         if($this->limited === true) {
             if(\time() < $this->resetTime) {
-                $this->client->emit('debug', 'We are API-wise globally ratelimited');
-                
                 $this->client->addTimer(($this->resetTime + 1 - \time()), function () {
                     $this->process();
                 });
@@ -269,9 +248,6 @@ class APIManager {
         }
         
         if(\count($this->queue) === 0) {
-            $this->client->emit('debug', 'No items in queue, ending API manager queue');
-            
-            $this->running = false;
             return;
         }
         
@@ -301,10 +277,6 @@ class APIManager {
         }
         
         if(!($item instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
-            if($item !== true) {
-                $this->process();
-            }
-            
             return;
         }
         
@@ -326,11 +298,11 @@ class APIManager {
             $this->queue[] = $item;
         }
         
-        if($this->handleQueueTiming()) {
+        $this->client->addTimer(($item->getResetTime() + 1 - \time()), function () {
             $this->process();
-        }
+        });
         
-        return true;
+        return false;
     }
     
     /**
@@ -427,6 +399,13 @@ class APIManager {
             $this->limit = $limit ?? $this->limit;
             $this->remaining = $remaining ?? $this->remaining;
             $this->resetTime = $resetTime ?? $this->resetTime;
+            
+            if($this->remaining === 0 && $this->resetTime > \time()) {
+                $this->limited = true;
+                $this->client->emit('debug', 'We are API-wise globally ratelimited');
+            } else {
+                $this->limited = false;
+            }
         } elseif($ratelimit !== null) {
             $ratelimit->handleRatelimit($limit, $remaining, $resetTime);
         }
@@ -437,48 +416,5 @@ class APIManager {
             'remaining' => $remaining,
             'resetTime' => $resetTime
         ));
-    }
-    
-    /**
-     * Handles the timing of the queue (ratelimits).
-     * @return bool
-     */
-    protected function handleQueueTiming() {
-        $cLimited = $this->getQueueReset();
-        
-        if($cLimited <= 0 || $cLimited === \INF) {
-            return true;
-        }
-        
-        $this->client->emit('debug', 'Pausing API manager queue due to ratelimits');
-        
-        $this->running = false;
-        $this->client->addTimer(($cLimited + 1 - \time()), function () {
-            $this->startQueue();
-        });
-        
-        return false;
-    }
-    
-    /**
-     * Returns the reset time of the first reseted item.
-     */
-    protected function getQueueReset() {
-        $cLimited = \array_reduce($this->queue, function ($prev, $val) {
-            if($val instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket && $val->limited()) {
-                $rs = (int) $val->getResetTime();
-                if($rs < $prev) {
-                    return $rs;
-                }
-            }
-            
-            return $prev;
-        }, \INF);
-        
-        if($cLimited === \INF && $this->resetTime) {
-            $cLimited = $this->resetTime;
-        }
-        
-        return $cLimited;
     }
 }
