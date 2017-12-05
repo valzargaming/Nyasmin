@@ -605,17 +605,22 @@ class Collection implements \Iterator {
     }
     
     /**
-     * Returns one random item, or multiple random items inside a Collection, from the Collection. May return a new Collection.
+     * Returns one random item, or multiple random items inside a Collection, from the Collection. Returns a new Collection.
      * @param  int  $num
-     * @return mixed|Collection
+     * @return Collection
     */
     function random(int $num = 1) {
         $rand = \array_rand($this->data, $num);
-        if(\is_array($rand)) {
-            return (new self($rand));
+        if(!\is_array($rand)) {
+            $rand = array($rand);
         }
         
-        return $rand;
+        $col = new self();
+        foreach($rand as $key) {
+            $col->set($key, $this->data[$key]);
+        }
+        
+        return $col;
     }
     
     /**
