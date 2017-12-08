@@ -86,7 +86,7 @@
     
 
             <div class="description">
-            <p>Documents all Client events. ($client->on('name here', callable))</p>            <p>The second parameter of all *Update events is null, if cloning for that event is disabled.</p>                    </div>
+            <p>Documents all Client events. ($client->on('name here', callable))</p>            <p>The second parameter of *Update events is null, if cloning for that event is disabled.</p>                    </div>
     
     
     
@@ -319,7 +319,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_messageReactionAdd">messageReactionAdd</a>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
+                    <a href="#method_messageReactionAdd">messageReactionAdd</a>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         
                                             <p>Emitted when someone reacts to a (cached) message.</p>                </div>
                 <div class="col-md-2"></div>
@@ -329,7 +329,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_messageReactionRemove">messageReactionRemove</a>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
+                    <a href="#method_messageReactionRemove">messageReactionRemove</a>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         
                                             <p>Emitted when a reaction from a (cached) message gets removed.</p>                </div>
                 <div class="col-md-2"></div>
@@ -1181,7 +1181,7 @@
                     <h3 id="method_messageReactionAdd">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>messageReactionAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
+    <strong>messageReactionAdd</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
     </h3>
     <div class="details">
@@ -1199,6 +1199,11 @@
                 <td>$reaction</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -1212,7 +1217,7 @@
                     <h3 id="method_messageReactionRemove">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L55">line 55</a></div>
         <code>                    
-    <strong>messageReactionRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction)
+    <strong>messageReactionRemove</strong>(<abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr> $reaction, <abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr> $user)
         </code>
     </h3>
     <div class="details">
@@ -1228,6 +1233,11 @@
                     <tr>
                 <td><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction ">MessageReaction </abbr></td>
                 <td>$reaction</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="CharlotteDunois\Yasmin\Models\User ">User </abbr></td>
+                <td>$user</td>
                 <td></td>
             </tr>
             </table>

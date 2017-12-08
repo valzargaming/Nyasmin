@@ -41,7 +41,7 @@ class MessageReactionRemove {
                         $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
                     }
                     
-                    $this->client->emit('messageReactionRemove', $reaction);
+                    $this->client->emit('messageReactionRemove', $reaction, $user);
                 }
             }
         }

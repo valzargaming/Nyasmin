@@ -19,7 +19,7 @@
         "react/event-loop": "^0.4.3",
         "react/promise": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
-        "charlottedunois/validator": "^0.1.2",
+        "charlottedunois/validator": "^0.1.4",
         "charlottedunois/eventemitter": "^0.1.2"
     },
     "autoload": {

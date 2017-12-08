@@ -33,7 +33,7 @@ class MessageReactionAdd {
                     $reaction->users->set($user->id, $user);
                 }
                 
-                $this->client->emit('messageReactionAdd', $reaction);
+                $this->client->emit('messageReactionAdd', $reaction, $user);
             }
         }
     }

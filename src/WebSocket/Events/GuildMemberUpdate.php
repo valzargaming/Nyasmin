@@ -21,8 +21,8 @@ class GuildMemberUpdate {
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         
-        $clones = (array) $this->client->getOption('disableClones', array());
-        $this->clones = !\in_array('guildMemberUpdate', $clones);
+        $clones = $this->client->getOption('disableClones', array());
+        $this->clones = !($clones === true || \in_array('guildMemberUpdate', (array) $clones));
     }
     
     function handle(array $data) {

@@ -145,7 +145,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * What do you expect this to do? It makes a new Client instance. Available client options are as following (all are optional):
      *
      *  array( <br />
-     *      'disableClones' => string[], (disables cloning of objects (for perfomance), affects update events) <br />
+     *      'disableClones' => bool|string[], (disables cloning of objects (for perfomance), affects update events - bool: true - disables all cloning) <br />
      *      'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext) <br />
      *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched) <br />
      *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration) <br />
@@ -269,9 +269,16 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * @param string $token  Your token.
      * @param bool   $force  Forces the client to get the gateway address from Discord.
      * @return \React\Promise\Promise
+     * @throws \RuntimeException
      */
     function login(string $token, bool $force = false) {
-        $this->token = \trim($token);
+        $token = \trim($token);
+        
+        if(empty($token)) {
+            throw new \RuntimeException('Token can not be empty');
+        }
+        
+        $this->token = $token;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
             if($this->gateway && !$force) {
@@ -541,7 +548,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      */
     protected function validateClientOptions(array $options) {
         $validator = \CharlotteDunois\Validation\Validator::make($options, array(
-            'disableClones' => 'array',
+            'disableClones' => 'boolean|array',
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
             'messageCacheLifetime' => 'integer|min:0',

@@ -21,8 +21,8 @@ class ChannelUpdate {
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         
-        $clones = (array) $this->client->getOption('disableClones', array());
-        $this->clones = !\in_array('channelUpdate', $clones);
+        $clones = $this->client->getOption('disableClones', array());
+        $this->clones = !($clones === true || \in_array('channelUpdate', (array) $clones));
     }
     
     function handle(array $data) {

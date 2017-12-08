@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin;
 /**
  * Documents all Client events. ($client->on('name here', callable))
  *
- * The second parameter of all *Update events is null, if cloning for that event is disabled.
+ * The second parameter of *Update events is null, if cloning for that event is disabled.
  *
  * @method  ready()                                                                                                                                  Emitted when the client is ready.
  * @method  disconnect()                                                                                                                             Emitted when the client gets disconnected from the gateway.
@@ -38,8 +38,8 @@ namespace CharlotteDunois\Yasmin;
  * @method  messageUpdate(\CharlotteDunois\Yasmin\Models\Message $new, \CharlotteDunois\Yasmin\Models\Message $old)                                  Emitted when a (cached) message gets updated.
  * @method  messageDelete(\CharlotteDunois\Yasmin\Models\Message $message)                                                                           Emitted when a (cached) message gets deleted.
  * @method  messageDeleteBulk(\CharlotteDunois\Yasmin\Utils\Collection $messages)                                                                    Emitted when multiple (cached) message gets deleted. The collection consists of Message objects, mapped by their ID. {@see \CharlotteDunois\Yasmin\Models\Message}
- * @method  messageReactionAdd(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction)                                                             Emitted when someone reacts to a (cached) message.
- * @method  messageReactionRemove(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction)                                                          Emitted when a reaction from a (cached) message gets removed.
+ * @method  messageReactionAdd(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user)                  Emitted when someone reacts to a (cached) message.
+ * @method  messageReactionRemove(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user)               Emitted when a reaction from a (cached) message gets removed.
  * @method  messageReactionRemoveAll(\CharlotteDunois\Yasmin\Models\Message $message)                                                                Emitted when all reactions from a (cached) message gets removed.
  * @method  presenceUpdate(\CharlotteDunois\Yasmin\Models\Presence $presence)                                                                        Emitted when a presence updates.
  * @method  typingStart(\CharlotteDunois\Yasmin\Models\TextBasedChannel $channel, \CharlotteDunois\Yasmin\Models\User $user)                         Emitted when someone starts typing in the channel.

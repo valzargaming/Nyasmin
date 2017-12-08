@@ -199,6 +199,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         }
         
         if($this->compressContext && $this->compressContext->getName()) {
+            $this->client->emit('debug', 'Using compress context '.$this->compressContext->getName());
             $querystring['compress'] = $this->compressContext->getName();
         }
         
@@ -242,6 +243,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                 
                 if($this->compressContext) {
                     $this->compressContext->init();
+                    $this->client->emit('debug', 'Initialized compress context');
                 }
                 
                 $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_NEARLY;
@@ -311,6 +313,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     
                     if($this->compressContext) {
                         $this->compressContext->destroy();
+                        $this->client->emit('debug', 'Destroyed compress context');
                     }
                     
                     $this->ws = null;
@@ -463,8 +466,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $this->authenticated = false;
         
         if(empty($this->client->token)) {
-            $this->client->emit('debug', 'No client token to start with');
-            return;
+            throw new \RuntimeException('No client token to start with');
         }
         
         $op = \CharlotteDunois\Yasmin\Constants::OPCODES['IDENTIFY'];

@@ -21,8 +21,8 @@ class GuildRoleUpdate {
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         
-        $clones = (array) $this->client->getOption('disableClones', array());
-        $this->clones = !\in_array('roleUpdate', $clones);
+        $clones = $this->client->getOption('disableClones', array());
+        $this->clones = !($clones === true || \in_array('roleUpdate', (array) $clones));
     }
     
     function handle(array $data) {
