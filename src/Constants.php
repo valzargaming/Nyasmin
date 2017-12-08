@@ -104,7 +104,8 @@ class Constants {
     const WS_CLOSE_CODES = array(
         4004 => 'Tried to identify with an invalid token',
         4010 => 'Sharding data provided was invalid',
-        4011 => 'Shard would be on too many guilds if connected'
+        4011 => 'Shard would be on too many guilds if connected',
+        4012 => 'Invalid gateway version'
     );
     
     /**
@@ -231,6 +232,33 @@ class Constants {
         2 => 'MEDIUM',
         3 => 'HIGH',
         4 => 'VERY_HIGH'
+    );
+    
+    /**
+     * The default discord role colors. Mapped by uppercase string to integer.
+     * @var arary<string, int>
+     */
+    const DISCORD_COLORS = array(
+        'AQUA' => 1752220,
+        'BLUE' => 3447003,
+        'GREEN' => 3066993,
+        'PURPLE' => 10181046,
+        'GOLD' => 15844367,
+        'ORANGE' => 15105570,
+        'RED' => 15158332,
+        'GREY' => 9807270,
+        'DARKER_GREY' => 8359053,
+        'NAVY' => 3426654,
+        'DARK_AQUA' => 1146986,
+        'DARK_GREEN' => 2067276,
+        'DARK_BLUE' => 2123412,
+        'DARK_GOLD' => 12745742,
+        'DARK_PURPLE' => 7419530,
+        'DARK_ORANGE' => 11027200,
+        'DARK_GREY' => 9936031,
+        'DARK_RED' => 10038562,
+        'LIGHT_GREY' => 12370112,
+        'DARK_NAVY' => 2899536
     );
     
     /**
