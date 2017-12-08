@@ -28,12 +28,17 @@ class MessageReactionAdd {
             if($message) {
                 $reaction = $message->_addReaction($data);
                 
-                $user = $this->client->users->get($data['user_id']);
-                if($user) {
-                    $reaction->users->set($user->id, $user);
+                if($this->client->users->has($data['user_id'])) {
+                    $user = \React\Promise\resolve($this->client->users->get($data['user_id']));
+                } else {
+                    $user = $this->client->fetchUser($data['user_id']);
                 }
                 
-                $this->client->emit('messageReactionAdd', $reaction, $user);
+                $user->then(function ($user) use ($reaction) {
+                    $reaction->users->set($user->id, $user);
+                    
+                    $this->client->emit('messageReactionAdd', $reaction, $user);
+                })->done(null, array($this->client, 'handlePromiseRejection'));
             }
         }
     }

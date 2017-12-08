@@ -32,16 +32,20 @@ class MessageReactionRemove {
                 if($reaction) {
                     $reaction->_decrementCount();
                     
-                    $user = $this->client->users->get($data['user_id']);
-                    if($user) {
+                    if($this->client->users->has($data['user_id'])) {
+                        $user = \React\Promise\resolve($this->client->users->get($data['user_id']));
+                    } else {
+                        $user = $this->client->fetchUser($data['user_id']);
+                    }
+                    
+                    $user->then(function ($user) use ($reaction) {
                         $reaction->users->delete($user->id);
-                    }
-                    
-                    if($reaction->count === 0) {
-                        $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
-                    }
-                    
-                    $this->client->emit('messageReactionRemove', $reaction, $user);
+                        if($reaction->count === 0) {
+                            $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
+                        }
+                        
+                        $this->client->emit('messageReactionRemove', $reaction, $user);
+                    })->done(null, array($this->client, 'handlePromiseRejection'));
                 }
             }
         }
