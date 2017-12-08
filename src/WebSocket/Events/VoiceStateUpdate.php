@@ -21,8 +21,8 @@ class VoiceStateUpdate {
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         
-        $clones = (array) $this->client->getOption('disableClones', array());
-        $this->clones = !\in_array('voiceStateUpdate', $clones);
+        $clones = $this->client->getOption('disableClones', array());
+        $this->clones = !($clones === true || \in_array('voiceStateUpdate', (array) $clones));
     }
     
     function handle(array $data) {
