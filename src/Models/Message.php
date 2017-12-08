@@ -353,7 +353,7 @@ class Message extends ClientBase {
             if(!$emoji) {
                 $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $this->channel->guild : null), $data['emoji']);
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                    $this->channel->guild->emojis->set($emoji->id, $emoji);
+                    $this->channel->guild->emojis->set($id, $emoji);
                 }
             }
             
@@ -364,6 +364,8 @@ class Message extends ClientBase {
             ));
             
             $this->reactions->set($id, $reaction);
+        } else {
+            $reaction->_patch(array('me' => ($this->client->user->id === $data['user_id'])));
         }
         
         $reaction->_incrementCount();
