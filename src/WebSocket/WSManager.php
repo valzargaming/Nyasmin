@@ -517,7 +517,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             return; // Do not heartbeat if unauthenticated
         }
         
-        $this->client->emit('debug', 'Sending WS heartbeat');
+        $this->client->emit('debug', 'Sending WS heartbeat at sequence '.$this->wshandler->sequence);
         
         $this->wsHeartbeat['ack'] = false;
         $this->wsHeartbeat['dateline'] = microtime(true);
@@ -552,6 +552,8 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         
         $this->wsHeartbeat['ack'] = true;
         $this->wsHeartbeat['dateline'] = 0;
+        
+        $this->client->emit('debug', 'Received WS heartbeat ACK');
     }
     
     function _send(array $packet) {
