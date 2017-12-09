@@ -210,7 +210,7 @@ class APIRequest {
             $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
             
             if($ratelimit !== null) {
-                $ratelimit->unshift($this);
+                $this->api->unshiftQueue($ratelimit->unshift($this));
             } else {
                 $this->api->unshiftQueue($this);
             }

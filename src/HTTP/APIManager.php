@@ -160,10 +160,10 @@ class APIManager {
     
     /**
      * Unshifts an item into the queue.
-     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $item
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest|\CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
      */
-    function unshiftQueue(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
-        \array_unshift($this->queue, $apirequest);
+    function unshiftQueue($item) {
+        \array_unshift($this->queue, $item);
     }
     
     /**

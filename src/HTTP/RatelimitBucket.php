@@ -89,18 +89,22 @@ class RatelimitBucket {
     /**
      * Pushes a new request into the queue.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest $request
+     * @return $this
      */
     function push(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         $this->queue[] = $request;
+        return $this;
     }
     
     /**
      * Unshifts a new request into the queue. Modifies remaining ratelimit.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest $request
+     * @return $this
      */
     function unshift(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         \array_unshift($this->queue, $request);
         $this->remaining++;
+        return $this;
     }
     
     /**
