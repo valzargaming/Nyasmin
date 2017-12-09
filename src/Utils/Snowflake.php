@@ -34,6 +34,7 @@ class Snowflake {
     protected $binary;
     
     /**
+     * Constructor.
      * @param string|int  $snowflake
      */
     function __construct($snowflake) {
@@ -60,6 +61,7 @@ class Snowflake {
     
     /**
      * @throws \Exception
+     * @internal
      */
     function __get($name) {
         switch($name) {

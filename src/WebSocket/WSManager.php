@@ -174,7 +174,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             break;
         }
         
-        return null;
+        throw new \Exception('Undefined property: '.(self::class).'::$'.$name);
     }
     
     function destroy() {
