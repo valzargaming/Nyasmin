@@ -19,8 +19,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                               $guildID    The guild the webhook belongs to, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
  * @property string                                    $token      The webhook token.
- *
- * @todo Implementation
  */
 class Webhook extends ClientBase {
     protected $id;

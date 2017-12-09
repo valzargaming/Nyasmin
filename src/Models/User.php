@@ -29,8 +29,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
  * @property \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
  * @property string                                               $tag                Username#Discriminator.
- *
- * @todo Implementation
  */
 class User extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {

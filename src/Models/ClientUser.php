@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Represents the Client User.
- * @todo Implementation
  */
 class ClientUser extends User {
     /**

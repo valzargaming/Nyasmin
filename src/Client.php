@@ -23,8 +23,6 @@ namespace CharlotteDunois\Yasmin;
  * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the parent class - only for documentation purpose here.
  * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.
  * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.
- *
- * @todo Implementation
  */
 class Client extends \CharlotteDunois\Events\EventEmitter {
     /**
