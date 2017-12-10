@@ -4,7 +4,7 @@ This table shows the compliance with the PSR 1 and 2.
 
 | PSR | Rule                                                                     | Compliant | Notes                                                                           |
 |-----|--------------------------------------------------------------------------|-----------|---------------------------------------------------------------------------------|
-|  1  | Only `<?php | <?=` tags                                                  |     ✅    |                                                                                 |
+|  1  | Only <?php and <?= tags                                                  |     ✅    |                                                                                 |
 |  1  | Files must use UTF8 w/o BOM                                              |     ✅    |                                                                                 |
 |  1  | Only declares or side effects                                            |     ✅    |                                                                                 |
 |  1  | Follows Autoloading PSR                                                  |     ✅    | PSR-4                                                                           |
