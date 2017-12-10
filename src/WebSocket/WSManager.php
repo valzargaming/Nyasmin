@@ -389,7 +389,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     }
     
     protected function renewConnection(bool $forceNewGateway = true) {
-        return $this->client->login($this->client->token, $forceNewGateway)->otherwise(function ($error) use ($forceNewGateway) {
+        return $this->client->login($this->client->token, $forceNewGateway)->otherwise(function () use ($forceNewGateway) {
             $this->client->emit('debug', 'Error making new login after failed connection attempt... retrying in 30 seconds');
             
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($forceNewGateway) {
