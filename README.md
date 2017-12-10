@@ -50,3 +50,5 @@ If you think something is wrong, or not working as expected, then try to listen 
 
 # Bot Framework
 Want to make a ~~glorious~~ Discord bot with arguments and proper command handling? Fear not! There is [Livia](https://github.com/CharlotteDunois/Livia).
+
+[![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1)](https://discord.gg/hUpnqam)
