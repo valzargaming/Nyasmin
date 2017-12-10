@@ -98,14 +98,14 @@ class Snowflake {
             self::$incrementIndex = 0;
         }
         
-        $mtime = \explode('.', (string) \microtime(true));
+        $mtime = \explode('.', ((string) \microtime(true)));
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         if(\PHP_INT_SIZE === 4) {
             $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\base_convert((self::$incrementIndex++), 10, 2), 12, 0, \STR_PAD_LEFT);
             return \base_convert($binary, 2, 10);
         } else {
-            $binary = \str_pad(\decbin($time), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
+            $binary = \str_pad(\decbin(((int) $time)), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
             return ((string) \bindec($binary));
         }
     }

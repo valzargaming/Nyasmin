@@ -791,7 +791,7 @@ class Collection implements \Iterator {
     */
     function take(int $limit) {
         if($limit < 0) {
-            return $this->slice($limit, \abs($limit));
+            return $this->slice($limit, ((int) \abs($limit)));
         }
         
         return $this->slice(0, $limit);
