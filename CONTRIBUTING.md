@@ -45,6 +45,6 @@ This table shows the compliance with the PSR 1 and 2.
 |  2  | Control struct. closing parentheses and opening brace have one space     |     ✅    |                                                                                 |
 |  2  | Control structucture body indented once                                  |     ✅    |                                                                                 |
 |  2  | if, elseif and else, including spaces, parentheses and braces            |     ✅    |                                                                                 |
-|  2  | switch structure, including case and indentation                         |     ⚠    | The break keyword must be indented at the same level as the case keyword        |
+|  2  | switch structure, including case and indentation                         |     ❌    | The break keyword must be indented at the same level as the case keyword        |
 |  2  | try-catch-finally, including parentheses and braces                      |     ✅    |                                                                                 |
 |  2  | Closures, including spaces, parentheses and braces                       |     ✅    |                                                                                 |
