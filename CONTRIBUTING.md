@@ -30,7 +30,7 @@ This table shows the compliance with the PSR 1 and 2.
 |  2  | Properties should not be prefixed with an underscore                     |     ✅    |                                                                                 |
 |  2  | Visibility declared on all methods                                       |     ❌    | Public declaration is implied                                                   |
 |  2  | Final and abstract declared before visiblity and static after            |     ✅    |                                                                                 |
-|  2  | Methods should not be prefixed with an underscore                        |     ⚠    | Lib-internal methods which need to be access outside of the class are prefixed  |
+|  2  | Methods should not be prefixed with an underscore                        |     ❌    |                                                                                 |
 |  2  | Method opening parentheses have no space before and after them           |     ✅    |                                                                                 |
 |  2  | Method closing parentheses have no space before them                     |     ✅    |                                                                                 |
 |  2  | Method arguments have no space before the comma and one after the comma  |     ✅    |                                                                                 |
@@ -45,6 +45,6 @@ This table shows the compliance with the PSR 1 and 2.
 |  2  | Control struct. closing parentheses and opening brace have one space     |     ✅    |                                                                                 |
 |  2  | Control structucture body indented once                                  |     ✅    |                                                                                 |
 |  2  | if, elseif and else, including spaces, parentheses and braces            |     ✅    |                                                                                 |
-|  2  | switch structure, including case and indentation                         |     ⚠    | The break keyword must be indented at the same level as the case keyword        |
+|  2  | switch structure, including case and indentation                         |     ❌    | The break keyword must be indented at the same level as the case keyword        |
 |  2  | try-catch-finally, including parentheses and braces                      |     ✅    |                                                                                 |
 |  2  | Closures, including spaces, parentheses and braces                       |     ✅    |                                                                                 |
