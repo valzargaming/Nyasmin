@@ -106,7 +106,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
      */
     protected $wsCloseCodes = array(
         'end' => array(
-            4004, 4010, 4011
+            4004, 4010, 4011, 4012
         ),
         'resumable' => array(
             4001, 4002, 4003, 4005, 4008
