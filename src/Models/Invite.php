@@ -24,6 +24,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int|null                                                                                               $uses                Number of times this invite has been used, or null.
  *
  * @property \DateTime|null                                                                                         $createdAt           The DateTime object of the createdTimestamp, if not null.
+ * @property string                                                                                                 $url                 Returns the URL for the invite.
  */
 class Invite extends ClientBase {
     protected $code;
@@ -75,6 +76,9 @@ class Invite extends ClientBase {
                 }
                 
                 return null;
+            break;
+            case 'url':
+                return \CharlotteDunois\Yasmin\Constants::HTTP['invite'].$this->code;
             break;
         }
         

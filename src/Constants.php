@@ -83,7 +83,7 @@ class Constants {
     const HTTP = array(
         'url' => 'https://discordapp.com/api/',
         'version' => 7,
-        'invite' => 'https://discord.gg'
+        'invite' => 'https://discord.gg/'
     );
     
     /**
