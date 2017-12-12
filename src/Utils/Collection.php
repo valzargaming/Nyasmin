@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Utils;
 /**
  * Collection, an util to conventionally store a key-value pair.
  */
-class Collection implements \Iterator {
+class Collection implements \Countable, \Iterator {
     /**
      * @var array
      */
@@ -38,6 +38,7 @@ class Collection implements \Iterator {
     /**
      * Returns the current element.
      * @return mixed
+      * @internal
      */
     function current() {
         return \current($this->data);
@@ -45,6 +46,8 @@ class Collection implements \Iterator {
     
     /**
      * Fetch the key from the current element.
+     * @return mixed
+     * @internal
      */
     function key() {
         return \key($this->data);
@@ -53,6 +56,7 @@ class Collection implements \Iterator {
     /**
      * Advances the internal pointer.
      * @return mixed|false
+     * @internal
      */
     function next() {
         return \next($this->data);
@@ -60,6 +64,7 @@ class Collection implements \Iterator {
     
     /**
      * Resets the internal pointer.
+     * @internal
      */
     function rewind() {
         return \reset($this->data);
@@ -68,9 +73,19 @@ class Collection implements \Iterator {
     /**
      * Checks if current position is valid.
      * @return bool
+     * @internal
      */
     function valid() {
         return (\key($this->data) !== null);
+    }
+    
+    /**
+     * Returns the size of the Collection.
+     * @return int
+     * @internal
+     */
+    function count() {
+        return $this->size();
     }
     
     /**

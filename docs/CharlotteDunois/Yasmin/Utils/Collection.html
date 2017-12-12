@@ -80,7 +80,7 @@
 
     <p>    class
     <strong>Collection</strong>        implements
-        <a target="_blank" href="http://php.net/Iterator">Iterator</a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php">View source</a>)
+        <a target="_blank" href="http://php.net/Countable">Countable</a>, <a target="_blank" href="http://php.net/Iterator">Iterator</a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php">View source</a>)
 </p>
 
         
@@ -193,16 +193,6 @@
                     <a href="#method_count">count</a>()
         
                                             <p>Returns the total number of items in the collection.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    mixed
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_current">current</a>()
-        
-                                            <p>Returns the current element.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -367,16 +357,6 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_key">key</a>()
-        
-                                            <p>Fetch the key from the current element.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
                     <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
@@ -447,16 +427,6 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    mixed|<abbr title="CharlotteDunois\Yasmin\Utils\false">false</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_next">next</a>()
-        
-                                            <p>Advances the internal pointer.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
                     <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
@@ -523,16 +493,6 @@
                     <a href="#method_reverse">reverse</a>(bool $preserve_keys = false)
         
                                             <p>Reverses the order of the collection's items. Returns a new Collection.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_rewind">rewind</a>()
-        
-                                            <p>Resets the internal pointer.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -657,16 +617,6 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    bool
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_valid">valid</a>()
-        
-                                            <p>Checks if current position is valid.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
                     <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
@@ -744,7 +694,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_all">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L111">line 111</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L126">line 126</a></div>
         <code>                    mixed[]
     <strong>all</strong>()
         </code>
@@ -774,7 +724,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_avg">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L120">line 120</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L135">line 135</a></div>
         <code>                    mixed
     <strong>avg</strong>(callable $closure = null)
         </code>
@@ -814,7 +764,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_chunk">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L135">line 135</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L150">line 150</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>chunk</strong>(int $numitems, bool $preserve_keys = false)
         </code>
@@ -859,7 +809,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_clear">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L102">line 102</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L117">line 117</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>
     <strong>clear</strong>()
         </code>
@@ -889,7 +839,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_collapse">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L143">line 143</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L158">line 158</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>collapse</strong>()
         </code>
@@ -919,7 +869,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_combine">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L164">line 164</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L179">line 179</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>combine</strong>(mixed $values)
         </code>
@@ -959,7 +909,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_contains">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L174">line 174</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L189">line 189</a></div>
         <code>                    bool
     <strong>contains</strong>(callable|mixed $item, mixed|null $value = null)
         </code>
@@ -1004,7 +954,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_copy">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L207">line 207</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L222">line 222</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>copy</strong>()
         </code>
@@ -1034,7 +984,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_count">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L199">line 199</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L214">line 214</a></div>
         <code>                    int
     <strong>count</strong>()
         </code>
@@ -1063,38 +1013,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_current">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L42">line 42</a></div>
-        <code>                    mixed
-    <strong>current</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Returns the current element.</p>                                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L92">line 92</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L107">line 107</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>
     <strong>delete</strong>(mixed $key)
         </code>
@@ -1134,7 +1054,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_diff">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L216">line 216</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L231">line 231</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>diff</strong>(mixed[]|<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> $arr)
         </code>
@@ -1174,7 +1094,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_diffKeys">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L229">line 229</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L244">line 244</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>diffKeys</strong>(mixed[]|<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> $arr)
         </code>
@@ -1214,7 +1134,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_each">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L242">line 242</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L257">line 257</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>
     <strong>each</strong>(callable $closure)
         </code>
@@ -1254,7 +1174,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_every">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L259">line 259</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L274">line 274</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>every</strong>(int $nth, int $offset)
         </code>
@@ -1299,7 +1219,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_except">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L275">line 275</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L290">line 290</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>except</strong>(array $keys)
         </code>
@@ -1339,7 +1259,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_filter">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L291">line 291</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L306">line 306</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>filter</strong>(callable $closure)
         </code>
@@ -1379,7 +1299,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_first">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L308">line 308</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L323">line 323</a></div>
         <code>                    mixed|null
     <strong>first</strong>(callable $closure = null)
         </code>
@@ -1419,7 +1339,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flatten">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L328">line 328</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L343">line 343</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>flatten</strong>(int $depth)
         </code>
@@ -1459,7 +1379,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flip">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L337">line 337</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L352">line 352</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>flip</strong>()
         </code>
@@ -1489,7 +1409,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L347">line 347</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L362">line 362</a></div>
         <code>                    mixed|null
     <strong>get</strong>(mixed $key)
         </code>
@@ -1529,7 +1449,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_groupBy">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L360">line 360</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L375">line 375</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>groupBy</strong>(mixed $column)
         </code>
@@ -1569,7 +1489,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_has">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L384">line 384</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L399">line 399</a></div>
         <code>                    bool
     <strong>has</strong>(mixed $key)
         </code>
@@ -1609,7 +1529,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_implode">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L394">line 394</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L409">line 409</a></div>
         <code>                    string
     <strong>implode</strong>(mixed $col, string $glue = &#039;, &#039;)
         </code>
@@ -1654,7 +1574,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_indexOf">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L414">line 414</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L429">line 429</a></div>
         <code>                    int|null
     <strong>indexOf</strong>(mixed $value)
         </code>
@@ -1694,7 +1614,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_intersect">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L432">line 432</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L447">line 447</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>intersect</strong>(mixed[]|<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> $arr)
         </code>
@@ -1733,29 +1653,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_key">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L49">line 49</a></div>
-        <code>                    
-    <strong>key</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Fetch the key from the current element.</p>                                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_keyBy">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L445">line 445</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L460">line 460</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>keyBy</strong>(mixed $col)
         </code>
@@ -1795,7 +1694,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_keys">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L472">line 472</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L487">line 487</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>keys</strong>()
         </code>
@@ -1825,7 +1724,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_last">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L481">line 481</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L496">line 496</a></div>
         <code>                    mixed|null
     <strong>last</strong>(callable $closure = null)
         </code>
@@ -1865,7 +1764,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_map">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L502">line 502</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L517">line 517</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>map</strong>(callable $closure)
         </code>
@@ -1905,7 +1804,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_max">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L513">line 513</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L528">line 528</a></div>
         <code>                    int
     <strong>max</strong>(mixed $key = &#039;&#039;)
         </code>
@@ -1945,7 +1844,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_merge">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L528">line 528</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L543">line 543</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>merge</strong>(array $arr)
         </code>
@@ -1985,7 +1884,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_min">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L537">line 537</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L552">line 552</a></div>
         <code>                    int
     <strong>min</strong>(mixed $key = &#039;&#039;)
         </code>
@@ -2024,38 +1923,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_next">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L57">line 57</a></div>
-        <code>                    mixed|<abbr title="CharlotteDunois\Yasmin\Utils\false">false</abbr>
-    <strong>next</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Advances the internal pointer.</p>                                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed|<abbr title="CharlotteDunois\Yasmin\Utils\false">false</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_only">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L552">line 552</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L567">line 567</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>only</strong>(array $keys)
         </code>
@@ -2095,7 +1964,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_pluck">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L569">line 569</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L584">line 584</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>pluck</strong>(mixed $key, mixed $index = null)
         </code>
@@ -2140,7 +2009,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_pop">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L590">line 590</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L605">line 605</a></div>
         <code>                    mixed
     <strong>pop</strong>()
         </code>
@@ -2170,7 +2039,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_pull">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L599">line 599</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L614">line 614</a></div>
         <code>                    mixed
     <strong>pull</strong>(mixed $key)
         </code>
@@ -2210,7 +2079,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_random">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L612">line 612</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L627">line 627</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>random</strong>(int $num = 1)
         </code>
@@ -2250,7 +2119,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_reduce">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L632">line 632</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L647">line 647</a></div>
         <code>                    mixed|null|void
     <strong>reduce</strong>(callable $closure, mixed|null $carry = null)
         </code>
@@ -2295,7 +2164,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_reverse">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L645">line 645</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L660">line 660</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>reverse</strong>(bool $preserve_keys = false)
         </code>
@@ -2334,29 +2203,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_rewind">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L64">line 64</a></div>
-        <code>                    
-    <strong>rewind</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Resets the internal pointer.</p>                                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_search">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L655">line 655</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L670">line 670</a></div>
         <code>                    mixed|bool
     <strong>search</strong>(callable|mixed $needle, bool $strict = false)
         </code>
@@ -2401,7 +2249,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_set">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L82">line 82</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L97">line 97</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>
     <strong>set</strong>(mixed $key, mixed $value)
         </code>
@@ -2446,7 +2294,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_shift">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L674">line 674</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L689">line 689</a></div>
         <code>                    mixed
     <strong>shift</strong>()
         </code>
@@ -2476,7 +2324,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_shuffle">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L682">line 682</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L697">line 697</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>shuffle</strong>()
         </code>
@@ -2506,7 +2354,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_slice">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L696">line 696</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L711">line 711</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>slice</strong>(int $offset, int $limit = null, bool $preserve_keys = false)
         </code>
@@ -2556,7 +2404,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_sort">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L707">line 707</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L722">line 722</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>sort</strong>(callable $closure = null, int $options = SORT_REGULAR)
         </code>
@@ -2601,7 +2449,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_sortBy">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L726">line 726</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L741">line 741</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>sortBy</strong>(mixed|<a target="_blank" href="http://php.net/Closure">Closure</a> $sortkey, int $options = SORT_REGULAR, bool $descending = false)
         </code>
@@ -2651,7 +2499,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_sortByDesc">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L754">line 754</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L769">line 769</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>sortByDesc</strong>(mixed|<a target="_blank" href="http://php.net/Closure">Closure</a> $sortkey, int $options = SORT_REGULAR)
         </code>
@@ -2696,7 +2544,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_splice">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L765">line 765</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L780">line 780</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>splice</strong>(int $offset, int $length = null, array $replacement = array())
         </code>
@@ -2746,7 +2594,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_sum">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L775">line 775</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L790">line 790</a></div>
         <code>                    int
     <strong>sum</strong>(callable $closure = null)
         </code>
@@ -2786,7 +2634,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_take">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L792">line 792</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L807">line 807</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>take</strong>(int $limit)
         </code>
@@ -2826,7 +2674,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_unique">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L805">line 805</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L820">line 820</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>unique</strong>(mixed $key)
         </code>
@@ -2865,38 +2713,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_valid">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L72">line 72</a></div>
-        <code>                    bool
-    <strong>valid</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Checks if current position is valid.</p>                                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>bool</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_values">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L828">line 828</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L843">line 843</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>values</strong>()
         </code>
@@ -2926,7 +2744,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_where">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L839">line 839</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L854">line 854</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>where</strong>(mixed $key, mixed $value, bool $strict = false)
         </code>
@@ -2976,7 +2794,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_whereIn">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L863">line 863</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L878">line 878</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>whereIn</strong>(array $arr, bool $strict = false)
         </code>
@@ -3021,7 +2839,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_zip">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L888">line 888</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L903">line 903</a></div>
         <code>                    <abbr title="CharlotteDunois\Yasmin\Utils\$this">$this</abbr>|<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
     <strong>zip</strong>(array $arr)
         </code>
