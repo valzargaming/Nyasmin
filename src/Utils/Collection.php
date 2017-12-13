@@ -80,15 +80,6 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
-     * Returns the size of the Collection.
-     * @return int
-     * @internal
-     */
-    function count() {
-        return $this->size();
-    }
-    
-    /**
      * Sets a key-value pair.
      * @param mixed  $key
      * @param mixed  $value
