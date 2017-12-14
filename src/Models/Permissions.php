@@ -86,7 +86,7 @@ class Permissions extends Base {
     
     /**
      * Adds permissions to these ones.
-     * @param int|string  $permissions
+     * @param int|string  $permissions  Variadic argument.
      * @return $this
      * @throws \InvalidArgumentException
      */
@@ -103,7 +103,7 @@ class Permissions extends Base {
     
     /**
      * Removes permissions from these ones.
-     * @param int|string  $permissions
+     * @param int|string  $permissions  Variadic argument.
      * @return $this
      * @throws \InvalidArgumentException
      */

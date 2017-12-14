@@ -419,7 +419,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     
     /**
      * Generates a link that can be used to invite the bot to a guild. Resolves with a string.
-     * @param string|int  $permissions
+     * @param string|int  $permissions  Variadic argument.
      * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
