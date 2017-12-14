@@ -195,16 +195,16 @@ class User extends ClientBase
     }
     
     /**
-     * Fetches the User's connections. Requires connections scope. Resolves with a Collection of connection arrays, mapped by the connection array's ID.
+     * Fetches the User's connections. Requires connections scope. Resolves with a Collection of UserConnection instances, mapped by their ID.
      * @return \React\Promise\Promise
-     * @todo Make UserConnection object.
      */
     function fetchUserConnections() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->user->getUserConnections()->then(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 foreach($data as $conn) {
-                    $collect->set($conn['id'], $conn);
+                    $connection = new \CharlotteDunois\Yasmin\Models\UserConnection($this, $conn);
+                    $collect->set($connection->id, $connection);
                 }
                 
                 $resolve($collect);
