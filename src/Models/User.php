@@ -203,7 +203,7 @@ class User extends ClientBase
             $this->client->apimanager()->endpoints->user->getUserConnections()->then(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 foreach($data as $conn) {
-                    $connection = new \CharlotteDunois\Yasmin\Models\UserConnection($this, $conn);
+                    $connection = new \CharlotteDunois\Yasmin\Models\UserConnection($this->client, $conn);
                     $collect->set($connection->id, $connection);
                 }
                 
