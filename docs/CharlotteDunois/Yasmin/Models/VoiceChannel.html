@@ -125,14 +125,6 @@
                 <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
             </tr>
                     <tr>
-                <td class="type" id="property_connection">
-                                                                                <a href="../../../CharlotteDunois/Yasmin/Voice/VoiceConnection.html"><abbr title="CharlotteDunois\Yasmin\Voice\VoiceConnection">VoiceConnection</abbr></a>|null
-                </td>
-                <td>$connection</td>
-                <td class="last">The voice connection for this voice channel, if the client is connected.</td>
-                <td></td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_createdTimestamp">
                                                                                 int
                 </td>
@@ -299,26 +291,6 @@
         
                                             <p>Fetches all invites of this channel. Resolves with a Collection of Invite instances, mapped by their code.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_fetchInvites"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_join">join</a>()
-        
-                                            <p>Joins the voice channel. Resolves with an instance of VoiceConnection.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    bool
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_leave">leave</a>()
-        
-                                            <p>Leaves the voice channel.</p>                </div>
-                <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -678,75 +650,6 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_join">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/VoiceChannel.php#L117">line 117</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>join</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Joins the voice channel. Resolves with an instance of VoiceConnection.</p>                                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                            <h4>See also</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Voice\VoiceConnection</td>
-                <td></td>
-            </tr>
-            </table>
-
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_leave">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/VoiceChannel.php#L132">line 132</a></div>
-        <code>                    bool
-    <strong>leave</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Leaves the voice channel.</p>                                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>bool</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_lockPermissions">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_lockPermissions"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L302">line 302</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
@@ -968,7 +871,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setBitrate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/VoiceChannel.php#L148">line 148</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/VoiceChannel.php#L114">line 114</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setBitrate</strong>(int $bitrate, string $reason = &#039;&#039;)
         </code>
@@ -1184,7 +1087,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setUserLimit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/VoiceChannel.php#L159">line 159</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/VoiceChannel.php#L125">line 125</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setUserLimit</strong>(int $userLimit, string $reason = &#039;&#039;)
         </code>
