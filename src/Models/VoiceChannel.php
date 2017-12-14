@@ -23,7 +23,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                  $permissionOverwrites   A collection of PermissionOverwrite objects.
  * @property  int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
  *
- * @property  \CharlotteDunois\Yasmin\Voice\VoiceConnection|null                                       $connection             The voice connection for this voice channel, if the client is connected.
  * @property  bool                                                                                     $full                   Checks if the voice channel is full.
  * @property  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
  * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                      $parent                 Returns the channel's parent, or null.
@@ -73,9 +72,6 @@ class VoiceChannel extends ClientBase
         }
         
         switch($name) {
-            case 'connection':
-                return $this->client->voiceConnections->get($this->guild->id);
-            break;
             case 'full':
                 return ($this->userLimit > 0 && $this->userLimit > $this->members->count());
             break;
@@ -106,36 +102,6 @@ class VoiceChannel extends ClientBase
         }
         
         return parent::__get($name);
-    }
-    
-    /**
-     * Joins the voice channel. Resolves with an instance of VoiceConnection.
-     * @return \React\Promise\Promise
-     * @see \CharlotteDunois\Yasmin\Voice\VoiceConnection
-     * @todo Implementation of Voice
-     */
-    function join() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $connection = $this->__get('connection');
-            if($connection) {
-                return $resolve($connection);
-            }
-            
-            $reject(new \Exception('Voice not implemented'));
-        }));
-    }
-    
-    /**
-     * Leaves the voice channel.
-     * @return bool
-     */
-    function leave() {
-        $connection = $this->__get('connection');
-        if($connection) {
-            $connection->disconnect();
-        }
-        
-        return true;
     }
     
     /**

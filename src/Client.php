@@ -17,7 +17,6 @@ namespace CharlotteDunois\Yasmin;
  * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
  * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
  * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection        $voiceConnections  It holds all open voice connections, mapped by guild ID.
  * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as.
  *
  * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the parent class - only for documentation purpose here.
@@ -59,13 +58,6 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * @internal
      */
     protected $users;
-    
-    /**
-     * It holds all open voice connections, mapped by guild ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Voice\VoiceConnection>
-     * @internal
-     */
-    protected $voiceConnections;
     
     /**
      * The last 3 websocket pings (in ms).
@@ -182,7 +174,6 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         $this->guilds = new \CharlotteDunois\Yasmin\Models\GuildStorage($this);
         $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($this);
         $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
-        $this->voiceConnections = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->registerUtils();
     }
@@ -192,7 +183,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * @internal
      */
     function __get($name) {
-        $props = array('channels', 'emojis', 'guilds', 'presences', 'users', 'voiceConnections', 'user');
+        $props = array('channels', 'emojis', 'guilds', 'presences', 'users', 'user');
         
         if(\in_array($name, $props)) {
             return $this->$name;

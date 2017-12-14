@@ -49,7 +49,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                         $nameAcronym                  The acronym that shows up in place of a guild icon.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $systemChannel                The guild's system channel, or null.
  * @property bool                                                           $verified                     Whether the guild is verified.
- * @property \CharlotteDunois\Yasmin\Voice\VoiceConnection|null             $voiceConnection              The open voice connection for the guild, or null.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $widgetChannel                The guild's widget channel, or null.
  */
 class Guild extends ClientBase {
@@ -150,9 +149,6 @@ class Guild extends ClientBase {
             break;
             case 'verified':
                 return \in_array('VERIFIED', $this->features);
-            break;
-            case 'voiceConnection':
-                return $this->client->voiceConnections->get($this->id);
             break;
             case 'widgetChannel':
                 return $this->channels->get($this->widgetChannelID);
