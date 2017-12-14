@@ -227,7 +227,7 @@ class Guild extends ClientBase {
      * Creates a new custom emoji in the guild. Resolves with an instance of Emoji.
      * @param string                                                                                                                                   $file   Filepath or URL, or file data.
      * @param string                                                                                                                                   $name
-     * @param array<string|\CharlotteDunois\Yasmin\Models\Role>|\CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role>   $roles  An role object or the role ID.
+     * @param array|\CharlotteDunois\Yasmin\Utils\Collection                                                                                           $roles  An array or Collection of Role instances or role IDs.
      * @param string  $reason
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Emoji

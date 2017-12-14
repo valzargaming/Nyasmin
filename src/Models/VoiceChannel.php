@@ -17,7 +17,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property  int                                                                                      $createdTimestamp       When this channel was created.
  * @property  string                                                                                   $name                   The name of the channel.
  * @property  int                                                                                      $bitrate                The bitrate of the channel.
- * @property  \CharlotteDunois\Yasmin\Utils\Collection<\CharlotteDunois\Yasmin\Models\GuildMember>     $members                Holds all members which currently are in the voice channel.
+ * @property  \CharlotteDunois\Yasmin\Utils\Collection                                                 $members                Holds all members which currently are in the voice channel. {@see \CharlotteDunois\Yasmin\Models\GuildMember}
  * @property  string|null                                                                              $parentID               The ID of the parent channel, or null.
  * @property  int                                                                                      $position               The position of the channel.
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                  $permissionOverwrites   A collection of PermissionOverwrite objects.

@@ -226,8 +226,8 @@ class GuildMember extends ClientBase {
     
     /**
      * Adds roles to the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role>|array<string|\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
-     * @param string                                                                                                                                   $reason
+     * @param array|\CharlotteDunois\Yasmin\Utils\Collection   $roles    A collection or array of Role instances or role IDs.
+     * @param string                                           $reason
      * @return \React\Promise\Promise
      */
     function addRoles($roles, string $reason = '') {
