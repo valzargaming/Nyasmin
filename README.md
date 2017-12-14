@@ -40,7 +40,7 @@ $loop->run();
 ```
 
 # Voice Support
-There is currently no support for Voice - there probably won't be support for it, ever.
+There is no Voice support, as there are many technical reasons against it.
 
 # Documentation
 https://charlottedunois.github.io/Yasmin/
