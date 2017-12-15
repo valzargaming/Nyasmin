@@ -200,7 +200,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_send">send</a>(string $content, array $options = array())
         
-                                            <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                </div>
+                                            <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with null.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a></small></div>
             </div>
             </div>
@@ -257,7 +257,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L101">line 101</a></div>
+        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L109">line 109</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>delete</strong>(string $reason = &#039;&#039;)
         </code>
@@ -357,7 +357,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_send">
-        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L136">line 136</a></div>
+        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L144">line 144</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>send</strong>(string $content, array $options = array())
         </code>
@@ -367,7 +367,7 @@
     
 
                     <div class="method-description">
-                                    <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                    <p>Options are as following (all are optional):</p>
+                                    <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with null.</p>                    <p>Options are as following (all are optional):</p>
 
 <p>array( <br />
    'embeds' => array&lt;\CharlotteDunois\Yasmin\Models\MessageEmbed|array>, (an array of (embed) array or instance of MessageEmbed) <br />

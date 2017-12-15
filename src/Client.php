@@ -17,7 +17,7 @@ namespace CharlotteDunois\Yasmin;
  * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
  * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
  * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as. The instance gets created when the Client turns ready.
+ * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as. The instance gets created when the client turns ready.
  *
  * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the parent class - only for documentation purpose here.
  * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.
@@ -140,7 +140,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched) <br />
      *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration) <br />
      *      'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime) <br />
-     *      'shardID' => int, (shard ID, important for sharding) <br />
+     *      'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding) <br />
      *      'shardCount' => int, (shard count, important for sharding) <br />
      *      'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done) <br />
      *      'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream, which is currently the only available compression) <br />
