@@ -30,8 +30,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
  * @property string                                               $tag                Username#Discriminator.
  */
-class User extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
+class User extends ClientBase {
     
     protected $id;
     protected $username;
@@ -210,99 +209,6 @@ class User extends ClientBase
                 $resolve($collect);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
-    }
-    
-    /**
-     * Deletes multiple messages at once. Resolves with $this.
-     * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::bulkDelete
-     * @return \React\Promise\Promise
-     */
-    function bulkDelete($messages, string $reason = '') {
-        return $this->createDM()->then(function ($channel) use ($messages, $reason) {
-            $channel->bulkDelete($messages, $reason);
-        });
-    }
-    
-    /**
-     * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their ID.
-     * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::collectMessages
-     * @return \React\Promise\Promise
-     * @see \CharlotteDunois\Yasmin\Models\Message
-     */
-    function collectMessages(callable $filter, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
-            $this->createDM()->then(function ($dm) use ($filter, $options, $resolve, $reject) {
-                return $dm->collectMessages($filter, $options)->then($resolve, $reject);
-            }, $reject)->done();
-        }));
-    }
-    
-    /**
-     * Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
-     * @see \CharlotteDunois\Yasmin\Models\TextBasedChannel::send
-     * @return \React\Promise\Promise
-     * @see \CharlotteDunois\Yasmin\Models\Message
-     */
-    function send(string $message, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($message, $options) {
-            $this->createDM()->then(function ($channel) use ($message, $options, $resolve, $reject) {
-                return $channel->send($message, $options)->then($resolve, $reject);
-            }, $reject)->done();
-        }));
-    }
-    
-    /**
-     * Starts sending the typing indicator in this channel. Counts up a triggered typing counter.
-     */
-    function startTyping() {
-        $this->createDM()->then(function ($channel) {
-            return $channel->startTyping()->done();
-        });
-    }
-    
-    /**
-     * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
-     * @param  bool  $force  Reset typing counter and stop sending the indicator.
-     */
-    function stopTyping(bool $force = false) {
-        $this->createDM()->then(function ($channel) use ($force) {
-            $channel->stopTyping($force)->done();
-        });
-    }
-    
-    /**
-     * Returns the amount of user typing in the DM channel.
-     * @return int
-     */
-    function typingCount() {
-        $channel = $this->__get('dmChannel');
-        if(!$channel) {
-            return 0;
-        }
-        
-        return $channel->typingCount();
-    }
-    
-    /**
-     * Determines whether the user is typing in the given channel or not.
-     * @param \CharlotteDunois\Yasmin\Models\User  $user
-     * @return bool
-     * @throws \InvalidArgumentException
-     */
-    function typingIn($channel) {
-        $channel = $this->client->channels->resolve($channel);
-        return $channel->isTyping($this);
-    }
-    
-    /**
-     * Determines whether how long the user has been typing in the given channel. Returns -1 if the user is not typing.
-     * @param \CharlotteDunois\Yasmin\Models\User  $user
-     * @return int
-     * @throws \InvalidArgumentException
-     */
-    function typingSinceIn($channel) {
-        $channel = $this->client->channels->resolve($channel);
-        return $channel->isTypingSince($this);
     }
     
     /**

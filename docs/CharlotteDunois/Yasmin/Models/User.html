@@ -79,8 +79,7 @@
     </div>
 
     <p>    class
-    <strong>User</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        implements
-        <a href="../../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php">View source</a>)
+    <strong>User</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php">View source</a>)
 </p>
 
         
@@ -259,26 +258,6 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_bulkDelete">bulkDelete</a>($messages, string $reason = &#039;&#039;)
-        
-                                            <p>Deletes multiple messages at once. Resolves with $this.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_collectMessages">collectMessages</a>(callable $filter, array $options = array())
-        
-                                            <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their ID.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
-                </div>
-                <div class="col-md-8 type">
                     <a href="#method_createDM">createDM</a>()
         
                                             <p>Opens a DM channel to this user. Resolves with an instance of DMChannel.</p>                </div>
@@ -334,66 +313,6 @@
                                             <p>Get the URL of the displayed avatar.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="React\Promise\Promise">Promise</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_send">send</a>(string $message, array $options = array())
-        
-                                            <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_startTyping">startTyping</a>()
-        
-                                            <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_stopTyping">stopTyping</a>(bool $force = false)
-        
-                                            <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    int
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_typingCount">typingCount</a>()
-        
-                                            <p>Returns the amount of user typing in the DM channel.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    bool
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_typingIn">typingIn</a>($channel)
-        
-                                            <p>Determines whether the user is typing in the given channel or not.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    int
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_typingSinceIn">typingSinceIn</a>($channel)
-        
-                                            <p>Determines whether how long the user has been typing in the given channel. Returns -1 if the user is not typing.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -402,7 +321,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L311">line 311</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L217">line 217</a></div>
         <code>                    
     <strong>__toString</strong>()
         </code>
@@ -422,120 +341,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_bulkDelete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L220">line 220</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>bulkDelete</strong>($messages, string $reason = &#039;&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Deletes multiple messages at once. Resolves with $this.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$messages</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$reason</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                            <h4>See also</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Models\TextBasedChannel::bulkDelete</td>
-                <td></td>
-            </tr>
-            </table>
-
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_collectMessages">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L232">line 232</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>collectMessages</strong>(callable $filter, array $options = array())
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their ID.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>callable</td>
-                <td>$filter</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                            <h4>See also</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Models\TextBasedChannel::collectMessages</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Models\Message</td>
-                <td></td>
-            </tr>
-            </table>
-
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_createDM">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L131">line 131</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L130">line 130</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createDM</strong>()
         </code>
@@ -574,7 +381,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_deleteDM">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L149">line 149</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L148">line 148</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>deleteDM</strong>()
         </code>
@@ -604,7 +411,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchUserConnections">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L201">line 201</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L200">line 200</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchUserConnections</strong>()
         </code>
@@ -634,7 +441,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getAvatarURL">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L175">line 175</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L174">line 174</a></div>
         <code>                    string|null
     <strong>getAvatarURL</strong>(int $size = 256, string $format = &#039;&#039;)
         </code>
@@ -679,7 +486,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getDefaultAvatarURL">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L165">line 165</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L164">line 164</a></div>
         <code>                    string
     <strong>getDefaultAvatarURL</strong>(int $size = 256)
         </code>
@@ -719,7 +526,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getDisplayAvatarURL">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L193">line 193</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L192">line 192</a></div>
         <code>                    string
     <strong>getDisplayAvatarURL</strong>(int $size = 256, string $format = &#039;&#039;)
         </code>
@@ -757,244 +564,6 @@
     </table>
 
             
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_send">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L246">line 246</a></div>
-        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>send</strong>(string $message, array $options = array())
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$message</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                            <h4>See also</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Models\TextBasedChannel::send</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>\CharlotteDunois\Yasmin\Models\Message</td>
-                <td></td>
-            </tr>
-            </table>
-
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_startTyping">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L257">line 257</a></div>
-        <code>                    
-    <strong>startTyping</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                                                </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_stopTyping">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L267">line 267</a></div>
-        <code>                    
-    <strong>stopTyping</strong>(bool $force = false)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>bool</td>
-                <td>$force</td>
-                <td>Reset typing counter and stop sending the indicator.</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_typingCount">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L277">line 277</a></div>
-        <code>                    int
-    <strong>typingCount</strong>()
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Returns the amount of user typing in the DM channel.</p>                                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>int</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_typingIn">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L292">line 292</a></div>
-        <code>                    bool
-    <strong>typingIn</strong>($channel)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Determines whether the user is typing in the given channel or not.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$channel</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>bool</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="https://secure.php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_typingSinceIn">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/User.php#L303">line 303</a></div>
-        <code>                    int
-    <strong>typingSinceIn</strong>($channel)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Determines whether how long the user has been typing in the given channel. Returns -1 if the user is not typing.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$channel</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>int</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="https://secure.php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>
