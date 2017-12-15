@@ -260,7 +260,7 @@ class MessageEmbed extends Base {
      * Adds a field to this embed.
      * @param string  $title    Maximum length is 256 characters.
      * @param string  $value    Maximum lengt is 1024 characters.
-     * @param bool    $inline
+     * @param bool    $inline   Whether this field gets shown with other inline fields in one line.
      * @return $this
      * @throws \RangeException|\InvalidArgumentException
      */

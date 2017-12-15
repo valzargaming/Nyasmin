@@ -23,7 +23,20 @@ $client->once('ready', function () use ($client) {
         // Making sure the channel exists
         if($channel) {
             $embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-            $embed->setTitle('A new Rich Embed')->setColor(random_int(0, 16777215))->setDescription(':)');
+            
+            $embed
+                ->setTitle('A new Rich Embed')                                                       // Set a title
+                ->setColor(random_int(0, 16777215))                                                  // Set a color (the thing on the left side)
+                ->setDescription(':)')                                                               // Set a description (below title, above fields)
+                ->addField('Test', 'Value')                                                          // Add one field
+                ->addField('Test 2', 'Value 2', true)                                                // Add one inline field
+                ->addField('Test 3', 'Value 3', true)                                                // Add another inline field
+                ->setThumbnail('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')         // Set a thumbnail (the image in the top right corner)
+                ->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             // Set an image (below everything except footer)
+                ->setTimestamp()                                                                     // Sets a timestamp
+                ->setAuthor('Yasmin', 'https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')  // Set an author with icon
+                ->setFooter('Generated with the Rich Embed Build (Y)')                               // Set a footer without icon
+                ->setURL('https://github.com/CharlotteDunois/Yasmin');                               // Set the URL
             
             $channel->send('', array('embed' => $embed))
                     ->otherwise(function ($error) {
