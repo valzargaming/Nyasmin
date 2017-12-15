@@ -17,7 +17,7 @@ namespace CharlotteDunois\Yasmin;
  * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
  * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
  * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as.
+ * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as. The instance gets created when the Client turns ready.
  *
  * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the parent class - only for documentation purpose here.
  * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.
