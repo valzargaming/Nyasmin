@@ -17,7 +17,7 @@ class Constants {
      * The version of Yasmin.
      * @var string
      */
-    const VERSION = '0.1.3';
+    const VERSION = '0.1.4';
     
     /**
      * The default HTTP user agent.
