@@ -85,7 +85,15 @@ class Webhook extends ClientBase {
                     $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 }
                 
-                $this->client->apimanager()->endpoints->webhook->modifyWebhook($this->id, $data, $reason)->then(function ($data) use ($resolve) {
+                $method = 'modifyWebhook';
+                $args = array($this->id, $data, $reason);
+                
+                if(!empty($this->token)) {
+                    $method = 'modifyWebhookToken';
+                    $args = array($this->id, $this->token, $data, $reason);
+                }
+                
+                $this->client->apimanager()->endpoints->webhook->$method(...$args)->then(function ($data) use ($resolve) {
                     $this->_patch($data);
                     $resolve($this);
                 }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));

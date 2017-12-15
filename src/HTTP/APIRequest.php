@@ -93,7 +93,7 @@ class APIRequest {
             )
         );
         
-        if(!empty($this->api->client->token)) {
+        if(empty($this->options['noAuth']) && !empty($this->api->client->token)) {
             $options['headers']['Authorization'] = 'Bot '.$this->api->client->token;
         }
         
