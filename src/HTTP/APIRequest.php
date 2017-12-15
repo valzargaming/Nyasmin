@@ -84,22 +84,22 @@ class APIRequest {
     function request() {
         $url = $this->url.$this->endpoint;
         
-        if(empty($this->api->client->token)) {
-            throw new \Exception('Unable to make a HTTP request without a token');
-        }
-        
         $options = array(
             'http_errors' => false,
             'protocols' => array('https'),
             'expect' => false,
             'headers' => array(
-                'Authorization' => 'Bot '.$this->api->client->token,
                 'User-Agent' => 'DiscordBot (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Constants::VERSION.')'
             )
         );
         
+        if(!empty($this->api->client->token)) {
+            $options['headers']['Authorization'] = 'Bot '.$this->api->client->token;
+        }
+        
         if(!empty($this->options['files']) && \is_array($this->options['files'])) {
             $options['multipart'] = array();
+            
             foreach($this->options['files'] as $file) {
                 if(!isset($file['data']) && !isset($file['path'])) {
                     continue;

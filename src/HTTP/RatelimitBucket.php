@@ -68,6 +68,10 @@ class RatelimitBucket {
         $this->limit = $limit ?? $this->limit;
         $this->remaining = $remaining ?? $this->remaining;
         $this->resetTime = $resetTime ?? $this->resetTime;
+        
+        if($this->remaining === 0 && $this->resetTime > \time()) {
+            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($this->resetTime - \time()).' seconds');
+        }
     }
     
     /**

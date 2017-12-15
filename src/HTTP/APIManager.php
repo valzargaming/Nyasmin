@@ -122,7 +122,7 @@ class APIManager {
     }
     
     /**
-     * Makes an API request,
+     * Makes an API request.
      * @param string  $method
      * @param string  $endpoint
      * @param array   $options
@@ -131,6 +131,36 @@ class APIManager {
     function makeRequest(string $method, string $endpoint, array $options) {
         $request = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
         return $this->add($request);
+    }
+    
+    /**
+     * Makes an API request synchronously
+     * @param string  $method
+     * @param string  $endpoint
+     * @param array   $options
+     * @return \React\Promise\Promise
+     */
+    function makeRequestSync(string $method, string $endpoint, array $options) {
+        $apirequest = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
+        
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
+            try {
+                $request = $apirequest->request();
+                $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
+                
+                $status = $response->getStatusCode();
+                $body = \CharlotteDunois\Yasmin\HTTP\APIRequest::decodeBody($response);
+                
+                if($status >= 300) {
+                    $error = new \Exception($response->getReasonPhrase());
+                    return $reject($error);
+                }
+                
+                $resolve($body);
+            } catch(\Exception $e) {
+                $reject($e);
+            }
+        }));
     }
     
     /**
@@ -168,39 +198,19 @@ class APIManager {
     
     /**
      * Gets the Gateway from the Discord API.
-     * @param bool $bot Should we use the bot endpoint?
+     * @param bool  $bot  Should we use the bot endpoint? Requires token.
      */
     function getGateway(bool $bot = false) {
-        $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
-        return $this->add($gateway);
+        return $this->makeRequest('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
     /**
      * Gets the Gateway from the Discord API synchronously.
-     * @param bool $bot Should we use the bot endpoint?
+     * @param bool  $bot  Should we use the bot endpoint? Requires token.
      * @return \React\Promise\Promise
      */
     function getGatewaySync(bool $bot = false) {
-        $gateway = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, 'GET', 'gateway'.($bot ? '/bot' : ''), array());
-        
-        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
-            try {
-                $request = $gateway->request();
-                $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
-                
-                $status = $response->getStatusCode();
-                $body = \CharlotteDunois\Yasmin\HTTP\APIRequest::decodeBody($response);
-                
-                if($status >= 300) {
-                    $error = new \Exception($response->getReasonPhrase());
-                    return $reject($error);
-                }
-                
-                $resolve($body);
-            } catch(\Exception $e) {
-                $reject($e);
-            }
-        }));
+        return $this->makeRequestSync('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
     /**
@@ -402,7 +412,7 @@ class APIManager {
             
             if($this->remaining === 0 && $this->resetTime > \time()) {
                 $this->limited = true;
-                $this->client->emit('debug', 'We are API-wise globally ratelimited');
+                $this->client->emit('debug', 'Global ratelimit encountered, continueing in '.($this->resetTime - \time()).' seconds');
             } else {
                 $this->limited = false;
             }
