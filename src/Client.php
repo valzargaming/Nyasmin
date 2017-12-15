@@ -168,7 +168,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         
         $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         
-        if(($options['ws.disable'] ?? false) !== true) {
+        if(($options['internal.ws.disable'] ?? false) !== true) {
             $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
         }
         
