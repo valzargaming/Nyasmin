@@ -255,6 +255,16 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    <abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createGroupDM">createGroupDM</a>(array $userWithAccessTokens, array $nicks = array())
+        
+                                            <p>Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     string|null
                 </div>
                 <div class="col-md-8 type">
@@ -366,6 +376,64 @@
             
             
             
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createGroupDM">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L243">line 243</a></div>
+        <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>createGroupDM</strong>(array $userWithAccessTokens, array $nicks = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:</p>                    <p>array(
+     'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
+ )</p>
+
+<p>The nicks array is an associative array of userID => nick. The nick defaults to the username.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$userWithAccessTokens</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$nicks</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>\CharlotteDunois\Yasmin\Models\GroupDMChannel</td>
+                <td></td>
+            </tr>
+            </table>
+
                     </div>
     </div>
 

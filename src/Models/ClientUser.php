@@ -258,4 +258,96 @@ class ClientUser extends User {
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
+    
+    /**
+     * Making these methods throw if someone tries to use them. They also get hidden due to the Sami Renderer removing them.
+    */
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function bulkDelete($messages, string $reason = '') {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function collectMessages(callable $filter, array $options = array()) {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function createDM() {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function deleteDM() {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function fetchUserConnections() {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function send(string $message, array $options = array()) {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function startTyping() {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function stopTyping(bool $force = false) {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function typingCount() {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function typingIn($channel) {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
+    
+    /**
+     * @throws \ErrorException
+     * @internal
+     */
+    function typingSinceIn($channel) {
+        throw new \ErrorException('Can not use this method in ClientUser');
+    }
 }
