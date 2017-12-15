@@ -115,7 +115,7 @@ class Webhook extends ClientBase {
     }
     
     /**
-     * Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
+     * Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with null.
      *
      * Options are as following (all are optional):
      *
@@ -215,7 +215,11 @@ class Webhook extends ClientBase {
     protected function executeWebhook(array $opts, array $files) {
         return $this->client->apimanager()->endpoints->webhook->executeWebhook($this->id, $this->token, $opts, $files, array('wait' => true))->then(function ($data) {
             $channel = $this->client->channels->get($this->channelID);
-            return $channel->_createMessage($data);
+            if($channel) {
+                return $channel->_createMessage($data);
+            }
+            
+            return null;
         });
     }
     

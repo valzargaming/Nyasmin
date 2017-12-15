@@ -190,7 +190,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_send">send</a>(string $content, array $options = array())
         
-                                            <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                </div>
+                                            <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with null.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -311,7 +311,7 @@
     
 
                     <div class="method-description">
-                                    <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                    <p>Options are as following (all are optional):</p>
+                                    <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with null.</p>                    <p>Options are as following (all are optional):</p>
 
 <p>array( <br />
    'embeds' => array&lt;\CharlotteDunois\Yasmin\Models\MessageEmbed|array>, (an array of (embed) array or instance of MessageEmbed) <br />
