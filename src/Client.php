@@ -105,7 +105,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     protected $api;
     
     /**
-     * @var \CharlotteDunois\Yasmin\WebSocket\WSManager
+     * @var \CharlotteDunois\Yasmin\WebSocket\WSManager|null
      * @internal
      */
     protected $ws;
@@ -167,7 +167,10 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         $this->loop = $loop;
         
         $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
-        $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
+        
+        if(($options['ws.disable'] ?? false) !== true) {
+            $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
+        }
         
         $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($this);
         $this->emojis = new \CharlotteDunois\Yasmin\Models\EmojiStorage($this);
