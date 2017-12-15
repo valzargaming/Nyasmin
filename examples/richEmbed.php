@@ -35,7 +35,7 @@ $client->once('ready', function () use ($client) {
                 ->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             // Set an image (below everything except footer)
                 ->setTimestamp()                                                                     // Set a timestamp (gets shown next to footer)
                 ->setAuthor('Yasmin', 'https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')  // Set an author with icon
-                ->setFooter('Generated with the Rich Embed Build (Y)')                               // Set a footer without icon
+                ->setFooter('Generated with the Rich Embed Builder (Y)')                               // Set a footer without icon
                 ->setURL('https://github.com/CharlotteDunois/Yasmin');                               // Set the URL
             
             $channel->send('', array('embed' => $embed))
