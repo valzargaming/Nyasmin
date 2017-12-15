@@ -227,7 +227,7 @@ class MessageEmbed extends Base {
      * @return $this
      */
     function setTimestamp(int $timestamp = null) {
-        $this->timestamp = (new \DateTime(($timestamp !== null ? '@'.$timestamp : 'now')))->format('r');
+        $this->timestamp = (new \DateTime(($timestamp !== null ? '@'.$timestamp : 'now')))->format('c');
         return $this;
     }
     
