@@ -33,7 +33,7 @@ $client->once('ready', function () use ($client) {
                 ->addField('Test 3', 'Value 3', true)                                                // Add another inline field
                 ->setThumbnail('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')         // Set a thumbnail (the image in the top right corner)
                 ->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             // Set an image (below everything except footer)
-                ->setTimestamp()                                                                     // Sets a timestamp
+                ->setTimestamp()                                                                     // Set a timestamp (gets shown next to footer)
                 ->setAuthor('Yasmin', 'https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')  // Set an author with icon
                 ->setFooter('Generated with the Rich Embed Build (Y)')                               // Set a footer without icon
                 ->setURL('https://github.com/CharlotteDunois/Yasmin');                               // Set the URL
