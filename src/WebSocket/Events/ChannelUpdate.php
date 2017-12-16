@@ -35,7 +35,24 @@ class ChannelUpdate {
             
             $channel->_patch($data);
             
-            $this->client->emit('channelUpdate', $channel, $oldChannel);
+            $prom = array();
+            if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                foreach($channel->permissionOverwrites as $overwrite) {
+                    if($overwrite->type === 'member' && $overwrite->target === null) {
+                        $prom[] = $channel->guild->fetchMember($ovewrite->id)->then(function ($member) use ($overwrite) {
+                            $overwrite->_patch(array('target' => $member));
+                        }, function () {
+                            // Do nothing
+                        });
+                    }
+                }
+            }
+            
+            \React\Promise\all($prom)->otherwise(function () {
+                return null;
+            })->then(function () use ($channel, $oldChannel) {
+                $this->client->emit('channelUpdate', $channel, $oldChannel);
+            });
         }
     }
 }

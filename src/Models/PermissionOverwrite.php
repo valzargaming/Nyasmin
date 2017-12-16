@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property  string                                                                                $id        The ID of the Permission Overwrite.
  * @property  string                                                                                $type      The type of the overwrite (member or role).
- * @property  \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guildmember, or null if uncached.
+ * @property  \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guildmember, or null if uncached or not a member.
  * @property  \CharlotteDunois\Yasmin\Models\Permissions                                            $allow     The allowed Permissions object.
  * @property  \CharlotteDunois\Yasmin\Models\Permissions                                            $deny      The denied Permissions object.
  *
