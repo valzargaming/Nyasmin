@@ -95,7 +95,7 @@ trait GuildChannelTrait {
      *
      * Options are as following (at least one is required).
      *
-     *  array(
+     *  array( <br />
      *    'name' => string, <br />
      *    'position' => int, <br />
      *    'topic' => string, <br />
@@ -263,11 +263,16 @@ trait GuildChannelTrait {
         $options = array();
         
         try {
-            $memberOrRole = $this->guild->members->resolve($memberOrRole);
-            $options['type'] = 'member';
-        } catch(\InvalidArgumentException $e) {
-            $memberOrRole = $this->guild->roles->resolve($memberOrRole);
+            $memberOrRole = $this->guild->roles->resolve($memberOrRole)->id;
             $options['type'] = 'role';
+        } catch(\InvalidArgumentException $e) {
+            try {
+                $memberOrRole = $this->guild->members->resolve($memberOrRole)->id;
+                $options['type'] = 'member';
+            } catch(\InvalidArgumentException $e) {
+                $memberOrRole = $memberOrRole;
+                $options['type'] = 'member';
+            }
         }
         
         if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
@@ -282,13 +287,21 @@ trait GuildChannelTrait {
         $options['deny'] = $deny;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole->id, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
-                $options['id'] = $memberOrRole->id;
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
+                $options['id'] = $memberOrRole;
                 
-                $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $options);
-                $this->permissionOverwrites->set($overwrite->id, $overwrite);
+                if($options['type'] === 'member') {
+                    $fetch = $this->guild->fetchMember($options['id']);
+                } else {
+                    $fetch = \React\Promise\resolve();
+                }
                 
-                $resolve($overwrite);
+                return $fetch->then(function () use ($options, $resolve) {
+                    $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $options);
+                    $this->permissionOverwrites->set($overwrite->id, $overwrite);
+                    
+                    $resolve($overwrite);
+                });
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }

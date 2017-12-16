@@ -515,6 +515,10 @@ class Guild extends ClientBase {
      */
     function fetchMember(string $userid) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
+            if($this->members->has($userid)) {
+                return $resolve($this->members->get($userid));
+            }
+            
             $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
                 $resolve($this->_addMember($data));
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
