@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property string       $id                The guild ID.
  * @property string       $name              The guild name.
- * @property int          $createdTimestamp  The timestmap when this guild was created.
+ * @property int          $createdTimestamp  The timestamp when this guild was created.
  * @property string|null  $icon              The guild icon.
  * @property string|null  $splash            The guild splash.
  *
@@ -60,5 +60,37 @@ class PartialGuild extends ClientBase {
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * Returns the guild's icon URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @return string|null
+     */
+    function getIconURL(string $format = 'png', int $size = null) {
+        if($this->icon) {
+            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+            
+            return $url;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Returns the guild's splash URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @return string|null
+     */
+    function getSplashURL(string $format = 'png', int $size = null) {
+        if($this->splash) {
+            $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
+            
+            return $url;
+        }
+        
+        return null;
     }
 }

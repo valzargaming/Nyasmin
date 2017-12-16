@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property string       $id                The channel ID.
  * @property string       $name              The channel name.
- * @property int          $createdTimestamp  The timestmap when this channel was created.
+ * @property int          $createdTimestamp  The timestamp when this channel was created.
  * @property string       $type              The type of the channel.
  *
  * @property \DateTime   $createdAt          The DateTime object of createdTimestamp.
