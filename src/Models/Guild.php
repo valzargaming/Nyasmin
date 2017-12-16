@@ -159,6 +159,65 @@ class Guild extends ClientBase {
     }
     
     /**
+     * Adds the given user to the guild using the OAuth Access Token. Requires the CREATE_INSTANT_INVITE permission. Resolves with $this.
+     *
+     * Options are as following (all fields are optional):
+     *
+     *  array(  <br />
+     *      'nick' => string, (the nickname for the user, requires MANAGE_NICKNAMES permissions)  <br />
+     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (array or Collection of Role instances or role IDs, requires MANAGE_ROLES permission)  <br />
+     *      'mute' => bool, (whether the user is muted, requires MUTE_MEMBERS permission)  <br />
+     *      'deaf' => bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)  <br />
+     *  )
+     *
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user         A guild member or user object, or the user ID.
+     * @param string                                      $accessToken  The OAuth Access Token for the given user.
+     * @param array                                       $options      Any options.
+     * @return \React\Promise\Promise
+     */
+    function addMember($user, string $accessToken, array $options = array()) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $accessToken, $options) {
+            if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+                $user = $user->id;
+            }
+            
+            $opts = array(
+                'access_token' => $accessToken
+            );
+            
+            if(!empty($options['nick'])) {
+                $opts['nick'] = $options['nick'];
+            }
+            
+            if(!empty($options['roles'])) {
+                if($options['roles'] instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+                    $options['roles'] = $options['roles']->all();
+                }
+                
+                $opts['roles'] = \array_values(\array_map(function ($role) {
+                    if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+                        return $role->id;
+                    }
+                    
+                    return $role;
+                }, $options['roles']));
+            }
+            
+            if(isset($options['mute'])) {
+                $opts['mute'] = (bool) $options['mute'];
+            }
+            
+            if(isset($options['deaf'])) {
+                $opts['deaf'] = (bool) $options['deaf'];
+            }
+            
+            $this->client->apimanager()->endpoints->guild->addGuildMember($this->id, $user, $opts)->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Bans the given user. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  $user     A guild member or user object, or the user ID.
      * @param int                                                                                    $days     Number of days of messages to delete (0-7).
