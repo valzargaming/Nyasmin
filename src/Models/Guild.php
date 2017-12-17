@@ -35,7 +35,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int|null                                                       $afkTimeout                   The time in seconds before an user is counted as "away from keyboard".
  * @property string[]                                                       $features                     An array of guild features.
  * @property string                                                         $mfaLevel                     The required MFA level for the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL}
- * @property string|null                                                    $applicationID                Application OD of the guild creator, if it is bot-created.
+ * @property string|null                                                    $applicationID                Application ID of the guild creator, if it is bot-created.
  * @property bool                                                           $embedEnabled                 Whether the guild is embeddable or not (e.g. widget).
  * @property string|null                                                    $embedChannelID               The ID of the embed channel.
  * @property bool                                                           $widgetEnabled                Whether the guild widget is enabled or not.
