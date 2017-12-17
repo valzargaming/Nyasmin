@@ -73,7 +73,8 @@ interface ClientEvents {
     
     /**
      * Emitted when a channel's pins gets updated. Due to the nature of the event, it's not possible to do much.
-     * @param \DateTime|null  $time
+     * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface  $channel
+     * @param \DateTime|null                                       $time
      */
     function channelPinsUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, $time);
     
