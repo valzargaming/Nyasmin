@@ -32,8 +32,9 @@ interface ClientEvents {
     
     /**
      * Emitted when we receive a message from the gateway.
+     * @param mixed  $message
      */
-    function raw();
+    function raw($message);
     
     /**
      * Emitted when an uncached message gets deleted.
