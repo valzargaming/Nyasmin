@@ -297,6 +297,14 @@ trait GuildChannelTrait {
                 }
                 
                 return $fetch->then(function () use ($options, $resolve) {
+                    if($options['allow'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+                        $options['allow'] = $options['allow']->bitfield;
+                    }
+                    
+                    if($options['deny'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+                        $options['deny'] = $options['deny']->bitfield;
+                    }
+                    
                     $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $options);
                     $this->permissionOverwrites->set($overwrite->id, $overwrite);
                     
