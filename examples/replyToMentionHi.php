@@ -26,7 +26,7 @@ $client->on('message', function ($message) use ($client) {
     try {
         if($message->mentions->users->has($client->user->id)) {
             $args = explode(' ', $message->content);
-            if(strtolower($args[1]) === 'hi') {
+            if(mb_strtolower($args[1]) === 'hi') {
                 $message->reply('Hi!')->otherwise(function ($error) {
                     echo $error.PHP_EOL;
                 });

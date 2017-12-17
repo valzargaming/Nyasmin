@@ -113,7 +113,7 @@ class DataHelpers {
     static function splitMessage(string $text, array $options = array()) {
         $options = \array_merge(self::DEFAULT_MESSAGE_SPLIT_OPTIONS, $options);
         
-        if(\strlen($text) > $options['maxLength']) {
+        if(\mb_strlen($text) > $options['maxLength']) {
             $i = 0;
             $messages = array();
             
@@ -123,7 +123,7 @@ class DataHelpers {
                     $messages[$i] = '';
                 }
                 
-                if((\strlen($messages[$i]) + \strlen($part) + 2) >= $options['maxLength']) {
+                if((\mb_strlen($messages[$i]) + \mb_strlen($part) + 2) >= $options['maxLength']) {
                     $i++;
                     $messages[$i] = '';
                 }

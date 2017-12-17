@@ -265,7 +265,7 @@ class TextBasedChannel extends ClientBase
                     $options['split'] = $split = \array_merge(\CharlotteDunois\Yasmin\Utils\DataHelpers::DEFAULT_MESSAGE_SPLIT_OPTIONS, (\is_array($options['split']) ? $options['split'] : array()));
                     $messages = \CharlotteDunois\Yasmin\Utils\DataHelpers::splitMessage($msg['content'], $options['split']);
                     
-                    if(\count($messages) > 0) {
+                    if(\count($messages) > 1) {
                         $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
                         $i = \count($messages);
                         
@@ -481,38 +481,5 @@ class TextBasedChannel extends ClientBase
         }
         
         return \React\Promise\all($promises);
-    }
-    
-    /**
-     * Resolves split of Message Options. Returns null if no chunks needed.
-     * @param string $content
-     * @param array $options
-     * @return string[]|null
-     */
-    static function resolveMessageOptionsSplit(string $content, array $options) {
-        $split = &$options['split'];
-        
-        if(\strlen($content) > $split['maxLength']) {
-            $i = 0;
-            $messages = array();
-            
-            $parts = \explode($split['char'], $content);
-            foreach($parts as $part) {
-                if(empty($messages[$i])) {
-                    $messages[$i] = '';
-                }
-                
-                if((\strlen($messages[$i]) + \strlen($part) + 2) >= $split['maxLength']) {
-                    $i++;
-                    $messages[$i] = '';
-                }
-                
-                $messages[$i] .= $part.$split['char'];
-            }
-            
-            return $messages;
-        }
-        
-        return null;
     }
 }

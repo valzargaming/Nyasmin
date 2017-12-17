@@ -145,7 +145,7 @@ class Guild extends ClientBase {
                     $name .= $word[0];
                 }
                 
-                return \strtoupper($name);
+                return \mb_strtoupper($name);
             break;
             case 'verified':
                 return \in_array('VERIFIED', $this->features);
