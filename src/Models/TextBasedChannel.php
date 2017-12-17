@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * The text based channel.
  *
  * @property string                                         $id                 The channel ID.
- * @property string                                         $type               The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
+ * @property string                                         $type               The channel type. {@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}
  * @property string|null                                    $lastMessageID      The last message ID, or null.
  * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
  * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
