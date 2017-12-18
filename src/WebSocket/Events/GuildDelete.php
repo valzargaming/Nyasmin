@@ -24,7 +24,7 @@ class GuildDelete {
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
-            if($guild->available && $data['unavailable']) {
+            if($guild->available && ($data['unavailable'] ?? false)) {
                 $guild->_patch(array('unavailable' => true));
                 $this->client->emit('guildUnavailable', $guild);
             } else {
