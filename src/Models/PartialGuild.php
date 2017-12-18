@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null  $icon              The guild icon.
  * @property string|null  $splash            The guild splash.
  *
- * @property \DateTime   $createdAt          The DateTime object of createdTimestamp.
+ * @property \DateTime   $createdAt          The DateTime instance of createdTimestamp.
  */
 class PartialGuild extends ClientBase {
     protected $id;

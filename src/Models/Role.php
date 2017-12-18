@@ -24,7 +24,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                        $mentionable         Whether the role is mentionable.
  *
  * @property int                                         $calculatedPosition  The role position in the role manager.
- * @property \DateTime                                   $createdAt           The DateTime object of createdTimestamp.
+ * @property \DateTime                                   $createdAt           The DateTime instance of createdTimestamp.
  * @property bool                                        $editable            Whether the role can be edited by the client user.
  * @property string                                      $hexColor            Returns the hex color of the role color.
  * @property \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.

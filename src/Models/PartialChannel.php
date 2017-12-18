@@ -17,7 +17,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int          $createdTimestamp  The timestamp when this channel was created.
  * @property string       $type              The type of the channel.
  *
- * @property \DateTime   $createdAt          The DateTime object of createdTimestamp.
+ * @property \DateTime   $createdAt          The DateTime instance of createdTimestamp.
  */
 class PartialChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {

@@ -34,9 +34,9 @@ class Presence extends ClientBase {
     protected $status;
     
     /**
-     * The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.
-     * @param \CharlotteDunois\Yasmin\Client  $client  The client this object is for.
-     * @param array                           $activity    An array containing user (as array, with an element id), activity (as array) and status.
+     * The manual creation of such an instance is discouraged. There may be an easy and safe way to create such an instance in the future.
+     * @param \CharlotteDunois\Yasmin\Client  $client      The client this instance is for.
+     * @param array                           $presence    An array containing user (as array, with an element id), activity (as array) and status.
      *
      * @throws \Exception
      */

@@ -25,7 +25,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property array|null        $video              The video (array of url, height, width), or null.
  * @property array|null        $provider           The provider (array of name, url), or null.
  *
- * @property \DateTime         $datetime           The DateTime object of timestamp.
+ * @property \DateTime         $datetime           The DateTime instance of timestamp.
  */
 class MessageEmbed extends Base {
     protected $type;

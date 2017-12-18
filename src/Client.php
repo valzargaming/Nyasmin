@@ -135,7 +135,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * What do you expect this to do? It makes a new Client instance. Available client options are as following (all are optional):
      *
      *  array( <br />
-     *      'disableClones' => bool|string[], (disables cloning of objects (for perfomance), affects update events - bool: true - disables all cloning) <br />
+     *      'disableClones' => bool|string[], (disables cloning of class instances (for perfomance), affects update events - bool: true - disables all cloning) <br />
      *      'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext) <br />
      *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched) <br />
      *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration) <br />

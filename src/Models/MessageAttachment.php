@@ -20,7 +20,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int|null                                         $width              The width (if image).
  * @property int                                              $createdTimestamp   The timestamp of when this attachment was created.
  *
- * @property \DateTime                                        $createdAt          An DateTime object of the createdTimestamp.
+ * @property \DateTime                                        $createdAt          An DateTime instance of the createdTimestamp.
  */
 class MessageAttachment extends Base {
     protected $id;

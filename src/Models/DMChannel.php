@@ -62,7 +62,7 @@ class DMChannel extends TextBasedChannel {
     
     /**
      * Determines whether a given user is a recipient of this channel.
-     * @param \CharlotteDunois\Yasmin\Models\User|string  $user  The user object or user ID.
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user  The User instance or user ID.
      * @return bool
      * @throws \InvalidArgumentException
      */

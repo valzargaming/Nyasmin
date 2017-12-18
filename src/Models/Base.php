@@ -26,7 +26,7 @@ class Base implements \JsonSerializable, \Serializable {
      * @internal
      */
     function jsonSerialize() {
-        return get_object_vars($this);
+        return \get_object_vars($this);
     }
     
     /**

@@ -161,7 +161,7 @@ interface ClientEvents {
     function messageDelete(\CharlotteDunois\Yasmin\Models\Message $message);
     
     /**
-     * Emitted when multiple (cached) message gets deleted. The collection consists of Message objects, mapped by their ID.
+     * Emitted when multiple (cached) message gets deleted. The collection consists of Message instances, mapped by their ID.
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function messageDeleteBulk(\CharlotteDunois\Yasmin\Utils\Collection $messages);

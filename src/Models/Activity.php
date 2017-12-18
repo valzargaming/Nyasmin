@@ -38,8 +38,8 @@ class Activity extends ClientBase {
     protected $timestamps;
     
     /**
-     * The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.
-     * @param \CharlotteDunois\Yasmin\Client  $client  The client this object is for.
+     * The manual creation of such a class is discouraged. There may be an easy and safe way to create such a class in the future.
+     * @param \CharlotteDunois\Yasmin\Client  $client      The client this instance is for.
      * @param array                           $activity    An array containing name, type (as int) and url (nullable).
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $activity) {

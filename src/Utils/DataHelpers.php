@@ -43,7 +43,7 @@ class DataHelpers {
     }
     
     /**
-     * Makes a DateTime object from an UNIX timestamp and applies the default timezone.
+     * Makes a DateTime instance from an UNIX timestamp and applies the default timezone.
      * @param int $timestamp
      * @return \DateTime
      */

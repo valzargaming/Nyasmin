@@ -30,8 +30,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). {@see \CharlotteDunois\Yasmin\Models\MessageReaction}
  * @property string                                                                                      $webhookID          ID of the webhook that sent the message, if applicable.
  *
- * @property \DateTime                                                                                   $createdAt          An DateTime object of the createdTimestamp.
- * @property \DateTime|null                                                                              $editedAt           An DateTime object of the editedTimestamp.
+ * @property \DateTime                                                                                   $createdAt          An DateTime instance of the createdTimestamp.
+ * @property \DateTime|null                                                                              $editedAt           An DateTime instance of the editedTimestamp.
  * @property bool                                                                                        $deletable          Whether the client user can delete the message.
  * @property bool                                                                                        $editable           Whether the client user can edit the message.
  * @property bool                                                                                        $pinnable           Whether the client user can pin the message.

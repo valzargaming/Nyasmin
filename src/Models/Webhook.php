@@ -123,7 +123,7 @@ class Webhook extends ClientBase {
     }
     
     /**
-     * Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with null.
+     * Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with a raw Message object (array) or an array of raw Message objects (array).
      *
      * Options are as following (all are optional):
      *
@@ -134,12 +134,15 @@ class Webhook extends ClientBase {
      *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false)) <br />
      *    'tts' => bool, <br />
      *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message) <br />
+     *    'username' => string,
+     *    'avatar' => string, (an URL)
      *  )
      *
      * @param string  $content  The webhook message content.
      * @param array   $options  Any webhook message options.
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
+     * @see https://discordapp.com/developers/docs/resources/channel#message-object
      */
     function send(string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
@@ -208,7 +211,17 @@ class Webhook extends ClientBase {
                     }
                 }
                 
-                $this->executeWebhook($msg, ($files ?? array()))->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                if(!empty($options['username'])) {
+                    $msg['username'] = $options['username'];
+                }
+                
+                if(!empty($options['avatar'])) {
+                    $msg['avatar_url'] = $options['avatar'];
+                }
+                
+                $this->executeWebhook($msg, ($files ?? array()))->then(function ($data) use ($resolve) {
+                    $resolve($data);
+                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             });
         }));
     }

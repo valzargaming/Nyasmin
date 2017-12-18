@@ -16,10 +16,10 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                    $type                   The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
  * @property int                                       $createdTimestamp       The timestamp of when this channel was created.
  * @property int                                       $position               The channel position.
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $permissionOverwrites   A collection of PermissionOverwrite objects.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection  $permissionOverwrites   A collection of PermissionOverwrite instances.
  *
  * @property \CharlotteDunois\Yasmin\Utils\Collection  $children               Returns all channels which are childrens of this category.
- * @property \DateTime                                 $createdAt              The DateTime object of createdTimestamp.
+ * @property \DateTime                                 $createdAt              The DateTime instance of createdTimestamp.
  */
 class CategoryChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,

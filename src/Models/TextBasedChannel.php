@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
  * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
  *
- * @property \DateTime                                      $createdAt          The DateTime object of createdTimestamp.
+ * @property \DateTime                                      $createdAt          The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
  */
 class TextBasedChannel extends ClientBase
@@ -83,7 +83,7 @@ class TextBasedChannel extends ClientBase
     
     /**
      * Deletes multiple messages at once. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message objects, or the number of messages to delete (2-100).
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).
      * @param string                                              $reason
      * @param bool                                                $filterOldMessages  Automatically filters out too old messages (14 days).
      * @return \React\Promise\Promise

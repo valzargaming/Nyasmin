@@ -23,7 +23,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property boolean                                              $webhook            Determines wether the user is a webhook or not.
  * @property int                                                  $createdTimestamp   The timestamp of when this user was created.
  *
- * @property \DateTime                                            $createdAt          An DateTime object of the createdTimestamp.
+ * @property \DateTime                                            $createdAt          An DateTime instance of the createdTimestamp.
  * @property int                                                  $defaultAvatar      The identifier of the default avatar for this user.
  * @property \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists.
  * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
@@ -212,7 +212,7 @@ class User extends ClientBase {
     }
     
     /**
-     * Automatically converts the User object to a mention.
+     * Automatically converts the User instance to a mention.
      */
     function __toString() {
         return '<@'.$this->id.'>';

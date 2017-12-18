@@ -22,7 +22,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property mixed|null                                    $extra             Any extra data from the entry, or null.
  * @property mixed|null                                    $target            The target of this entry, or null.
  *
- * @property \DateTime                                     $createdAt         The DateTime object of createdTimestamp.
+ * @property \DateTime                                     $createdAt         The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\User|null      $user              The user which triggered the audit log.
  */
 class GuildAuditLogEntry extends ClientBase {

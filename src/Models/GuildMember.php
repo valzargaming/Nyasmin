@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild member.
  *
  * @property string                                                         $id               The ID of the member.
- * @property \CharlotteDunois\Yasmin\Models\User                            $user             The user object of the member.
+ * @property \CharlotteDunois\Yasmin\Models\User                            $user             The User instance of the member.
  * @property string|null                                                    $nickname         The nickname of the member, or null.
  * @property bool                                                           $deaf             Whether the member is server deafened.
  * @property bool                                                           $mute             Whether the member is server muted.
@@ -34,7 +34,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                         $displayName      The displayed name.
  * @property \CharlotteDunois\Yasmin\Models\Role                            $highestRole      The role of the member with the highest position.
  * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist.
- * @property \DateTime                                                      $joinedAt         An DateTime object of joinedTimestamp.
+ * @property \DateTime                                                      $joinedAt         An DateTime instance of joinedTimestamp.
  * @property bool                                                           $kickable         Whether the guild member is kickable by the client user.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
  * @property \CharlotteDunois\Yasmin\Models\Presence                        $presence         The presence of the member in this guild.
@@ -209,7 +209,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Adds a role to the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role object or role ID.
+     * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role instance or role ID.
      * @param string                                       $reason
      * @return \React\Promise\Promise
      */
@@ -259,7 +259,7 @@ class GuildMember extends ClientBase {
      *
      *  array( <br />
      *      'nick' => string, <br />
-     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role objects or role IDs) <br />
+     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs) <br />
      *      'deaf' => bool, <br />
      *      'mute' => bool, <br />
      *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice) <br />
@@ -340,7 +340,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Removes a role from the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role object or role ID.
+     * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role instance or role ID.
      * @param string                                       $reason
      * @return \React\Promise\Promise
      */
@@ -358,7 +358,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Removes roles from the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
      * @param string                                                                                $reason
      * @return \React\Promise\Promise
      */
@@ -414,7 +414,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Sets the roles of the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role objects (or role IDs).
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
      * @param string                                                                                $reason
      * @return \React\Promise\Promise
      */

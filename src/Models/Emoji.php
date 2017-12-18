@@ -21,7 +21,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
  * @property int|null                                             $createdTimestamp   The timestamp of when this emoji was created.
  *
- * @property \DateTime|null                                       $createdAt          An DateTime object of the createdTimestamp.
+ * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp.
  * @property string                                               $identifier         The identifier for the emoji.
  */
 class Emoji extends ClientBase {

@@ -42,7 +42,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                    $widgetChannelID              The ID of the widget channel.
  *
  * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $afkChannel                   The guild's afk channel, or null.
- * @property \DateTime                                                      $createdAt                    The DateTime object of createdTimestamp.
+ * @property \DateTime                                                      $createdAt                    The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\Role                            $defaultRole                  The guild's default role.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $embedChannel                 The guild's embed channel, or null.
  * @property \CharlotteDunois\Yasmin\Models\GuildMember                     $me                           The guild member of the client user.
@@ -170,7 +170,7 @@ class Guild extends ClientBase {
      *      'deaf' => bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)  <br />
      *  )
      *
-     * @param \CharlotteDunois\Yasmin\Models\User|string  $user         A guild member or user object, or the user ID.
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user         A guild member or User instance, or the user ID.
      * @param string                                      $accessToken  The OAuth Access Token for the given user.
      * @param array                                       $options      Any options.
      * @return \React\Promise\Promise
@@ -219,7 +219,7 @@ class Guild extends ClientBase {
     
     /**
      * Bans the given user. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  $user     A guild member or user object, or the user ID.
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  $user     A guild member or User instance, or the user ID.
      * @param int                                                                                    $days     Number of days of messages to delete (0-7).
      * @param string                                                                                 $reason
      * @return \React\Promise\Promise
@@ -878,7 +878,7 @@ class Guild extends ClientBase {
     
     /**
      * Unbans the given user. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\User|string  $user     An user object or the user ID.
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user     An User instance or the user ID.
      * @param string                                      $reason
      * @return \React\Promise\Promise
      */

@@ -26,8 +26,8 @@ class RichPresenceAssets extends ClientBase {
     protected $smallText;
     
     /**
-     * The manual creation of such an object is discouraged. There may be an easy and safe way to create such an object in the future.
-     * @param \CharlotteDunois\Yasmin\Client           $client      The client this object is for.
+     * The manual creation of such an instance is discouraged. There may be an easy and safe way to create such an instance in the future.
+     * @param \CharlotteDunois\Yasmin\Client           $client      The client this instance is for.
      * @param \CharlotteDunois\Yasmin\Models\Activity  $activity    The activity instance.
      * @param array                                    $assets      An array containing the presence data.
      * @internal
