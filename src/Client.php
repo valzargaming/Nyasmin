@@ -152,7 +152,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
      *
-     * @see ClientEvents
+     * @see \CharlotteDunois\Yasmin\ClientEvents
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
         if(!empty($options)) {
@@ -332,7 +332,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     /**
      * Obtains the OAuth Application of the bot from Discord.
      * @return \React\Promise\Promise
-     * @see \
+     * @see \CharlotteDunois\Yasmin\Models\OAuthApplication
      */
     function fetchApplication() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
