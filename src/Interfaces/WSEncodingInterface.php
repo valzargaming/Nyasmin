@@ -15,6 +15,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 interface WSEncodingInterface {
     /**
      * Returns encoding name (for gateway query string).
+     * @return string
      */
     function getName();
     
@@ -38,7 +39,7 @@ interface WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \BadMethodCallException|\InvalidArgumentException
+     * @throws \Exception|\BadMethodCallException|\InvalidArgumentException
      */
     function decode(string $data);
     
@@ -46,7 +47,7 @@ interface WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \BadMethodCallException|\InvalidArgumentException
+     * @throws \Exception|\BadMethodCallException|\InvalidArgumentException
      */
     function encode($data);
     

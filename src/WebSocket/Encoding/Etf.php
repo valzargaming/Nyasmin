@@ -20,6 +20,10 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
         $this->erlpack = new \CharlotteDunois\Erlpack\Erlpack(true, false);
     }
     
+    /**
+     * Returns encoding name (for gateway query string).
+     * @return string
+     */
     function getName() {
         return 'etf';
     }
@@ -56,7 +60,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \BadMethodCallException|\InvalidArgumentException|\CharlotteDunois\Erlpack\ErlpackException
+     * @throws \InvalidArgumentException|\CharlotteDunois\Erlpack\ErlpackException
      */
     function decode(string $data) {
         $msg = $this->erlpack->decode($data);
@@ -72,7 +76,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \BadMethodCallException|\InvalidArgumentException|\CharlotteDunois\Erlpack\ErlpackException
+     * @throws \CharlotteDunois\Erlpack\ErlpackException
      */
     function encode($data) {
         $msg = $this->erlpack->encode($data);
