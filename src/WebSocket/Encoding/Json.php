@@ -23,20 +23,6 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     }
     
     /**
-     * Initializes the encoder.
-     */
-    function init() {
-        
-    }
-    
-    /**
-     * Destroys the encoder.
-     */
-    function destroy() {
-        
-    }
-    
-    /**
      * Checks if the system supports it.
      * @throws \Exception
      */

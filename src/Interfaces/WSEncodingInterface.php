@@ -20,16 +20,6 @@ interface WSEncodingInterface {
     function getName();
     
     /**
-     * Initializes the context.
-     */
-    function init();
-    
-    /**
-     * Destroys the context.
-     */
-    function destroy();
-    
-    /**
      * Checks if the system supports it.
      * @throws \Exception
      */

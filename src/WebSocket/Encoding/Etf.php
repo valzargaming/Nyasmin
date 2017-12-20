@@ -29,20 +29,6 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     }
     
     /**
-     * Initializes the encoder.
-     */
-    function init() {
-        // Nothing to do
-    }
-    
-    /**
-     * Destroys the encoder.
-     */
-    function destroy() {
-        // Nothing to do
-    }
-    
-    /**
      * Checks if the system supports it.
      * @throws \Exception
      */
