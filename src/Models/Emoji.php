@@ -99,7 +99,7 @@ class Emoji extends ClientBase {
     
     /**
      * Adds multiple roles to the list of roles that can use this emoji. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\Role|string  $role  Variadic argument.
+     * @param \CharlotteDunois\Yasmin\Models\Role|string  ...$role
      * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
@@ -199,7 +199,7 @@ class Emoji extends ClientBase {
     
     /**
      * Removes multiple roles from the list of roles that can use this emoji. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\Role|string  $role  Variadic argument.
+     * @param \CharlotteDunois\Yasmin\Models\Role|string  ...$role
      * @return \React\Promise\Promise
      * @throws \BadMethodCallException
      */
