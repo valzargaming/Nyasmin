@@ -44,7 +44,11 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      */
     static function supported() {
         if(!\class_exists('\\CharlotteDunois\\Erlpack\\Erlpack')) {
-            throw new \Exception('Can not use ETF as WS encoding due to missing dependencies');
+            throw new \Exception('Unable to use ETF as WS encoding due to missing dependencies');
+        }
+        
+        if(\PHP_INT_SIZE === 4) {
+            throw new \Exception('ETF can not be used on with 32 bit PHP');
         }
     }
     
@@ -77,6 +81,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     
     /**
      * Prepares the data to be sent.
+     * @param string  $data
      * @return string|\Ratchet\RFC6455\Messaging\Message
      */
     function prepareMessage(string $data) {
@@ -88,6 +93,11 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
         return $msg;
     }
     
+    /**
+     * Converts all IDs from integer to strings.
+     * @param array|object
+     * @return array|object
+     */
     protected function convertIDs($data) {
         $arr = array();
         

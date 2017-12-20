@@ -10,8 +10,7 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Interface for WS compressions.
- * @internal
+ * Interface for WS encodings. This is used internally.
  */
 interface WSEncodingInterface {
     /**
@@ -53,6 +52,7 @@ interface WSEncodingInterface {
     
     /**
      * Prepares the data to be sent.
+     * @param string  $data
      * @return string|\Ratchet\RFC6455\Messaging\Message
      */
     function prepareMessage(string $data);

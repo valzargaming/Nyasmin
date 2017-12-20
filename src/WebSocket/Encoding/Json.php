@@ -68,6 +68,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     
     /**
      * Prepares the data to be sent.
+     * @param string  $data
      * @return string|\Ratchet\RFC6455\Messaging\Message
      */
     function prepareMessage(string $data) {

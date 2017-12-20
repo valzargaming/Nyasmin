@@ -10,8 +10,7 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Interface for WS compressions.
- * @internal
+ * Interface for WS compressions. This is used internally.
  */
 interface WSCompressionInterface {
     /**
