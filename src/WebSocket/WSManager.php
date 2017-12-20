@@ -174,9 +174,6 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             case 'encoding':
                 return $this->encoding;
             break;
-            case 'erlpack':
-                return $this->erlpack;
-            break;
             case 'status':
                 return $this->wsStatus;
             break;
@@ -373,7 +370,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                         $this->wsSessionID = null;
                     }
                     
-                    if($code === 4002 && $this->encoding !== \CharlotteDunois\Yasmin\Constants::WS['encoding']) {
+                    if($code === 4002 && $this->encoding !== null && $this->encoding->getName() !== \CharlotteDunois\Yasmin\Constants::WS['encoding']) {
                         $this->encoding = null;
                         $this->gateway = \str_replace('encoding=etf', 'encoding=json', $this->gateway);
                         $this->client->emit('debug', 'Decoding payload error - Encoding ETF erroneous, falling back to default');
