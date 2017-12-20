@@ -324,9 +324,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             $this->api->destroy();
             $this->ws->destroy();
             
-            foreach($this->timers as $timer) {
-                $this->cancelTimer($timer);
-            }
+            $this->cancelTimers();
             
             if($destroyUtils) {
                 $this->destroyUtils();
@@ -489,6 +487,16 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         }
         
         return true;
+    }
+    
+    /**
+     * Cancels all timers.
+     */
+    function cancelTimers() {
+        foreach($this->timers as $key => $timer) {
+            $timer->cancel();
+            unset($this->timers[$key]);
+        }
     }
     
     /**
