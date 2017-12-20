@@ -16,6 +16,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Compression;
 class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInterface {
     protected $context;
     
+    /**
+     * Returns compression name (for gateway query string).
+     * @return string
+     */
     function getName() {
         return 'zlib-stream';
     }

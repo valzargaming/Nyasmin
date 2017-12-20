@@ -15,6 +15,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 interface WSCompressionInterface {
     /**
      * Returns compression name (for gateway query string).
+     * @return string
      */
     function getName();
     
