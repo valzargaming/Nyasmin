@@ -56,7 +56,6 @@ class WSHandler {
     function handle($message) {
         try {
             $packet = $this->wsmanager->encoding->decode($message);
-            
             $this->client->emit('raw', $packet);
             
             if(isset($packet['s'])) {
@@ -68,8 +67,6 @@ class WSHandler {
             if(isset($this->handlers[$packet['op']])) {
                 $this->handlers[$packet['op']]->handle($packet);
             }
-        } catch(\OutOfRangeException $e) {
-            throw $e;
         } catch(\Throwable $e) {
             $this->wsmanager->client->emit('error', $e);
         } catch(\Exception $e) {
