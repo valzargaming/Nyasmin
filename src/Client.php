@@ -290,7 +290,14 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             $gateway->then(function ($url) use ($resolve, $reject) {
                 $this->gateway = $url;
                 
-                $this->ws->connect($url, \CharlotteDunois\Yasmin\Constants::WS)->then(function () use ($resolve) {
+                $WSconstants = \CharlotteDunois\Yasmin\Constants::WS;
+                $encoding = $this->getOption('ws.encoding');
+                
+                if(!empty($encoding) && \is_string($encoding)) {
+                    $WSconstants['encoding'] = $encoding;
+                }
+                
+                $this->ws->connect($url, $WSconstants)->then(function () use ($resolve) {
                     $resolve();
                 }, function ($error) use ($reject) {
                     $this->api->destroy();
@@ -550,6 +557,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string|boolean',
             'ws.disabledEvents' => 'array',
+            'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',
             'ws.presence' => 'array'
         ));

@@ -38,6 +38,10 @@ class EmojiStorage extends Storage {
             return $emoji->emoji;
         }
         
+        if(\is_int($emoji)) {
+            $emoji = (string) $emoji;
+        }
+        
         if(\is_string($emoji) && $this->has($emoji)) {
             return $this->get($emoji);
         }

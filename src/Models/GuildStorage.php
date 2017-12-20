@@ -24,6 +24,10 @@ class GuildStorage extends Storage {
             return $guild;
         }
         
+        if(\is_int($guild)) {
+            $guild = (string) $guild;
+        }
+        
         if(\is_string($guild) && $this->has($guild)) {
             return $this->get($guild);
         }

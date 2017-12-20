@@ -45,6 +45,11 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     protected $compressContext;
     
     /**
+     * @var \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface
+     */
+    protected $encoding;
+    
+    /**
      * The WS ratelimits.
      * @var array
      */
@@ -166,6 +171,12 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             case 'client':
                 return $this->client;
             break;
+            case 'encoding':
+                return $this->encoding;
+            break;
+            case 'erlpack':
+                return $this->erlpack;
+            break;
             case 'status':
                 return $this->wsStatus;
             break;
@@ -196,6 +207,25 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     $this->connect($gateway, $querystring)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                 });
             }));
+        }
+        
+        if($this->encoding === null) {
+            $encoding = $querystring['encoding'] ?? $this->encoding ?? \CharlotteDunois\Yasmin\Constants::WS['encoding'];
+            
+            $name = \str_replace('-', '', \ucwords($encoding, '-'));
+            if(strpos($name, '\\') === false) {
+                $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Encoding\\'.$name;
+            }
+            
+            $name::supported();
+            
+            $interfaces = \class_implements($name);
+            if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSEncodingInterface', $interfaces)) {
+                throw new \Exception('Specified WS encoding class does not implement necessary interface');
+            }
+            
+            $this->encoding = new $name();
+            $querystring['encoding'] = $this->encoding->getName();
         }
         
         if($this->compressContext && $this->compressContext->getName()) {
@@ -341,6 +371,12 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     
                     if($code === 1000 || ($code >= 4000 && !\in_array($code, $this->wsCloseCodes['resumable']))) {
                         $this->wsSessionID = null;
+                    }
+                    
+                    if($code === 4002 && $this->encoding !== \CharlotteDunois\Yasmin\Constants::WS['encoding']) {
+                        $this->encoding = null;
+                        $this->gateway = \str_replace('encoding=etf', 'encoding=json', $this->gateway);
+                        $this->client->emit('debug', 'Decoding payload error - Encoding ETF erroneous, falling back to default');
                     }
                     
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
@@ -562,7 +598,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             return;
         }
         
+        $data = $this->encoding->encode($packet);
+        $msg = $this->encoding->prepareMessage($data);
+        
         $this->client->emit('debug', 'Sending WS packet with OP code '.$packet['op']);
-        return $this->ws->send(\json_encode($packet));
+        return $this->ws->send($msg);
     }
 }

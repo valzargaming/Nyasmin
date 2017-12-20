@@ -28,6 +28,10 @@ class UserStorage extends Storage {
             return $user->user;
         }
         
+        if(\is_int($user)) {
+            $user = (string) $user;
+        }
+        
         if(\is_string($user) && $this->has($user)) {
             return $this->get($user);
         }

@@ -13,8 +13,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Compression;
  * Handles WS compression.
  * @internal
  */
-class ZlibStream
-    implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInterface {
+class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInterface {
     
     protected $context;
     

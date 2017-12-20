@@ -78,7 +78,7 @@ class MessageMentions extends ClientBase {
                     
                     $this->users->set($user->id, $user);
                     if($message->guild) {
-                        $member = $message->guild->members->get($mention['id']);
+                        $member = $message->guild->members->get($user->id);
                         if($member) {
                             $this->members->set($member->id, $member);
                         }

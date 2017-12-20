@@ -38,6 +38,10 @@ class GuildMemberStorage extends Storage {
             $guildmember = $guildmember->id;
         }
         
+        if(\is_int($guildmember)) {
+            $guildmember = (string) $guildmember;
+        }
+        
         if(\is_string($guildmember) && $this->has($guildmember)) {
             return $this->get($guildmember);
         }

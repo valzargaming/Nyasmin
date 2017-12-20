@@ -29,7 +29,7 @@ class PresenceUpdate {
         try {
             $user = $this->client->users->resolve($data['user']['id']);
             
-            if($user->_shouldUpdate($data['user'])) {
+            if(\count($data['user']) > 1 && $user->_shouldUpdate($data['user'])) {
                 $oldUser = null;
                 if($this->clones) {
                     $oldUser = clone $user;
