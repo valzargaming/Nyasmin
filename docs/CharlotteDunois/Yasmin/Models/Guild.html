@@ -53,7 +53,8 @@
             <div class="collapse navbar-collapse" id="navbar-elements">
                 <ul class="nav navbar-nav">
                     <li><a href="../../../classes.html">Classes</a></li>
-                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                            <li><a href="../../../todo.html">ToDo</a></li>
+                                                                <li><a href="../../../namespaces.html">Namespaces</a></li>
                                         <li><a href="../../../interfaces.html">Interfaces</a></li>
                     <li><a href="../../../traits.html">Traits</a></li>
                     <li><a href="../../../doc-index.html">Index</a></li>
@@ -86,7 +87,9 @@
     
 
             <div class="description">
-            <p>Represents a guild. It's recommended to see if a guild is available before performing operations or reading data from it.</p>                                </div>
+            <p>Represents a guild. It's recommended to see if a guild is available before performing operations or reading data from it.</p>                                                
+        
+                    </div>
     
     
     
@@ -738,7 +741,9 @@
      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (array or Collection of Role instances or role IDs, requires MANAGE_ROLES permission)  <br />
      'mute' => bool, (whether the user is muted, requires MUTE_MEMBERS permission)  <br />
      'deaf' => bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)  <br />
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -788,7 +793,9 @@
     
 
                     <div class="method-description">
-                                    <p>Bans the given user. Resolves with $this.</p>                                                </div>
+                                    <p>Bans the given user. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -848,7 +855,9 @@
      'permissionOverwrites' => array&lt;array|\CharlotteDunois\Yasmin\Models\PermissionOverwrite> <br />
      'parentID' => string, <br />
      'nsfw' => bool <br />
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -913,7 +922,9 @@
     
 
                     <div class="method-description">
-                                    <p>Creates a new custom emoji in the guild. Resolves with an instance of Emoji.</p>                                                </div>
+                                    <p>Creates a new custom emoji in the guild. Resolves with an instance of Emoji.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -987,7 +998,9 @@
      'color' => int|string,
      'hoist' => bool,
      'mentionable' => bool
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1052,7 +1065,9 @@
     
 
                     <div class="method-description">
-                                    <p>Deletes the guild.</p>                                                </div>
+                                    <p>Deletes the guild.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1097,7 +1112,9 @@
      'icon' => string, (file path or URL, or data)
      'splash' => string, (file path or URL, or data)
      'region' => string|\CharlotteDunois\Yasmin\Models\VoiceRegion
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1150,7 +1167,9 @@
      'limit' => int,
      'user' => string|\CharlotteDunois\Yasmin\Models\User,
      'type' => string|int
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1201,7 +1220,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetch all bans of the guild. Resolves with a Collection of array('reason' => string|null, 'user' => User), mapped by the user ID.</p>                                                </div>
+                                    <p>Fetch all bans of the guild. Resolves with a Collection of array('reason' => string|null, 'user' => User), mapped by the user ID.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1231,7 +1252,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches all invites of the guild. Resolves with a Collection of Invite instances, mapped by their code.</p>                                                </div>
+                                    <p>Fetches all invites of the guild. Resolves with a Collection of Invite instances, mapped by their code.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1272,7 +1295,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches a specific guild member. Resolves with an instance of GuildMember.</p>                                                </div>
+                                    <p>Fetches a specific guild member. Resolves with an instance of GuildMember.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1323,7 +1348,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches all guild members. Resolves with $this.</p>                                                </div>
+                                    <p>Fetches all guild members. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1368,7 +1395,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.</p>                                                </div>
+                                    <p>Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1409,7 +1438,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches the guild's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.</p>                                                </div>
+                                    <p>Fetches the guild's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1450,7 +1481,9 @@
     
 
                     <div class="method-description">
-                                    <p>Returns the guild's icon URL, or null.</p>                                                </div>
+                                    <p>Returns the guild's icon URL, or null.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1495,7 +1528,9 @@
     
 
                     <div class="method-description">
-                                    <p>Returns the guild's splash URL, or null.</p>                                                </div>
+                                    <p>Returns the guild's splash URL, or null.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1540,7 +1575,9 @@
     
 
                     <div class="method-description">
-                                    <p>Leaves the guild.</p>                                                </div>
+                                    <p>Leaves the guild.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1570,7 +1607,9 @@
     
 
                     <div class="method-description">
-                                    <p>Prunes members from the guild based on how long they have been inactive. Resolves with an integer.</p>                                                </div>
+                                    <p>Prunes members from the guild based on how long they have been inactive. Resolves with an integer.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1620,7 +1659,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the AFK channel of the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the AFK channel of the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1665,7 +1706,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the AFK timeout of the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the AFK timeout of the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1710,7 +1753,9 @@
     
 
                     <div class="method-description">
-                                    <p>Batch-updates the guild's channels positions. Channels is an array of channel ID (string)|GuildChannelInterface => position (int) pairs. Resolves with $this.</p>                                                </div>
+                                    <p>Batch-updates the guild's channels positions. Channels is an array of channel ID (string)|GuildChannelInterface => position (int) pairs. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1755,7 +1800,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the level of the explicit content filter. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the level of the explicit content filter. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1800,7 +1847,9 @@
     
 
                     <div class="method-description">
-                                    <p>Updates the guild icon. Resolves with $this.</p>                                                </div>
+                                    <p>Updates the guild icon. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1845,7 +1894,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the name of the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the name of the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1890,7 +1941,9 @@
     
 
                     <div class="method-description">
-                                    <p>Sets a new owner for the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Sets a new owner for the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1935,7 +1988,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the region of the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the region of the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1980,7 +2035,9 @@
     
 
                     <div class="method-description">
-                                    <p>Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.</p>                                                </div>
+                                    <p>Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -2025,7 +2082,9 @@
     
 
                     <div class="method-description">
-                                    <p>Updates the guild splash. Resolves with $this.</p>                                                </div>
+                                    <p>Updates the guild splash. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -2070,7 +2129,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the system channel of the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the system channel of the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -2115,7 +2176,9 @@
     
 
                     <div class="method-description">
-                                    <p>Edits the verification level of the guild. Resolves with $this.</p>                                                </div>
+                                    <p>Edits the verification level of the guild. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -2160,7 +2223,9 @@
     
 
                     <div class="method-description">
-                                    <p>Unbans the given user. Resolves with $this.</p>                                                </div>
+                                    <p>Unbans the given user. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 

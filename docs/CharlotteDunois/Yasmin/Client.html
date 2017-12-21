@@ -53,7 +53,8 @@
             <div class="collapse navbar-collapse" id="navbar-elements">
                 <ul class="nav navbar-nav">
                     <li><a href="../../classes.html">Classes</a></li>
-                                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                                            <li><a href="../../todo.html">ToDo</a></li>
+                                                                <li><a href="../../namespaces.html">Namespaces</a></li>
                                         <li><a href="../../interfaces.html">Interfaces</a></li>
                     <li><a href="../../traits.html">Traits</a></li>
                     <li><a href="../../doc-index.html">Index</a></li>
@@ -86,7 +87,9 @@
     
 
             <div class="description">
-            <p>The client. What else do you expect this to say?</p>                                </div>
+            <p>The client. What else do you expect this to say?</p>                                                
+        
+                    </div>
     
     
     
@@ -209,6 +212,16 @@
                     <a href="#method_cancelTimer">cancelTimer</a>(<abbr title="React\EventLoop\Timer\Timer">Timer</abbr> $timer)
         
                                             <p>Cancels a timer.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_cancelTimers">cancelTimers</a>()
+        
+                                            <p>Cancels all timers.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -392,7 +405,9 @@
      'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do) <br />
      'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250) <br />
      'ws.presence' => array (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update) <br />
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -429,7 +444,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addPeriodicTimer">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L469">line 469</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L467">line 467</a></div>
         <code>                    <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
     <strong>addPeriodicTimer</strong>(float|int $interval, callable $callback)
         </code>
@@ -439,7 +454,9 @@
     
 
                     <div class="method-description">
-                                    <p>Adds a "client-dependant" periodic timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.</p>                                                </div>
+                                    <p>Adds a "client-dependant" periodic timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -474,7 +491,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addTimer">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L453">line 453</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L451">line 451</a></div>
         <code>                    <abbr title="React\EventLoop\Timer\Timer">Timer</abbr>
     <strong>addTimer</strong>(float|int $timeout, callable $callback)
         </code>
@@ -484,7 +501,9 @@
     
 
                     <div class="method-description">
-                                    <p>Adds a "client-dependant" timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.</p>                                                </div>
+                                    <p>Adds a "client-dependant" timer. The timer gets automatically cancelled on destroy. The callback can only accept one argument, the client.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -519,7 +538,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_cancelTimer">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L483">line 483</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L481">line 481</a></div>
         <code>                    bool
     <strong>cancelTimer</strong>(<abbr title="React\EventLoop\Timer\Timer">Timer</abbr> $timer)
         </code>
@@ -529,7 +548,9 @@
     
 
                     <div class="method-description">
-                                    <p>Cancels a timer.</p>                                                </div>
+                                    <p>Cancels a timer.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -558,6 +579,29 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_cancelTimers">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L495">line 495</a></div>
+        <code>                    
+    <strong>cancelTimers</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Cancels all timers.</p>                                                                
+        
+                            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_destroy">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L322">line 322</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
@@ -569,7 +613,9 @@
     
 
                     <div class="method-description">
-                                    <p>Cleanly logs out of Discord.</p>                                                </div>
+                                    <p>Cleanly logs out of Discord.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -599,7 +645,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchApplication">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L344">line 344</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L342">line 342</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchApplication</strong>()
         </code>
@@ -609,7 +655,9 @@
     
 
                     <div class="method-description">
-                                    <p>Obtains the OAuth Application of the bot from Discord.</p>                                                </div>
+                                    <p>Obtains the OAuth Application of the bot from Discord.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -640,7 +688,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchInvite">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L359">line 359</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L357">line 357</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchInvite</strong>(string $invite)
         </code>
@@ -650,7 +698,9 @@
     
 
                     <div class="method-description">
-                                    <p>Obtains an invite from Discord. Resolves with an instance of Invite.</p>                                                </div>
+                                    <p>Obtains an invite from Discord. Resolves with an instance of Invite.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -691,7 +741,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchUser">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L379">line 379</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L377">line 377</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchUser</strong>(string $userid)
         </code>
@@ -701,7 +751,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches an User from the API. Resolves with an User.</p>                                                </div>
+                                    <p>Fetches an User from the API. Resolves with an User.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -742,7 +794,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchVoiceRegions">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L397">line 397</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L395">line 395</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchVoiceRegions</strong>()
         </code>
@@ -752,7 +804,9 @@
     
 
                     <div class="method-description">
-                                    <p>Obtains the available voice regions from Discord. Resolves with a Collection of Voice Region instances, mapped by their ID.</p>                                                </div>
+                                    <p>Obtains the available voice regions from Discord. Resolves with a Collection of Voice Region instances, mapped by their ID.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -783,7 +837,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchWebhook">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L419">line 419</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L417">line 417</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchWebhook</strong>(string $id, string $token = null)
         </code>
@@ -793,7 +847,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches a webhook from Discord. Resolves with an instance of Webhook.</p>                                                </div>
+                                    <p>Fetches a webhook from Discord. Resolves with an instance of Webhook.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -839,7 +895,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generateOAuthInvite">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L436">line 436</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Client.php#L434">line 434</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>generateOAuthInvite</strong>(string|int ...$permissions)
         </code>
@@ -849,7 +905,9 @@
     
 
                     <div class="method-description">
-                                    <p>Generates a link that can be used to invite the bot to a guild. Resolves with a string.</p>                                                </div>
+                                    <p>Generates a link that can be used to invite the bot to a guild. Resolves with a string.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -898,7 +956,9 @@
     
 
                     <div class="method-description">
-                                    <p>Get the React Event Loop that is stored in this class.</p>                                                </div>
+                                    <p>Get the React Event Loop that is stored in this class.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -928,7 +988,9 @@
     
 
                     <div class="method-description">
-                                    <p>Get a specific option, or the default value.</p>                                                </div>
+                                    <p>Get a specific option, or the default value.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -973,7 +1035,9 @@
     
 
                     <div class="method-description">
-                                    <p>Gets the average ping. Or NAN.</p>                                                </div>
+                                    <p>Gets the average ping. Or NAN.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1003,7 +1067,9 @@
     
 
                     <div class="method-description">
-                                    <p>Returns the WS status.</p>                                                </div>
+                                    <p>Returns the WS status.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1033,7 +1099,9 @@
     
 
                     <div class="method-description">
-                                    <p>Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been successfully established (does not mean the client is ready).</p>                                                </div>
+                                    <p>Login into Discord. Opens a WebSocket Gateway connection. Resolves once a WebSocket connection has been successfully established (does not mean the client is ready).</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1087,7 +1155,9 @@
     
 
                     <div class="method-description">
-                                    <p>Attach a listener to an event. The method is from the parent class - only for documentation purpose here.</p>                                                </div>
+                                    <p>Attach a listener to an event. The method is from the parent class - only for documentation purpose here.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1123,7 +1193,9 @@
     
 
                     <div class="method-description">
-                                    <p>Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.</p>                                                </div>
+                                    <p>Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1159,7 +1231,9 @@
     
 
                     <div class="method-description">
-                                    <p>Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.</p>                                                </div>
+                                    <p>Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 

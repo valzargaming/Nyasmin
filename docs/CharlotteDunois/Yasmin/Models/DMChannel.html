@@ -53,7 +53,8 @@
             <div class="collapse navbar-collapse" id="navbar-elements">
                 <ul class="nav navbar-nav">
                     <li><a href="../../../classes.html">Classes</a></li>
-                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                            <li><a href="../../../todo.html">ToDo</a></li>
+                                                                <li><a href="../../../namespaces.html">Namespaces</a></li>
                                         <li><a href="../../../interfaces.html">Interfaces</a></li>
                     <li><a href="../../../traits.html">Traits</a></li>
                     <li><a href="../../../doc-index.html">Index</a></li>
@@ -86,7 +87,9 @@
     
 
             <div class="description">
-            <p>Represents a classic DM channel.</p>                                </div>
+            <p>Represents a classic DM channel.</p>                                                
+        
+                    </div>
     
     
     
@@ -325,7 +328,9 @@
     
 
                     <div class="method-description">
-                                    <p>Deletes multiple messages at once. Resolves with $this.</p>                                                </div>
+                                    <p>Deletes multiple messages at once. Resolves with $this.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -381,7 +386,9 @@
      'time' => int, (duration, in seconds, default 30) <br />
      'max' => int, (max. messages to collect) <br />
      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to []) <br />
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -437,7 +444,9 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                                                </div>
+                                    <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -495,7 +504,9 @@
      'around' => string, (message ID) <br />
      'before' => string, (message ID) <br />
      'limit' => int, (1-100, defaults to 50) <br />
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -546,7 +557,9 @@
     
 
                     <div class="method-description">
-                                    <p>Determines whether a given user is a recipient of this channel.</p>                                                </div>
+                                    <p>Determines whether a given user is a recipient of this channel.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -595,7 +608,9 @@
     
 
                     <div class="method-description">
-                                    <p>Determines whether the given user is typing in this channel or not.</p>                                                </div>
+                                    <p>Determines whether the given user is typing in this channel or not.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -635,7 +650,9 @@
     
 
                     <div class="method-description">
-                                    <p>Determines whether how long the given user has been typing in this channel. Returns -1 if the user is not typing.</p>                                                </div>
+                                    <p>Determines whether how long the given user has been typing in this channel. Returns -1 if the user is not typing.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -675,7 +692,9 @@
     
 
                     <div class="method-description">
-                                    <p>Resolves files of Message Options.</p>                                                </div>
+                                    <p>Resolves files of Message Options.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -724,7 +743,9 @@
    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false)) <br />
    'tts' => bool, <br />
    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message) <br />
- )</p>                            </div>
+ )</p>                                            
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -780,7 +801,9 @@
     
 
                     <div class="method-description">
-                                    <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                                                </div>
+                                    <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
             
@@ -801,7 +824,9 @@
     
 
                     <div class="method-description">
-                                    <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                                                </div>
+                                    <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                                                                
+        
+                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -832,7 +857,9 @@
     
 
                     <div class="method-description">
-                                    <p>Returns the amount of user typing in this channel.</p>                                                </div>
+                                    <p>Returns the amount of user typing in this channel.</p>                                                                
+        
+                            </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
