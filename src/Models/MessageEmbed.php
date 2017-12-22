@@ -28,7 +28,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \DateTime         $datetime           The DateTime instance of timestamp.
  */
 class MessageEmbed extends Base {
-    protected $type;
+    protected $type = 'rich';
     protected $title;
     protected $author;
     protected $description;
@@ -152,7 +152,7 @@ class MessageEmbed extends Base {
     
     /**
      * Set the color of this embed.
-     * @param mixed   $color
+     * @param mixed  $color
      * @return $this
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
@@ -164,7 +164,7 @@ class MessageEmbed extends Base {
     
     /**
      * Set the description of this embed.
-     * @param string  $description   Maxiumum length is 2048 characters.
+     * @param string  $description  Maxiumum length is 2048 characters.
      * @return $this
      * @throws \InvalidArgumentException
      */
@@ -259,8 +259,8 @@ class MessageEmbed extends Base {
     /**
      * Adds a field to this embed.
      * @param string  $title    Maximum length is 256 characters.
-     * @param string  $value    Maximum lengt is 1024 characters.
-     * @param bool    $inline   Whether this field gets shown with other inline fields in one line.
+     * @param string  $value    Maximum length is 1024 characters.
+     * @param bool    $inline   Whether this field gets shown with other inline fields on one line.
      * @return $this
      * @throws \RangeException|\InvalidArgumentException
      */

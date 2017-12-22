@@ -429,8 +429,8 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      */
-    function setVoiceChannel($channel) {
-        return $this->edit(array('channel' => $channel));
+    function setVoiceChannel($channel, string $reason = '') {
+        return $this->edit(array('channel' => $channel), $reason);
     }
     
     /**

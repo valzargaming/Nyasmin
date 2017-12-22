@@ -207,10 +207,10 @@ class ClientUser extends User {
         $packet = array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['STATUS_UPDATE'],
             'd' => array(
-                'afk' => (!empty($presence['afk']) ? $presence['afk'] : $this->clientPresence['afk']),
-                'since' => (!empty($presence['since']) ? $presence['since'] : $this->clientPresence['since']),
-                'status' => (!empty($presence['status']) ? $presence['status'] : $this->clientPresence['status']),
-                'game' => (!empty($presence['game']) ? $presence['game'] : $this->clientPresence['game'])
+                'afk' => (\array_key_exists('afk', $presence) ? $presence['afk'] : $this->clientPresence['afk']),
+                'since' => (\array_key_exists('since', $presence) ? $presence['since'] : $this->clientPresence['since']),
+                'status' => (\array_key_exists('status', $presence) ? $presence['status'] : $this->clientPresence['status']),
+                'game' => (\array_key_exists('game', $presence) ? $presence['game'] : $this->clientPresence['game'])
             )
         );
         

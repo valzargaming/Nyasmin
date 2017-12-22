@@ -17,9 +17,9 @@
         "ext-mbstring": "*",
         "ratchet/pawl": "^0.3.1",
         "react/event-loop": "^0.4.3",
-        "react/promise": "^2.5",
-        "guzzlehttp/guzzle": "^6.3",
-        "charlottedunois/validator": "^0.1.4",
+        "react/promise": "^2.5.1",
+        "guzzlehttp/guzzle": "^6.3.0",
+        "charlottedunois/validator": "^0.1.5",
         "charlottedunois/eventemitter": "^0.1.2"
     },
     "suggest": {

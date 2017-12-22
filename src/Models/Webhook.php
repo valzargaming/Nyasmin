@@ -240,7 +240,7 @@ class Webhook extends ClientBase {
                 return $channel->_createMessage($data);
             }
             
-            return null;
+            return $data;
         });
     }
     
