@@ -936,7 +936,7 @@ class Guild extends ClientBase {
         $this->icon = $guild['icon'];
         $this->splash = $guild['splash'];
         $this->ownerID = $guild['owner_id'];
-        $this->large =  $guild['large'] ?? $this->large;
+        $this->large = (bool) ($guild['large'] ?? $this->large);
         $this->memberCount = $guild['member_count']  ?? $this->memberCount;
         
         $this->defaultMessageNotifications = \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']];
@@ -951,9 +951,9 @@ class Guild extends ClientBase {
         $this->mfaLevel = \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL[$guild['mfa_level']];
         $this->applicationID = $guild['application_id'];
         
-        $this->embedEnabled = $guild['embed_enabled'] ?? $this->embedEnabled;
+        $this->embedEnabled = (bool) ($guild['embed_enabled'] ?? $this->embedEnabled);
         $this->embedChannelID = $guild['embed_channel_id'] ?? $this->embedChannelID;
-        $this->widgetEnabled = $guild['widget_enabled'] ?? $this->widgetEnabled;
+        $this->widgetEnabled = (bool) ($guild['widget_enabled'] ?? $this->widgetEnabled);
         $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
         
         foreach($guild['roles'] as $role) {

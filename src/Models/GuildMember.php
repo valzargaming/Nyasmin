@@ -69,8 +69,8 @@ class GuildMember extends ClientBase {
         $this->id = $member['user']['id'];
         $this->user = $this->client->users->patch($member['user']);
         $this->nickname = $member['nick'] ?? null;
-        $this->deaf = $member['deaf'];
-        $this->mute = $member['mute'];
+        $this->deaf = (bool) ($member['deaf']);
+        $this->mute = (bool) ($member['mute']);
         
         $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         

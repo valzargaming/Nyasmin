@@ -42,8 +42,8 @@ class ClientUser extends User {
         
         $presence = $this->client->getOption('ws.presence', array());
         $this->clientPresence = array(
-            'afk' => (isset($presence['afk']) ? (bool) $presence['afk'] : false),
-            'since' => (!empty($presence['since']) ? (int) $presence['since'] : null),
+            'afk' => (isset($presence['afk']) ? ((bool) $presence['afk']) : false),
+            'since' => (isset($presence['since']) ? $presence['since'] : null),
             'status' => (!empty($presence['status']) ? $presence['status'] : 'online'),
             'game' => (!empty($presence['game']) ? $presence['game'] : null)
         );
@@ -207,7 +207,7 @@ class ClientUser extends User {
         $packet = array(
             'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['STATUS_UPDATE'],
             'd' => array(
-                'afk' => (\array_key_exists('afk', $presence) ? $presence['afk'] : $this->clientPresence['afk']),
+                'afk' => (\array_key_exists('afk', $presence) ? ((bool) $presence['afk']) : $this->clientPresence['afk']),
                 'since' => (\array_key_exists('since', $presence) ? $presence['since'] : $this->clientPresence['since']),
                 'status' => (\array_key_exists('status', $presence) ? $presence['status'] : $this->clientPresence['status']),
                 'game' => (\array_key_exists('game', $presence) ? $presence['game'] : $this->clientPresence['game'])
