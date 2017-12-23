@@ -16,10 +16,11 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $name               The emoji name.
  * @property \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.
  * @property \CharlotteDunois\Yasmin\Models\Guild|null            $guild              The guild this emoji belongs to, or null.
- * @property boolean                                              $requireColons      Does the emoji require colons?
- * @property boolean                                              $managed            Is the emoji managed?
- * @property \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
  * @property int|null                                             $createdTimestamp   The timestamp of when this emoji was created.
+ * @property bool                                                 $animated           Whether this emoji is animated.
+ * @property boolean                                              $managed            Is the emoji managed?
+ * @property boolean                                              $requireColons      Does the emoji require colons?
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
  *
  * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp.
  * @property string                                               $identifier         The identifier for the emoji.
@@ -242,7 +243,7 @@ class Emoji extends ClientBase {
             return $this->name;
         }
         
-        return '<:'.$this->name.':'.$this->id.'>';
+        return '<'.($this->animated ? 'a' : '').':'.$this->name.':'.$this->id.'>';
     }
     
     /**
@@ -251,10 +252,11 @@ class Emoji extends ClientBase {
     function _patch(array $emoji) {
         $this->name = $emoji['name'];
         $this->user = (!empty($emoji['user']) ? $this->client->users->patch($emoji['user']) : null);
-        $this->requireColons = $emoji['require_colons'] ?? true;
-        $this->managed = $emoji['managed'] ?? false;
+        $this->animated = (bool) ($emoji['animated'] ?? false);
+        $this->managed = (bool) ($emoji['managed'] ?? false);
+        $this->requireColons = (bool) ($emoji['require_colons'] ?? true);
         
-        if(!empty($emoji['roles'])) {
+        if(isset($emoji['roles'])) {
             $this->roles->clear();
             
             foreach($emoji['roles'] as $role) {
