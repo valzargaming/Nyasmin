@@ -22,8 +22,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property boolean                                              $requireColons      Does the emoji require colons?
  * @property \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
  *
- * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp.
+ * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp, or null.
  * @property string                                               $identifier         The identifier for the emoji.
+ * @property string|null                                          $url                The URL to the emoji image, or null.
  */
 class Emoji extends ClientBase {
     protected $guild;
@@ -77,6 +78,13 @@ class Emoji extends ClientBase {
                 }
                 
                 return \rawurlencode($this->name);
+            break;
+            case 'url':
+                if($this->id) {
+                    return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['emojis'], $this->id, ($this->animated ? 'gif' : 'png'));
+                }
+                
+                return null;
             break;
         }
         

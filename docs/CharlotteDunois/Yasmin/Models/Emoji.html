@@ -117,7 +117,7 @@
                                                                                 <a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>|null
                 </td>
                 <td><a name="property_createdAt" href="#property_createdAt">$createdAt</a></td>
-                <td class="last">An DateTime instance of the createdTimestamp.</td>
+                <td class="last">An DateTime instance of the createdTimestamp, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -182,6 +182,14 @@
                 </td>
                 <td><a name="property_roles" href="#property_roles">$roles</a></td>
                 <td class="last">A collection of roles that this emoji is active for (empty if all).</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_url">
+                                                                                string|null
+                </td>
+                <td><a name="property_url" href="#property_url">$url</a></td>
+                <td class="last">The URL to the emoji image, or null.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -286,7 +294,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L241">line 241</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L249">line 249</a></div>
         <code>                    
     <strong>__toString</strong>()
         </code>
@@ -309,7 +317,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addRestrictedRole">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L92">line 92</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L100">line 100</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>addRestrictedRole</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role)
         </code>
@@ -360,7 +368,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addRestrictedRoles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L107">line 107</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L115">line 115</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>addRestrictedRoles</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string ...$role)
         </code>
@@ -411,7 +419,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L166">line 166</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L174">line 174</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>delete</strong>(string $reason = &#039;&#039;)
         </code>
@@ -462,7 +470,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L134">line 134</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L142">line 142</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -523,7 +531,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeRestrictedRole">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L184">line 184</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L192">line 192</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>removeRestrictedRole</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role)
         </code>
@@ -574,7 +582,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeRestrictedRoles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L207">line 207</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L215">line 215</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>removeRestrictedRoles</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string ...$role)
         </code>
@@ -625,7 +633,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setName">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L234">line 234</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Emoji.php#L242">line 242</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
         </code>
