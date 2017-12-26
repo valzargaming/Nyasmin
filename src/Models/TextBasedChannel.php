@@ -128,8 +128,8 @@ class TextBasedChannel extends ClientBase
      * Options are as following (all are optional):
      *
      *  array( <br />
-     *      'time' => int, (duration, in seconds, default 30) <br />
      *      'max' => int, (max. messages to collect) <br />
+     *      'time' => int, (duration, in seconds, default 30) <br />
      *      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to []) <br />
      *  )
      *
@@ -141,16 +141,16 @@ class TextBasedChannel extends ClientBase
     function collectMessages(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
-            $timer = array();
+            $timer = null;
             
-            $listener = function ($message) use ($collect, $filter, &$listener, $options, $resolve, &$timer) {
+            $listener = function ($message) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
                 if($message->channel->id === $this->id && $filter($message)) {
                     $collect->set($message->id, $message);
                     
                     if($collect->count() >= ($options['max'] ?? \INF)) {
                         $this->client->removeListener('message', $listener);
-                        if(!empty($timer)) {
-                            $this->client->cancelTimer($timer[0]);
+                        if($timer) {
+                            $this->client->cancelTimer($timer);
                         }
                         
                         $resolve($collect);
@@ -158,7 +158,7 @@ class TextBasedChannel extends ClientBase
                 }
             };
             
-            $timer[0] = $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $options, $resolve, $reject) {
+            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use (&$collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('message', $listener);
                 
                 if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {

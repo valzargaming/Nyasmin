@@ -167,7 +167,9 @@ class Message extends ClientBase {
      * Options are as following:
      *
      *  array( <br />
+     *      'max' => int, (max. message reactions to collect) <br />
      *      'time' => int, (duration, in seconds, default 30) <br />
+     *      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to []) <br />
      *  )
      *
      * @param callable  $filter   The filter to only collect desired reactions.
@@ -179,15 +181,30 @@ class Message extends ClientBase {
     function collectReactions(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+            $timer = null;
             
-            $listener = function ($reaction) use ($collect, $filter, &$listener) {
+            $listener = function ($reaction) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
                 if($this->id === $reaction->message->id && $filter($reaction)) {
                     $collect->set(($reaction->emoji->id ?? $reaction->emoji->name), $reaction);
+                    
+                    if($collect->count() >= ($options['max'] ?? \INF)) {
+                        $this->client->removeListener('messageReactionAdd', $listener);
+                        if($timer) {
+                            $this->client->cancelTimer($timer);
+                        }
+                        
+                        $resolve($collect);
+                    }
                 }
             };
             
-            $this->client->addTimer((int) ($options['time'] ?? 30), function() use ($collect, &$listener, $resolve) {
+            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use (&$collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('messageReactionAdd', $listener);
+                
+                if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {
+                    return $reject(new \RangeException('Not reached max message reactions in specified duration'));
+                }
+                
                 $resolve($collect);
             });
             
