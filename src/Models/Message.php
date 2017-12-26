@@ -289,11 +289,11 @@ class Message extends ClientBase {
                 $emoji = $emoji->identifier;
             }
             
-            $timer = array();
-            $listener = function ($reaction) use (&$listener, $timer, $emoji, $resolve) {
+            $timer = null;
+            $listener = function ($reaction) use (&$listener, &$timer, $emoji, $resolve) {
                 if($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji) {
-                    if(!empty($timer[0])) {
-                        $this->client->cancelTimer($timer[0]);
+                    if($timer) {
+                        $this->client->cancelTimer($timer);
                     }
                     
                     $this->client->removeListener('messageReactionAdd', $listener);
@@ -301,7 +301,7 @@ class Message extends ClientBase {
                 }
             };
 
-            $timer[0] = $this->client->addTimer(30, function () use (&$listener, $reject) {
+            $timer = $this->client->addTimer(30, function () use (&$listener, $reject) {
                 $this->client->removeListener('messageReactionAdd', $listener);
                 $reject(new \Exception('Message Reaction did not arrive in time'));
             });
