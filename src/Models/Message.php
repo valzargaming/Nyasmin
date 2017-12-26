@@ -179,7 +179,7 @@ class Message extends ClientBase {
      *
      */
     function collectReactions(callable $filter, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve) use ($filter, $options) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             $timer = null;
             
