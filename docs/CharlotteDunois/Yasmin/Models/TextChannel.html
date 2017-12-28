@@ -80,8 +80,8 @@
     </div>
 
     <p>    class
-    <strong>TextChannel</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a>        implements
-        <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php" target="_blank">View source</a>)
+    <strong>TextChannel</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        implements
+        <a href="../../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a>, <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>, <a href="../../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php" target="_blank">View source</a>)
 </p>
 
         
@@ -105,6 +105,15 @@
                     The trait all guild channels use.
                 </div>
             </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a>
+                                            
+                </div>
+                <div class="col-md-6">
+                    The text based channel trait.
+                </div>
+            </div>
             </div>
     
     
@@ -125,7 +134,7 @@
                 </td>
                 <td><a name="property_createdAt" href="#property_createdAt">$createdAt</a></td>
                 <td class="last">The DateTime instance of createdTimestamp.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_createdAt"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_createdTimestamp">
@@ -133,7 +142,7 @@
                 </td>
                 <td><a name="property_createdTimestamp" href="#property_createdTimestamp">$createdTimestamp</a></td>
                 <td class="last">The timestamp of when this channel was created.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_createdTimestamp"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_guild">
@@ -149,7 +158,7 @@
                 </td>
                 <td><a name="property_id" href="#property_id">$id</a></td>
                 <td class="last">The channel ID.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_id"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_lastMessage">
@@ -157,7 +166,7 @@
                 </td>
                 <td><a name="property_lastMessage" href="#property_lastMessage">$lastMessage</a></td>
                 <td class="last">The last message, or null.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_lastMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_lastMessageID">
@@ -165,7 +174,7 @@
                 </td>
                 <td><a name="property_lastMessageID" href="#property_lastMessageID">$lastMessageID</a></td>
                 <td class="last">The last message ID, or null.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_lastMessageID"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_messages">
@@ -173,7 +182,7 @@
                 </td>
                 <td><a name="property_messages" href="#property_messages">$messages</a></td>
                 <td class="last">The storage with all cached messages.</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_messages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type" id="property_name">
@@ -245,7 +254,7 @@
                 </td>
                 <td><a name="property_type" href="#property_type">$type</a></td>
                 <td class="last">The channel type. {see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}</td>
-                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#property_type"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></td>
+                <td></td>
             </tr>
             </table>
 
@@ -271,7 +280,7 @@
                     <a href="#method_bulkDelete">bulkDelete</a>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int $messages, string $reason = &#039;&#039;, bool $filterOldMessages = false)
         
                                             <p>Deletes multiple messages at once. Resolves with $this.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -291,7 +300,7 @@
                     <a href="#method_collectMessages">collectMessages</a>(callable $filter, array $options = array())
         
                                             <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -351,7 +360,7 @@
                     <a href="#method_fetchMessage">fetchMessage</a>(string $id)
         
                                             <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -361,7 +370,7 @@
                     <a href="#method_fetchMessages">fetchMessages</a>(array $options = array())
         
                                             <p>Fetches messages of this channel. Resolves with a Collection of Message instances, mapped by their ID.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -381,7 +390,7 @@
                     <a href="#method_isTyping">isTyping</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         
                                             <p>Determines whether the given user is typing in this channel or not.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -391,7 +400,7 @@
                     <a href="#method_isTypingSince">isTypingSince</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         
                                             <p>Determines whether how long the given user has been typing in this channel. Returns -1 if the user is not typing.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -441,7 +450,7 @@
                     <a href="#method_resolveMessageOptionsFiles">resolveMessageOptionsFiles</a>(array $options)
         
                                             <p>Resolves files of Message Options.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -451,7 +460,7 @@
                     <a href="#method_send">send</a>(string $content, array $options = array())
         
                                             <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_send"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -491,7 +500,7 @@
                     <a href="#method_startTyping">startTyping</a>()
         
                                             <p>Starts sending the typing indicator in this channel. Counts up a triggered typing counter.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -501,7 +510,7 @@
                     <a href="#method_stopTyping">stopTyping</a>(bool $force = false)
         
                                             <p>Stops sending the typing indicator in this channel. Counts down a triggered typing counter.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -511,7 +520,7 @@
                     <a href="#method_typingCount">typingCount</a>()
         
                                             <p>Returns the amount of user typing in this channel.</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></small></div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a></small></div>
             </div>
             </div>
 
@@ -521,7 +530,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L133">line 133</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L174">line 174</a></div>
         <code>                    
     <strong>__toString</strong>()
         </code>
@@ -544,7 +553,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_bulkDelete">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L91">line 91</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_bulkDelete"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L23">line 23</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>bulkDelete</strong>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|array|int $messages, string $reason = &#039;&#039;, bool $filterOldMessages = false)
         </code>
@@ -664,7 +673,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_collectMessages">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L141">line 141</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_collectMessages"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L73">line 73</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>collectMessages</strong>(callable $filter, array $options = array())
         </code>
@@ -677,8 +686,8 @@
                                     <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.</p>                    <p>Options are as following (all are optional):</p>
 
 <p>array( <br />
-     'time' => int, (duration, in seconds, default 30) <br />
      'max' => int, (max. messages to collect) <br />
+     'time' => int, (duration, in seconds, default 30) <br />
      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to []) <br />
  )</p>                                            
         
@@ -788,7 +797,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createWebhook">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L91">line 91</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L132">line 132</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createWebhook</strong>(string $name, string $avatar = null, string $reason = &#039;&#039;)
         </code>
@@ -1000,7 +1009,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMessage">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L181">line 181</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_fetchMessage"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L113">line 113</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMessage</strong>(string $id)
         </code>
@@ -1053,7 +1062,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMessages">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L206">line 206</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_fetchMessages"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L138">line 138</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMessages</strong>(array $options = array())
         </code>
@@ -1113,7 +1122,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchWebhooks">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L115">line 115</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L156">line 156</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchWebhooks</strong>()
         </code>
@@ -1156,7 +1165,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTyping">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L375">line 375</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_isTyping"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L307">line 307</a></div>
         <code>                    bool
     <strong>isTyping</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
@@ -1198,7 +1207,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTypingSince">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L384">line 384</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_isTypingSince"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L316">line 316</a></div>
         <code>                    int
     <strong>isTypingSince</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
@@ -1470,7 +1479,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveMessageOptionsFiles">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L438">line 438</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_resolveMessageOptionsFiles"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L370">line 370</a></div>
         <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>resolveMessageOptionsFiles</strong>(array $options)
         </code>
@@ -1512,7 +1521,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_send">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L240">line 240</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_send"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L172">line 172</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>send</strong>(string $content, array $options = array())
         </code>
@@ -1579,7 +1588,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setName">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setName"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L356">line 356</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setName"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L364">line 364</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
         </code>
@@ -1635,7 +1644,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setPosition">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setPosition"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L367">line 367</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setPosition"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L375">line 375</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPosition</strong>(int $position, string $reason = &#039;&#039;)
         </code>
@@ -1691,7 +1700,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setTopic">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setTopic"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L410">line 410</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/GuildChannelTrait.html#method_setTopic"><abbr title="CharlotteDunois\Yasmin\Traits\GuildChannelTrait">GuildChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/GuildChannelTrait.php#L418">line 418</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setTopic</strong>(string $topic, string $reason = &#039;&#039;)
         </code>
@@ -1747,7 +1756,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_startTyping">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L317">line 317</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_startTyping"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L249">line 249</a></div>
         <code>                    
     <strong>startTyping</strong>()
         </code>
@@ -1770,7 +1779,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_stopTyping">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L344">line 344</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_stopTyping"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L276">line 276</a></div>
         <code>                    
     <strong>stopTyping</strong>(bool $force = false)
         </code>
@@ -1803,7 +1812,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_typingCount">
-        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextBasedChannel.php#L366">line 366</a></div>
+        <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Traits/TextChannelTrait.html#method_typingCount"><abbr title="CharlotteDunois\Yasmin\Traits\TextChannelTrait">TextChannelTrait</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L298">line 298</a></div>
         <code>                    int
     <strong>typingCount</strong>()
         </code>
