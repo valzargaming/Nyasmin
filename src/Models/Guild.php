@@ -966,7 +966,7 @@ class Guild extends ClientBase {
         
         if(!empty($guild['channels'])) {
             foreach($guild['channels'] as $channel) {
-                $this->channels->set($channel['id'], \CharlotteDunois\Yasmin\Models\GuildChannel::factory($this->client, $this, $channel));
+                $this->channels->factory($data, $this);
             }
         }
         

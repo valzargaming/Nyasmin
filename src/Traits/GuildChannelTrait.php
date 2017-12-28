@@ -84,7 +84,7 @@ trait GuildChannelTrait {
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
             $this->client->apimanager()->endpoints->guild->createGuildChannel($this->guild->id, $data, $reason)->then(function ($data) use ($resolve) {
-                $channel = \CharlotteDunois\Yasmin\Models\GuildChannel::factory($this->client, $this->guild, $data);
+                $channel = $this->guild->channels->factory($data, $this->guild);
                 $resolve($channel);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
@@ -336,6 +336,14 @@ trait GuildChannelTrait {
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($overwrites, $reason) {
             $promises = array();
+            
+            $overwritesID = \array_column($overwrites, 'id');
+            foreach($this->permissionOverwrites as $perm) {
+                if(!\in_array($perm->id, $overwritesID)) {
+                    $promises[] = $perm->delete($reason);
+                }
+            }
+            
             foreach($overwrites as $overwrite) {
                 $promises[] = $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $overwrite['id'], $overwrite, $reason);
             }

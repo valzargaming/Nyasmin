@@ -35,8 +35,8 @@ class GroupDMChannel extends DMChannel {
      * @throws \InvalidArgumentException
      */
     function addRecipient($user, string $accessToken, string $nick = '') {
-        if(!\is_string($user)) {
-            $user = $this->client->users->resolve($user)->id;
+        if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+            $user = $user->id;
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $accessToken, $nick) {
@@ -53,8 +53,8 @@ class GroupDMChannel extends DMChannel {
      * @throws \InvalidArgumentException
      */
     function removeRecipient($user) {
-        if(!\is_string($user)) {
-            $user = $this->client->users->resolve($user)->id;
+        if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+            $user = $user->id;
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {

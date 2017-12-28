@@ -12,6 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message reaction.
  *
+ * @property \CharlotteDunois\Yasmin\Models\Emoji        $emoji     The emoji this message reaction is for.
  * @property int                                         $count     Times this emoji has been reacted.
  * @property bool                                        $me        Whether the current user has reacted using this emoji.
  * @property \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
@@ -19,11 +20,11 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class MessageReaction extends ClientBase {
     protected $message;
-    protected $users;
+    protected $emoji;
     
     protected $count;
     protected $me;
-    protected $emoji;
+    protected $users;
     
     /**
      * @internal
@@ -31,12 +32,11 @@ class MessageReaction extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Message $message, \CharlotteDunois\Yasmin\Models\Emoji $emoji, array $reaction) {
         parent::__construct($client);
         $this->message = $message;
-        
-        $this->users = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->emoji = $emoji;
         
         $this->count = (int) $reaction['count'];
         $this->me = (bool) $reaction['me'];
-        $this->emoji = $emoji;
+        $this->users = new \CharlotteDunois\Yasmin\Utils\Collection();
     }
     
     /**
@@ -73,7 +73,7 @@ class MessageReaction extends ClientBase {
                 $query['after'] = $after;
             }
             
-            $this->client->apimanager()->endpoints->channel->getMessageReactions($this->message->channel->id, $this->message->id, ($this->emoji->id ?? \rawurlencode($this->emoji->name)), $query)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->getMessageReactions($this->message->channel->id, $this->message->id, $this->emoji->identifier, $query)->then(function ($data) use ($resolve) {
                 foreach($data as $react) {
                     $user = $this->client->users->patch($react);
                     $this->users->set($user->id, $user);
