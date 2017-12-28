@@ -47,7 +47,7 @@ trait TextChannelTrait {
                     return $reject(new \InvalidArgumentException('Unable to bulk delete less than 2 or more than 100 messages'));
                 }
                 
-                $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function ($data) use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function () use ($resolve) {
                     $resolve($this);
                 }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
