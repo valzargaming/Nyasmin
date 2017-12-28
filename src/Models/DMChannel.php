@@ -12,14 +12,37 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a classic DM channel.
  *
- * @property  string|null                                $ownerID      The owner ID of this channel.
- * @property  \CharlotteDunois\Yasmin\Utils\Collection   $recipients   The recipients of this channel.
+ * @property string                                         $id                 The channel ID.
+ * @property string                                         $type               The channel type. {@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}
+ * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
+ * @property  string|null                                   $ownerID            The owner ID of this channel.
+ * @property  \CharlotteDunois\Yasmin\Utils\Collection      $recipients         The recipients of this channel.
+ * @property string|null                                    $lastMessageID      The last message ID, or null.
+ * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
  *
- * @property  \CharlotteDunois\Yasmin\Models\User|null   $owner        The owner of this channel, or not.
+ * @property \DateTime                                      $createdAt          The DateTime instance of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
+ * @property  \CharlotteDunois\Yasmin\Models\User|null      $owner              The owner of this channel, or not.
  */
-class DMChannel extends TextBasedChannel {
+class DMChannel extends ClientBase
+    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
+    use \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
+    
+    protected $messages;
+    protected $typings;
+    protected $typingTriggered = array(
+        'count' => 0,
+        'timer' => null
+    );
+    
+    protected $id;
+    protected $type;
     protected $ownerID;
     protected $recipients;
+    
+    protected $createdTimestamp;
+    protected $lastMessageID;
     
     /**
      * @internal
@@ -52,6 +75,16 @@ class DMChannel extends TextBasedChannel {
         }
         
         switch($name) {
+            case 'createdAt':
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+            break;
+            case 'lastMessage':
+                if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
+                    return $this->messages->get($this->lastMessageID);
+                }
+                
+                return null;
+            break;
             case 'owner':
                 return $this->client->users->get($this->ownerID);
             break;

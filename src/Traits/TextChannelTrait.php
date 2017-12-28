@@ -7,80 +7,12 @@
  * License: https://github.com/CharlotteDunois/Yasmin/blob/master/LICENSE
 */
 
-namespace CharlotteDunois\Yasmin\Models;
+namespace CharlotteDunois\Yasmin\Traits;
 
 /**
- * The text based channel.
- *
- * @property string                                         $id                 The channel ID.
- * @property string                                         $type               The channel type. {@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}
- * @property string|null                                    $lastMessageID      The last message ID, or null.
- * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
- * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
- *
- * @property \DateTime                                      $createdAt          The DateTime instance of createdTimestamp.
- * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
+ * The text based channel trait.
  */
-class TextBasedChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
-                    
-    protected $messages;
-    protected $typings;
-    protected $typingTriggered = array(
-        'count' => 0,
-        'timer' => null
-    );
-    
-    protected $id;
-    protected $type;
-    protected $lastMessageID;
-    
-    protected $createdTimestamp;
-    
-    /**
-     * @internal
-     */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
-        parent::__construct($client);
-        
-        $this->messages = new \CharlotteDunois\Yasmin\Models\MessageStorage($this->client, $this);
-        $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
-        $this->id = $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
-        $this->lastMessageID = $channel['last_message_id'] ?? null;
-        
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
-    }
-    
-    /**
-     * @inheritDoc
-     *
-     * @throws \Exception
-     * @internal
-     */
-    function __get($name) {
-        if(\property_exists($this, $name)) {
-            return $this->$name;
-        }
-        
-        switch($name) {
-            case 'createdAt':
-                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
-            break;
-            case 'lastMessage':
-                if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
-                    return $this->messages->get($this->lastMessageID);
-                }
-                
-                return null;
-            break;
-        }
-        
-        return parent::__get($name);
-    }
-    
+trait TextChannelTrait {
     /**
      * Deletes multiple messages at once. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).

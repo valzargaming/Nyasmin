@@ -12,23 +12,41 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild's text channel.
  *
+ * @property string                                                                                   $id                     The channel ID.
+ * @property string                                                                                   $type                   The channel type. {@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}
  * @property  \CharlotteDunois\Yasmin\Models\Guild                                                    $guild                  The associated guild.
+ * @property int                                                                                      $createdTimestamp       The timestamp of when this channel was created.
  * @property  string                                                                                  $name                   The channel name.
  * @property  string                                                                                  $topic                  The channel topic.
  * @property  bool                                                                                    $nsfw                   Whether the channel is marked as NSFW or not.
  * @property  string|null                                                                             $parentID               The ID of the parent channel, or null.
  * @property  int                                                                                     $position               The channel position.
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                 $permissionOverwrites   A collection of PermissionOverwrite instances.
+ * @property string|null                                                                              $lastMessageID          The last message ID, or null.
+ * @property \CharlotteDunois\Yasmin\Models\MessageStorage                                            $messages               The storage with all cached messages.
  *
+ * @property \DateTime                                                                                $createdAt              The DateTime instance of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null                                              $lastMessage            The last message, or null.
  * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                     $parent                 Returns the channel's parent, or null.
  * @property  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
  */
-class TextChannel extends TextBasedChannel
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
-    use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
+class TextChannel extends ClientBase
+    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
+    use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait, \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
     
     protected $guild;
     
+    protected $messages;
+    protected $typings;
+    protected $typingTriggered = array(
+        'count' => 0,
+        'timer' => null
+    );
+    
+    protected $id;
+    protected $type;
     protected $parentID;
     protected $name;
     protected $topic;
@@ -36,11 +54,24 @@ class TextChannel extends TextBasedChannel
     protected $position;
     protected $permissionOverwrites;
     
+    protected $createdTimestamp;
+    protected $lastMessageID;
+    
     /**
      * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
-        parent::__construct($client, $channel);
+        parent::__construct($client);
+        
+        $this->messages = new \CharlotteDunois\Yasmin\Models\MessageStorage($this->client, $this);
+        $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        $this->id = $channel['id'];
+        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
+        $this->lastMessageID = $channel['last_message_id'] ?? null;
+        
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        
         $this->guild = $guild;
         $this->_patch($channel);
     }
@@ -57,6 +88,16 @@ class TextChannel extends TextBasedChannel
         }
         
         switch($name) {
+            case 'createdAt':
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+            break;
+            case 'lastMessage':
+                if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
+                    return $this->messages->get($this->lastMessageID);
+                }
+                
+                return null;
+            break;
             case 'parent':
                 return $this->guild->channels->get($this->parentID);
             break;
