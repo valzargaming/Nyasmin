@@ -302,7 +302,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_messageDeleteBulkRaw">messageDeleteBulkRaw</a>(<a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> $channel, array $messageIDs)
+                    <a href="#method_messageDeleteBulkRaw">messageDeleteBulkRaw</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, array $messageIDs)
         
                                             <p>Emitted when multple uncached messages gets deleted.</p>                </div>
                 <div class="col-md-2"></div>
@@ -312,7 +312,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_messageDeleteRaw">messageDeleteRaw</a>(<a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> $channel, string $messageID)
+                    <a href="#method_messageDeleteRaw">messageDeleteRaw</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, string $messageID)
         
                                             <p>Emitted when an uncached message gets deleted.</p>                </div>
                 <div class="col-md-2"></div>
@@ -432,7 +432,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_typingStart">typingStart</a>(<a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+                    <a href="#method_typingStart">typingStart</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         
                                             <p>Emitted when someone starts typing in the channel.</p>                </div>
                 <div class="col-md-2"></div>
@@ -1174,7 +1174,7 @@
                     <h3 id="method_messageDeleteBulkRaw">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L47">line 47</a></div>
         <code>                    
-    <strong>messageDeleteBulkRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> $channel, array $messageIDs)
+    <strong>messageDeleteBulkRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, array $messageIDs)
         </code>
     </h3>
     <div class="details">
@@ -1190,7 +1190,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></td>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
                 <td>$channel</td>
                 <td></td>
             </tr>
@@ -1212,7 +1212,7 @@
                     <h3 id="method_messageDeleteRaw">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L42">line 42</a></div>
         <code>                    
-    <strong>messageDeleteRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> $channel, string $messageID)
+    <strong>messageDeleteRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, string $messageID)
         </code>
     </h3>
     <div class="details">
@@ -1228,7 +1228,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></td>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
                 <td>$channel</td>
                 <td></td>
             </tr>
@@ -1613,7 +1613,7 @@
                     <h3 id="method_typingStart">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/ClientEvents.php#L192">line 192</a></div>
         <code>                    
-    <strong>typingStart</strong>(<a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+    <strong>typingStart</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
     </h3>
     <div class="details">
@@ -1629,7 +1629,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><a href="../../CharlotteDunois/Yasmin/Models/TextBasedChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextBasedChannel">TextBasedChannel</abbr></a></td>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
                 <td>$channel</td>
                 <td></td>
             </tr>

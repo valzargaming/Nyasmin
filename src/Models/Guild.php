@@ -276,7 +276,7 @@ class Guild extends ClientBase {
             unset($options['permissionOverwrites']);
             
             $this->client->apimanager()->endpoints->guild->createGuildChannel($this->id, $options, $reason)->then(function ($data) use ($resolve) {
-                $channel = \CharlotteDunois\Yasmin\Models\GuildChannel::factory($this->client, $this, $data);
+                $channel = $this->channels->factory($data, $this);
                 $resolve($channel);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));

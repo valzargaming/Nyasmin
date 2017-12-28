@@ -146,7 +146,7 @@ class Webhook extends ClientBase {
      */
     function send(string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
-            \CharlotteDunois\Yasmin\Models\TextBasedChannel::resolveMessageOptionsFiles($options)->then(function ($files) use ($content, $options, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->then(function ($files) use ($content, $options, $resolve, $reject) {
                 $msg = array(
                     'content' => $content
                 );

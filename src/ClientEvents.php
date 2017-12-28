@@ -39,12 +39,12 @@ interface ClientEvents {
     /**
      * Emitted when an uncached message gets deleted.
      */
-    function messageDeleteRaw(\CharlotteDunois\Yasmin\Models\TextBasedChannel $channel, string $messageID);
+    function messageDeleteRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, string $messageID);
     
     /**
      * Emitted when multple uncached messages gets deleted.
      */
-    function messageDeleteBulkRaw(\CharlotteDunois\Yasmin\Models\TextBasedChannel $channel, array $messageIDs);
+    function messageDeleteBulkRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $messageIDs);
     
     /**
      * Emitted when an error happens.
@@ -189,7 +189,7 @@ interface ClientEvents {
     /**
      * Emitted when someone starts typing in the channel.
      */
-    function typingStart(\CharlotteDunois\Yasmin\Models\TextBasedChannel $channel, \CharlotteDunois\Yasmin\Models\User $user);
+    function typingStart(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, \CharlotteDunois\Yasmin\Models\User $user);
     
     /**
      * Emitted when someone updates their user account (username/avatar/etc.).

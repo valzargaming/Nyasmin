@@ -48,7 +48,7 @@ class DMChannel extends ClientBase
      * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
-        parent::__construct($client, $channel);
+        parent::__construct($client);
         
         $this->ownerID = $channel['owner_id'] ?? null;
         $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();

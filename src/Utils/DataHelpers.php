@@ -136,4 +136,57 @@ class DataHelpers {
         
         return array($text);
     }
+    
+    /**
+     * Resolves files of Message Options.
+     * @param array $options
+     * @return \React\Promise\Promise
+     */
+    static function resolveMessageOptionsFiles(array $options) {
+        if(empty($options['files'])) {
+            return \React\Promise\resolve(array());
+        }
+        
+        $promises = array();
+        foreach($options['files'] as $file) {
+            if($file instanceof \CharlotteDunois\Yasmin\Models\MessageAttachment) {
+                $file = $file->getMessageFilesArray();
+            }
+            
+            if(\is_string($file)) {
+                if(\filter_var($file, FILTER_VALIDATE_URL)) {
+                    $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
+                        return array('name' => \basename($file), 'data' => $data);
+                    });
+                } else {
+                    $promises[] = \React\Promise\resolve(array('name' => 'file-'.\bin2hex(\random_bytes(3)).'.jpg', 'data' => $file));
+                }
+                
+                continue;
+            }
+            
+            if(!\is_array($file)) {
+                continue;
+            }
+            
+            if(!isset($file['name'])) {
+                if(isset($file['path'])) {
+                    $file['name'] = \basename($file['path']);
+                } else {
+                    $file['name'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
+                }
+            }
+            
+            if(!isset($file['data']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
+                $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
+                    $file['data'] = $data;
+                    return $file;
+                });
+            } else {
+                $promises[] = \React\Promise\resolve($file);
+            }
+        }
+        
+        return \React\Promise\all($promises);
+    }
 }
