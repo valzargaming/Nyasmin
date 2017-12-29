@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 /**
  * Handles the API.
  * @property \CharlotteDunois\Yasmin\Client             $client
- * @property \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints  The class with the endpoints.
+ * @property \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints
  * @internal
  */
 class APIManager {

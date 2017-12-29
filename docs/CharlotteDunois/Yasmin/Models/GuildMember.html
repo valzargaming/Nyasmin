@@ -466,7 +466,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L439">line 439</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L440">line 440</a></div>
         <code>                    
     <strong>__toString</strong>()
         </code>
@@ -630,7 +630,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L273">line 273</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L274">line 274</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -642,13 +642,15 @@
                     <div class="method-description">
                                     <p>Edits the guild member. Resolves with $this.</p>                    <p>Options are as following (only one required):</p>
 
-<p>array( <br />
-     'nick' => string, <br />
-     'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs) <br />
-     'deaf' => bool, <br />
-     'mute' => bool, <br />
-     'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice) <br />
- )</p>                                            
+<pre>
+ array(
+     'nick' => string,
+     'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs)
+     'deaf' => bool,
+     'mute' => bool,
+     'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
+ )</pre>
+</p>                                            
         
                             </div>
                 <div class="tags">
@@ -694,7 +696,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_kick">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L318">line 318</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L319">line 319</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>kick</strong>(string $reason = &#039;&#039;)
         </code>
@@ -736,7 +738,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_permissionsIn">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L332">line 332</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L333">line 333</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Models/Permissions.html"><abbr title="CharlotteDunois\Yasmin\Models\Permissions">Permissions</abbr></a>
     <strong>permissionsIn</strong>(<a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>|string $channel)
         </code>
@@ -787,7 +789,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeRole">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L347">line 347</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L348">line 348</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>removeRole</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|string $role, string $reason = &#039;&#039;)
         </code>
@@ -834,7 +836,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeRoles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L365">line 365</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L366">line 366</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>removeRoles</strong>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|<abbr title="CharlotteDunois\Yasmin\Models\array<\CharlotteDunois\Yasmin\Models\Role>">Role></abbr> $roles, string $reason = &#039;&#039;)
         </code>
@@ -881,7 +883,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setDeaf">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L383">line 383</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L384">line 384</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setDeaf</strong>(bool $deaf, string $reason = &#039;&#039;)
         </code>
@@ -928,7 +930,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setMute">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L393">line 393</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L394">line 394</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setMute</strong>(bool $mute, string $reason = &#039;&#039;)
         </code>
@@ -975,7 +977,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setNickname">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L403">line 403</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L404">line 404</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setNickname</strong>(string $nickname, string $reason = &#039;&#039;)
         </code>
@@ -1022,7 +1024,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setRoles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L421">line 421</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L422">line 422</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setRoles</strong>(<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>|<abbr title="CharlotteDunois\Yasmin\Models\array<\CharlotteDunois\Yasmin\Models\Role>">Role></abbr> $roles, string $reason = &#039;&#039;)
         </code>
@@ -1069,7 +1071,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setVoiceChannel">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L432">line 432</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/GuildMember.php#L433">line 433</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setVoiceChannel</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|string $channel, string $reason = &#039;&#039;)
         </code>

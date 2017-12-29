@@ -12,9 +12,10 @@ namespace CharlotteDunois\Yasmin\WebSocket;
 /**
  * Handles the WS connection.
  *
- * @property \CharlotteDunois\Yasmin\Client               $client
- * @property int                                          $status
- * @property \CharlotteDunois\Yasmin\WebSocket\WSHandler  $wshandler
+ * @property \CharlotteDunois\Yasmin\Client                          $client
+ * @property \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface  $encoding
+ * @property int                                                     $status
+ * @property \CharlotteDunois\Yasmin\WebSocket\WSHandler             $wshandler
  *
  * @internal
  */

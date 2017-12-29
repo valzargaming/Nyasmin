@@ -397,7 +397,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createGroupDM">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L243">line 243</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L244">line 244</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createGroupDM</strong>(array $userWithAccessTokens, array $nicks = array())
         </code>
@@ -407,9 +407,10 @@
     
 
                     <div class="method-description">
-                                    <p>Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:</p>                    <p>array(
+                                    <p>Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:</p>                    <p><pre>
+ array(
      'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
- )</p>
+ )</pre>
 
 <p>The nicks array is an associative array of userID => nick. The nick defaults to the username.</p>                                            
         

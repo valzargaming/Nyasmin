@@ -257,13 +257,14 @@ class GuildMember extends ClientBase {
      *
      * Options are as following (only one required):
      *
-     *  array( <br />
-     *      'nick' => string, <br />
-     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs) <br />
-     *      'deaf' => bool, <br />
-     *      'mute' => bool, <br />
-     *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice) <br />
-     *  )
+     *  <pre>
+     *  array(
+     *      'nick' => string,
+     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs)
+     *      'deaf' => bool,
+     *      'mute' => bool,
+     *      'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
+     *  )</pre>
      *
      * @param array   $options
      * @param string  $reason

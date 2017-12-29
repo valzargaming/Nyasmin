@@ -134,20 +134,22 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     /**
      * What do you expect this to do? It makes a new Client instance. Available client options are as following (all are optional):
      *
-     *  array( <br />
-     *      'disableClones' => bool|string[], (disables cloning of class instances (for perfomance), affects update events - bool: true - disables all cloning) <br />
-     *      'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext) <br />
-     *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched) <br />
-     *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration) <br />
-     *      'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime) <br />
-     *      'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding) <br />
-     *      'shardCount' => int, (shard count, important for sharding) <br />
-     *      'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done) <br />
-     *      'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream, which is currently the only available compression) <br />
-     *      'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do) <br />
-     *      'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250) <br />
-     *      'ws.presence' => array (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update) <br />
-     *  )
+     *  <pre>
+     *  array(
+     *      'disableClones' => bool|string[], (disables cloning of class instances (for perfomance), affects update events - bool: true - disables all cloning)
+     *      'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext)
+     *      'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched)
+     *      'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration)
+     *      'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime)
+     *      'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding)
+     *      'shardCount' => int, (shard count, important for sharding)
+     *      'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done)
+     *      'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream, which is currently the only available compression)
+     *      'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
+     *      'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do)
+     *      'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250)
+     *      'ws.presence' => array (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update)
+     *  )</pre>
      *
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).

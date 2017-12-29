@@ -11,6 +11,10 @@ namespace CharlotteDunois\Yasmin\WebSocket;
 
 /**
  * Handles WS messages.
+ *
+ * @property \CharlotteDunois\Yasmin\Client               $client
+ * @property int                                          $sequence
+ * @property \CharlotteDunois\Yasmin\WebSocket\WSManager  $wsmanager
  * @internal
  */
 class WSHandler {

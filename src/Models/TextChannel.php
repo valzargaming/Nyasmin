@@ -62,6 +62,7 @@ class TextChannel extends ClientBase
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
         parent::__construct($client);
+        $this->guild = $guild;
         
         $this->messages = new \CharlotteDunois\Yasmin\Models\MessageStorage($this->client, $this);
         $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
@@ -72,7 +73,6 @@ class TextChannel extends ClientBase
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
-        $this->guild = $guild;
         $this->_patch($channel);
     }
     

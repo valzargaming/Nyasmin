@@ -125,14 +125,15 @@ class Role extends ClientBase {
      *
      * Options are as following (only one is required):
      *
-     *  array( <br />
-     *      'name' => string, <br />
-     *      'color' => int|string, <br />
-     *      'hoist' => bool, <br />
-     *      'position' => int, <br />
-     *      'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions, <br />
-     *      'mentionable' => bool <br />
-     *  )
+     *  <pre>
+     *  array(
+     *      'name' => string,
+     *      'color' => int|string,
+     *      'hoist' => bool,
+     *      'position' => int,
+     *      'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions,
+     *      'mentionable' => bool
+     *  )</pre>
      *
      * @param array  $options
      * @param string $reason

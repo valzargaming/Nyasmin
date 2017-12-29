@@ -9,8 +9,6 @@
 
 namespace CharlotteDunois\Yasmin\HTTP;
 
-use \CharlotteDunois\Yasmin\Constants;
-
 /**
  * Handles the API endpoints.
  * @internal
@@ -73,7 +71,7 @@ class APIEndpoints {
     }
     
     function getCurrentApplication() {
-        $url = Constants::ENDPOINTS_GENERAL['currentOAuthApplication'];
+        $url = \CharlotteDunois\Yasmin\Constants::ENDPOINTS_GENERAL['currentOAuthApplication'];
         return $this->api->makeRequest('GET', $url, array());
     }
 }
