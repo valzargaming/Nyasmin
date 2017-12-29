@@ -50,6 +50,13 @@ class DMChannel extends ClientBase
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client);
         
+        $this->messages = new \CharlotteDunois\Yasmin\Models\MessageStorage($this->client, $this);
+        $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        $this->id = $channel['id'];
+        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
+        $this->lastMessageID = $channel['last_message_id'] ?? null;
+        
         $this->ownerID = $channel['owner_id'] ?? null;
         $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
         
