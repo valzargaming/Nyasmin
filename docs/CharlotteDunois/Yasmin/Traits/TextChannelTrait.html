@@ -124,7 +124,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_fetchMessage">fetchMessage</a>(string $id)
         
-                                            <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                </div>
+                                            <p>Fetches a specific message using the ID. Resolves with an instance of Message.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -257,7 +257,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_collectMessages">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L74">line 74</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L75">line 75</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>collectMessages</strong>(callable $filter, array $options = array())
         </code>
@@ -270,11 +270,12 @@
                                     <p>Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.</p>                    <p>Options are as following (all are optional):</p>
 
 <pre>
- array(
-     'max' => int, (max. messages to collect)
-     'time' => int, (duration, in seconds, default 30)
-     'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
- )</pre>
+array(
+  'max' => int, (max. messages to collect)
+  'time' => int, (duration, in seconds, default 30)
+  'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
+)
+</pre>
 </p>                                            
         
                             </div>
@@ -323,7 +324,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMessage">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L114">line 114</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L115">line 115</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMessage</strong>(string $id)
         </code>
@@ -333,7 +334,7 @@
     
 
                     <div class="method-description">
-                                    <p>Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.</p>                                                                
+                                    <p>Fetches a specific message using the ID. Resolves with an instance of Message.</p>                                                                
         
                             </div>
                 <div class="tags">
@@ -376,7 +377,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_fetchMessages">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L140">line 140</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L142">line 142</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>fetchMessages</strong>(array $options = array())
         </code>
@@ -389,12 +390,13 @@
                                     <p>Fetches messages of this channel. Resolves with a Collection of Message instances, mapped by their ID.</p>                    <p>Options are as following:</p>
 
 <pre>
- array(
-     'after' => string, (message ID)
-     'around' => string, (message ID)
-     'before' => string, (message ID)
-     'limit' => int, (1-100, defaults to 50)
- )</pre>
+array(
+  'after' => string, (message ID)
+  'around' => string, (message ID)
+  'before' => string, (message ID)
+  'limit' => int, (1-100, defaults to 50)
+)
+</pre>
 </p>                                            
         
                             </div>
@@ -438,7 +440,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTyping">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L310">line 310</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L320">line 320</a></div>
         <code>                    bool
     <strong>isTyping</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
@@ -480,7 +482,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTypingSince">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L319">line 319</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L329">line 329</a></div>
         <code>                    int
     <strong>isTypingSince</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
         </code>
@@ -522,7 +524,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_send">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L175">line 175</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L185">line 185</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>send</strong>(string $content, array $options = array())
         </code>
@@ -535,14 +537,22 @@
                                     <p>Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.</p>                    <p>Options are as following (all are optional):</p>
 
 <pre>
- array(
-   'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or an instance of MessageEmbed)
-   'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
+array(
+   'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array/object or an instance of MessageEmbed)
+   'files' => array, (an array of array('name' => string, 'data' => string || 'path' => string) or just plain file contents, file paths or URLs)
    'nonce' => string, (a snowflake used for optimistic sending)
    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
    'tts' => bool,
-   'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
- )</pre>
+   'split' => bool|array, (*)
+)
+
+  * array(
+  *   'before' => string, (The string to insert before the split)
+  *   'after' => string, (The string to insert after the split)
+  *   'char' => string, (The string to split on)
+  *   'maxLength' => int, (The max. length of each message)
+  * )
+</pre>
 </p>                                            
         
                             </div>
@@ -591,7 +601,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_startTyping">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L252">line 252</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L262">line 262</a></div>
         <code>                    
     <strong>startTyping</strong>()
         </code>
@@ -614,7 +624,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_stopTyping">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L279">line 279</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L289">line 289</a></div>
         <code>                    
     <strong>stopTyping</strong>(bool $force = false)
         </code>
@@ -647,7 +657,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_typingCount">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L301">line 301</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Traits/TextChannelTrait.php#L311">line 311</a></div>
         <code>                    int
     <strong>typingCount</strong>()
         </code>

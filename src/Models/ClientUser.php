@@ -172,10 +172,10 @@ class ClientUser extends User {
      * Set your presence. Resolves with $this.
      *
      *  $presence = array(
-     *      'afk' => bool,
-     *      'since' => integer|null,
-     *      'status' => string,
-     *      'game' => array(
+     *   'afk' => bool,
+     *   'since' => integer|null,
+     *   'status' => string,
+     *   'game' => array(
      *          'name' => string,
      *          'type' => int,
      *          'url' => string|null
@@ -229,10 +229,11 @@ class ClientUser extends User {
     /**
      * Creates a new Group DM with the owner of the access tokens. Resolves with an instance of GroupDMChannel. The structure of the array is as following:
      *
-     *  <pre>
-     *  array(
-     *      'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
+     * )
+     * </pre>
      *
      * The nicks array is an associative array of userID => nick. The nick defaults to the username.
      *

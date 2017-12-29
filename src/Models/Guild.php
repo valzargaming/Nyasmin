@@ -163,13 +163,14 @@ class Guild extends ClientBase {
      *
      * Options are as following (all fields are optional):
      *
-     *  <pre>
-     *  array(
-     *      'nick' => string, (the nickname for the user, requires MANAGE_NICKNAMES permissions)
-     *      'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (array or Collection of Role instances or role IDs, requires MANAGE_ROLES permission)
-     *      'mute' => bool, (whether the user is muted, requires MUTE_MEMBERS permission)
-     *      'deaf' => bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'nick' => string, (the nickname for the user, requires MANAGE_NICKNAMES permissions)
+     *   'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (array or Collection of Role instances or role IDs, requires MANAGE_ROLES permission)
+     *   'mute' => bool, (whether the user is muted, requires MUTE_MEMBERS permission)
+     *   'deaf' => bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)
+     * )
+     * </pre>
      *
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user         A guild member or User instance, or the user ID.
      * @param string                                      $accessToken  The OAuth Access Token for the given user.
@@ -242,16 +243,17 @@ class Guild extends ClientBase {
      *
      * Options are as following (all fields except name are optional):
      *
-     *  <pre>
-     *  array(
-     *      'name' => string,
-     *      'type' => 'text'|'voice', (defaults to 'text')
-     *      'bitrate' => int, (only for voice channels)
-     *      'userLimit' => int, (only for voice channels, 0 = unlimited)
-     *      'permissionOverwrites' => array<array|\CharlotteDunois\Yasmin\Models\PermissionOverwrite>
-     *      'parentID' => string,
-     *      'nsfw' => bool
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'name' => string,
+     *   'type' => 'text'|'voice', (defaults to 'text')
+     *   'bitrate' => int, (only for voice channels)
+     *   'userLimit' => int, (only for voice channels, 0 = unlimited)
+     *   'permissionOverwrites' => array<array|\CharlotteDunois\Yasmin\Models\PermissionOverwrite>
+     *   'parentID' => string,
+     *   'nsfw' => bool
+     * )
+     * </pre>
      *
      * @param array   $options
      * @param string  $reason
@@ -327,14 +329,15 @@ class Guild extends ClientBase {
      *
      * Options are as following (all are optional):
      *
-     *  <pre>
-     *  array(
-     *      'name' => string,
-     *      'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions,
-     *      'color' => int|string,
-     *      'hoist' => bool,
-     *      'mentionable' => bool
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'name' => string,
+     *   'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions,
+     *   'color' => int|string,
+     *   'hoist' => bool,
+     *   'mentionable' => bool
+     * )
+     * </pre>
      *
      * @param array   $options
      * @param string  $reason
@@ -372,21 +375,22 @@ class Guild extends ClientBase {
      *
      * Options are as following (at least one is required):
      *
-     *  <pre>
-     *  array(
-     *      'name' => string,
-     *      'region' => string,
-     *      'verificationLevel' => int,
-     *      'explicitContentFilter' => int,
-     *      'defaultMessageNotifications' => int,
-     *      'afkChannel' => string|\CharlotteDunois\Yasmin\Models\VoiceChannel|null,
-     *      'afkTimeout' => int|null,
-     *      'systemChannel' => string|\CharlotteDunois\Yasmin\Models\TextChannel|null,
-     *      'owner' => string|\CharlotteDunois\Yasmin\Models\GuildMember,
-     *      'icon' => string, (file path or URL, or data)
-     *      'splash' => string, (file path or URL, or data)
-     *      'region' => string|\CharlotteDunois\Yasmin\Models\VoiceRegion
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'name' => string,
+     *   'region' => string,
+     *   'verificationLevel' => int,
+     *   'explicitContentFilter' => int,
+     *   'defaultMessageNotifications' => int,
+     *   'afkChannel' => string|\CharlotteDunois\Yasmin\Models\VoiceChannel|null,
+     *   'afkTimeout' => int|null,
+     *   'systemChannel' => string|\CharlotteDunois\Yasmin\Models\TextChannel|null,
+     *   'owner' => string|\CharlotteDunois\Yasmin\Models\GuildMember,
+     *   'icon' => string, (file path or URL, or data)
+     *   'splash' => string, (file path or URL, or data)
+     *   'region' => string|\CharlotteDunois\Yasmin\Models\VoiceRegion
+     * )
+     * </pre>
      *
      * @param array   $options
      * @param string  $reason
@@ -495,14 +499,15 @@ class Guild extends ClientBase {
      *
      * Options are as following (all are optional):
      *
-     *  <pre>
-     *  array(
-     *      'before' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
-     *      'after' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
-     *      'limit' => int,
-     *      'user' => string|\CharlotteDunois\Yasmin\Models\User,
-     *      'type' => string|int
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'before' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
+     *   'after' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
+     *   'limit' => int,
+     *   'user' => string|\CharlotteDunois\Yasmin\Models\User,
+     *   'type' => string|int
+     * )
+     * </pre>
      *
      * @param array  $options
      * @return \React\Promise\Promise

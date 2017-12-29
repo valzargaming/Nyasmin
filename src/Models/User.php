@@ -196,6 +196,7 @@ class User extends ClientBase {
     /**
      * Fetches the User's connections. Requires connections scope. Resolves with a Collection of UserConnection instances, mapped by their ID.
      * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\UserConnection
      */
     function fetchUserConnections() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {

@@ -166,12 +166,13 @@ class Message extends ClientBase {
      *
      * Options are as following:
      *
-     *  <pre>
-     *  array(
-     *      'max' => int, (max. message reactions to collect)
-     *      'time' => int, (duration, in seconds, default 30)
-     *      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'max' => int, (max. message reactions to collect)
+     *   'time' => int, (duration, in seconds, default 30)
+     *   'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
+     * )
+     * </pre>
      *
      * @param callable  $filter   The filter to only collect desired reactions.
      * @param array     $options  The collector options.

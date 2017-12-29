@@ -18,13 +18,14 @@ trait GuildChannelTrait {
      *
      * Options are as following (all are optional).
      *
-     *  <pre>
-     *  array(
+     * <pre>
+     * array(
      *    'maxAge' => int,
      *    'maxUses' => int, (0 = unlimited)
      *    'temporary' => bool,
      *    'unique' => bool
-     *  )</pre>
+     * )
+     * </pre>
      *
      * @param array $options
      * @return \React\Promise\Promise
@@ -96,14 +97,15 @@ trait GuildChannelTrait {
      *
      * Options are as following (at least one is required).
      *
-     *  <pre>
-     *  array(
+     * <pre>
+     * array(
      *    'name' => string,
      *    'position' => int,
      *    'topic' => string,
      *    'bitrate' => int, (voice channels only)
      *    'userLimit' => int (voice channels only)
-     *  )</pre>
+     * )
+     * </pre>
      *
      * @param array   $options
      * @param string  $reason

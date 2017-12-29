@@ -57,12 +57,13 @@ class Webhook extends ClientBase {
      *
      * Options are as following (at least one is required):
      *
-     *  <pre>
-     *  array(
+     * <pre>
+     * array(
      *    'name' => string,
      *    'avatar' => string, (data, filepath or URL)
      *    'channel' => \CharlotteDunois\Yasmin\Models\TextChannel|string
-     *  )</pre>
+     * )
+     * </pre>
      *
      * @param array   $options
      * @param string  $reason
@@ -128,17 +129,25 @@ class Webhook extends ClientBase {
      *
      * Options are as following (all are optional):
      *
-     *  <pre>
-     *  array(
-     *    'embeds' => array<\CharlotteDunois\Yasmin\Models\MessageEmbed|array>, (an array of (embed) array or instance of MessageEmbed)
-     *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
+     * <pre>
+     * array(
+     *    'embeds' => \CharlotteDunois\Yasmin\Models\MessageEmbed[]|array[], (an array of (embed) array/object or MessageEmbed instances)
+     *    'files' => array, (an array of array('name' => string, 'data' => string || 'path' => string) or just plain file contents, file paths or URLs)
      *    'nonce' => string, (a snowflake used for optimistic sending)
      *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
      *    'tts' => bool,
-     *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
+     *    'split' => bool|array, (*)
      *    'username' => string,
      *    'avatar' => string, (an URL)
-     *  )</pre>
+     * )
+     *
+     *   * array(
+     *   *   'before' => string, (The string to insert before the split)
+     *   *   'after' => string, (The string to insert after the split)
+     *   *   'char' => string, (The string to split on)
+     *   *   'maxLength' => int, (The max. length of each message)
+     *   * )
+     * </pre>
      *
      * @param string  $content  The webhook message content.
      * @param array   $options  Any webhook message options.

@@ -59,12 +59,13 @@ trait TextChannelTrait {
      *
      * Options are as following (all are optional):
      *
-     *  <pre>
-     *  array(
-     *      'max' => int, (max. messages to collect)
-     *      'time' => int, (duration, in seconds, default 30)
-     *      'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'max' => int, (max. messages to collect)
+     *   'time' => int, (duration, in seconds, default 30)
+     *   'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
+     * )
+     * </pre>
      *
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
@@ -106,7 +107,7 @@ trait TextChannelTrait {
     }
     
     /**
-     * Fetches a specific message using the ID. Bot account endpoint only. Resolves with an instance of Message.
+     * Fetches a specific message using the ID. Resolves with an instance of Message.
      * @param  string  $id
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
@@ -125,13 +126,14 @@ trait TextChannelTrait {
      *
      * Options are as following:
      *
-     *  <pre>
-     *  array(
-     *      'after' => string, (message ID)
-     *      'around' => string, (message ID)
-     *      'before' => string, (message ID)
-     *      'limit' => int, (1-100, defaults to 50)
-     *  )</pre>
+     * <pre>
+     * array(
+     *   'after' => string, (message ID)
+     *   'around' => string, (message ID)
+     *   'before' => string, (message ID)
+     *   'limit' => int, (1-100, defaults to 50)
+     * )
+     * </pre>
      *
      * @param  array  $options
      * @return \React\Promise\Promise
@@ -157,15 +159,23 @@ trait TextChannelTrait {
      *
      * Options are as following (all are optional):
      *
-     *  <pre>
-     *  array(
-     *    'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array or an instance of MessageEmbed)
-     *    'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
+     * <pre>
+     * array(
+     *    'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array/object or an instance of MessageEmbed)
+     *    'files' => array, (an array of array('name' => string, 'data' => string || 'path' => string) or just plain file contents, file paths or URLs)
      *    'nonce' => string, (a snowflake used for optimistic sending)
      *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
      *    'tts' => bool,
-     *    'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
-     *  )</pre>
+     *    'split' => bool|array, (*)
+     * )
+     *
+     *   * array(
+     *   *   'before' => string, (The string to insert before the split)
+     *   *   'after' => string, (The string to insert after the split)
+     *   *   'char' => string, (The string to split on)
+     *   *   'maxLength' => int, (The max. length of each message)
+     *   * )
+     * </pre>
      *
      * @param  string  $content  The message content.
      * @param  array   $options  Any message options.
