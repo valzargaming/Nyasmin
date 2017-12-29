@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a received embed from a message. This class can also be used to make a Rich Embed.
  *
  * @property string            $type               The embed type.
- * @property string|null       $title              The title.
+ * @property string|null       $title              The title, or null.
  * @property array|null        $author             The author (array of name, icon, url), or null.
  * @property string|null       $description        The description, or null.
  * @property string|null       $url                The URL, or null.
@@ -25,7 +25,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property array|null        $video              The video (array of url, height, width), or null.
  * @property array|null        $provider           The provider (array of name, url), or null.
  *
- * @property \DateTime         $datetime           The DateTime instance of timestamp.
+ * @property \DateTime|null    $datetime           The DateTime instance of timestamp, or null.
  */
 class MessageEmbed extends Base {
     protected $type = 'rich';

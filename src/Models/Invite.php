@@ -23,7 +23,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool|null                                                                                              $temporary           If this invite grants temporary membership, or null.
  * @property int|null                                                                                               $uses                Number of times this invite has been used, or null.
  *
- * @property \DateTime|null                                                                                         $createdAt           The DateTime instance of the createdTimestamp, if not null.
+ * @property \DateTime|null                                                                                         $createdAt           The DateTime instance of the createdTimestamp, or null.
  * @property string                                                                                                 $url                 Returns the URL for the invite.
  */
 class Invite extends ClientBase {

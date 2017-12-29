@@ -15,14 +15,14 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                         $id                 The channel ID.
  * @property string                                         $type               The channel type. ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES})
  * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
- * @property  string|null                                   $ownerID            The owner ID of this channel.
+ * @property  string|null                                   $ownerID            The owner ID of this channel, or null.
  * @property  \CharlotteDunois\Yasmin\Utils\Collection      $recipients         The recipients of this channel.
  * @property string|null                                    $lastMessageID      The last message ID, or null.
  * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
  *
  * @property \DateTime                                      $createdAt          The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
- * @property  \CharlotteDunois\Yasmin\Models\User|null      $owner              The owner of this channel, or not.
+ * @property  \CharlotteDunois\Yasmin\Models\User|null      $owner              The owner of this channel, or null.
  */
 class DMChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,

@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $name                 The name of the application.
  * @property string|null                                          $icon                 The hash of the application hash, or null.
  * @property string|null                                          $description          The application's description, or null.
- * @property string[]|null                                        $rpcOrigins           An array of RPC origin url strings, if RPC is enabled.
+ * @property string[]|null                                        $rpcOrigins           An array of RPC origin url strings, if RPC is enabled, or null.
  * @property bool                                                 $botPublic            Whether the bot is public.
  * @property bool                                                 $botRequireCodeGrant  Whether the bot requires a code grant (full OAuth flow).
  * @property \CharlotteDunois\Yasmin\Models\User|null             $owner                The User instance of the owner, or null.

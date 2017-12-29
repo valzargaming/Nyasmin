@@ -37,9 +37,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                         $mfaLevel                     The required MFA level for the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL})
  * @property string|null                                                    $applicationID                Application ID of the guild creator, if it is bot-created.
  * @property bool                                                           $embedEnabled                 Whether the guild is embeddable or not (e.g. widget).
- * @property string|null                                                    $embedChannelID               The ID of the embed channel.
+ * @property string|null                                                    $embedChannelID               The ID of the embed channel, or null.
  * @property bool                                                           $widgetEnabled                Whether the guild widget is enabled or not.
- * @property string|null                                                    $widgetChannelID              The ID of the widget channel.
+ * @property string|null                                                    $widgetChannelID              The ID of the widget channel, or null.
  *
  * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $afkChannel                   The guild's afk channel, or null.
  * @property \DateTime                                                      $createdAt                    The DateTime instance of createdTimestamp.

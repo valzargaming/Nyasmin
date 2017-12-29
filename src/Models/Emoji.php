@@ -10,21 +10,21 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Represents an emoji.
+ * Represents an emoji - both custom and unicode emojis.
  *
- * @property string|null                                          $id                 The emoji ID.
+ * @property string|null                                          $id                 The emoji ID, or null for unicode emoji.
  * @property string                                               $name               The emoji name.
- * @property \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji.
+ * @property \CharlotteDunois\Yasmin\Models\User|null             $user               The user that created the emoji, or null.
  * @property \CharlotteDunois\Yasmin\Models\Guild|null            $guild              The guild this emoji belongs to, or null.
- * @property int|null                                             $createdTimestamp   The timestamp of when this emoji was created.
+ * @property int|null                                             $createdTimestamp   The timestamp of when this emoji was created, or null for unicode emoji.
  * @property bool                                                 $animated           Whether this emoji is animated.
  * @property boolean                                              $managed            Is the emoji managed?
  * @property boolean                                              $requireColons      Does the emoji require colons?
  * @property \CharlotteDunois\Yasmin\Utils\Collection             $roles              A collection of roles that this emoji is active for (empty if all).
  *
- * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp, or null.
+ * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp, or null for unicode emoji.
  * @property string                                               $identifier         The identifier for the emoji.
- * @property string|null                                          $url                The URL to the emoji image, or null.
+ * @property string|null                                          $url                The URL to the emoji image, or null for unicode emoji.
  */
 class Emoji extends ClientBase {
     protected $guild;
@@ -95,7 +95,7 @@ class Emoji extends ClientBase {
      * Adds a role to the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function addRestrictedRole($role) {
         $roles = $this->roles->map(function ($role) {
@@ -110,7 +110,7 @@ class Emoji extends ClientBase {
      * Adds multiple roles to the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  ...$role
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function addRestrictedRoles(...$role) {
         $roles = $this->roles->map(function ($role) {
@@ -139,11 +139,11 @@ class Emoji extends ClientBase {
      * @param array   $options
      * @param string  $reason
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function edit(array $options, string $reason = '') {
         if($this->id === null) {
-            throw new \BadMethodCallException('Unable to edit a non-guild emoji');
+            throw new \BadMethodCallException('Unable to edit an unicode emoji');
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
@@ -171,7 +171,7 @@ class Emoji extends ClientBase {
      * Deletes the emoji.
      * @param string  $reason
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function delete(string $reason = '') {
         if($this->id === null) {
@@ -189,7 +189,7 @@ class Emoji extends ClientBase {
      * Removes a role from the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function removeRestrictedRole($role) {
         if($this->roles->count() === 0) {
@@ -212,7 +212,7 @@ class Emoji extends ClientBase {
      * Removes multiple roles from the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  ...$role
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function removeRestrictedRoles(...$role) {
         if($this->roles->count() === 0) {
@@ -239,7 +239,7 @@ class Emoji extends ClientBase {
      * @param string  $name
      * @param string  $reason
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
+     * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function setName(string $name, string $reason = '') {
         return $this->edit(array('name' => $name), $reason);

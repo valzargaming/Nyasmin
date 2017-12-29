@@ -87,7 +87,7 @@
     
 
             <div class="description">
-            <p>Represents an emoji.</p>                                                
+            <p>Represents an emoji - both custom and unicode emojis.</p>                                                
         
                     </div>
     
@@ -117,7 +117,7 @@
                                                                                 <a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>|null
                 </td>
                 <td><a name="property_createdAt" href="#property_createdAt">$createdAt</a></td>
-                <td class="last">An DateTime instance of the createdTimestamp, or null.</td>
+                <td class="last">An DateTime instance of the createdTimestamp, or null for unicode emoji.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -125,7 +125,7 @@
                                                                                 int|null
                 </td>
                 <td><a name="property_createdTimestamp" href="#property_createdTimestamp">$createdTimestamp</a></td>
-                <td class="last">The timestamp of when this emoji was created.</td>
+                <td class="last">The timestamp of when this emoji was created, or null for unicode emoji.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -141,7 +141,7 @@
                                                                                 string|null
                 </td>
                 <td><a name="property_id" href="#property_id">$id</a></td>
-                <td class="last">The emoji ID.</td>
+                <td class="last">The emoji ID, or null for unicode emoji.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -189,7 +189,7 @@
                                                                                 string|null
                 </td>
                 <td><a name="property_url" href="#property_url">$url</a></td>
-                <td class="last">The URL to the emoji image, or null.</td>
+                <td class="last">The URL to the emoji image, or null for unicode emoji.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -197,7 +197,7 @@
                                                                                 <a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null
                 </td>
                 <td><a name="property_user" href="#property_user">$user</a></td>
-                <td class="last">The user that created the emoji.</td>
+                <td class="last">The user that created the emoji, or null.</td>
                 <td></td>
             </tr>
             </table>
@@ -357,7 +357,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 
@@ -408,7 +408,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 
@@ -459,7 +459,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 
@@ -523,7 +523,7 @@ array(
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 
@@ -574,7 +574,7 @@ array(
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 
@@ -625,7 +625,7 @@ array(
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 
@@ -681,7 +681,7 @@ array(
                     <table class="table table-condensed">
                     <tr>
                 <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
+                <td>Throws on unicode emojis.</td>
             </tr>
             </table>
 

@@ -18,16 +18,16 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property boolean                                              $bot                Is the user a bot? Or are you a bot?
  * @property string                                               $avatar             The hash of the user's avatar.
  * @property string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
- * @property boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account.
- * @property boolean|null                                         $verified           Whether the email on this account has been verified.
+ * @property boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account, or null if no information provided.
+ * @property boolean|null                                         $verified           Whether the email on this account has been verified, or null if no information provided.
  * @property boolean                                              $webhook            Determines wether the user is a webhook or not.
  * @property int                                                  $createdTimestamp   The timestamp of when this user was created.
  *
  * @property \DateTime                                            $createdAt          An DateTime instance of the createdTimestamp.
  * @property int                                                  $defaultAvatar      The identifier of the default avatar for this user.
- * @property \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists.
+ * @property \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          The DM channel for this user, if it exists, or null.
  * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        The laste message the user sent while the client was online, or null.
- * @property \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user.
+ * @property \CharlotteDunois\Yasmin\Models\Presence|null         $presence           The presence for this user, or null.
  * @property string                                               $tag                Username#Discriminator.
  */
 class User extends ClientBase {

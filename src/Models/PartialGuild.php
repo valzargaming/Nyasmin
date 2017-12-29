@@ -15,8 +15,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string       $id                The guild ID.
  * @property string       $name              The guild name.
  * @property int          $createdTimestamp  The timestamp when this guild was created.
- * @property string|null  $icon              The guild icon.
- * @property string|null  $splash            The guild splash.
+ * @property string|null  $icon              The guild icon, or null.
+ * @property string|null  $splash            The guild splash, or null.
  *
  * @property \DateTime   $createdAt          The DateTime instance of createdTimestamp.
  */

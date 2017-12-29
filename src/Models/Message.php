@@ -28,15 +28,15 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                                                        $system             Whether the message is a system message.
  * @property string                                                                                      $type               The type of the message. ({@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES})
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
- * @property string                                                                                      $webhookID          ID of the webhook that sent the message, if applicable.
+ * @property string|null                                                                                 $webhookID          ID of the webhook that sent the message, if applicable, or null.
  *
  * @property \DateTime                                                                                   $createdAt          An DateTime instance of the createdTimestamp.
- * @property \DateTime|null                                                                              $editedAt           An DateTime instance of the editedTimestamp.
+ * @property \DateTime|null                                                                              $editedAt           An DateTime instance of the editedTimestamp, or null.
  * @property bool                                                                                        $deletable          Whether the client user can delete the message.
  * @property bool                                                                                        $editable           Whether the client user can edit the message.
  * @property bool                                                                                        $pinnable           Whether the client user can pin the message.
- * @property \CharlotteDunois\Yasmin\Models\Guild|null                                                   $guild              The correspondending guild (if message posted in a guild).
- * @property \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild).
+ * @property \CharlotteDunois\Yasmin\Models\Guild|null                                                   $guild              The correspondending guild (if message posted in a guild), or null.
+ * @property \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild), or null.
  */
 class Message extends ClientBase {
     /**

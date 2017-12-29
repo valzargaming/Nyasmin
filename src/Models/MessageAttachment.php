@@ -16,8 +16,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                           $filename           The filename.
  * @property int                                              $size               The filename in bytes.
  * @property string                                           $url                The url to the file.
- * @property int|null                                         $height             The height (if image).
- * @property int|null                                         $width              The width (if image).
+ * @property int|null                                         $height             The height (if image), or null.
+ * @property int|null                                         $width              The width (if image), or null.
  * @property int                                              $createdTimestamp   The timestamp of when this attachment was created.
  *
  * @property \DateTime                                        $createdAt          An DateTime instance of the createdTimestamp.

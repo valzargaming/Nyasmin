@@ -28,7 +28,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \DateTime                                                                                $createdAt              The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\Message|null                                              $lastMessage            The last message, or null.
  * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                     $parent                 Returns the channel's parent, or null.
- * @property  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, null if no parent.
+ * @property  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, or null if no parent.
  */
 class TextChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,

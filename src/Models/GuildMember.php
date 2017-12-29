@@ -28,12 +28,12 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                         $voiceSessionID   The voice session ID, or null.
  *
  * @property bool                                                           $bannable         Whether the member is bannable by the client user.
- * @property \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        The role of the member used to set their color.
+ * @property \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        The role of the member used to set their color, or null.
  * @property int|null                                                       $displayColor     The displayed color of the member.
  * @property string|null                                                    $displayHexColor  The displayed color of the member as hex string.
  * @property string                                                         $displayName      The displayed name.
  * @property \CharlotteDunois\Yasmin\Models\Role                            $highestRole      The role of the member with the highest position.
- * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist.
+ * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist, or null.
  * @property \DateTime                                                      $joinedAt         An DateTime instance of joinedTimestamp.
  * @property bool                                                           $kickable         Whether the guild member is kickable by the client user.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
