@@ -262,7 +262,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_delete">
-        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L110">line 110</a></div>
+        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_delete"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L111">line 111</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>delete</strong>(string $reason = &#039;&#039;)
         </code>
@@ -304,7 +304,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_edit">
-        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_edit"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L72">line 72</a></div>
+        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_edit"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L73">line 73</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
         </code>
@@ -317,11 +317,12 @@
                                     <p>Edits the webhook. Resolves with $this.</p>                    <p>Options are as following (at least one is required):</p>
 
 <pre>
- array(
+array(
    'name' => string,
    'avatar' => string, (data, filepath or URL)
    'channel' => \CharlotteDunois\Yasmin\Models\TextChannel|string
- )</pre>
+)
+</pre>
 </p>                                            
         
                             </div>
@@ -368,7 +369,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_send">
-        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L149">line 149</a></div>
+        <div class="location">in <a href="../../CharlotteDunois/Yasmin/Models/Webhook.html#method_send"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Webhook.php#L158">line 158</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>send</strong>(string $content, array $options = array())
         </code>
@@ -381,16 +382,24 @@
                                     <p>Executes the webhooks and sends a message to the channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID. Or when using the WebhookClient, it will resolve with a raw Message object (array) or an array of raw Message objects (array).</p>                    <p>Options are as following (all are optional):</p>
 
 <pre>
- array(
-   'embeds' => array<\CharlotteDunois\Yasmin\Models\MessageEmbed|array>, (an array of (embed) array or instance of MessageEmbed)
-   'files' => array, (an array of array('name', 'data' || 'path') (associative) or just plain file contents, file paths or URLs)
+array(
+   'embeds' => \CharlotteDunois\Yasmin\Models\MessageEmbed[]|array[], (an array of (embed) array/object or MessageEmbed instances)
+   'files' => array, (an array of array('name' => string, 'data' => string || 'path' => string) or just plain file contents, file paths or URLs)
    'nonce' => string, (a snowflake used for optimistic sending)
    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
    'tts' => bool,
-   'split' => bool|array, (array: array('before', 'after', 'char', 'maxLength') (associative) | before: The string to insert before the split, after: The string to insert after the split, char: The string to split on, maxLength: The max. length of each message)
+   'split' => bool|array, (*)
    'username' => string,
    'avatar' => string, (an URL)
- )</pre>
+)
+
+  * array(
+  *   'before' => string, (The string to insert before the split)
+  *   'after' => string, (The string to insert after the split)
+  *   'char' => string, (The string to split on)
+  *   'maxLength' => int, (The max. length of each message)
+  * )
+</pre>
 </p>                                            
         
                             </div>
