@@ -26,15 +26,15 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\GuildMemberStorage              $members                      Holds a guild's cached members, mapped by their ID.
  * @property \CharlotteDunois\Yasmin\Models\RoleStorage                     $roles                        Holds a guild's roles, mapped by their ID.
  * @property \CharlotteDunois\Yasmin\Models\PresenceStorage                 $presences                    Holds a guild's presences of members, mapped by user ID.
- * @property string                                                         $defaultMessageNotifications  The type of message that should notify you. {@see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS}
- * @property string                                                         $explicitContentFilter        The explicit content filter level of the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER}
+ * @property string                                                         $defaultMessageNotifications  The type of message that should notify you. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS})
+ * @property string                                                         $explicitContentFilter        The explicit content filter level of the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER})
  * @property string                                                         $region                       The region the guild is located in.
- * @property string                                                         $verificationLevel            The verification level of the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL}
+ * @property string                                                         $verificationLevel            The verification level of the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL})
  * @property string|null                                                    $systemChannelID              The ID of the system channel, or null.
  * @property string|null                                                    $afkChannelID                 The ID of the afk channel, or null.
  * @property int|null                                                       $afkTimeout                   The time in seconds before an user is counted as "away from keyboard".
  * @property string[]                                                       $features                     An array of guild features.
- * @property string                                                         $mfaLevel                     The required MFA level for the guild. {@see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL}
+ * @property string                                                         $mfaLevel                     The required MFA level for the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL})
  * @property string|null                                                    $applicationID                Application ID of the guild creator, if it is bot-created.
  * @property bool                                                           $embedEnabled                 Whether the guild is embeddable or not (e.g. widget).
  * @property string|null                                                    $embedChannelID               The ID of the embed channel.

@@ -22,7 +22,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                           $selfDeaf         Whether the member is locally deafened.
  * @property bool                                                           $selfMute         Whether the member is locally muted.
  * @property bool                                                           $speaking         If the member is currently speaking.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $roles            A Collection of all roles the member has, mapped by their ID. {@see \CharlotteDunois\Yasmin\Models\Role}
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                       $roles            A Collection of all roles the member has, mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\Role})
  * @property bool                                                           $suppress         Whether you suppress the member.
  * @property string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
  * @property string                                                         $voiceSessionID   The voice session ID, or null.

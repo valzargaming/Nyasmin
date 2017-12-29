@@ -19,15 +19,15 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int|null                                                                                    $editedTimestamp    The timestamp of when this message was edited, or null.
  * @property string                                                                                      $content            The message content.
  * @property string                                                                                      $cleanContent       The message content with all mentions replaced.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $attachments        A collection of attachments in the message - mapped by their ID. {@see \CharlotteDunois\Yasmin\Models\MessageAttachment}
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $attachments        A collection of attachments in the message - mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\MessageAttachment})
  * @property \CharlotteDunois\Yasmin\Models\MessageEmbed[]                                               $embeds             An array of embeds in the message.
  * @property \CharlotteDunois\Yasmin\Models\MessageMentions                                              $mentions           All valid mentions that the message contains.
  * @property bool                                                                                        $tts                Whether or not the message was Text-To-Speech.
  * @property string|null                                                                                 $nonce              A random number or string used for checking message delivery, or null.
  * @property bool                                                                                        $pinned             Whether the message is pinned or not.
  * @property bool                                                                                        $system             Whether the message is a system message.
- * @property string                                                                                      $type               The type of the message. {@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES}
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). {@see \CharlotteDunois\Yasmin\Models\MessageReaction}
+ * @property string                                                                                      $type               The type of the message. ({@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES})
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
  * @property string                                                                                      $webhookID          ID of the webhook that sent the message, if applicable.
  *
  * @property \DateTime                                                                                   $createdAt          An DateTime instance of the createdTimestamp.

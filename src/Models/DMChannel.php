@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a classic DM channel.
  *
  * @property string                                         $id                 The channel ID.
- * @property string                                         $type               The channel type. {@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}
+ * @property string                                         $type               The channel type. ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES})
  * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
  * @property  string|null                                   $ownerID            The owner ID of this channel.
  * @property  \CharlotteDunois\Yasmin\Utils\Collection      $recipients         The recipients of this channel.
