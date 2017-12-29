@@ -57,6 +57,8 @@ class DMChannel extends ClientBase
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
         $this->lastMessageID = $channel['last_message_id'] ?? null;
         
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        
         $this->ownerID = $channel['owner_id'] ?? null;
         $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
         
