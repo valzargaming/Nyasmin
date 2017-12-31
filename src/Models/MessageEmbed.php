@@ -155,7 +155,7 @@ class MessageEmbed extends Base {
      * @param mixed  $color
      * @return $this
      * @throws \InvalidArgumentException
-     * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
+     * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor()
      */
     function setColor($color) {
         $this->color = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor($color);

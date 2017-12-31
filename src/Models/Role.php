@@ -140,7 +140,7 @@ class Role extends ClientBase {
      * @param string $reason
      * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
-     * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
+     * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor()
      */
     function edit(array $options, string $reason = '') {
         if(empty($options)) {
@@ -199,7 +199,7 @@ class Role extends ClientBase {
      * @param string      $reason
      * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
-     * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor
+     * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor()
      */
     function setColor($color, string $reason = '') {
         return $this->edit(array('color' => $color), $reason);

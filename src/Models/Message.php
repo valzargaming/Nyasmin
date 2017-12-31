@@ -219,7 +219,7 @@ class Message extends ClientBase {
      * @param string|null  $content  The message contents.
      * @param array        $options  An array with options. Only embed is supported by edit.
      * @return \React\Promise\Promise
-     * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send
+     * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send()
      */
     function edit(string $content = null, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
@@ -300,7 +300,7 @@ class Message extends ClientBase {
         try {
             $emoji = $this->client->emojis->resolve($emoji);
         } catch(\InvalidArgumentException $e) {
-            /* Continue regardless of error */
+            $emoji = \rawurlencode($emoji);
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($emoji) {
@@ -335,7 +335,7 @@ class Message extends ClientBase {
      * @param string  $content
      * @param array   $options
      * @return \React\Promise\Promise
-     * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send
+     * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send()
      */
     function reply(string $content, array $options = array()) {
         return $this->channel->send($this->author->__toString().self::$replySeparator.$content, $options);
