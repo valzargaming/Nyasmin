@@ -300,7 +300,16 @@ class Message extends ClientBase {
         try {
             $emoji = $this->client->emojis->resolve($emoji);
         } catch(\InvalidArgumentException $e) {
-            $emoji = \rawurlencode($emoji);
+            if(\is_numeric($e)) {
+                throw $e;
+            }
+            
+            $match = (bool) \preg_match('/(?:<a?:)?(.+):(\d+)/', $emoji, $matches);
+            if($match) {
+                $emoji = $matches[1].':'.$matches[2];
+            } else {
+                $emoji = \rawurlencode($emoji);
+            }
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($emoji) {
