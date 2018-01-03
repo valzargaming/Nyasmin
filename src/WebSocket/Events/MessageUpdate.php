@@ -30,6 +30,9 @@ class MessageUpdate {
         if($channel) {
             $message = $channel->messages->get($data['id']);
             if($message) {
+                // Minor bug in Discord - Event gets emitted when a message gets updated (not edited!) when additional data is available (e.g. image dimensions)
+                $edited = ($message->editedTimestamp === ($data['edited_timestamp'] ?? null) || (new \DateTime(($data['edited_timestamp'] ?? 'now')))->getTimestamp() !== $message->editedTimestamp);
+                
                 $oldMessage = null;
                 if($this->clones) {
                     $oldMessage = clone $message;
@@ -37,7 +40,9 @@ class MessageUpdate {
                 
                 $message->_patch($data);
                 
-                $this->client->emit('messageUpdate', $message, $oldMessage);
+                if($edited) {
+                    $this->client->emit('messageUpdate', $message, $oldMessage);
+                }
             }
         }
     }

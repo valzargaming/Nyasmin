@@ -22,7 +22,7 @@ This table shows the compliance with the PSR 1 and 2.
 |  2  | PHP constants (true, false, null,...) must be in lowercase               |     ✅    |                                                                                 |
 |  2  | One blank line after namespace and use                                   |     ✅    | There are no use import statements at all                                       |
 |  2  | Extends and implements on same line                                      |     ✅    |                                                                                 |
-|  2  | Lists of implements may be split across multiple lines (one per line)    |     ⚠    | No limit per line, but max. line length applies                                 |
+|  2  | Lists of implements may be split across multiple lines (one per line)    |     ⚠    | No limit per line                                                               |
 |  2  | Opening braces for classes and methods on next line                      |     ❌    | Opening braces go on the same line with one space in between ) and {            |
 |  2  | Closing braces for classes and methods on next line                      |     ✅    |                                                                                 |
 |  2  | Visibility declared on all properties                                    |     ✅    |                                                                                 |
