@@ -490,7 +490,7 @@ class Guild extends ClientBase {
                 $this->client->apimanager()->endpoints->guild->modifyGuild($this->id, $data, $reason)->then(function () use ($resolve) {
                     $resolve($this);
                 }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            });
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     

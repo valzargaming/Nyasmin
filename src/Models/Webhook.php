@@ -216,7 +216,7 @@ class Webhook extends ClientBase {
                             }, $reject);
                         }
                         
-                        return $promise->then(function () use ($collection, $resolve) {
+                        return $promise->then(function () use (&$collection, $resolve) {
                             $resolve($collection);
                         }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                     }

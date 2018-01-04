@@ -312,8 +312,8 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
                     
                     $this->destroyUtils();
                     $reject($error);
-                })->done();
-            }, $reject)->done();
+                })->done(null, array($this, 'handlePromiseRejection'));
+            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
         }));
     }
     

@@ -94,7 +94,7 @@ class Invite extends ClientBase {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
             $this->client->apimanager()->endpoints->invite->deleteInvite($this->code, $reason)->then(function () use ($resolve) {
                 $resolve();
-            }, $reject);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
 }

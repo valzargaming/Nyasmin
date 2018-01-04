@@ -40,7 +40,7 @@ class MessageReactionRemoveAll {
                 $this->client->emit('messageReactionRemoveAll', $message);
             }, function () {
                 // Don't handle it
-            });
+            })->done(null, array($this->client, 'handlePromiseRejection'));
         }
     }
 }

@@ -51,7 +51,7 @@ class MessageUpdate {
                 }
             }, function () {
                 // Don't handle it
-            });
+            })->done(null, array($this->client, 'handlePromiseRejection'));
         }
     }
 }
