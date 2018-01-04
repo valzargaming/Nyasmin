@@ -30,6 +30,12 @@ class MessageUpdate {
         if($channel) {
             $message = $channel->messages->get($data['id']);
             if($message) {
+                $message = \React\Promise\resolve($message);
+            } else {
+                $message = $channel->fetchMessage($data['id']);
+            }
+            
+            $message->then(function ($message) use ($data) {
                 // Minor bug in Discord - Event gets emitted when a message gets updated (not edited!) when additional data is available (e.g. image dimensions)
                 $edited = ($message->editedTimestamp === ($data['edited_timestamp'] ?? null) || (new \DateTime(($data['edited_timestamp'] ?? 'now')))->getTimestamp() !== $message->editedTimestamp);
                 
@@ -43,7 +49,9 @@ class MessageUpdate {
                 if($edited) {
                     $this->client->emit('messageUpdate', $message, $oldMessage);
                 }
-            }
+            }, function () {
+                // Don't handle it
+            });
         }
     }
 }

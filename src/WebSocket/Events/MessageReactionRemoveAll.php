@@ -26,13 +26,21 @@ class MessageReactionRemoveAll {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
+                $message = \React\Promise\resolve($message);
+            } else {
+                $message = $channel->fetchMessage($data['message_id']);
+            }
+            
+            $message->then(function ($message) {
                 foreach($message->reactions as &$reaction) {
                     unset($reaction);
                 }
                 
                 $message->reactions->clear();
                 $this->client->emit('messageReactionRemoveAll', $message);
-            }
+            }, function () {
+                // Don't handle it
+            });
         }
     }
 }

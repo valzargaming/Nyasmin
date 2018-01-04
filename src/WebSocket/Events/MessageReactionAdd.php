@@ -26,6 +26,12 @@ class MessageReactionAdd {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
+                $message = \React\Promise\resolve($message);
+            } else {
+                $message = $channel->fetchMessage($data['message_id']);
+            }
+            
+            $message->then(function ($message) use ($data) {
                 $reaction = $message->_addReaction($data);
                 
                 if($this->client->users->has($data['user_id'])) {
@@ -39,7 +45,9 @@ class MessageReactionAdd {
                     
                     $this->client->emit('messageReactionAdd', $reaction, $user);
                 })->done(null, array($this->client, 'handlePromiseRejection'));
-            }
+            }, function () {
+                // Don't handle it
+            });
         }
     }
 }

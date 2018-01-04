@@ -26,6 +26,12 @@ class MessageReactionRemove {
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
             if($message) {
+                $message = \React\Promise\resolve($message);
+            } else {
+                $message = $channel->fetchMessage($data['message_id']);
+            }
+            
+            $message->then(function ($message) use ($data) {
                 $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
                 
                 $reaction = $message->reactions->get($id);
@@ -47,7 +53,9 @@ class MessageReactionRemove {
                         $this->client->emit('messageReactionRemove', $reaction, $user);
                     })->done(null, array($this->client, 'handlePromiseRejection'));
                 }
-            }
+            }, function () {
+                // Don't handle it
+            });
         }
     }
 }
