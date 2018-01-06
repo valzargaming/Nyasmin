@@ -31,7 +31,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $tag                Username#Discriminator.
  */
 class User extends ClientBase {
-    
     protected $id;
     protected $username;
     protected $discriminator;
