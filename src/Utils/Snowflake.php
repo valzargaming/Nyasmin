@@ -54,9 +54,9 @@ class Snowflake {
             $time = (string) ($snowflake >> 22);
             
             $this->timestamp = (float) ((((int) \substr($time, 0, -3)) + self::EPOCH).'.'.\substr($time, -3));
-            $this->workerID = ($snowflake & 4063232) >> 17;
-            $this->processID = ($snowflake & 126976) >> 12;
-            $this->increment = ($snowflake & 4095);
+            $this->workerID = ($snowflake & 0x3E0000) >> 17;
+            $this->processID = ($snowflake & 0x1F000) >> 12;
+            $this->increment = ($snowflake & 0xFFF);
         }
     }
     
