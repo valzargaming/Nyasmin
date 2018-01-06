@@ -48,14 +48,15 @@ class Snowflake {
             $this->processID = (int) \base_convert(\substr($this->binary, 47, 5), 2, 10);
             $this->increment = (int) \base_convert(\substr($this->binary, 52, 12), 2, 10);
         } else {
-            $this->binary = \str_pad(\decbin((int) $snowflake), 64, 0, \STR_PAD_LEFT);
+            $snowflake = (int) $snowflake;
+            $this->binary = \str_pad(\decbin($snowflake), 64, 0, \STR_PAD_LEFT);
             
-            $time = (string) \bindec(\substr($this->binary, 0, 42));
+            $time = (string) ($snowflake >> 22);
             
             $this->timestamp = (float) ((((int) \substr($time, 0, -3)) + self::EPOCH).'.'.\substr($time, -3));
-            $this->workerID = \bindec(\substr($this->binary, 42, 5));
-            $this->processID = \bindec(\substr($this->binary, 47, 5));
-            $this->increment = \bindec(\substr($this->binary, 52, 12));
+            $this->workerID = ($snowflake & 4063232) >> 17;
+            $this->processID = ($snowflake & 126976) >> 12;
+            $this->increment = ($snowflake & 4095);
         }
     }
     
