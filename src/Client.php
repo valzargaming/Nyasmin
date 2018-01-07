@@ -66,7 +66,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     public $pings = array();
     
     /**
-     * The UNIX timestamp of the last emitted ready var $(or null if none yet).
+     * The UNIX timestamp of the last emitted ready event (or null if none yet).
      * @var int|null
      */
     public $readyTimestamp = null;
