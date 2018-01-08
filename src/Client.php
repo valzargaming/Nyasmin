@@ -276,6 +276,10 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         $this->token = $token;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
+            if(((bool) $this->getOption('internal.ws.disable')) === true) {
+                return $resolve();
+            }
+            
             if($this->gateway && !$force) {
                 $gateway = \React\Promise\resolve($this->gateway);
             } else {
