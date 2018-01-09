@@ -100,6 +100,7 @@ trait GuildChannelTrait {
      * <pre>
      * array(
      *    'name' => string,
+     *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *    'position' => int,
      *    'topic' => string,
      *    'bitrate' => int, (voice channels only)
@@ -121,6 +122,10 @@ trait GuildChannelTrait {
         
         if(isset($options['name'])) {
             $data['name'] = (string) $options['name'];
+        }
+        
+        if(isset($options['parent'])) {
+            $data['parent_id'] = ($options['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $options['parent']->id : $options['parent']);
         }
         
         if(isset($options['position'])) {
@@ -367,6 +372,17 @@ trait GuildChannelTrait {
      */
     function setName(string $name, string $reason = '') {
         return $this->edit(array('name' => $name), $reason);
+    }
+    
+    /**
+     * Sets the parent of the channel. Resolves with $this.
+     * @param \CharlotteDunois\Yasmin\Models\CategoryChannel|string  $parent  An instance of CategoryChannel or the channel ID.
+     * @param string                                                 $reason
+     * @return \React\Promise\Promise
+     * @throws \InvalidArgumentException
+     */
+    function setParent($parent, string $reason = '') {
+        return $this->edit(array('parent' => $parent), $reason);
     }
     
     /**
