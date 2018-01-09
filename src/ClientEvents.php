@@ -47,6 +47,13 @@ interface ClientEvents {
     function messageDeleteBulkRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $messageIDs);
     
     /**
+     * Emitted when an uncached message gets updated.
+     * @see https://discordapp.com/developers/docs/topics/gateway#message-update
+     * @see https://discordapp.com/developers/docs/resources/channel#message-object
+     */
+    function messageUpdateRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $data);
+    
+    /**
      * Emitted when an error happens.
      */
     function error(\Exception $error);
