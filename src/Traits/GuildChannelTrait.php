@@ -100,11 +100,13 @@ trait GuildChannelTrait {
      * <pre>
      * array(
      *    'name' => string,
-     *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *    'position' => int,
-     *    'topic' => string,
+     *    'topic' => string, (text channels only)
+     *    'nsfw' => bool, (text channels only)
      *    'bitrate' => int, (voice channels only)
      *    'userLimit' => int (voice channels only)
+     *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
+     *    'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
      * )
      * </pre>
      *
@@ -124,10 +126,6 @@ trait GuildChannelTrait {
             $data['name'] = (string) $options['name'];
         }
         
-        if(isset($options['parent'])) {
-            $data['parent_id'] = ($options['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $options['parent']->id : $options['parent']);
-        }
-        
         if(isset($options['position'])) {
             $data['position'] = (int) $options['position'];
         }
@@ -136,12 +134,24 @@ trait GuildChannelTrait {
             $data['topic'] = (string) $options['topic'];
         }
         
+        if(isset($options['nsfw'])) {
+            $data['nsfw'] = (bool) $options['nsfw'];
+        }
+        
         if(isset($options['bitrate'])) {
             $data['bitrate'] = (int) $options['bitrate'];
         }
         
         if(isset($options['userLimit'])) {
             $data['user_limit'] = (int) $options['userLimit'];
+        }
+        
+        if(isset($options['parent'])) {
+            $data['parent_id'] = ($options['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $options['parent']->id : $options['parent']);
+        }
+        
+        if(isset($options['permissionOverwrites'])) {
+            $data['permission_overwrites'] = ($options['permissionOverwrites'] instanceof \CharlotteDunois\Yasmin\Utils\Collection ? $options['permissionOverwrites']->all() : $options['permissionOverwrites']);
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
@@ -375,6 +385,17 @@ trait GuildChannelTrait {
     }
     
     /**
+     * Sets the nsfw flag of the channel. Resolves with $this.
+     * @param bool    $nsfw
+     * @param string  $reason
+     * @return \React\Promise\Promise
+     * @throws \InvalidArgumentException
+     */
+    function setNSFW(bool $nsfw, string $reason = '') {
+        return $this->edit(array('nsfw' => $nsfw), $reason);
+    }
+    
+    /**
      * Sets the parent of the channel. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\CategoryChannel|string  $parent  An instance of CategoryChannel or the channel ID.
      * @param string                                                 $reason
@@ -383,6 +404,17 @@ trait GuildChannelTrait {
      */
     function setParent($parent, string $reason = '') {
         return $this->edit(array('parent' => $parent), $reason);
+    }
+    
+    /**
+     * Sets the permission overwrites of the channel. Resolves with $this.
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array  $permissionOverwrites  An array or Collection of PermissionOverwrite instances or permission overwrite arrays.
+     * @param string                                          $reason
+     * @return \React\Promise\Promise
+     * @throws \InvalidArgumentException
+     */
+    function setPermissionOverwrites($permissionOverwrites, string $reason = '') {
+        return $this->edit(array('permissionOverwrites' => $permissionOverwrites), $reason);
     }
     
     /**
