@@ -490,6 +490,6 @@ class Constants {
      * @internal
      */
     static function format(string $endpoint, ...$args) {
-        return sprintf($endpoint, ...$args);
+        return \sprintf($endpoint, ...$args);
     }
 }
