@@ -562,7 +562,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      */
     protected function validateClientOptions(array $options) {
         $validator = \CharlotteDunois\Validation\Validator::make($options, array(
-            'disableClones' => 'boolean|array',
+            'disableClones' => 'boolean|array:string',
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
             'messageCacheLifetime' => 'integer|min:0',
@@ -571,7 +571,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             'shardCount' => 'integer|min:1',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string|boolean',
-            'ws.disabledEvents' => 'array',
+            'ws.disabledEvents' => 'array:string',
             'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',
             'ws.presence' => 'array'

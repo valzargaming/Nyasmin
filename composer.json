@@ -20,7 +20,7 @@
         "react/promise": "^2.5.1",
         "guzzlehttp/guzzle": "^6.3.0",
         "charlottedunois/eventemitter": "^0.1.2",
-        "charlottedunois/validator": "^0.1.6"
+        "charlottedunois/validator": "^0.1.7"
     },
     "suggest": {
         "charlottedunois/erlpack": "For WS encoding etf 🚀"
