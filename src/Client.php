@@ -329,7 +329,10 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
     function destroy(bool $destroyUtils = true) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
             $this->api->destroy();
-            $this->ws->destroy();
+            
+            if($this->ws !== null) {
+                $this->ws->destroy();
+            }
             
             $this->cancelTimers();
             
