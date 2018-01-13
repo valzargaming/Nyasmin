@@ -41,7 +41,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     protected $ws;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Interfaces\WSCompressionInterface|null
+     * @var \CharlotteDunois\Yasmin\Interfaces\WSCompressionInterface
      */
     protected $compressContext;
     
@@ -104,8 +104,16 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     
     /**
      * The timestamp of the latest identify (Ratelimit 1/5s).
+     * @var int
      */
     protected $lastIdentify;
+    
+    /**
+     * Whether we should use the previous sequence for RESUME (for after compress context failure).
+     * @var bool
+     */
+    protected $previous = false;
+    
     
     /**
      * WS close codes, sorted by resumable session and ends everything.
@@ -142,10 +150,14 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
             $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
         }
         
+        if(!\class_exists($name, true)) {
+            throw new \Exception('Specified WS compression class does not exist');
+        }
+        
         $name::supported();
         
         $interfaces = \class_implements($name);
-        if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
+        if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
             throw new \Exception('Specified WS compression class does not implement necessary interface');
         }
         
@@ -292,15 +304,22 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
                     if($this->compressContext) {
                         try {
                             $message = $this->compressContext->decompress($message);
+                            
+                            if($this->previous) {
+                                $this->previous = false;
+                            }
                         } catch(\Throwable $e) {
+                            $this->previous = !$this->previous;
                             $this->client->emit('error', $e);
                             $this->reconnect(true);
                             return;
                         } catch(\Exception $e) {
+                            $this->previous = !$this->previous;
                             $this->client->emit('error', $e);
                             $this->reconnect(true);
                             return;
                         } catch(\ErrorException $e) {
+                            $this->previous = !$this->previous;
                             $this->client->emit('error', $e);
                             $this->reconnect(true);
                             return;
@@ -399,7 +418,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $this->ws->close($code, $reason);
     }
     
-    function reconnect($resumable = true) {
+    function reconnect(bool $resumable = true) {
         if(!$this->ws) {
             return;
         }
@@ -526,7 +545,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         
         if($op === \CharlotteDunois\Yasmin\Constants::OPCODES['RESUME']) {
             $packet['d']['session_id'] = $this->wsSessionID;
-            $packet['d']['seq'] = $this->wshandler->sequence;
+            $packet['d']['seq'] = ($this->previous && $this->wshandler->previousSequence !== null ? $this->wshandler->previousSequence : $this->wshandler->sequence);
         }
         
         return $this->_send($packet);

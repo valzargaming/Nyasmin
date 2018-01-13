@@ -47,6 +47,7 @@ class CategoryChannel extends ClientBase
         $this->id = $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->_patch($channel);
     }
@@ -68,9 +69,9 @@ class CategoryChannel extends ClientBase
                     return $channel->parentID === $this->id;
                 });
             break;
-                case 'createdAt':
-                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
-                break;
+            case 'createdAt':
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+            break;
         }
         
         return parent::__get($name);
@@ -80,12 +81,12 @@ class CategoryChannel extends ClientBase
      * @internal
      */
     function _patch(array $channel) {
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
-        if(!empty($channel['permissions_overwrites'])) {
+        if(isset($channel['permissions_overwrites'])) {
+            $this->permissionOverwrites->clear();
+            
             foreach($channel['permissions_overwrites'] as $permission) {
                 $this->permissionOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission));
             }

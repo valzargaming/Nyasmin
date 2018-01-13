@@ -55,7 +55,13 @@ class VoiceChannel extends ClientBase
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $channel) {
         parent::__construct($client);
         $this->guild = $guild;
+        
+        $this->id = $channel['id'];
+        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
         $this->members = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->_patch($channel);
     }
@@ -128,19 +134,15 @@ class VoiceChannel extends ClientBase
      * @internal
      */
     function _patch(array $channel) {
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
-        $this->id = $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
-        
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->bitrate = $channel['bitrate'] ?? $this->bitrate ?? 0;
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         $this->userLimit = $channel['user_limit'] ?? $this->userLimit ?? 0;
         
-        if(!empty($channel['permission_overwrites'])) {
+        if(isset($channel['permissions_overwrites'])) {
+            $this->permissionOverwrites->clear();
+            
             foreach($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission);
                 $this->permissionOverwrites->set($overwrite->id, $overwrite);

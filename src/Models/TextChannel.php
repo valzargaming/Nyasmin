@@ -68,6 +68,7 @@ class TextChannel extends ClientBase
         $this->lastMessageID = $channel['last_message_id'] ?? null;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->_patch($channel);
     }
@@ -176,15 +177,15 @@ class TextChannel extends ClientBase
      * @internal
      */
     function _patch(array $channel) {
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
-        
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->topic = $channel['topic'] ?? $this->topic ?? '';
         $this->nsfw = $channel['nsfw'] ?? $this->nsfw ?? false;
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
-        if(!empty($channel['permission_overwrites'])) {
+        if(isset($channel['permissions_overwrites'])) {
+            $this->permissionOverwrites->clear();
+            
             foreach($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission);
                 $this->permissionOverwrites->set($overwrite->id, $overwrite);

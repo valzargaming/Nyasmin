@@ -13,12 +13,14 @@ namespace CharlotteDunois\Yasmin\WebSocket;
  * Handles WS messages.
  *
  * @property \CharlotteDunois\Yasmin\Client               $client
+ * @property int                                          $previousSequence
  * @property int                                          $sequence
  * @property \CharlotteDunois\Yasmin\WebSocket\WSManager  $wsmanager
  * @internal
  */
 class WSHandler {
     private $handlers = array();
+    private $previousSequence = null;
     private $sequence = null;
     private $wsmanager;
     
@@ -37,6 +39,9 @@ class WSHandler {
         switch($name) {
             case 'client':
                 return $this->wsmanager->client;
+            break;
+            case 'previousSequence':
+                return $this->previousSequence;
             break;
             case 'sequence':
                 return $this->sequence;
@@ -63,6 +68,7 @@ class WSHandler {
             $this->client->emit('raw', $packet);
             
             if(isset($packet['s'])) {
+                $this->previousSequence = $this->sequence;
                 $this->sequence = $packet['s'];
             }
             
