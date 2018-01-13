@@ -13,10 +13,10 @@ namespace CharlotteDunois\Yasmin\Utils;
  * URL Helper methods.
  */
 class URLHelpers {
-    static private $handler;
-    static private $http;
-    static private $loop;
-    static private $timer;
+    private static $handler;
+    private static $http;
+    private static $loop;
+    private static $timer;
     
     /**
      * Sets the Event Loop.
@@ -31,7 +31,7 @@ class URLHelpers {
      * Sets the Guzzle handler and client.
      * @internal
      */
-    static private function setHTTPClient() {
+    private static function setHTTPClient() {
         self::$handler = new \GuzzleHttp\Handler\CurlMultiHandler();
         self::$http = new \GuzzleHttp\Client(array(
             'handler' => \GuzzleHttp\HandlerStack::create(self::$handler)
@@ -52,7 +52,7 @@ class URLHelpers {
     /**
      * Sets the Guzzle timer.
      */
-    static private function setTimer() {
+    private static function setTimer() {
         if(!self::$timer) {
             self::$timer = self::$loop->addPeriodicTimer(0, \Closure::bind(function () {
                 $this->tick();

@@ -25,7 +25,7 @@ class Snowflake {
      */
     const EPOCH = 1420070400;
     
-    static private $incrementIndex = 0;
+    private static $incrementIndex = 0;
     
     protected $timestamp;
     protected $workerID;
