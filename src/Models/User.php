@@ -129,7 +129,7 @@ class User extends ClientBase {
      */
     function createDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $channel = $this->$1;
+            $channel = $this->dmChannel;
             if($channel) {
                 return $resolve($channel);
             }
@@ -147,7 +147,7 @@ class User extends ClientBase {
      */
     function deleteDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $channel = $this->$1;
+            $channel = $this->dmChannel;
             if(!$channel) {
                 return $resolve();
             }
