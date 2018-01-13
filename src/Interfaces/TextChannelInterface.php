@@ -79,11 +79,4 @@ interface TextChannelInterface {
      * @return bool
      */
     function isTyping(\CharlotteDunois\Yasmin\Models\User $user);
-    
-    /**
-     * Determines whether how long the given user has been typing in this channel. Returns -1 if the user is not typing.
-     * @param \CharlotteDunois\Yasmin\Models\User  $user
-     * @return int
-     */
-    function isTyping(\CharlotteDunois\Yasmin\Models\User $user);
 }
