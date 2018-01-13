@@ -32,10 +32,6 @@ class MessageReactionRemoveAll {
             }
             
             $message->then(function ($message) {
-                foreach($message->reactions as &$reaction) {
-                    unset($reaction);
-                }
-                
                 $message->reactions->clear();
                 $this->client->emit('messageReactionRemoveAll', $message);
             }, function () {
