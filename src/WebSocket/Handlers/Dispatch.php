@@ -72,7 +72,7 @@ class Dispatch {
     function handle(array $packet) {
         if(isset($this->wsevents[$packet['t']])) {
             try {
-                $this->wshandler->client->emit('debug', 'Handling WS event '.$packet['t']);
+                $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
                 $this->wsevents[$packet['t']]->handle($packet['d']);
             } catch(\Throwable $e) {
                 $this->wshandler->client->emit('error', $e);
@@ -82,7 +82,7 @@ class Dispatch {
                 $this->wshandler->client->emit('error', $e);
             }
         } else {
-            $this->wshandler->client->emit('debug', 'Received WS event '.$packet['t']);
+            $this->wshandler->wsmanager->emit('debug', 'Received WS event '.$packet['t']);
         }
     }
     
