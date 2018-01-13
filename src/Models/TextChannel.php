@@ -75,7 +75,7 @@ class TextChannel extends ClientBase
     /**
      * @inheritDoc
      *
-     * @return mixed
+     * @return bool|null|\DateTime|\CharlotteDunois\Yasmin\Models\CategoryChannel|\CharlotteDunois\Yasmin\Models\Message
      * @throws \Exception
      * @internal
      */

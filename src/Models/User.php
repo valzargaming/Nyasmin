@@ -65,7 +65,7 @@ class User extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @return mixed
+     * @return string|int|null|\DateTime|\CharlotteDunois\Yasmin\Models\DMChannel|\CharlotteDunois\Yasmin\Models\Message|\CharlotteDunois\Yasmin\Models\Presence
      * @throws \Exception
      * @internal
      */
