@@ -31,7 +31,7 @@ class Ready {
         $this->client->wsmanager()->setSessionID($data['session_id']);
         $this->client->wsmanager()->emit('self.ws.ready');
         
-        if($this->ready) {
+        if($this->ready && $this->client->user !== null) {
             $this->client->user->_patch($data['user']);
             $this->client->wsmanager()->emit('ready');
             return;

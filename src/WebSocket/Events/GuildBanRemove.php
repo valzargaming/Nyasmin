@@ -26,7 +26,7 @@ class GuildBanRemove {
         if($guild) {
             $user = $this->client->users->patch($data);
             if($user) {
-                $user = new \React\Promise\resolve($user);
+                $user = \React\Promise\resolve($user);
             } else {
                 $user = $this->client->fetchUser($data['id']);
             }
