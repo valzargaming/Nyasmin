@@ -10,22 +10,22 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all textchannels (all text-based channels) implement.
+ * Something all textchannels (all text-based channels) implement. See TextChannelTrait for full comments.
  */
 interface TextChannelInterface {
     /**
      * Deletes multiple messages at once. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages
      * @param string                                              $reason
-     * @param bool                                                $filterOldMessages  Automatically filters out too old messages (14 days).
+     * @param bool                                                $filterOldMessages
      * @return \React\Promise\Promise
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false);
     
     /**
      * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.
-     * @param callable  $filter   The filter to only collect desired messages.
-     * @param array     $options  The collector options.
+     * @param callable  $filter
+     * @param array     $options
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -49,8 +49,8 @@ interface TextChannelInterface {
     
     /**
      * Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
-     * @param  string  $content  The message content.
-     * @param  array   $options  Any message options.
+     * @param  string  $content
+     * @param  array   $options
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -63,7 +63,7 @@ interface TextChannelInterface {
     
     /**
      * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
-     * @param  bool  $force  Reset typing counter and stop sending the indicator.
+     * @param  bool  $force
      */
     function stopTyping(bool $force = false);
     

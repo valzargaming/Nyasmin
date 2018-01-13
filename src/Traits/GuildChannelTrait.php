@@ -340,11 +340,11 @@ trait GuildChannelTrait {
      * @throws \BadMethodCallException
      */
     function lockPermissions(string $reason = '') {
-        if(!$this->__get('parent')) {
+        if(!$this->parent) {
             throw new \BadMethodCallException('This channel does not have a parent');
         }
         
-        $overwrites = \array_values($this->__get('parent')->permissionOverwrites->map(function ($overwrite) {
+        $overwrites = \array_values($this->parent->permissionOverwrites->map(function ($overwrite) {
             return array(
                 'id' => $overwrite->id,
                 'type' => $overwrite->type,

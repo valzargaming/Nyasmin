@@ -99,7 +99,7 @@ class TextChannel extends ClientBase
                 return $this->guild->channels->get($this->parentID);
             break;
             case 'permissionsLocked':
-                $parent = $this->__get('parent');
+                $parent = $this->parent;
                 if($parent) {
                     if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
                         return false;

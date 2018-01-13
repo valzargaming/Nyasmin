@@ -106,7 +106,7 @@ class GuildMember extends ClientBase {
                     return false;
                 }
                 
-                return ($member->highestRole->comparePositionTo($this->__get('highestRole')) > 0);
+                return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
             break;
             case 'colorRole':
                 $roles = $this->roles->filter(function ($role) {
@@ -126,7 +126,7 @@ class GuildMember extends ClientBase {
                 });
             break;
             case 'displayColor':
-                $colorRole = $this->__get('colorRole');
+                $colorRole = $this->colorRole;
                 if($colorRole !== null && $colorRole->color > 0) {
                     return $colorRole->color;
                 }
@@ -134,7 +134,7 @@ class GuildMember extends ClientBase {
                 return null;
             break;
             case 'displayHexColor':
-                $colorRole = $this->__get('colorRole');
+                $colorRole = $this->colorRole;
                 if($colorRole !== null && $colorRole->color > 0) {
                     return $colorRole->hexColor;
                 }
@@ -183,7 +183,7 @@ class GuildMember extends ClientBase {
                     return false;
                 }
                 
-                return ($member->highestRole->comparePositionTo($this->__get('highestRole')) > 0);
+                return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
             break;
             case 'permissions':
                 if($this->id === $this->guild->ownerID) {
