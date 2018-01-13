@@ -63,6 +63,7 @@ class VoiceChannel extends ClientBase
     /**
      * @inheritDoc
      *
+     * @return bool|null|\CharlotteDunois\Yasmin\Models\CategoryChannel
      * @throws \Exception
      * @internal
      */
@@ -74,9 +75,6 @@ class VoiceChannel extends ClientBase
         switch($name) {
             case 'full':
                 return ($this->userLimit > 0 && $this->userLimit > $this->members->count());
-            break;
-            case 'guild':
-                return $this->guild;
             break;
             case 'parent':
                 return $this->guild->channels->get($this->parentID);
