@@ -193,7 +193,7 @@ trait TextChannelTrait {
                     $msg['embed'] = $options['embed'];
                 }
                 
-                if(!empty($options['none'])) {
+                if(!empty($options['nonce'])) {
                     $msg['nonce'] = $options['nonce'];
                 }
                 

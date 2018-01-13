@@ -166,7 +166,7 @@ class Webhook extends ClientBase {
                     $msg['embeds'] = $options['embeds'];
                 }
                 
-                if(!empty($options['none'])) {
+                if(!empty($options['nonce'])) {
                     $msg['nonce'] = $options['nonce'];
                 }
                 
