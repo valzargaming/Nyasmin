@@ -61,6 +61,6 @@ class GuildCreate {
             } else {
                 $this->client->wsmanager()->emit('guildCreate');
             }
-        });
+        })->done(null, array($this->client, 'handlePromiseRejection'));
     }
 }

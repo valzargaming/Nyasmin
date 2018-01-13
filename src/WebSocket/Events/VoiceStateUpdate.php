@@ -34,14 +34,14 @@ class VoiceStateUpdate {
                 }
                 
                 $guild = $this->client->guilds->get($data['guild_id']);
-                $guild->fetchMember($user->id)->then(function ($member) use ($data, $guild, $user) {
+                $guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
                     $oldMember = null;
                     if($this->clones) {
                         $oldMember = clone $member;
                     }
                     
                     if($member->voiceChannel) {
-                        $member->voiceChannel->members->delete($user->id);
+                        $member->voiceChannel->members->delete($member->id);
                     }
                     
                     $member->_setVoiceState($data);
@@ -60,15 +60,15 @@ class VoiceStateUpdate {
                         return;
                     }
                     
-                    $channel->guild->fetchMember($user->id)->then(function ($member) use ($data, $channel, $user) {
+                    $channel->guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
                         $oldMember = null;
                         if($this->clones) {
                             $oldMember = clone $member;
                         }
                         
                         $member->_setVoiceState($data);
-                        $channel->members->delete($user->id);
-                        $channel->members->set($user->id, $member);
+                        $channel->members->delete($member->id);
+                        $channel->members->set($member->id, $member);
                         
                         $this->client->emit('voiceStateUpdate', $member, $oldMember);
                     }, function () use ($channel, $user) {

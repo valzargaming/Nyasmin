@@ -30,7 +30,7 @@ class MessageCreate {
                 $promise = array();
                 
                 foreach($message->mentions->users as $user) {
-                    $promise[] = $message->guild->fetchMember($user->id)->then(function ($member) use ($message) {
+                    $promise[] = $message->guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($message) {
                         $message->mentions->members->set($member->id, $member);
                     }, function ($error) {
                         $this->client->emit('error', $error);

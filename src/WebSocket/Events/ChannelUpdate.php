@@ -39,7 +39,7 @@ class ChannelUpdate {
             if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                 foreach($channel->permissionOverwrites as $overwrite) {
                     if($overwrite->type === 'member' && $overwrite->target === null) {
-                        $prom[] = $channel->guild->fetchMember($overwrite->id)->then(function ($member) use ($overwrite) {
+                        $prom[] = $channel->guild->fetchMember($overwrite->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($overwrite) {
                             $overwrite->_patch(array('target' => $member));
                         }, function () {
                             // Do nothing
@@ -52,7 +52,7 @@ class ChannelUpdate {
                 return null;
             })->then(function () use ($channel, $oldChannel) {
                 $this->client->emit('channelUpdate', $channel, $oldChannel);
-            });
+            })->done(null, array($this->client, 'handlePromiseRejection'));
         }
     }
 }
