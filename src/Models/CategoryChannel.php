@@ -14,6 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                    $id                     The ID of the channel.
  * @property string                                    $name                   The channel name.
  * @property string                                    $type                   The channel type ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES}).
+ * @property \CharlotteDunois\Yasmin\Models\Guild      $guild                  The guild this category channel belongs to.
  * @property int                                       $createdTimestamp       The timestamp of when this channel was created.
  * @property int                                       $position               The channel position.
  * @property \CharlotteDunois\Yasmin\Utils\Collection  $permissionOverwrites   A collection of PermissionOverwrite instances.

@@ -40,10 +40,6 @@ class TextChannel extends ClientBase
     
     protected $messages;
     protected $typings;
-    protected $typingTriggered = array(
-        'count' => 0,
-        'timer' => null
-    );
     
     protected $id;
     protected $type;

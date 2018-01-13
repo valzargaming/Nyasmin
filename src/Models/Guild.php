@@ -456,7 +456,7 @@ class Guild extends ClientBase {
                 $files = \React\Promise\resolve(null);
             }
             
-            $files->then(function ($file) use ($icon, $splash, $options) {
+            $files->then(function ($file) use (&$icon, &$splash, $options) {
                 if($file === null) {
                     return null;
                 }
@@ -468,7 +468,7 @@ class Guild extends ClientBase {
                 }
                 
                 return $file;
-            })->then(function ($file) use ($icon, $splash) {
+            })->then(function ($file) use (&$icon, &$splash) {
                 if($file === null) {
                     return null;
                 }
@@ -478,7 +478,7 @@ class Guild extends ClientBase {
                 } elseif($icon === true) {
                     $icon = $file;
                 }
-            })->then(function () use ($data, $icon, $splash, $reason, $resolve, $reject) {
+            })->then(function () use ($data, &$icon, &$splash, $reason, $resolve, $reject) {
                 if(\is_string($icon)) {
                     $data['icon'] = $icon;
                 }
@@ -685,7 +685,7 @@ class Guild extends ClientBase {
      * @return string|null
      */
     function getIconURL(string $format = 'png', int $size = null) {
-        if($this->icon) {
+        if($this->icon !== null) {
             $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
             
             return $url;
@@ -701,7 +701,7 @@ class Guild extends ClientBase {
      * @return string|null
      */
     function getSplashURL(string $format = 'png', int $size = null) {
-        if($this->splash) {
+        if($this->splash !== null) {
             $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
             
             return $url;

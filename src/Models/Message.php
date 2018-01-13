@@ -191,7 +191,7 @@ class Message extends ClientBase {
                     
                     if($collect->count() >= ($options['max'] ?? \INF)) {
                         $this->client->removeListener('messageReactionAdd', $listener);
-                        if($timer) {
+                        if($timer !== null) {
                             $this->client->cancelTimer($timer);
                         }
                         
@@ -320,7 +320,7 @@ class Message extends ClientBase {
             $timer = null;
             $listener = function ($reaction) use (&$listener, &$timer, $emoji, $resolve) {
                 if($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji) {
-                    if($timer) {
+                    if($timer !== null) {
                         $this->client->cancelTimer($timer);
                     }
                     

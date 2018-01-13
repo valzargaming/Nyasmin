@@ -66,21 +66,21 @@ class Emoji extends ClientBase {
         
         switch($name) {
             case 'createdAt':
-                if($this->id) {
+                if($this->id !== null && $this->createdTimestamp !== null) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
                 }
                 
                 return null;
             break;
             case 'identifier':
-                if($this->id) {
+                if($this->id !== null) {
                     return $this->name.':'.$this->id;
                 }
                 
                 return \rawurlencode($this->name);
             break;
             case 'url':
-                if($this->id) {
+                if($this->id !== null) {
                     return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['emojis'], $this->id, ($this->animated ? 'gif' : 'png'));
                 }
                 

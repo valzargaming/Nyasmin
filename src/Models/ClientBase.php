@@ -70,18 +70,19 @@ class ClientBase extends Base {
      * @internal
      */
     function unserialize($data) {
-        $exp = \ReflectionMethod::export($this, '__construct', true);
+        $exp = \ReflectionMethod::export('\\'.\get_class($this), '__construct', true);
         preg_match('/Parameters \[(\d+)\]/', $exp, $count);
         $count = $count[1];
         
         switch($count) {
             default:
-                throw new \Exception('Unable to unserialize a class with more than 2 arguments');
-            break;
-            case 1:
-                $this->__construct(\unserialize($data));
+                throw new \Exception('Unable to unserialize a class with more or less than 2 arguments');
             break;
             case 2:
+                if(self::$serializeClient === null) {
+                    throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient');
+                }
+                
                 $this->__construct(self::$serializeClient, unserialize($data));
             break;
         }

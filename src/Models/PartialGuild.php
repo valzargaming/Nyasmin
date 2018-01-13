@@ -69,7 +69,7 @@ class PartialGuild extends ClientBase {
      * @return string|null
      */
     function getIconURL(string $format = 'png', int $size = null) {
-        if($this->icon) {
+        if($this->icon !== null) {
             $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
             
             return $url;
@@ -85,7 +85,7 @@ class PartialGuild extends ClientBase {
      * @return string|null
      */
     function getSplashURL(string $format = 'png', int $size = null) {
-        if($this->splash) {
+        if($this->splash !== null) {
             $url = \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
             
             return $url;

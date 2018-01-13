@@ -71,7 +71,7 @@ class Invite extends ClientBase {
         
         switch($name) {
             case 'createdAt':
-                if($this->createdTimestamp) {
+                if($this->createdTimestamp !== null) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
                 }
                 

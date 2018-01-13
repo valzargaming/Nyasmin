@@ -78,18 +78,30 @@ class ChannelStorage extends Storage {
                 throw new \InvalidArgumentException('Unknown channel type');
             break;
             case 0:
+                if($guild === null) {
+                    throw new \InvalidArgumentException('Unknown guild for guild channel');
+                }
+                
                 $channel = new \CharlotteDunois\Yasmin\Models\TextChannel($this->client, $guild, $data);
             break;
             case 1:
                 $channel = new \CharlotteDunois\Yasmin\Models\DMChannel($this->client, $data);
             break;
             case 2:
+                if($guild === null) {
+                    throw new \InvalidArgumentException('Unknown guild for guild channel');
+                }
+                
                 $channel = new \CharlotteDunois\Yasmin\Models\VoiceChannel($this->client, $guild, $data);
             break;
             case 3:
                 $channel = new \CharlotteDunois\Yasmin\Models\GroupDMChannel($this->client, $data);
             break;
             case 4:
+                if($guild === null) {
+                    throw new \InvalidArgumentException('Unknown guild for guild channel');
+                }
+                
                 $channel = new \CharlotteDunois\Yasmin\Models\CategoryChannel($this->client, $guild, $data);
             break;
         }

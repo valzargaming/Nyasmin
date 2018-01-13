@@ -99,7 +99,7 @@ class GuildAuditLogEntry extends ClientBase {
         $this->id = $entry['id'];
         $this->changes = $entry['changes'] ?? array();
         $this->userID = $entry['user_id'];
-        $this->actionType = \array_search($entry['action_type'], self::ACTION_TYPES, true);
+        $this->actionType = (\array_search($entry['action_type'], self::ACTION_TYPES, true) ?: '');
         $this->reason = $entry['reason'] ?? null;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;

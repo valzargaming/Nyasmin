@@ -150,7 +150,7 @@ class Collection implements \Countable, \Iterator {
         $new = array();
         
         foreach($this->data as $values) {
-            if($values instanceof self) {
+            if($values instanceof Collection) {
                 $values = $values->all();
             } elseif(!\is_array($values)) {
                 continue;
@@ -220,7 +220,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function diff($arr) {
-        if($arr instanceof self) {
+        if($arr instanceof Collection) {
             $arr = $arr->all();
         }
         
@@ -233,7 +233,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function diffKeys($arr) {
-        if($arr instanceof self) {
+        if($arr instanceof Collection) {
             $arr = $arr->all();
         }
         
@@ -436,7 +436,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function intersect($arr) {
-        if($arr instanceof self) {
+        if($arr instanceof Collection) {
             $arr = $arr->all();
         }
         
@@ -918,7 +918,7 @@ class Collection implements \Countable, \Iterator {
         
         while(($segment = \array_shift($key)) !== null) {
             if($segment === '*') {
-                if($target instanceof self) {
+                if($target instanceof Collection) {
                     $target = $target->all();
                 } elseif(!\is_array($target)) {
                     return $this->valueRetriever($default);

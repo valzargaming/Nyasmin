@@ -13,6 +13,11 @@ namespace CharlotteDunois\Yasmin\Traits;
  * The text based channel trait.
  */
 trait TextChannelTrait {
+    protected $typingTriggered = array(
+        'count' => 0,
+        'timer' => null
+    );
+    
     /**
      * Deletes multiple messages at once. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).

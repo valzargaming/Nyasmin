@@ -135,31 +135,21 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
         
-        $compression = $this->client->getOption('ws.compression');
-        if($compression === true || $compression === null) {
-            $compression = \CharlotteDunois\Yasmin\Constants::WS_DEFAULT_COMPRESSION;
+        $compression = $this->client->getOption('ws.compression', \CharlotteDunois\Yasmin\Constants::WS_DEFAULT_COMPRESSION);
+        
+        $name = \str_replace('-', '', \ucwords($compression, '-'));
+        if(strpos($name, '\\') === false) {
+            $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
         }
         
-        switch($compression) {
-            default:
-                $name = \str_replace('-', '', \ucwords($compression, '-'));
-                if(strpos($name, '\\') === false) {
-                    $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
-                }
-                
-                $name::supported();
-                
-                $interfaces = \class_implements($name);
-                if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
-                    throw new \Exception('Specified WS compression class does not implement necessary interface');
-                }
-                
-                $this->compressContext = new $name();
-            break;
-            case false:
-                /* Nothing to do */
-            break;
+        $name::supported();
+        
+        $interfaces = \class_implements($name);
+        if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
+            throw new \Exception('Specified WS compression class does not implement necessary interface');
         }
+        
+        $this->compressContext = new $name();
         
         $this->on('ready', function () {
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED;
@@ -423,7 +413,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
     }
     
     protected function renewConnection(bool $forceNewGateway = true) {
-        return $this->client->login($this->client->token, $forceNewGateway)->otherwise(function () use ($forceNewGateway) {
+        return $this->client->login(((string) $this->client->token), $forceNewGateway)->otherwise(function () use ($forceNewGateway) {
             $this->client->emit('debug', 'Error making new login after failed connection attempt... retrying in 30 seconds');
             
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($forceNewGateway) {
@@ -568,11 +558,7 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
         $this->ws->close(1006, 'No heartbeat ack received');
         $this->ws = null;
         
-        try {
-            $this->connect($this->gateway)->done();
-        } catch(\Exception $e) {
-            $this->client->login($this->client->token, true);
-        }
+        $this->connect($this->gateway)->done(null, array($this->client, 'handlePromiseRejection'));
     }
     
     function _pong($end) {

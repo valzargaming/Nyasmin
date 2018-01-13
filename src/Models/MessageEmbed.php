@@ -17,7 +17,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property array|null        $author             The author (array of name, icon, url), or null.
  * @property string|null       $description        The description, or null.
  * @property string|null       $url                The URL, or null.
- * @property int|null          $timestamp          The timestamp, or null.
+ * @property int|string|null   $timestamp          The timestamp, or the set timestamp (as ISO string), or null.
  * @property int|null          $color              The color, or null.
  * @property array|null        $footer             The author (array of name, icon), or null.
  * @property array|null        $image              The image (array of url, height, width), or null.

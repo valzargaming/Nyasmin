@@ -62,7 +62,7 @@ class RichPresenceAssets extends ClientBase {
      * @return string|null
      */
     function getLargeImageURL(int $size = null) {
-        if($this->largeImage) {
+        if($this->largeImage !== null) {
             return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->largeImage).(!empty($size) ? '?size='.$size : '');
         }
         
@@ -75,7 +75,7 @@ class RichPresenceAssets extends ClientBase {
      * @return string|null
      */
     function getSmallImageURL(int $size = null) {
-        if($this->smallImage) {
+        if($this->smallImage !== null) {
             return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->smallImage).(!empty($size) ? '?size='.$size : '');
         }
         

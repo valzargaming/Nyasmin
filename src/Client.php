@@ -144,7 +144,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      *   'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding)
      *   'shardCount' => int, (shard count, important for sharding)
      *   'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done)
-     *   'ws.compression' => bool|string, (disables transport compression of the WebSocket connection, or enables a specific one, defaults to zlib-stream, which is currently the only available compression)
+     *   'ws.compression' => string, (Enables a specific one, defaults to zlib-stream, which is currently the only available compression)
      *   'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
      *   'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do)
      *   'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250)
@@ -276,7 +276,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
         $this->token = $token;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
-            if(((bool) $this->getOption('internal.ws.disable')) === true) {
+            if($this->ws === null) {
                 return $resolve();
             }
             
@@ -573,7 +573,7 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
             'http.restTimeOffset' => 'integer',
-            'ws.compression' => 'string|boolean',
+            'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',
             'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',

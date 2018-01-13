@@ -15,6 +15,14 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class Base implements \JsonSerializable, \Serializable {
     /**
+     * Default constructor.
+     * @internal
+     */
+    function __construct() {
+        // We don't have anything to do.
+    }
+    
+    /**
      * @throws \Exception
      * @internal
      */
@@ -84,7 +92,9 @@ class Base implements \JsonSerializable, \Serializable {
                                 $class = '\\'.\get_class($this->$key);
                                 
                                 $exp = \ReflectionMethod::export($class, '__construct', true);
-                                preg_match('/Parameters \[(\d+)\]/', $exp, $count);
+                                
+                                $count = array();
+                                \preg_match('/Parameters \[(\d+)\]/', $exp, $count);
                                 $count = (int) $count[1];
                                 
                                 if($count === 1) {
@@ -92,7 +102,7 @@ class Base implements \JsonSerializable, \Serializable {
                                 } elseif($count === 2) {
                                     $this->$key = new $class($this->client, $val);
                                 } elseif($count === 3) {
-                                    $this->$key = new $class($this->client, ($this->guild ? $this->guild : ($this->channel ? $this->channel : null)), $val);
+                                    $this->$key = new $class($this->client, (\property_exists($this, 'guild') ? $this->guild : (\property_exists($this, 'channel') ? $this->channel : null)), $val);
                                 } else {
                                     $this->client->emit('debug', 'Manual update of '.$key.' in '.\get_class($this).' ('.$count.') required');
                                 }
