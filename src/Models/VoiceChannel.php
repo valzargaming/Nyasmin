@@ -63,7 +63,7 @@ class VoiceChannel extends ClientBase
     /**
      * @inheritDoc
      *
-     * @return bool|null|\CharlotteDunois\Yasmin\Models\CategoryChannel
+     * @return mixed
      * @throws \Exception
      * @internal
      */

@@ -86,7 +86,7 @@ class GuildMember extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @return bool|string|int|\DateTime|\CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\Permissions|\CharlotteDunois\Yasmin\Models\Presence|\CharlotteDunois\Yasmin\Models\VoiceChannel
+     * @return mixed
      * @throws \Exception
      * @internal
      */
