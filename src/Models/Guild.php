@@ -147,6 +147,9 @@ class Guild extends ClientBase {
                 
                 return \mb_strtoupper($name);
             break;
+            case 'systemChannel':
+                return $this->channels->get($this->systemChannelID);
+            break;
             case 'verified':
                 return \in_array('VERIFIED', $this->features);
             break;
