@@ -211,7 +211,7 @@ trait TextChannelTrait {
                     $msg['tts'] = true;
                 }
                 
-                if(!empty($options['split'])) {
+                if(isset($options['split'])) {
                     $options['split'] = $split = \array_merge(\CharlotteDunois\Yasmin\Utils\DataHelpers::DEFAULT_MESSAGE_SPLIT_OPTIONS, (\is_array($options['split']) ? $options['split'] : array()));
                     $messages = \CharlotteDunois\Yasmin\Utils\DataHelpers::splitMessage($msg['content'], $options['split']);
                     
