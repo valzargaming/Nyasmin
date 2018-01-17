@@ -140,7 +140,7 @@ class VoiceChannel extends ClientBase
         $this->position = $channel['position'] ?? $this->position ?? 0;
         $this->userLimit = $channel['user_limit'] ?? $this->userLimit ?? 0;
         
-        if(isset($channel['permissions_overwrites'])) {
+        if(isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
             foreach($channel['permission_overwrites'] as $permission) {

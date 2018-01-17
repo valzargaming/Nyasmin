@@ -84,10 +84,10 @@ class CategoryChannel extends ClientBase
         $this->name = $channel['name'] ?? $this->name ?? '';
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
-        if(isset($channel['permissions_overwrites'])) {
+        if(isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
-            foreach($channel['permissions_overwrites'] as $permission) {
+            foreach($channel['permission_overwrites'] as $permission) {
                 $this->permissionOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission));
             }
         }

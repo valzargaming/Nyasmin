@@ -183,7 +183,7 @@ class TextChannel extends ClientBase
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
-        if(isset($channel['permissions_overwrites'])) {
+        if(isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
             foreach($channel['permission_overwrites'] as $permission) {
