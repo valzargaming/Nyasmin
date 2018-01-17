@@ -77,4 +77,24 @@ class GroupDMChannel extends DMChannel {
         
         return parent::__get($name);
     }
+    
+    /**
+     * @internal
+     */
+    function _patch(array $channel) {
+        $this->applicationID = $channel['application_id'] ?? $this->applicationID ?? null;
+        $this->ownerID = $channel['owner_id'] ?? $this->ownerID ?? null;
+        $this->lastMessageID = $channel['last_message_id'] ?? $this->lastMessageID ?? null;
+        
+        if(isset($channel['recipients'])) {
+            $this->recipients->clear();
+            
+            foreach($channel['recipients'] as $rec) {
+                $user = $this->client->users->patch($rec);
+                if($user) {
+                    $this->recipients->set($user->id, $user);
+                }
+            }
+        }
+    }
 }
