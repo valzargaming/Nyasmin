@@ -433,7 +433,7 @@ class Message extends ClientBase {
         }
         
         foreach($this->mentions->users as $user) {
-            $this->cleanContent = \str_replace($user->__toString(), ($this->channel->guild && $this->channel->guild->members->has($user->id) ? $this->channel->guild->members->get($user->id)->displayName : $user->username), $this->cleanContent);
+            $this->cleanContent = \str_replace($user->__toString(), ($this->channel->type === 'text' && $this->channel->guild->members->has($user->id) ? $this->channel->guild->members->get($user->id)->displayName : $user->username), $this->cleanContent);
         }
     }
 }
