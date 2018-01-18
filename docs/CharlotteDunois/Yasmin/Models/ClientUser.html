@@ -378,7 +378,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_setPresence">setPresence</a>(array $presence)
         
-                                            <p>Set your presence. Resolves with $this.</p>                </div>
+                                            <p>Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -434,7 +434,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createGroupDM">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L245">line 245</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L273">line 273</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createGroupDM</strong>(array $userWithAccessTokens, array $nicks = array())
         </code>
@@ -687,7 +687,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setActivity">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L124">line 124</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L139">line 139</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setActivity</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Activity.html"><abbr title="CharlotteDunois\Yasmin\Models\Activity">Activity</abbr></a>|string|null $name = null, int $type = 0)
         </code>
@@ -736,7 +736,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setAvatar">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L80">line 80</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L95">line 95</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setAvatar</strong>(string $avatar)
         </code>
@@ -780,7 +780,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setGame">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L148">line 148</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L167">line 167</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setGame</strong>(string $name = null, string $url = &#039;&#039;)
         </code>
@@ -829,7 +829,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setPresence">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L191">line 191</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L209">line 209</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPresence</strong>(array $presence)
         </code>
@@ -839,7 +839,7 @@ array(
     
 
                     <div class="method-description">
-                                    <p>Set your presence. Resolves with $this.</p>                    <p>$presence = array(
+                                    <p>Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.</p>                    <p>$presence = array(
   'afk' => bool,
   'since' => integer|null,
   'status' => string,
@@ -850,7 +850,7 @@ array(
      )|null
  )</p>
 
-<p>Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude. Ratelimit is 5/60s.</p>                                            
+<p>Any field in the first dimension is optional and will be automatically filled with the last known value.</p>                                            
         
                             </div>
                 <div class="tags">
@@ -875,15 +875,6 @@ array(
     </table>
 
             
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a href="https://secure.php.net/BadMethodCallException" target="_blank">BadMethodCallException</a></td>
-                <td></td>
-            </tr>
-            </table>
-
             
                         
                         
@@ -893,7 +884,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setStatus">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L110">line 110</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L125">line 125</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setStatus</strong>(string $status)
         </code>
@@ -937,7 +928,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setUsername">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L97">line 97</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L112">line 112</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setUsername</strong>(string $username)
         </code>

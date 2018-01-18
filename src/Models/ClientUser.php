@@ -20,17 +20,32 @@ class ClientUser extends User {
     protected $clientPresence;
     
     /**
+     * Holds the latest set presence while waiting for the ratelimit to lift.
      * WS Presence Update ratelimit 5/60s.
-     * @var int
+     * @var array
      * @internal
      */
     protected $firstPresence;
+    
+    /**
+     * Holds the promise that got created in a ratelimit.
+     * @var \React\Promise\Promise|null
+     * @internal
+     */
+    protected $firstPresencePromise;
     
     /**
      * @var int
      * @internal
      */
     protected $firstPresenceCount = 0;
+    
+    /**
+     * First set presence time.
+     * @var int
+     * @internal
+     */
+    protected $firstPresenceTime = 0;
     
     /**
      * @param \CharlotteDunois\Yasmin\Client $client
@@ -68,7 +83,7 @@ class ClientUser extends User {
      */
     function __debugInfo() {
         $vars = parent::__debugInfo();
-        unset($vars['clientPresence'], $vars['firstPresence'], $vars['firstPresenceCount']);
+        unset($vars['clientPresence'], $vars['firstPresence'], $vars['firstPresencePromise'], $vars['firstPresenceCount'], $vars['firstPresenceTime']);
         return $vars;
     }
     
@@ -122,9 +137,13 @@ class ClientUser extends User {
      * @return \React\Promise\Promise
      */
     function setActivity($name = null, int $type = 0) {
-        if($name === null || $name instanceof \CharlotteDunois\Yasmin\Models\Activity) {
+        if($name === null) {
             return $this->setPresence(array(
-                'game' => ($name instanceof \CharlotteDunois\Yasmin\Models\Activity ? $name->jsonSerialize() : $name)
+                'game' => null
+            ));
+        } elseif($name instanceof \CharlotteDunois\Yasmin\Models\Activity) {
+            return $this->setPresence(array(
+                'game' => $name->jsonSerialize()
             ));
         }
         
@@ -169,7 +188,7 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your presence. Resolves with $this.
+     * Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.
      *
      *  $presence = array(
      *   'afk' => bool,
@@ -182,26 +201,35 @@ class ClientUser extends User {
      *      )|null
      *  )
      *
-     *  Any field in the first dimension is optional and will be automatically filled with the last known value. Throws because fuck you and your spamming attitude. Ratelimit is 5/60s.
+     *  Any field in the first dimension is optional and will be automatically filled with the last known value.
      *
      * @param array $presence
      * @return \React\Promise\Promise
-     * @throws \BadMethodCallException
      */
     function setPresence(array $presence) {
         if(empty($presence)) {
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
         }
         
-        if($this->firstPresence > (\time() - 60)) {
-            if($this->firstPresenceCount >= 5) {
-                throw new \BadMethodCallException('Stop spamming setPresence you idiot');
-            }
-            
+        if($this->firstPresenceTime > (\time() - 60)) {
+            $this->firstPresence = $presence;
             $this->firstPresenceCount++;
+            
+            if($this->firstPresenceCount > 5) {
+                if($this->firstPresencePromise === null) {
+                    $this->firstPresencePromise = new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+                        $this->client->addTimer((60 - (\time() - $this->firstPresenceTime)), function () use ($resolve, $reject) {
+                            $this->firstPresencePromise = null;
+                            $this->setPresence($this->firstPresence)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                        });
+                    });
+                }
+                
+                return $this->firstPresencePromise;
+            }
         } else {
-            $this->firstPresence = \time();
             $this->firstPresenceCount = 1;
+            $this->firstPresenceTime = \time();
         }
         
         $packet = array(
