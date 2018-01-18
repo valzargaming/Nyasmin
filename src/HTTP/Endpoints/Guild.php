@@ -105,7 +105,13 @@ class Guild {
     
     function createGuildBan(string $guildid, string $userid, int $daysDeleteMessages = 0, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['bans']['create'], $guildid, $userid);
-        return $this->api->makeRequest('PUT', $url, array('auditLogReason' => $reason, 'querystring' => array('delete-message-days' => $daysDeleteMessages)));
+        
+        $qs = array('delete-message-days' => $daysDeleteMessages);
+        if(!empty($reason)) {
+            $qs['reason'] = $reason;
+        }
+        
+        return $this->api->makeRequest('PUT', $url, array('auditLogReason' => $reason, 'querystring' => $qs));
     }
     
     function removeGuildBan(string $guildid, string $userid, string $reason = '') {
