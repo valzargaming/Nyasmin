@@ -97,15 +97,34 @@
                     <tr>
                 <td>ACTIVITY_TYPES</td>
                 <td class="last">
-                    <p><em>Activity types. One of playing, streaming, listening or watching.</em></p>
+                    <p><em>Activity types.</em></p>
                     <p></p>
+                                            <pre>const ACTIVITY_TYPES = array(
+    0 =&gt; &#039;playing&#039;,
+    1 =&gt; &#039;streaming&#039;,
+    2 =&gt; &#039;listening&#039;,
+    3 =&gt; &#039;watching&#039;
+);</pre>
                                     </td>
             </tr>
                     <tr>
                 <td>CHANNEL_TYPES</td>
                 <td class="last">
-                    <p><em>Channel Types. One of text, dm, voice, group or category.</em></p>
+                    <p><em>Channel Types.</em></p>
                     <p></p>
+                                            <pre>const CHANNEL_TYPES = array(
+    0 =&gt; &#039;text&#039;,
+    1 =&gt; &#039;dm&#039;,
+    2 =&gt; &#039;voice&#039;,
+    3 =&gt; &#039;group&#039;,
+    4 =&gt; &#039;category&#039;,
+    
+    &#039;text&#039; =&gt; 0,
+    &#039;dm&#039; =&gt; 1,
+    &#039;voice&#039; =&gt; 2,
+    &#039;group&#039; =&gt; 3,
+    &#039;category&#039; =&gt; 4
+);</pre>
                                     </td>
             </tr>
                     <tr>
@@ -120,41 +139,93 @@
                 <td class="last">
                     <p><em>The default discord role colors. Mapped by uppercase string to integer.</em></p>
                     <p></p>
+                                            <pre>const DISCORD_COLORS = array(
+    &#039;AQUA&#039; =&gt; 1752220,
+    &#039;BLUE&#039; =&gt; 3447003,
+    &#039;GREEN&#039; =&gt; 3066993,
+    &#039;PURPLE&#039; =&gt; 10181046,
+    &#039;GOLD&#039; =&gt; 15844367,
+    &#039;ORANGE&#039; =&gt; 15105570,
+    &#039;RED&#039; =&gt; 15158332,
+    &#039;GREY&#039; =&gt; 9807270,
+    &#039;DARKER_GREY&#039; =&gt; 8359053,
+    &#039;NAVY&#039; =&gt; 3426654,
+    &#039;DARK_AQUA&#039; =&gt; 1146986,
+    &#039;DARK_GREEN&#039; =&gt; 2067276,
+    &#039;DARK_BLUE&#039; =&gt; 2123412,
+    &#039;DARK_GOLD&#039; =&gt; 12745742,
+    &#039;DARK_PURPLE&#039; =&gt; 7419530,
+    &#039;DARK_ORANGE&#039; =&gt; 11027200,
+    &#039;DARK_GREY&#039; =&gt; 9936031,
+    &#039;DARK_RED&#039; =&gt; 10038562,
+    &#039;LIGHT_GREY&#039; =&gt; 12370112,
+    &#039;DARK_NAVY&#039; =&gt; 2899536
+);</pre>
                                     </td>
             </tr>
                     <tr>
                 <td>GUILD_DEFAULT_MESSAGE_NOTIFICATIONS</td>
                 <td class="last">
-                    <p><em>Guild default message notifications. One of EVERYTHING or ONLY_MENTIONS.</em></p>
+                    <p><em>Guild default message notifications.</em></p>
                     <p></p>
+                                            <pre>const GUILD_DEFAULT_MESSAGE_NOTIFICATIONS = array(
+    0 =&gt; &#039;EVERYTHING&#039;,
+    1 =&gt; &#039;ONLY_MENTIONS&#039;
+);</pre>
                                     </td>
             </tr>
                     <tr>
                 <td>GUILD_EXPLICIT_CONTENT_FILTER</td>
                 <td class="last">
-                    <p><em>Guild explicit content filter. One of DISABLED, MEMBERS_WITHOUT_ROLES or ALL_MEMBERS.</em></p>
+                    <p><em>Guild explicit content filter.</em></p>
                     <p></p>
+                                            <pre>const GUILD_EXPLICIT_CONTENT_FILTER = array(
+    0 =&gt; &#039;DISABLED&#039;,
+    1 =&gt; &#039;MEMBERS_WITHOUT_ROLES&#039;,
+    2 =&gt; &#039;ALL_MEMBERS&#039;
+);</pre>
                                     </td>
             </tr>
                     <tr>
                 <td>GUILD_MFA_LEVEL</td>
                 <td class="last">
-                    <p><em>Guild MFA level. One of NONE or ELEVATED.</em></p>
+                    <p><em>Guild MFA level.</em></p>
                     <p></p>
+                                            <pre>const GUILD_MFA_LEVEL = array(
+    0 =&gt; &#039;NONE&#039;,
+    1 =&gt; &#039;ELEVATED&#039;
+);</pre>
                                     </td>
             </tr>
                     <tr>
                 <td>GUILD_VERIFICATION_LEVEL</td>
                 <td class="last">
-                    <p><em>Guild verification level. One of NONE, LOW, MEDIUM, HIGH or VERY_HIGH.</em></p>
+                    <p><em>Guild verification level.</em></p>
                     <p></p>
+                                            <pre>const GUILD_VERIFICATION_LEVEL = array(
+    0 =&gt; &#039;NONE&#039;,
+    1 =&gt; &#039;LOW&#039;,
+    2 =&gt; &#039;MEDIUM&#039;,
+    3 =&gt; &#039;HIGH&#039;,
+    4 =&gt; &#039;VERY_HIGH&#039;
+);</pre>
                                     </td>
             </tr>
                     <tr>
                 <td>MESSAGE_TYPES</td>
                 <td class="last">
-                    <p><em>Messages Types. One of DEFAULT, RECIPIENT_ADD, RECIPIENT_REMOVE, CALL, CHANNEL_NAME_CHANGE, CHANNEL_ICON_CHANGE, CHANNEL_PINNED_MESSAGE or GUILD_MEMBER_JOIN.</em></p>
+                    <p><em>Messages Types.</em></p>
                     <p></p>
+                                            <pre>const MESSAGE_TYPES = array(
+    0 =&gt; &#039;DEFAULT&#039;,
+    1 =&gt; &#039;RECIPIENT_ADD&#039;,
+    2 =&gt; &#039;RECIPIENT_REMOVE&#039;,
+    3 =&gt; &#039;CALL&#039;,
+    4 =&gt; &#039;CHANNEL_NAME_CHANGE&#039;,
+    5 =&gt; &#039;CHANNEL_ICON_CHANGE&#039;,
+    6 =&gt; &#039;CHANNEL_PINNED_MESSAGE&#039;,
+    7 =&gt; &#039;GUILD_MEMBER_JOIN&#039;
+);</pre>
                                     </td>
             </tr>
                     <tr>

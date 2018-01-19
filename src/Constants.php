@@ -151,8 +151,9 @@ class Constants {
     const WS_DEFAULT_COMPRESSION = 'zlib-stream';
     
     /**
-     * Activity types. One of playing, streaming, listening or watching.
+     * Activity types.
      * @var array
+     * @source
      */
     const ACTIVITY_TYPES = array(
         0 => 'playing',
@@ -162,8 +163,9 @@ class Constants {
     );
     
     /**
-     * Channel Types. One of text, dm, voice, group or category.
+     * Channel Types.
      * @var array
+     * @source
      */
     const CHANNEL_TYPES = array(
         0 => 'text',
@@ -180,8 +182,9 @@ class Constants {
     );
     
     /**
-     * Messages Types. One of DEFAULT, RECIPIENT_ADD, RECIPIENT_REMOVE, CALL, CHANNEL_NAME_CHANGE, CHANNEL_ICON_CHANGE, CHANNEL_PINNED_MESSAGE or GUILD_MEMBER_JOIN.
-     * @var array<int, string>
+     * Messages Types.
+     * @var array
+     * @source
      */
     const MESSAGE_TYPES = array(
         0 => 'DEFAULT',
@@ -195,8 +198,9 @@ class Constants {
     );
     
     /**
-     * Guild default message notifications. One of EVERYTHING or ONLY_MENTIONS.
-     * @var array<int, string>
+     * Guild default message notifications.
+     * @var array
+     * @source
      */
     const GUILD_DEFAULT_MESSAGE_NOTIFICATIONS = array(
         0 => 'EVERYTHING',
@@ -204,8 +208,9 @@ class Constants {
     );
     
     /**
-     * Guild explicit content filter. One of DISABLED, MEMBERS_WITHOUT_ROLES or ALL_MEMBERS.
-     * @var array<int, string>
+     * Guild explicit content filter.
+     * @var array
+     * @source
      */
     const GUILD_EXPLICIT_CONTENT_FILTER = array(
         0 => 'DISABLED',
@@ -214,8 +219,9 @@ class Constants {
     );
     
     /**
-     * Guild MFA level. One of NONE or ELEVATED.
-     * @var array<int, string>
+     * Guild MFA level.
+     * @var array
+     * @source
      */
     const GUILD_MFA_LEVEL = array(
         0 => 'NONE',
@@ -223,8 +229,9 @@ class Constants {
     );
     
     /**
-     * Guild verification level. One of NONE, LOW, MEDIUM, HIGH or VERY_HIGH.
-     * @var array<int, string>
+     * Guild verification level.
+     * @var array
+     * @source
      */
     const GUILD_VERIFICATION_LEVEL = array(
         0 => 'NONE',
@@ -236,7 +243,8 @@ class Constants {
     
     /**
      * The default discord role colors. Mapped by uppercase string to integer.
-     * @var arary<string, int>
+     * @var array
+     * @source
      */
     const DISCORD_COLORS = array(
         'AQUA' => 1752220,

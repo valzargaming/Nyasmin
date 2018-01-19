@@ -15,6 +15,7 @@ namespace CharlotteDunois\Yasmin\Utils;
 class DataHelpers {
     /**
      * Default Message Split Options.
+     * @source
      */
     const DEFAULT_MESSAGE_SPLIT_OPTIONS = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
     

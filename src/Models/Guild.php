@@ -443,9 +443,13 @@ class Guild extends ClientBase {
                 $data['region'] = ($options['region'] instanceof \CharlotteDunois\Yasmin\Models\VoiceRegion ? $options['region']->id : $options['region']);
             }
             
+            $handleImg = function ($img) {
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($img);
+            };
+            
             $files = array(
-                (isset($options['icon']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon']) : \React\Promise\resolve(null)),
-                (isset($options['splash']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash']) : \React\Promise\resolve(null))
+                (isset($options['icon']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon'])->then($handleImg) : \React\Promise\resolve(null)),
+                (isset($options['splash']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash'])->then($handleImg) : \React\Promise\resolve(null))
             );
             
             \React\Promise\all($files)->then(function ($files) use (&$data, $reason, $resolve, $reject) {
