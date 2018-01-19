@@ -65,6 +65,54 @@ class PermissionOverwrite extends ClientBase {
     }
     
     /**
+    * Edits the permission overwrite. Resolves with $this.
+    * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $allow         Which permissions should be allowed?
+    * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $deny          Which permissions should be denied?
+    * @param string                                                                                 $reason        The reason for this.
+    * @return \React\Promise\Promise
+    * @throws \InvalidArgumentException
+     */
+    function edit($allow = null, $deny = null, string $reason = '') {
+        $options = array(
+            'type' => $this->type
+        );
+        
+        $allow = ($allow ?: $this->allow);
+        $deny = ($deny ?: $this->deny);
+        
+        if($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+            $allow = $allow->bitfield;
+        }
+        
+        if(!\is_int($allow)) {
+            throw new \InvalidArgumentException('Allow has to be an int or an instance of Permissions');
+        }
+        
+        if($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+            $deny = $deny->bitfield;
+        }
+        
+        if(!\is_int($deny)) {
+            throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
+        }
+        
+        if($allow === $this->allow->bitfield && $deny === $this->deny->bitfield) {
+            throw new \InvalidArgumentException('One of allow or deny has to be changed');
+        }
+        
+        $options['allow'] = $allow;
+        $options['deny'] = $deny;
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->id, $this->id, $options, $reason)->then(function () use ($options, $resolve) {
+                $this->allow = new \CharlotteDunois\Yasmin\Models\Permissions(($options['allow'] ?? 0));
+                $this->deny = new \CharlotteDunois\Yasmin\Models\Permissions(($options['deny'] ?? 0));
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Deletes the permission overwrite.
      * @param string  $reason
      * @return \React\Promise\Promise
