@@ -443,51 +443,18 @@ class Guild extends ClientBase {
                 $data['region'] = ($options['region'] instanceof \CharlotteDunois\Yasmin\Models\VoiceRegion ? $options['region']->id : $options['region']);
             }
             
-            $files = null;
-            $icon = null;
-            $splash = null;
+            $files = array(
+                (isset($options['icon']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon']) : \React\Promise\resolve(null)),
+                (isset($options['splash']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash']) : \React\Promise\resolve(null))
+            );
             
-            if(isset($options['icon'])) {
-                $files = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon']);
-                $icon = true;
-            } elseif(isset($options['splash'])) {
-                $files = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash']);
-                $splash = true;
-            }
-            
-            if(!$files) {
-                $files = \React\Promise\resolve(null);
-            }
-            
-            $files->then(function ($file) use (&$icon, &$splash, $options) {
-                if($file === null) {
-                    return null;
+            \React\Promise\all($files)->then(function ($files) use (&$data, $reason, $resolve, $reject) {
+                if(\is_string($files[0])) {
+                    $data['icon'] = $files[0];
                 }
                 
-                if($icon === true) {
-                    $icon = $file;
-                    $splash = true;
-                    return \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash']);
-                }
-                
-                return $file;
-            })->then(function ($file) use (&$icon, &$splash) {
-                if($file === null) {
-                    return null;
-                }
-                
-                if(\is_string($icon) && $splash === true) {
-                    $splash = $file;
-                } elseif($icon === true) {
-                    $icon = $file;
-                }
-            })->then(function () use ($data, &$icon, &$splash, $reason, $resolve, $reject) {
-                if(\is_string($icon)) {
-                    $data['icon'] = $icon;
-                }
-                
-                if(\is_string($splash)) {
-                    $data['splash'] = $splash;
+                if(\is_string($files[1])) {
+                    $data['splash'] = $files[1];
                 }
                 
                 $this->client->apimanager()->endpoints->guild->modifyGuild($this->id, $data, $reason)->then(function () use ($resolve) {
