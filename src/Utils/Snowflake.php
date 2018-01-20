@@ -129,6 +129,6 @@ class Snowflake {
      * @return bool
      */
     function isValid() {
-        return ($this->timestamp >= self::EPOCH && $this->timestamp < \microtime(true) && $this->workerID >= 0 && $this->workerID < 32 && $this->processID >= 0  && $this->processID < 32 && $this->increment >= 0 && $this->increment < 4096);
+        return ($this->timestamp >= self::EPOCH && $this->timestamp < \microtime(true) && $this->workerID >= 0 && $this->workerID < 32 && $this->processID >= 0 && $this->processID < 32 && $this->increment >= 0 && $this->increment < 4096);
     }
 }
