@@ -198,9 +198,9 @@
                     static&nbsp;string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_generate">generate</a>()
+                    <a href="#method_generate">generate</a>(int $workerID = 1, int $processID = 0)
         
-                                            <p>Generates a new snowflake with worker ID hardcoded to 1 and process ID hardcoded to 0.</p>                </div>
+                                            <p>Generates a new snowflake.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -300,9 +300,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generate">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L97">line 97</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L99">line 99</a></div>
         <code>        static            string
-    <strong>generate</strong>()
+    <strong>generate</strong>(int $workerID = 1, int $processID = 0)
         </code>
     </h3>
     <div class="details">
@@ -310,10 +310,25 @@
     
 
                     <div class="method-description">
-                                    <p>Generates a new snowflake with worker ID hardcoded to 1 and process ID hardcoded to 0.</p>                                                                
+                                    <p>Generates a new snowflake.</p>                                                                
         
                             </div>
                 <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$workerID</td>
+                <td>Valid values are in the range of 0-31.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$processID</td>
+                <td>Valid values are in the range of 0-31.</td>
+            </tr>
+            </table>
+
             
                             <h4>Return Value</h4>
 
@@ -334,7 +349,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isValid">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L118">line 118</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Snowflake.php#L131">line 131</a></div>
         <code>                    bool
     <strong>isValid</strong>()
         </code>
