@@ -65,6 +65,24 @@ interface ClientEvents {
     function debug($message);
     
     /**
+     * Ratelimit information.
+     *
+     * The array has the following format:
+     * <pre>
+     * array(
+     *     'endpoint' => string,
+     *     'global' => bool,
+     *     'limit' => int|float, (float = \INF)
+     *     'remaining => int,
+     *     'resetTime' => int|null
+     * )
+     * </pre>
+     *
+     * @param array $data
+     */
+    function ratelimit($data);
+    
+    /**
      * Emitted when a channel gets created.
      */
     function channelCreate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel);
