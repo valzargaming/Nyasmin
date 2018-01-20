@@ -11,12 +11,12 @@ namespace CharlotteDunois\Yasmin\Utils;
 
 /**
  * Represents a Snowflake.
- * @property float      $timestamp
- * @property int        $workerID
- * @property int        $processID
- * @property int        $increment
- * @property string     $binary
- * @property \DateTime  $date
+ * @property float      $timestamp  The timestamp of when this snowflake got generated. In seconds with microseconds.
+ * @property int        $workerID   The ID of the worker which generated this snowflake.
+ * @property int        $processID  The ID of the process which generated this snowflake.
+ * @property int        $increment  The increment index of the snowflake.
+ * @property string     $binary     The binary representation of this snowflake.
+ * @property \DateTime  $date       A DateTime instance of the timestamp.
  */
 class Snowflake {
     /**
@@ -103,7 +103,7 @@ class Snowflake {
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         if(\PHP_INT_SIZE === 4) {
-            $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\base_convert((self::$incrementIndex++), 10, 2), 12, 0, \STR_PAD_LEFT);
+            $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
             return \base_convert($binary, 2, 10);
         } else {
             $binary = \str_pad(\decbin(((int) $time)), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
@@ -112,10 +112,10 @@ class Snowflake {
     }
     
     /**
-     * Is this a valid Snowflake or not? This does not determine if a given Snowflake exists in Discord.
+     * This method merely determines whether a given snowflake is considered valid, but not if it exists.
      * @return bool
      */
     function isValid() {
-        return ($this->timestamp < \microtime(true) && $this->workerID >= 0 && $this->processID >= 0 && $this->increment >= 0 && $this->increment <= 4095);
+        return ($this->timestamp >= self::EPOCH && $this->timestamp < \microtime(true) && $this->workerID >= 0 && $this->workerID < 16 && $this->processID >= 0  && $this->processID < 16 && $this->increment >= 0 && $this->increment < 4096);
     }
 }
