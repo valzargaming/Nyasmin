@@ -62,6 +62,20 @@ class OAuthApplication extends ClientBase {
     }
     
     /**
+     * Returns the application's icon URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @return string|null
+     */
+    function getIconURL(string $format = 'png', int $size = null) {
+        if($this->icon !== null) {
+            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        }
+        
+        return null;
+    }
+    
+    /**
      * Automatically converts the OAuth Application instance to the application name.
      */
     function __toString() {
