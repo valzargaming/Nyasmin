@@ -25,7 +25,7 @@ class Snowflake {
      */
     const EPOCH = 1420070400;
     
-    private static $incrementIndex = 0;
+    protected static $incrementIndex = 0;
     
     protected $timestamp;
     protected $workerID;
@@ -91,22 +91,35 @@ class Snowflake {
     }
     
     /**
-     * Generates a new snowflake with worker ID hardcoded to 1 and process ID hardcoded to 0.
+     * Generates a new snowflake.
+     * @param int  $workerID   Valid values are in the range of 0-31.
+     * @param int  $processID  Valid values are in the range of 0-31.
      * @return string
      */
-    static function generate() {
+    static function generate(int $workerID = 1, int $processID = 0) {
+        if($workerID > 31 || $workerID < 0) {
+            throw new \InvalidArgumentException('Worker ID is out of range');
+        }
+        
+        if($processID > 31 || $processID < 0) {
+            throw new \InvalidArgumentException('Process ID is out of range');
+        }
+        
         if(self::$incrementIndex >= 4095) {
             self::$incrementIndex = 0;
         }
+        
+        $workerID = \str_pad(\decbin($workerID), 5, 0, \STR_PAD_LEFT);
+        $processID = \str_pad(\decbin($processID), 5, 0, \STR_PAD_LEFT);
         
         $mtime = \explode('.', ((string) \microtime(true)));
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         if(\PHP_INT_SIZE === 4) {
-            $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
+            $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
             return \base_convert($binary, 2, 10);
         } else {
-            $binary = \str_pad(\decbin(((int) $time)), 42, 0, \STR_PAD_LEFT).'0000100000'.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
+            $binary = \str_pad(\decbin(((int) $time)), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
             return ((string) \bindec($binary));
         }
     }
@@ -116,6 +129,6 @@ class Snowflake {
      * @return bool
      */
     function isValid() {
-        return ($this->timestamp >= self::EPOCH && $this->timestamp < \microtime(true) && $this->workerID >= 0 && $this->workerID < 16 && $this->processID >= 0  && $this->processID < 16 && $this->increment >= 0 && $this->increment < 4096);
+        return ($this->timestamp >= self::EPOCH && $this->timestamp < \microtime(true) && $this->workerID >= 0 && $this->workerID < 32 && $this->processID >= 0  && $this->processID < 32 && $this->increment >= 0 && $this->increment < 4096);
     }
 }
