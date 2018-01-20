@@ -69,6 +69,15 @@ class ClientBase extends Base {
     /**
      * @internal
      */
+    function serialize() {
+        $vars = \get_object_vars($this);
+        $vars['client'] = null;
+        return \serialize($vars);
+    }
+    
+    /**
+     * @internal
+     */
     function unserialize($data) {
         if(self::$serializeClient === null) {
             throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient being set');
