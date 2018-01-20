@@ -43,11 +43,11 @@ class Base implements \JsonSerializable, \Serializable {
     function serialize() {
         $vars = \get_object_vars($this);
         
-        foreach($vars as $key => $val) {
+        /*foreach($vars as $key => $val) { // I have no idea why
             if($val instanceof \Closure) {
                 unset($vars[$key]);
             }
-        }
+        }*/
         
         return \serialize($vars);
     }
@@ -55,9 +55,9 @@ class Base implements \JsonSerializable, \Serializable {
     /**
      * @internal
      */
-    function unserialize($data) {
+    /*function unserialize($data) { // same
         $this->__construct(\unserialize($data));
-    }
+    }*/
     
     /**
      * @internal
