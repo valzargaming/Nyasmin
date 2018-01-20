@@ -421,6 +421,7 @@ class APIManager {
         }
         
         $this->client->emit('ratelimit', array(
+            'endpoint' => ($ratelimit !== null ? $ratelimit->getEndpoint() : 'global'),
             'global' => $global,
             'limit' => $limit,
             'remaining' => $remaining,
