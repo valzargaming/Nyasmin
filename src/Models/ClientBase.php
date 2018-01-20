@@ -21,10 +21,9 @@ class ClientBase extends Base {
     protected $client;
     
     /**
-     * @internal
      * @var \CharlotteDunois\Yasmin\Client|null
      */
-    static public $serializeClient;
+    public static $serializeClient;
     
     /**
      * @internal
@@ -70,8 +69,8 @@ class ClientBase extends Base {
      * @internal
      */
     function unserialize($data) {
-        $exp = \ReflectionMethod::export('\\'.\get_class($this), '__construct', true);
-        preg_match('/Parameters \[(\d+)\]/', $exp, $count);
+        /*$exp = \ReflectionMethod::export('\\'.\get_class($this), '__construct', true); // I have no idea why
+        \preg_match('/Parameters \[(\d+)\]/', $exp, $count);
         $count = $count[1];
         
         switch($count) {
@@ -83,8 +82,19 @@ class ClientBase extends Base {
                     throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient');
                 }
                 
-                $this->__construct(self::$serializeClient, unserialize($data));
+                $this->__construct(self::$serializeClient, \unserialize($data));
             break;
+        }*/
+        
+        if(self::$serializeClient === null) {
+            throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient being set');
+        }
+        
+        $this->client = self::$serializeClient;
+        
+        $data = \unserialize($data);
+        foreach($data as $name => $val) {
+            $this->$name = $val;
         }
     }
 }
