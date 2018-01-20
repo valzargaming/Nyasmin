@@ -15,13 +15,14 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class ClientBase extends Base {
     /**
-     * @internal
      * @var \CharlotteDunois\Yasmin\Client
+     * @internal
      */
     protected $client;
     
     /**
      * @var \CharlotteDunois\Yasmin\Client|null
+     * @internal
      */
     public static $serializeClient;
     
