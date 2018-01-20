@@ -90,9 +90,13 @@ class User extends ClientBase {
             break;
             case 'lastMessage':
                 if($this->lastMessageID !== null) {
-                    return $this->client->channels->first(function ($channel) {
+                    $channel = $this->client->channels->first(function ($channel) {
                         return $channel->messages->has($this->lastMessageID);
                     });
+                    
+                    if($channel) {
+                        return $channel->messages->get($this->lastMessageID);
+                    }
                 }
                 
                 return null;
