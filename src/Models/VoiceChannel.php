@@ -25,7 +25,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property  bool                                                                                     $full                   Checks if the voice channel is full.
  * @property  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
- * @property  \CharlotteDunois\Yasmin\Models\ChannelCategory|null                                      $parent                 Returns the channel's parent, or null.
+ * @property  \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                      $parent                 Returns the channel's parent, or null.
  * @property  bool|null                                                                                $permissionsLocked      If the permissionOverwrites match the parent channel, or null if no parent.
  * @property  bool                                                                                     $speakable              Whether the client has permission to send audio to the channel.
  */
