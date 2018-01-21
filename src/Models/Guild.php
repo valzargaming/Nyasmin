@@ -252,10 +252,17 @@ class Guild extends ClientBase {
      *   'type' => 'category'|'text'|'voice', (defaults to 'text')
      *   'bitrate' => int, (only for voice channels)
      *   'userLimit' => int, (only for voice channels, 0 = unlimited)
-     *   'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array, (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
+     *   'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array, (an array or Collection of PermissionOverwrite instances or permission overwrite arrays*)
      *   'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *   'nsfw' => bool (only for text channels)
      * )
+     *
+     *   *  array(
+     *   *      'id' => string, (an user/member or role ID)
+     *   *      'type' => 'member'|'role',
+     *   *      'allow' => \CharlotteDunois\Yasmin\Models\Permissions|int,
+     *   *      'deny' => \CharlotteDunois\Yasmin\Models\Permissions|int
+     *   *  )
      * </pre>
      *
      * @param array   $options
