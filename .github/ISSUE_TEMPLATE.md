@@ -9,7 +9,7 @@ If you need help with Yasmin, please visit the Discord guild! The issue tracker 
 
 ```
 
-**Please include a Minimal Complete and Verifiable Example:**
+**Please include a Minimal, Complete and Verifiable Example:**
 ```php
 
 ```
