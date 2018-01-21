@@ -154,10 +154,15 @@ class Client extends \CharlotteDunois\Events\EventEmitter {
      *
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
+     * @throws \Exception
      *
      * @see \CharlotteDunois\Yasmin\ClientEvents
      */
     function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
+        if(\PHP_SAPI !== 'cli') {
+            throw new \Exception('Yasmin can only be used in the CLI SAPI. Please use PHP CLI to run Yasmin.');
+        }
+        
         if(!empty($options)) {
             $this->validateClientOptions($options);
             $this->options = \array_merge($this->options, $options);
