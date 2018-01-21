@@ -249,12 +249,12 @@ class Guild extends ClientBase {
      * <pre>
      * array(
      *   'name' => string,
-     *   'type' => 'text'|'voice', (defaults to 'text')
+     *   'type' => 'category'|'text'|'voice', (defaults to 'text')
      *   'bitrate' => int, (only for voice channels)
      *   'userLimit' => int, (only for voice channels, 0 = unlimited)
-     *   'permissionOverwrites' => array<array|\CharlotteDunois\Yasmin\Models\PermissionOverwrite>
-     *   'parentID' => string,
-     *   'nsfw' => bool
+     *   'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array, (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
+     *   'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
+     *   'nsfw' => bool (only for text channels)
      * )
      * </pre>
      *
@@ -270,19 +270,36 @@ class Guild extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $options['type'] = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[($options['type'] ?? 'text')] ?? 0;
+            $data = array(
+                'name' => $options['name'],
+                'type' => (\CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[($options['type'] ?? 'text')] ?? 0)
+            );
             
-            if(!empty($options['userLimit'])) {
-                $options['user_limit'] = $options['userLimit'];
+            if(isset($options['bitrate'])) {
+                $data['bitrate'] = (int) $options['bitrate'];
             }
-            unset($options['userLimit']);
             
-            if(!empty($options['permissionOverwrites'])) {
-                $options['permission_overwrites'] = $options['permissionOverwrites'];
+            if(isset($options['userLimit'])) {
+                $data['user_limit'] = $options['userLimit'];
             }
-            unset($options['permissionOverwrites']);
             
-            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->id, $options, $reason)->then(function ($data) use ($resolve) {
+            if(isset($options['permissionOverwrites'])) {
+                if($options['permissionOverwrites'] instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+                    $options['permissionOverwrites'] = $options['permissionOverwrites']->all();
+                }
+                
+                $data['permission_overwrites'] = \array_values($options['permissionOverwrites']);
+            }
+            
+            if(isset($options['parent'])) {
+                $data['parent_id'] = ($options['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $options['parent']->id : $options['parent']);
+            }
+            
+            if(isset($options['nsfw'])) {
+                $data['nsfw'] = $options['nsfw'];
+            }
+            
+            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data, $this);
                 $resolve($channel);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
@@ -291,9 +308,9 @@ class Guild extends ClientBase {
     
     /**
      * Creates a new custom emoji in the guild. Resolves with an instance of Emoji.
-     * @param string                                                                                                                                   $file   Filepath or URL, or file data.
-     * @param string                                                                                                                                   $name
-     * @param array|\CharlotteDunois\Yasmin\Utils\Collection                                                                                           $roles  An array or Collection of Role instances or role IDs.
+     * @param string                                           $file   Filepath or URL, or file data.
+     * @param string                                           $name
+     * @param array|\CharlotteDunois\Yasmin\Utils\Collection   $roles  An array or Collection of Role instances or role IDs.
      * @param string  $reason
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Emoji

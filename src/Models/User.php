@@ -106,8 +106,7 @@ class User extends ClientBase {
                     return $this->client->presences->get($this->id);
                 }
                 
-                $guilds = $this->client->guilds->all();
-                foreach($guilds as $guild) {
+                foreach($this->client->guilds as $guild) {
                     if($guild->presences->has($this->id)) {
                         $presence = $guild->presences->get($this->id);
                         $this->client->presences->set($this->id, $presence);

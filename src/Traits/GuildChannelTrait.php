@@ -33,9 +33,9 @@ trait GuildChannelTrait {
      */
     function createInvite(array $options = array()) {
         $data = array(
-            'max_uses' => $options['maxUses'] ?? 0,
-            'temporary' => $options['temporary'] ?? false,
-            'unique' => $options['unique'] ?? false
+            'max_uses' => ($options['maxUses'] ?? 0),
+            'temporary' => ($options['temporary'] ?? false),
+            'unique' => ($options['unique'] ?? false)
         );
         
         if(isset($options['maxAge'])) {
@@ -61,8 +61,8 @@ trait GuildChannelTrait {
      */
     function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '') {
         $data = array(
-            'name' => (string) (!empty($name) ? $name : $this->name),
-            'type' => (int) (\array_keys(\CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES)[\array_search($this->type, \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES)])
+            'name' => (!empty($name) ? ((string) $name) : $this->name),
+            'type' => \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$this->type]
         );
         
         if($withPermissions) {
@@ -151,7 +151,11 @@ trait GuildChannelTrait {
         }
         
         if(isset($options['permissionOverwrites'])) {
-            $data['permission_overwrites'] = ($options['permissionOverwrites'] instanceof \CharlotteDunois\Yasmin\Utils\Collection ? $options['permissionOverwrites']->all() : $options['permissionOverwrites']);
+            if($options['permissionOverwrites'] instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+                $options['permissionOverwrites'] = $options['permissionOverwrites']->all();
+            }
+            
+            $data['permission_overwrites'] = \array_values($options['permissionOverwrites']);
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
