@@ -25,27 +25,12 @@ class ClientUser extends User {
      * @var array
      * @internal
      */
-    protected $firstPresence;
-    
-    /**
-     * Holds the promise that got created in a ratelimit.
-     * @var \React\Promise\Promise|null
-     * @internal
-     */
-    protected $firstPresencePromise;
-    
-    /**
-     * @var int
-     * @internal
-     */
-    protected $firstPresenceCount = 0;
-    
-    /**
-     * First set presence time.
-     * @var int
-     * @internal
-     */
-    protected $firstPresenceTime = 0;
+    protected $firstPresence = array(
+        'presence' => null,
+        'promise' => null,
+        'count' => 0,
+        'time' => 0
+    );
     
     /**
      * @param \CharlotteDunois\Yasmin\Client $client
@@ -211,25 +196,26 @@ class ClientUser extends User {
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
         }
         
-        if($this->firstPresenceTime > (\time() - 60)) {
-            $this->firstPresence = $presence;
-            $this->firstPresenceCount++;
+        if($this->firstPresence['time'] > (\time() - 60)) {
+            $this->firstPresence['count']++;
             
-            if($this->firstPresenceCount > 5) {
-                if($this->firstPresencePromise === null) {
-                    $this->firstPresencePromise = new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-                        $this->client->addTimer((60 - (\time() - $this->firstPresenceTime)), function () use ($resolve, $reject) {
-                            $this->firstPresencePromise = null;
-                            $this->setPresence($this->firstPresence)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            if($this->firstPresence['count'] > 5) {
+                $this->firstPresence['presence'] = $presence;
+                
+                if($this->firstPresence['promise'] === null) {
+                    $this->firstPresence['promise'] = new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+                        $this->client->addTimer((60 - (\time() - $this->firstPresence['time'])), function () use ($resolve, $reject) {
+                            $this->firstPresence['promise'] = null;
+                            $this->setPresence($this->firstPresence['presence'])->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
                         });
                     });
                 }
                 
-                return $this->firstPresencePromise;
+                return $this->firstPresence['promise'];
             }
         } else {
-            $this->firstPresenceCount = 1;
-            $this->firstPresenceTime = \time();
+            $this->firstPresence['count'] = 1;
+            $this->firstPresence['time'] = \time();
         }
         
         $packet = array(
