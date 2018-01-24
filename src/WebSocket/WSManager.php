@@ -139,6 +139,10 @@ class WSManager extends \CharlotteDunois\Events\EventEmitter {
      */
     protected $wsSessionID;
     
+    /**
+     * DO NOT initialize this class yourself.
+     * @param \CharlotteDunois\Yasmin\Client  $client
+     */
     function __construct(\CharlotteDunois\Yasmin\Client $client) {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);

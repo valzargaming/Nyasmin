@@ -73,6 +73,7 @@ class APIManager {
     protected $runningBuckets = array();
     
     /**
+     * DO NOT initialize this class yourself.
      * @param \CharlotteDunois\Yasmin\Client $client
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client) {

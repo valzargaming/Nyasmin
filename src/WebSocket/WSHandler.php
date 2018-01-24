@@ -24,6 +24,10 @@ class WSHandler {
     private $sequence = null;
     private $wsmanager;
     
+    /**
+     * DO NOT initialize this class yourself.
+     * @param \CharlotteDunois\Yasmin\WebSocket\WSManager  $wsmanager
+     */
     function __construct(\CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->wsmanager = $wsmanager;
         
