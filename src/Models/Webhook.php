@@ -82,7 +82,7 @@ class Webhook extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $options, $reason) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['avatar'])->then(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable(($options['avatar'] ?? ''))->then(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
                 if(!empty($avatar)) {
                     $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 }
