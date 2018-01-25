@@ -68,19 +68,11 @@ class GuildMember extends ClientBase {
         
         $this->id = $member['user']['id'];
         $this->user = $this->client->users->patch($member['user']);
-        $this->nickname = $member['nick'] ?? null;
-        $this->deaf = (bool) ($member['deaf']);
-        $this->mute = (bool) ($member['mute']);
-        
-        $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->roles->set($this->guild->id, $this->guild->roles->get($this->guild->id));
+        $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         
-        foreach($member['roles'] as $role) {
-            $grole = $guild->roles->get($role);
-            $this->roles->set($grole->id, $grole);
-        }
+        $this->_patch($member);
     }
     
     /**
@@ -467,21 +459,23 @@ class GuildMember extends ClientBase {
      * @internal
      */
     function _patch(array $data) {
-        if(!isset($data['nick'])) {
+        if(empty($data['nick'])) {
             $this->nickname = null;
         } elseif($data['nick'] !== $this->nickname) {
             $this->nickname = $data['nick'];
         }
         
-        foreach($this->roles as $id => $role) {
-            if(!\in_array($id, $data['roles'])) {
-                $this->roles->delete($id);
-            }
-        }
+        $this->deaf = (bool) ($data['deaf'] ?? false);
+        $this->mute = (bool) ($data['mute'] ?? false);
         
-        foreach($data['roles'] as $role) {
-            if(!$this->roles->has($role)) {
-                $this->roles->set($role, $this->guild->roles->get($role));
+        if(isset($data['roles'])) {
+            $this->roles->clear();
+            $this->roles->set($this->guild->id, $this->guild->roles->get($this->guild->id));
+            
+            foreach($data['roles'] as $role) {
+                if(!$this->roles->has($role)) {
+                    $this->roles->set($role, $this->guild->roles->get($role));
+                }
             }
         }
     }
