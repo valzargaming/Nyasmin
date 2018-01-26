@@ -34,4 +34,19 @@ class GuildStorage extends Storage {
         
         throw new \InvalidArgumentException('Unable to resolve unknown guild');
     }
+    
+    /**
+     * @internal
+     */
+    function factory(array $data) {
+        if($this->has($data['id'])) {
+            $guild = $this->get($data['id']);
+            $guild->_patch($data);
+            return $guild;
+        }
+        
+        $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $data);
+        $this->set($guild->id, $guild);
+        return $guild;
+    }
 }

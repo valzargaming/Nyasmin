@@ -14,7 +14,6 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property string  $id              The ID of the region.
  * @property string  $name            The name of the region.
- * @property string  $sampleHostname  A sample hostname for what a connection may look like.
  * @property bool    $vip             Whether this is a VIP voice region.
  * @property bool    $optimal         Whether this is an optimal voice region for the client user.
  * @property bool    $deprecated      Whether this voice region is deprecated and therefore should be avoided.
@@ -37,8 +36,6 @@ class VoiceRegion extends ClientBase {
         
         $this->id = $region['id'];
         $this->name = $region['name'];
-        $this->sampleHostname = $region['sample_hostname'];
-        
         $this->vip = (bool) $region['vip'];
         $this->optimal = (bool) $region['optimal'];
         $this->deprecated = (bool) $region['deprecated'];

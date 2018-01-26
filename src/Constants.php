@@ -342,6 +342,7 @@ final class Constants {
      */
     const ENDPOINTS_GUILDS = array(
         'get' => 'guilds/%s',
+        'create' => 'guilds',
         'modify' => 'guilds/%s',
         'delete' => 'guilds/%s',
         'channels' => array(

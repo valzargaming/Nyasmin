@@ -374,6 +374,156 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * Creates a new guild. Resolves with an instance of Guild. Options is as following, everything is optional unless specified:
+     *
+     * <pre>
+     * array(
+     *   'name' => string, (required)
+     *   'region' => \CharlotteDunois\Yasmin\Models\VoiceRegion|string, (required)
+     *   'icon' => string, (an URL, a filepath or data)
+     *   'verificationLevel' => int, (0-4)
+     *   'defaultMessageNotifications' => int, (0 or 1)
+     *   'explicitContentFilter' => int, (0-2)
+     *   'roles' => array, (an array of role arrays*)
+     *   'channels' => array (an array of channel arrays**)
+     *
+     *     * array( // role array
+     *     *   'name' => string, (required)
+     *     *   'permissions' => \CharlotteDunois\Yasmin\Models\Permissions|int,
+     *     *   'color' => int|string,
+     *     *   'hoist' => bool,
+     *     *   'mentionable' => bool
+     *     * )
+     *
+     *     ** array( // channel array
+     *     **   'name' => string, (required)
+     *     **   'type' => 'text'|'voice', (category is not supported by the API, defaults to 'text')
+     *     **   'bitrate' => int, (only for voice channels)
+     *     **   'userLimit' => int, (only for voice channels, 0 = unlimited)
+     *     **   'permissionOverwrites' => array, (an array of permission overwrite arrays***)
+     *     **   'nsfw' => bool (only for text channels)
+     *     ** )
+     *
+     *     *** array( // overwrite array, all required
+     *     ***   'id' => \CharlotteDunois\Yasmin\Models\User|string, (string = user ID or role name (of above role array!))
+     *     ***   'allow' => \CharlotteDunois\Yasmin\Models\Permissions|int,
+     *     ***   'deny' => \CharlotteDunois\Yasmin\Models\Permissions|int
+     *     *** )
+     * )
+     * </pre>
+     *
+     * @param array  $options
+     * @return \React\Promise\Promise
+     * @throws \InvalidArgumentException
+     * @see \CharlotteDunois\Yasmin\Models\Guild
+     * @see \CharlotteDunois\Yasmin\Constants
+     */
+    function createGuild(array $options) {
+        if(empty($options['name'])) {
+            throw new \InvalidArgumentException('Guild name can not be empty');
+        }
+        
+        if(empty($options['region'])) {
+            throw new \InvalidArgumentException('Guild region can not be empty');
+        }
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
+            $data = array(
+                'name' => $options['name'],
+                'region' => $options['region'],
+                'verification_level' => ((int) ($options['verificationLevel'] ?? 0)),
+                'default_message_notifications' => ((int) ($options['defaultMessageNotifications'] ?? 0)),
+                'explicit_content_filter' => ((int) ($options['explicitContentFilter'] ?? 0)),
+                'roles' => array(
+                    array(
+                        'id' => 0,
+                        'name' => '@everyone',
+                        'permissions' => 0,
+                        'color' => 0,
+                        'hoist' => false,
+                        'mentionable' => false
+                    )
+                ),
+                'channels' => array()
+            );
+            
+            $rolemap = array(
+                '@everyone' => 0
+            );
+            $roleint = 1;
+            
+            if(!empty($options['roles'])) {
+                foreach($options['roles'] as $role) {
+                    $role = array(
+                        'id' => $roleint,
+                        'name' => ((string) $role['name']),
+                        'permissions' => ($role['permissions'] ?? 0),
+                        'color' => (!empty($role['color']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor($role['color']) : 0),
+                        'hoist' => ((bool) ($role['hoist'] ?? false)),
+                        'mentionable' => ((bool) ($role['mentionable'] ?? false))
+                    );
+                    
+                    if($role['name'] === '@everyone') {
+                        $data['roles'][0] = $data['roles'];
+                    } else {
+                        $data['roles'][] = $role;
+                        $rolemap[$role['name']] = $roleint++;
+                    }
+                }
+            }
+            
+            if(!empty($options['channels'])) {
+                foreach($options['channels'] as $channel) {
+                    $cdata = array(
+                        'name' => ((string) $channel['name']),
+                        'type' => (\CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[($channel['type'] ?? 'text')] ?? 0),
+                    );
+                    
+                    if(isset($channel['bitrate'])) {
+                        $cdata['bitrate'] = (int) $channel['bitrate'];
+                    }
+                    
+                    if(isset($channel['userLimit'])) {
+                        $cdata['user_limit'] = $channel['userLimit'];
+                    }
+                    
+                    if(isset($channel['permissionOverwrites'])) {
+                        $overwrites = array();
+                        
+                        foreach($channel['permissionOverwrites'] as $overwrite) {
+                            $id = ($overwrite['id'] instanceof \CharlotteDunois\Yasmin\Models\User ? $overwrite['id']->id : ($rolemap[$overwrite['id']] ?? $overwrite['id']));
+                            
+                            $overwrites[] = array(
+                                'id' => $id,
+                                'type' => (isset($rolemap[$id]) ? 'role' : 'member'),
+                                'allow' => ($overwrite['allow'] ?? 0),
+                                'deny' => ($overwrite['deny'] ?? 0)
+                            );
+                        }
+                        
+                        $cdata['permission_overwrites'] = $overwrites;
+                    }
+                    
+                    if(isset($channel['parent'])) {
+                        $cdata['parent_id'] = ($channel['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $channel['parent']->id : $channel['parent']);
+                    }
+                    
+                    if(isset($channel['nsfw'])) {
+                        $cdata['nsfw'] = $channel['nsfw'];
+                    }
+                    
+                    $data['channels'][] = $cdata;
+                }
+            }
+            
+            $this->api->endpoints->guild->createGuild($data)->then(function ($data) use ($resolve) {
+                $guild = $this->guilds->factory($data);
+                $resolve($guild);
+            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+        }));
+    }
+    
+    /**
      * Obtains the OAuth Application of the bot from Discord.
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\OAuthApplication

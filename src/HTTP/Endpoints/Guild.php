@@ -33,6 +33,11 @@ class Guild {
         return $this->api->makeRequest('GET', $url, array());
     }
     
+    function createGuild(array $options) {
+        $url = Constants::ENDPOINTS_GUILDS['create'];
+        return $this->api->makeRequest('POST', $url, array('data' => $options));
+    }
+    
     function modifyGuild(string $guildid, array $options, string $reason = '') {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['modify'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));

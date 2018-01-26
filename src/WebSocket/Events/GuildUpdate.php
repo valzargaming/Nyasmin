@@ -28,7 +28,7 @@ class GuildUpdate {
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
-            if($data['unavailable'] === true) {
+            if(($data['unavailable'] ?? false) === true) {
                 $guild->_patch(array('unavailable' => true));
                 $this->client->emit('guildUnavailable', $guild);
                 return;

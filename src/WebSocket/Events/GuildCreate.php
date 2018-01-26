@@ -29,12 +29,11 @@ class GuildCreate {
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
-            if($guild->available === false && $data['unavailable'] === false) {
+            if($guild->available === false && ($data['unavailable'] ?? false) === false) {
                 $guild->_patch($data);
             }
         } else {
-            $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $data);
-            $this->client->guilds->set($guild->id, $guild);
+            $guild = $this->client->guilds->factory($data);
         }
         
         if($guild->available === false) {
