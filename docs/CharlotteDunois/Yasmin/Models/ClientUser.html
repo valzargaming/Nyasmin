@@ -346,7 +346,7 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setActivity">setActivity</a>(<a href="../../../CharlotteDunois/Yasmin/Models/Activity.html"><abbr title="CharlotteDunois\Yasmin\Models\Activity">Activity</abbr></a>|string|null $name = null, int $type = 0)
+                    <a href="#method_setActivity">setActivity</a>(<a href="../../../CharlotteDunois/Yasmin/Models/Activity.html"><abbr title="CharlotteDunois\Yasmin\Models\Activity">Activity</abbr></a>|string|null $name, int $type = 0)
         
                                             <p>Set your activity. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
@@ -366,7 +366,7 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setGame">setGame</a>(string $name = null, string $url = &#039;&#039;)
+                    <a href="#method_setGame">setGame</a>(string $name, string $url = &#039;&#039;)
         
                                             <p>Set your playing game. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
@@ -434,7 +434,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createGroupDM">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L259">line 259</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L265">line 265</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createGroupDM</strong>(array $userWithAccessTokens, array $nicks = array())
         </code>
@@ -687,9 +687,9 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setActivity">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L124">line 124</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L130">line 130</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>setActivity</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Activity.html"><abbr title="CharlotteDunois\Yasmin\Models\Activity">Activity</abbr></a>|string|null $name = null, int $type = 0)
+    <strong>setActivity</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Activity.html"><abbr title="CharlotteDunois\Yasmin\Models\Activity">Activity</abbr></a>|string|null $name, int $type = 0)
         </code>
     </h3>
     <div class="details">
@@ -756,7 +756,7 @@ array(
                     <tr>
                 <td>string</td>
                 <td>$avatar</td>
-                <td>An URL or the filepath or the data.</td>
+                <td>An URL or the filepath or the data. Null resets your avatar.</td>
             </tr>
             </table>
 
@@ -780,9 +780,9 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setGame">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L152">line 152</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L158">line 158</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>setGame</strong>(string $name = null, string $url = &#039;&#039;)
+    <strong>setGame</strong>(string $name, string $url = &#039;&#039;)
         </code>
     </h3>
     <div class="details">
@@ -829,7 +829,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setPresence">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L194">line 194</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L200">line 200</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPresence</strong>(array $presence)
         </code>
@@ -884,7 +884,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setStatus">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L110">line 110</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L116">line 116</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setStatus</strong>(string $status)
         </code>
@@ -928,7 +928,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setUsername">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L97">line 97</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L103">line 103</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setUsername</strong>(string $username)
         </code>
