@@ -74,10 +74,16 @@ class ClientUser extends User {
     
     /**
      * Set your avatar. Resolves with $this.
-     * @param string $avatar  An URL or the filepath or the data.
+     * @param string|null  $avatar  An URL or the filepath or the data. Null resets your avatar.
      * @return \React\Promise\Promise
      */
-    function setAvatar(string $avatar) {
+    function setAvatar(string $avatar = null) {
+        if($avatar === null) {
+            return $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => null))->then(function () {
+                return $this;
+            });
+        }
+        
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
             \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->then(function ($data) use ($resolve, $reject) {
                 $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
