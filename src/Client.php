@@ -524,7 +524,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 $pr = \React\Promise\resolve(null);
             }
             
-            $pr->then(function () use (&$data, $resolve) {
+            $pr->then(function () use (&$data, $resolve, $reject) {
                 $this->api->endpoints->guild->createGuild($data)->then(function ($gdata) use ($resolve) {
                     $guild = $this->guilds->factory($gdata);
                     $resolve($guild);
