@@ -516,9 +516,19 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 }
             }
             
-            $this->api->endpoints->guild->createGuild($data)->then(function ($data) use ($resolve) {
-                $guild = $this->guilds->factory($data);
-                $resolve($guild);
+            if(!empty($options['icon'])) {
+                $pr = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon'])->then(function ($icon) use (&$data) {
+                    $data['icon'] = $icon;
+                });
+            } else {
+                $pr = \React\Promise\resolve(null);
+            }
+            
+            $pr->then(function () use (&$data, $resolve) {
+                $this->api->endpoints->guild->createGuild($data)->then(function ($gdata) use ($resolve) {
+                    $guild = $this->guilds->factory($gdata);
+                    $resolve($guild);
+                }, $reject)->done(null, array($this, 'handlePromiseRejection'));
             }, $reject)->done(null, array($this, 'handlePromiseRejection'));
         }));
     }
