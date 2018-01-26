@@ -524,12 +524,11 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 $pr = \React\Promise\resolve(null);
             }
             
-            $pr->then(function () use (&$data, $resolve, $reject) {
-                $this->api->endpoints->guild->createGuild($data)->then(function ($gdata) use ($resolve) {
-                    $guild = $this->guilds->factory($gdata);
-                    $resolve($guild);
-                }, $reject)->done(null, array($this, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+            $pr->then(function () use (&$data) {
+                return $this->api->endpoints->guild->createGuild($data)->then(function ($gdata) {
+                    return $this->guilds->factory($gdata);
+                });
+            })->then($resolve, $reject)->done(null, array($this, 'handlePromiseRejection'));
         }));
     }
     
