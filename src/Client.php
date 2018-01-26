@@ -495,7 +495,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                             
                             $overwrites[] = array(
                                 'id' => $id,
-                                'type' => (isset($rolemap[$id]) ? 'role' : 'member'),
+                                'type' => (isset($rolemap[$overwrite['id']]) ? 'role' : 'member'),
                                 'allow' => ($overwrite['allow'] ?? 0),
                                 'deny' => ($overwrite['deny'] ?? 0)
                             );
