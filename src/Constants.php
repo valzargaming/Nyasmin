@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin;
 /**
  * Holds all constants.
  */
-class Constants {
+final class Constants {
     /**
      * The version of Yasmin.
      * @var string

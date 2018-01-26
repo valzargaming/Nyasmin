@@ -19,7 +19,9 @@ namespace CharlotteDunois\Yasmin\WebSocket;
  *
  * @internal
  */
-class WSManager extends \CharlotteDunois\Events\EventEmitter {
+class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
+    use \CharlotteDunois\Events\EventEmitterTrait;
+    
     /**
      * @var \CharlotteDunois\Yasmin\Client
      */

@@ -46,6 +46,7 @@ class APIRequest {
     
     /**
      * Creates a new API Request.
+     * DO NOT initialize this class yourself.
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
      * @param string                                   $method
      * @param string                                   $endpoint

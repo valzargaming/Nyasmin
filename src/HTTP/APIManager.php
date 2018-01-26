@@ -201,7 +201,7 @@ class APIManager {
      * Gets the Gateway from the Discord API.
      * @param bool  $bot  Should we use the bot endpoint? Requires token.
      */
-    function getGateway(bool $bot = false) {
+    final function getGateway(bool $bot = false) {
         return $this->makeRequest('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
@@ -210,14 +210,14 @@ class APIManager {
      * @param bool  $bot  Should we use the bot endpoint? Requires token.
      * @return \React\Promise\Promise
      */
-    function getGatewaySync(bool $bot = false) {
+    final function getGatewaySync(bool $bot = false) {
         return $this->makeRequestSync('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
     /**
      * Processes the queue on future tick.
      */
-    protected function processFuture() {
+    final protected function processFuture() {
         $this->loop->futureTick(function () {
             $this->process();
         });
@@ -226,7 +226,7 @@ class APIManager {
     /**
      * Processes the queue delayed, depends on rest time offset.
      */
-    protected function processDelayed() {
+    final protected function processDelayed() {
         $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
         if($offset > 0) {
             $offset = $offset / 1000;
@@ -299,7 +299,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
      * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|bool
      */
-    protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
+    final protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
         if($item->size() > 0) {
             if($item->limited() === false) {
                 $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
@@ -354,7 +354,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $request
      * @return string
      */
-    function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
+    final function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         $endpoint = $request->getEndpoint();
         
         \preg_match('/((?:.*?)\/(?:\d+)(?:\/messages\/((?:bulk(?:-|_)delete)|(?:\d+)){0,1})?)/', $endpoint, $matches);
@@ -374,7 +374,7 @@ class APIManager {
      * @param string $endpoint
      * @return \CharlotteDunois\Yasmin\HTTP\RatelimitBucket
      */
-    protected function getRatelimitBucket(string $endpoint) {
+    final protected function getRatelimitBucket(string $endpoint) {
         if(empty($this->ratelimits[$endpoint])) {
             $this->ratelimits[$endpoint] = new \CharlotteDunois\Yasmin\HTTP\RatelimitBucket($this, $endpoint);
         }
@@ -387,7 +387,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response  $response
      * @return mixed[]
      */
-    function extractRatelimit(\GuzzleHttp\Psr7\Response $response) {
+    final function extractRatelimit(\GuzzleHttp\Psr7\Response $response) {
         $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);

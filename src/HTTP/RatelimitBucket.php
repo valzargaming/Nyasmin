@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Manages a route ratelimit.
  * @internal
  */
-class RatelimitBucket {
+final class RatelimitBucket {
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
@@ -45,6 +45,7 @@ class RatelimitBucket {
     protected $queue = array();
     
     /**
+     * DO NOT initialize this class yourself.
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
      * @param string                                   $endpoint
      */

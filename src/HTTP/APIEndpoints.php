@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Handles the API endpoints.
  * @internal
  */
-class APIEndpoints {
+final class APIEndpoints {
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */

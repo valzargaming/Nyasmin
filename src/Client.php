@@ -12,18 +12,21 @@ namespace CharlotteDunois\Yasmin;
 /**
  * The client. What else do you expect this to say?
  *
- * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels          It holds all cached channels, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis            It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
- * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds            It holds all guilds, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences         It holds all cached presences (latest ones), mapped by user ID.
- * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users             It holds all cached users, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user              User that the client is logged in as. The instance gets created when the client turns ready.
+ * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels   It holds all cached channels, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis     It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+ * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds     It holds all guilds, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences  It holds all cached presences (latest ones), mapped by user ID.
+ * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users      It holds all cached users, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user       User that the client is logged in as. The instance gets created when the client turns ready.
  *
- * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the parent class - only for documentation purpose here.
- * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the parent class - only for documentation purpose here.
- * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the parent class - only for documentation purpose here.
+ * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the trait - only for documentation purpose here.
+ * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the trait - only for documentation purpose here.
+ * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the trait - only for documentation purpose here.
+ * @method removeAllListeners($event = null)                   Remove all listeners from an event (or all listeners).
  */
-class Client extends \CharlotteDunois\Events\EventEmitter {
+class Client implements \CharlotteDunois\Events\EventEmitterInterface {
+    use \CharlotteDunois\Events\EventEmitterTrait;
+    
     /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>
