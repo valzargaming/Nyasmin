@@ -67,7 +67,7 @@ class OAuthApplication extends ClientBase {
      * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
      * @return string|null
      */
-    function getIconURL(string $format = 'png', int $size = null) {
+    function getIconURL(string $format = 'png', ?int $size = null) {
         if($this->icon !== null) {
             return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }

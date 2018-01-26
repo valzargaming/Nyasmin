@@ -158,7 +158,7 @@ class APIManager {
                 }
                 
                 $resolve($body);
-            } catch(\Exception $e) {
+            } catch(\Throwable | \Exception | \Error $e) {
                 $reject($e);
             }
         }));
@@ -400,7 +400,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         \extract($this->extractRatelimit($response));
         
         $global = false;

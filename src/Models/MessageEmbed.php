@@ -223,10 +223,10 @@ class MessageEmbed extends Base {
     
     /**
      * Set the timestamp of this embed.
-     * @param int  $timestamp
+     * @param int|null  $timestamp
      * @return $this
      */
-    function setTimestamp(int $timestamp = null) {
+    function setTimestamp(?int $timestamp = null) {
         $this->timestamp = (new \DateTime(($timestamp !== null ? '@'.$timestamp : 'now')))->format('c');
         return $this;
     }

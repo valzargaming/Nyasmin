@@ -113,7 +113,7 @@ trait TextChannelTrait {
     
     /**
      * Fetches a specific message using the ID. Resolves with an instance of Message.
-     * @param  string  $id
+     * @param string  $id
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -140,7 +140,7 @@ trait TextChannelTrait {
      * )
      * </pre>
      *
-     * @param  array  $options
+     * @param array  $options
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -182,8 +182,8 @@ trait TextChannelTrait {
      *   * )
      * </pre>
      *
-     * @param  string  $content  The message content.
-     * @param  array   $options  Any message options.
+     * @param string  $content  The message content.
+     * @param array   $options  Any message options.
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -289,7 +289,7 @@ trait TextChannelTrait {
     
     /**
      * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
-     * @param  bool  $force  Reset typing counter and stop sending the indicator.
+     * @param bool  $force  Reset typing counter and stop sending the indicator.
      */
     function stopTyping(bool $force = false) {
         if($this->typingTriggered['count'] === 0) {
@@ -356,10 +356,10 @@ trait TextChannelTrait {
     
     /**
      * @param \CharlotteDunois\Yasmin\Models\User  $user
-     * @param int                                  $timestamp
+     * @param int|null                             $timestamp
      * @internal
      */
-    function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, int $timestamp = null) {
+    function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, ?int $timestamp = null) {
         if($timestamp === null) {
             return $this->typings->delete($user->id);
         }

@@ -18,7 +18,7 @@ class GuildMemberStorage extends Storage {
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, array $data = null) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\Guild $guild, ?array $data = null) {
         parent::__construct($client, $data);
         $this->guild = $guild;
     }

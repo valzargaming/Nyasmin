@@ -77,7 +77,7 @@ class ClientUser extends User {
      * @param string|null  $avatar  An URL or the filepath or the data. Null resets your avatar.
      * @return \React\Promise\Promise
      */
-    function setAvatar(string $avatar = null) {
+    function setAvatar(?string $avatar) {
         if($avatar === null) {
             return $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => null))->then(function () {
                 return $this;
@@ -127,7 +127,7 @@ class ClientUser extends User {
      * @param int                                                  $type  Optional if first argument is an Activity. The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
      * @return \React\Promise\Promise
      */
-    function setActivity($name = null, int $type = 0) {
+    function setActivity($name, int $type = 0) {
         if($name === null) {
             return $this->setPresence(array(
                 'game' => null
@@ -155,7 +155,7 @@ class ClientUser extends User {
      * @param string       $url   If you're streaming, this is the url to the stream.
      * @return \React\Promise\Promise
      */
-    function setGame(string $name = null, string $url = '') {
+    function setGame(?string $name, string $url = '') {
         if($name === null) {
             return $this->setPresence(array(
                 'game' => null
@@ -286,18 +286,18 @@ class ClientUser extends User {
     */
     
     /**
-     * @throws \ErrorException
+     * @throws \Error
      * @internal
      */
     function createDM() {
-        throw new \ErrorException('Can not use this method in ClientUser');
+        throw new \Error('Can not use this method in ClientUser');
     }
     
     /**
-     * @throws \ErrorException
+     * @throws \Error
      * @internal
      */
     function deleteDM() {
-        throw new \ErrorException('Can not use this method in ClientUser');
+        throw new \Error('Can not use this method in ClientUser');
     }
 }

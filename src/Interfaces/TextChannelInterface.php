@@ -33,7 +33,7 @@ interface TextChannelInterface {
     
     /**
      * Fetches a specific message using the ID. Resolves with an instance of Message.
-     * @param  string  $id
+     * @param string  $id
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -41,7 +41,7 @@ interface TextChannelInterface {
     
     /**
      * Fetches messages of this channel. Resolves with a Collection of Message instances, mapped by their ID.
-     * @param  array  $options
+     * @param array  $options
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -49,8 +49,8 @@ interface TextChannelInterface {
     
     /**
      * Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
-     * @param  string  $content
-     * @param  array   $options
+     * @param string  $content
+     * @param array   $options
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
@@ -63,7 +63,7 @@ interface TextChannelInterface {
     
     /**
      * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
-     * @param  bool  $force
+     * @param bool  $force
      */
     function stopTyping(bool $force = false);
     

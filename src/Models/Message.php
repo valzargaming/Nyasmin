@@ -221,7 +221,7 @@ class Message extends ClientBase {
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send()
      */
-    function edit(string $content = null, array $options = array()) {
+    function edit(?string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
             $msg = array();
             

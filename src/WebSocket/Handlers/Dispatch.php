@@ -74,11 +74,7 @@ class Dispatch {
             try {
                 $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
                 $this->wsevents[$packet['t']]->handle($packet['d']);
-            } catch(\Throwable $e) {
-                $this->wshandler->client->emit('error', $e);
-            } catch(\Exception $e) {
-                $this->wshandler->client->emit('error', $e);
-            } catch(\Error $e) {
+            } catch(\Throwable | \Exception | \Error $e) {
                 $this->wshandler->client->emit('error', $e);
             }
         } else {

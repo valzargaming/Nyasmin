@@ -84,7 +84,7 @@ class URLHelpers {
      * @return \GuzzleHttp\Promise\Promise
      * @see \GuzzleHttp\Psr7\Response
      */
-    static function makeRequest(\GuzzleHttp\Psr7\Request $request, array $requestOptions = null) {
+    static function makeRequest(\GuzzleHttp\Psr7\Request $request, ?array $requestOptions = null) {
         if(!self::$http) {
             self::setHTTPClient();
         }
@@ -100,7 +100,7 @@ class URLHelpers {
      * @param array|null                $requestOptions
      * @return \GuzzleHttp\Psr7\Response
      */
-    static function makeRequestSync(\GuzzleHttp\Psr7\Request $request, array $requestOptions = null) {
+    static function makeRequestSync(\GuzzleHttp\Psr7\Request $request, ?array $requestOptions = null) {
         if(!self::$http) {
             self::setHTTPClient();
         }
@@ -114,7 +114,7 @@ class URLHelpers {
      * @param array|null  $requestHeaders
      * @return \React\Promise\Promise
      */
-    static function resolveURLToData(string $url, array $requestHeaders = null) {
+    static function resolveURLToData(string $url, ?array $requestHeaders = null) {
         if(!self::$http) {
             self::setHTTPClient();
         }

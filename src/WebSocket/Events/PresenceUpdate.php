@@ -59,7 +59,7 @@ class PresenceUpdate {
                 
                 $this->client->emit('presenceUpdate', $presence, $oldPresence);
             }
-        } catch(\Exception $e) {
+        } catch(\Throwable | \Exception | \Error $e) {
             /* Continue regardless of error */
         }
     }

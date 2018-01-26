@@ -72,7 +72,7 @@ class PermissionOverwrite extends ClientBase {
     * @return \React\Promise\Promise
     * @throws \InvalidArgumentException
      */
-    function edit($allow = null, $deny = null, string $reason = '') {
+    function edit($allow, $deny = null, string $reason = '') {
         $options = array(
             'type' => $this->type
         );

@@ -138,7 +138,7 @@ class APIRequest {
         return $request;
     }
     
-    function execute(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    function execute(?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         $request = $this->request();
         
         return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) {
@@ -204,7 +204,7 @@ class APIRequest {
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\Exception|null
      */
-    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, $body, \CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, $body, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         $status = $response->getStatusCode();
         
         if($status === 429 || $status >= 500) {

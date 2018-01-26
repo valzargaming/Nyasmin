@@ -60,7 +60,7 @@ final class RatelimitBucket {
      * @param int|null  $remaining
      * @param int|null  $resetTime
      */
-    function handleRatelimit(int $limit = null, int $remaining = null, int $resetTime = null) {
+    function handleRatelimit(?int $limit = null, ?int $remaining = null, ?int $resetTime = null) {
         if($limit === null && $remaining === null && $resetTime === null) {
             $this->remaining++; // there is no ratelimit...
             return;

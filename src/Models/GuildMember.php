@@ -320,7 +320,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Returns permissions for a member in a guild channel, taking into account roles and permission overwrites.
-     * @param  \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|string  $channel
+     * @param \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|string  $channel
      * @return \CharlotteDunois\Yasmin\Models\Permissions
      * @throws \InvalidArgumentException
      */

@@ -161,7 +161,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      *
      * @see \CharlotteDunois\Yasmin\ClientEvents
      */
-    function __construct(array $options = array(), \React\EventLoop\LoopInterface $loop = null) {
+    function __construct(array $options = array(), ?\React\EventLoop\LoopInterface $loop = null) {
         if(\PHP_SAPI !== 'cli') {
             throw new \Exception('Yasmin can only be used in the CLI SAPI. Please use PHP CLI to run Yasmin.');
         }
@@ -352,7 +352,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Cleanly logs out of Discord.
-     * @param  bool  $destroyUtils  Stop timers of utils which have an instance of the event loop.
+     * @param bool  $destroyUtils  Stop timers of utils which have an instance of the event loop.
      * @return \React\Promise\Promise
      */
     function destroy(bool $destroyUtils = true) {
@@ -453,7 +453,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
-    function fetchWebhook(string $id, string $token = null) {
+    function fetchWebhook(string $id, ?string $token = null) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($id, $token) {
             $method = (!empty($token) ? 'getWebhookToken' : 'getWebhook');
             

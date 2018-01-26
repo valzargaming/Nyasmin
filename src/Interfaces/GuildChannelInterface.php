@@ -28,7 +28,7 @@ interface GuildChannelInterface {
      * @param string  $reason
      * @return \React\Promise\Promise
      */
-    function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '');
+    function clone(?string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '');
      
     /**
      * Edits the channel. Resolves with $this.

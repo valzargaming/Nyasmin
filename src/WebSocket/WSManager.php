@@ -198,7 +198,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->disconnect();
     }
     
-    function connect(string $gateway = null, array $querystring = array()) {
+    function connect(?string $gateway = null, array $querystring = array()) {
         if($this->ws) {
             return \React\Promise\resolve();
         }
@@ -314,17 +314,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                             if($this->previous) {
                                 $this->previous = false;
                             }
-                        } catch(\Throwable $e) {
-                            $this->previous = !$this->previous;
-                            $this->client->emit('error', $e);
-                            $this->reconnect(true);
-                            return;
-                        } catch(\Exception $e) {
-                            $this->previous = !$this->previous;
-                            $this->client->emit('error', $e);
-                            $this->reconnect(true);
-                            return;
-                        } catch(\ErrorException $e) {
+                        } catch(\Throwable | \Exception | \Error $e) {
                             $this->previous = !$this->previous;
                             $this->client->emit('error', $e);
                             $this->reconnect(true);
@@ -507,7 +497,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         return $this->wsSessionID;
     }
     
-    function setSessionID(string $id = null) {
+    function setSessionID(?string $id = null) {
         $this->wsSessionID = $id;
     }
     
