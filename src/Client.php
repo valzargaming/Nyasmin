@@ -214,7 +214,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
@@ -224,7 +224,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             return $this->$name;
         }
         
-        throw new \Exception('Unknown property \CharlotteDunois\Yasmin\Client::'.$name);
+        throw new \RuntimeException('Unknown property '.\get_class($this).'::'.$name);
     }
     
     /**

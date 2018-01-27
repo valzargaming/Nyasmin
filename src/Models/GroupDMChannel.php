@@ -67,7 +67,7 @@ class GroupDMChannel extends DMChannel {
     /**
      * @inheritDoc
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {

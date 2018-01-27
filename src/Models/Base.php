@@ -23,11 +23,11 @@ class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
-        throw new \Exception('Unknown property '.\get_class($this).'::'.$name);
+        throw new \RuntimeException('Unknown property '.\get_class($this).'::'.$name);
     }
     
     /**

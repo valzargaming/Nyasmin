@@ -52,7 +52,7 @@ class ClientUser extends User {
     /**
      * @inheritDoc
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
@@ -286,18 +286,18 @@ class ClientUser extends User {
     */
     
     /**
-     * @throws \Error
+     * @throws \RuntimeException
      * @internal
      */
     function createDM() {
-        throw new \Error('Can not use this method in ClientUser');
+        throw new \RuntimeException('Can not use this method in ClientUser');
     }
     
     /**
-     * @throws \Error
+     * @throws \RuntimeException
      * @internal
      */
     function deleteDM() {
-        throw new \Error('Can not use this method in ClientUser');
+        throw new \RuntimeException('Can not use this method in ClientUser');
     }
 }

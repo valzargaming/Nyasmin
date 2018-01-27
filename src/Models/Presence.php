@@ -38,7 +38,7 @@ class Presence extends ClientBase {
      * @param \CharlotteDunois\Yasmin\Client  $client      The client this instance is for.
      * @param array                           $presence    An array containing user (as array, with an element id), activity (as array) and status.
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $presence) {
         parent::__construct($client);

@@ -57,7 +57,7 @@ class MessageAttachment extends Base {
     /**
      * @inheritDoc
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {

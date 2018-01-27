@@ -106,7 +106,7 @@ class MessageMentions extends ClientBase {
     /**
      * @inheritDoc
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {

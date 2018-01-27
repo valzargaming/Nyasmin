@@ -70,7 +70,7 @@ class VoiceChannel extends ClientBase
      * @inheritDoc
      *
      * @return bool|null|\CharlotteDunois\Yasmin\Models\CategoryChannel
-     * @throws \Exception
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
