@@ -430,7 +430,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
             $data = array(
                 'name' => $options['name'],
-                'region' => $options['region'],
+                'region' => ($options['region'] instanceof \CharlotteDunois\Yasmin\Models\VoiceRegion ? $options['region']->id : $options['region']),
                 'verification_level' => ((int) ($options['verificationLevel'] ?? 0)),
                 'default_message_notifications' => ((int) ($options['defaultMessageNotifications'] ?? 0)),
                 'explicit_content_filter' => ((int) ($options['explicitContentFilter'] ?? 0)),
