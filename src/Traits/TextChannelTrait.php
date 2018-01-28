@@ -26,21 +26,27 @@ trait TextChannelTrait {
      * @return \React\Promise\Promise
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filterOldMessages, $messages, $reason) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($messages, $reason, $filterOldMessages) {
             if(\is_numeric($messages)) {
                 $messages = $this->fetchMessages(array('limit' => (int) $messages));
             } else {
                 $messages = \React\Promise\resolve($messages);
             }
             
-            $messages->then(function ($messages) use ($filterOldMessages, $reason, $resolve, $reject) {
+            $messages->then(function ($messages) use ($reason, $filterOldMessages, $resolve, $reject) {
                 if($messages instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
                     $messages = $messages->all();
                 }
                 
                 if($filterOldMessages) {
                     $messages = \array_filter($messages, function ($message) {
-                        return ((\time() - $message->createdTimestamp) < 1209600);
+                        if($message instanceof \CharlotteDunois\Yasmin\Models\Message) {
+                            $timestamp = $message->createdTimestamp;
+                        } else {
+                            $timestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($message)->createdTimestamp;
+                        }
+                        
+                        return ((\time() - $timestamp) < 1209600);
                     });
                 }
                 
