@@ -212,10 +212,10 @@ class DataHelpers {
      * )
      * </pre>
      *
-     * @param \Evenement\EventEmitterInterface  $emitter
-     * @param string                            $event
-     * @param callable|null                     $filter
-     * @param array                             $options
+     * @param \CharlotteDunois\Events\EventEmitterInterface  $emitter
+     * @param string                                         $event
+     * @param callable|null                                  $filter
+     * @param array                                          $options
      * @return \React\Promise\Promise
      * @throws \RangeException
      */
