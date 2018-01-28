@@ -32,8 +32,8 @@ class MessageCreate {
                 foreach($message->mentions->users as $user) {
                     $promise[] = $message->guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($message) {
                         $message->mentions->members->set($member->id, $member);
-                    }, function ($error) {
-                        $this->client->emit('error', $error);
+                    }, function () {
+                        // Ignore failure
                     });
                 }
                 
@@ -43,15 +43,13 @@ class MessageCreate {
             }
             
             $prm->then(function () use ($message) {
-                if($message->guild && !$message->member && !$message->author->webhook) {
-                    return $message->guild->fetchMember($message->author->id)->then(function () use ($message) {
-                        $this->client->emit('message', $message);
-                    }, function () use ($message) {
-                        $this->client->emit('message', $message);
+                if($message->guild && !($message->member instanceof \CharlotteDunois\Yasmin\Models\GuildMember) && !$message->author->webhook) {
+                    return $message->guild->fetchMember($message->author->id)->then(null, function () use ($message) {
+                        // Ignore failure
                     });
-                } else {
-                    $this->client->emit('message', $message);
                 }
+            })->then(function () use ($message) {
+                $this->client->emit('message', $message);
             })->done(null, array($this->client, 'handlePromiseRejection'));
         }
     }

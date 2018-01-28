@@ -582,12 +582,12 @@ class Guild extends ClientBase {
      */
     function fetchMember(string $userid) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
-            if($this->members->has($userid)) {
+            if($this->members->has($userid) && ($this->members->get($userid) instanceof \CharlotteDunois\Yasmin\Models\GuildMember)) {
                 return $resolve($this->members->get($userid));
             }
             
             $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
-                $resolve($this->_addMember($data));
+                $resolve($this->_addMember($data, true));
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }

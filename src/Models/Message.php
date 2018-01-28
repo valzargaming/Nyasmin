@@ -138,7 +138,7 @@ class Message extends ClientBase {
                 return null;
             break;
             case 'member':
-                if($this->channel->guild) {
+                if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                     return $this->channel->guild->members->get($this->author->id);
                 }
                 
