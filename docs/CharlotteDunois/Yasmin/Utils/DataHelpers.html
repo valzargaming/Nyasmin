@@ -179,6 +179,16 @@
                                             <p>Splits a string into multiple chunks at a designated character that do not exceed a specific length.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<abbr title="React\Promise\Promise">Promise</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_waitForEvent">waitForEvent</a>(<abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr> $emitter, string $event, callable $filter = null, array $options = array())
+        
+                                            <p>Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as <code>$filter(&#46;&#46;&#46;$args)</code>). Resolves with an array of arguments (from the event).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -187,7 +197,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_escapeMarkdown">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L96">line 96</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L107">line 107</a></div>
         <code>        static            string
     <strong>escapeMarkdown</strong>(string $text, bool $onlyCodeBlock = false, bool $onlyInlineCode = false)
         </code>
@@ -241,7 +251,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_makeBase64URI">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L62">line 62</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L73">line 73</a></div>
         <code>        static            string
     <strong>makeBase64URI</strong>(string $data)
         </code>
@@ -294,7 +304,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_makeDateTime">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L51">line 51</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L62">line 62</a></div>
         <code>        static            <a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>
     <strong>makeDateTime</strong>(int $timestamp)
         </code>
@@ -338,7 +348,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveColor">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L28">line 28</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L39">line 39</a></div>
         <code>        static            int
     <strong>resolveColor</strong>(array|int|string $color)
         </code>
@@ -391,7 +401,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveFileResolvable">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L76">line 76</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L87">line 87</a></div>
         <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>resolveFileResolvable</strong>(string $file)
         </code>
@@ -435,7 +445,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_resolveMessageOptionsFiles">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L146">line 146</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L157">line 157</a></div>
         <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>resolveMessageOptionsFiles</strong>(array $options)
         </code>
@@ -479,7 +489,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_splitMessage">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L114">line 114</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L125">line 125</a></div>
         <code>        static            string[]
     <strong>splitMessage</strong>(string $text, array $options = array())
         </code>
@@ -519,6 +529,81 @@
     </table>
 
             
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_waitForEvent">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L222">line 222</a></div>
+        <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
+    <strong>waitForEvent</strong>(<abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr> $emitter, string $event, callable $filter = null, array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as <code>$filter(&#46;&#46;&#46;$args)</code>). Resolves with an array of arguments (from the event).</p>                    <p>Options may be:</p>
+
+<pre>
+array(
+    'time' => int (if the event hasn't been found yet, this will define a timeout (in seconds) after which the promise gets rejected)
+)
+</pre>
+</p>                                            
+        
+                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr></td>
+                <td>$emitter</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$filter</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\Promise">Promise</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="https://secure.php.net/RangeException" target="_blank">RangeException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                         
                         

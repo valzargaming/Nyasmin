@@ -19,6 +19,17 @@ class DataHelpers {
      */
     const DEFAULT_MESSAGE_SPLIT_OPTIONS = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
     
+    private static $loop;
+    
+    /**
+     * Sets the Event Loop.
+     * @param \React\EventLoop\LoopInterface  $loop
+     * @internal
+     */
+    static function setLoop(\React\EventLoop\LoopInterface $loop) {
+        self::$loop = $loop;
+    }
+    
     /**
      * Resolves a color to an integer.
      * @param array|int|string  $color
@@ -189,5 +200,66 @@ class DataHelpers {
         }
         
         return \React\Promise\all($promises);
+    }
+    
+    /**
+     * Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as <code>$filter(\.\.\.$args)</code>). Resolves with an array of arguments (from the event).
+     *
+     * Options may be:
+     * <pre>
+     * array(
+     *     'time' => int (if the event hasn't been found yet, this will define a timeout (in seconds) after which the promise gets rejected)
+     * )
+     * </pre>
+     *
+     * @param \Evenement\EventEmitterInterface  $emitter
+     * @param string                            $event
+     * @param callable|null                     $filter
+     * @param array                             $options
+     * @return \React\Promise\Promise
+     * @throws \RangeException
+     */
+    static function waitForEvent(\CharlotteDunois\Events\EventEmitterInterface $emitter, string $event, ?callable $filter = null, array $options = array()) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($emitter, $event, $filter, $options) {
+            $listener = null;
+            
+            if(!empty($options['time'])) {
+                $timer = self::$loop->addTimer(((int) $options['time']), function () use ($emitter, $event, &$listener, $reject) {
+                    $emitter->removeListener($event, $listener);
+                    $reject(new \RangeException('Waiting for event took too long'));
+                });
+            } else {
+                $timer = null;
+            }
+            
+            $listener = function (...$args) use ($emitter, $event, $filter, &$listener, &$timer, $resolve, $reject) {
+                if($filter) {
+                    try {
+                        if($filter(...$args)) {
+                            if($timer) {
+                                $timer->cancel();
+                            }
+                            
+                            $emitter->removeListener($event, $listener);
+                            $resolve($args);
+                        }
+                        
+                        return;
+                    } catch(\Throwable | \Exception | \Error $e) {
+                        $emitter->removeListener($event, $listener);
+                        return $reject($e);
+                    }
+                }
+                
+                if($timer) {
+                    $timer->cancel();
+                }
+                
+                $emitter->removeListener($event, $listener);
+                $resolve($args);
+            };
+            
+            $emitter->on($event, $listener);
+        }));
     }
 }
