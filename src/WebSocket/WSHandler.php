@@ -34,7 +34,7 @@ class WSHandler {
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['DISPATCH'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Dispatch');
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Heartbeat');
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['RECONNECT'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Reconnect');
-        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['INVALIDATE_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidateSession');
+        $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['INVALID_SESSION'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\InvalidSession');
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HELLO'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\Hello');
         $this->register(\CharlotteDunois\Yasmin\Constants::OPCODES['HEARTBEAT_ACK'], '\CharlotteDunois\Yasmin\WebSocket\Handlers\HeartbeatAck');
     }

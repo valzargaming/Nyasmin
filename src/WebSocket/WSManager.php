@@ -424,7 +424,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         $this->client->emit('debug', 'Disconnecting from WS in order to reconnect');
-        $this->ws->close(1006, 'Reconnect required');
+        $this->ws->close(4000, 'Reconnect required');
     }
     
     protected function renewConnection(bool $forceNewGateway = true) {

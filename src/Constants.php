@@ -41,7 +41,7 @@ final class Constants {
         'RESUME' => 6,
         'RECONNECT' => 7,
         'REQUEST_GUILD_MEMBERS' => 8,
-        'INVALIDATE_SESSION' => 9,
+        'INVALID_SESSION' => 9,
         'HELLO' => 10,
         'HEARTBEAT_ACK' => 11,
         
@@ -54,7 +54,7 @@ final class Constants {
         6 => 'RESUME',
         7 => 'RECONNECT',
         8 => 'REQUEST_GUILD_MEMBERS',
-        9 => 'INVALIDATE_SESSION',
+        9 => 'INVALID_SESSION',
         10 => 'HELLO',
         11 => 'HEARTBEAT_ACK'
     );

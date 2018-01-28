@@ -179,12 +179,12 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         
         // ONLY use this if you know to 100% the consequences and know what you are doing
         if(!empty($options['internal.api.instance']) && \class_exists($options['internal.api.instance'], true)) {
-            $api = $options['internal.api.instance'];
-            $this->api = new $api($this);
-            
-            if(!($this->api instanceof \CharlotteDunois\Yasmin\HTTP\APIManager)) {
+            if(!\in_array('CharlotteDunois\\Yasmin\\HTTP\\APIManager', \class_parents($options['internal.api.instance']))) {
                 throw new \Exception('Custom API Manager does not extend Yasmin API Manager');
             }
+            
+            $api = $options['internal.api.instance'];
+            $this->api = new $api($this);
         } else {
             $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         }
@@ -193,12 +193,12 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         if(($options['internal.ws.disable'] ?? false) !== true) {
             // ONLY use this if you know to 100% the consequences and know what you are doing
             if(!empty($options['internal.ws.instance']) && \class_exists($options['internal.ws.instance'], true)) {
-                $ws = $options['internal.ws.instance'];
-                $this->ws = new $ws($this);
-                
-                if(!($this->ws instanceof \CharlotteDunois\Yasmin\WebSocket\WSManager)) {
+                if(!\in_array('CharlotteDunois\\Yasmin\\WebSocket\\WSManager', \class_parents($options['internal.ws.instance']))) {
                     throw new \Exception('Custom WS Manager does not extend Yasmin WS Manager');
                 }
+                
+                $ws = $options['internal.ws.instance'];
+                $this->ws = new $ws($this);
             } else {
                 $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
             }

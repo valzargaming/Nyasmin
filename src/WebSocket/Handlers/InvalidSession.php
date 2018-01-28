@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * WS Event handler
  * @internal
  */
-class InvalidateSession {
+class InvalidSession {
     protected $wshandler;
     
     function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
@@ -25,7 +25,7 @@ class InvalidateSession {
             $this->wshandler->wsmanager->setSessionID(null);
         }
         
-        $this->wshandler->client->getLoop()->addTimer(5, function () {
+        $this->wshandler->client->getLoop()->addTimer(\mt_rand(1, 5), function () {
             $this->wshandler->wsmanager->sendIdentify();
         });
     }
