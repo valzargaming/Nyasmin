@@ -317,24 +317,14 @@ class Message extends ClientBase {
                 $emoji = $emoji->identifier;
             }
             
-            $timer = null;
-            $listener = function ($reaction) use (&$listener, &$timer, $emoji, $resolve) {
-                if($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji) {
-                    if($timer !== null) {
-                        $this->client->cancelTimer($timer);
-                    }
-                    
-                    $this->client->removeListener('messageReactionAdd', $listener);
-                    $resolve($reaction);
-                }
-            };
-
-            $timer = $this->client->addTimer(30, function () use (&$listener, $reject) {
-                $this->client->removeListener('messageReactionAdd', $listener);
-                $reject(new \Exception('Message Reaction did not arrive in time'));
-            });
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', function ($reaction) use ($emoji) {
+                return ($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji);
+            }, array('time' => 30))->then(function ($args) use ($resolve) {
+                $resolve($args[0]);
+            }, function () use ($reject) {
+                $reject(new \RangeException('Message Reaction did not arrive in time'));
+            })->done(null, array($this->client, 'handlePromiseRejection'));
             
-            $this->client->on('messageReactionAdd', $listener);
             $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->otherwise($reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
