@@ -51,7 +51,7 @@ class DataHelpers {
             throw new \InvalidArgumentException('Color "'.$input.'" is not resolvable');
         }
         
-        return ((\hexdec($color[0]) << 16) + (\hexdec($color[1] ?? '0') << 8) + \hexdec($color[2] ?? '0'));
+        return (($color[0] << 16) + (($color[1] ?? 0) << 8) + ($color[2] ?? 0));
     }
     
     /**
