@@ -385,18 +385,14 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_RECONNECTING;
                     $this->renewConnection(false);
                 });
-            }, function($error) use ($reconnect, $reject) {
+            }, function($error) {
                 $this->client->emit('error', $error);
                 
                 if($this->ws) {
                     $this->ws->close(1006);
                 }
                 
-                if($reconnect) {
-                    return $this->renewConnection();
-                }
-                
-                $reject($error);
+                return $this->renewConnection();
             })->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
