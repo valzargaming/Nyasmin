@@ -41,14 +41,13 @@ class DataHelpers {
             return $color;
         }
         
-        $input = (string) $color;
-        
         if(!\is_array($color)) {
+            $color = (string) $color;
             return \hexdec(\str_replace('#', '', $input));
         }
         
         if(\count($color) < 1) {
-            throw new \InvalidArgumentException('Color "'.$input.'" is not resolvable');
+            throw new \InvalidArgumentException('Color "'.\var_export($color, true).'" is not resolvable');
         }
         
         return (($color[0] << 16) + (($color[1] ?? 0) << 8) + ($color[2] ?? 0));
