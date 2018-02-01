@@ -42,8 +42,7 @@ class DataHelpers {
         }
         
         if(!\is_array($color)) {
-            $color = (string) $color;
-            return \hexdec(\str_replace('#', '', $color));
+            return \hexdec(((string) $color));
         }
         
         if(\count($color) < 1) {
