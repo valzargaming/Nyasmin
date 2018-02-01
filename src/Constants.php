@@ -72,7 +72,8 @@ final class Constants {
         'defaultavatars' => 'embed/avatars/%s.png',
         'avatars' => 'avatars/%s/%s.%s',
         'appicons' => 'app-icons/%s/%s.png',
-        'appassets' => 'app-assets/%s/%s.png'
+        'appassets' => 'app-assets/%s/%s.png',
+        'channelicons' => 'channel-icons/%s/%s.png'
     );
     
     /**

@@ -13,6 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a Group DM channel.
  *
  * @property  string|null  $applicationID  Returns the application ID which created the group DM channel.
+ * @property  string|null  $icon           The icon of the Group DM channel.
  */
 class GroupDMChannel extends DMChannel {
     protected $applicationID;
@@ -24,6 +25,7 @@ class GroupDMChannel extends DMChannel {
         parent::__construct($client, $channel);
         
         $this->applicationID = $channel['application_id'] ?? null;
+        $this->icon = $channel['icon'] ?? null;
     }
     
     /**
@@ -44,6 +46,20 @@ class GroupDMChannel extends DMChannel {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
+    }
+    
+    /**
+     * Returns the group DM's icon URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @return string|null
+     */
+    function getIconURL(string $format = 'png', ?int $size = null) {
+        if($this->icon !== null) {
+            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['channelicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        }
+        
+        return null;
     }
     
     /**
@@ -83,6 +99,8 @@ class GroupDMChannel extends DMChannel {
      */
     function _patch(array $channel) {
         $this->applicationID = $channel['application_id'] ?? $this->applicationID ?? null;
+        $this->icon = $channel['icon'] ?? null;
+        
         $this->ownerID = $channel['owner_id'] ?? $this->ownerID ?? null;
         $this->lastMessageID = $channel['last_message_id'] ?? $this->lastMessageID ?? null;
         
