@@ -8,10 +8,12 @@
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/prism.css">
         <script src="../../../js/jquery-1.11.1.min.js"></script>
         <script src="../../../js/bootstrap.min.js"></script>
         <script src="../../../js/typeahead.min.js"></script>
         <script src="../../../sami.js"></script>
+        <script src="../../../js/prism.js"></script>
         <meta name="MobileOptimized" content="width">
         <meta name="HandheldFriendly" content="true">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -434,7 +436,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createGroupDM">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L265">line 265</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L272">line 272</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>createGroupDM</strong>(array $userWithAccessTokens, array $nicks = array())
         </code>
@@ -687,7 +689,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setActivity">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L130">line 130</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L119">line 119</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setActivity</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/Activity.html"><abbr title="CharlotteDunois\Yasmin\Models\Activity">Activity</abbr></a>|string|null $name, int $type = 0)
         </code>
@@ -736,7 +738,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setAvatar">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L80">line 80</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L81">line 81</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setAvatar</strong>(string $avatar)
         </code>
@@ -773,6 +775,14 @@ array(
             
             
                         
+                            <h4>Example</h4>
+                
+                <div class="table table-condensed">
+                <pre><code class="language-php">// In/After ready event
+$client->user->setAvatar(__DIR__.'/resources/avatar.png');
+$client->user->setAvatar('https://my.resources.online/resources/avatar.png');
+$client->user->setAvatar(file_get_contents(__DIR__.'/resources/avatar.png'));</code></pre>
+                </div>
                         
                     </div>
     </div>
@@ -780,7 +790,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setGame">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L158">line 158</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L148">line 148</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setGame</strong>(string $name, string $url = &#039;&#039;)
         </code>
@@ -822,6 +832,12 @@ array(
             
             
                         
+                            <h4>Example</h4>
+                
+                <div class="table table-condensed">
+                <pre><code class="language-php">// In/After ready event
+$client->user->setGame('Yasmin');</code></pre>
+                </div>
                         
                     </div>
     </div>
@@ -829,7 +845,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setPresence">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L200">line 200</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L193">line 193</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setPresence</strong>(array $presence)
         </code>
@@ -839,16 +855,18 @@ array(
     
 
                     <div class="method-description">
-                                    <p>Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.</p>                    <p>$presence = array(
-  'afk' => bool,
-  'since' => integer|null,
-  'status' => string,
-  'game' => array(
-         'name' => string,
-         'type' => int,
-         'url' => string|null
-     )|null
- )</p>
+                                    <p>Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.</p>                    <p><pre>
+array(
+    'afk' => bool,
+    'since' => integer|null,
+    'status' => string,
+    'game' => array(
+        'name' => string,
+        'type' => int,
+        'url' => string|null
+    )|null
+)
+</pre>
 
 <p>Any field in the first dimension is optional and will be automatically filled with the last known value.</p>                                            
         
@@ -877,6 +895,20 @@ array(
             
             
                         
+                            <h4>Example</h4>
+                
+                <div class="table table-condensed">
+                <pre><code class="language-php">// In/After ready event
+$client->user->setPresence(
+    array(
+        'status' => 'idle',
+        'game' => array(
+            'name' => 'Yasmin',
+            'type' => 0
+        )
+    )
+);</code></pre>
+                </div>
                         
                     </div>
     </div>
@@ -884,7 +916,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setStatus">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L116">line 116</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L105">line 105</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setStatus</strong>(string $status)
         </code>
@@ -904,7 +936,7 @@ array(
                     <tr>
                 <td>string</td>
                 <td>$status</td>
-                <td>Valid values are: online, idle, dnd and offline.</td>
+                <td>Valid values are: <code>online</code>, <code>idle</code>, <code>dnd</code> and <code>invisible</code>.</td>
             </tr>
             </table>
 
@@ -921,6 +953,12 @@ array(
             
             
                         
+                            <h4>Example</h4>
+                
+                <div class="table table-condensed">
+                <pre><code class="language-php">// In/After ready event
+$client->user->setStatus('online');</code></pre>
+                </div>
                         
                     </div>
     </div>
@@ -928,7 +966,7 @@ array(
             </div>
                     <div class="method-item">
                     <h3 id="method_setUsername">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L103">line 103</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L248">line 248</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
     <strong>setUsername</strong>(string $username)
         </code>
@@ -965,6 +1003,12 @@ array(
             
             
                         
+                            <h4>Example</h4>
+                
+                <div class="table table-condensed">
+                <pre><code class="language-php">// In/After ready event
+$client->user->setUsername('My Super New Username');</code></pre>
+                </div>
                         
                     </div>
     </div>

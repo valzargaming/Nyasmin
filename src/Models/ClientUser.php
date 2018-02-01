@@ -76,6 +76,7 @@ class ClientUser extends User {
      * Set your avatar. Resolves with $this.
      * @param string|null  $avatar  An URL or the filepath or the data. Null resets your avatar.
      * @return \React\Promise\Promise
+     * @example ../../examples/docs-examples.php 15 4
      */
     function setAvatar(?string $avatar) {
         if($avatar === null) {
@@ -96,22 +97,10 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your username. Resolves with $this.
-     * @param string $username
-     * @return \React\Promise\Promise
-     */
-    function setUsername(string $username) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
-            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
-                $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-        }));
-    }
-    
-    /**
      * Set your status. Resolves with $this.
-     * @param string $status  Valid values are: online, idle, dnd and offline.
+     * @param string  $status  Valid values are: <code>online</code>, <code>idle</code>, <code>dnd</code> and <code>invisible</code>.
      * @return \React\Promise\Promise
+     * @example ../../examples/docs-examples.php 25 2
      */
     function setStatus(string $status) {
         $presence = array(
@@ -154,6 +143,7 @@ class ClientUser extends User {
      * @param string|null  $name  The game name.
      * @param string       $url   If you're streaming, this is the url to the stream.
      * @return \React\Promise\Promise
+     * @example ../../examples/docs-examples.php 21 2
      */
     function setGame(?string $name, string $url = '') {
         if($name === null) {
@@ -181,21 +171,24 @@ class ClientUser extends User {
     /**
      * Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.
      *
-     *  $presence = array(
-     *   'afk' => bool,
-     *   'since' => integer|null,
-     *   'status' => string,
-     *   'game' => array(
-     *          'name' => string,
-     *          'type' => int,
-     *          'url' => string|null
-     *      )|null
-     *  )
+     * <pre>
+     * array(
+     *     'afk' => bool,
+     *     'since' => integer|null,
+     *     'status' => string,
+     *     'game' => array(
+     *         'name' => string,
+     *         'type' => int,
+     *         'url' => string|null
+     *     )|null
+     * )
+     * </pre>
      *
      *  Any field in the first dimension is optional and will be automatically filled with the last known value.
      *
      * @param array $presence
      * @return \React\Promise\Promise
+     * @example ../../examples/docs-examples.php 29 10
      */
     function setPresence(array $presence) {
         if(empty($presence)) {
@@ -244,6 +237,20 @@ class ClientUser extends User {
         return $this->client->wsmanager()->send($packet)->then(function () {
             return $this;
         });
+    }
+    
+    /**
+     * Set your username. Resolves with $this.
+     * @param string $username
+     * @return \React\Promise\Promise
+     * @example ../../examples/docs-examples.php 41 2
+     */
+    function setUsername(string $username) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
+            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
     }
     
     /**
