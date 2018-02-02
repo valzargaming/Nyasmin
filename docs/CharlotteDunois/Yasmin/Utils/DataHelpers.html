@@ -186,7 +186,7 @@
                     static&nbsp;<abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_waitForEvent">waitForEvent</a>(<abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr> $emitter, string $event, callable $filter = null, array $options = array())
+                    <a href="#method_waitForEvent">waitForEvent</a>(<abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr> $emitter, string $event, callable|null $filter = null, array $options = array())
         
                                             <p>Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as <code>$filter(&#46;&#46;&#46;$args)</code>). Resolves with an array of arguments (from the event).</p>                </div>
                 <div class="col-md-2"></div>
@@ -542,7 +542,7 @@
                     <h3 id="method_waitForEvent">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/DataHelpers.php#L220">line 220</a></div>
         <code>        static            <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>waitForEvent</strong>(<abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr> $emitter, string $event, callable $filter = null, array $options = array())
+    <strong>waitForEvent</strong>(<abbr title="CharlotteDunois\Events\EventEmitterInterface">EventEmitterInterface</abbr> $emitter, string $event, callable|null $filter = null, array $options = array())
         </code>
     </h3>
     <div class="details">
@@ -575,7 +575,7 @@ array(
                 <td></td>
             </tr>
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$filter</td>
                 <td></td>
             </tr>

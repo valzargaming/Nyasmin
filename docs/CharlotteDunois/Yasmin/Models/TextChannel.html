@@ -352,7 +352,7 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createWebhook">createWebhook</a>(string $name, string $avatar = null, string $reason = &#039;&#039;)
+                    <a href="#method_createWebhook">createWebhook</a>(string $name, string|null $avatar = null, string $reason = &#039;&#039;)
         
                                             <p>Create a webhook for the channel. Resolves with the new Webhook instance.</p>                </div>
                 <div class="col-md-2"></div>
@@ -870,7 +870,7 @@ array(
                     <h3 id="method_createWebhook">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/TextChannel.php#L130">line 130</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>createWebhook</strong>(string $name, string $avatar = null, string $reason = &#039;&#039;)
+    <strong>createWebhook</strong>(string $name, string|null $avatar = null, string $reason = &#039;&#039;)
         </code>
     </h3>
     <div class="details">
@@ -891,7 +891,7 @@ array(
                 <td></td>
             </tr>
                     <tr>
-                <td>string</td>
+                <td>string|null</td>
                 <td>$avatar</td>
                 <td>An URL or file path, or data.</td>
             </tr>

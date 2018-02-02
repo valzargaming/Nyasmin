@@ -348,7 +348,7 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setAvatar">setAvatar</a>(string $avatar)
+                    <a href="#method_setAvatar">setAvatar</a>(string|null $avatar)
         
                                             <p>Set your avatar. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
@@ -358,7 +358,7 @@
                     <abbr title="React\Promise\Promise">Promise</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setGame">setGame</a>(string $name, string $url = &#039;&#039;)
+                    <a href="#method_setGame">setGame</a>(string|null $name, string $url = &#039;&#039;)
         
                                             <p>Set your playing game. Resolves with $this.</p>                </div>
                 <div class="col-md-2"></div>
@@ -685,7 +685,7 @@ array(
                     <h3 id="method_setAvatar">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L81">line 81</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>setAvatar</strong>(string $avatar)
+    <strong>setAvatar</strong>(string|null $avatar)
         </code>
     </h3>
     <div class="details">
@@ -701,7 +701,7 @@ array(
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
+                <td>string|null</td>
                 <td>$avatar</td>
                 <td>An URL or the filepath or the data. Null resets your avatar.</td>
             </tr>
@@ -737,7 +737,7 @@ $client->user->setAvatar(file_get_contents(__DIR__.'/resources/avatar.png'));</c
                     <h3 id="method_setGame">
         <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/ClientUser.php#L148">line 148</a></div>
         <code>                    <abbr title="React\Promise\Promise">Promise</abbr>
-    <strong>setGame</strong>(string $name, string $url = &#039;&#039;)
+    <strong>setGame</strong>(string|null $name, string $url = &#039;&#039;)
         </code>
     </h3>
     <div class="details">
@@ -753,7 +753,7 @@ $client->user->setAvatar(file_get_contents(__DIR__.'/resources/avatar.png'));</c
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
+                <td>string|null</td>
                 <td>$name</td>
                 <td>The game name.</td>
             </tr>

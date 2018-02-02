@@ -113,7 +113,7 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_avg">avg</a>(callable $closure = null)
+                    <a href="#method_avg">avg</a>(callable|null $closure = null)
         
                                             <p>Gets the average of all items.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_avg"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -264,7 +264,7 @@
                     mixed|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_first">first</a>(callable $closure = null)
+                    <a href="#method_first">first</a>(callable|null $closure = null)
         
                                             <p>Returns the first element in the collection that passes a given truth test.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_first"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -374,7 +374,7 @@
                     mixed|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_last">last</a>(callable $closure = null)
+                    <a href="#method_last">last</a>(callable|null $closure = null)
         
                                             <p>Returns the last element in the collection that passes a given truth test.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_last"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -384,7 +384,7 @@
                     <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_map">map</a>(callable $closure)
+                    <a href="#method_map">map</a>(callable|null $closure)
         
                                             <p>Iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_map"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -545,7 +545,7 @@
                     <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_slice">slice</a>(int $offset, int $limit = null, bool $preserve_keys = false)
+                    <a href="#method_slice">slice</a>(int $offset, int|null $limit = null, bool $preserve_keys = false)
         
                                             <p>Returns a slice of the collection starting at the given index. Returns a new Collection.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_slice"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -555,7 +555,7 @@
                     <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_sort">sort</a>(callable $closure = null, int $options = SORT_REGULAR)
+                    <a href="#method_sort">sort</a>(callable|null $closure = null, int $options = SORT_REGULAR)
         
                                             <p>Sorts the collection. Returns a new Collection.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_sort"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -595,7 +595,7 @@
                     int
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_sum">sum</a>(callable $closure = null)
+                    <a href="#method_sum">sum</a>(callable|null $closure = null)
         
                                             <p>Returns the sum of all items in the collection.</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_sum"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a></small></div>
@@ -704,7 +704,7 @@
                     <h3 id="method_avg">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_avg"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L126">line 126</a></div>
         <code>                    mixed
-    <strong>avg</strong>(callable $closure = null)
+    <strong>avg</strong>(callable|null $closure = null)
         </code>
     </h3>
     <div class="details">
@@ -720,7 +720,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$closure</td>
                 <td></td>
             </tr>
@@ -1335,7 +1335,7 @@
                     <h3 id="method_first">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_first"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L314">line 314</a></div>
         <code>                    mixed|null
-    <strong>first</strong>(callable $closure = null)
+    <strong>first</strong>(callable|null $closure = null)
         </code>
     </h3>
     <div class="details">
@@ -1351,7 +1351,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$closure</td>
                 <td></td>
             </tr>
@@ -1804,7 +1804,7 @@
                     <h3 id="method_last">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_last"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L487">line 487</a></div>
         <code>                    mixed|null
-    <strong>last</strong>(callable $closure = null)
+    <strong>last</strong>(callable|null $closure = null)
         </code>
     </h3>
     <div class="details">
@@ -1820,7 +1820,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$closure</td>
                 <td></td>
             </tr>
@@ -1848,7 +1848,7 @@
                     <h3 id="method_map">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_map"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L508">line 508</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
-    <strong>map</strong>(callable $closure)
+    <strong>map</strong>(callable|null $closure)
         </code>
     </h3>
     <div class="details">
@@ -1864,7 +1864,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$closure</td>
                 <td></td>
             </tr>
@@ -2547,7 +2547,7 @@
                     <h3 id="method_slice">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_slice"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L702">line 702</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
-    <strong>slice</strong>(int $offset, int $limit = null, bool $preserve_keys = false)
+    <strong>slice</strong>(int $offset, int|null $limit = null, bool $preserve_keys = false)
         </code>
     </h3>
     <div class="details">
@@ -2568,7 +2568,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>int</td>
+                <td>int|null</td>
                 <td>$limit</td>
                 <td></td>
             </tr>
@@ -2601,7 +2601,7 @@
                     <h3 id="method_sort">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_sort"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L713">line 713</a></div>
         <code>                    <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a>
-    <strong>sort</strong>(callable $closure = null, int $options = SORT_REGULAR)
+    <strong>sort</strong>(callable|null $closure = null, int $options = SORT_REGULAR)
         </code>
     </h3>
     <div class="details">
@@ -2617,7 +2617,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$closure</td>
                 <td></td>
             </tr>
@@ -2807,7 +2807,7 @@
                     <h3 id="method_sum">
         <div class="location">in <a href="../../../CharlotteDunois/Yasmin/Utils/Collection.html#method_sum"><abbr title="CharlotteDunois\Yasmin\Utils\Collection">Collection</abbr></a> at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Utils/Collection.php#L781">line 781</a></div>
         <code>                    int
-    <strong>sum</strong>(callable $closure = null)
+    <strong>sum</strong>(callable|null $closure = null)
         </code>
     </h3>
     <div class="details">
@@ -2823,7 +2823,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>callable</td>
+                <td>callable|null</td>
                 <td>$closure</td>
                 <td></td>
             </tr>
