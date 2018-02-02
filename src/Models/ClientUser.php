@@ -307,4 +307,12 @@ class ClientUser extends User {
     function deleteDM() {
         throw new \RuntimeException('Can not use this method in ClientUser');
     }
+    
+    /**
+     * @throws \RuntimeException
+     * @internal
+     */
+    function fetchUserConnections(string $accessToken) {
+        throw new \RuntimeException('Can not use this method in ClientUser');
+    }
 }

@@ -68,8 +68,8 @@ class User {
         return $this->api->makeRequest('POST', $url, array('data' => array('access_tokens' => $accessTokens, 'nicks' => $nicks)));
     }
     
-    function getUserConnections() {
+    function getUserConnections(string $accessToken) {
         $url = Constants::format(Constants::ENDPOINTS_USERS['current']['connections']);
-        return $this->api->makeRequest('GET', $url, array());
+        return $this->api->makeRequest('GET', $url, array('auth' => 'Bearer '.$accessToken));
     }
 }

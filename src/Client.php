@@ -310,40 +310,30 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             }
             
             if($this->gateway && !$force) {
-                $gateway = \React\Promise\resolve($this->gateway);
+                $gateway = \React\Promise\resolve(array('url' => $this->gateway));
+            } elseif($this->gateway) {
+                $gateway = $this->api->getGateway();
             } else {
-                if($this->gateway) {
-                    $gateway = $this->api->getGateway();
-                } else {
-                    $gateway = $this->api->getGatewaySync();
-                }
-                
-                $gateway = $gateway->then(function ($response) {
-                    return $response['url'];
-                });
+                $gateway = $this->api->getGatewaySync();
             }
             
             $gateway->then(function ($url) use ($resolve, $reject) {
-                $this->gateway = $url;
+                $this->gateway = $url['url'];
                 
-                $WSconstants = \CharlotteDunois\Yasmin\Constants::WS;
+                $wsquery = \CharlotteDunois\Yasmin\Constants::WS;
                 $encoding = $this->getOption('ws.encoding');
                 
                 if(!empty($encoding) && \is_string($encoding)) {
-                    $WSconstants['encoding'] = $encoding;
+                    $wsquery['encoding'] = $encoding;
                 }
                 
-                $this->ws->connect($url, $WSconstants)->then(function () use ($resolve) {
-                    $resolve();
-                }, function ($error) use ($reject) {
+                $this->ws->connect($url['url'], $wsquery)->then($resolve, function ($error) use ($reject) {
                     $this->api->destroy();
                     $this->ws->destroy();
                     
-                    foreach($this->timers as $timer) {
-                        $this->cancelTimer($timer);
-                    }
-                    
+                    $this->cancelTimers();
                     $this->destroyUtils();
+                    
                     $reject($error);
                 })->done(null, array($this, 'handlePromiseRejection'));
             }, $reject)->done(null, array($this, 'handlePromiseRejection'));
