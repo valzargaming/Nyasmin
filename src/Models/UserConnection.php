@@ -12,12 +12,14 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents an user connection.
  *
- * @property string                                               $id                 The ID of the connection account.
- * @property string                                               $name               The username of the connection account.
- * @property string                                               $type               The type of the user connection (e.g. twitch, youtube).
- * @property bool                                                 $revoked            Whether the connection is revoked.
+ * @property string                               $id                 The ID of the connection account.
+ * @property string                               $name               The username of the connection account.
+ * @property string                               $type               The type of the user connection (e.g. twitch, youtube).
+ * @property bool                                 $revoked            Whether the connection is revoked.
+ * @property \CharlotteDunois\Yasmin\Models\User  $user               The user which this user connection belongs to.
  */
 class UserConnection extends ClientBase {
+    protected $user;
     
     protected $id;
     protected $name;
@@ -27,8 +29,9 @@ class UserConnection extends ClientBase {
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $connection) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Models\User $user, array $connection) {
         parent::__construct($client);
+        $this->user = $user;
         
         $this->id = $connection['id'];
         $this->name = $connection['name'];
