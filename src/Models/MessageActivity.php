@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int                                           $type      The message activity type (flags).
  * @property \CharlotteDunois\Yasmin\Models\User           $user      The user this message activity is for.
  *
- * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity links to.
+ * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity points to.
  */
 class MessageActivity extends ClientBase {
     /**
