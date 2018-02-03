@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * WS Event handler
  * @internal
  */
-class Heartbeat {
+class Heartbeat implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     public $heartbeat;
     protected $wshandler;
     
@@ -21,7 +21,7 @@ class Heartbeat {
         $this->wshandler = $wshandler;
     }
     
-    function handle() {
+    function handle($packet) {
         $this->wshandler->wsmanager->heartbeat();
     }
 }

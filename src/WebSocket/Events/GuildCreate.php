@@ -14,11 +14,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#guild-create
  * @internal
  */
-class GuildCreate {
+class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     protected $ready = false;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
         $this->client->once('ready', function () {

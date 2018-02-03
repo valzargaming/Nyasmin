@@ -58,7 +58,11 @@ class WSHandler {
         return null;
     }
     
-    function getHandler($name) {
+    /**
+     * Returns a WS handler.
+     * @return \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface
+     */
+    function getHandler(int $name) {
         if(isset($this->handlers[$name])) {
             return $this->handlers[$name];
         }
@@ -66,6 +70,10 @@ class WSHandler {
         throw new \Exception('Unable to find handler');
     }
     
+    /**
+     * Handles a message.
+     * @return void
+     */
     function handle($message) {
         try {
             $packet = $this->wsmanager->encoding->decode($message);
@@ -86,7 +94,16 @@ class WSHandler {
         }
     }
     
-    private function register($op, $class) {
+    /**
+     * Registers a handler.
+     * @return void
+     * @throws \RuntimeException
+     */
+    function register(int $op, string $class) {
+        if(!\in_array('CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface', \class_implements($class))) {
+            throw new \RuntimeException('Specified handler class does not implement interface');
+        }
+        
         $this->handlers[$op] = new $class($this);
     }
 }

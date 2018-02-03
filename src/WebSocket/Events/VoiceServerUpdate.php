@@ -14,10 +14,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#voice-server-update
  * @internal
  */
-class VoiceServerUpdate {
+class VoiceServerUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
     }
     

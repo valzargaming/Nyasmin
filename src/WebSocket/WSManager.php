@@ -397,6 +397,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }));
     }
     
+    /**
+     * Closes the WS connection.
+     * @return void
+     */
     function disconnect(int $code = 1000, string $reason = '') {
         if(!$this->ws) {
             return;
@@ -410,6 +414,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->ws->close($code, $reason);
     }
     
+    /**
+     * Closes the WS connection.
+     * @return void
+     */
     function reconnect(bool $resumable = true) {
         if(!$this->ws) {
             return;
@@ -423,6 +431,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->ws->close(4000, 'Reconnect required');
     }
     
+    /**
+     * Closes the WS connection.
+     * @return \React\Promise\Promise
+     */
     protected function renewConnection(bool $forceNewGateway = true) {
         return $this->client->login(((string) $this->client->token), $forceNewGateway)->otherwise(function () use ($forceNewGateway) {
             $this->client->emit('debug', 'Error making new login after failed connection attempt... retrying in 30 seconds');
@@ -454,6 +466,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }));
     }
     
+    /**
+     * Processes the WS queue.
+     * @return void
+     */
     function processQueue() {
          if($this->running === true) {
              return;
@@ -481,22 +497,42 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
          $this->running = false;
     }
     
+    /**
+     * Set authenticated.
+     * @return void
+     */
     function setAuthenticated(bool $state) {
         $this->authenticated = $state;
     }
     
+    /**
+     * Get last identified timestamp
+     * @return int
+     */
     function getLastIdentified() {
         return $this->lastIdentify;
     }
     
+    /**
+     * Get the session ID.
+     * @return string|null
+     */
     function getSessionID() {
         return $this->wsSessionID;
     }
     
-    function setSessionID(?string $id = null) {
+    /**
+     * Set the session ID.
+     * @return void
+     */
+    function setSessionID(?string $id) {
         $this->wsSessionID = $id;
     }
     
+    /**
+     * Sends an IDENTIFY or RESUME payload, depending on ws session ID.
+     * @return void
+     */
     function sendIdentify() {
         $this->authenticated = false;
         
@@ -543,6 +579,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         return $this->_send($packet);
     }
     
+    /**
+     * Sends a heartbeat.
+     * @return void
+     */
     function heartbeat() {
         if($this->wsHeartbeat['ack'] === false) {
             return $this->heartFailure();
@@ -563,15 +603,19 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         ));
     }
     
+    /**
+     * Handles heart failures.
+     * @return void
+     */
     function heartFailure() {
         $this->client->emit('debug', 'WS heart failure');
-        
-        $this->ws->close(1006, 'No heartbeat ack received');
-        $this->ws = null;
-        
-        $this->connect($this->gateway)->done(null, array($this->client, 'handlePromiseRejection'));
+        $this->disconnect(1006, 'No heartbeat ack');
     }
     
+    /**
+     * Handles heartbeat ack.
+     * @return void
+     */
     function _pong($end) {
         $time = \ceil(($end - $this->wsHeartbeat['dateline']) * 1000);
         $this->client->pings[] = (int) $time;
@@ -587,6 +631,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->client->emit('debug', 'Received WS heartbeat ACK');
     }
     
+    /**
+     * Direct ws send method. DO NOT USE.
+     * @return \React\Promise\Promise
+     */
     function _send(array $packet) {
         if(!$this->ws) {
             $this->client->emit('debug', 'Tried sending a WS packet with no WS connection');

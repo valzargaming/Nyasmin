@@ -13,14 +13,14 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * WS Event handler
  * @internal
  */
-class HeartbeatAck {
+class HeartbeatAck implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     protected $wshandler;
     
     function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
         $this->wshandler = $wshandler;
     }
     
-    function handle() {
+    function handle($packet) {
         $this->wshandler->wsmanager->_pong(\microtime(true));
     }
 }

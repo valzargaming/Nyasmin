@@ -14,14 +14,14 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#resumed
  * @internal
  */
-class Resumed {
+class Resumed implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
     }
     
-    function handle() {
+    function handle(array $data) {
         $this->client->wsmanager()->emit('ready');
     }
 }

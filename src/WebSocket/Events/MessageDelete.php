@@ -14,10 +14,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#message-delete
  * @internal
  */
-class MessageDelete {
+class MessageDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
     }
     

@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * WS Event handler
  * @internal
  */
-class Dispatch {
+class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     private $wsevents = array();
     protected $wshandler;
     
@@ -61,6 +61,10 @@ class Dispatch {
         }
     }
     
+    /**
+     * Returns a WS event.
+     * @return \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
+     */
     function getEvent(string $name) {
         if(isset($this->wsevents[$name])) {
             return $this->wsevents[$name];
@@ -69,7 +73,7 @@ class Dispatch {
         throw new \Exception('Unable to find WS event');
     }
     
-    function handle(array $packet) {
+    function handle($packet) {
         if(isset($this->wsevents[$packet['t']])) {
             try {
                 $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
@@ -82,7 +86,16 @@ class Dispatch {
         }
     }
     
-    private function register($name, $class) {
+    /**
+     * Registers an event.
+     * @return void
+     * @throws \RuntimeException
+     */
+    function register(string $name, string $class) {
+        if(!\in_array('CharlotteDunois\Yasmin\Interfaces\WSEventInterface', \class_implements($class))) {
+            throw new \RuntimeException('Specified event class does not implement interface');
+        }
+        
         $this->wsevents[$name] = new $class($this->wshandler->client, $this->wshandler->wsmanager);
     }
 }

@@ -14,10 +14,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#guild-member-remove
  * @internal
  */
-class GuildMemberRemove {
+class GuildMemberRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
     }
     

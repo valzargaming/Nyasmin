@@ -14,11 +14,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#guild-role-update
  * @internal
  */
-class GuildRoleUpdate {
+class GuildRoleUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     protected $clones = false;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
         $clones = $this->client->getOption('disableClones', array());

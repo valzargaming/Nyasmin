@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * WS Event handler
  * @internal
  */
-class Hello {
+class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     public $heartbeat = null;
     protected $wshandler;
     
@@ -25,7 +25,7 @@ class Hello {
         });
     }
     
-    function handle(array $packet) {
+    function handle($packet) {
         $this->wshandler->client->emit('debug', 'Connected to Gateway via '.\implode(', ', $packet['d']['_trace']));
         
         $interval = $packet['d']['heartbeat_interval'] / 1000;

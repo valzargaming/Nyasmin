@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#ready
  * @internal
  */
-class Ready {
+class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     protected $ready = false;
     
@@ -26,7 +26,7 @@ class Ready {
         });
     }
     
-    function handle($data) {
+    function handle(array $data) {
         $this->client->wsmanager()->setAuthenticated(true);
         $this->client->wsmanager()->setSessionID($data['session_id']);
         $this->client->wsmanager()->emit('self.ws.ready');

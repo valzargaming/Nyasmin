@@ -14,11 +14,11 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @see https://discordapp.com/developers/docs/topics/gateway#message-update
  * @internal
  */
-class MessageUpdate {
+class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     protected $clones = false;
     
-    function __construct(\CharlotteDunois\Yasmin\Client $client) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
         $clones = $this->client->getOption('disableClones', array());
