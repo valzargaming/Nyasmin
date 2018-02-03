@@ -495,7 +495,7 @@ final class Constants {
     /**
      * Formats Endpoints strings.
      * @param string  $endpoint
-     * @param string  $args
+     * @param string  ...$args
      * @return string
      * @internal
      */

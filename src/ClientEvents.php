@@ -77,10 +77,8 @@ interface ClientEvents {
      *     'resetTime' => int|null
      * )
      * </pre>
-     *
-     * @param array $data
      */
-    function ratelimit($data);
+    function ratelimit(array $data);
     
     /**
      * Emitted when a channel gets created.
@@ -99,10 +97,8 @@ interface ClientEvents {
     
     /**
      * Emitted when a channel's pins gets updated. Due to the nature of the event, it's not possible to do much.
-     * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface  $channel
-     * @param \DateTime|null                                       $time
      */
-    function channelPinsUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, $time);
+    function channelPinsUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel, ?\DateTime $time);
     
     /**
      * Emitted when a guild gets joined.
