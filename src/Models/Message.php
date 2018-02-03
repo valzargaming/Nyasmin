@@ -43,6 +43,7 @@ class Message extends ClientBase {
     /**
      * The string used in Message::reply to separate the mention and the content.
      * @var string
+     * @source
      */
     static public $replySeparator = ' ';
     
