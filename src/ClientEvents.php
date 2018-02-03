@@ -88,7 +88,7 @@ interface ClientEvents {
     /**
      * Emitted when a channel gets updated.
      */
-    function channelUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $new, \CharlotteDunois\Yasmin\Interfaces\ChannelInterface $old);
+    function channelUpdate(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $new, ?\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $old);
     
     /**
      * Emitted when a channel gets deleted.
@@ -108,7 +108,7 @@ interface ClientEvents {
     /**
      * Emitted when a guild gets updated.
      */
-    function guildUpdate(\CharlotteDunois\Yasmin\Models\Guild $new, \CharlotteDunois\Yasmin\Models\Guild $old);
+    function guildUpdate(\CharlotteDunois\Yasmin\Models\Guild $new, ?\CharlotteDunois\Yasmin\Models\Guild $old);
     
     /**
      * Emitted when a guild gets left.
@@ -138,7 +138,7 @@ interface ClientEvents {
     /**
      * Emitted when a member gets updated.
      */
-    function guildMemberUpdate(\CharlotteDunois\Yasmin\Models\GuildMember $new, \CharlotteDunois\Yasmin\Models\GuildMember $old);
+    function guildMemberUpdate(\CharlotteDunois\Yasmin\Models\GuildMember $new, ?\CharlotteDunois\Yasmin\Models\GuildMember $old);
     
     /**
      * Emitted when an user leaves a guild.
@@ -159,7 +159,7 @@ interface ClientEvents {
     /**
      * Emitted when a role gets updated.
      */
-    function roleUpdate(\CharlotteDunois\Yasmin\Models\Role $new, \CharlotteDunois\Yasmin\Models\Role $old);
+    function roleUpdate(\CharlotteDunois\Yasmin\Models\Role $new, ?\CharlotteDunois\Yasmin\Models\Role $old);
     
     /**
      * Emitted when a role gets deleted.
@@ -174,7 +174,7 @@ interface ClientEvents {
     /**
      * Emitted when a (cached) message gets updated.
      */
-    function messageUpdate(\CharlotteDunois\Yasmin\Models\Message $new, \CharlotteDunois\Yasmin\Models\Message $old);
+    function messageUpdate(\CharlotteDunois\Yasmin\Models\Message $new, ?\CharlotteDunois\Yasmin\Models\Message $old);
     
     /**
      * Emitted when a (cached) message gets deleted.
@@ -205,7 +205,7 @@ interface ClientEvents {
     /**
      * Emitted when a presence updates.
      */
-    function presenceUpdate(\CharlotteDunois\Yasmin\Models\Presence $presence);
+    function presenceUpdate(\CharlotteDunois\Yasmin\Models\Presence $new, ?\CharlotteDunois\Yasmin\Models\Presence $old);
     
     /**
      * Emitted when someone starts typing in the channel.
@@ -215,10 +215,10 @@ interface ClientEvents {
     /**
      * Emitted when someone updates their user account (username/avatar/etc.).
      */
-    function userUpdate(\CharlotteDunois\Yasmin\Models\User $new, \CharlotteDunois\Yasmin\Models\User $old);
+    function userUpdate(\CharlotteDunois\Yasmin\Models\User $new, ?\CharlotteDunois\Yasmin\Models\User $old);
     
     /**
      * Emitted when a member's voice state changes (leaves/joins/etc.).
      */
-    function voiceStateUpdate(\CharlotteDunois\Yasmin\Models\GuildMember $new, \CharlotteDunois\Yasmin\Models\GuildMember $old);
+    function voiceStateUpdate(\CharlotteDunois\Yasmin\Models\GuildMember $new, ?\CharlotteDunois\Yasmin\Models\GuildMember $old);
 }
