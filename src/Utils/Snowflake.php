@@ -74,7 +74,7 @@ class Snowflake {
                 return $this->$name;
             break;
             case 'date':
-                return (new \DateTime('@'.((int) $this->timestamp)));
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime(((int) $this->timestamp));
             break;
         }
         
