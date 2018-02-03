@@ -63,6 +63,10 @@ class RichPresenceAssets extends ClientBase {
      */
     function getLargeImageURL(int $size = null) {
         if($this->largeImage !== null) {
+            if(\strpos($this->largeImage, 'spotify:') === 0) {
+                return 'https://i.scdn.co/image/'.\substr($this->largeImage, 8);
+            }
+            
             return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->largeImage).(!empty($size) ? '?size='.$size : '');
         }
         
@@ -76,6 +80,10 @@ class RichPresenceAssets extends ClientBase {
      */
     function getSmallImageURL(int $size = null) {
         if($this->smallImage !== null) {
+            if(\strpos($this->smallImage, 'spotify:') === 0) {
+                return 'https://i.scdn.co/image/'.\substr($this->smallImage, 8);
+            }
+            
             return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->smallImage).(!empty($size) ? '?size='.$size : '');
         }
         

@@ -29,6 +29,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                                                      $type               The type of the message. ({@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES})
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
  * @property string|null                                                                                 $webhookID          ID of the webhook that sent the message, if applicable, or null.
+ * @property \CharlotteDunois\Yasmin\Models\MessageActivity|null                                         $activity           The activity attached to this message.
  *
  * @property \DateTime                                                                                   $createdAt          An DateTime instance of the createdTimestamp.
  * @property \DateTime|null                                                                              $editedAt           An DateTime instance of the editedTimestamp, or null.
@@ -57,6 +58,7 @@ class Message extends ClientBase {
     protected $system;
     protected $type;
     protected $webhookID;
+    protected $activity;
     
     protected $attachments;
     protected $cleanContent;
@@ -400,9 +402,10 @@ class Message extends ClientBase {
         $this->tts = $message['tts'] ?? $this->tts;
         $this->nonce = $message['nonce'] ?? null;
         $this->pinned = $message['pinned'] ?? $this->pinned;
-        $this->system = (!empty($message['type']) ? ($message['type'] > 0) : $this->system);
+        $this->system = (isset($message['type']) ? ($message['type'] > 0) : $this->system);
         $this->type = (!empty($message['type']) ? \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES[$message['type']] : $this->type);
         $this->webhookID = $message['webhook_id'] ?? $this->webhookID;
+        $this->activity = (!empty($message['activity']) ? (new \CharlotteDunois\Yasmin\Models\MessageActivity($this->client, $message['activity'])) : $this->activity);
         
         if(isset($message['embeds'])) {
             $this->embeds = array();
