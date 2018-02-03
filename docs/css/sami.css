@@ -376,8 +376,7 @@ code {
 }
 
 pre {
-    padding: 10px;
-    padding-left: 15px;
+    padding: 7px 10px 7px 15px;
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
