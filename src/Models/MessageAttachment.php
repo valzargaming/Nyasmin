@@ -89,9 +89,9 @@ class MessageAttachment extends Base {
     /**
      * @internal
      */
-    function getMessageFilesArray() {
+    function _getMessageFilesArray() {
         $props = array(
-            'filename' => $this->filename
+            'name' => $this->filename
         );
         
         $file = @\realpath($this->attachment);
@@ -103,11 +103,11 @@ class MessageAttachment extends Base {
             $props['data'] = $this->attachment;
         }
         
-        if(empty($props['filename'])) {
+        if(empty($props['name'])) {
             if(!empty($props['path'])) {
-                $props['filename'] = \basename($props['path']);
+                $props['name'] = \basename($props['path']);
             } else {
-                $props['filename'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
+                $props['name'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';
             }
         }
         

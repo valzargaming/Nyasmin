@@ -151,6 +151,7 @@ class DataHelpers {
      * Resolves files of Message Options.
      * @param array $options
      * @return \React\Promise\Promise
+     * @throws \InvalidArgumentException
      */
     static function resolveMessageOptionsFiles(array $options) {
         if(empty($options['files'])) {
@@ -160,7 +161,7 @@ class DataHelpers {
         $promises = array();
         foreach($options['files'] as $file) {
             if($file instanceof \CharlotteDunois\Yasmin\Models\MessageAttachment) {
-                $file = $file->getMessageFilesArray();
+                $file = $file->_getMessageFilesArray();
             }
             
             if(\is_string($file)) {
@@ -179,6 +180,10 @@ class DataHelpers {
                 continue;
             }
             
+            if(!isset($file['data']) && !isset($file['path'])) {
+                throw new \InvalidArgumentException('Invalid file array passed, missing data and path, one is required');
+            }
+            
             if(!isset($file['name'])) {
                 if(isset($file['path'])) {
                     $file['name'] = \basename($file['path']);
@@ -187,7 +192,7 @@ class DataHelpers {
                 }
             }
             
-            if(!isset($file['data']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
+            if(isset($file['path']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
                 $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
                     $file['data'] = $data;
                     return $file;
