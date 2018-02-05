@@ -229,6 +229,7 @@ window.projectVersion = 'master';
             
             {"type": "Class", "fromName": "CharlotteDunois\\Yasmin\\Models", "fromLink": "CharlotteDunois/Yasmin/Models.html", "link": "CharlotteDunois/Yasmin/Models/Activity.html", "name": "CharlotteDunois\\Yasmin\\Models\\Activity", "doc": "&quot;Something someone does.&quot;"},
                                                         {"type": "Method", "fromName": "CharlotteDunois\\Yasmin\\Models\\Activity", "fromLink": "CharlotteDunois/Yasmin/Models/Activity.html", "link": "CharlotteDunois/Yasmin/Models/Activity.html#method___construct", "name": "CharlotteDunois\\Yasmin\\Models\\Activity::__construct", "doc": "&quot;The manual creation of such a class is discouraged. There may be an easy and safe way to create such a class in the future.&quot;"},
+                    {"type": "Method", "fromName": "CharlotteDunois\\Yasmin\\Models\\Activity", "fromLink": "CharlotteDunois/Yasmin/Models/Activity.html", "link": "CharlotteDunois/Yasmin/Models/Activity.html#method_isRichPresence", "name": "CharlotteDunois\\Yasmin\\Models\\Activity::isRichPresence", "doc": "&quot;Whether this activity is a rich presence.&quot;"},
             
             {"type": "Class", "fromName": "CharlotteDunois\\Yasmin\\Models", "fromLink": "CharlotteDunois/Yasmin/Models.html", "link": "CharlotteDunois/Yasmin/Models/CategoryChannel.html", "name": "CharlotteDunois\\Yasmin\\Models\\CategoryChannel", "doc": "&quot;Represents a guild&#039;s category channel.&quot;"},
                     

@@ -93,6 +93,26 @@
                     </div>
     
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>FLAGS</td>
+                <td class="last">
+                    <p><em>The Activity flags.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const FLAGS = array(
+    &#039;INSTANCE&#039; =&gt; 1,
+    &#039;JOIN&#039; =&gt; 2,
+    &#039;SPECTATE&#039; =&gt; 4,
+    &#039;JOIN_REQUEST&#039; =&gt; 8,
+    &#039;SYNC&#039; =&gt; 16,
+    &#039;PLAY&#039; =&gt; 32
+);</code></pre>
+                                    </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
@@ -130,6 +150,14 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_flags">
+                                                                                int|null
+                </td>
+                <td><a name="property_flags" href="#property_flags">$flags</a></td>
+                <td class="last">The activity flags (as bitfield), like if an activity is a spectate activity.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_name">
                                                                                 string
                 </td>
@@ -146,6 +174,14 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_sessionID">
+                                                                                string|null
+                </td>
+                <td><a name="property_sessionID" href="#property_sessionID">$sessionID</a></td>
+                <td class="last">The ID that links to the activity session.</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_state">
                                                                                 string|null
                 </td>
@@ -159,6 +195,14 @@
                 </td>
                 <td><a name="property_streaming" href="#property_streaming">$streaming</a></td>
                 <td class="last">Whether or not the activity is being streamed.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_syncID">
+                                                                                string|null
+                </td>
+                <td><a name="property_syncID" href="#property_syncID">$syncID</a></td>
+                <td class="last">The sync ID. For spotify, this is the spotify track ID.</td>
                 <td></td>
             </tr>
                     <tr>
@@ -201,6 +245,16 @@
                                             <p>The manual creation of such a class is discouraged. There may be an easy and safe way to create such a class in the future.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isRichPresence">isRichPresence</a>()
+        
+                                            <p>Whether this activity is a rich presence.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -209,7 +263,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Activity.php#L45">line 45</a></div>
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Activity.php#L66">line 66</a></div>
         <code>                    
     <strong>__construct</strong>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $activity)
         </code>
@@ -239,6 +293,40 @@
             </table>
 
             
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isRichPresence">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/master/src/Models/Activity.php#L113">line 113</a></div>
+        <code>                    bool
+    <strong>isRichPresence</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Whether this activity is a rich presence.</p>                                                                
+        
+                            </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                         
