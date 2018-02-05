@@ -22,10 +22,27 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property array|null                                              $party          Party of the activity, an array of ('id', 'size' => [ size, max ]), or null.
  * @property string|null                                             $state          State of the activity, or null.
  * @property array|null                                              $timestamps     Timestamps for the activity, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.
+ * @property int|null                                                $flags          The activity flags (as bitfield), like if an activity is a spectate activity.
+ * @property string|null                                             $sessionID      The ID that links to the activity session.
+ * @property string|null                                             $syncID         The sync ID. For spotify, this is the spotify track ID.
  *
  * @property bool                                                    $streaming      Whether or not the activity is being streamed.
  */
 class Activity extends ClientBase {
+    /**
+     * The Activity flags.
+     * @var array
+     * @source
+     */
+    const FLAGS = array(
+        'INSTANCE' => 1,
+        'JOIN' => 2,
+        'SPECTATE' => 4,
+        'JOIN_REQUEST' => 8,
+        'SYNC' => 16,
+        'PLAY' => 32
+    );
+    
     protected $name;
     protected $type;
     protected $url;
@@ -36,6 +53,10 @@ class Activity extends ClientBase {
     protected $party;
     protected $state;
     protected $timestamps;
+    
+    protected $flags;
+    protected $sessionID;
+    protected $syncID;
     
     /**
      * The manual creation of such a class is discouraged. There may be an easy and safe way to create such a class in the future.
@@ -59,6 +80,10 @@ class Activity extends ClientBase {
             'start' => (!empty($activity['timestamps']['start']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $activity['timestamps']['start']) : null),
             'end' => (!empty($activity['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $activity['timestamps']['end']) : null)
         ) : null);
+        
+        $this->flags = $activity['flags'] ?? null;
+        $this->sessionID = $activity['session_id'] ?? null;
+        $this->syncID = $activity['sync_id'] ?? null;
     }
     
     /**
@@ -79,6 +104,14 @@ class Activity extends ClientBase {
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * Whether this activity is a rich presence.
+     * @return bool
+     */
+    function isRichPresence() {
+        return ($this->applicationID !== null || $this->party !== null || $this->sessionID !== null || $this->syncID !== null);
     }
     
     /**

@@ -18,20 +18,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity points to.
  */
 class MessageActivity extends ClientBase {
-    /**
-     * The Message Activity flags.
-     * @var array
-     * @source
-     */
-    const FLAGS = array(
-        'INSTANCE' => 1,
-        'JOIN' => 2,
-        'SPECTATE' => 4,
-        'JOIN_REQUEST' => 8,
-        'SYNC' => 16,
-        'PLAY' => 32
-    );
-    
     protected $type;
     protected $user;
     
