@@ -1,12 +1,9 @@
 cache
 cache/*
+sami/*
+sami.*
 vendor
 vendor/*
 *.token
 composer.lock
-docs/renderer.index
 index.php
-sami
-sami/*
-sami.bat
-sami.php
