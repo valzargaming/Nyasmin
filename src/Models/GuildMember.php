@@ -295,7 +295,7 @@ class GuildMember extends ClientBase {
         }
         
         if(isset($options['channel'])) {
-            $data['channel_id'] = $this->guild->channels->resolve($options['channel']);
+            $data['channel_id'] = $this->guild->channels->resolve($options['channel'])->id;
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {

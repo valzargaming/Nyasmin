@@ -78,7 +78,7 @@ class Webhook extends ClientBase {
         }
         
         if(!empty($options['channel'])) {
-            $data['channel'] = $this->client->channels->resolve($options['channel']);
+            $data['channel'] = $this->client->channels->resolve($options['channel'])->id;
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $options, $reason) {
