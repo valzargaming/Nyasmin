@@ -204,7 +204,7 @@ class APIRequest {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @param mixed                                              $body
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
-     * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\Exception|null
+     * @return \CharlotteDunois\Yasmin\HTTP\DiscordException|\Exception|null
      */
     protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, $body, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         $status = $response->getStatusCode();
@@ -222,7 +222,7 @@ class APIRequest {
         }
         
         if($status >= 400 && $status < 500) {
-            $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($this->endpoint, $body);
+            $error = new \CharlotteDunois\Yasmin\HTTP\DiscordException($this->endpoint, $body);
         } else {
             $error = new \Exception($response->getReasonPhrase());
         }

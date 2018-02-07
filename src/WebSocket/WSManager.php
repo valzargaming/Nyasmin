@@ -175,6 +175,9 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         });
     }
     
+    /**
+     * @throws \RuntimeException
+     */
     function __get($name) {
         switch($name) {
             case 'client':
@@ -191,13 +194,22 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             break;
         }
         
-        throw new \Exception('Undefined property: '.(self::class).'::$'.$name);
+        throw new \RuntimeException('Undefined property: '.\get_class($this).'::$'.$name);
     }
     
+    /**
+     * Disconnects.
+     * @return void
+     */
     function destroy() {
         $this->disconnect();
     }
     
+    /**
+     * Connects to the gateway url.
+     * @return \React\Promise\Promise
+     * @throws \Exception
+     */
     function connect(?string $gateway = null, array $querystring = array()) {
         if($this->ws) {
             return \React\Promise\resolve();

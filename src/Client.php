@@ -224,7 +224,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             return $this->$name;
         }
         
-        throw new \RuntimeException('Unknown property '.\get_class($this).'::'.$name);
+        throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
     }
     
     /**

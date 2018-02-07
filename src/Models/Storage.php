@@ -36,6 +36,6 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
             return $this->$name;
         }
         
-        throw new \RuntimeException('Unknown property '.\get_class($this).'::'.$name);
+        throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
     }
 }
