@@ -251,7 +251,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $querystring['compress'] = $this->compressContext->getName();
         }
         
-        $reconnect = false;
         if($this->gateway && (!$gateway || $this->gateway === $gateway)) {
             if(!$gateway) {
                 $gateway = $this->gateway;
@@ -269,7 +268,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             }
             
             $this->client->emit('reconnect');
-            $reconnect = true;
         } elseif(!empty($querystring)) {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
@@ -285,7 +283,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $this->wsStatus = \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTING;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($connector, $gateway, $reconnect) {
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($connector, $gateway) {
             $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
                 $this->ws = &$conn;
                 
