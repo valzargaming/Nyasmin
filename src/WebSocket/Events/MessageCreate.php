@@ -44,7 +44,7 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             
             $prm->then(function () use ($message) {
                 if($message->guild && !($message->member instanceof \CharlotteDunois\Yasmin\Models\GuildMember) && !$message->author->webhook) {
-                    return $message->guild->fetchMember($message->author->id)->then(null, function () use ($message) {
+                    return $message->guild->fetchMember($message->author->id)->then(null, function () {
                         // Ignore failure
                     });
                 }

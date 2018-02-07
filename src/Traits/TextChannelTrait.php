@@ -43,7 +43,7 @@ trait TextChannelTrait {
                         if($message instanceof \CharlotteDunois\Yasmin\Models\Message) {
                             $timestamp = $message->createdTimestamp;
                         } else {
-                            $timestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($message)->createdTimestamp;
+                            $timestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($message)->timestamp;
                         }
                         
                         return ((\time() - $timestamp) < 1209600);
