@@ -498,12 +498,11 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
              $this->ratelimits['remaining']--;
              
              if(!$this->ws) {
-                 $element['reject']();
+                 $element['reject'](new \Exception('No WS connection'));
                  break;
              }
              
-             $this->_send($element['packet']);
-             $element['resolve']();
+             $this->_send($element['packet'])->then($element['resolve'], $element['reject'])->done(null, array($this->client, 'handlePromiseRejection'));
          }
          
          $this->running = false;
@@ -543,7 +542,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Sends an IDENTIFY or RESUME payload, depending on ws session ID.
-     * @return void
+     * @return \React\Promise\Promise
      */
     function sendIdentify() {
         $this->authenticated = false;
@@ -570,10 +569,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     '$device' => 'Yasmin '.\CharlotteDunois\Yasmin\Constants::VERSION
                 ),
                 'compress' => ($this->compressContext ? $this->compressContext->payloadCompression() : false),
-                'large_threshold' => (int) $this->client->getOption('ws.largeThreshold', 250),
+                'large_threshold' => ((int) $this->client->getOption('ws.largeThreshold', 250)),
                 'shard' => array(
-                    (int) $this->client->getOption('shardID', 0),
-                    (int) $this->client->getOption('shardCount', 1)
+                    ((int) $this->client->getOption('shardID', 0)),
+                    ((int) $this->client->getOption('shardCount', 1))
                 )
             )
         );
