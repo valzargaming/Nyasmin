@@ -12,10 +12,12 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message activity.
  *
- * @property int                                           $type      The message activity type (flags).
+ * @property int                                           $type      The message activity type.
  * @property \CharlotteDunois\Yasmin\Models\User           $user      The user this message activity is for.
  *
  * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity points to.
+ *
+ * @see \CharlotteDunois\Yasmin\Constants::MESSAGE_ACTIVITY_TYPES
  */
 class MessageActivity extends ClientBase {
     protected $type;
@@ -29,8 +31,10 @@ class MessageActivity extends ClientBase {
         
         $this->type = $activity['type'];
         
-        $name = \explode(':', $activity['party_id']);
-        $this->user = $this->client->users->get(($name[1] ?? $name[0]));
+        if(!empty($activity['party_id'])) {
+            $name = \explode(':', $activity['party_id']);
+            $this->user = $this->client->users->get(($name[1] ?? $name[0]));
+        }
     }
     
     /**

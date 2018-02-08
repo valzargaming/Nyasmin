@@ -29,20 +29,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                    $streaming      Whether or not the activity is being streamed.
  */
 class Activity extends ClientBase {
-    /**
-     * The Activity flags.
-     * @var array
-     * @source
-     */
-    const FLAGS = array(
-        'INSTANCE' => 1,
-        'JOIN' => 2,
-        'SPECTATE' => 4,
-        'JOIN_REQUEST' => 8,
-        'SYNC' => 16,
-        'PLAY' => 32
-    );
-    
     protected $name;
     protected $type;
     protected $url;

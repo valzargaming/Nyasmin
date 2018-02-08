@@ -152,6 +152,20 @@ final class Constants {
     const WS_DEFAULT_COMPRESSION = 'zlib-stream';
     
     /**
+     * The Activity flags.
+     * @var array
+     * @source
+     */
+    const ACTIVITY_FLAGS = array(
+        'INSTANCE' => 1,
+        'JOIN' => 2,
+        'SPECTATE' => 4,
+        'JOIN_REQUEST' => 8,
+        'SYNC' => 16,
+        'PLAY' => 32
+    );
+    
+    /**
      * Activity types.
      * @var array
      * @source
@@ -196,6 +210,18 @@ final class Constants {
         5 => 'CHANNEL_ICON_CHANGE',
         6 => 'CHANNEL_PINNED_MESSAGE',
         7 => 'GUILD_MEMBER_JOIN'
+    );
+    
+    /**
+     * The Message Activity types.
+     * @var array
+     * @source
+     */
+    const MESSAGE_ACTIVITY_TYPES = array(
+        'JOIN' => 1,
+        'SPECTATE' => 2,
+        'LISTEN' => 3,
+        'JOIN_REQUEST' => 5
     );
     
     /**
