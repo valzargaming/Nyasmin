@@ -19,7 +19,7 @@ class Voice {
      * @var array
      * @internal
      */
-    const ENDPOINTS_VOICE = array(
+    const ENDPOINTS = array(
         'regions' => 'voice/regions'
     );
     

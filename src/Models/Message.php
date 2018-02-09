@@ -42,6 +42,12 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class Message extends ClientBase {
     /**
+     * Default Message Split Options.
+     * @source
+     */
+    const DEFAULT_SPLIT_OPTIONS = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
+    
+    /**
      * Messages Types.
      * @var array
      * @source

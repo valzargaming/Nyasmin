@@ -19,7 +19,7 @@ class Invite {
      * @var array
      * @internal
      */
-    const ENDPOINTS_INVITES = array(
+    const ENDPOINTS = array(
         'get' => 'invites/%s',
         'delete' => 'invites/%s',
         'accept' => 'invites/%s'

@@ -19,7 +19,7 @@ class User {
      * @var array
      * @internal
      */
-    const ENDPOINTS_USERS = array(
+    const ENDPOINTS = array(
         'get' => 'users/%s',
         'current' => array(
             'get' => 'users/@me',

@@ -19,7 +19,7 @@ class Guild {
      * @var array
      * @internal
      */
-    const ENDPOINTS_GUILDS = array(
+    const ENDPOINTS = array(
         'get' => 'guilds/%s',
         'create' => 'guilds',
         'modify' => 'guilds/%s',

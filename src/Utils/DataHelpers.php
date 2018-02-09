@@ -13,12 +13,6 @@ namespace CharlotteDunois\Yasmin\Utils;
  * Data Helper methods.
  */
 class DataHelpers {
-    /**
-     * Default Message Split Options.
-     * @source
-     */
-    const DEFAULT_MESSAGE_SPLIT_OPTIONS = array('before' => '', 'after' => '', 'char' => "\n", 'maxLength' => 1950);
-    
     private static $loop;
     
     /**
@@ -121,7 +115,7 @@ class DataHelpers {
      * @return string[]
      */
     static function splitMessage(string $text, array $options = array()) {
-        $options = \array_merge(self::DEFAULT_MESSAGE_SPLIT_OPTIONS, $options);
+        $options = \array_merge(\CharlotteDunois\Yasmin\Models\Message::DEFAULT_SPLIT_OPTIONS, $options);
         
         if(\mb_strlen($text) > $options['maxLength']) {
             $i = 0;

@@ -19,7 +19,7 @@ class Webhook {
      * @var array
      * @internal
      */
-    const ENDPOINTS_WEBHOOKS = array(
+    const ENDPOINTS = array(
         'create' => 'channels/%s/webhooks',
         'channels' => 'channels/%s/webhooks',
         'guilds' => 'guilds/%s/webhooks',
