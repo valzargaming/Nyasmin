@@ -84,7 +84,7 @@ class APIManager {
     }
     
     function __destruct() {
-        $this->destroy();
+        $this->clear();
     }
     
     function __get($name) {
@@ -103,18 +103,15 @@ class APIManager {
     /**
      * Clears all buckets and the queue.
      */
-    function destroy() {
+    function clear() {
         $this->limited = true;
         $this->resetTime = \INF;
         
         while($item = \array_shift($this->queue)) {
-            if(!($item instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket)) {
-                unset($item);
-            }
+            unset($item);
         }
         
         while($bucket = \array_shift($this->ratelimits)) {
-            $bucket->clear();
             unset($bucket);
         }
         
@@ -201,7 +198,7 @@ class APIManager {
      * Gets the Gateway from the Discord API.
      * @param bool  $bot  Should we use the bot endpoint? Requires token.
      */
-    final function getGateway(bool $bot = false) {
+    function getGateway(bool $bot = false) {
         return $this->makeRequest('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
@@ -210,7 +207,7 @@ class APIManager {
      * @param bool  $bot  Should we use the bot endpoint? Requires token.
      * @return \React\Promise\Promise
      */
-    final function getGatewaySync(bool $bot = false) {
+    function getGatewaySync(bool $bot = false) {
         return $this->makeRequestSync('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
@@ -400,7 +397,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    final function handleRatelimit(\GuzzleHttp\Psr7\Response $response, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         \extract($this->extractRatelimit($response));
         
         $global = false;

@@ -54,6 +54,10 @@ final class RatelimitBucket {
         $this->endpoint = $endpoint;
     }
     
+    function __destruct() {
+        $this->clear();
+    }
+    
     /**
      * Sets the ratelimits from the response
      * @param int|null  $limit

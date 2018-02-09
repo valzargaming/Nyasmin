@@ -328,7 +328,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 }
                 
                 $this->ws->connect($url['url'], $wsquery)->then($resolve, function ($error) use ($reject) {
-                    $this->api->destroy();
+                    $this->api->clear();
                     $this->ws->destroy();
                     
                     $this->cancelTimers();
@@ -347,7 +347,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function destroy(bool $destroyUtils = true) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
-            $this->api->destroy();
+            $this->api->clear();
             
             if($this->ws !== null) {
                 $this->ws->destroy();
