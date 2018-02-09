@@ -70,7 +70,7 @@ class PartialGuild extends ClientBase {
      */
     function getIconURL(string $format = 'png', ?int $size = null) {
         if($this->icon !== null) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
@@ -84,7 +84,7 @@ class PartialGuild extends ClientBase {
      */
     function getSplashURL(string $format = 'png', ?int $size = null) {
         if($this->splash !== null) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;

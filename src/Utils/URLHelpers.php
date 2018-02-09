@@ -13,6 +13,13 @@ namespace CharlotteDunois\Yasmin\Utils;
  * URL Helper methods.
  */
 class URLHelpers {
+    /**
+     * The default HTTP user agent.
+     * @var string
+     * @internal
+     */
+    const DEFAULT_USER_AGENT = 'Yasmin (https://github.com/CharlotteDunois/Yasmin)';
+    
     private static $handler;
     private static $http;
     private static $loop;
@@ -133,7 +140,7 @@ class URLHelpers {
             }
             
             if(empty($requestHeaders['User-Agent'])) {
-                $requestHeaders['User-Agent'] = \CharlotteDunois\Yasmin\Constants::DEFAULT_USER_AGENT;
+                $requestHeaders['User-Agent'] = self::DEFAULT_USER_AGENT;
             }
             
             $request = new \GuzzleHttp\Psr7\Request('GET', $url, $requestHeaders);

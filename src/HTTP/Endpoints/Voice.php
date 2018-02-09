@@ -9,13 +9,20 @@
 
 namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
 
-use \CharlotteDunois\Yasmin\Constants;
-
 /**
  * Handles the API endpoints "Voice".
  * @internal
  */
 class Voice {
+    /**
+     * Endpoints Voice.
+     * @var array
+     * @internal
+     */
+    const ENDPOINTS_VOICE = array(
+        'regions' => 'voice/regions'
+    );
+    
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
@@ -29,7 +36,7 @@ class Voice {
     }
     
     function listVoiceRegions() {
-        $url = Constants::ENDPOINTS_VOICE['regions'];
+        $url = self::ENDPOINTS['regions'];
         return $this->api->makeRequest('GET', $url, array());
     }
 }

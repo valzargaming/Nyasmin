@@ -15,7 +15,51 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int  $bitfield  The bitfield value.
  */
 class Permissions extends Base {
+    /**
+     * The value of the bitfield with all permissions granted.
+     * @var int
+     * @source
+     */
     const ALL = 2146958591;
+    
+    /**
+     * Available Permissions in Discord.
+     * @var array<string, int>
+     */
+    const PERMISSIONS = array(
+        'CREATE_INSTANT_INVITE' => 1 << 0,
+        'KICK_MEMBERS' => 1 << 1,
+        'BAN_MEMBERS' => 1 << 2,
+        'ADMINISTRATOR' => 1 << 3,
+        'MANAGE_CHANNELS' => 1 << 4,
+        'MANAGE_GUILD' => 1 << 5,
+        'ADD_REACTIONS' => 1 << 6,
+        'VIEW_AUDIT_LOG' => 1 << 7,
+
+        'VIEW_CHANNEL' => 1 << 10,
+        'SEND_MESSAGES' => 1 << 11,
+        'SEND_TTS_MESSAGES' => 1 << 12,
+        'MANAGE_MESSAGES' => 1 << 13,
+        'EMBED_LINKS' => 1 << 14,
+        'ATTACH_FILES' => 1 << 15,
+        'READ_MESSAGE_HISTORY' => 1 << 16,
+        'MENTION_EVERYONE' => 1 << 17,
+        'USE_EXTERNAL_EMOJIS' => 1 << 18,
+
+        'CONNECT' => 1 << 20,
+        'SPEAK' => 1 << 21,
+        'MUTE_MEMBERS' => 1 << 22,
+        'DEAFEN_MEMBERS' => 1 << 23,
+        'MOVE_MEMBERS' => 1 << 24,
+        'USE_VAD' => 1 << 25,
+
+        'CHANGE_NICKNAME' => 1 << 26,
+        'MANAGE_NICKNAMES' => 1 << 27,
+        'MANAGE_ROLES' => 1 << 28,
+        'MANAGE_WEBHOOKS' => 1 << 29,
+        'MANAGE_EMOJIS' => 1 << 30
+    );
+    
     protected $bitfield;
     
     /**
@@ -59,7 +103,7 @@ class Permissions extends Base {
             $permissions = array($permissions);
         }
         
-        if($checkAdmin && ($this->bitfield & \CharlotteDunois\Yasmin\Constants::PERMISSIONS['ADMINISTRATOR']) > 0) {
+        if($checkAdmin && ($this->bitfield & self::PERMISSIONS['ADMINISTRATOR']) > 0) {
             return true;
         }
         
@@ -127,8 +171,8 @@ class Permissions extends Base {
     static function resolve($permission) {
         if(\is_int($permission)) {
             return $permission;
-        } elseif(\is_string($permission) && isset(\CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission])) {
-            return \CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission];
+        } elseif(\is_string($permission) && isset(self::PERMISSIONS[$permission])) {
+            return self::PERMISSIONS[$permission];
         }
         
         throw new \InvalidArgumentException('Unable to resolve unknown permission');
@@ -142,11 +186,11 @@ class Permissions extends Base {
      */
     static function resolveToName($permission) {
         if(\is_int($permission)) {
-            $index = \array_search($permission, \CharlotteDunois\Yasmin\Constants::PERMISSIONS, true);
+            $index = \array_search($permission, self::PERMISSIONS, true);
             if($index) {
                 return $index;
             }
-        } elseif(\is_string($permission) && isset(\CharlotteDunois\Yasmin\Constants::PERMISSIONS[$permission])) {
+        } elseif(\is_string($permission) && isset(self::PERMISSIONS[$permission])) {
             return $permission;
         }
         

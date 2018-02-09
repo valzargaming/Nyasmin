@@ -14,6 +14,25 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class ChannelStorage extends Storage {
     /**
+     * Channel Types.
+     * @var array
+     * @source
+     */
+    const CHANNEL_TYPES = array(
+        0 => 'text',
+        1 => 'dm',
+        2 => 'voice',
+        3 => 'group',
+        4 => 'category',
+        
+        'text' => 0,
+        'dm' => 1,
+        'voice' => 2,
+        'group' => 3,
+        'category' => 4
+    );
+    
+    /**
      * Resolves given data to a channel.
      * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|string  string = channel ID
      * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface

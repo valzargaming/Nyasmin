@@ -67,7 +67,7 @@ class RichPresenceAssets extends ClientBase {
                 return 'https://i.scdn.co/image/'.\substr($this->largeImage, 8);
             }
             
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->largeImage).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appassets'], $this->activity->applicationID, $this->largeImage).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
@@ -84,7 +84,7 @@ class RichPresenceAssets extends ClientBase {
                 return 'https://i.scdn.co/image/'.\substr($this->smallImage, 8);
             }
             
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appassets'], $this->activity->applicationID, $this->smallImage).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appassets'], $this->activity->applicationID, $this->smallImage).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;

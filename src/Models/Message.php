@@ -26,7 +26,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                                                 $nonce              A random number or string used for checking message delivery, or null.
  * @property bool                                                                                        $pinned             Whether the message is pinned or not.
  * @property bool                                                                                        $system             Whether the message is a system message.
- * @property string                                                                                      $type               The type of the message. ({@see \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES})
+ * @property string                                                                                      $type               The type of the message. ({@see Message::MESSAGE_TYPES})
  * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
  * @property string|null                                                                                 $webhookID          ID of the webhook that sent the message, if applicable, or null.
  * @property \CharlotteDunois\Yasmin\Models\MessageActivity|null                                         $activity           The activity attached to this message. Sent with Rich Presence-related chat embeds.
@@ -41,6 +41,22 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild), or null.
  */
 class Message extends ClientBase {
+    /**
+     * Messages Types.
+     * @var array
+     * @source
+     */
+    const MESSAGE_TYPES = array(
+        0 => 'DEFAULT',
+        1 => 'RECIPIENT_ADD',
+        2 => 'RECIPIENT_REMOVE',
+        3 => 'CALL',
+        4 => 'CHANNEL_NAME_CHANGE',
+        5 => 'CHANNEL_ICON_CHANGE',
+        6 => 'CHANNEL_PINNED_MESSAGE',
+        7 => 'GUILD_MEMBER_JOIN'
+    );
+    
     /**
      * The string used in Message::reply to separate the mention and the content.
      * @var string
@@ -126,7 +142,7 @@ class Message extends ClientBase {
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                     $member = $this->channel->guild->members->get($this->author->id);
                     if($member) {
-                        return $member->permissionsIn($this->channel)->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['MANAGE_MESSAGES']);
+                        return $member->permissionsIn($this->channel)->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_MESSAGES']);
                     }
                 }
                 
@@ -406,7 +422,7 @@ class Message extends ClientBase {
         $this->nonce = $message['nonce'] ?? null;
         $this->pinned = $message['pinned'] ?? $this->pinned;
         $this->system = (isset($message['type']) ? ($message['type'] > 0) : $this->system);
-        $this->type = (!empty($message['type']) ? \CharlotteDunois\Yasmin\Constants::MESSAGE_TYPES[$message['type']] : $this->type);
+        $this->type = (!empty($message['type']) ? self::MESSAGE_TYPES[$message['type']] : $this->type);
         $this->webhookID = $message['webhook_id'] ?? $this->webhookID;
         $this->activity = (!empty($message['activity']) ? (new \CharlotteDunois\Yasmin\Models\MessageActivity($this->client, $message['activity'])) : $this->activity);
         $this->application = (!empty($message['application']) ? (new \CharlotteDunois\Yasmin\Models\MessageApplication($this->client, $message['application'])) : $this->application);

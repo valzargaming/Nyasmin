@@ -9,13 +9,73 @@
 
 namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
 
-use \CharlotteDunois\Yasmin\Constants;
-
 /**
  * Handles the API endpoints "Guild".
  * @internal
  */
 class Guild {
+    /**
+     * Endpoints Guilds.
+     * @var array
+     * @internal
+     */
+    const ENDPOINTS_GUILDS = array(
+        'get' => 'guilds/%s',
+        'create' => 'guilds',
+        'modify' => 'guilds/%s',
+        'delete' => 'guilds/%s',
+        'channels' => array(
+            'list' => 'guilds/%s/channels',
+            'create' => 'guilds/%s/channels',
+            'modifyPositions' => 'guilds/%s/channels'
+        ),
+        'members' => array(
+            'get' => 'guilds/%s/members/%s',
+            'list' => 'guilds/%s/members',
+            'add' => 'guilds/%s/members/%s',
+            'modify' => 'guilds/%s/members/%s',
+            'modifyCurrentNick' => 'guilds/%s/members/@me/nick',
+            'addRole' => 'guilds/%s/members/%s/roles/%s',
+            'removeRole' => 'guilds/%s/members/%s/roles/%s',
+            'remove' => 'guilds/%s/members/%s'
+        ),
+        'bans' => array(
+            'list' => 'guilds/%s/bans',
+            'create' => 'guilds/%s/bans/%s',
+            'remove' => 'guilds/%s/bans/%s'
+        ),
+        'roles' => array(
+            'list' => 'guilds/%s/roles',
+            'create' => 'guilds/%s/roles',
+            'modifyPositions' => 'guilds/%s/roles',
+            'modify' => 'guilds/%s/roles/%s',
+            'delete' => 'guilds/%s/roles/%s'
+        ),
+        'prune' => array(
+            'count' => 'guilds/%s/prune',
+            'begin' => 'guilds/%s/prune'
+        ),
+        'voice' => array(
+            'regions' => 'guilds/%s/regions'
+        ),
+        'invites' => array(
+            'list' => 'guilds/%s/invites'
+        ),
+        'integrations' => array(
+            'list' => 'guilds/%s/integrations',
+            'create' => 'guilds/%s/integrations',
+            'modify' => 'guilds/%s/integrations/%s',
+            'delete' => 'guilds/%s/integrations/%s',
+            'sync' => 'guilds/%s/integrations/%s'
+        ),
+        'embed' => array(
+            'get' => 'guilds/%s/embed',
+            'modify' => 'guilds/%s/embed'
+        ),
+        'audit-logs' => 'guilds/%s/audit-logs',
+        'vanity-url' => 'guilds/%s/vanity-url'
+    );
+    
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
@@ -29,87 +89,87 @@ class Guild {
     }
     
     function getGuild(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['get'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['get'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function createGuild(array $options) {
-        $url = Constants::ENDPOINTS_GUILDS['create'];
+        $url = self::ENDPOINTS['create'];
         return $this->api->makeRequest('POST', $url, array('data' => $options));
     }
     
     function modifyGuild(string $guildid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['modify'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['modify'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function deleteGuild(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['delete'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['delete'], $guildid);
         return $this->api->makeRequest('DELETE', $url, array());
     }
     
     function getGuildChannels(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['channels']['list'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['channels']['list'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function createGuildChannel(string $guildid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['channels']['create'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['channels']['create'], $guildid);
         return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function modifyGuildChannelPositions(string $guildid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['channels']['modifyPositions'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['channels']['modifyPositions'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function getGuildMember(string $guildid, string $userid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['get'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['get'], $guildid, $userid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function listGuildMembers(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['list'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['list'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function addGuildMember(string $guildid, string $userid, array $options) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['add'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['add'], $guildid, $userid);
         return $this->api->makeRequest('PUT', $url, array('data' => $options));
     }
     
     function modifyGuildMember(string $guildid, string $userid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['modify'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['modify'], $guildid, $userid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function removeGuildMember(string $guildid, string $userid, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['remove'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['remove'], $guildid, $userid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function modifyCurrentNick(string $guildid, string $userid, string $nick) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['modifyCurrentNick'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['modifyCurrentNick'], $guildid, $userid);
         return $this->api->makeRequest('PATCH', $url, array('data' => array('nick' => $nick)));
     }
     
     function addGuildMemberRole(string $guildid, string $userid, string $roleid, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['addRole'], $guildid, $userid, $roleid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['addRole'], $guildid, $userid, $roleid);
         return $this->api->makeRequest('PUT', $url, array('auditLogReason' => $reason));
     }
     
     function removeGuildMemberRole(string $guildid, string $userid, string $roleid, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['members']['removeRole'], $guildid, $userid, $roleid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['removeRole'], $guildid, $userid, $roleid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function getGuildBans(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['bans']['list'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['bans']['list'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function createGuildBan(string $guildid, string $userid, int $daysDeleteMessages = 0, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['bans']['create'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['bans']['create'], $guildid, $userid);
         
         $qs = array('delete-message-days' => $daysDeleteMessages);
         if(!empty($reason)) {
@@ -120,97 +180,97 @@ class Guild {
     }
     
     function removeGuildBan(string $guildid, string $userid, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['bans']['remove'], $guildid, $userid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['bans']['remove'], $guildid, $userid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function getGuildRoles(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['list'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['roles']['list'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function createGuildRole(string $guildid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['create'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['roles']['create'], $guildid);
         return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function modifyGuildRolePositions(string $guildid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['modifyPositions'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['roles']['modifyPositions'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function modifyGuildRole(string $guildid, string $roleid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['modify'], $guildid, $roleid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['roles']['modify'], $guildid, $roleid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function deleteGuildRole(string $guildid, string $roleid, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['roles']['delete'], $guildid, $roleid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['roles']['delete'], $guildid, $roleid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function getGuildPruneCount(string $guildid, int $days) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['prune']['count'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['prune']['count'], $guildid);
         return $this->api->makeRequest('GET', $url, array('querystring' => array('days' => $days)));
     }
     
     function beginGuildPrune(string $guildid, int $days, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['prune']['begin'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['prune']['begin'], $guildid);
         return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'querystring' => array('days' => $days)));
     }
     
     function getGuildVoiceRegions(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['voice']['regions'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['voice']['regions'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function getGuildInvites(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['invites']['list'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['invites']['list'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function getGuildIntegrations(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['integrations']['list'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['integrations']['list'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function createGuildIntegration(string $guildid, array $options) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['integrations']['create'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['integrations']['create'], $guildid);
         return $this->api->makeRequest('POST', $url, array('data' => $options));
     }
     
     function modifyGuildIntegration(string $guildid, string $integrationid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['integrations']['modify'], $guildid, $integrationid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['integrations']['modify'], $guildid, $integrationid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function deleteGuildIntegration(string $guildid, string $integrationid, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['integrations']['delete'], $guildid, $integrationid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['integrations']['delete'], $guildid, $integrationid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
     }
     
     function syncGuildIntegration(string $guildid, string $integrationid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['integrations']['sync'], $guildid, $integrationid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['integrations']['sync'], $guildid, $integrationid);
         return $this->api->makeRequest('POST', $url, array());
     }
     
     function getGuildEmbed(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['embed']['get'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['embed']['get'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
     
     function modifyGuildEmbed(string $guildid, array $options, string $reason = '') {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['embed']['modify'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['embed']['modify'], $guildid);
         return $this->api->makeRequest('PATCH', $url, array('auditLogReason' => $reason, 'data' => $options));
     }
     
     function getGuildAuditLog(string $guildid, array $query) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['audit-logs'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['audit-logs'], $guildid);
         return $this->api->makeRequest('GET', $url, array('querystring' => $query));
     }
     
     function getGuildVanityURL(string $guildid) {
-        $url = Constants::format(Constants::ENDPOINTS_GUILDS['vanity-url'], $guildid);
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['vanity-url'], $guildid);
         return $this->api->makeRequest('GET', $url, array());
     }
 }

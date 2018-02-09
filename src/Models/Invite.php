@@ -78,7 +78,7 @@ class Invite extends ClientBase {
                 return null;
             break;
             case 'url':
-                return \CharlotteDunois\Yasmin\Constants::HTTP['invite'].$this->code;
+                return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::HTTP['invite'].$this->code;
             break;
         }
         

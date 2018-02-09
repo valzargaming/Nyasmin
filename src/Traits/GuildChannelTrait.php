@@ -62,7 +62,7 @@ trait GuildChannelTrait {
     function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '') {
         $data = array(
             'name' => (!empty($name) ? ((string) $name) : $this->name),
-            'type' => \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$this->type]
+            'type' => \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$this->type]
         );
         
         if($withPermissions) {

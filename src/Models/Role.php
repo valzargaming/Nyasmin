@@ -30,6 +30,34 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.
  */
 class Role extends ClientBase {
+    /**
+     * The default discord role colors. Mapped by uppercase string to integer.
+     * @var array
+     * @source
+     */
+    const DISCORD_COLORS = array(
+        'AQUA' => 1752220,
+        'BLUE' => 3447003,
+        'GREEN' => 3066993,
+        'PURPLE' => 10181046,
+        'GOLD' => 15844367,
+        'ORANGE' => 15105570,
+        'RED' => 15158332,
+        'GREY' => 9807270,
+        'DARKER_GREY' => 8359053,
+        'NAVY' => 3426654,
+        'DARK_AQUA' => 1146986,
+        'DARK_GREEN' => 2067276,
+        'DARK_BLUE' => 2123412,
+        'DARK_GOLD' => 12745742,
+        'DARK_PURPLE' => 7419530,
+        'DARK_ORANGE' => 11027200,
+        'DARK_GREY' => 9936031,
+        'DARK_RED' => 10038562,
+        'LIGHT_GREY' => 12370112,
+        'DARK_NAVY' => 2899536
+    );
+    
     protected $guild;
     
     protected $id;
@@ -84,7 +112,7 @@ class Role extends ClientBase {
                 }
                 
                 $member = $this->guild->me;
-                if(!$member->permissions->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['MANAGE_ROLES'])) {
+                if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_ROLES'])) {
                     return false;
                 }
                 

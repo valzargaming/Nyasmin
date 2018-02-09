@@ -54,7 +54,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         });
         
         $this->client->wsmanager()->on('guildCreate', function () use (&$timer) {
-            if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\Constants::WS_STATUS_CONNECTED) {
+            if($this->client->getWSstatus() === \CharlotteDunois\Yasmin\WebSocket\WSManager::WS_STATUS_CONNECTED) {
                 return;
             }
             

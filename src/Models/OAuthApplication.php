@@ -69,7 +69,7 @@ class OAuthApplication extends ClientBase {
      */
     function getIconURL(string $format = 'png', ?int $size = null) {
         if($this->icon !== null) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['appicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;

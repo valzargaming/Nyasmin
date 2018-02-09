@@ -15,6 +15,43 @@ namespace CharlotteDunois\Yasmin\HTTP;
  */
 final class APIEndpoints {
     /**
+     * CDN constants.
+     * @var array
+     * @internal
+     */
+    const CDN = array(
+        'url' => 'https://cdn.discordapp.com/',
+        'emojis' => 'emojis/%s.%s',
+        'icons' => 'icons/%s/%s.%s',
+        'splashes' => 'splashes/%s/%s.%s',
+        'defaultavatars' => 'embed/avatars/%s.png',
+        'avatars' => 'avatars/%s/%s.%s',
+        'appicons' => 'app-icons/%s/%s.png',
+        'appassets' => 'app-assets/%s/%s.png',
+        'channelicons' => 'channel-icons/%s/%s.png'
+    );
+    
+    /**
+     * HTTP constants.
+     * @var array
+     * @internal
+     */
+    const HTTP = array(
+        'url' => 'https://discordapp.com/api/',
+        'version' => 7,
+        'invite' => 'https://discord.gg/'
+    );
+    
+    /**
+     * Endpoints General.
+     * @var array
+     * @internal
+     */
+    const ENDPOINTS = array(
+        'currentOAuthApplication' => 'oauth2/applications/@me'
+    );
+    
+    /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;
@@ -72,7 +109,18 @@ final class APIEndpoints {
     }
     
     function getCurrentApplication() {
-        $url = \CharlotteDunois\Yasmin\Constants::ENDPOINTS_GENERAL['currentOAuthApplication'];
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::ENDPOINTS['currentOAuthApplication'];
         return $this->api->makeRequest('GET', $url, array());
+    }
+    
+    /**
+     * Formats Endpoints strings.
+     * @param string  $endpoint
+     * @param string  ...$args
+     * @return string
+     * @internal
+     */
+    static function format(string $endpoint, ...$args) {
+        return \sprintf($endpoint, ...$args);
     }
 }

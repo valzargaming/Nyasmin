@@ -81,7 +81,7 @@ class Emoji extends ClientBase {
             break;
             case 'url':
                 if($this->id !== null) {
-                    return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['emojis'], $this->id, ($this->animated ? 'gif' : 'png'));
+                    return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['emojis'], $this->id, ($this->animated ? 'gif' : 'png'));
                 }
                 
                 return null;

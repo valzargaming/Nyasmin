@@ -37,7 +37,7 @@ class PartialChannel extends ClientBase
         
         $this->id = $channel['id'];
         $this->name = $channel['name'];
-        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
+        $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }

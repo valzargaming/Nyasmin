@@ -26,15 +26,15 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\GuildMemberStorage              $members                      Holds a guild's cached members, mapped by their ID.
  * @property \CharlotteDunois\Yasmin\Models\RoleStorage                     $roles                        Holds a guild's roles, mapped by their ID.
  * @property \CharlotteDunois\Yasmin\Models\PresenceStorage                 $presences                    Holds a guild's presences of members, mapped by user ID.
- * @property string                                                         $defaultMessageNotifications  The type of message that should notify you. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS})
- * @property string                                                         $explicitContentFilter        The explicit content filter level of the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER})
+ * @property string                                                         $defaultMessageNotifications  The type of message that should notify you. ({@see Guild::DEFAULT_MESSAGE_NOTIFICATIONS})
+ * @property string                                                         $explicitContentFilter        The explicit content filter level of the guild. ({@see Guild::EXPLICIT_CONTENT_FILTER})
  * @property string                                                         $region                       The region the guild is located in.
- * @property string                                                         $verificationLevel            The verification level of the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL})
+ * @property string                                                         $verificationLevel            The verification level of the guild. ({@see Guild::VERIFICATION_LEVEL})
  * @property string|null                                                    $systemChannelID              The ID of the system channel, or null.
  * @property string|null                                                    $afkChannelID                 The ID of the afk channel, or null.
  * @property int|null                                                       $afkTimeout                   The time in seconds before an user is counted as "away from keyboard".
  * @property string[]                                                       $features                     An array of guild features.
- * @property string                                                         $mfaLevel                     The required MFA level for the guild. ({@see \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL})
+ * @property string                                                         $mfaLevel                     The required MFA level for the guild. ({@see Guild::MFA_LEVEL})
  * @property string|null                                                    $applicationID                Application ID of the guild creator, if it is bot-created.
  * @property bool                                                           $embedEnabled                 Whether the guild is embeddable or not (e.g. widget).
  * @property string|null                                                    $embedChannelID               The ID of the embed channel, or null.
@@ -53,6 +53,50 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $widgetChannel                The guild's widget channel, or null.
  */
 class Guild extends ClientBase {
+    /**
+     * Guild default message notifications.
+     * @var array
+     * @source
+     */
+    const DEFAULT_MESSAGE_NOTIFICATIONS = array(
+        0 => 'EVERYTHING',
+        1 => 'ONLY_MENTIONS'
+    );
+    
+    /**
+     * Guild explicit content filter.
+     * @var array
+     * @source
+     */
+    const EXPLICIT_CONTENT_FILTER = array(
+        0 => 'DISABLED',
+        1 => 'MEMBERS_WITHOUT_ROLES',
+        2 => 'ALL_MEMBERS'
+    );
+    
+    /**
+     * Guild MFA level.
+     * @var array
+     * @source
+     */
+    const MFA_LEVEL = array(
+        0 => 'NONE',
+        1 => 'ELEVATED'
+    );
+    
+    /**
+     * Guild verification level.
+     * @var array
+     * @source
+     */
+    const VERIFICATION_LEVEL = array(
+        0 => 'NONE',
+        1 => 'LOW',
+        2 => 'MEDIUM',
+        3 => 'HIGH',
+        4 => 'VERY_HIGH'
+    );
+    
     protected $channels;
     protected $emojis;
     protected $members;
@@ -283,7 +327,7 @@ class Guild extends ClientBase {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
             $data = array(
                 'name' => $options['name'],
-                'type' => (\CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[($options['type'] ?? 'text')] ?? 0)
+                'type' => (\CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[($options['type'] ?? 'text')] ?? 0)
             );
             
             if(isset($options['bitrate'])) {
@@ -623,7 +667,7 @@ class Guild extends ClientBase {
             $this->client->on('guildMembersChunk', $listener);
             
             $this->client->wsmanager()->send(array(
-                'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['REQUEST_GUILD_MEMBERS'],
+                'op' => \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['REQUEST_GUILD_MEMBERS'],
                 'd' => array(
                     'guild_id' => $this->id,
                     'query' => $query ?? '',
@@ -688,7 +732,7 @@ class Guild extends ClientBase {
      */
     function getIconURL(string $format = 'png', ?int $size = null) {
         if($this->icon !== null) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
@@ -702,7 +746,7 @@ class Guild extends ClientBase {
      */
     function getSplashURL(string $format = 'png', ?int $size = null) {
         if($this->splash !== null) {
-            return \CharlotteDunois\Yasmin\Constants::CDN['url'].\CharlotteDunois\Yasmin\Constants::format(\CharlotteDunois\Yasmin\Constants::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
@@ -963,16 +1007,16 @@ class Guild extends ClientBase {
         $this->large = (bool) ($guild['large'] ?? $this->large);
         $this->memberCount = $guild['member_count']  ?? $this->memberCount;
         
-        $this->defaultMessageNotifications = \CharlotteDunois\Yasmin\Constants::GUILD_DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']];
-        $this->explicitContentFilter = \CharlotteDunois\Yasmin\Constants::GUILD_EXPLICIT_CONTENT_FILTER[$guild['explicit_content_filter']];
+        $this->defaultMessageNotifications = self::DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']] ?? $this->defaultMessageNotifications;
+        $this->explicitContentFilter = self::EXPLICIT_CONTENT_FILTER[$guild['explicit_content_filter']] ?? $this->explicitContentFilter;
         $this->region = $guild['region'];
-        $this->verificationLevel = \CharlotteDunois\Yasmin\Constants::GUILD_VERIFICATION_LEVEL[$guild['verification_level']];
+        $this->verificationLevel = self::VERIFICATION_LEVEL[$guild['verification_level']] ?? $this->verificationLevel;
         $this->systemChannelID = $guild['system_channel_id'];
         
         $this->afkChannelID = $guild['afk_channel_id'];
         $this->afkTimeout = $guild['afk_timeout'];
         $this->features = $guild['features'];
-        $this->mfaLevel = \CharlotteDunois\Yasmin\Constants::GUILD_MFA_LEVEL[$guild['mfa_level']];
+        $this->mfaLevel = self::MFA_LEVEL[$guild['mfa_level']] ?? $this->mfaLevel;
         $this->applicationID = $guild['application_id'];
         
         $this->embedEnabled = (bool) ($guild['embed_enabled'] ?? $this->embedEnabled);

@@ -147,7 +147,7 @@ class GuildAuditLogEntry extends ClientBase {
         } elseif($targetType === self::TARGET_TYPES['WEBHOOK']) {
             $this->target = $this->log->webhooks->get($entry['target_id']);
         } elseif($targetType === self::TARGET_TYPES['INVITE']) {
-            if($this->log->guild->me->permissions->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['MANAGE_GUILD'])) {
+            if($this->log->guild->me->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_GUILD'])) {
                 $change = null;
                 
                 foreach($this->changes as $change) {

@@ -28,6 +28,12 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     use \CharlotteDunois\Events\EventEmitterTrait;
     
     /**
+     * The version of Yasmin.
+     * @var string
+     */
+    const VERSION = '0.2.3';
+    
+    /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>
      * @internal
@@ -320,7 +326,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             $gateway->then(function ($url) use ($resolve, $reject) {
                 $this->gateway = $url['url'];
                 
-                $wsquery = \CharlotteDunois\Yasmin\Constants::WS;
+                $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
                 $encoding = $this->getOption('ws.encoding');
                 
                 if(!empty($encoding) && \is_string($encoding)) {
@@ -406,7 +412,6 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \React\Promise\Promise
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Models\Guild
-     * @see \CharlotteDunois\Yasmin\Constants
      */
     function createGuild(array $options) {
         if(empty($options['name'])) {
@@ -466,7 +471,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 foreach($options['channels'] as $channel) {
                     $cdata = array(
                         'name' => ((string) $channel['name']),
-                        'type' => (\CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[($channel['type'] ?? 'text')] ?? 0),
+                        'type' => (\CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[($channel['type'] ?? 'text')] ?? 0),
                     );
                     
                     if(isset($channel['bitrate'])) {

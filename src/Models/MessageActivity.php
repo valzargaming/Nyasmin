@@ -12,14 +12,24 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message activity.
  *
- * @property int                                           $type      The message activity type.
+ * @property int                                           $type      The message activity type. ({@see self::TYPES})
  * @property \CharlotteDunois\Yasmin\Models\User           $user      The user this message activity is for.
  *
  * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity points to.
- *
- * @see \CharlotteDunois\Yasmin\Constants::MESSAGE_ACTIVITY_TYPES
  */
 class MessageActivity extends ClientBase {
+    /**
+     * The Message Activity types.
+     * @var array
+     * @source
+     */
+    const TYPES = array(
+        'JOIN' => 1,
+        'SPECTATE' => 2,
+        'LISTEN' => 3,
+        'JOIN_REQUEST' => 5
+    );
+    
     protected $type;
     protected $user;
     

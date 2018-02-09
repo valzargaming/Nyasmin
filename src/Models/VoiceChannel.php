@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild's voice channel.
  *
  * @property  string                                                                                   $id                     The ID of the channel.
- * @property  string                                                                                   $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES})
+ * @property  string                                                                                   $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
  * @property  int                                                                                      $createdTimestamp       When this channel was created.
  * @property  string                                                                                   $name                   The name of the channel.
  * @property  int                                                                                      $bitrate                The bitrate of the channel.
@@ -57,7 +57,7 @@ class VoiceChannel extends ClientBase
         $this->guild = $guild;
         
         $this->id = $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Constants::CHANNEL_TYPES[$channel['type']];
+        $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->members = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
         
@@ -101,7 +101,7 @@ class VoiceChannel extends ClientBase
                 return null;
             break;
             case 'speakable':
-                return $this->permissionsFor($this->guild->me)->has(\CharlotteDunois\Yasmin\Constants::PERMISSIONS['SPEAK']);
+                return $this->permissionsFor($this->guild->me)->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['SPEAK']);
             break;
         }
         

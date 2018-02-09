@@ -54,7 +54,7 @@ class APIRequest {
      */
     function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $method, string $endpoint, array $options) {
         $this->api = $api;
-        $this->url = \CharlotteDunois\Yasmin\Constants::HTTP['url'].'v'.\CharlotteDunois\Yasmin\Constants::HTTP['version'].'/';
+        $this->url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::HTTP['url'].'v'.\CharlotteDunois\Yasmin\HTTP\APIEndpoints::HTTP['version'].'/';
         
         $this->method = $method;
         $this->endpoint = \ltrim($endpoint, '/');
@@ -90,7 +90,7 @@ class APIRequest {
             'protocols' => array('https'),
             'expect' => false,
             'headers' => array(
-                'User-Agent' => 'DiscordBot (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Constants::VERSION.')'
+                'User-Agent' => 'DiscordBot (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Client::VERSION.')'
             )
         );
         

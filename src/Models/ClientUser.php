@@ -218,7 +218,7 @@ class ClientUser extends User {
         }
         
         $packet = array(
-            'op' => \CharlotteDunois\Yasmin\Constants::OPCODES['STATUS_UPDATE'],
+            'op' => \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['STATUS_UPDATE'],
             'd' => array(
                 'afk' => (\array_key_exists('afk', $presence) ? ((bool) $presence['afk']) : $this->clientPresence['afk']),
                 'since' => (\array_key_exists('since', $presence) ? $presence['since'] : $this->clientPresence['since']),
