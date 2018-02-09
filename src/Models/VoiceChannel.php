@@ -131,6 +131,13 @@ class VoiceChannel extends ClientBase
     }
     
     /**
+     * Automatically converts to the name.
+     */
+    function __toString() {
+        return $this->name;
+    }
+    
+    /**
      * @internal
      */
     function _patch(array $channel) {
