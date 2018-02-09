@@ -208,4 +208,9 @@ class Guild {
         $url = Constants::format(Constants::ENDPOINTS_GUILDS['audit-logs'], $guildid);
         return $this->api->makeRequest('GET', $url, array('querystring' => $query));
     }
+    
+    function getGuildVanityURL(string $guildid) {
+        $url = Constants::format(Constants::ENDPOINTS_GUILDS['vanity-url'], $guildid);
+        return $this->api->makeRequest('GET', $url, array());
+    }
 }

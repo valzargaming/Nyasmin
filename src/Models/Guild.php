@@ -48,6 +48,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\GuildMember                     $me                           The guild member of the client user.
  * @property string                                                         $nameAcronym                  The acronym that shows up in place of a guild icon.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $systemChannel                The guild's system channel, or null.
+ * @property bool                                                           $vanityURL                    Whether the guild has a vanity invite url.
  * @property bool                                                           $verified                     Whether the guild is verified.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $widgetChannel                The guild's widget channel, or null.
  */
@@ -149,6 +150,9 @@ class Guild extends ClientBase {
             break;
             case 'systemChannel':
                 return $this->channels->get($this->systemChannelID);
+            break;
+            case 'vanityURL':
+                return \in_array('VANITY_URL', $this->features);
             break;
             case 'verified':
                 return \in_array('VERIFIED', $this->features);
@@ -702,6 +706,22 @@ class Guild extends ClientBase {
         }
         
         return null;
+    }
+    
+    /**
+     * Returns the vanity invite. The guild must be partnered, i.e. have 'VANITY_URL' in guild features. Resolves with an instance of Invite.
+     * @return \React\Promise\Promise
+     * @see \CharlotteDunois\Yasmin\Models\Invite
+     */
+    function getVanityInvite() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->guild->getGuildVanityURL($this->id)->then(function ($data) {
+                return $this->client->apimanager()->endpoints->invite->getInvite($data['code']);
+            })->then(function ($data) use ($resolve) {
+                $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
+                $resolve($invite);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+        }));
     }
     
     /**

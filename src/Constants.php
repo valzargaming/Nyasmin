@@ -420,7 +420,8 @@ final class Constants {
             'get' => 'guilds/%s/embed',
             'modify' => 'guilds/%s/embed'
         ),
-        'audit-logs' => 'guilds/%s/audit-logs'
+        'audit-logs' => 'guilds/%s/audit-logs',
+        'vanity-url' => 'guilds/%s/vanity-url'
     );
     
     /**
