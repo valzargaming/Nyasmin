@@ -123,7 +123,7 @@ class DataHelpers {
             
             $parts = \explode($options['char'], $text);
             foreach($parts as $part) {
-                if(empty($messages[$i])) {
+                if(!isset($messages[$i])) {
                     $messages[$i] = '';
                 }
                 
@@ -159,7 +159,7 @@ class DataHelpers {
             }
             
             if(\is_string($file)) {
-                if(\filter_var($file, FILTER_VALIDATE_URL)) {
+                if(\filter_var($file, \FILTER_VALIDATE_URL)) {
                     $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file)->then(function ($data) use ($file) {
                         return array('name' => \basename($file), 'data' => $data);
                     });
@@ -186,7 +186,7 @@ class DataHelpers {
                 }
             }
             
-            if(isset($file['path']) && filter_var($file['path'], FILTER_VALIDATE_URL)) {
+            if(isset($file['path']) && filter_var($file['path'], \FILTER_VALIDATE_URL)) {
                 $promises[] = \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file['path'])->then(function ($data) use ($file) {
                     $file['data'] = $data;
                     return $file;

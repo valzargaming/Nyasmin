@@ -146,7 +146,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * <pre>
      * array(
      *   'disableClones' => bool|string[], (disables cloning of class instances (for perfomance), affects update events - bool: true - disables all cloning)
-     *   'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext)
+     *   'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext, defaults to true)
      *   'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched)
      *   'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration)
      *   'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime)
