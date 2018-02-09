@@ -24,7 +24,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Returns encoding name (for gateway query string).
      * @return string
      */
-    function getName() {
+    function getName(): string {
         return 'etf';
     }
     
@@ -32,7 +32,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Checks if the system supports it.
      * @throws \Exception
      */
-    static function supported() {
+    static function supported(): void {
         if(!\class_exists('\\CharlotteDunois\\Erlpack\\Erlpack')) {
             throw new \Exception('Unable to use ETF as WS encoding due to missing dependencies');
         }
@@ -64,7 +64,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @return string
      * @throws \CharlotteDunois\Erlpack\ErlpackException
      */
-    function encode($data) {
+    function encode($data): string {
         $msg = $this->erlpack->encode($data);
         return $msg;
     }
@@ -103,6 +103,6 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
             }
         }
         
-        return $arr;
+        return (\is_object($data) ? ((object) $arr) : $arr);
     }
 }

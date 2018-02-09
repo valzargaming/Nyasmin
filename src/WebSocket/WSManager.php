@@ -566,7 +566,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     '$browser' => 'Yasmin '.\CharlotteDunois\Yasmin\Constants::VERSION,
                     '$device' => 'Yasmin '.\CharlotteDunois\Yasmin\Constants::VERSION
                 ),
-                'compress' => ($this->compressContext ? $this->compressContext->payloadCompression() : false),
+                'compress' => ($this->compressContext ? $this->compressContext->isPayloadCompression() : false),
                 'large_threshold' => ((int) $this->client->getOption('ws.largeThreshold', 250)),
                 'shard' => array(
                     ((int) $this->client->getOption('shardID', 0)),

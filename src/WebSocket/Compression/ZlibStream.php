@@ -20,15 +20,23 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * Returns compression name (for gateway query string).
      * @return string
      */
-    function getName() {
+    function getName(): string {
         return 'zlib-stream';
+    }
+    
+    /**
+     * Returns a boolean for the OP code 2 IDENTIFY packet 'compress' parameter. The parameter is for payload compression.
+     * @return bool
+     */
+    function isPayloadCompression(): bool {
+        return false;
     }
     
     /**
      * Initializes the context.
      */
-    function init() {
-        $this->context = \inflate_init(ZLIB_ENCODING_DEFLATE);
+    function init(): void {
+        $this->context = \inflate_init(\ZLIB_ENCODING_DEFLATE);
         if(!$this->context) {
             throw new \Exception('Unable to initialize Zlib Inflate');
         }
@@ -37,7 +45,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
     /**
      * Destroys the context.
      */
-    function destroy() {
+    function destroy(): void {
         $this->context = null;
     }
     
@@ -45,18 +53,10 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * Checks if the system supports it.
      * @throws \Exception
      */
-    static function supported() {
+    static function supported(): void {
         if(!\function_exists('\inflate_init')) {
             throw new \RuntimeException('Zlib is not supported by this PHP installation');
         }
-    }
-    
-    /**
-     * Returns a boolean for the OP code 2 IDENTIFY packet 'compress' parameter. The parameter is for payload compression.
-     * @return bool
-     */
-    function payloadCompression() {
-        return false;
     }
     
     /**
@@ -65,7 +65,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * @return string
      * @throws \BadMethodCallException|\InvalidArgumentException
      */
-    function decompress(string $data) {
+    function decompress(string $data): string {
         if(!$this->context) {
             throw new \BadMethodCallException('No inflate context initialized');
         }

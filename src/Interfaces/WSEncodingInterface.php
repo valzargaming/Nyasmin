@@ -17,13 +17,13 @@ interface WSEncodingInterface {
      * Returns encoding name (for gateway query string).
      * @return string
      */
-    function getName();
+    function getName(): string;
     
     /**
      * Checks if the system supports it.
      * @throws \Exception
      */
-    static function supported();
+    static function supported(): void;
     
     /**
      * Decodes data.
@@ -39,7 +39,7 @@ interface WSEncodingInterface {
      * @return string
      * @throws \Exception|\BadMethodCallException|\InvalidArgumentException
      */
-    function encode($data);
+    function encode($data): string;
     
     /**
      * Prepares the data to be sent.

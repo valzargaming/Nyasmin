@@ -17,29 +17,29 @@ interface WSCompressionInterface {
      * Returns compression name (for gateway query string).
      * @return string
      */
-    function getName();
-    
-    /**
-     * Initializes the context.
-     */
-    function init();
-    
-    /**
-     * Destroys the context.
-     */
-    function destroy();
-    
-    /**
-     * Checks if the system supports it.
-     * @throws \Exception
-     */
-    static function supported();
+    function getName(): string;
     
     /**
      * Returns a boolean for the OP code 2 IDENTIFY packet 'compress' parameter. The parameter is for payload compression.
      * @return bool
      */
-    function payloadCompression();
+    function isPayloadCompression(): bool;
+    
+    /**
+     * Initializes the context.
+     */
+    function init(): void;
+    
+    /**
+     * Destroys the context.
+     */
+    function destroy(): void;
+    
+    /**
+     * Checks if the system supports it.
+     * @throws \Exception
+     */
+    static function supported(): void;
     
     /**
      * Decompresses data.
@@ -47,5 +47,5 @@ interface WSCompressionInterface {
      * @return string
      * @throws \BadMethodCallException|\InvalidArgumentException
      */
-    function decompress(string $data);
+    function decompress(string $data): string;
 }

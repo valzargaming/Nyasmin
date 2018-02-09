@@ -18,7 +18,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Returns encoding name (for gateway query string).
      * @return string
      */
-    function getName() {
+    function getName(): string {
         return 'json';
     }
     
@@ -26,7 +26,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Checks if the system supports it.
      * @throws \Exception
      */
-    static function supported() {
+    static function supported(): void {
         // Nothing to check
     }
     
@@ -50,7 +50,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @param mixed  $data
      * @return string
      */
-    function encode($data) {
+    function encode($data): string {
         return \json_encode($data);
     }
     

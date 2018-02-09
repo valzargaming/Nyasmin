@@ -243,7 +243,16 @@ trait GuildChannelTrait {
     }
     
     /**
-     * Returns the permissions overwrites for the given member.
+     * Returns the permissions overwrites for the given member as an associative array.
+     *
+     * <pre>
+     * array(
+     *     'everyone' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite|null,
+     *     'member' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite|null,
+     *     'roles' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite[]
+     * )
+     * </pre>
+     *
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return array
      * @throws \InvalidArgumentException
