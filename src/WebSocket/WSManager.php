@@ -638,7 +638,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Sends an IDENTIFY or RESUME payload, depending on ws session ID.
-     * @return \React\Promise\Promise
+     * @return void
      */
     function sendIdentify() {
         $this->authenticated = false;
@@ -683,7 +683,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $packet['d']['seq'] = ($this->previous && $this->wshandler->previousSequence !== null ? $this->wshandler->previousSequence : $this->wshandler->sequence);
         }
         
-        return $this->_send($packet);
+        $this->_send($packet);
     }
     
     /**
