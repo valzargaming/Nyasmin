@@ -597,7 +597,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                  break;
              }
              
-             $this->_send($element['packet'])->then($element['resolve'], $element['reject'])->done(null, array($this->client, 'handlePromiseRejection'));
+             $this->_send($element['packet']);
+             $element['resolve']();
          }
          
          $this->running = false;
@@ -739,7 +740,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Direct ws send method. DO NOT USE.
-     * @return \React\Promise\Promise
+     * @return void
      */
     function _send(array $packet) {
         if(!$this->ws) {
@@ -751,6 +752,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $msg = $this->encoding->prepareMessage($data);
         
         $this->client->emit('debug', 'Sending WS packet with OP code '.$packet['op']);
-        return $this->ws->send($msg);
+        $this->ws->send($msg);
     }
 }
