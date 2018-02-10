@@ -68,7 +68,7 @@ class Message extends ClientBase {
      * @var string
      * @source
      */
-    static public $replySeparator = ' ';
+    public static $replySeparator = ' ';
     
     protected $id;
     protected $author;
