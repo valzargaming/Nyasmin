@@ -78,48 +78,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     );
     
     /**
-     * WS connection status: Disconnected.
-     * @var int
-     */
-    const WS_STATUS_DISCONNECTED = 0;
-    
-    /**
-     * WS connection status: Connecting.
-     * @var int
-     */
-    const WS_STATUS_CONNECTING = 1;
-    
-    /**
-     * WS connection status: Reconnecting.
-     * @var int
-     */
-    const WS_STATUS_RECONNECTING = 2;
-    
-    /**
-     * WS connection status: Connected (not ready yet - nearly).
-     * @var int
-     */
-    const WS_STATUS_NEARLY = 3;
-    
-    /**
-     * WS connection status: Connected (ready).
-     * @var int
-     */
-    const WS_STATUS_CONNECTED = 4;
-    
-    /**
-     * WS connection status: Idling (disconnected and no reconnect planned).
-     * @var int
-     */
-    const WS_STATUS_IDLE = 5;
-    
-    /**
-     * WS default compression.
-     * @var string
-     */
-    const WS_DEFAULT_COMPRESSION = 'zlib-stream';
-    
-    /**
      * @var \CharlotteDunois\Yasmin\Client
      */
     protected $client;
@@ -230,7 +188,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * The WS connection status
      * @var int
      */
-    protected $wsStatus = self::WS_STATUS_DISCONNECTED;
+    protected $wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
     
     /**
      * The Discord Session ID.
@@ -246,7 +204,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->client = $client;
         $this->wshandler = new \CharlotteDunois\Yasmin\WebSocket\WSHandler($this);
         
-        $compression = $this->client->getOption('ws.compression', self::WS_DEFAULT_COMPRESSION);
+        $compression = $this->client->getOption('ws.compression', \CharlotteDunois\Yasmin\Client::WS_DEFAULT_COMPRESSION);
         
         $name = \str_replace('-', '', \ucwords($compression, '-'));
         if(strpos($name, '\\') === false) {
@@ -267,7 +225,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->compressContext = new $name();
         
         $this->on('ready', function () {
-            $this->wsStatus = self::WS_STATUS_CONNECTED;
+            $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
             $this->client->emit('ready');
         });
     }
@@ -376,8 +334,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         
         $connector = new \Ratchet\Client\Connector($this->client->getLoop());
         
-        if($this->wsStatus < self::WS_STATUS_CONNECTING || $this->wsStatus > self::WS_STATUS_RECONNECTING) {
-            $this->wsStatus = self::WS_STATUS_CONNECTING;
+        if($this->wsStatus < \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING || $this->wsStatus > \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING) {
+            $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING;
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($connector, $gateway) {
@@ -389,7 +347,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->client->emit('debug', 'Initialized compress context');
                 }
                 
-                $this->wsStatus = self::WS_STATUS_NEARLY;
+                $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY;
                 
                 $this->emit('open');
                 $this->client->emit('debug', 'Connected to WS');
@@ -458,8 +416,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     
                     $this->ws = null;
                     
-                    if($this->wsStatus <= self::WS_STATUS_CONNECTED) {
-                        $this->wsStatus = self::WS_STATUS_DISCONNECTED;
+                    if($this->wsStatus <= \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
+                        $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
                     }
                     
                     $this->emit('close', $code, $reason);
@@ -474,7 +432,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                         $this->queue = array();
                         
                         $this->wsSessionID = null;
-                        $this->wsStatus = self::WS_STATUS_IDLE;
+                        $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_IDLE;
                         
                         return;
                     }
@@ -489,7 +447,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                         $this->client->emit('debug', 'Decoding payload error - Encoding ETF erroneous, falling back to default');
                     }
                     
-                    $this->wsStatus = self::WS_STATUS_RECONNECTING;
+                    $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
                     $this->renewConnection(false);
                 });
             }, function($error) use ($resolve, $reject) {
@@ -561,7 +519,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function send(array $packet) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
-            if($this->wsStatus !== self::WS_STATUS_NEARLY && $this->wsStatus !== self::WS_STATUS_CONNECTED) {
+            if($this->wsStatus !== \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY && $this->wsStatus !== \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
                 return $reject(new \RuntimeException('Unable to send WS message before a WS connection is established'));
             }
             

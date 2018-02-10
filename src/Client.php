@@ -34,6 +34,48 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     const VERSION = '0.2.3';
     
     /**
+     * WS connection status: Disconnected.
+     * @var int
+     */
+    const WS_STATUS_DISCONNECTED = 0;
+    
+    /**
+     * WS connection status: Connecting.
+     * @var int
+     */
+    const WS_STATUS_CONNECTING = 1;
+    
+    /**
+     * WS connection status: Reconnecting.
+     * @var int
+     */
+    const WS_STATUS_RECONNECTING = 2;
+    
+    /**
+     * WS connection status: Connected (not ready yet - nearly).
+     * @var int
+     */
+    const WS_STATUS_NEARLY = 3;
+    
+    /**
+     * WS connection status: Connected (ready).
+     * @var int
+     */
+    const WS_STATUS_CONNECTED = 4;
+    
+    /**
+     * WS connection status: Idling (disconnected and no reconnect planned).
+     * @var int
+     */
+    const WS_STATUS_IDLE = 5;
+    
+    /**
+     * WS default compression.
+     * @var string
+     */
+    const WS_DEFAULT_COMPRESSION = 'zlib-stream';
+    
+    /**
      * It holds all cached channels, mapped by ID.
      * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>
      * @internal
