@@ -19,9 +19,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                             $applicationID  The application ID associated with the activity, or null.
  * @property \CharlotteDunois\Yasmin\Models\RichPresenceAssets|null  $assets         Assets for rich presence, or null.
  * @property string|null                                             $details        Details about the activity, or null.
- * @property array|null                                              $party          Party of the activity, an array of ('id', 'size' => [ size, max ]), or null.
+ * @property array|null                                              $party          Party of the activity, an array in the format <code>[ 'id' => string, 'size' => [ size (int), max (int|null) ] ]</code>, or null.
  * @property string|null                                             $state          State of the activity, or null.
- * @property array|null                                              $timestamps     Timestamps for the activity, an array of ('start' => \DateTime|null, 'end' => \DateTime|null), or null.
+ * @property array|null                                              $timestamps     Timestamps for the activity, an array in the format <code>[ 'start' => \DateTime|null, 'end' => \DateTime|null ]</code>, or null.
  * @property int|null                                                $flags          The activity flags (as bitfield), like if an activity is a spectate activity.
  * @property string|null                                             $sessionID      The ID that links to the activity session.
  * @property string|null                                             $syncID         The sync ID. For spotify, this is the spotify track ID.
@@ -44,7 +44,7 @@ class Activity extends ClientBase {
     );
     
     /**
-     * Activity types.
+     * The Activity types.
      * @var array
      * @source
      */
@@ -84,7 +84,14 @@ class Activity extends ClientBase {
         
         $this->applicationID = $activity['application_id'] ?? null;
         $this->details = $activity['details'] ?? null;
-        $this->party = $activity['party'] ?? null;
+        $this->party = (!empty($activity['party']) ?
+            array(
+                ((string) ($activity['party']['id'] ?? '')),
+                array(
+                    ((int) $activity['party']['size'][0]),
+                    (isset($activity['party']['size'][1]) ? ((int) $activity['party']['size'][1]) : null)
+                )
+            ) : null);
         $this->state = $activity['state'] ?? null;
         
         $this->assets = (!empty($activity['assets']) ? (new \CharlotteDunois\Yasmin\Models\RichPresenceAssets($this->client, $this, $activity['assets'])) : null);

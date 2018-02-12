@@ -817,7 +817,7 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Batch-updates the guild's channels positions. Channels is an array of channel ID (string)|GuildChannelInterface => position (int) pairs. Resolves with $this.
+     * Batch-updates the guild's channels positions. Channels is an array of <code>channel ID (string)|GuildChannelInterface => position (int)</code> pairs. Resolves with $this.
      * @param array   $channels
      * @param string  $reason
      * @return \React\Promise\Promise
@@ -841,7 +841,7 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Batch-updates the guild's roles positions. Roles is an array of role ID (string)|Role => position (int) pairs. Resolves with $this.
+     * Batch-updates the guild's roles positions. Roles is an array of <code>role ID (string)|Role => position (int)</code> pairs. Resolves with $this.
      * @param array   $roles
      * @param string  $reason
      * @return \React\Promise\Promise
