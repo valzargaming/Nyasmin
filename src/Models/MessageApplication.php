@@ -60,7 +60,7 @@ class MessageApplication extends ClientBase {
      */
     function getCoverImageURL(int $size = null) {
         if($this->coverImage !== null) {
-            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appassets'], $this->id, $this->coverImage).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appicons'], $this->id, $this->coverImage).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;

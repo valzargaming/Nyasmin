@@ -12,10 +12,11 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message activity.
  *
+ * @property string|null                                   $partyID   The party ID associated with this message activity, or null.
  * @property int                                           $type      The message activity type. ({@see self::TYPES})
  * @property \CharlotteDunois\Yasmin\Models\User           $user      The user this message activity is for.
  *
- * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity points to.
+ * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity this message activity points to, or null.
  */
 class MessageActivity extends ClientBase {
     /**
@@ -30,6 +31,7 @@ class MessageActivity extends ClientBase {
         'JOIN_REQUEST' => 5
     );
     
+    protected $partyID;
     protected $type;
     protected $user;
     
@@ -39,6 +41,7 @@ class MessageActivity extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $activity) {
         parent::__construct($client);
         
+        $this->partyID = $activity['party_id'] ?? null;
         $this->type = $activity['type'];
         
         if(!empty($activity['party_id'])) {
