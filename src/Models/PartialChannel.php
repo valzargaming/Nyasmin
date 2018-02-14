@@ -61,4 +61,11 @@ class PartialChannel extends ClientBase
         
         return parent::__get($name);
     }
+    
+    /**
+     * Automatically converts to the channel name.
+     */
+    function __toString() {
+        return $this->name;
+    }
 }

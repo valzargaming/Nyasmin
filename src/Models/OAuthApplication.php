@@ -76,7 +76,7 @@ class OAuthApplication extends ClientBase {
     }
     
     /**
-     * Automatically converts the OAuth Application instance to the application name.
+     * Automatically converts to the application name.
      */
     function __toString() {
         return $this->name;

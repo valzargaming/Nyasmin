@@ -89,4 +89,11 @@ class PartialGuild extends ClientBase {
         
         return null;
     }
+    
+    /**
+     * Automatically converts to the guild name.
+     */
+    function __toString() {
+        return $this->name;
+    }
 }
