@@ -150,7 +150,7 @@ class APIManager {
                 $body = \CharlotteDunois\Yasmin\HTTP\APIRequest::decodeBody($response);
                 
                 if($status >= 300) {
-                    $error = new \Exception($response->getReasonPhrase());
+                    $error = new \RuntimeException($response->getReasonPhrase());
                     return $reject($error);
                 }
                 
@@ -163,7 +163,7 @@ class APIManager {
     
     /**
      * Adds an APIRequest to the queue.
-     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest
+     * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $apirequest
      * @return \React\Promise\Promise
      */
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
@@ -296,7 +296,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
      * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|bool
      */
-    final protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
+    protected function extractFromBucket(\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $item) {
         if($item->size() > 0) {
             if($item->limited() === false) {
                 $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
@@ -397,7 +397,7 @@ class APIManager {
      * @param \GuzzleHttp\Psr7\Response                          $response
      * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
      */
-    final function handleRatelimit(\GuzzleHttp\Psr7\Response $response, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
         \extract($this->extractRatelimit($response));
         
         $global = false;
