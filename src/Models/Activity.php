@@ -19,7 +19,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                             $applicationID  The application ID associated with the activity, or null.
  * @property \CharlotteDunois\Yasmin\Models\RichPresenceAssets|null  $assets         Assets for rich presence, or null.
  * @property string|null                                             $details        Details about the activity, or null.
- * @property array|null                                              $party          Party of the activity, an array in the format <code>[ 'id' => string, 'size' => [ size (int), max (int|null) ] ]</code>, or null.
+ * @property array|null                                              $party          Party of the activity, an array in the format <code>[ 'id' => string, 'size' => [ size (int), max (int|null) ]|null ]</code>, or null.
  * @property string|null                                             $state          State of the activity, or null.
  * @property array|null                                              $timestamps     Timestamps for the activity, an array in the format <code>[ 'start' => \DateTime|null, 'end' => \DateTime|null ]</code>, or null.
  * @property int|null                                                $flags          The activity flags (as bitfield), like if an activity is a spectate activity.
@@ -87,10 +87,11 @@ class Activity extends ClientBase {
         $this->party = (!empty($activity['party']) ?
             array(
                 ((string) ($activity['party']['id'] ?? '')),
-                array(
-                    ((int) $activity['party']['size'][0]),
-                    (isset($activity['party']['size'][1]) ? ((int) $activity['party']['size'][1]) : null)
-                )
+                (!empty($activity['party']['size']) ?
+                    array(
+                        ((int) $activity['party']['size'][0]),
+                        (isset($activity['party']['size'][1]) ? ((int) $activity['party']['size'][1]) : null)
+                    ) : null)
             ) : null);
         $this->state = $activity['state'] ?? null;
         
