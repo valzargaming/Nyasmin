@@ -253,11 +253,9 @@ class AuditLogEntry extends ClientBase {
     
     /**
      * Finds the target type from the entry action.
-     *
-     * One of <code>GUILD</code>, <code>CHANNEL</code>, <code>USER</code>, <code>ROLE</code>, <code>INVITE</code>, <code>WEBHOOK</code>, <code>EMOJI</code>, <code>MESSAGE</code> or <code>UNKNOWN</code>.
-     *
      * @param int $target
      * @return string
+     * @see AuditLogEntry::TARGET_TYPES
      */
     static function getTargetType(int $target) {
         if($target < 10) {
