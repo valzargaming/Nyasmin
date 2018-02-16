@@ -7,6 +7,8 @@ This library is **only** for PHP 7.1 (and later) and use in CLI. Only bot accoun
 # Before you start
 Before you start using this Library, you **need** to know how PHP works, you need to know the language and you need to know how Event Loops and Promises work. This is a fundamental requirement before you start. Without this knowledge, you will only suffer.
 
+See https://github.com/elazar/asynchronous-php for resources.
+
 # Getting Started
 Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/charlottedunois/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
 
