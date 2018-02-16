@@ -17,7 +17,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection  $users     Holds the found users in the audit log, mapped by their ID.
  * @property \CharlotteDunois\Yasmin\Utils\Collection  $webhooks  Holds the found webhooks in the audit log, mapped by their ID.
  */
-class GuildAuditLog extends ClientBase {
+class AuditLog extends ClientBase {
     protected $guild;
     
     protected $entries;
@@ -46,7 +46,7 @@ class GuildAuditLog extends ClientBase {
         }
         
         foreach($audit['audit_log_entries'] as $entry) {
-            $log = new \CharlotteDunois\Yasmin\Models\GuildAuditLogEntry($this->client, $this, $entry);
+            $log = new \CharlotteDunois\Yasmin\Models\AuditLogEntry($this->client, $this, $entry);
             $this->entries->set($log->id, $log);
         }
     }

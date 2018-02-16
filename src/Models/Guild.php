@@ -541,14 +541,14 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Fetch audit log for the guild. Resolves with an instance of GuildAuditLog.
+     * Fetch audit log for the guild. Resolves with an instance of AuditLog.
      *
      * Options are as following (all are optional):
      *
      * <pre>
      * array(
-     *   'before' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
-     *   'after' => string|\CharlotteDunois\Yasmin\Models\GuildAuditLogEntry,
+     *   'before' => string|\CharlotteDunois\Yasmin\Models\AuditLogEntry, (string = Audit Log Entry ID)
+     *   'after' => string|\CharlotteDunois\Yasmin\Models\AuditLogEntry, (string = Audit Log Entry ID)
      *   'limit' => int,
      *   'user' => string|\CharlotteDunois\Yasmin\Models\User,
      *   'type' => string|int
@@ -557,24 +557,16 @@ class Guild extends ClientBase {
      *
      * @param array  $options
      * @return \React\Promise\Promise
-     * @see \CharlotteDunois\Yasmin\Models\GuildAuditLog
+     * @see \CharlotteDunois\Yasmin\Models\AuditLog
      */
     function fetchAuditLog(array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
-            if(!empty($options['before'])) {
-                $options['before'] = ($options['before'] instanceof \CharlotteDunois\Yasmin\Models\GuildAuditLogEntry ? $options['before']->id : $options['before']);
-            }
-            
-            if(!empty($options['after'])) {
-                $options['after'] = ($options['after'] instanceof \CharlotteDunois\Yasmin\Models\GuildAuditLogEntry ? $options['after']->id : $options['after']);
-            }
-            
             if(!empty($options['user'])) {
                 $options['user'] = ($options['user'] instanceof \CharlotteDunois\Yasmin\Models\User ? $options['user']->id : $options['user']);
             }
             
             $this->client->apimanager()->endpoints->guild->getGuildAuditLog($this->id, $options)->then(function ($data) use ($resolve) {
-                $audit = new \CharlotteDunois\Yasmin\Models\GuildAuditLog($this->client, $this, $data);
+                $audit = new \CharlotteDunois\Yasmin\Models\AuditLog($this->client, $this, $data);
                 $resolve($audit);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
