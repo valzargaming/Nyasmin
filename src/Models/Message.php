@@ -102,7 +102,7 @@ class Message extends ClientBase {
         $this->author = (empty($message['webhook_id']) ? $this->client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($this->client, $message['author'], true));
         
         $this->author->lastMessageID = $this->id;
-        $this->createdTimestamp = (new \DateTime($message['timestamp']))->getTimestamp();
+        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
         foreach($message['attachments'] as $attachment) {
