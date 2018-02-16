@@ -24,7 +24,13 @@ class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
-            if($guild->available && ($data['unavailable'] ?? false)) {
+            foreach($guild->channels as $channel) {
+                if($channel->type === 'text') {
+                    $channel->stopTyping(true);
+                }
+            }
+            
+            if(!empty($data['unavailable'])) {
                 $guild->_patch(array('unavailable' => true));
                 $this->client->emit('guildUnavailable', $guild);
             } else {

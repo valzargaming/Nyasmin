@@ -29,37 +29,33 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
-            if($guild->available === false && ($data['unavailable'] ?? false) === false) {
+            if(empty($data['unavailable'])) {
                 $guild->_patch($data);
             }
-        } else {
-            $guild = $this->client->guilds->factory($data);
-        }
-        
-        if($guild->available === false) {
+            
             if($this->ready) {
                 $this->client->emit('guildUnavailable', $guild);
             } else {
                 $this->client->wsmanager()->emit('guildCreate');
             }
-            
-            return;
-        }
-        
-        if(((bool) $this->client->getOption('fetchAllMembers', false)) === true && $guild->members->count() < $guild->memberCount) {
-            $fetchAll = $guild->fetchMembers();
-        } elseif($guild->me === null) {
-            $fetchAll = $guild->fetchMember($this->client->user->id);
         } else {
-            $fetchAll = \React\Promise\resolve();
-        }
-        
-        $fetchAll->then(function () use ($guild) {
-            if($this->ready) {
-                $this->client->emit('guildCreate', $guild);
+            $guild = $this->client->guilds->factory($data);
+            
+            if(((bool) $this->client->getOption('fetchAllMembers', false)) === true && $guild->members->count() < $guild->memberCount) {
+                $fetchAll = $guild->fetchMembers();
+            } elseif($guild->me === null) {
+                $fetchAll = $guild->fetchMember($this->client->user->id);
             } else {
-                $this->client->wsmanager()->emit('guildCreate');
+                $fetchAll = \React\Promise\resolve();
             }
-        })->done(null, array($this->client, 'handlePromiseRejection'));
+            
+            $fetchAll->then(function () use ($guild) {
+                if($this->ready) {
+                    $this->client->emit('guildCreate', $guild);
+                } else {
+                    $this->client->wsmanager()->emit('guildCreate');
+                }
+            })->done(null, array($this->client, 'handlePromiseRejection'));
+        }
     }
 }
