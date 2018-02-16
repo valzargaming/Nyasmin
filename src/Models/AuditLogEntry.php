@@ -255,7 +255,7 @@ class AuditLogEntry extends ClientBase {
      * Finds the target type from the entry action.
      * @param int $target
      * @return string
-     * @see AuditLogEntry::TARGET_TYPES
+     * @see \CharlotteDunois\Yasmin\Models\AuditLogEntry::TARGET_TYPES
      */
     static function getTargetType(int $target) {
         if($target < 10) {
