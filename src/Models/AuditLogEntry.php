@@ -29,6 +29,7 @@ class AuditLogEntry extends ClientBase {
     /**
      * All available actions keyed under their names to their numeric values.
      * @var int[]
+     * @source
      */
     const ACTION_TYPES = array(
         'ALL' => null,
@@ -63,6 +64,7 @@ class AuditLogEntry extends ClientBase {
     /**
      * Key mirror of all available audit log targets.
      * @var string[]
+     * @source
      */
     const TARGET_TYPES = array(
         'ALL' => 'ALL',
@@ -252,7 +254,7 @@ class AuditLogEntry extends ClientBase {
     /**
      * Finds the target type from the entry action.
      *
-     * One of GUILD, CHANNEL, USER, ROLE, INVITE, WEBHOOK, EMOJI, MESSAGE or UNKNOWN.
+     * One of <code>GUILD</code>, <code>CHANNEL</code>, <code>USER</code>, <code>ROLE</code>, <code>INVITE</code>, <code>WEBHOOK</code>, <code>EMOJI</code>, <code>MESSAGE</code> or <code>UNKNOWN</code>.
      *
      * @param int $target
      * @return string
