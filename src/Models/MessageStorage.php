@@ -25,7 +25,7 @@ class MessageStorage extends Storage {
         
         $time = (int) $this->client->getOption('messageCacheLifetime', 0);
         if($time > 0) {
-            $this->timer = $this->client->addPeriodicTimer((int) $this->client->getOption('messageSweepInterval', $time), function () use ($time) {
+            $this->timer = $this->client->addPeriodicTimer(((int) $this->client->getOption('messageSweepInterval', $time)), function () use ($time) {
                 $this->sweep($time);
             });
         }

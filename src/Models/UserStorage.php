@@ -82,6 +82,12 @@ class UserStorage extends Storage {
      * @internal
      */
     function factory(array $data) {
+        if($this->has($data['id'])) {
+            $user = $this->get($data['id']);
+            $user->_patch($data);
+            return $user;
+        }
+        
         $user = new \CharlotteDunois\Yasmin\Models\User($this->client, $data);
         $this->set($user->id, $user);
         
