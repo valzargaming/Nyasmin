@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Guild".
  * @internal
  */
-class Guild {
+final class Guild {
     /**
      * Endpoints Guilds.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'get' => 'guilds/%s',

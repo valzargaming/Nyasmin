@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Webhook".
  * @internal
  */
-class Webhook {
+final class Webhook {
     /**
      * Endpoints Webhooks.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'create' => 'channels/%s/webhooks',

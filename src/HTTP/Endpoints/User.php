@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "User".
  * @internal
  */
-class User {
+final class User {
     /**
      * Endpoints Users.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'get' => 'users/%s',

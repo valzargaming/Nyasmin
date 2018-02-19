@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Represents a single HTTP request.
  * @internal
  */
-class APIRequest {
+final class APIRequest {
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */

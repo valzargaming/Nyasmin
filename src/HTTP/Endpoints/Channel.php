@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Channel".
  * @internal
  */
-class Channel {
+final class Channel {
     /**
      * Endpoints Channels.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'get' => 'channels/%s',

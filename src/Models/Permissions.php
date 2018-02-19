@@ -24,7 +24,8 @@ class Permissions extends Base {
     
     /**
      * Available Permissions in Discord.
-     * @var array<string, int>
+     * @var array
+     * @source
      */
     const PERMISSIONS = array(
         'CREATE_INSTANT_INVITE' => 1 << 0,

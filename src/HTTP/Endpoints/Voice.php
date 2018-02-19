@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Voice".
  * @internal
  */
-class Voice {
+final class Voice {
     /**
      * Endpoints Voice.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'regions' => 'voice/regions'

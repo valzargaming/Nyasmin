@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Invite".
  * @internal
  */
-class Invite {
+final class Invite {
     /**
      * Endpoints Invites.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'get' => 'invites/%s',

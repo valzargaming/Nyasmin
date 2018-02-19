@@ -13,11 +13,10 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Emoji".
  * @internal
  */
-class Emoji {
+final class Emoji {
     /**
      * Endpoints Emojis.
      * @var array
-     * @internal
      */
     const ENDPOINTS = array(
         'list' => 'guilds/%s/emojis',
