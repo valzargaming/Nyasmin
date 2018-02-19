@@ -159,7 +159,7 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->then(function () use ($resolve) {
                 $resolve($this);
             }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
