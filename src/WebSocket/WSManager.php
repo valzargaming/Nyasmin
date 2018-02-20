@@ -366,6 +366,13 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $resolve();
                 });
                 
+                $this->once('self.ws.error', function ($error) use (&$ready, $reject) {
+                    if(!$ready) {
+                        $this->disconnect();
+                        $reject(new \Exception($error));
+                    }
+                });
+                
                 $this->ws->on('message', function ($message) {
                     $message = $message->getPayload();
                     if(!$message) {
