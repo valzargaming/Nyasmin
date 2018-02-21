@@ -145,17 +145,20 @@ class User extends ClientBase {
     }
     
     /**
-     * Deletes an existing DM channel to this user.
+     * Deletes an existing DM channel to this user. Resolves with $this.
      * @return \React\Promise\Promise
      */
     function deleteDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->dmChannel;
             if(!$channel) {
-                return $resolve();
+                return $resolve($this);
             }
             
-            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->then(function () use ($channel, $resolve) {
+                $this->client->channels->delete($channel->id);
+                $resolve($this);
+            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
         }));
     }
     
