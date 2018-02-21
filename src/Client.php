@@ -194,6 +194,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      *   'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime)
      *   'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding)
      *   'shardCount' => int, (shard count, important for sharding)
+     *   'userSweepInterval' => int, (interval when the user cache gets invalidated (users sharing no mutual guilds get removed), defaults to 600)
      *   'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done)
      *   'ws.compression' => string, (Enables a specific one, defaults to zlib-stream, which is currently the only available compression)
      *   'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
@@ -794,9 +795,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
             'messageCacheLifetime' => 'integer|min:0',
-            'messageSweepInterval' => 'integer|min:0',
+            'messageSweepInterval' => 'integer|min:1',
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
+            'userSweepInterval' => 'integer|min:1',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',

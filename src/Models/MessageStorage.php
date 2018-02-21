@@ -41,8 +41,9 @@ class MessageStorage extends Storage {
     }
     
     /**
-     * Sweeps messages, deletes messages older than the parameter (timestamp - $time).
+     * Sweeps messages, deletes messages older than the parameter (timestamp - $time). Returns the amount of sweeped messages.
      * @param int  $time  0 = clear all
+     * @return int
      */
     function sweep(int $time) {
         if($time === 0) {
@@ -50,10 +51,16 @@ class MessageStorage extends Storage {
             return;
         }
         
+        $amount = 0;
         foreach($this->data as $key => $msg) {
             if($msg->createdTimestamp > (\time() - $time)) {
                 $this->delete($msg->id);
+                unset($msg);
+                
+                $amount++;
             }
         }
+        
+        return $amount;
     }
 }

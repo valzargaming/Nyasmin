@@ -14,6 +14,22 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class UserStorage extends Storage {
     /**
+     * @var \React\EventLoop\Timer\TimerInterface
+     */
+    protected $timer;
+    
+    /**
+     * @internal
+     */
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
+        parent::__construct($client, $data);
+        
+        $this->timer = $this->client->addPeriodicTimer($this->client->getOption('userSweepInterval', 600), function () {
+            $this->sweep();
+        });
+    }
+    
+    /**
      * Resolves given data to an user.
      * @param \CharlotteDunois\Yasmin\Models\User|\CharlotteDunois\Yasmin\Models\GuildMember|string  $user  string = user ID
      * @return \CharlotteDunois\Yasmin\Models\User
@@ -92,5 +108,27 @@ class UserStorage extends Storage {
         $this->set($user->id, $user);
         
         return $user;
+    }
+    
+    /**
+     * Sweeps users falling out of scope (no mutual guilds). Returns the amount of sweeped users.
+     * @return int
+     */
+    function sweep() {
+        $members = \array_unique($this->client->guilds->reduce(function ($carry, $g) {
+            return \array_merge($carry, \array_keys($g->members->all()));
+        }, array()));
+        
+        $amount = 0;
+        foreach($this->data as $key => $val) {
+            if(!\in_array($key, $members, true)) {
+                $this->delete($key);
+                unset($val);
+                
+                $amount++;
+            }
+        }
+        
+        return $amount;
     }
 }
