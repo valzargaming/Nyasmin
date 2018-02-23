@@ -344,15 +344,20 @@ class Message extends ClientBase {
                 $emoji = $emoji->identifier;
             }
             
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', function ($reaction) use ($emoji) {
+            $prom = \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', function ($reaction) use ($emoji) {
                 return ($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji);
-            }, array('time' => 30))->done(function ($args) use ($resolve) {
+            }, array('time' => 30))->then(function ($args) use ($resolve) {
                 $resolve($args[0]);
-            }, function () use ($reject) {
-                $reject(new \RangeException('Message Reaction did not arrive in time'));
+            }, function ($error) use ($reject) {
+                if(!($error instanceof \OutOfBoundsException)) {
+                    $reject(new \RangeException('Message Reaction did not arrive in time'));
+                }
             });
             
-            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->done(null, $reject);
+            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->done(null, function ($error) use ($prom, $reject) {
+                $prom->cancel();
+                $reject($error);
+            });
         }));
     }
     

@@ -213,13 +213,13 @@ class DataHelpers {
      * @param string                                         $event
      * @param callable|null                                  $filter
      * @param array                                          $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\Promise  This promise is cancelable.
      * @throws \RangeException
      */
     static function waitForEvent(\CharlotteDunois\Events\EventEmitterInterface $emitter, string $event, ?callable $filter = null, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($emitter, $event, $filter, $options) {
-            $listener = null;
-            
+        $listener = null;
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use (&$listener, $emitter, $event, $filter, $options) {
             if(!empty($options['time'])) {
                 $timer = self::$loop->addTimer(((int) $options['time']), function () use ($emitter, $event, &$listener, $reject) {
                     $emitter->removeListener($event, $listener);
@@ -257,6 +257,9 @@ class DataHelpers {
             };
             
             $emitter->on($event, $listener);
+        }, function (callable $resolve, callable $reject) use (&$listener, $emitter, $event) {
+            $emitter->removeListener($event, $listener);
+            $reject(new \OutOfBoundsException('Operation cancelled'));
         }));
     }
 }
