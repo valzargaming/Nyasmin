@@ -43,7 +43,7 @@ final class Webhook {
         $this->api = $api;
     }
     
-    function createWebhook(string $channelid, string $name, string $avatarBase64, string $reason = '') {
+    function createWebhook(string $channelid, string $name, ?string $avatarBase64 = null, string $reason = '') {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['create'], $channelid);
         return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'data' => array('name' => $name, 'avatar' => $avatarBase64)));
     }

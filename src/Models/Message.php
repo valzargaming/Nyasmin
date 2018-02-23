@@ -182,9 +182,9 @@ class Message extends ClientBase {
      */
     function clearReactions() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->deleteMessageReactions($this->channel->id, $this->id)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteMessageReactions($this->channel->id, $this->id)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -260,9 +260,9 @@ class Message extends ClientBase {
                 $msg['embed'] = $options['embed'];
             }
             
-            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->id, $this->id, $msg)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->id, $this->id, $msg)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -276,12 +276,12 @@ class Message extends ClientBase {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($timeout, $reason) {
             if($timeout > 0) {
                 $this->client->addTimer($timeout, function () use ($reason, $resolve, $reject) {
-                    $this->delete(0, $reason)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                    $this->delete(0, $reason)->done($resolve, $reject);
                 });
             } else {
-                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->done(function () use ($resolve) {
                     $resolve();
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
             }
         }));
     }
@@ -298,10 +298,10 @@ class Message extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->webhook->getWebhook($this->webhookID)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->webhook->getWebhook($this->webhookID)->done(function ($data) use ($resolve) {
                 $webhook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $data);
                 $resolve($webhook);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -311,9 +311,9 @@ class Message extends ClientBase {
      */
     function pin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->pinChannelMessage($this->channel->id, $this->id)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->pinChannelMessage($this->channel->id, $this->id)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -346,13 +346,13 @@ class Message extends ClientBase {
             
             \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', function ($reaction) use ($emoji) {
                 return ($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji);
-            }, array('time' => 30))->then(function ($args) use ($resolve) {
+            }, array('time' => 30))->done(function ($args) use ($resolve) {
                 $resolve($args[0]);
             }, function () use ($reject) {
                 $reject(new \RangeException('Message Reaction did not arrive in time'));
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+            });
             
-            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->otherwise($reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->done(null, $reject);
         }));
     }
     
@@ -373,9 +373,9 @@ class Message extends ClientBase {
      */
     function unpin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->unpinChannelMessage($this->channel->id, $this->id)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->unpinChannelMessage($this->channel->id, $this->id)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

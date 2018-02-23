@@ -31,7 +31,7 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->then(function ($message) use ($data) {
+            $message->done(function ($message) use ($data) {
                 $reaction = $message->_addReaction($data);
                 
                 if($this->client->users->has($data['user_id'])) {
@@ -40,14 +40,14 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
                     $user = $this->client->fetchUser($data['user_id']);
                 }
                 
-                $user->then(function ($user) use ($reaction) {
+                $user->done(function ($user) use ($reaction) {
                     $reaction->users->set($user->id, $user);
                     
                     $this->client->emit('messageReactionAdd', $reaction, $user);
-                })->done(null, array($this->client, 'handlePromiseRejection'));
+                }, array($this->client, 'handlePromiseRejection'));
             }, function () {
                 // Don't handle it
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+            });
         }
     }
 }

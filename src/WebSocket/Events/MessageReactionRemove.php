@@ -31,7 +31,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->then(function ($message) use ($data) {
+            $message->done(function ($message) use ($data) {
                 $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
                 
                 $reaction = $message->reactions->get($id);
@@ -44,18 +44,18 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                         $user = $this->client->fetchUser($data['user_id']);
                     }
                     
-                    $user->then(function ($user) use ($message, $reaction) {
+                    $user->done(function ($user) use ($message, $reaction) {
                         $reaction->users->delete($user->id);
                         if($reaction->count === 0) {
                             $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
                         }
                         
                         $this->client->emit('messageReactionRemove', $reaction, $user);
-                    })->done(null, array($this->client, 'handlePromiseRejection'));
+                    }, array($this->client, 'handlePromiseRejection'));
                 }
             }, function () {
                 // Don't handle it
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+            });
         }
     }
 }

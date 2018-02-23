@@ -104,11 +104,11 @@ class PermissionOverwrite extends ClientBase {
         $options['deny'] = $deny;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->id, $this->id, $options, $reason)->then(function () use ($options, $resolve) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->id, $this->id, $options, $reason)->done(function () use ($options, $resolve) {
                 $this->allow = new \CharlotteDunois\Yasmin\Models\Permissions(($options['allow'] ?? 0));
                 $this->deny = new \CharlotteDunois\Yasmin\Models\Permissions(($options['deny'] ?? 0));
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

@@ -33,7 +33,7 @@ trait TextChannelTrait {
                 $messages = \React\Promise\resolve($messages);
             }
             
-            $messages->then(function ($messages) use ($reason, $filterOldMessages, $resolve, $reject) {
+            $messages->done(function ($messages) use ($reason, $filterOldMessages, $resolve, $reject) {
                 if($messages instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
                     $messages = $messages->all();
                 }
@@ -58,10 +58,10 @@ trait TextChannelTrait {
                     return $reject(new \InvalidArgumentException('Unable to bulk delete less than 2 or more than 100 messages'));
                 }
                 
-                $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->then(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->bulkDeleteMessages($this->id, $messages, $reason)->done(function () use ($resolve) {
                     $resolve($this);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -125,10 +125,10 @@ trait TextChannelTrait {
      */
     function fetchMessage(string $id) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($id) {
-            $this->client->apimanager()->endpoints->channel->getChannelMessage($this->id, $id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->getChannelMessage($this->id, $id)->done(function ($data) use ($resolve) {
                 $message = $this->_createMessage($data);
                 $resolve($message);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -152,7 +152,7 @@ trait TextChannelTrait {
      */
     function fetchMessages(array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
-            $this->client->apimanager()->endpoints->channel->getChannelMessages($this->id, $options)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->getChannelMessages($this->id, $options)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $m) {
@@ -161,7 +161,7 @@ trait TextChannelTrait {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -195,7 +195,7 @@ trait TextChannelTrait {
      */
     function send(string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->then(function ($files) use ($content, $options, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->done(function ($files) use ($content, $options, $resolve, $reject) {
                 $msg = array(
                     'content' => $content
                 );
@@ -254,15 +254,15 @@ trait TextChannelTrait {
                             }, $reject);
                         }
                         
-                        return $promise->then(function () use ($collection, $resolve) {
+                        return $promise->done(function () use ($collection, $resolve) {
                             $resolve($collection);
-                        }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                        }, $reject);
                     }
                 }
                 
-                $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->then(function ($response) use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->createMessage($this->id, $msg, ($files ?? array()))->done(function ($response) use ($resolve) {
                     $resolve($this->_createMessage($response));
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
             }, $reject);
         }));
     }
@@ -273,7 +273,7 @@ trait TextChannelTrait {
     function startTyping() {
         if($this->typingTriggered['count'] === 0) {
             $fn = function () {
-                $this->client->apimanager()->endpoints->channel->triggerChannelTyping($this->id)->then(function () {
+                $this->client->apimanager()->endpoints->channel->triggerChannelTyping($this->id)->done(function () {
                     $this->_updateTyping($this->client->user, \time());
                 }, function () {
                     $this->_updateTyping($this->client->user);
@@ -283,7 +283,7 @@ trait TextChannelTrait {
                         $this->client->cancelTimer($this->typingTriggered['timer']);
                         $this->typingTriggered['timer'] = null;
                     }
-                })->done(null, array($this->client, 'handlePromiseRejection'));
+                });
             };
             
             $this->typingTriggered['timer'] = $this->client->addPeriodicTimer(7, $fn);

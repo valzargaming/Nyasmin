@@ -82,7 +82,7 @@ class Webhook extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $options, $reason) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable(($options['avatar'] ?? ''))->then(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable(($options['avatar'] ?? ''))->done(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
                 if(!empty($avatar)) {
                     $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 }
@@ -95,11 +95,11 @@ class Webhook extends ClientBase {
                     $args = array($this->id, $this->token, $data, $reason);
                 }
                 
-                $this->client->apimanager()->endpoints->webhook->$method(...$args)->then(function ($data) use ($resolve) {
+                $this->client->apimanager()->endpoints->webhook->$method(...$args)->done(function ($data) use ($resolve) {
                     $this->_patch($data);
                     $resolve($this);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -118,9 +118,9 @@ class Webhook extends ClientBase {
                 $args = array($this->id, $this->token, $reason);
             }
             
-            $this->client->apimanager()->endpoints->webhook->$method(...$args)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->webhook->$method(...$args)->done(function () use ($resolve) {
                 $resolve();
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -157,7 +157,7 @@ class Webhook extends ClientBase {
      */
     function send(string $content, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->then(function ($files) use ($content, $options, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->done(function ($files) use ($content, $options, $resolve, $reject) {
                 $msg = array(
                     'content' => $content
                 );
@@ -216,9 +216,9 @@ class Webhook extends ClientBase {
                             }, $reject);
                         }
                         
-                        return $promise->then(function () use (&$collection, $resolve) {
+                        return $promise->done(function () use (&$collection, $resolve) {
                             $resolve($collection);
-                        }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                        }, $reject);
                     }
                 }
                 
@@ -230,9 +230,9 @@ class Webhook extends ClientBase {
                     $msg['avatar_url'] = $options['avatar'];
                 }
                 
-                $this->executeWebhook($msg, ($files ?? array()))->then(function ($data) use ($resolve) {
+                $this->executeWebhook($msg, ($files ?? array()))->done(function ($data) use ($resolve) {
                     $resolve($data);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
             });
         }));
     }

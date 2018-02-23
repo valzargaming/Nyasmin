@@ -31,10 +31,10 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 $user = \React\Promise\resolve($user);
             }
             
-            $user->then(function ($user) use ($channel, $data) {
+            $user->done(function ($user) use ($channel, $data) {
                 $channel->_updateTyping($user, $data['timestamp']);
                 $this->client->emit('typingStart', $channel, $user);
-            });
+            }, array($this->client, 'handlePromiseRejection'));
         }
     }
 }

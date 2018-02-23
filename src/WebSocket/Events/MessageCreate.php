@@ -48,9 +48,9 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
                         // Ignore failure
                     });
                 }
-            })->then(function () use ($message) {
+            })->done(function () use ($message) {
                 $this->client->emit('message', $message);
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+            }, array($this->client, 'handlePromiseRejection'));
         }
     }
 }

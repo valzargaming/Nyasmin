@@ -43,10 +43,10 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data) {
-            $this->client->apimanager()->endpoints->channel->createChannelInvite($this->id, $data)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->createChannelInvite($this->id, $data)->done(function ($data) use ($resolve) {
                 $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
                 $resolve($invite);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -85,10 +85,10 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->guild->id, $data, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->guild->id, $data, $reason)->done(function ($data) use ($resolve) {
                 $channel = $this->guild->channels->factory($data, $this->guild);
                 $resolve($channel);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
      
@@ -159,9 +159,9 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -172,9 +172,9 @@ trait GuildChannelTrait {
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->channel->deleteChannel($this->id, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteChannel($this->id, $reason)->done(function () use ($resolve) {
                 $resolve();
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -185,7 +185,7 @@ trait GuildChannelTrait {
      */
     function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->done(function ($data) use ($resolve) {
                 $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $invite) {
@@ -194,7 +194,7 @@ trait GuildChannelTrait {
                 }
                 
                 $resolve($collection);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -318,7 +318,7 @@ trait GuildChannelTrait {
         $options['deny'] = $deny;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole, $options, $reason)->then(function () use ($memberOrRole, $options, $resolve) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole, $options, $reason)->done(function () use ($memberOrRole, $options, $resolve, $reject) {
                 $options['id'] = $memberOrRole;
                 
                 if($options['type'] === 'member') {
@@ -327,7 +327,7 @@ trait GuildChannelTrait {
                     $fetch = \React\Promise\resolve();
                 }
                 
-                return $fetch->then(function () use ($options, $resolve) {
+                $fetch->done(function () use ($options, $resolve) {
                     if($options['allow'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
                         $options['allow'] = $options['allow']->bitfield;
                     }
@@ -340,8 +340,8 @@ trait GuildChannelTrait {
                     $this->permissionOverwrites->set($overwrite->id, $overwrite);
                     
                     $resolve($overwrite);
-                });
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -379,9 +379,9 @@ trait GuildChannelTrait {
                 $promises[] = $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $overwrite['id'], $overwrite, $reason);
             }
             
-            \React\Promise\all($promises)->then(function () use ($resolve) {
+            \React\Promise\all($promises)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -466,9 +466,9 @@ trait GuildChannelTrait {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($newPositions, $reason) {
-            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->guild->id, $newPositions, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->guild->id, $newPositions, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

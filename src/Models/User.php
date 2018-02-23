@@ -137,10 +137,10 @@ class User extends ClientBase {
                 return $resolve($channel);
             }
             
-            $this->client->apimanager()->endpoints->user->createUserDM($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->createUserDM($this->id)->done(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -155,10 +155,10 @@ class User extends ClientBase {
                 return $resolve($this);
             }
             
-            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->then(function () use ($channel, $resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->done(function () use ($channel, $resolve) {
                 $this->client->channels->delete($channel->id);
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -207,7 +207,7 @@ class User extends ClientBase {
      */
     function fetchUserConnections(string $accessToken) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($accessToken) {
-            $this->client->apimanager()->endpoints->user->getUserConnections($accessToken)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->getUserConnections($accessToken)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 foreach($data as $conn) {
                     $connection = new \CharlotteDunois\Yasmin\Models\UserConnection($this->client, $this, $conn);
@@ -215,7 +215,7 @@ class User extends ClientBase {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

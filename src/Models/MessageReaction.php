@@ -73,14 +73,14 @@ class MessageReaction extends ClientBase {
                 $query['after'] = $after;
             }
             
-            $this->client->apimanager()->endpoints->channel->getMessageReactions($this->message->channel->id, $this->message->id, $this->emoji->identifier, $query)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->getMessageReactions($this->message->channel->id, $this->message->id, $this->emoji->identifier, $query)->done(function ($data) use ($resolve) {
                 foreach($data as $react) {
                     $user = $this->client->users->patch($react);
                     $this->users->set($user->id, $user);
                 }
                 
                 $resolve($this->users);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -96,9 +96,9 @@ class MessageReaction extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
-            $this->client->apimanager()->endpoints->channel->deleteMessageUserReaction($this->message->channel->id, $this->message->id, ($this->emoji->id ?? \rawurlencode($this->emoji->name)), ($user !== null ? $user->id : '@me'))->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteMessageUserReaction($this->message->channel->id, $this->message->id, ($this->emoji->id ?? \rawurlencode($this->emoji->name)), ($user !== null ? $user->id : '@me'))->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

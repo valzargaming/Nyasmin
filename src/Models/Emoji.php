@@ -161,9 +161,9 @@ class Emoji extends ClientBase {
                 }, $options['roles']);
             }
             
-            $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -179,9 +179,9 @@ class Emoji extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->emoji->deleteGuildEmoji($this->guild->id, $this->id, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->emoji->deleteGuildEmoji($this->guild->id, $this->id, $reason)->done(function () use ($resolve) {
                 $resolve();
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

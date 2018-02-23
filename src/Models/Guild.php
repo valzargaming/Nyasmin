@@ -264,9 +264,9 @@ class Guild extends ClientBase {
                 $opts['deaf'] = (bool) $options['deaf'];
             }
             
-            $this->client->apimanager()->endpoints->guild->addGuildMember($this->id, $user, $opts)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->addGuildMember($this->id, $user, $opts)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -283,9 +283,9 @@ class Guild extends ClientBase {
                 $user = $user->id;
             }
             
-            $this->client->apimanager()->endpoints->guild->createGuildBan($this->id, $user, $days, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->createGuildBan($this->id, $user, $days, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -354,10 +354,10 @@ class Guild extends ClientBase {
                 $data['nsfw'] = $options['nsfw'];
             }
             
-            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->id, $data, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->id, $data, $reason)->done(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data, $this);
                 $resolve($channel);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -372,7 +372,7 @@ class Guild extends ClientBase {
      */
     function createEmoji(string $file, string $name, $roles = array(), string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($file, $name, $roles, $reason) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($file)->then(function ($file) use ($name, $roles, $reason, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($file)->done(function ($file) use ($name, $roles, $reason, $resolve, $reject) {
                 if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
                     $roles = $roles->all();
                 }
@@ -391,11 +391,11 @@ class Guild extends ClientBase {
                     'roles' => $roles
                 );
                 
-                $this->client->apimanager()->endpoints->emoji->createGuildEmoji($this->id, $options, $reason)->then(function ($data) use ($resolve) {
+                $this->client->apimanager()->endpoints->emoji->createGuildEmoji($this->id, $options, $reason)->done(function ($data) use ($resolve) {
                     $emoji = $this->emojis->factory($data);
                     $resolve($emoji);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -426,10 +426,10 @@ class Guild extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $this->client->apimanager()->endpoints->guild->createGuildRole($this->id, $options, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->createGuildRole($this->id, $options, $reason)->done(function ($data) use ($resolve) {
                 $role = $this->roles->factory($data);
                 $resolve($role);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -439,9 +439,9 @@ class Guild extends ClientBase {
      */
     function delete() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->guild->deleteGuild($this->id)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->deleteGuild($this->id)->done(function () use ($resolve) {
                 $resolve();
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -524,7 +524,7 @@ class Guild extends ClientBase {
                 (isset($options['splash']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash'])->then($handleImg) : \React\Promise\resolve(null))
             );
             
-            \React\Promise\all($files)->then(function ($files) use (&$data, $reason, $resolve, $reject) {
+            \React\Promise\all($files)->done(function ($files) use (&$data, $reason, $resolve, $reject) {
                 if(\is_string($files[0])) {
                     $data['icon'] = $files[0];
                 }
@@ -533,10 +533,10 @@ class Guild extends ClientBase {
                     $data['splash'] = $files[1];
                 }
                 
-                $this->client->apimanager()->endpoints->guild->modifyGuild($this->id, $data, $reason)->then(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->guild->modifyGuild($this->id, $data, $reason)->done(function () use ($resolve) {
                     $resolve($this);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -565,10 +565,10 @@ class Guild extends ClientBase {
                 $options['user'] = ($options['user'] instanceof \CharlotteDunois\Yasmin\Models\User ? $options['user']->id : $options['user']);
             }
             
-            $this->client->apimanager()->endpoints->guild->getGuildAuditLog($this->id, $options)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->getGuildAuditLog($this->id, $options)->done(function ($data) use ($resolve) {
                 $audit = new \CharlotteDunois\Yasmin\Models\AuditLog($this->client, $this, $data);
                 $resolve($audit);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -578,7 +578,7 @@ class Guild extends ClientBase {
      */
     function fetchBans() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->guild->getGuildBans($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->getGuildBans($this->id)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $ban) {
@@ -590,7 +590,7 @@ class Guild extends ClientBase {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -601,7 +601,7 @@ class Guild extends ClientBase {
      */
     function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->guild->getGuildInvites($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->getGuildInvites($this->id)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $inv) {
@@ -610,7 +610,7 @@ class Guild extends ClientBase {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -626,9 +626,9 @@ class Guild extends ClientBase {
                 return $resolve($this->members->get($userid));
             }
             
-            $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->getGuildMember($this->id, $userid)->done(function ($data) use ($resolve) {
                 $resolve($this->_addMember($data, true));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -665,7 +665,7 @@ class Guild extends ClientBase {
                     'query' => $query ?? '',
                     'limit' => $limit ?? 0
                 )
-            ))->done(null, array($this->client, 'handlePromiseRejection'));
+            ));
             
             $this->client->addTimer(120, function () use (&$listener, $reject) {
                 if($this->members->count() < $this->memberCount) {
@@ -683,7 +683,7 @@ class Guild extends ClientBase {
      */
     function fetchVoiceRegions() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->guild->getGuildVoiceRegions($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->getGuildVoiceRegions($this->id)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $region) {
@@ -692,7 +692,7 @@ class Guild extends ClientBase {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -703,7 +703,7 @@ class Guild extends ClientBase {
      */
     function fetchWebhooks() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->webhook->getGuildsWebhooks($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->webhook->getGuildsWebhooks($this->id)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $web) {
@@ -712,7 +712,7 @@ class Guild extends ClientBase {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -753,10 +753,10 @@ class Guild extends ClientBase {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->guild->getGuildVanityURL($this->id)->then(function ($data) {
                 return $this->client->apimanager()->endpoints->invite->getInvite($data['code']);
-            })->then(function ($data) use ($resolve) {
+            })->done(function ($data) use ($resolve) {
                 $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
                 $resolve($invite);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -766,9 +766,9 @@ class Guild extends ClientBase {
      */
     function leave() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->user->leaveUserGuild($this->id)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->user->leaveUserGuild($this->id)->done(function () use ($resolve) {
                 $resolve();
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -782,9 +782,9 @@ class Guild extends ClientBase {
     function pruneMembers(int $days, bool $dry = false, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days, $dry, $reason) {
             $method = ($dry ? 'getGuildPruneCount' : 'beginGuildPrune');
-            $this->client->apimanager()->endpoints->guild->$method($this->id, $days, $reason)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->$method($this->id, $days, $reason)->done(function ($data) use ($resolve) {
                 $resolve($data['pruned']);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -826,9 +826,9 @@ class Guild extends ClientBase {
                 $options[] = array('id' => $chan, 'position' => (int) $position);
             }
             
-            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->id, $options, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->id, $options, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -850,9 +850,9 @@ class Guild extends ClientBase {
                 $options[] = array('id' => $role, 'position' => (int) $position);
             }
             
-            $this->client->apimanager()->endpoints->guild->modifyGuildRolePositions($this->id, $options, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildRolePositions($this->id, $options, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -948,9 +948,9 @@ class Guild extends ClientBase {
                 $user = $user->id;
             }
             
-            $this->client->apimanager()->endpoints->guild->removeGuildBan($this->id, $user, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->removeGuildBan($this->id, $user, $reason)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

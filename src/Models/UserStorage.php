@@ -121,7 +121,7 @@ class UserStorage extends Storage {
         
         $amount = 0;
         foreach($this->data as $key => $val) {
-            if(!\in_array($key, $members, true)) {
+            if($val->id !== $this->client->user->id && !\in_array($key, $members, true)) {
                 $this->delete($key);
                 unset($val);
                 

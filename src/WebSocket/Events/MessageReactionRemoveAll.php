@@ -31,12 +31,12 @@ class MessageReactionRemoveAll implements \CharlotteDunois\Yasmin\Interfaces\WSE
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->then(function ($message) {
+            $message->done(function ($message) {
                 $message->reactions->clear();
                 $this->client->emit('messageReactionRemoveAll', $message);
             }, function () {
                 // Don't handle it
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+            });
         }
     }
 }

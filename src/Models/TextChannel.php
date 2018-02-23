@@ -134,15 +134,15 @@ class TextChannel extends ClientBase
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 });
             } else {
-                $file = \React\Promise\resolve('');
+                $file = \React\Promise\resolve(null);
             }
             
-            $file->then(function ($avatar = null) use ($name, $reason, $resolve, $reject) {
-                $this->client->apimanager()->endpoints->webhook->createWebhook($this->id, $name, ($avatar ?? ''), $reason)->then(function ($data) use ($resolve) {
+            $file->done(function ($avatar = null) use ($name, $reason, $resolve, $reject) {
+                $this->client->apimanager()->endpoints->webhook->createWebhook($this->id, $name, $avatar, $reason)->done(function ($data) use ($resolve) {
                     $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $data);
                     $resolve($hook);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -153,7 +153,7 @@ class TextChannel extends ClientBase
      */
     function fetchWebhooks() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->webhook->getChannelWebhooks($this->id)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->webhook->getChannelWebhooks($this->id)->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $web) {
@@ -162,7 +162,7 @@ class TextChannel extends ClientBase
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

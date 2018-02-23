@@ -366,7 +366,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 $gateway = $this->api->getGatewaySync();
             }
             
-            $gateway->then(function ($url) use ($resolve, $reject) {
+            $gateway->done(function ($url) use ($resolve, $reject) {
                 $this->gateway = $url['url'];
                 
                 $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
@@ -376,7 +376,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                     $wsquery['encoding'] = $encoding;
                 }
                 
-                $this->ws->connect($url['url'], $wsquery)->then($resolve, function ($error) use ($reject) {
+                $this->ws->connect($url['url'], $wsquery)->done($resolve, function ($error) use ($reject) {
                     $this->api->clear();
                     $this->ws->destroy();
                     
@@ -384,8 +384,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->destroyUtils();
                     
                     $reject($error);
-                })->done(null, array($this, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+                });
+            }, $reject);
         }));
     }
     
@@ -566,7 +566,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 return $this->api->endpoints->guild->createGuild($data)->then(function ($gdata) {
                     return $this->guilds->factory($gdata);
                 });
-            })->then($resolve, $reject)->done(null, array($this, 'handlePromiseRejection'));
+            })->done($resolve, $reject);
         }));
     }
     
@@ -577,10 +577,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function fetchApplication() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->api->endpoints->getCurrentApplication()->then(function ($data) use ($resolve) {
+            $this->api->endpoints->getCurrentApplication()->done(function ($data) use ($resolve) {
                 $app = new \CharlotteDunois\Yasmin\Models\OAuthApplication($this, $data);
                 $resolve($app);
-            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -597,10 +597,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 $invite = $matches[1];
             }
             
-            $this->api->endpoints->invite->getInvite($invite)->then(function ($data) use ($resolve) {
+            $this->api->endpoints->invite->getInvite($invite)->done(function ($data) use ($resolve) {
                 $invite = new \CharlotteDunois\Yasmin\Models\Invite($this, $data);
                 $resolve($invite);
-            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -630,7 +630,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function fetchVoiceRegions() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->api->endpoints->voice->listVoiceRegions()->then(function ($data) use ($resolve) {
+            $this->api->endpoints->voice->listVoiceRegions()->done(function ($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
                 
                 foreach($data as $region) {
@@ -639,7 +639,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 }
                 
                 $resolve($collect);
-            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -654,10 +654,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($id, $token) {
             $method = (!empty($token) ? 'getWebhookToken' : 'getWebhook');
             
-            $this->api->endpoints->webhook->$method($id, $token)->then(function ($data) use ($resolve) {
+            $this->api->endpoints->webhook->$method($id, $token)->done(function ($data) use ($resolve) {
                 $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this, $data);
                 $resolve($hook);
-            }, $reject)->done(null, array($this, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

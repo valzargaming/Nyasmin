@@ -169,7 +169,7 @@ class APIManager {
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
             $apirequest->deferred = new \React\Promise\Deferred();
-            $apirequest->deferred->promise()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            $apirequest->deferred->promise()->done($resolve, $reject);
             
             $endpoint = $this->getRatelimitEndpoint($apirequest);
             if(!empty($endpoint)) {

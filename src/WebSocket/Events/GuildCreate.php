@@ -49,13 +49,13 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 $fetchAll = \React\Promise\resolve();
             }
             
-            $fetchAll->then(function () use ($guild) {
+            $fetchAll->done(function () use ($guild) {
                 if($this->ready) {
                     $this->client->emit('guildCreate', $guild);
                 } else {
                     $this->client->wsmanager()->emit('guildCreate');
                 }
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+            }, array($this->client, 'handlePromiseRejection'));
         }
     }
 }

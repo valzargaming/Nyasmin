@@ -42,9 +42,9 @@ class GroupDMChannel extends DMChannel {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $accessToken, $nick) {
-            $this->client->apimanager()->endpoints->channel->groupDMAddRecipient($this->id, $user, $accessToken, $nick)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->groupDMAddRecipient($this->id, $user, $accessToken, $nick)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -74,9 +74,9 @@ class GroupDMChannel extends DMChannel {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
-            $this->client->apimanager()->endpoints->channel->groupDMRemoveRecipient($this->id, $user)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->groupDMRemoveRecipient($this->id, $user)->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

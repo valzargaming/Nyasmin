@@ -34,7 +34,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                 }
                 
                 $guild = $this->client->guilds->get($data['guild_id']);
-                $guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
+                $guild->fetchMember($user->id)->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
                     $oldMember = null;
                     if($this->clones) {
                         $oldMember = clone $member;
@@ -52,7 +52,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                             $channel->members->delete($user->id);
                         }
                     }
-                })->done(null, array($this->client, 'handlePromiseRejection'));
+                });
             } else {
                 $channel = $this->client->channels->get($data['channel_id']);
                 if($channel) {
@@ -60,7 +60,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         return;
                     }
                     
-                    $channel->guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
+                    $channel->guild->fetchMember($user->id)->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
                         $oldMember = null;
                         if($this->clones) {
                             $oldMember = clone $member;
@@ -73,7 +73,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         $this->client->emit('voiceStateUpdate', $member, $oldMember);
                     }, function () use ($channel, $user) {
                         $channel->members->delete($user->id);
-                    })->done(null, array($this->client, 'handlePromiseRejection'));
+                    });
                 }
             }
         }

@@ -31,9 +31,9 @@ class GuildBanAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 $user = $this->client->fetchUser($data['id']);
             }
         
-            $user->then(function ($user) use ($guild) {
+            $user->done(function ($user) use ($guild) {
                 $this->client->emit('guildBanAdd', $guild, $user);
-            });
+            }, array($this->client, 'handlePromiseRejection'));
         }
     }
 }

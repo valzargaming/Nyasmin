@@ -86,13 +86,13 @@ class ClientUser extends User {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->then(function ($data) use ($resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->done(function ($data) use ($resolve, $reject) {
                 $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 
-                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->then(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->done(function () use ($resolve) {
                     $resolve($this);
-                }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                }, $reject);
+            }, $reject);
         }));
     }
     
@@ -205,7 +205,7 @@ class ClientUser extends User {
                     $this->firstPresence['promise'] = new \React\Promise\Promise(function (callable $resolve, callable $reject) {
                         $this->client->addTimer((60 - (\time() - $this->firstPresence['time'])), function () use ($resolve, $reject) {
                             $this->firstPresence['promise'] = null;
-                            $this->setPresence($this->firstPresence['presence'])->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                            $this->setPresence($this->firstPresence['presence'])->done($resolve, $reject);
                         });
                     });
                 }
@@ -247,9 +247,9 @@ class ClientUser extends User {
      */
     function setUsername(string $username) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
-            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->done(function () use ($resolve) {
                 $resolve($this);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     
@@ -281,10 +281,10 @@ class ClientUser extends User {
                 $users[$user->id] = (!empty($nicks[$user->id]) ? $nicks[$user->id] : $user->username);
             }
             
-            $this->client->apimanager()->endpoints->user->createGroupDM($tokens, $users)->then(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->createGroupDM($tokens, $users)->done(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
-            }, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+            }, $reject);
         }));
     }
     

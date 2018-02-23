@@ -37,10 +37,8 @@ class ChannelCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             }
         }
         
-        \React\Promise\all($prom)->otherwise(function () {
-            return null;
-        })->then(function () use ($channel) {
+        \React\Promise\all($prom)->done(function () use ($channel) {
             $this->client->emit('channelCreate', $channel);
-        })->done(null, array($this->client, 'handlePromiseRejection'));
+        }, array($this->client, 'handlePromiseRejection'));
     }
 }

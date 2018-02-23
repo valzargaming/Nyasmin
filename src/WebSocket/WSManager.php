@@ -277,7 +277,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         if(($this->lastIdentify ?? 0) > (\time() - 5)) {
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway, $querystring) {
                 $this->client->getLoop()->addTimer((5 - (\time() - $this->lastIdentify)), function () use ($gateway, $querystring, $resolve, $reject) {
-                    $this->connect($gateway, $querystring)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                    $this->connect($gateway, $querystring)->done($resolve, $reject);
                 });
             }));
         }
@@ -317,7 +317,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->client->emit('debug', 'Reconnect will be attempted in '.$time.' seconds');
                     
                     $this->client->getLoop()->addTimer($time, function () use ($gateway, $querystring, $resolve, $reject) {
-                        $this->connect($gateway, $querystring)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                        $this->connect($gateway, $querystring)->done($resolve, $reject);
                     });
                 }));
             }
@@ -339,7 +339,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($connector, $gateway) {
-            $connector($gateway)->then(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
+            $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
                 $this->ws = &$conn;
                 
                 if($this->compressContext) {
@@ -464,8 +464,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->ws->close(1006);
                 }
                 
-                $this->renewConnection()->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
-            })->done(null, array($this->client, 'handlePromiseRejection'));
+                $this->renewConnection()->done($resolve, $reject);
+            });
         }));
     }
     
@@ -513,7 +513,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($forceNewGateway) {
                 $this->client->addTimer(30, function () use ($forceNewGateway, $resolve, $reject) {
-                    $this->renewConnection($forceNewGateway)->then($resolve, $reject)->done(null, array($this->client, 'handlePromiseRejection'));
+                    $this->renewConnection($forceNewGateway)->done($resolve, $reject);
                 });
             }));
         });
