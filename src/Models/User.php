@@ -129,6 +129,15 @@ class User extends ClientBase {
     }
     
     /**
+     * @internal
+     */
+    function __debugInfo() {
+        $vars = parent::__debugInfo();
+        unset($vars['userFetched']);
+        return $vars;
+    }
+    
+    /**
      * Opens a DM channel to this user. Resolves with an instance of DMChannel.
      * @return \React\Promise\Promise
      * @see \CharlotteDunois\Yasmin\Models\DMChannel
