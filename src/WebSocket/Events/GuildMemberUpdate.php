@@ -38,7 +38,7 @@ class GuildMemberUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
                 $guildmember->_patch($data);
                 $this->client->emit('guildMemberUpdate', $guildmember, $oldMember);
             } else {
-                $guild->_addMember($data, true);
+                $guild->fetchMember($data['user']['id'])->done();
             }
         }
     }
