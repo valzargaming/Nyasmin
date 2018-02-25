@@ -12,19 +12,19 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents an invite.
  *
- * @property string                                                                                                 $code                The invite code.
- * @property \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild                       $guild               The guild which this invite belongs to.
- * @property \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel      $channel             The channel which this invite belongs to.
- * @property int|null                                                                                               $createdTimestamp    When this invite was created, or null.
- * @property \CharlotteDunois\Yasmin\Models\User|null                                                               $inviter             The inviter, or null.
- * @property int|null                                                                                               $maxUses             Maximum uses until the invite expires, or null.
- * @property int|null                                                                                               $maxAge              Duration (in seconds) until the invite expires, or null.
- * @property bool|null                                                                                              $revoked             If the invite is revoked, this will indicate it, or null.
- * @property bool|null                                                                                              $temporary           If this invite grants temporary membership, or null.
- * @property int|null                                                                                               $uses                Number of times this invite has been used, or null.
+ * @property string                                                                                                  $code                The invite code.
+ * @property \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild                        $guild               The guild which this invite belongs to.
+ * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  channel             The channel which this invite belongs to.
+ * @property int|null                                                                                                $createdTimestamp    When this invite was created, or null.
+ * @property \CharlotteDunois\Yasmin\Models\User|null                                                                $inviter             The inviter, or null.
+ * @property int|null                                                                                                $maxUses             Maximum uses until the invite expires, or null.
+ * @property int|null                                                                                                $maxAge              Duration (in seconds) until the invite expires, or null.
+ * @property bool|null                                                                                               $revoked             If the invite is revoked, this will indicate it, or null.
+ * @property bool|null                                                                                               $temporary           If this invite grants temporary membership, or null.
+ * @property int|null                                                                                                $uses                Number of times this invite has been used, or null.
  *
- * @property \DateTime|null                                                                                         $createdAt           The DateTime instance of the createdTimestamp, or null.
- * @property string                                                                                                 $url                 Returns the URL for the invite.
+ * @property \DateTime|null                                                                                          $createdAt           The DateTime instance of the createdTimestamp, or null.
+ * @property string                                                                                                  $url                 Returns the URL for the invite.
  */
 class Invite extends ClientBase {
     protected $code;
