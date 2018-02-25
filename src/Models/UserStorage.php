@@ -24,9 +24,12 @@ class UserStorage extends Storage {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
         parent::__construct($client, $data);
         
-        $this->timer = $this->client->addPeriodicTimer($this->client->getOption('userSweepInterval', 600), function () {
-            $this->sweep();
-        });
+        $inv = (int) $this->client->getOption('userSweepInterval', 600);
+        if($inv > 0) {
+            $this->timer = $this->client->addPeriodicTimer($inv, function () {
+                $this->sweep();
+            });
+        }
     }
     
     /**
@@ -97,14 +100,14 @@ class UserStorage extends Storage {
     /**
      * @internal
      */
-    function factory(array $data) {
+    function factory(array $data, bool $userFetched = false) {
         if($this->has($data['id'])) {
             $user = $this->get($data['id']);
             $user->_patch($data);
             return $user;
         }
         
-        $user = new \CharlotteDunois\Yasmin\Models\User($this->client, $data);
+        $user = new \CharlotteDunois\Yasmin\Models\User($this->client, $data, false, $userFetched);
         $this->set($user->id, $user);
         
         return $user;
@@ -121,7 +124,7 @@ class UserStorage extends Storage {
         
         $amount = 0;
         foreach($this->data as $key => $val) {
-            if($val->id !== $this->client->user->id && !\in_array($key, $members, true)) {
+            if($val->id !== $this->client->user->id && !\in_array($key, $members, true) && !$user->userFetched) {
                 $this->delete($key);
                 unset($val);
                 

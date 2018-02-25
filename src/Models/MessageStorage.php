@@ -24,8 +24,10 @@ class MessageStorage extends Storage {
         $this->channel = $channel;
         
         $time = (int) $this->client->getOption('messageCacheLifetime', 0);
-        if($time > 0) {
-            $this->timer = $this->client->addPeriodicTimer(((int) $this->client->getOption('messageSweepInterval', $time)), function () use ($time) {
+        $inv = (int) $this->client->getOption('messageSweepInterval', $time);
+        
+        if($time > 0 && $inv > 0) {
+            $this->timer = $this->client->addPeriodicTimer($inv, function () use ($time) {
                 $this->sweep($time);
             });
         }

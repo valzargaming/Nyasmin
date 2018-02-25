@@ -617,7 +617,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             }
             
             $this->api->endpoints->user->getUser($userid)->then(function ($user) use ($resolve) {
-                $user = $this->users->factory($user);
+                $user = $this->users->factory($user, true);
                 $resolve($user);
             }, $reject);
         }));
@@ -795,10 +795,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
             'messageCacheLifetime' => 'integer|min:0',
-            'messageSweepInterval' => 'integer|min:1',
+            'messageSweepInterval' => 'integer|min:0',
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
-            'userSweepInterval' => 'integer|min:1',
+            'userSweepInterval' => 'integer|min:0',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',

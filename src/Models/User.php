@@ -49,14 +49,17 @@ class User extends ClientBase {
      */
     public $lastMessageID;
     
+    protected $userFetched = false;
+    
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $user, bool $isWebhook = false) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $user, bool $isWebhook = false, bool $userFetched = false) {
         parent::__construct($client);
         
         $this->id = $user['id'];
         $this->webhook = $isWebhook;
+        $this->userFetched = $userFetched;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         $this->_patch($user);
