@@ -1017,11 +1017,11 @@ class Guild extends ClientBase {
         $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
         
         foreach($guild['roles'] as $role) {
-            $this->roles->set($role['id'], (new \CharlotteDunois\Yasmin\Models\Role($this->client, $this, $role)));
+            $this->roles->factory($role);
         }
         
         foreach($guild['emojis'] as $emoji) {
-            $this->emojis->set($emoji['id'], (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this, $emoji)));
+            $this->emojis->factory($emoji);
         }
         
         if(!empty($guild['channels'])) {

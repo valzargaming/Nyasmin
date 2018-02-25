@@ -77,6 +77,12 @@ class EmojiStorage extends Storage {
      * @internal
      */
     function factory(array $data) {
+        if($this->has($data['id'])) {
+            $emoji = $this->get($data['id']);
+            $emoji->_patch($data);
+            return $emoji;
+        }
+        
         $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->guild, $data);
         $id = ($emoji->id ?? $emoji->name);
         

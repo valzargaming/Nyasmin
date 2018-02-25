@@ -19,9 +19,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property \DateTime   $createdAt          The DateTime instance of createdTimestamp.
  */
-class PartialChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
-    
+class PartialChannel extends ClientBase {
     protected $id;
     protected $name;
     protected $icon;
