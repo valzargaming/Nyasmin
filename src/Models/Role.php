@@ -166,7 +166,7 @@ class Role extends ClientBase {
      *
      * @param array  $options
      * @param string $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor()
      */
@@ -211,7 +211,7 @@ class Role extends ClientBase {
     /**
      * Deletes the role.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -225,7 +225,7 @@ class Role extends ClientBase {
      * Set the color of the role. Resolves with $this.
      * @param int|string  $color
      * @param string      $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor()
      */
@@ -237,7 +237,7 @@ class Role extends ClientBase {
      * Set whether or not the role should be hoisted. Resolves with $this.
      * @param bool    $hoist
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setHoist(bool $hoist, string $reason = '') {
@@ -248,7 +248,7 @@ class Role extends ClientBase {
      * Set whether the role is mentionable. Resolves with $this.
      * @param bool    $mentionable
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setMentionable(bool $mentionable, string $reason = '') {
@@ -259,7 +259,7 @@ class Role extends ClientBase {
      * Set a new name for the role. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setName(string $name, string $reason = '') {
@@ -270,7 +270,7 @@ class Role extends ClientBase {
      * Set the permissions of the role. Resolves with $this.
      * @param int|\CharlotteDunois\Yasmin\Models\Permissions  $permissions
      * @param string                                          $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setPermissions($permissions, string $reason = '') {
@@ -281,7 +281,7 @@ class Role extends ClientBase {
      * Set the position of the role. Resolves with $this.
      * @param int     $position
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {

@@ -112,7 +112,7 @@ class VoiceChannel extends ClientBase
      * Sets the bitrate of the channel. Resolves with $this.
      * @param int     $bitrate
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setBitrate(int $bitrate, string $reason = '') {
@@ -123,7 +123,7 @@ class VoiceChannel extends ClientBase
      * Sets the user limit of the channel. Resolves with $this.
      * @param int     $userLimit
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setUserLimit(int $userLimit, string $reason = '') {

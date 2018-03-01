@@ -28,7 +28,7 @@ trait GuildChannelTrait {
      * </pre>
      *
      * @param array $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function createInvite(array $options = array()) {
@@ -56,7 +56,7 @@ trait GuildChannelTrait {
      * @param bool    $withPermissions  Whether to clone the channel with this channel's permission overwrites
      * @param bool    $withTopic        Whether to clone the channel with this channel's topic.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface
      */
     function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '') {
@@ -112,7 +112,7 @@ trait GuildChannelTrait {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
@@ -168,7 +168,7 @@ trait GuildChannelTrait {
     /**
      * Deletes the channel.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -180,7 +180,7 @@ trait GuildChannelTrait {
     
     /**
      * Fetches all invites of this channel. Resolves with a Collection of Invite instances, mapped by their code.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function fetchInvites() {
@@ -286,7 +286,7 @@ trait GuildChannelTrait {
      * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $allow         Which permissions should be allowed?
      * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $deny          Which permissions should be denied?
      * @param string                                                                                 $reason        The reason for this.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Models\PermissionOverwrite
      */
@@ -348,7 +348,7 @@ trait GuildChannelTrait {
     /**
      * Locks in the permission overwrites from the parent channel. Resolves with $this.
      * @param string  $reason  The reason for this.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException
      */
     function lockPermissions(string $reason = '') {
@@ -389,7 +389,7 @@ trait GuildChannelTrait {
      * Sets the name of the channel. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setName(string $name, string $reason = '') {
@@ -400,7 +400,7 @@ trait GuildChannelTrait {
      * Sets the nsfw flag of the channel. Resolves with $this.
      * @param bool    $nsfw
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setNSFW(bool $nsfw, string $reason = '') {
@@ -411,7 +411,7 @@ trait GuildChannelTrait {
      * Sets the parent of the channel. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\CategoryChannel|string  $parent  An instance of CategoryChannel or the channel ID.
      * @param string                                                 $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setParent($parent, string $reason = '') {
@@ -422,7 +422,7 @@ trait GuildChannelTrait {
      * Sets the permission overwrites of the channel. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array  $permissionOverwrites  An array or Collection of PermissionOverwrite instances or permission overwrite arrays.
      * @param string                                          $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setPermissionOverwrites($permissionOverwrites, string $reason = '') {
@@ -433,7 +433,7 @@ trait GuildChannelTrait {
      * Sets the position of the channel. Resolves with $this.
      * @param int     $position
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {
@@ -476,7 +476,7 @@ trait GuildChannelTrait {
      * Sets the topic of the channel. Resolves with $this.
      * @param string  $topic
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setTopic(string $topic, string $reason = '') {

@@ -69,7 +69,7 @@ class PermissionOverwrite extends ClientBase {
     * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $allow         Which permissions should be allowed?
     * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $deny          Which permissions should be denied?
     * @param string                                                                                 $reason        The reason for this.
-    * @return \React\Promise\Promise
+    * @return \React\Promise\ExtendedPromiseInterface
     * @throws \InvalidArgumentException
      */
     function edit($allow, $deny = null, string $reason = '') {
@@ -115,7 +115,7 @@ class PermissionOverwrite extends ClientBase {
     /**
      * Deletes the permission overwrite.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {

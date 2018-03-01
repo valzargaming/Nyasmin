@@ -67,7 +67,7 @@ class Webhook extends ClientBase {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
@@ -106,7 +106,7 @@ class Webhook extends ClientBase {
     /**
      * Deletes the webhook.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -151,7 +151,7 @@ class Webhook extends ClientBase {
      *
      * @param string  $content  The webhook message content.
      * @param array   $options  Any webhook message options.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Message
      * @see https://discordapp.com/developers/docs/resources/channel#message-object
      */
@@ -241,7 +241,7 @@ class Webhook extends ClientBase {
      * Executes the webhook effectively. Resolves with an instance of Message.
      * @param array  $opts
      * @param array  $files
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @internal
      */
     protected function executeWebhook(array $opts, array $files) {

@@ -226,7 +226,7 @@ class Guild extends ClientBase {
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user         A guild member or User instance, or the user ID.
      * @param string                                      $accessToken  The OAuth Access Token for the given user.
      * @param array                                       $options      Any options.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function addMember($user, string $accessToken, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $accessToken, $options) {
@@ -275,7 +275,7 @@ class Guild extends ClientBase {
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  $user     A guild member or User instance, or the user ID.
      * @param int                                                                                    $days     Number of days of messages to delete (0-7).
      * @param string                                                                                 $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function ban($user, int $days = 0, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $days, $reason) {
@@ -315,7 +315,7 @@ class Guild extends ClientBase {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface
      */
@@ -367,7 +367,7 @@ class Guild extends ClientBase {
      * @param string                                           $name
      * @param array|\CharlotteDunois\Yasmin\Utils\Collection   $roles  An array or Collection of Role instances or role IDs.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Emoji
      */
     function createEmoji(string $file, string $name, $roles = array(), string $reason = '') {
@@ -416,7 +416,7 @@ class Guild extends ClientBase {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\Models\Role
      */
@@ -435,7 +435,7 @@ class Guild extends ClientBase {
     
     /**
      * Deletes the guild.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -469,7 +469,7 @@ class Guild extends ClientBase {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function edit(array $options, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
@@ -556,7 +556,7 @@ class Guild extends ClientBase {
      * </pre>
      *
      * @param array  $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\AuditLog
      */
     function fetchAuditLog(array $options = array()) {
@@ -574,7 +574,7 @@ class Guild extends ClientBase {
     
     /**
      * Fetch all bans of the guild. Resolves with a Collection of array('reason' => string|null, 'user' => User), mapped by the user ID.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function fetchBans() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -596,7 +596,7 @@ class Guild extends ClientBase {
     
     /**
      * Fetches all invites of the guild. Resolves with a Collection of Invite instances, mapped by their code.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function fetchInvites() {
@@ -617,7 +617,7 @@ class Guild extends ClientBase {
     /**
      * Fetches a specific guild member. Resolves with an instance of GuildMember.
      * @param string  $userid  The ID of the guild member.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\GuildMember
      */
     function fetchMember(string $userid) {
@@ -636,7 +636,7 @@ class Guild extends ClientBase {
      * Fetches all guild members. Resolves with $this.
      * @param string  $query  Limit fetch to members with similar usernames
      * @param int     $limit  Maximum number of members to request
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function fetchMembers(string $query = '', int $limit = 0) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($query, $limit) {
@@ -678,7 +678,7 @@ class Guild extends ClientBase {
     
     /**
      * Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\VoiceRegion
      */
     function fetchVoiceRegions() {
@@ -698,7 +698,7 @@ class Guild extends ClientBase {
     
     /**
      * Fetches the guild's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function fetchWebhooks() {
@@ -746,7 +746,7 @@ class Guild extends ClientBase {
     
     /**
      * Returns the vanity invite. The guild must be partnered, i.e. have 'VANITY_URL' in guild features. Resolves with an instance of Invite.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function getVanityInvite() {
@@ -762,7 +762,7 @@ class Guild extends ClientBase {
     
     /**
      * Leaves the guild.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function leave() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -777,7 +777,7 @@ class Guild extends ClientBase {
      * @param int     $days
      * @param bool    $dry
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function pruneMembers(int $days, bool $dry = false, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days, $dry, $reason) {
@@ -792,7 +792,7 @@ class Guild extends ClientBase {
      * Edits the AFK channel of the guild. Resolves with $this.
      * @param string|\CharlotteDunois\Yasmin\Models\VoiceChannel|null  $channel
      * @param string                                                   $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setAFKChannel($channel, string $reason = '') {
         return $this->edit(array('afkChannel' => $channel), $reason);
@@ -802,7 +802,7 @@ class Guild extends ClientBase {
      * Edits the AFK timeout of the guild. Resolves with $this.
      * @param int|null $timeout
      * @param string   $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setAFKTimeout($timeout, string $reason = '') {
         return $this->edit(array('afkTimeout' => $timeout), $reason);
@@ -812,7 +812,7 @@ class Guild extends ClientBase {
      * Batch-updates the guild's channels positions. Channels is an array of <code>channel ID (string)|GuildChannelInterface => position (int)</code> pairs. Resolves with $this.
      * @param array   $channels
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setChannelPositions(array $channels, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($channels, $reason) {
@@ -836,7 +836,7 @@ class Guild extends ClientBase {
      * Batch-updates the guild's roles positions. Roles is an array of <code>role ID (string)|Role => position (int)</code> pairs. Resolves with $this.
      * @param array   $roles
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setRolePositions(array $roles, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($roles, $reason) {
@@ -860,7 +860,7 @@ class Guild extends ClientBase {
      * Edits the level of the explicit content filter. Resolves with $this.
      * @param int     $filter
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setExplicitContentFilter(int $filter, string $reason = '') {
         return $this->edit(array('explicitContentFilter' => $filter), $reason);
@@ -870,7 +870,7 @@ class Guild extends ClientBase {
      * Updates the guild icon. Resolves with $this.
      * @param string  $icon    A filepath or URL, or data.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setIcon(string $icon, string $reason = '') {
         return $this->edit(array('icon' => $icon), $reason);
@@ -880,7 +880,7 @@ class Guild extends ClientBase {
      * Edits the name of the guild. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setName(string $name, string $reason = '') {
         return $this->edit(array('name' => $name), $reason);
@@ -890,7 +890,7 @@ class Guild extends ClientBase {
      * Sets a new owner for the guild. Resolves with $this.
      * @param string|\CharlotteDunois\Yasmin\Models\GuildMember  $owner
      * @param string                                             $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setOwner($owner, string $reason = '') {
         return $this->edit(array('owner' => $owner), $reason);
@@ -900,7 +900,7 @@ class Guild extends ClientBase {
      * Edits the region of the guild. Resolves with $this.
      * @param string|\CharlotteDunois\Yasmin\Models\VoiceRegion  $region
      * @param string                                             $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setRegion($region, string $reason = '') {
         return $this->edit(array('region' => $region), $reason);
@@ -910,7 +910,7 @@ class Guild extends ClientBase {
      * Updates the guild splash. Resolves with $this.
      * @param string  $splash  A filepath or URL, or data.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setSplash(string $splash, string $reason = '') {
         return $this->edit(array('splash' => $splash), $reason);
@@ -920,7 +920,7 @@ class Guild extends ClientBase {
      * Edits the system channel of the guild. Resolves with $this.
      * @param string|\CharlotteDunois\Yasmin\Models\TextChannel|null  $channel
      * @param string                                                  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setSystemChannel($channel, string $reason = '') {
         return $this->edit(array('systemChannel' => $channel), $reason);
@@ -930,7 +930,7 @@ class Guild extends ClientBase {
      * Edits the verification level of the guild. Resolves with $this.
      * @param int     $level
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setVerificationLevel(int $level, string $reason = '') {
         return $this->edit(array('verificationLevel' => $level), $reason);
@@ -940,7 +940,7 @@ class Guild extends ClientBase {
      * Unbans the given user. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user     An User instance or the user ID.
      * @param string                                      $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function unban($user, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $reason) {

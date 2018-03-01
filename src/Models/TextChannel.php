@@ -124,7 +124,7 @@ class TextChannel extends ClientBase
      * @param string       $name
      * @param string|null  $avatar  An URL or file path, or data.
      * @param string       $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function createWebhook(string $name, ?string $avatar = null, string $reason = '') {
@@ -148,7 +148,7 @@ class TextChannel extends ClientBase
     
     /**
      * Fetches the channel's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function fetchWebhooks() {

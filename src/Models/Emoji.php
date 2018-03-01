@@ -94,7 +94,7 @@ class Emoji extends ClientBase {
     /**
      * Adds a role to the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function addRestrictedRole($role) {
@@ -109,7 +109,7 @@ class Emoji extends ClientBase {
     /**
      * Adds multiple roles to the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  ...$role
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function addRestrictedRoles(...$role) {
@@ -138,7 +138,7 @@ class Emoji extends ClientBase {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function edit(array $options, string $reason = '') {
@@ -170,7 +170,7 @@ class Emoji extends ClientBase {
     /**
      * Deletes the emoji.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function delete(string $reason = '') {
@@ -188,7 +188,7 @@ class Emoji extends ClientBase {
     /**
      * Removes a role from the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  $role
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function removeRestrictedRole($role) {
@@ -211,7 +211,7 @@ class Emoji extends ClientBase {
     /**
      * Removes multiple roles from the list of roles that can use this emoji. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string  ...$role
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function removeRestrictedRoles(...$role) {
@@ -238,7 +238,7 @@ class Emoji extends ClientBase {
      * Sets the new name of the emoji. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function setName(string $name, string $reason = '') {

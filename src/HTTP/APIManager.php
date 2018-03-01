@@ -124,7 +124,7 @@ class APIManager {
      * @param string  $method
      * @param string  $endpoint
      * @param array   $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function makeRequest(string $method, string $endpoint, array $options) {
         $request = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
@@ -136,7 +136,7 @@ class APIManager {
      * @param string  $method
      * @param string  $endpoint
      * @param array   $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function makeRequestSync(string $method, string $endpoint, array $options) {
         $apirequest = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
@@ -164,7 +164,7 @@ class APIManager {
     /**
      * Adds an APIRequest to the queue.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $apirequest
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
@@ -175,6 +175,7 @@ class APIManager {
             if(!empty($endpoint)) {
                 $this->client->emit('debug', 'Adding request "'.$apirequest->getEndpoint().'" to ratelimit bucket');
                 $bucket = $this->getRatelimitBucket($endpoint);
+                
                 $bucket->push($apirequest);
                 $this->queue[] = $bucket;
             } else {
@@ -205,7 +206,7 @@ class APIManager {
     /**
      * Gets the Gateway from the Discord API synchronously.
      * @param bool  $bot  Should we use the bot endpoint? Requires token.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function getGatewaySync(bool $bot = false) {
         return $this->makeRequestSync('GET', 'gateway'.($bot ? '/bot' : ''), array());
@@ -226,8 +227,6 @@ class APIManager {
     final protected function processDelayed() {
         $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
         if($offset > 0) {
-            $offset = $offset / 1000;
-            
             $this->client->addTimer($offset, function () {
                 $this->process();
             });
@@ -275,6 +274,7 @@ class APIManager {
                 foreach($this->queue as $qitem) {
                     if(!($qitem instanceof \CharlotteDunois\Yasmin\HTTP\RatelimitBucket) || !\in_array($qitem->getEndpoint(), $this->runningBuckets)) {
                         $this->processItem($qitem);
+                        return;
                     }
                 }
                 

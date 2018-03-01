@@ -23,7 +23,7 @@ trait TextChannelTrait {
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).
      * @param string                                              $reason
      * @param bool                                                $filterOldMessages  Automatically filters out too old messages (14 days).
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($messages, $reason, $filterOldMessages) {
@@ -80,7 +80,7 @@ trait TextChannelTrait {
      *
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function collectMessages(callable $filter, array $options = array()) {
@@ -120,7 +120,7 @@ trait TextChannelTrait {
     /**
      * Fetches a specific message using the ID. Resolves with an instance of Message.
      * @param string  $id
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function fetchMessage(string $id) {
@@ -147,7 +147,7 @@ trait TextChannelTrait {
      * </pre>
      *
      * @param array  $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function fetchMessages(array $options = array()) {
@@ -190,7 +190,7 @@ trait TextChannelTrait {
      *
      * @param string  $content  The message content.
      * @param array   $options  Any message options.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function send(string $content, array $options = array()) {

@@ -58,7 +58,7 @@ class MessageReaction extends ClientBase {
      * @param int     $limit   The maximum amount of users to fetch, defaults to 100.
      * @param string  $before  Limit fetching users to those with an ID smaller than the given ID.
      * @param string  $after   Limit fetching users to those with an ID greater than the given ID.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\User
      */
     function fetchUsers(int $limit = 100, string $before = '', string $after = '') {
@@ -87,7 +87,7 @@ class MessageReaction extends ClientBase {
     /**
      * Removes an user from the reaction. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user  Defaults to the client user.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function remove($user = null) {

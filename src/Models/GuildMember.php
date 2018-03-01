@@ -204,7 +204,7 @@ class GuildMember extends ClientBase {
      * Adds a role to the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role instance or role ID.
      * @param string                                       $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function addRole($role, string $reason = '') {
         if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
@@ -222,7 +222,7 @@ class GuildMember extends ClientBase {
      * Adds roles to the guild member. Resolves with $this.
      * @param array|\CharlotteDunois\Yasmin\Utils\Collection   $roles    A collection or array of Role instances or role IDs.
      * @param string                                           $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function addRoles($roles, string $reason = '') {
         if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
@@ -237,7 +237,7 @@ class GuildMember extends ClientBase {
      * Bans the guild member.
      * @param int     $days     Number of days of messages to delete (0-7).
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function ban(int $days = 0, string $reason = '') {
         return $this->guild->ban($this, $days, $reason);
@@ -260,7 +260,7 @@ class GuildMember extends ClientBase {
      *
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
@@ -306,7 +306,7 @@ class GuildMember extends ClientBase {
     /**
      * Kicks the guild member.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function kick(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
@@ -335,7 +335,7 @@ class GuildMember extends ClientBase {
      * Removes a role from the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Role|string   $role    A role instance or role ID.
      * @param string                                       $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function removeRole($role, string $reason = '') {
         if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
@@ -353,7 +353,7 @@ class GuildMember extends ClientBase {
      * Removes roles from the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
      * @param string                                                                                $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function removeRoles($roles, string $reason = '') {
         if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
@@ -371,7 +371,7 @@ class GuildMember extends ClientBase {
      * Deafen/undeafen a guild member. Resolves with $this.
      * @param bool    $deaf
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setDeaf(bool $deaf, string $reason = '') {
         return $this->edit(array('deaf' => $deaf), $reason);
@@ -381,7 +381,7 @@ class GuildMember extends ClientBase {
      * Mute/unmute a guild member. Resolves with $this.
      * @param bool    $mute
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setMute(bool $mute, string $reason = '') {
         return $this->edit(array('mute' => $mute), $reason);
@@ -391,7 +391,7 @@ class GuildMember extends ClientBase {
      * Set the nickname of the guild member. Resolves with $this.
      * @param string  $nickname
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setNickname(string $nickname, string $reason = '') {
         if($this->id === $this->client->user->id) {
@@ -409,7 +409,7 @@ class GuildMember extends ClientBase {
      * Sets the roles of the guild member. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
      * @param string                                                                                $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setRoles($roles, string $reason = '') {
         return $this->edit(array('roles' => $roles), $reason);
@@ -419,7 +419,7 @@ class GuildMember extends ClientBase {
      * Moves the guild member to the given voice channel, if connected to voice. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\VoiceChannel|string  $channel
      * @param string                                              $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setVoiceChannel($channel, string $reason = '') {

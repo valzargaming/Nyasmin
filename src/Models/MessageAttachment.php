@@ -97,7 +97,7 @@ class MessageAttachment extends Base {
         $file = @\realpath($this->attachment);
         if($file) {
             $props['path'] = $file;
-        } elseif(\filter_var($this->attachment, FILTER_VALIDATE_URL)) {
+        } elseif(\filter_var($this->attachment, \FILTER_VALIDATE_URL)) {
             $props['path'] = $this->attachment;
         } else {
             $props['data'] = $this->attachment;

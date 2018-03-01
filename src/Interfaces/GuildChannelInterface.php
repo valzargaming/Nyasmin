@@ -16,7 +16,7 @@ interface GuildChannelInterface {
     /**
      * Creates an invite. Resolves with an instance of Invite.
      * @param array $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function createInvite(array $options = array());
     
@@ -26,7 +26,7 @@ interface GuildChannelInterface {
      * @param bool    $withPermissions
      * @param bool    $withTopic
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function clone(?string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '');
      
@@ -34,7 +34,7 @@ interface GuildChannelInterface {
      * Edits the channel. Resolves with $this.
      * @param array   $options
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '');
@@ -42,13 +42,13 @@ interface GuildChannelInterface {
     /**
      * Deletes the channel.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '');
     
     /**
      * Fetches all invites of this channel. Resolves with a Collection of Invite instances, mapped by their code.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function fetchInvites();
@@ -75,7 +75,7 @@ interface GuildChannelInterface {
      * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $allow
      * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $deny
      * @param string                                                                                 $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '');
@@ -83,7 +83,7 @@ interface GuildChannelInterface {
     /**
      * Locks in the permission overwrites from the parent channel. Resolves with $this.
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException
      */
     function lockPermissions(string $reason = '');
@@ -92,7 +92,7 @@ interface GuildChannelInterface {
      * Sets the name of the channel. Resolves with $this.
      * @param string  $name
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setName(string $name, string $reason = '');
@@ -101,7 +101,7 @@ interface GuildChannelInterface {
      * Sets the nsfw flag of the channel. Resolves with $this.
      * @param bool    $nsfw
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setNSFW(bool $nsfw, string $reason = '');
@@ -110,7 +110,7 @@ interface GuildChannelInterface {
      * Sets the parent of the channel. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\CategoryChannel|string  $parent
      * @param string                                                 $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setParent($parent, string $reason = '');
@@ -119,7 +119,7 @@ interface GuildChannelInterface {
      * Sets the permission overwrites of the channel. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array  $permissionOverwrites
      * @param string                                          $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setPermissionOverwrites($permissionOverwrites, string $reason = '');
@@ -128,7 +128,7 @@ interface GuildChannelInterface {
      * Sets the position of the channel. Resolves with $this.
      * @param int     $position
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '');
@@ -137,7 +137,7 @@ interface GuildChannelInterface {
      * Sets the topic of the channel. Resolves with $this.
      * @param string  $topic
      * @param string  $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     function setTopic(string $topic, string $reason = '');

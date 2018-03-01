@@ -75,7 +75,7 @@ class ClientUser extends User {
     /**
      * Set your avatar. Resolves with $this.
      * @param string|null  $avatar  An URL or the filepath or the data. Null resets your avatar.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 15 4
      */
     function setAvatar(?string $avatar) {
@@ -99,7 +99,7 @@ class ClientUser extends User {
     /**
      * Set your status. Resolves with $this.
      * @param string  $status  Valid values are: <code>online</code>, <code>idle</code>, <code>dnd</code> and <code>invisible</code>.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 25 2
      */
     function setStatus(string $status) {
@@ -114,7 +114,7 @@ class ClientUser extends User {
      * Set your activity. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Models\Activity|string|null  $name  The activity name.
      * @param int                                                  $type  Optional if first argument is an Activity. The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function setActivity($name, int $type = 0) {
         if($name === null) {
@@ -142,7 +142,7 @@ class ClientUser extends User {
      * Set your playing game. Resolves with $this.
      * @param string|null  $name  The game name.
      * @param string       $url   If you're streaming, this is the url to the stream.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 21 2
      */
     function setGame(?string $name, string $url = '') {
@@ -187,7 +187,7 @@ class ClientUser extends User {
      *  Any field in the first dimension is optional and will be automatically filled with the last known value.
      *
      * @param array $presence
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 29 10
      */
     function setPresence(array $presence) {
@@ -242,7 +242,7 @@ class ClientUser extends User {
     /**
      * Set your username. Resolves with $this.
      * @param string $username
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 41 2
      */
     function setUsername(string $username) {
@@ -266,7 +266,7 @@ class ClientUser extends User {
      *
      * @param array  $userWithAccessTokens
      * @param array  $nicks
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\GroupDMChannel
      */
     function createGroupDM(array $userWithAccessTokens, array $nicks = array()) {

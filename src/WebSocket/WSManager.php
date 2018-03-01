@@ -33,7 +33,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         'IDENTIFY' => 2,
         'STATUS_UPDATE' => 3,
         'VOICE_STATE_UPDATE' => 4,
-        'VOICE_SERVER_PING' => 5,
         'RESUME' => 6,
         'RECONNECT' => 7,
         'REQUEST_GUILD_MEMBERS' => 8,
@@ -46,7 +45,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         2 => 'IDENTIFY',
         3 => 'STATUS_UPDATE',
         4 => 'VOICE_STATE_UPDATE',
-        5 => 'VOICE_SERVER_PING',
         6 => 'RESUME',
         7 => 'RECONNECT',
         8 => 'REQUEST_GUILD_MEMBERS',
@@ -174,6 +172,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * WS close codes, sorted by resumable session and ends everything.
+     * @var array
      */
     protected $wsCloseCodes = array(
         'end' => array(
@@ -262,7 +261,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Connects to the gateway url.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \Exception
      */
     function connect(?string $gateway = null, array $querystring = array()) {
@@ -505,7 +504,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Closes the WS connection.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     protected function renewConnection(bool $forceNewGateway = true) {
         return $this->client->login(((string) $this->client->token), $forceNewGateway)->otherwise(function () use ($forceNewGateway) {
@@ -521,7 +520,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * @param array $packet
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \RuntimeException
      */
     function send(array $packet) {

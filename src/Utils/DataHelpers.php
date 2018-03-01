@@ -74,7 +74,7 @@ class DataHelpers {
     /**
      * Resolves filepath and URL into file data - returns it if it's neither. Resolves with a string.
      * @param string  $file
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     static function resolveFileResolvable(string $file) {
         $rfile = @\realpath($file);
@@ -144,7 +144,7 @@ class DataHelpers {
     /**
      * Resolves files of Message Options.
      * @param array $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
     static function resolveMessageOptionsFiles(array $options) {
@@ -213,7 +213,7 @@ class DataHelpers {
      * @param string                                         $event
      * @param callable|null                                  $filter
      * @param array                                          $options
-     * @return \React\Promise\Promise  This promise is cancelable.
+     * @return \React\Promise\ExtendedPromiseInterface  This promise is cancelable.
      * @throws \RangeException
      */
     static function waitForEvent(\CharlotteDunois\Events\EventEmitterInterface $emitter, string $event, ?callable $filter = null, array $options = array()) {

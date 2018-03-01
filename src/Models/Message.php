@@ -178,7 +178,7 @@ class Message extends ClientBase {
     
     /**
      * Removes all reactions from the message. Resolves with $this.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function clearReactions() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -203,7 +203,7 @@ class Message extends ClientBase {
      *
      * @param callable  $filter   The filter to only collect desired reactions.
      * @param array     $options  The collector options.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\MessageReaction
      *
      */
@@ -245,7 +245,7 @@ class Message extends ClientBase {
      * Edits the message. You need to be the author of the message. Resolves with $this.
      * @param string|null  $content  The message contents.
      * @param array        $options  An array with options. Only embed is supported by edit.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send()
      */
     function edit(?string $content, array $options = array()) {
@@ -270,7 +270,7 @@ class Message extends ClientBase {
      * Deletes the message.
      * @param float|int  $timeout  An integer or float as timeout in seconds, after which the message gets deleted.
      * @param string     $reason
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete($timeout = 0, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($timeout, $reason) {
@@ -288,7 +288,7 @@ class Message extends ClientBase {
     
     /**
      * Fetches the webhook used to create this message. Resolves with an instance of Webhook.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
@@ -307,7 +307,7 @@ class Message extends ClientBase {
     
     /**
      * Pins the message. Resolves with $this.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function pin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -320,7 +320,7 @@ class Message extends ClientBase {
     /**
      * Reacts to the message with the specified unicode or custom emoji. Resolves with an instance of MessageReaction
      * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string  $emoji
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\MessageReaction
      */
     function react($emoji) {
@@ -365,7 +365,7 @@ class Message extends ClientBase {
      * Replies to the message. Resolves with an instance of Message, or with a Collection of Message instances, mapped by their ID.
      * @param string  $content
      * @param array   $options
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send()
      */
     function reply(string $content, array $options = array()) {
@@ -374,7 +374,7 @@ class Message extends ClientBase {
     
     /**
      * Unpins the message. Resolves with $this.
-     * @return \React\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function unpin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
