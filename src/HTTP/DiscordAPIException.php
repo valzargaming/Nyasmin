@@ -28,7 +28,7 @@ class DiscordAPIException extends \Exception {
         $this->path = $path;
         $flattened = \implode('\n', self::flattenErrors(($error['errors'] ?? $error)));
         
-        parent::__construct((!empty($error['message']) && !empty($flattened) ? $error['message'].PHP_EOL.$flattened : ($error['message'] ?? $flattened)), (int) ($error['code'] ?? 0));
+        parent::__construct((!empty($error['message']) && !empty($flattened) ? $error['message'].\PHP_EOL.$flattened : ($error['message'] ?? $flattened)), (int) ($error['code'] ?? 0));
     }
     
     /**
