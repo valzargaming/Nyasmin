@@ -14,16 +14,16 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property string            $type               The embed type.
  * @property string|null       $title              The title, or null.
- * @property array|null        $author             The author (array of name, icon, url), or null.
+ * @property array|null        $author             The author in the format <code>[ 'name' => string, 'icon' => string, 'url' => string ]</code>, or null.
  * @property string|null       $description        The description, or null.
  * @property string|null       $url                The URL, or null.
  * @property int|string|null   $timestamp          The timestamp, or the set timestamp (as ISO string), or null.
  * @property int|null          $color              The color, or null.
- * @property array|null        $footer             The author (array of name, icon), or null.
- * @property array|null        $image              The image (array of url, height, width), or null.
- * @property array|null        $thumbnail          The thumbnail (array of url, height, width), or null.
- * @property array|null        $video              The video (array of url, height, width), or null.
- * @property array|null        $provider           The provider (array of name, url), or null.
+ * @property array|null        $footer             The footer in the format <code>[ 'name' => string, 'icon' => string ]</code>, or null.
+ * @property array|null        $image              The image in the format <code>[ 'url' => string, 'height' => int, 'width' => int ]</code>, or null.
+ * @property array|null        $thumbnail          The thumbnail in the format <code>[ 'url' => string, 'height' => int, 'width' => int ]</code>, or null.
+ * @property array|null        $video              The video in the format <code>[ 'url' => string, 'height' => int, 'width' => int ]</code>, or null.
+ * @property array|null        $provider           The provider in the format <code>[ 'name' => string, 'url' => string ]</code>, or null.
  *
  * @property \DateTime|null    $datetime           The DateTime instance of timestamp, or null.
  */
@@ -53,9 +53,9 @@ class MessageEmbed extends Base {
             
             if(!empty($embed['author'])) {
                 $this->author = array(
-                    'name' => $embed['author']['name'] ?? '',
-                    'icon' => $embed['author']['icon_url'] ?? '',
-                    'url' => $embed['author']['url'] ?? ''
+                    'name' => ((string) ($embed['author']['name'] ?? '')),
+                    'icon' => ((string) ($embed['author']['icon_url'] ?? '')),
+                    'url' => ((string) ($embed['author']['url'] ?? ''))
                 );
             }
             
@@ -66,39 +66,39 @@ class MessageEmbed extends Base {
             
             if(!empty($embed['footer'])) {
                 $this->footer = array(
-                    'text' => $embed['footer']['text'] ?? '',
-                    'icon' => $embed['footer']['icon_url'] ?? ''
+                    'text' => ((string) ($embed['footer']['text'] ?? '')),
+                    'icon' => ((string) ($embed['footer']['icon_url'] ?? ''))
                 );
             }
             
             if(!empty($embed['image'])) {
                 $this->image = array(
-                    'url' => $embed['image']['url'],
-                    'height' => $embed['image']['height'],
-                    'width' => $embed['image']['width']
+                    'url' => ((string) $embed['image']['url']),
+                    'height' => ((int) $embed['image']['height']),
+                    'width' => ((int) $embed['image']['width'])
                 );
             }
             
             if(!empty($embed['thumbnail'])) {
                 $this->thumbnail = array(
-                    'url' => $embed['thumbnail']['url'],
-                    'height' => $embed['thumbnail']['height'],
-                    'width' => $embed['thumbnail']['width']
+                    'url' => ((string) $embed['thumbnail']['url']),
+                    'height' => ((int) $embed['thumbnail']['height']),
+                    'width' => ((int) $embed['thumbnail']['width'])
                 );
             }
             
             if(!empty($embed['video'])) {
                 $this->video = array(
-                    'url' => $embed['video']['url'],
-                    'height' => $embed['video']['height'],
-                    'width' => $embed['video']['width']
+                    'url' => ((string) $embed['video']['url']),
+                    'height' => ((int) $embed['video']['height']),
+                    'width' => ((int) $embed['video']['width'])
                 );
             }
             
             if(!empty($embed['provider'])) {
                 $this->provider = array(
-                    'name' => $embed['provider']['name'],
-                    'url' => $embed['provider']['url']
+                    'name' => ((string) $embed['provider']['name']),
+                    'url' => ((string) $embed['provider']['url'])
                 );
             }
             
