@@ -339,7 +339,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway) {
             $connector = $this->connector;
             $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
                 $this->ws = &$conn;

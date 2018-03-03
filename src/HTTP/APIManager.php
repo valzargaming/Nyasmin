@@ -141,7 +141,7 @@ class APIManager {
     function makeRequestSync(string $method, string $endpoint, array $options) {
         $apirequest = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
         
-        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($apirequest) {
             try {
                 $request = $apirequest->request();
                 $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
@@ -167,7 +167,7 @@ class APIManager {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function add(\CharlotteDunois\Yasmin\HTTP\APIRequest $apirequest) {
-        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($apirequest) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($apirequest) {
             $apirequest->deferred = new \React\Promise\Deferred();
             $apirequest->deferred->promise()->done($resolve, $reject);
             
