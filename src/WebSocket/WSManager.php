@@ -331,14 +331,16 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         
         $this->client->emit('debug', 'Connecting to WS '.$gateway);
         
-        $connector = new \Ratchet\Client\Connector($this->client->getLoop());
+        if(!$this->connector) {
+            $this->connector = new \Ratchet\Client\Connector($this->client->getLoop());
+        }
         
         if($this->wsStatus < \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING || $this->wsStatus > \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING) {
             $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($connector, $gateway) {
-            $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
+        return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
+            $this->connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
                 $this->ws = &$conn;
                 
                 if($this->compressContext) {
