@@ -340,7 +340,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, $reject) use ($gateway) {
-            $this->connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
+            $connector = $this->connector;
+            $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
                 $this->ws = &$conn;
                 
                 if($this->compressContext) {
