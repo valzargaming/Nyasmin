@@ -32,16 +32,18 @@ class MessageDeleteBulk implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
                 if($message) {
                     $channel->messages->delete($message->id);
                     $messages->set($message->id, $message);
+                } else {
+                    $messagesRaw[] = $id;
                 }
-                
-                $messagesRaw[] = $id;
             }
             
             if($messages->count() > 0) {
                 $this->client->emit('messageDeleteBulk', $messages);
             }
             
-            $this->client->emit('messageDeleteBulkRaw', $channel, $messagesRaw);
+            if(\count($messagesRaw) > 0) {
+                $this->client->emit('messageDeleteBulkRaw', $channel, $messagesRaw);
+            }
         }
     }
 }

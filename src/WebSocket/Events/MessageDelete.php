@@ -28,9 +28,9 @@ class MessageDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             if($message) {
                 $channel->messages->delete($message->id);
                 $this->client->emit('messageDelete', $message);
+            } else {
+                $this->client->emit('messageDeleteRaw', $channel, $data['id']);
             }
-            
-            $this->client->emit('messageDeleteRaw', $channel, $data['id']);
         }
     }
 }
