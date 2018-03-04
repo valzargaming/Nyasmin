@@ -1,6 +1,6 @@
 # Yasmin [![Build Status](https://scrutinizer-ci.com/g/CharlotteDunois/Yasmin/badges/build.png?b=master)](https://scrutinizer-ci.com/g/CharlotteDunois/Yasmin/build-status/master)
 
-Yasmin is a Discord API library, which interacts with the HTTP REST API, but also with the WebSocket Real Time Gateway.
+Yasmin is a Discord API library for PHP. Yasmin connects to the Real Time Gateway and interacts with the REST API.
 
 This library is **only** for PHP 7.1 (and later) and use in CLI. Only bot accounts are supported by Yasmin.
 
@@ -52,4 +52,4 @@ If you think something is wrong, or not working as expected, then try to listen 
 
 # Need help? Join the Yasmin or Discord API guild.
 
-[![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1)](https://discord.gg/hUpnqam) [![](https://discordapp.com/api/guilds/81384788765712384/embed.png?style=banner1)](https://discord.gg/MzjnGFF)
+[![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1&v=1)](https://discord.gg/hUpnqam) [![](https://discordapp.com/api/guilds/81384788765712384/embed.png?style=banner1)](https://discord.gg/MzjnGFF)
