@@ -37,9 +37,8 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                 
                 $user->_patch($data['user']);
                 
-                if($user != $oldUser) {
-                    $this->client->emit('userUpdate', $user, $oldUser);
-                }
+                $this->client->emit('userUpdate', $user, $oldUser);
+                return;
             }
             
             $guild = $this->client->guilds->get($data['guild_id']);
