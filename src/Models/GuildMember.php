@@ -67,6 +67,7 @@ class GuildMember extends ClientBase {
         $this->guild = $guild;
         
         $this->id = $member['user']['id'];
+        $this->client->users->patch($member['user']);
         
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
