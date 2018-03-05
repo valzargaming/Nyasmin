@@ -13,7 +13,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild member.
  *
  * @property string                                                         $id               The ID of the member.
- * @property \CharlotteDunois\Yasmin\Models\User                            $user             The User instance of the member.
  * @property string|null                                                    $nickname         The nickname of the member, or null.
  * @property bool                                                           $deaf             Whether the member is server deafened.
  * @property bool                                                           $mute             Whether the member is server muted.
@@ -38,6 +37,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                           $kickable         Whether the guild member is kickable by the client user.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
  * @property \CharlotteDunois\Yasmin\Models\Presence                        $presence         The presence of the member in this guild.
+ * @property \CharlotteDunois\Yasmin\Models\User|null                       $user             The User instance of the member. This should never be null, unless you fuck up.
  * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $voiceChannel     The voice channel the member is in, if connected to voice, or null.
  */
 class GuildMember extends ClientBase {
@@ -67,7 +67,6 @@ class GuildMember extends ClientBase {
         $this->guild = $guild;
         
         $this->id = $member['user']['id'];
-        $this->user = $this->client->users->patch($member['user']);
         
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
@@ -191,6 +190,9 @@ class GuildMember extends ClientBase {
             break;
             case 'presence':
                 return $this->guild->presences->get($this->id);
+            break;
+            case 'user':
+                return $this->client->users->get($this->id);
             break;
             case 'voiceChannel':
                 return $this->guild->channels->get($this->voiceChannelID);
