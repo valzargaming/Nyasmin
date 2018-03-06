@@ -25,7 +25,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         $this->clones = !($clones === true || \in_array('presenceUpdate', (array) $clones));
     }
     
-    function handle($data) {
+    function handle(array $data) {
         try {
             $user = $this->client->users->resolve($data['user']['id']);
             
