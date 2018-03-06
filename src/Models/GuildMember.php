@@ -44,7 +44,6 @@ class GuildMember extends ClientBase {
     protected $guild;
     
     protected $id;
-    protected $user;
     protected $nickname;
     
     protected $deaf;
