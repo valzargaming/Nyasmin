@@ -336,6 +336,8 @@ class APIManager {
             }
         }, function ($error) use ($item) {
             $item->deferred->reject($error);
+        })->otherwise(function ($error) {
+            $this->client->handlePromiseRejection($error);
         })->then(function () use ($ratelimit) {
             $key = \array_search($ratelimit->getEndpoint(), $this->runningBuckets);
             if($key !== false) {
@@ -343,7 +345,7 @@ class APIManager {
             }
             
             $this->processDelayed();
-        }, array($this->client, 'handlePromiseRejection'));
+        });
     }
     
     /**
