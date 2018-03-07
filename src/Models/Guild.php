@@ -662,8 +662,8 @@ class Guild extends ClientBase {
                 'op' => \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['REQUEST_GUILD_MEMBERS'],
                 'd' => array(
                     'guild_id' => $this->id,
-                    'query' => $query ?? '',
-                    'limit' => $limit ?? 0
+                    'query' => $query,
+                    'limit' => $limit
                 )
             ));
             
