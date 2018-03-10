@@ -353,7 +353,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Removes roles from the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
+     * @param \CharlotteDunois\Yasmin\Utils\Collection|array   $roles    A collection or array of role instances (or role IDs).
      * @param string                                                                                $reason
      * @return \React\Promise\ExtendedPromiseInterface
      */
@@ -363,7 +363,7 @@ class GuildMember extends ClientBase {
         }
         
         $roles = \array_filter($this->roles->all(), function ($role) use ($roles) {
-            return (!\in_array($role, $roles, true));
+            return (!\in_array($role, $roles, true) && !\in_array(((string) $role->id), $roles, true));
         });
         
         return $this->edit(array('roles' => $roles), $reason);
