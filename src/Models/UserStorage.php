@@ -34,7 +34,7 @@ class UserStorage extends Storage {
     
     /**
      * Resolves given data to an user.
-     * @param \CharlotteDunois\Yasmin\Models\User|\CharlotteDunois\Yasmin\Models\GuildMember|string  $user  string = user ID
+     * @param \CharlotteDunois\Yasmin\Models\User|\CharlotteDunois\Yasmin\Models\GuildMember|string|int  $user  string/int = user ID
      * @return \CharlotteDunois\Yasmin\Models\User
      * @throws \InvalidArgumentException
      */

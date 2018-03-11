@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
 class GuildStorage extends Storage {
     /**
      * Resolves given data to a guild.
-     * @param \CharlotteDunois\Yasmin\Models\Guild|string  $guild  string = guild ID
+     * @param \CharlotteDunois\Yasmin\Models\Guild|string|int  $guild  string/int = guild ID
      * @return \CharlotteDunois\Yasmin\Models\Guild
      * @throws \InvalidArgumentException
      */

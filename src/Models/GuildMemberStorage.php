@@ -25,7 +25,7 @@ class GuildMemberStorage extends Storage {
     
     /**
      * Resolves given data to a guildmember.
-     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string  string = user ID
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string|int  string/int = user ID
      * @return \CharlotteDunois\Yasmin\Models\GuildMember
      * @throws \InvalidArgumentException
      */

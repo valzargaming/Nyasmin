@@ -25,7 +25,7 @@ class RoleStorage extends Storage {
     
     /**
      * Resolves given data to a Role.
-     * @param \CharlotteDunois\Yasmin\Models\Role|string  $role  string = role ID
+     * @param \CharlotteDunois\Yasmin\Models\Role|string|int  $role  string/int = role ID
      * @return \CharlotteDunois\Yasmin\Models\Role
      * @throws \InvalidArgumentException
      */

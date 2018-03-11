@@ -41,11 +41,11 @@ class Emoji extends ClientBase {
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null, array $emoji) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, ?\CharlotteDunois\Yasmin\Models\Guild $guild, array $emoji) {
         parent::__construct($client);
         
         $this->id = (!empty($emoji['id']) ? $emoji['id'] : null);
-        $this->createdTimestamp = ($this->id ? (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp : null);
+        $this->createdTimestamp = ($this->id ? ((int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp) : null);
         
         $this->guild = ($this->id ? $guild : null);
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
@@ -270,10 +270,11 @@ class Emoji extends ClientBase {
             $this->roles->clear();
             
             foreach($emoji['roles'] as $role) {
-                $this->roles->set($role['id'], $this->guild->roles->get($role['id']));
+                $r = $this->guild->roles->get($role['id']);
+                $this->roles->set($r->id, $r);
             }
         }
         
-        $this->client->emojis->set($this->id ?? $this->name, $this);
+        $this->client->emojis->set(($this->id ?? $this->name), $this);
     }
 }
