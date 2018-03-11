@@ -109,6 +109,95 @@ class DataHelpers {
     }
     
     /**
+     * Parses mentions in a text. Resolves with an array of <code>[ 'type' => string, 'ref' => Models ]</code> arrays, in the order they were parsed.
+     * For mentions not available to this method or the client (e.g. mentioning a channel with no access to), <code>ref</code> will be parsed mention (string).
+     * Includes everyone and here mentions.
+     *
+     * @param \CharlotteDunois\Yasmin\Client|null  $client
+     * @param string                               $content
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    static function parseMentions(?\CharlotteDunois\Yasmin\Client $client, string $content) {
+        return (new \React\Promise\Promise(function (callable $resolve) use ($client, $content) {
+            $bucket = array();
+            $promises = array();
+            
+            \preg_match_all('/(?:<(@&|@!?|#|a?:.+?:)(\d+)>)|@everyone|@here/su', $content, $matches);
+            foreach($matches[0] as $key => $val) {
+                if($val === '@everyone') {
+                    $bucket[$key] = array('type' => 'everyone', 'ref' => $val);
+                } elseif($val === '@here') {
+                    $bucket[$key] = array('type' => 'here', 'ref' => $val);
+                } elseif($matches[1][$key] === '@&') {
+                    $type = 'role';
+                    
+                    if($client) {
+                        $role = $val;
+                        
+                        foreach($client->guilds as $guild) {
+                            if($guild->roles->has($matches[2][$key])) {
+                                $role = $guild->roles->get($matches[2][$key]);
+                                break 1;
+                            }
+                        }
+                        
+                        $bucket[$key] = array('type' => $type, 'ref' => $role);
+                    } else {
+                        $bucket[$key] = array('type' => $type, 'ref' => $val);
+                    }
+                } elseif($matches[1][$key] === '#') {
+                    $type = 'channel';
+                    
+                    if($client) {
+                        if($client->channels->has($matches[2][$key])) {
+                            $channel = $client->channels->get($matches[2][$key]);
+                        } else {
+                            $channel = $val;
+                        }
+                        
+                        $bucket[$key] = array('type' => $type, 'ref' => $channel);
+                    } else {
+                        $bucket[$key] = array('type' => $type, 'ref' => $val);
+                    }
+                } elseif(\substr_count($matches[1][$key], ':') === 2) {
+                    $type = 'emoji';
+                    
+                    if($client) {
+                        $emoji = $val;
+                        
+                        foreach($client->guilds as $guild) {
+                            if($guild->emojis->has($matches[2][$key])) {
+                                $emoji = $guild->emojis->get($matches[2][$key]);
+                                break 1;
+                            }
+                        }
+                        
+                        $bucket[$key] = array('type' => $type, 'ref' => $emoji);
+                    } else {
+                        $bucket[$key] = array('type' => $type, 'ref' => $val);
+                    }
+                } else {
+                    $type = 'user';
+                    
+                    if($client) {
+                        $promises[] = $client->fetchUser($matches[2][$key])->then(function (\CharlotteDunois\Yasmin\Models\User $user) use (&$bucket, $key, $type) {
+                            $bucket[$key] = array('type' => $type, 'ref' => $user);
+                        }, function () use (&$bucket, $key, $val, $type) {
+                            $bucket[$key] = array('type' => $type, 'ref' => $val);
+                        });
+                    } else {
+                        $bucket[$key] = array('type' => $type, 'ref' => $val);
+                    }
+                }
+            }
+            
+            \React\Promise\all($promises)->done(function () use (&$bucket, $resolve) {
+                $resolve($bucket);
+            });
+        }));
+    }
+    
+    /**
      * Splits a string into multiple chunks at a designated character that do not exceed a specific length.
      * @param string  $text
      * @param array   $options  Options controlling the behaviour of the split.
