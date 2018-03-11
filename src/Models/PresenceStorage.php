@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
 class PresenceStorage extends Storage {
     /**
      * Resolves given data to a presence.
-     * @param \CharlotteDunois\Yasmin\Models\Presence|\CharlotteDunois\Yasmin\Models\User|string|int  string/int = user ID
+     * @param \CharlotteDunois\Yasmin\Models\Presence|\CharlotteDunois\Yasmin\Models\User|string|int  $presence  string/int = user ID
      * @return \CharlotteDunois\Yasmin\Models\Presence
      * @throws \InvalidArgumentException
      */

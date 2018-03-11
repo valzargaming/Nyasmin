@@ -25,7 +25,7 @@ class EmojiStorage extends Storage {
     
     /**
      * Resolves given data to an emoji.
-     * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string|int  string/int = emoji ID
+     * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string|int  $emoji  string/int = emoji ID
      * @return \CharlotteDunois\Yasmin\Models\Emoji
      * @throws \InvalidArgumentException
      */
