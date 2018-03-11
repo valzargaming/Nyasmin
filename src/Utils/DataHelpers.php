@@ -110,7 +110,7 @@ class DataHelpers {
     
     /**
      * Parses mentions in a text. Resolves with an array of <code>[ 'type' => string, 'ref' => Models ]</code> arrays, in the order they were parsed.
-     * For mentions not available to this method or the client (e.g. mentioning a channel with no access to), <code>ref</code> will be parsed mention (string).
+     * For mentions not available to this method or the client (e.g. mentioning a channel with no access to), <code>ref</code> will be the parsed mention (string).
      * Includes everyone and here mentions.
      *
      * @param \CharlotteDunois\Yasmin\Client|null  $client
