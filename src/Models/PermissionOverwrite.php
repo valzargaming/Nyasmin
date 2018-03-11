@@ -77,23 +77,15 @@ class PermissionOverwrite extends ClientBase {
             'type' => $this->type
         );
         
-        $allow = ($allow ?: $this->allow);
-        $deny = ($deny ?: $this->deny);
+        $allow = ($allow !== null ? $allow : $this->allow);
+        $deny = ($deny !== null ? $deny : $this->deny);
         
         if($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
             $allow = $allow->bitfield;
         }
         
-        if(!\is_int($allow)) {
-            throw new \InvalidArgumentException('Allow has to be an int or an instance of Permissions');
-        }
-        
         if($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
             $deny = $deny->bitfield;
-        }
-        
-        if(!\is_int($deny)) {
-            throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
         }
         
         if($allow === $this->allow->bitfield && $deny === $this->deny->bitfield) {

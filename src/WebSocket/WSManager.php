@@ -407,7 +407,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->client->emit('error', $error);
                 });
                 
-                $this->ws->on('close', function ($code, $reason) use ($reject) {
+                $this->ws->on('close', function (int $code, string $reason) use ($reject) {
                     if($this->ratelimits['timer']) {
                         $this->ratelimits['timer']->cancel();
                     }
@@ -436,7 +436,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                         return $reject(new \Exception(self::WS_CLOSE_CODES[$code]));
                     }
                     
-                    if($code === 1000 && $this->expectedClose === true) {
+                    if($code === 1000 && $this->expectedClose) {
                         $this->gateway = null;
                         $this->queue = array();
                         

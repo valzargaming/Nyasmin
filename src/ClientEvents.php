@@ -23,7 +23,7 @@ interface ClientEvents {
     /**
      * Emitted when the client gets disconnected from the gateway.
      */
-    function disconnect();
+    function disconnect(int $code, string $reason);
     
     /**
      * Emitted when the client tries to reconnect.
