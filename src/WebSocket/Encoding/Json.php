@@ -57,9 +57,14 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     /**
      * Prepares the data to be sent.
      * @param string  $data
-     * @return string|\Ratchet\RFC6455\Messaging\Message
+     * @return \Ratchet\RFC6455\Messaging\Message
      */
-    function prepareMessage(string $data) {
-        return $data;
+    function prepareMessage(string $data): \Ratchet\RFC6455\Messaging\Message {
+        $frame = new \Ratchet\RFC6455\Messaging\Frame($data, true, \Ratchet\RFC6455\Messaging\Frame::OP_TEXT);
+        
+        $msg = new \Ratchet\RFC6455\Messaging\Message();
+        $msg->addFrame($frame);
+        
+        return $msg;
     }
 }
