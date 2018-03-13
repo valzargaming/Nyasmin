@@ -241,7 +241,7 @@ class APIManager {
      * Processes the queue.
      */
     protected function process() {
-        if($this->limited === true) {
+        if($this->limited) {
             if(\time() < $this->resetTime) {
                 $this->client->addTimer(($this->resetTime + 1 - \time()), function () {
                     $this->process();

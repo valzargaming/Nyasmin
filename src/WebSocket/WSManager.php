@@ -545,7 +545,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function processQueue() {
-         if($this->running === true) {
+         if($this->running) {
              return;
          } elseif($this->ratelimits['remaining'] === 0) {
              return;

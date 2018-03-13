@@ -41,7 +41,7 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
         } else {
             $guild = $this->client->guilds->factory($data);
             
-            if(((bool) $this->client->getOption('fetchAllMembers', false)) === true && $guild->members->count() < $guild->memberCount) {
+            if(((bool) $this->client->getOption('fetchAllMembers', false)) && $guild->members->count() < $guild->memberCount) {
                 $fetchAll = $guild->fetchMembers();
             } elseif($guild->me === null) {
                 $fetchAll = $guild->fetchMember($this->client->user->id);

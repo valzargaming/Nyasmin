@@ -28,7 +28,7 @@ class GuildUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     function handle(array $data) {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
-            if(($data['unavailable'] ?? false) === true) {
+            if(($data['unavailable'] ?? false)) {
                 $guild->_patch(array('unavailable' => true));
                 $this->client->emit('guildUnavailable', $guild);
                 return;
