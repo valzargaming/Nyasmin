@@ -206,7 +206,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      *
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
-     * @throws \Exception
+     * @throws \Exception|\RuntimeException
      *
      * @see \CharlotteDunois\Yasmin\ClientEvents
      */
@@ -227,13 +227,21 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->loop = $loop;
         
         // ONLY use this if you know to 100% the consequences and know what you are doing
-        if(!empty($options['internal.api.instance']) && \class_exists($options['internal.api.instance'], true)) {
-            if(!\in_array('CharlotteDunois\\Yasmin\\HTTP\\APIManager', \class_parents($options['internal.api.instance']))) {
-                throw new \Exception('Custom API Manager does not extend Yasmin API Manager');
+        if(!empty($options['internal.api.instance'])) {
+            if(\is_string($options['internal.api.instance']) && !\class_exists($options['internal.api.instance'], true)) {
+                throw new \RuntimeException('Custom API Manager class does not exist');
             }
             
-            $api = $options['internal.api.instance'];
-            $this->api = new $api($this);
+            if(!\in_array('CharlotteDunois\\Yasmin\\HTTP\\APIManager', \class_parents($options['internal.api.instance']))) {
+                throw new \RuntimeException('Custom API Manager does not extend Yasmin API Manager');
+            }
+            
+            if(\is_string($options['internal.api.instance'])) {
+                $api = $options['internal.api.instance'];
+                $this->api = new $api($this);
+            } else {
+                $this->api = $options['internal.api.instance'];
+            }
         } else {
             $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         }
@@ -241,23 +249,56 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         // ONLY use this if you know to 100% the consequences and know what you are doing
         if(($options['internal.ws.disable'] ?? false) !== true) {
             // ONLY use this if you know to 100% the consequences and know what you are doing
-            if(!empty($options['internal.ws.instance']) && \class_exists($options['internal.ws.instance'], true)) {
-                if(!\in_array('CharlotteDunois\\Yasmin\\WebSocket\\WSManager', \class_parents($options['internal.ws.instance']))) {
-                    throw new \Exception('Custom WS Manager does not extend Yasmin WS Manager');
+            if(!empty($options['internal.ws.instance'])) {
+                if(\is_string($options['internal.ws.instance']) && !\class_exists($options['internal.ws.instance'], true)) {
+                    throw new \RuntimeException('Custom WS Manager class does not exist');
                 }
                 
-                $ws = $options['internal.ws.instance'];
-                $this->ws = new $ws($this);
+                if(!\in_array('CharlotteDunois\\Yasmin\\WebSocket\\WSManager', \class_parents($options['internal.ws.instance']))) {
+                    throw new \RuntimeException('Custom WS Manager does not extend Yasmin WS Manager');
+                }
+                
+                if(\is_string($options['internal.ws.instance'])) {
+                    $ws = $options['internal.ws.instance'];
+                    $this->ws = new $ws($this);
+                } else {
+                    $this->ws = $options['internal.ws.instance'];
+                }
             } else {
                 $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
             }
         }
         
-        $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($this);
-        $this->emojis = new \CharlotteDunois\Yasmin\Models\EmojiStorage($this);
-        $this->guilds = new \CharlotteDunois\Yasmin\Models\GuildStorage($this);
-        $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($this);
-        $this->users = new \CharlotteDunois\Yasmin\Models\UserStorage($this);
+        $storages = array(
+            'channels' => '\\CharlotteDunois\\Yasmin\\Models\\ChannelStorage',
+            'emojis' => '\\CharlotteDunois\\Yasmin\\Models\\EmojiStorage',
+            'guilds' => '\\CharlotteDunois\\Yasmin\\Models\\GuildStorage',
+            'messages' => '\\CharlotteDunois\\Yasmin\\Models\\MessageStorage',
+            'members' => '\\CharlotteDunois\\Yasmin\\Models\\GuildMemberStorage',
+            'presences' => '\\CharlotteDunois\\Yasmin\\Models\\PresenceStorage',
+            'roles' => '\\CharlotteDunois\\Yasmin\\Models\\RoleStorage',
+            'users' => '\\CharlotteDunois\\Yasmin\\Models\\UserStorage'
+        );
+        
+        foreach($storages as $name => $base) {
+            if(!empty($this->options['internal.storages.'.$name])) {
+                if(!\class_exists($this->options['internal.storages.'.$name], true)) {
+                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not exist');
+                }
+                
+                if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface', \class_implements($this->options['internal.storages.'.$name]))) {
+                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not implement StorageInterface');
+                }
+            } else {
+                $this->options['internal.storages.'.$name] = $base;
+            }
+        }
+        
+        $this->channels = new $this->options['internal.storages.channels']($this);
+        $this->emojis = new $this->options['internal.storages.emojis']($this);
+        $this->guilds = new $this->options['internal.storages.guilds']($this);
+        $this->presences = new $this->options['internal.storages.presences']($this);
+        $this->users = new $this->options['internal.storages.users']($this);
         
         $this->registerUtils();
     }
@@ -804,7 +845,15 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             'ws.disabledEvents' => 'array:string',
             'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',
-            'ws.presence' => 'array'
+            'ws.presence' => 'array',
+            'internal.storages.channels' => 'string',
+            'internal.storages.emojis' => 'string',
+            'internal.storages.guilds' => 'string',
+            'internal.storages.messages' => 'string',
+            'internal.storages.members' => 'string',
+            'internal.storages.presences' => 'string',
+            'internal.storages.roles' => 'string',
+            'internal.storages.users' => 'string'
         ));
         
         if($validator->fails()) {

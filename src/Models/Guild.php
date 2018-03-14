@@ -140,11 +140,17 @@ class Guild extends ClientBase {
         
         $this->client->guilds->set($guild['id'], $this);
         
-        $this->channels = new \CharlotteDunois\Yasmin\Models\ChannelStorage($client);
-        $this->emojis = new \CharlotteDunois\Yasmin\Models\EmojiStorage($client, $this);
-        $this->members = new \CharlotteDunois\Yasmin\Models\GuildMemberStorage($client, $this);
-        $this->presences = new \CharlotteDunois\Yasmin\Models\PresenceStorage($client);
-        $this->roles = new \CharlotteDunois\Yasmin\Models\RoleStorage($client, $this);
+        $channels = $this->client->getOption('internal.storages.channels');
+        $emojis = $this->client->getOption('internal.storages.emojis');
+        $members = $this->client->getOption('internal.storages.members');
+        $presences = $this->client->getOption('internal.storages.presences');
+        $roles = $this->client->getOption('internal.storages.roles');
+        
+        $this->channels = new $channels($client);
+        $this->emojis = new $emojis($client, $this);
+        $this->members = new $members($client, $this);
+        $this->presences = new $presences($client);
+        $this->roles = new $roles($client, $this);
         
         $this->id = $guild['id'];
         $this->available = (empty($guild['unavailable']));

@@ -60,7 +60,8 @@ class TextChannel extends ClientBase
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->messages = new \CharlotteDunois\Yasmin\Models\MessageStorage($this->client, $this);
+        $storage = $this->client->getOption('internal.storages.messages');
+        $this->messages = new $storage($this->client, $this);
         $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         $this->id = $channel['id'];
