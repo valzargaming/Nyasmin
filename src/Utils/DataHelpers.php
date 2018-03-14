@@ -305,7 +305,7 @@ class DataHelpers {
      * @return \React\Promise\ExtendedPromiseInterface  This promise is cancelable.
      * @throws \RangeException
      */
-    static function waitForEvent(\CharlotteDunois\Events\EventEmitterInterface $emitter, string $event, ?callable $filter = null, array $options = array()) {
+    static function waitForEvent($emitter, string $event, ?callable $filter = null, array $options = array()) {
         $listener = null;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use (&$listener, $emitter, $event, $filter, $options) {
@@ -321,16 +321,9 @@ class DataHelpers {
             $listener = function (...$args) use ($emitter, $event, $filter, &$listener, &$timer, $resolve, $reject) {
                 if($filter) {
                     try {
-                        if($filter(...$args)) {
-                            if($timer) {
-                                $timer->cancel();
-                            }
-                            
-                            $emitter->removeListener($event, $listener);
-                            $resolve($args);
+                        if(!$filter(...$args)) {
+                            return;
                         }
-                        
-                        return;
                     } catch(\Throwable | \Exception | \Error $e) {
                         $emitter->removeListener($event, $listener);
                         return $reject($e);
