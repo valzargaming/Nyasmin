@@ -269,30 +269,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             }
         }
         
-        $storages = array(
-            'channels' => '\\CharlotteDunois\\Yasmin\\Models\\ChannelStorage',
-            'emojis' => '\\CharlotteDunois\\Yasmin\\Models\\EmojiStorage',
-            'guilds' => '\\CharlotteDunois\\Yasmin\\Models\\GuildStorage',
-            'messages' => '\\CharlotteDunois\\Yasmin\\Models\\MessageStorage',
-            'members' => '\\CharlotteDunois\\Yasmin\\Models\\GuildMemberStorage',
-            'presences' => '\\CharlotteDunois\\Yasmin\\Models\\PresenceStorage',
-            'roles' => '\\CharlotteDunois\\Yasmin\\Models\\RoleStorage',
-            'users' => '\\CharlotteDunois\\Yasmin\\Models\\UserStorage'
-        );
-        
-        foreach($storages as $name => $base) {
-            if(!empty($this->options['internal.storages.'.$name])) {
-                if(!\class_exists($this->options['internal.storages.'.$name], true)) {
-                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not exist');
-                }
-                
-                if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface', \class_implements($this->options['internal.storages.'.$name]))) {
-                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not implement StorageInterface');
-                }
-            } else {
-                $this->options['internal.storages.'.$name] = $base;
-            }
-        }
+        $this->checkOptionsStorages();
         
         $this->channels = new $this->options['internal.storages.channels']($this);
         $this->emojis = new $this->options['internal.storages.emojis']($this);
@@ -863,6 +840,37 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             $error = $errors[$name];
             
             throw new \InvalidArgumentException('Client Option '.$name.' '.\lcfirst($error));
+        }
+    }
+    
+    /**
+     * Validates the passed client options storages.
+     * @throws \RuntimeException
+     */
+    protected function checkOptionsStorages() {
+        $storages = array(
+            'channels' => '\\CharlotteDunois\\Yasmin\\Models\\ChannelStorage',
+            'emojis' => '\\CharlotteDunois\\Yasmin\\Models\\EmojiStorage',
+            'guilds' => '\\CharlotteDunois\\Yasmin\\Models\\GuildStorage',
+            'messages' => '\\CharlotteDunois\\Yasmin\\Models\\MessageStorage',
+            'members' => '\\CharlotteDunois\\Yasmin\\Models\\GuildMemberStorage',
+            'presences' => '\\CharlotteDunois\\Yasmin\\Models\\PresenceStorage',
+            'roles' => '\\CharlotteDunois\\Yasmin\\Models\\RoleStorage',
+            'users' => '\\CharlotteDunois\\Yasmin\\Models\\UserStorage'
+        );
+        
+        foreach($storages as $name => $base) {
+            if(!empty($this->options['internal.storages.'.$name])) {
+                if(!\class_exists($this->options['internal.storages.'.$name], true)) {
+                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not exist');
+                }
+                
+                if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface', \class_implements($this->options['internal.storages.'.$name]))) {
+                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not implement StorageInterface');
+                }
+            } else {
+                $this->options['internal.storages.'.$name] = $base;
+            }
         }
     }
 }
