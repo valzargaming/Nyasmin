@@ -178,9 +178,9 @@ class TextChannel extends ClientBase
      * @internal
      */
     function _patch(array $channel) {
-        $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->topic = $channel['topic'] ?? $this->topic ?? '';
-        $this->nsfw = $channel['nsfw'] ?? $this->nsfw ?? false;
+        $this->name = (string) ($channel['name'] ?? $this->name ?? '');
+        $this->topic = (string) ($channel['topic'] ?? $this->topic ?? '');
+        $this->nsfw = (bool) ($channel['nsfw'] ?? $this->nsfw ?? false);
         $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
         $this->position = $channel['position'] ?? $this->position ?? 0;
         
