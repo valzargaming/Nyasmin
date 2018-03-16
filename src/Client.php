@@ -336,7 +336,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     
     /**
      * Gets the average ping. Or NAN.
-     * @return int|double
+     * @return int|float
      */
     function getPing() {
         $cpings = \count($this->pings);
