@@ -763,6 +763,14 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * Returns an array of classes with are registered as Util.
+     * @return string[]
+     */
+    function getUtils() {
+        return $this->utils;
+    }
+    
+    /**
      * Registers an Util, if it has a setLoop method. All methods used need to be static.
      * It will set the event loop through <code>setLoop</code> and on destroy will call <code>destroy</code>.
      * @param string $name
