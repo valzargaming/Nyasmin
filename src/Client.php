@@ -763,6 +763,33 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * Registers an Util, if it has a setLoop method. All methods used need to be static.
+     * It will set the event loop through <code>setLoop</code> and on destroy will call <code>destroy</code>.
+     * @param string $name
+     */
+    function registerUtil(string $name) {
+        if(\method_exists($name, 'setLoop')) {
+            $name::setLoop($this->loop);
+            $this->utils[] = $name;
+        }
+    }
+    
+    /**
+     * Destroys an Util and calls <code>destroy</code> (requires that it is registered as such).
+     * @param string $name
+     */
+    function destroyUtil(string $name) {
+        $pos = \array_search($name, $this->utils, true);
+        if($pos !== false) {
+            if(\method_exists($name, 'destroy')) {
+                $name::destroy();
+            }
+            
+            unset($this->utils[$pos]);
+        }
+    }
+    
+    /**
      * Registers Utils which have a setLoop method.
      * @internal
      */
@@ -788,8 +815,6 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         foreach($this->utils as $util) {
             if(\method_exists($util, 'destroy')) {
                 $util::destroy();
-            } elseif(\method_exists($util, 'stopTimer')) {
-                $util::stopTimer();
             }
         }
     }

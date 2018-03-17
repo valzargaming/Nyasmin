@@ -68,7 +68,7 @@ class URLHelpers {
                 $handles = $this->handles;
                 
                 if($queue->isEmpty() && \count($handles) === 0) {
-                    URLHelpers::stopTimer();
+                    URLHelpers::destroy();
                 }
             }, self::$handler, self::$handler));
         }
@@ -77,7 +77,7 @@ class URLHelpers {
     /**
      * Cancels the Guzzle timer and unsets it.
      */
-    static function stopTimer() {
+    static function destroy() {
         if(self::$timer) {
             self::$timer->cancel();
             self::$timer = null;
