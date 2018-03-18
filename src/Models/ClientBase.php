@@ -71,7 +71,7 @@ class ClientBase extends Base {
      */
     function serialize() {
         $vars = \get_object_vars($this);
-        $vars['client'] = null;
+        unset($vars['client']);
         return \serialize($vars);
     }
     
@@ -83,7 +83,7 @@ class ClientBase extends Base {
             throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient being set');
         }
         
-        $this->client = self::$serializeClient;
         parent::unserialize($data);
+        $this->client = self::$serializeClient;
     }
 }

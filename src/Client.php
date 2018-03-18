@@ -24,7 +24,7 @@ namespace CharlotteDunois\Yasmin;
  * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the trait - only for documentation purpose here.
  * @method removeAllListeners($event = null)                   Remove all listeners from an event (or all listeners).
  */
-class Client implements \CharlotteDunois\Events\EventEmitterInterface {
+class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializable {
     use \CharlotteDunois\Events\EventEmitterTrait;
     
     /**
@@ -292,6 +292,60 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
+    }
+    
+    /**
+     * Serializes the class.
+     * @return string
+     */
+    function serialize() {
+        $vars = \get_object_vars($this);
+        
+        unset($vars['loop'], $vars['ws'], $vars['api'], $vars['timers'],
+                $vars['onceListeners'], $vars['listeners']);
+        
+        return \serialize($vars);
+    }
+    
+    /**
+     * Unserializes the class and re-registers utils. Automatically creates an event loop.
+     * @param string $vars
+     * @throws \RuntimeException
+     */
+    function unserialize($vars) {
+        \CharlotteDunois\Yasmin\Models\ClientBase::$serializeClient = $this;
+        $this->loop = \React\EventLoop\Factory::create();
+        
+        $vars = \unserialize($vars);
+        
+        foreach($vars as $name => $val) {
+            $this->$name = $val;
+        }
+        
+        if(!empty($this->options['internal.api.instance'])) {
+            if(\is_string($this->options['internal.api.instance']) && !\class_exists($this->options['internal.api.instance'], true)) {
+                throw new \RuntimeException('Custom API Manager class does not exist');
+            }
+            
+            if(!\in_array('CharlotteDunois\\Yasmin\\HTTP\\APIManager', \class_parents($this->options['internal.api.instance']))) {
+                throw new \RuntimeException('Custom API Manager does not extend Yasmin API Manager');
+            }
+            
+            if(\is_string($this->options['internal.api.instance'])) {
+                $api = $this->options['internal.api.instance'];
+                $this->api = new $api($this);
+            } else {
+                $this->api = $this->options['internal.api.instance'];
+            }
+        } else {
+            $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
+        }
+        
+        foreach($this->utils as $name) {
+            if(\method_exists($name, 'setLoop')) {
+                $name::setLoop($this->loop);
+            }
+        }
     }
     
     /**

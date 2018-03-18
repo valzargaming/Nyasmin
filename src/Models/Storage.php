@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Base class for all storages.
  */
 class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
-    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface {
+    implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface, \Serializable {
     
     protected $client;
     
@@ -37,5 +37,31 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         }
         
         throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
+    }
+    
+    /**
+     * @internal
+     */
+    function serialize() {
+        $vars = \get_object_vars($this);
+        unset($vars['client'], $vars['timer']);
+        
+        return \serialize($vars);
+    }
+    
+    /**
+     * @internal
+     */
+    function unserialize($data) {
+        if(\CharlotteDunois\Yasmin\Models\ClientBase::$serializeClient === null) {
+            throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient being set');
+        }
+        
+        $data = \unserialize($data);
+        foreach($data as $name => $val) {
+            $this->$name = $val;
+        }
+        
+        $this->client = \CharlotteDunois\Yasmin\Models\ClientBase::$serializeClient;
     }
 }
