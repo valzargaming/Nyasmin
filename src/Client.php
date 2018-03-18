@@ -24,7 +24,7 @@ namespace CharlotteDunois\Yasmin;
  * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the trait - only for documentation purpose here.
  * @method removeAllListeners($event = null)                   Remove all listeners from an event (or all listeners).
  */
-class Client implements \CharlotteDunois\Events\EventEmitterInterface {
+class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializable {
     use \CharlotteDunois\Events\EventEmitterTrait;
     
     /**
@@ -292,6 +292,59 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
+    }
+    
+    /**
+     * @internal
+     */
+    function serialize() {
+        $vars = \get_object_vars($this);
+        
+        unset($vars['loop'], $vars['ws'], $vars['api'], $vars['timers'],
+                $vars['onceListeners'], $vars['listeners']);
+        
+        return \serialize($vars);
+    }
+    
+    /**
+     * @internal
+     */
+    function unserialize($vars) {
+        \CharlotteDunois\Yasmin\Models\ClientBase::$serializeClient = $this;
+        $this->loop = \React\EventLoop\Factory::create();
+        
+        $vars = \unserialize($vars);
+        
+        foreach($vars as $name => $val) {
+            $this->$name = $val;
+        }
+        
+        if(!empty($options['internal.api.instance'])) {
+            if(\is_string($options['internal.api.instance']) && !\class_exists($options['internal.api.instance'], true)) {
+                throw new \RuntimeException('Custom API Manager class does not exist');
+            }
+            
+            if(!\in_array('CharlotteDunois\\Yasmin\\HTTP\\APIManager', \class_parents($options['internal.api.instance']))) {
+                throw new \RuntimeException('Custom API Manager does not extend Yasmin API Manager');
+            }
+            
+            if(\is_string($options['internal.api.instance'])) {
+                $api = $options['internal.api.instance'];
+                $this->api = new $api($this);
+            } else {
+                $this->api = $options['internal.api.instance'];
+            }
+        } else {
+            $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
+        }
+        
+        /*$this->channels = new $this->options['internal.storages.channels']($this);
+        $this->emojis = new $this->options['internal.storages.emojis']($this);
+        $this->guilds = new $this->options['internal.storages.guilds']($this);
+        $this->presences = new $this->options['internal.storages.presences']($this);
+        $this->users = new $this->options['internal.storages.users']($this);*/
+        
+        $this->registerUtils();
     }
     
     /**
