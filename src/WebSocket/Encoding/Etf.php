@@ -17,7 +17,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     protected $erlpack;
     
     function __construct() {
-        $this->erlpack = new \CharlotteDunois\Erlpack\Erlpack(true, false);
+        $this->erlpack = new \CharlotteDunois\Erlpack\Erlpack();
     }
     
     /**
@@ -92,7 +92,11 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
         $arr = array();
         
         foreach($data as $key => $val) {
-            if(\is_array($val) || \is_object($val)) {
+            if($val instanceof \CharlotteDunois\Erlpack\ErlpackAtom) {
+                $arr[$key] = (string) $val->atom;
+            } elseif($val instanceof \CharlotteDunois\Erlpack\ErlpackObject) {
+                $arr[$key] = $val->toArray();
+            } elseif(\is_array($val) || \is_object($val)) {
                 $arr[$key] = $this->convertIDs($val);
             } else {
                 if(\is_int($val) && ($key === 'id' || \mb_substr($key, -3) === '_id')) {
