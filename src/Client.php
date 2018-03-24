@@ -438,7 +438,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 $gateway = $this->api->getGatewaySync();
             }
             
-            $gateway->done(function ($url) use ($resolve, $reject) {
+            $gateway->then(function ($url) {
                 $this->gateway = $url['url'];
                 
                 $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
@@ -448,16 +448,17 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                     $wsquery['encoding'] = $encoding;
                 }
                 
-                $this->ws->connect($url['url'], $wsquery)->done($resolve, function ($error) use ($reject) {
-                    $this->api->clear();
-                    $this->ws->destroy();
-                    
-                    $this->cancelTimers();
-                    $this->destroyUtils();
-                    
-                    $reject($error);
-                });
-            }, $reject);
+                return $this->ws->connect($url['url'], $wsquery);
+            })->done($resolve, function ($error) use ($reject) {
+                $this->api->clear();
+                $this->ws->destroy();
+                
+                $this->cancelTimers();
+                $this->destroyUtils();
+                
+                $this->emit('error', $error);
+                $reject($error);
+            });
         }));
     }
     

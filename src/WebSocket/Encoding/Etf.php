@@ -30,15 +30,15 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     
     /**
      * Checks if the system supports it.
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     static function supported(): void {
         if(!\class_exists('\\CharlotteDunois\\Erlpack\\Erlpack')) {
-            throw new \Exception('Unable to use ETF as WS encoding due to missing dependencies');
+            throw new \RuntimeException('Unable to use ETF as WS encoding due to missing dependencies');
         }
         
-        if(\PHP_INT_SIZE === 4) {
-            throw new \Exception('ETF can not be used on with 32 bit PHP');
+        if(\PHP_INT_SIZE < 8) {
+            throw new \RuntimeException('ETF can not be used on with 32 bit PHP');
         }
     }
     
