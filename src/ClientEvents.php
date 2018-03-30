@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin;
  */
 interface ClientEvents {
     /**
-     * Emitted when the client is ready.
+     * Emitted each time the client turns ready.
      */
     function ready();
     
@@ -54,7 +54,7 @@ interface ClientEvents {
     function messageUpdateRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $data);
     
     /**
-     * Emitted when an error happens.
+     * Emitted when an error happens (inside the library or any listeners). You should always listen to this event.
      */
     function error(\Exception $error);
     
