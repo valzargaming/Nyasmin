@@ -729,6 +729,10 @@ class Guild extends ClientBase {
      * @return string|null
      */
     function getIconURL(string $format = 'png', ?int $size = null) {
+        if($size !== null && $size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
         if($this->icon !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }
@@ -743,6 +747,10 @@ class Guild extends ClientBase {
      * @return string|null
      */
     function getSplashURL(string $format = 'png', ?int $size = null) {
+        if($size !== null && $size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
         if($this->splash !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
         }

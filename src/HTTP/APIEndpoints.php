@@ -24,7 +24,7 @@ final class APIEndpoints {
         'emojis' => 'emojis/%s.%s',
         'icons' => 'icons/%s/%s.%s',
         'splashes' => 'splashes/%s/%s.%s',
-        'defaultavatars' => 'embed/avatars/%s.png',
+        'defaultavatars' => 'embed/avatars/%s.%s',
         'avatars' => 'avatars/%s/%s.%s',
         'appicons' => 'app-icons/%s/%s.png',
         'appassets' => 'app-assets/%s/%s.png',

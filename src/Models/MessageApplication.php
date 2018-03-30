@@ -58,7 +58,11 @@ class MessageApplication extends ClientBase {
      * @param int|null  $size  Any powers of 2.
      * @return string|null
      */
-    function getCoverImageURL(int $size = null) {
+    function getCoverImageURL(?int $size = null) {
+        if($size !== null && $size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
         if($this->coverImage !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appicons'], $this->id, $this->coverImage).(!empty($size) ? '?size='.$size : '');
         }

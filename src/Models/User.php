@@ -175,21 +175,35 @@ class User extends ClientBase {
     }
     
     /**
-     * Get the default Avatar URL.
-     * @param int  $size   Any powers of 2.
+     * Get the default avatar URL.
+     * @param int|null  $size  Any powers of 2.
+     * @param string    $format  One of png, webp, jpg or gif (empty = default format).
      * @return string
+     * @throws \InvalidArgumentException
      */
-    function getDefaultAvatarURL($size = 256) {
-        return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['defaultavatars'], ($this->discriminator % 5)).(!empty($size) ? '?size='.$size : '');
+    function getDefaultAvatarURL(?int $size = null, string $format = '') {
+        if($size !== null && $size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
+        if(empty($format)) {
+            $format = $this->getAvatarExtension();
+        }
+        
+        return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['defaultavatars'], ($this->discriminator % 5), $format).(!empty($size) ? '?size='.$size : '');
     }
     
     /**
-     * Get the Avatar URL.
-     * @param int     $size   Any powers of 2.
-     * @param string  $format One of png, webp, jpg or gif (empty = default format).
+     * Get the avatar URL.
+     * @param int|null  $size    Any powers of 2.
+     * @param string    $format  One of png, webp, jpg or gif (empty = default format).
      * @return string|null
      */
-    function getAvatarURL($size = 256, $format = '') {
+    function getAvatarURL(?int $size = null, string $format = '') {
+        if($size !== null && $size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
         if(!$this->avatar) {
             return null;
         }
@@ -203,11 +217,15 @@ class User extends ClientBase {
     
     /**
      * Get the URL of the displayed avatar.
-     * @param int     $size   Any powers of 2.
-     * @param string  $format One of png, webp, jpg or gif (empty = default format).
+     * @param int|null  $size    Any powers of 2.
+     * @param string    $format  One of png, webp, jpg or gif (empty = default format).
      * @return string
      */
-    function getDisplayAvatarURL($size = 256, $format = '') {
+    function getDisplayAvatarURL(?int $size = null, string $format = '') {
+        if($size !== null && $size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
         return ($this->avatar ? $this->getAvatarURL($size, $format) : $this->getDefaultAvatarURL($size));
     }
     

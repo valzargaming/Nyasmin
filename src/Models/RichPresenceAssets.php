@@ -63,6 +63,10 @@ class RichPresenceAssets extends ClientBase {
      */
     function getLargeImageURL(int $size = null) {
         if($this->largeImage !== null) {
+            if($size !== null && $size & ($size - 1)) {
+                throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+            }
+            
             if(\strpos($this->largeImage, 'spotify:') === 0) {
                 return 'https://i.scdn.co/image/'.\substr($this->largeImage, 8);
             }
@@ -80,6 +84,10 @@ class RichPresenceAssets extends ClientBase {
      */
     function getSmallImageURL(int $size = null) {
         if($this->smallImage !== null) {
+            if($size !== null && $size & ($size - 1)) {
+                throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+            }
+            
             if(\strpos($this->smallImage, 'spotify:') === 0) {
                 return 'https://i.scdn.co/image/'.\substr($this->smallImage, 8);
             }
