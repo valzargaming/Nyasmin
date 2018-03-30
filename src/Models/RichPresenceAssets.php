@@ -58,12 +58,12 @@ class RichPresenceAssets extends ClientBase {
     
     /**
      * Returns the URL of the large image.
-     * @param int|null  $size  Any powers of 2.
+     * @param int|null  $size  Any powers of 2 (16-2048).
      * @return string|null
      */
     function getLargeImageURL(?int $size = null) {
         if($this->largeImage !== null) {
-            if($size !== null && $size & ($size - 1)) {
+            if($size & ($size - 1)) {
                 throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
             }
             
@@ -79,12 +79,12 @@ class RichPresenceAssets extends ClientBase {
     
     /**
      * Returns the URL of the small image.
-     * @param int|null  $size  Any powers of 2.
+     * @param int|null  $size  Any powers of 2 (16-2048).
      * @return string|null
      */
     function getSmallImageURL(?int $size = null) {
         if($this->smallImage !== null) {
-            if($size !== null && $size & ($size - 1)) {
+            if($size & ($size - 1)) {
                 throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
             }
             

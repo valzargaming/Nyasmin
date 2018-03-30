@@ -55,11 +55,11 @@ class MessageApplication extends ClientBase {
     
     /**
      * Returns the URL of the cover image.
-     * @param int|null  $size  Any powers of 2.
+     * @param int|null  $size  Any powers of 2 (16-2048).
      * @return string|null
      */
     function getCoverImageURL(?int $size = null) {
-        if($size !== null && $size & ($size - 1)) {
+        if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         

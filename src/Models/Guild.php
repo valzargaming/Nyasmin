@@ -729,7 +729,7 @@ class Guild extends ClientBase {
      * @return string|null
      */
     function getIconURL(string $format = 'png', ?int $size = null) {
-        if($size !== null && $size & ($size - 1)) {
+        if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
@@ -747,7 +747,7 @@ class Guild extends ClientBase {
      * @return string|null
      */
     function getSplashURL(string $format = 'png', ?int $size = null) {
-        if($size !== null && $size & ($size - 1)) {
+        if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
