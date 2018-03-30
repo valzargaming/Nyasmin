@@ -61,7 +61,7 @@ class RichPresenceAssets extends ClientBase {
      * @param int|null  $size  Any powers of 2.
      * @return string|null
      */
-    function getLargeImageURL(int $size = null) {
+    function getLargeImageURL(?int $size = null) {
         if($this->largeImage !== null) {
             if($size !== null && $size & ($size - 1)) {
                 throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
@@ -82,7 +82,7 @@ class RichPresenceAssets extends ClientBase {
      * @param int|null  $size  Any powers of 2.
      * @return string|null
      */
-    function getSmallImageURL(int $size = null) {
+    function getSmallImageURL(?int $size = null) {
         if($this->smallImage !== null) {
             if($size !== null && $size & ($size - 1)) {
                 throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
