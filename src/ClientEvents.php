@@ -54,7 +54,7 @@ interface ClientEvents {
     function messageUpdateRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $data);
     
     /**
-     * Emitted when an error happens (inside the library or any listeners). You should always listen to this event.
+     * Emitted when an error happens (inside the library or any listeners). You should always listen on this event.
      */
     function error(\Exception $error);
     

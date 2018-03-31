@@ -989,6 +989,10 @@ class Guild extends ClientBase {
             $member = $this->members->get($userid);
             $this->members->delete($userid);
             
+            if($member->voiceChannel) {
+                $member->voiceChannel->members->delete($userid);
+            }
+            
             $this->memberCount--;
             return $member;
         }
