@@ -102,10 +102,10 @@ class DataHelpers {
         }
         
         if($onlyInlineCode) {
-            return \preg_replace('/(`|\\\)/miu', '\\$1', \preg_replace('/\\(`|\\)/miu', '\\$1', $text));
+            return \preg_replace('/(`|\\\)/miu', '\\\$1', $text);
         }
         
-        return \preg_replace('/(\*|_|`|~|\\\)/miu', '\\$1', \preg_replace('/\\(\*|_|`|~|\\)/miu', '\\$1', $text));
+        return \preg_replace('/(\\*|_|`|~|\\\)/miu', '\\\$1', $text);
     }
     
     /**
