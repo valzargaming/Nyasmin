@@ -304,6 +304,7 @@ class Guild extends ClientBase {
      * array(
      *   'name' => string,
      *   'type' => 'category'|'text'|'voice', (defaults to 'text')
+     *   'topic' => string, (only for text channels)
      *   'bitrate' => int, (only for voice channels)
      *   'userLimit' => int, (only for voice channels, 0 = unlimited)
      *   'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array, (an array or Collection of PermissionOverwrite instances or permission overwrite arrays*)
@@ -335,6 +336,10 @@ class Guild extends ClientBase {
                 'name' => $options['name'],
                 'type' => (\CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[($options['type'] ?? 'text')] ?? 0)
             );
+            
+            if(isset($options['topic'])) {
+                $data['topic'] = (string) $options['topic'];
+            }
             
             if(isset($options['bitrate'])) {
                 $data['bitrate'] = (int) $options['bitrate'];
