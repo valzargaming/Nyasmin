@@ -199,9 +199,21 @@ class DataHelpers {
     
     /**
      * Splits a string into multiple chunks at a designated character that do not exceed a specific length.
+     *
+     * Options will be merged into default split options (see Message), so missing elements will get added.
+     * <pre>
+     * array(
+     *     'before' => string, (the string to add before the chunk)
+     *     'after' => string, (the string to add after the chunk)
+     *     'char' => string, (the string to split on)
+     *     'maxLength' => int (the max. length of each chunk)
+     * )
+     * </pre>
+     *
      * @param string  $text
      * @param array   $options  Options controlling the behaviour of the split.
      * @return string[]
+     * @see \CharlotteDunois\Yasmin\Models\Message
      */
     static function splitMessage(string $text, array $options = array()) {
         $options = \array_merge(\CharlotteDunois\Yasmin\Models\Message::DEFAULT_SPLIT_OPTIONS, $options);
