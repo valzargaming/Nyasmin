@@ -181,7 +181,7 @@ class User extends ClientBase {
      * @return string
      * @throws \InvalidArgumentException
      */
-    function getDefaultAvatarURL(?int $size = null, string $format = '') {
+    function getDefaultAvatarURL(?int $size = 1024, string $format = '') {
         if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
@@ -199,7 +199,7 @@ class User extends ClientBase {
      * @param string    $format  One of png, webp, jpg or gif (empty = default format).
      * @return string|null
      */
-    function getAvatarURL(?int $size = null, string $format = '') {
+    function getAvatarURL(?int $size = 1024, string $format = '') {
         if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
@@ -221,7 +221,7 @@ class User extends ClientBase {
      * @param string    $format  One of png, webp, jpg or gif (empty = default format).
      * @return string
      */
-    function getDisplayAvatarURL(?int $size = null, string $format = '') {
+    function getDisplayAvatarURL(?int $size = 1024, string $format = '') {
         if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
