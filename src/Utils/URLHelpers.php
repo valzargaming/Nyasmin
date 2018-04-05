@@ -20,9 +20,16 @@ class URLHelpers {
      */
     const DEFAULT_USER_AGENT = 'Yasmin (https://github.com/CharlotteDunois/Yasmin)';
     
+    /** @var \GuzzleHttp\Handler\CurlMultiHandler */
     private static $handler;
+    
+    /** @var \GuzzleHttp\Client */
     private static $http;
+    
+    /** @var \React\EventLoop\LoopInterface */
     private static $loop;
+    
+    /** @var \React\EventLoop\TimerInterface */
     private static $timer;
     
     /**
@@ -79,7 +86,7 @@ class URLHelpers {
      */
     static function destroy() {
         if(self::$timer) {
-            self::$timer->cancel();
+            self::$loop->cancelTimer(self::$timer);
             self::$timer = null;
         }
     }

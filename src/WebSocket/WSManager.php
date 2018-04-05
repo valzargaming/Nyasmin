@@ -409,7 +409,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                 
                 $this->ws->on('close', function (int $code, string $reason) use ($reject) {
                     if($this->ratelimits['timer']) {
-                        $this->ratelimits['timer']->cancel();
+                        $this->client->getLoop()->cancelTimer($this->ratelimits['timer']);
                     }
                     
                     $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];

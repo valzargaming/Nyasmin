@@ -14,7 +14,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * @internal
  */
 class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
+    /** @var \React\EventLoop\TimerInterface */
     public $heartbeat = null;
+    
+    /** @var \CharlotteDunois\Yasmin\WebSocket\WSHandler */
     protected $wshandler;
     
     function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
@@ -38,7 +41,7 @@ class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     
     private function close() {
         if($this->heartbeat !== null) {
-            $this->heartbeat->cancel();
+            $this->wshandler->client->getLoop()->cancelTimer($this->heartbeat);
             $this->heartbeat = null;
         }
     }

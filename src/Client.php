@@ -784,11 +784,11 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * Cancels a timer.
-     * @param \React\EventLoop\Timer\Timer  $timer
+     * @param \React\EventLoop\TimerInterface  $timer
      * @return bool
      */
-    function cancelTimer(\React\EventLoop\Timer\Timer $timer) {
-        $timer->cancel();
+    function cancelTimer(\React\EventLoop\TimerInterface $timer) {
+        $this->loop->cancelTimer($timer);
         
         $key = \array_search($timer, $this->timers, true);
         if($key !== false) {
@@ -803,7 +803,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      */
     function cancelTimers() {
         foreach($this->timers as $key => $timer) {
-            $timer->cancel();
+            $this->loop->cancelTimer($timer);
             unset($this->timers[$key]);
         }
     }

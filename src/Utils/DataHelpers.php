@@ -343,7 +343,7 @@ class DataHelpers {
                 }
                 
                 if($timer) {
-                    $timer->cancel();
+                    self::$loop->cancelTimer($timer);
                 }
                 
                 $emitter->removeListener($event, $listener);
