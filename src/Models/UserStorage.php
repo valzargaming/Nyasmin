@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class UserStorage extends Storage {
     /**
-     * @var \React\EventLoop\TimerInterface
+     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
      */
     protected $timer;
     

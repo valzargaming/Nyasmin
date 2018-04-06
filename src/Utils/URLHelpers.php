@@ -29,7 +29,7 @@ class URLHelpers {
     /** @var \React\EventLoop\LoopInterface */
     private static $loop;
     
-    /** @var \React\EventLoop\TimerInterface */
+    /** @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface */
     private static $timer;
     
     /**

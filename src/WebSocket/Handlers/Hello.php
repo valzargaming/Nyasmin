@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  * @internal
  */
 class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
-    /** @var \React\EventLoop\TimerInterface */
+    /** @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface */
     public $heartbeat = null;
     
     /** @var \CharlotteDunois\Yasmin\WebSocket\WSHandler */
