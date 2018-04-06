@@ -23,6 +23,13 @@ class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @internal
+     */
+    function __destruct() {
+        $this->_markForDelete();
+    }
+    
+    /**
      * @throws \RuntimeException
      * @internal
      */
@@ -131,5 +138,15 @@ class Base implements \JsonSerializable, \Serializable {
         }
         
         return false;
+    }
+    
+    /**
+     * @internal
+     */
+    function _markForDelete() {
+        foreach($this as $key => $val) {
+            $this->$key = null;
+            unset($val);
+        }
     }
 }

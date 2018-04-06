@@ -64,4 +64,29 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         
         $this->client = \CharlotteDunois\Yasmin\Models\ClientBase::$serializeClient;
     }
+    
+    /**
+     * @inheritDoc
+     * @internal
+     */
+    function delete($key) {
+        $val = $this->get($key);
+        if($val) {
+            $val->_markForDelete();
+        }
+        
+        return parent::delete($key);
+    }
+    
+    /**
+     * @inheritDoc
+     * @internal
+     */
+    function clear() {
+        foreach($this->data as $key => $val) {
+            $val->_markForDelete();
+        }
+        
+        return parent::clear();
+    }
 }

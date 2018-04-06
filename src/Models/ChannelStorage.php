@@ -79,6 +79,21 @@ class ChannelStorage extends Storage {
     }
     
     /**
+     * @inheritDoc
+     */
+    function clear() {
+        if($this !== $this->client->channels) {
+            foreach($this->data as $key => $val) {
+                $this->client->channels->delete($key);
+                unset($val);
+            }
+        }
+        
+        parent::clear();
+        return $this;
+    }
+    
+    /**
      * @internal
      */
     function factory(array $data, \CharlotteDunois\Yasmin\Models\Guild $guild = null) {
