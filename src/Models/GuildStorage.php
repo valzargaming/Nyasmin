@@ -36,6 +36,15 @@ class GuildStorage extends Storage {
     }
     
     /**
+     * Returns the item for a given key. If the key does not exist, null is returned.
+     * @param mixed  $key
+     * @return \CharlotteDunois\Yasmin\Models\Guild|null
+     */
+    function get($key) {
+        return parent::get($key);
+    }
+    
+    /**
      * @inheritDoc
      */
     function delete($key) {

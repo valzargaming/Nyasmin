@@ -43,6 +43,15 @@ class MessageStorage extends Storage {
     }
     
     /**
+     * Returns the item for a given key. If the key does not exist, null is returned.
+     * @param mixed  $key
+     * @return \CharlotteDunois\Yasmin\Models\Message|null
+     */
+    function get($key) {
+        return parent::get($key);
+    }
+    
+    /**
      * Sweeps messages, deletes messages older than the parameter (timestamp - $time). Returns the amount of sweeped messages.
      * @param int  $time  0 = clear all
      * @return int

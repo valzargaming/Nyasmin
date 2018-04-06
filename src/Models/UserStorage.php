@@ -74,6 +74,15 @@ class UserStorage extends Storage {
     }
     
     /**
+     * Returns the item for a given key. If the key does not exist, null is returned.
+     * @param mixed  $key
+     * @return \CharlotteDunois\Yasmin\Models\User|null
+     */
+    function get($key) {
+        return parent::get($key);
+    }
+    
+    /**
      * @inheritDoc
      */
     function set($key, $value) {

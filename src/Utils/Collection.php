@@ -346,7 +346,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
-     * Returns the item at a given key. If the key does not exist, null is returned.
+     * Returns the item for a given key. If the key does not exist, null is returned.
      * @param mixed  $key
      * @return mixed|null
     */
