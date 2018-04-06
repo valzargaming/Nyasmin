@@ -51,7 +51,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                         $oldPresence = clone $presence;
                     }
                     
-                    $presence->_patch($data, true);
+                    $presence->_patch($data);
                 } else {
                     $presence = $guild->presences->factory($data);
                 }
