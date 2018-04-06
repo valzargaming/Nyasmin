@@ -206,7 +206,9 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
-     * @throws \Exception|\RuntimeException
+     * @throws \Exception
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      *
      * @see \CharlotteDunois\Yasmin\ClientEvents
      */

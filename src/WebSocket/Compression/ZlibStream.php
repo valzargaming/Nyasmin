@@ -63,7 +63,8 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * Decompresses data.
      * @param string  $data
      * @return string
-     * @throws \BadMethodCallException|\InvalidArgumentException
+     * @throws \BadMethodCallException
+     * @throws \InvalidArgumentException
      */
     function decompress(string $data): string {
         if(!$this->context) {

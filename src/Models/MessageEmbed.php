@@ -262,7 +262,8 @@ class MessageEmbed extends Base {
      * @param string  $value    Maximum length is 1024 characters.
      * @param bool    $inline   Whether this field gets shown with other inline fields on one line.
      * @return $this
-     * @throws \RangeException|\InvalidArgumentException
+     * @throws \RangeException
+     * @throws \InvalidArgumentException
      */
     function addField($title, $value, bool $inline = false) {
         if(\count($this->fields) >= 25) {

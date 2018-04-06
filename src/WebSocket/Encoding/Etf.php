@@ -46,7 +46,8 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \InvalidArgumentException|\CharlotteDunois\Erlpack\ErlpackException
+     * @throws \InvalidArgumentException
+     * @throws \CharlotteDunois\Erlpack\ErlpackException
      */
     function decode(string $data) {
         $msg = $this->erlpack->decode($data);

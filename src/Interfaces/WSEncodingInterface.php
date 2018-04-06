@@ -29,7 +29,9 @@ interface WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \Exception|\BadMethodCallException|\InvalidArgumentException
+     * @throws \Exception
+     * @throws \BadMethodCallException
+     * @throws \InvalidArgumentException
      */
     function decode(string $data);
     
@@ -37,7 +39,9 @@ interface WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \Exception|\BadMethodCallException|\InvalidArgumentException
+     * @throws \Exception
+     * @throws \BadMethodCallException
+     * @throws \InvalidArgumentException
      */
     function encode($data): string;
     
