@@ -105,7 +105,7 @@ class ChannelStorage extends Storage {
     /**
      * @internal
      */
-    function factory(array $data, \CharlotteDunois\Yasmin\Models\Guild $guild = null) {
+    function factory(array $data, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null) {
         if($guild === null) {
             $guild = (!empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null);
         }
