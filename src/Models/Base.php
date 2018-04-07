@@ -23,6 +23,7 @@ class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * Default destructor.
      * @internal
      */
     function __destruct() {
