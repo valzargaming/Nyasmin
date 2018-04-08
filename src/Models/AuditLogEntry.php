@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild audit log entry.
  *
- * @property \CharlotteDunois\Yasmin\Models\AuditLog  $log               The guild audit log which this entry belongs to.
+ * @property \CharlotteDunois\Yasmin\Models\AuditLog       $log               The guild audit log which this entry belongs to.
  * @property string                                        $id                The ID of the audit log.
  * @property array[]                                       $changes           Specific property changes.
  * @property string                                        $userID            The ID of the user which triggered the audit log.
