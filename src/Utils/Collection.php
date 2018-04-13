@@ -422,9 +422,14 @@ class Collection implements \Countable, \Iterator {
      * @return int|null
      */
     function indexOf($value) {
-        $pos = \array_search($value, $this->data, true);
-        if($pos !== false) {
-            return $pos;
+        $i = 0;
+        
+        foreach($this->data as $val) {
+            if($val === $value) {
+                return $i;
+            }
+            
+            $i++;
         }
         
         return null;
