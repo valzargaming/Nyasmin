@@ -59,7 +59,7 @@ class PermissionOverwrite extends ClientBase {
                 return $this->channel->guild;
             break;
             case 'target':
-                return ($this->type === 'role' ? $this->channel->guild->roles->get($permission['id']) : $this->channel->guild->members->get($permission['id']));
+                return ($this->type === 'role' ? $this->channel->guild->roles->get($this->id) : $this->channel->guild->members->get($this->id));
             break;
         }
         
