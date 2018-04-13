@@ -241,7 +241,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
-     * Iterates over the items in the collection and passes each item to a given callback.
+     * Iterates over the items in the collection and passes each item to a given callback. Returning <code>false</code> in the callback will stop the processing.
      * @param callable  $closure
      * @return $this
     */
@@ -263,6 +263,10 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function every(int $nth, int $offset = 0) {
+        if($nth <= 0) {
+            return (new self($this->data));
+        }
+        
         $new = array();
         $size = \count($this->data);
         
@@ -370,7 +374,7 @@ class Collection implements \Countable, \Iterator {
         
         $new = array();
         foreach($this->data as $key => $val) {
-            if($column instanceof \Closure) {
+            if(\is_callable($column)) {
                 $key = $column($val, $key);
             } else {
                 $key = $val[$column];
@@ -419,6 +423,7 @@ class Collection implements \Countable, \Iterator {
      */
     function indexOf($value) {
         $i = 0;
+        
         foreach($this->data as $val) {
             if($val === $value) {
                 return $i;
@@ -455,7 +460,7 @@ class Collection implements \Countable, \Iterator {
                 continue;
             }
             
-            if($col instanceof \Closure) {
+            if(\is_callable($col)) {
                 $k = $col($val, $key);
             } else {
                 if(\is_object($val)) {
@@ -537,11 +542,11 @@ class Collection implements \Countable, \Iterator {
     
     /**
      * Return the minimum value of a given key.
-     * @param mixed  $key
+     * @param mixed|null  $key
      * @return int
     */
-    function min($key = '') {
-        if(!empty($key)) {
+    function min($key = null) {
+        if($key !== null) {
             $data = \array_column($this->data, $key);
         } else {
             $data = $this->data;
@@ -577,7 +582,14 @@ class Collection implements \Countable, \Iterator {
         
         foreach($this->data as $v) {
             $count = \count($data);
-            $k = ($index ? (\is_array($v) ? (\array_key_exists($index, $v) ? $v[$index] : $count) : (\is_object($v) ? (\property_exists($v, $index) ? $v->$index : $count) : $count)) : $count);
+            $k = ($index ?
+                    (\is_array($v) ?
+                        (\array_key_exists($index, $v) ? $v[$index] : $count)
+                    : (\is_object($v) ?
+                            (\property_exists($v, $index) ?
+                                $v->$index : $count)
+                        : $count))
+                    : $count);
             
             if(\is_array($v) && \array_key_exists($key, $v)) {
                 $data[$k] = $v[$key];
@@ -604,6 +616,7 @@ class Collection implements \Countable, \Iterator {
     */
     function pull($key) {
         $value = $this->data[$key];
+        
         $this->data[$key] = null;
         unset($this->data[$key]);
         
@@ -724,12 +737,12 @@ class Collection implements \Countable, \Iterator {
     
     /**
      * Sorts the collection by the given key. Returns a new Collection.
-     * @param mixed|\Closure  $sortkey
+     * @param mixed|callable  $sortkey
      * @param int             $options
      * @param bool            $descending
      * @return Collection
     */
-    function sortBy($sortkey, $options = SORT_REGULAR, bool $descending = false) {
+    function sortBy($sortkey, $options = \SORT_REGULAR, bool $descending = false) {
         $sortkey = $this->valueRetriever($sortkey);
         
         $new = array();
@@ -757,7 +770,7 @@ class Collection implements \Countable, \Iterator {
      * @param int             $options
      * @return Collection
     */
-    function sortByDesc($sortkey, $options = SORT_REGULAR) {
+    function sortByDesc($sortkey, $options = \SORT_REGULAR) {
         return $this->sortBy($sortkey, $options, true);
     }
     
@@ -782,8 +795,6 @@ class Collection implements \Countable, \Iterator {
         if($closure === null) {
             return \array_sum($this->data);
         }
-        
-        $closure = $this->valueRetriever($closure);
         
         return $this->reduce(function ($result, $item) use ($closure) {
             return $result += $closure($item);
@@ -836,75 +847,6 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
-     * Filters the collection by a given key / value pair. Returns a new Collection.
-     * @param mixed  $key
-     * @param mixed  $value
-     * @param bool   $strict
-     * @return Collection
-    */
-    function where($key, $value, bool $strict = false) {
-        $data = array();
-        
-        foreach($this->data as $val) {
-            if($strict) {
-                $bool = ($val[$key] === $value);
-            } else {
-                $bool = ($val[$key] == $value);
-            }
-            
-            if($bool) {
-                $data[] = $val;
-            }
-        }
-        
-        return (new self($data));
-    }
-    
-    /**
-     * Filters the collection by a given key / value pair array. Returns a new Collection.
-     * @param mixed[]  $arr
-     * @param bool     $strict
-     * @return Collection
-    */
-    function whereIn(array $arr, bool $strict = false) {
-        $data = array();
-        
-        foreach($this->data as $val) {
-            foreach($arr as $key => $value) {
-                if($strict) {
-                    $bool = ($val[$key] === $value);
-                } else {
-                    $bool = ($val[$key] == $value);
-                }
-                
-                if($bool) {
-                    $data[] = $val;
-                }
-            }
-        }
-        
-        return (new self($data));
-    }
-    
-    /**
-     * Merges together the values of the given array with the values of the collection at the corresponding index. Returns a new Collection.
-     * @param mixed[]  $arr
-     * @return $this|Collection
-    */
-    function zip(array $arr) {
-        $data = $this->data;
-        foreach($arr as $key => $val) {
-            if(isset($data[$key])) {
-                $data[$key] = array($data[$key], $val);
-            } else {
-                $data[$key] = array($val);
-            }
-        }
-        
-        return (new self($data));
-    }
-    
-    /**
      * @internal
      */
     protected function dataGet($target, $key, $default = null) {
@@ -932,11 +874,11 @@ class Collection implements \Countable, \Iterator {
                 }
             }
             
-            if(isset($target[$segment])) {
+            if(\array_key_exists($segment, $target)) {
                 $target = $target[$segment];
-            } elseif(\is_object($target) && isset($target->$segment)) {
+            } elseif(\is_object($target) && \property_exists($target, $segment)) {
                 $target = $target->$segment;
-            } elseif($target instanceof \Closure) {
+            } elseif(\is_callable($target)) {
                 return $target();
             } else {
                 return $target;
@@ -966,7 +908,7 @@ class Collection implements \Countable, \Iterator {
      * @internal
      */
     protected function valueRetriever($value) {
-        if($value instanceof \Closure) {
+        if(\is_callable($value)) {
             return $value;
         }
         
