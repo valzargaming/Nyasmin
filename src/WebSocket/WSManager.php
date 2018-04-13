@@ -230,6 +230,27 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * @throws \Exception
+     * @internal
+     */
+    function __isset($name) {
+        try {
+            if(\property_exists($this, $name)) {
+                return true;
+            }
+            
+            $this->$name;
+            return true;
+        } catch (\RuntimeException $e) {
+            if($e->getTrace()[0]['function'] === '__get') {
+                return false;
+            }
+            
+            throw $e;
+        }
+    }
+    
+    /**
      * @throws \RuntimeException
      */
     function __get($name) {
