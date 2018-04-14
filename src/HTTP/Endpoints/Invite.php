@@ -36,9 +36,15 @@ final class Invite {
         $this->api = $api;
     }
     
-    function getInvite(string $code) {
+    function getInvite(string $code, bool $withCounts = false) {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['get'], $code);
-        return $this->api->makeRequest('GET', $url, array());
+        
+        $opts = array();
+        if($withCounts) {
+            $opts['querystring'] = array('with_counts' => 'true');
+        }
+        
+        return $this->api->makeRequest('GET', $url, $opts);
     }
     
     function deleteInvite(string $code, string $reason = '') {
