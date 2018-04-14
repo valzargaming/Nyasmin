@@ -156,7 +156,7 @@ final class Channel {
     
     function createChannelInvite(string $channelid, array $options = array()) {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['invites']['create'], $channelid);
-        return $this->api->makeRequest('GET', $url, array('data' => $options));
+        return $this->api->makeRequest('POST', $url, array('data' => $options));
     }
     
     function triggerChannelTyping(string $channelid) {
