@@ -683,7 +683,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     /**
      * Obtains an invite from Discord. Resolves with an instance of Invite.
      * @param string  $invite      The invite code or an invite URL.
-     * @param bool    $withCounts  Whether the invite should contain approximate member counts
+     * @param bool    $withCounts  Whether the invite should contain approximate counts.
      * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
