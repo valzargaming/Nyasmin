@@ -58,7 +58,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                 
                 $this->client->emit('presenceUpdate', $presence, $oldPresence);
             }
-        } catch(\Throwable | \Exception | \Error $e) {
+        } catch (\Throwable | \Exception | \Error $e) {
             /* Continue regardless of error */
         }
     }

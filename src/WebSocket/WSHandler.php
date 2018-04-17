@@ -89,7 +89,7 @@ class WSHandler {
             if(isset($this->handlers[$packet['op']])) {
                 $this->handlers[$packet['op']]->handle($packet);
             }
-        } catch(\Throwable | \Exception | \Error $e) {
+        } catch (\Throwable | \Exception | \Error $e) {
             $this->wsmanager->client->emit('error', $e);
         }
     }

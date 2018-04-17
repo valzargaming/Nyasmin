@@ -78,7 +78,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
             try {
                 $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
                 $this->wsevents[$packet['t']]->handle($packet['d']);
-            } catch(\Throwable | \Exception | \Error $e) {
+            } catch (\Throwable | \Exception | \Error $e) {
                 $this->wshandler->client->emit('error', $e);
             }
         } else {

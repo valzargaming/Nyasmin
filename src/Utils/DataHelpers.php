@@ -336,7 +336,7 @@ class DataHelpers {
                         if(!$filter(...$args)) {
                             return;
                         }
-                    } catch(\Throwable | \Exception | \Error $e) {
+                    } catch (\Throwable | \Exception | \Error $e) {
                         $emitter->removeListener($event, $listener);
                         return $reject($e);
                     }

@@ -326,7 +326,7 @@ class Message extends ClientBase {
     function react($emoji) {
         try {
             $emoji = $this->client->emojis->resolve($emoji);
-        } catch(\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             if(\is_numeric($e)) {
                 throw $e;
             }

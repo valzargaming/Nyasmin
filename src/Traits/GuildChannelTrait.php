@@ -296,11 +296,11 @@ trait GuildChannelTrait {
         try {
             $memberOrRole = $this->guild->roles->resolve($memberOrRole)->id;
             $options['type'] = 'role';
-        } catch(\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             try {
                 $memberOrRole = $this->guild->members->resolve($memberOrRole)->id;
                 $options['type'] = 'member';
-            } catch(\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $memberOrRole = $memberOrRole;
                 $options['type'] = 'member';
             }
