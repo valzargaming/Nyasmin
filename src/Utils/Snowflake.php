@@ -112,7 +112,8 @@ class Snowflake {
             self::$incrementIndex++;
             
             if(self::$incrementIndex >= 4095) {
-                \usleep(1);
+                \usleep(100);
+                $time = \microtime(true);
                 self::$incrementIndex = 0;
             }
         } else {
