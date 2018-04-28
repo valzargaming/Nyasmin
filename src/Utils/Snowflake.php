@@ -123,7 +123,7 @@ class Snowflake {
         $workerID = \str_pad(\decbin($workerID), 5, 0, \STR_PAD_LEFT);
         $processID = \str_pad(\decbin($processID), 5, 0, \STR_PAD_LEFT);
         
-        $mtime = \explode('.', ((string) \microtime(true)));
+        $mtime = \explode('.', ((string) $time));
         if(\count($mtime) < 2) {
             $mtime[1] = '000';
         }
