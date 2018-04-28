@@ -26,6 +26,7 @@ class Snowflake {
     const EPOCH = 1420070400;
     
     protected static $incrementIndex = 0;
+    protected static $incrementTime = 0;
     
     protected $timestamp;
     protected $workerID;
@@ -105,14 +106,27 @@ class Snowflake {
             throw new \InvalidArgumentException('Process ID is out of range');
         }
         
-        if(self::$incrementIndex >= 4095) {
-            self::$incrementIndex = 0;
+        $time = \microtime(true);
+        
+        if($time === self::$incrementTime) {
+            self::$incrementIndex++;
+            
+            if(self::$incrementIndex >= 4095) {
+                \usleep(1);
+                self::$incrementIndex = 0;
+            }
+        } else {
+            self::$incrementTime = $time;
         }
         
         $workerID = \str_pad(\decbin($workerID), 5, 0, \STR_PAD_LEFT);
         $processID = \str_pad(\decbin($processID), 5, 0, \STR_PAD_LEFT);
         
         $mtime = \explode('.', ((string) \microtime(true)));
+        if(\count($mtime) < 2) {
+            $mtime[1] = '000';
+        }
+        
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         if(\PHP_INT_SIZE === 4) {
