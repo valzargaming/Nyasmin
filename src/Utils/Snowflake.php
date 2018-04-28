@@ -26,6 +26,7 @@ class Snowflake {
     const EPOCH = 1420070400;
     
     protected static $incrementIndex = 0;
+    protected static $incrementTime = 0;
     
     protected $timestamp;
     protected $workerID;
@@ -105,21 +106,35 @@ class Snowflake {
             throw new \InvalidArgumentException('Process ID is out of range');
         }
         
-        if(self::$incrementIndex >= 4095) {
+        $time = \microtime(true);
+        
+        if($time === self::$incrementTime) {
+            self::$incrementIndex++;
+            
+            if(self::$incrementIndex >= 4095) {
+                \usleep(1);
+                self::$incrementIndex = 0;
+            }
+        } else {
             self::$incrementIndex = 0;
+            self::$incrementTime = $time;
         }
         
         $workerID = \str_pad(\decbin($workerID), 5, 0, \STR_PAD_LEFT);
         $processID = \str_pad(\decbin($processID), 5, 0, \STR_PAD_LEFT);
         
         $mtime = \explode('.', ((string) \microtime(true)));
+        if(\count($mtime) < 2) {
+            $mtime[1] = '000';
+        }
+        
         $time = ((string) (((int) $mtime[0]) - self::EPOCH)).\substr($mtime[1], 0, 3);
         
         if(\PHP_INT_SIZE === 4) {
-            $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
+            $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin(self::$incrementIndex), 12, 0, \STR_PAD_LEFT);
             return \base_convert($binary, 2, 10);
         } else {
-            $binary = \str_pad(\decbin(((int) $time)), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin((self::$incrementIndex++)), 12, 0, \STR_PAD_LEFT);
+            $binary = \str_pad(\decbin(((int) $time)), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin(self::$incrementIndex), 12, 0, \STR_PAD_LEFT);
             return ((string) \bindec($binary));
         }
     }
