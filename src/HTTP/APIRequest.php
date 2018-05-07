@@ -184,6 +184,7 @@ final class APIRequest {
      * Gets the response body from the response.
      * @param \GuzzleHttp\Psr7\Response  $response
      * @return mixed
+     * @throws \RuntimeException
      */
     static function decodeBody(\GuzzleHttp\Psr7\Response $response) {
         $body = $response->getBody();
@@ -191,9 +192,14 @@ final class APIRequest {
             $body = $body->getContents();
         }
         
+        $type = $response->getHeader('Content-Type')[0];
+        if(\stripos($type, 'text/html') !== false) {
+            throw new \RuntimeException('Invalid API response: HTML response body received');
+        }
+        
         $json = \json_decode($body, true);
         if($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
-            throw new \Exception('Invalid API response: '.\json_last_error_msg());
+            throw new \RuntimeException('Invalid API response: '.\json_last_error_msg());
         }
         
         return $json;
