@@ -315,7 +315,8 @@ class DataHelpers {
      * @param callable|null                                  $filter
      * @param array                                          $options
      * @return \React\Promise\ExtendedPromiseInterface  This promise is cancelable.
-     * @throws \RangeException
+     * @throws \RangeException          The exception the promise gets rejected with, if waiting times out.
+     * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      */
     static function waitForEvent($emitter, string $event, ?callable $filter = null, array $options = array()) {
         $listener = null;
