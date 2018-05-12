@@ -16,7 +16,7 @@
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ratchet/pawl": "^0.3.1",
-        "react/event-loop": "^0.4.3",
+        "react/event-loop": "^1.0 || ^0.5 || ^0.4.3",
         "react/promise": "^2.5.1",
         "guzzlehttp/guzzle": "^6.3.2",
         "charlottedunois/eventemitter": "^0.1.4",
