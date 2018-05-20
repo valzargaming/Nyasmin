@@ -225,7 +225,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         
         $this->on('ready', function () {
             $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
-            $this->client->emit('ready');
         });
     }
     

@@ -31,7 +31,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      * The version of Yasmin.
      * @var string
      */
-    const VERSION = '0.4.1';
+    const VERSION = '0.4.1-dev';
     
     /**
      * WS connection status: Disconnected.
@@ -269,6 +269,11 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             } else {
                 $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
             }
+            
+            $this->ws->on('ready', function () {
+                $this->readyTimestamp = \time();
+                $this->emit('ready');
+            });
         }
         
         $this->checkOptionsStorages();
