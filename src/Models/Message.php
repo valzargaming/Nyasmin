@@ -449,7 +449,7 @@ class Message extends ClientBase {
         $this->mentions = new \CharlotteDunois\Yasmin\Models\MessageMentions($this->client, $this, $message);
         
         foreach($this->mentions->channels as $channel) {
-            $this->cleanContent = \str_replace($channel->__toString(), $channel->name, $this->cleanContent);
+            $this->cleanContent = \str_replace('<#'.$channel->id.'>', $channel->name, $this->cleanContent);
         }
         
         foreach($this->mentions->roles as $role) {
