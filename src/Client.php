@@ -293,12 +293,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      */
     function __isset($name) {
         try {
-            if(\property_exists($this, $name)) {
-                return true;
-            }
-            
-            $this->$name;
-            return true;
+            return $this->$name !== null;
         } catch (\RuntimeException $e) {
             if($e->getTrace()[0]['function'] === '__get') {
                 return false;
