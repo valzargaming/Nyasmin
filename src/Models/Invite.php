@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property string                                                                                                  $code                The invite code.
  * @property \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild|null                   $guild               The guild which this invite belongs to, or null.
- * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  channel              The channel which this invite belongs to.
+ * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  $channel             The channel which this invite belongs to.
  * @property int|null                                                                                                $createdTimestamp    When this invite was created, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null                                                                $inviter             The inviter, or null.
  * @property int|null                                                                                                $maxUses             Maximum uses until the invite expires, or null.
