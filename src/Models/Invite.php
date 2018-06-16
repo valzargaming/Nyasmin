@@ -13,8 +13,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents an invite.
  *
  * @property string                                                                                                  $code                The invite code.
- * @property \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild                        $guild               The guild which this invite belongs to.
- * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  channel             The channel which this invite belongs to.
+ * @property \CharlotteDunois\Yasmin\Models\Guild|\CharlotteDunois\Yasmin\Models\PartialGuild|null                   $guild               The guild which this invite belongs to, or null.
+ * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel  channel              The channel which this invite belongs to.
  * @property int|null                                                                                                $createdTimestamp    When this invite was created, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null                                                                $inviter             The inviter, or null.
  * @property int|null                                                                                                $maxUses             Maximum uses until the invite expires, or null.
@@ -51,7 +51,7 @@ class Invite extends ClientBase {
         parent::__construct($client);
         
         $this->code = $invite['code'];
-        $this->guild = ($client->guilds->get($invite['guild']['id']) ?? (new \CharlotteDunois\Yasmin\Models\PartialGuild($client, $invite['guild'])));
+        $this->guild = (!empty($invite['guild']) ? ($client->guilds->get($invite['guild']['id']) ?? (new \CharlotteDunois\Yasmin\Models\PartialGuild($client, $invite['guild']))) : null);
         $this->channel = ($client->channels->get($invite['channel']['id']) ?? (new \CharlotteDunois\Yasmin\Models\PartialChannel($client, $invite['channel'])));
         
         $this->createdTimestamp = (!empty($invite['created_at']) ? (new \DateTime($invite['created_at']))->getTimestamp() : null);

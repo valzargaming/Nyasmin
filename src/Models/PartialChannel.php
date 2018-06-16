@@ -10,20 +10,21 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Represents a partial channel.
+ * Represents a partial channel (of a guild or a group DM).
  *
  * @property string       $id                The channel ID.
- * @property string       $name              The channel name.
- * @property int          $createdTimestamp  The timestamp when this channel was created.
+ * @property string|null  $name              The channel name.
  * @property string       $type              The type of the channel.
+ * @property string|null  $icon              The icon of the channel.
+ * @property int          $createdTimestamp  The timestamp when this channel was created.
  *
  * @property \DateTime    $createdAt         The DateTime instance of createdTimestamp.
  */
 class PartialChannel extends ClientBase {
     protected $id;
     protected $name;
-    protected $icon;
     protected $type;
+    protected $icon;
     
     protected $createdTimestamp;
     
@@ -34,8 +35,9 @@ class PartialChannel extends ClientBase {
         parent::__construct($client);
         
         $this->id = $channel['id'];
-        $this->name = $channel['name'];
+        $this->name = $channel['name'] ?? null;
         $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
+        $this->icon = $channel['icon'] ?? null;
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
     }
@@ -58,6 +60,24 @@ class PartialChannel extends ClientBase {
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * Returns the group DM's icon URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @return string|null
+     */
+    function getIconURL(string $format = 'png', ?int $size = null) {
+        if($size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
+        if($this->icon !== null) {
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['channelicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        }
+        
+        return null;
     }
     
     /**
