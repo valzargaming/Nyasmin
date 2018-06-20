@@ -306,6 +306,15 @@ class Message extends ClientBase {
     }
     
     /**
+     * Returns the jump to message link to this message.
+     * @return string
+     */
+    function jump_link() {
+        $guild = ($this->channel->type === 'text' ? $this->guild->id : '@me');
+        return 'https://canary.discordapp.com/channels/'.$guild.'/'.$this->channel->id.'/'.$this->id;
+    }
+    
+    /**
      * Pins the message. Resolves with $this.
      * @return \React\Promise\ExtendedPromiseInterface
      */
