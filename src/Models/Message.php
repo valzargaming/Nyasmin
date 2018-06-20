@@ -306,7 +306,7 @@ class Message extends ClientBase {
     }
     
     /**
-     * Returns the jump to message link to this message.
+     * Returns the jump to message link for this message.
      * @return string
      */
     function jumpURL() {
