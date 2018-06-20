@@ -20,6 +20,8 @@ composer require charlottedunois/yasmin
 
 **Important Information**: All properties on class instances, which are implemented using a magic method (which means pretty much all properties), are **throwing** if the property doesn't exist.
 
+There is a WIP Gitbook with a few protips in it, feel free to read it: https://charlottedunois.gitbooks.io/yasmin-guide/content/
+
 # Example
 This is a fairly trivial example of using Yasmin. You should put all your listener code into try-catch blocks and handle exceptions accordingly.
 
