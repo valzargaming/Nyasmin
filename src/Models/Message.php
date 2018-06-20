@@ -309,7 +309,7 @@ class Message extends ClientBase {
      * Returns the jump to message link for this message.
      * @return string
      */
-    function jumpURL() {
+    function getJumpURL() {
         $guild = ($this->channel->type === 'text' ? $this->guild->id : '@me');
         return 'https://canary.discordapp.com/channels/'.$guild.'/'.$this->channel->id.'/'.$this->id;
     }
