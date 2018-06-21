@@ -14,6 +14,16 @@ If you need help with Yasmin, please visit the Discord guild! The issue tracker 
 
 ```
 
+**Please include the expected output of the MCVE:**
+```php
+
+```
+
+**Please include the actual output of the MCVE:**
+```php
+
+```
+
 **Further details:**
 
 - Yasmin version:
