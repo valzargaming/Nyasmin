@@ -667,25 +667,25 @@ class Guild extends ClientBase {
                 $received += $members->count();
                 
                 if((!empty($query) && $members->count() < 1000) || ($limit > 0 && $received >= $limit) || $this->members->count() === $this->memberCount) {
-                    $this->client->removeListener('guildMembersChunk', $listener);
-                    $resolve($this);
-                    
                     if(!empty($timers)) {
                         foreach($timers as $timer) {
                             $this->client->cancelTimer($timer);
                         }
                     }
+                    
+                    $this->client->removeListener('guildMembersChunk', $listener);
+                    $resolve($this);
                 }
             };
             
             if(!empty($query)) {
                 $timers[] = $this->client->addTimer(110, function (&$listener, &$timers, $resolve) {
-                    $this->client->removeListener('guildMembersChunk', $listener);
-                    $resolve($this);
-                    
                     foreach($timers as $timer) {
                         $this->client->cancelTimer($timer);
                     }
+                    
+                    $this->client->removeListener('guildMembersChunk', $listener);
+                    $resolve($this);
                 });
             }
             
@@ -701,13 +701,13 @@ class Guild extends ClientBase {
             ));
             
             $timers[] = $this->client->addTimer(120, function () use (&$listener, &$timers, $reject) {
+                foreach($timers as $timer) {
+                    $this->client->cancelTimer($timer);
+                }
+                
                 if($this->members->count() < $this->memberCount) {
                     $this->client->removeListener('guildMembersChunk', $listener);
                     $reject(new \Exception('Members did not arrive in time'));
-                }
-                
-                foreach($timers as $timer) {
-                    $this->client->cancelTimer($timer);
                 }
             });
         }));
