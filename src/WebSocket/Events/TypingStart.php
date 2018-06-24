@@ -32,8 +32,9 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             }
             
             $user->done(function ($user) use ($channel, $data) {
-                $channel->_updateTyping($user, $data['timestamp']);
-                $this->client->emit('typingStart', $channel, $user);
+                if($channel->_updateTyping($user, $data['timestamp'])) {
+                    $this->client->emit('typingStart', $channel, $user);
+                }
             }, array($this->client, 'handlePromiseRejection'));
         }
     }

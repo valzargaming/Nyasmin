@@ -213,6 +213,11 @@ interface ClientEvents {
     function typingStart(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, \CharlotteDunois\Yasmin\Models\User $user);
     
     /**
+     * Emitted when someone stops typing in the channel.
+     */
+    function typingStop(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, \CharlotteDunois\Yasmin\Models\User $user);
+    
+    /**
      * Emitted when someone updates their user account (username/avatar/etc.).
      */
     function userUpdate(\CharlotteDunois\Yasmin\Models\User $new, ?\CharlotteDunois\Yasmin\Models\User $old);

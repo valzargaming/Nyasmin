@@ -363,6 +363,7 @@ trait TextChannelTrait {
     /**
      * @param \CharlotteDunois\Yasmin\Models\User  $user
      * @param int|null                             $timestamp
+     * @return boolean
      * @internal
      */
     function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, ?int $timestamp = null) {
@@ -371,18 +372,20 @@ trait TextChannelTrait {
         }
         
         $typing = $this->typings->get($user->id);
-        if($typing && $typing['timer'] instanceof \React\EventLoop\Timer\Timer) {
+        if($typing && ($typing['timer'] instanceof \React\EventLoop\Timer\TimerInterface || $typing['timer'] instanceof \React\EventLoop\TimerInterface)) {
             $this->client->cancelTimer($typing['timer']);
         }
         
-        $timer = $this->client->addTimer(6, function ($client) use ($user) {
+        $timer = $this->client->addTimer(9, function () use ($user) {
             $this->typings->delete($user->id);
-            $client->emit('typingStop', $this, $user);
+            $this->client->emit('typingStop', $this, $user);
         });
         
         $this->typings->set($user->id, array(
             'timestamp' => (int) $timestamp,
             'timer' => $timer
         ));
+        
+        return ($typing === null);
     }
 }
