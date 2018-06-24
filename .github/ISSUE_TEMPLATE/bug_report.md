@@ -1,6 +1,9 @@
-<!--
-If you need help with Yasmin, please visit the Discord guild! The issue tracker is only for bug reports and enhancement suggestions.
--->
+---
+name: Bug report
+about: Create a report to help us improve
+
+---
+
 **Please describe the issue you are having:**
 
 
@@ -10,6 +13,16 @@ If you need help with Yasmin, please visit the Discord guild! The issue tracker 
 ```
 
 **Please include a Minimal, Complete and Verifiable Example:**
+```php
+
+```
+
+**Please include the expected output of the MCVE:**
+```php
+
+```
+
+**Please include the actual output of the MCVE:**
 ```php
 
 ```
