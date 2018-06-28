@@ -174,7 +174,7 @@ class ClientUser extends User {
      * <pre>
      * array(
      *     'afk' => bool,
-     *     'since' => integer|null,
+     *     'since' => int|null,
      *     'status' => string,
      *     'game' => array(
      *         'name' => string,
@@ -258,7 +258,7 @@ class ClientUser extends User {
      *
      * <pre>
      * array(
-     *   'accessToken' => \CharlotteDunois\Yasmin\Models\User|string (user ID)
+     *    accessToken => \CharlotteDunois\Yasmin\Models\User|string (user ID)
      * )
      * </pre>
      *
