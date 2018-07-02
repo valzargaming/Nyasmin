@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * The ratelimit bucket queue is always managed in memory (as in belongs to that process), however the ratelimits are distributed to the used system.
  *
  * Included are two ratelimit bucket systems:<br>
- *  * In memory ratelimit bucket using arrays - Class: <code>\CharlotteDunois\Yasmin\HTTP\RatelimitBucket</code> (default)<br>
+ *  * In memory ratelimit bucket, using arrays - Class: <code>\CharlotteDunois\Yasmin\HTTP\RatelimitBucket</code> (default)<br>
  *  * Redis ratelimit bucket, using Athena to interface with Redis - Class: <code>\CharlotteDunois\Yasmin\HTTP\AthenaRatelimitBucket</code>
  *
  * To use a different one then the default, you have to pass the full qualified class name to the client constructor as client option <code>http.ratelimitbucket.name</code>.<br>
