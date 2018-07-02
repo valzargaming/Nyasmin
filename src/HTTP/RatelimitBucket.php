@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
- * Manages a route's ratelimit.
+ * Manages a route's ratelimit in memory.
  */
 final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**

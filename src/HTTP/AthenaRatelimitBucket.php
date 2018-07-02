@@ -10,9 +10,9 @@
 namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
- * Manages a route's ratelimit using Athena. Requires client option `http.ratelimitbucket.athena` to be set to an instance of `AthenaCache`.
+ * Manages a route's ratelimit in Redis, using Athena. Requires client option <code>http.ratelimitbucket.athena</code> to be set to an instance of <code>AthenaCache</code>.
  *
- * Requires the suggested package `charlottedunois/athena`.
+ * Requires the suggested package <code>charlottedunois/athena</code>.
  */
 final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
