@@ -10,10 +10,9 @@
 namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
- * Manages a route ratelimit.
- * @internal
+ * Manages a route's ratelimit.
  */
-final class RatelimitBucket {
+final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
@@ -54,15 +53,19 @@ final class RatelimitBucket {
         $this->endpoint = $endpoint;
     }
     
+    /**
+     * Destroys the bucket.
+     */
     function __destruct() {
         $this->clear();
     }
     
     /**
-     * Sets the ratelimits from the response
+     * Sets the ratelimits from the response.
      * @param int|null  $limit
      * @param int|null  $remaining
      * @param int|null  $resetTime
+     * @return \React\Promise\ExtendedPromiseInterface|void
      */
     function handleRatelimit(?int $limit, ?int $remaining, ?int $resetTime) {
         if($limit === null && $remaining === null && $resetTime === null) {
@@ -83,15 +86,15 @@ final class RatelimitBucket {
      * Returns the endpoint this bucket is for.
      * @return string
      */
-    function getEndpoint() {
+    function getEndpoint(): string {
         return $this->endpoint;
     }
     
     /**
-     * Returns the size of the queue
+     * Returns the size of the queue.
      * @var int
      */
-    function size() {
+    function size(): int {
         return \count($this->queue);
     }
     
@@ -117,26 +120,29 @@ final class RatelimitBucket {
     }
     
     /**
-     * Determines wether we've reached the ratelimit.
-     * @return bool
+     * Retrieves ratelimit meta data.
+     *
+     * The resolved value must be:
+     * <pre>
+     * array(
+     *     'limited' => bool,
+     *     'resetTime' => int|null
+     * )
+     * </pre>
+     *
+     * @return \React\Promise\ExtendedPromiseInterface|array
      */
-    function limited() {
+    function getMeta() {
         if($this->resetTime && \time() > $this->resetTime) {
             $this->resetTime = null;
             $this->remaining = ($this->limit ? $this->limit : \INF);
             
-            return false;
+            $limited = false;
+        } else {
+            $limited = ($this->limit !== 0 && $this->remaining === 0);
         }
         
-        return ($this->limit !== 0 && $this->remaining === 0);
-    }
-    
-    /**
-     * Returns the reset time.
-     * @return int|null
-     */
-    function getResetTime() {
-        return $this->resetTime;
+        return array('limited' => $limited, 'resetTime' => $this->resetTime);
     }
     
     /**

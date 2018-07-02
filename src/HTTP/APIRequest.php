@@ -140,7 +140,12 @@ final class APIRequest {
         return $request;
     }
     
-    function execute(?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    /**
+     * Executes the request.
+     * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
+     * @return \GuzzleHttp\Promise\Promise
+     */
+    function execute(?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $request = $this->request();
         
         return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) {
@@ -207,12 +212,12 @@ final class APIRequest {
     
     /**
      * Handles an API error.
-     * @param \GuzzleHttp\Psr7\Response                          $response
-     * @param mixed                                              $body
-     * @param \CharlotteDunois\Yasmin\HTTP\RatelimitBucket|null  $ratelimit
+     * @param \GuzzleHttp\Psr7\Response                                         $response
+     * @param mixed                                                             $body
+     * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
      * @return \CharlotteDunois\Yasmin\HTTP\DiscordAPIException|\RuntimeException|null
      */
-    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, $body, ?\CharlotteDunois\Yasmin\HTTP\RatelimitBucket $ratelimit = null) {
+    protected function handleAPIError(\GuzzleHttp\Psr7\Response $response, $body, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $status = $response->getStatusCode();
         
         if($status === 429 || $status >= 500) {

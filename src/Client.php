@@ -195,6 +195,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding)
      *   'shardCount' => int, (shard count, important for sharding)
      *   'userSweepInterval' => int, (interval when the user cache gets invalidated (users sharing no mutual guilds get removed), defaults to 600)
+     *   'http.ratelimitbucket.name' => string, (class name of the custom ratelimit bucket, has to implement the interface)
      *   'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done)
      *   'ws.compression' => string, (Enables a specific one, defaults to zlib-stream, which is currently the only available compression)
      *   'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
@@ -246,6 +247,16 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             }
         } else {
             $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
+        }
+        
+        if(!empty($options['http.ratelimitbucket.name'])) {
+            if(!\class_exists($options['http.ratelimitbucket.name'], true)) {
+                throw new \RuntimeException('Custom Ratelimit Bucket class does not exist');
+            }
+            
+            if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\RatelimitBucketInterface', \class_implements($options['http.ratelimitbucket.name']))) {
+                throw new \RuntimeException('Custom Ratelimit Bucket does not implement RatelimitBucketInterface');
+            }
         }
         
         // ONLY use this if you know to 100% the consequences and know what you are doing
@@ -916,7 +927,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * Validates the passed client options.
-     * @param array
+     * @param array  $options
      * @throws \InvalidArgumentException
      */
     protected function validateClientOptions(array $options) {
@@ -929,6 +940,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
             'userSweepInterval' => 'integer|min:0',
+            'http.ratelimitbucket.name' => 'string',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',

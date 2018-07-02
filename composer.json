@@ -23,6 +23,7 @@
         "charlottedunois/validator": "^0.1.8"
     },
     "suggest": {
+        "charlottedunois/athena": "For Redis-backed ratelimit bucket",
         "charlottedunois/erlpack": "For WS encoding etf 🚀"
     },
     "autoload": {
