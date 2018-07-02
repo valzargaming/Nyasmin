@@ -11,7 +11,6 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
  * Manages a route ratelimit.
- * @internal
  */
 interface RatelimitBucketInterface {
     /**
