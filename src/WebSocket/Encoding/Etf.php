@@ -86,7 +86,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     
     /**
      * Converts all IDs from integer to strings.
-     * @param array|object
+     * @param array|object  $data
      * @return array|object
      */
     protected function convertIDs($data) {
