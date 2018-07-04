@@ -37,6 +37,19 @@ interface RatelimitBucketInterface {
     function __destruct();
     
     /**
+     * Whether we are busy.
+     * @return bool
+     */
+    function isBusy(): bool;
+    
+    /**
+     * Sets the busy flag (marking as running).
+     */
+    function setBusy(bool $busy) {
+        $this->busy = $busy;
+    }
+    
+    /**
      * Sets the ratelimits from the response.
      * @param int|null  $limit
      * @param int|null  $remaining

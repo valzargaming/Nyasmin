@@ -67,22 +67,16 @@ class APIManager {
     protected $queue = array();
     
     /**
-     * Running buckets we are waiting for a response.
-     * @var array
+     * The class name of the bucket to use.
+     * @var string
      */
-    protected $runningBuckets = array();
+    protected $bucketName;
     
     /**
      * Pending promises of buckets setting the ratelimit.
      * @var array
      */
     protected $bucketRatelimitPromises = array();
-    
-    /**
-     * The class name of the bucket to use.
-     * @var string
-     */
-    protected $bucketName;
     
     /**
      * DO NOT initialize this class yourself.
@@ -282,13 +276,11 @@ class APIManager {
      */
     protected function processItem($item) {
         if($item instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) {
-            $endpoint = $item->getEndpoint();
-            
-            if(\in_array($endpoint, $this->runningBuckets)) {
+            if($item->isBusy()) {
                 $this->queue[] = $item;
                 
                 foreach($this->queue as $qitem) {
-                    if(!($qitem instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) || !\in_array($qitem->getEndpoint(), $this->runningBuckets)) {
+                    if(!($qitem instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) || !$qitem->isBusy()) {
                         $this->processItem($qitem);
                         return;
                     }
@@ -297,18 +289,15 @@ class APIManager {
                 return;
             }
             
-            $this->runningBuckets[] = $endpoint;
+            $item->setBusy(true);
             $item = $this->extractFromBucket($item);
             
             if(!($item instanceof \React\Promise\ExtendedPromiseInterface)) {
                 $item = \React\Promise\resolve($item);
             }
             
-            $item->done(function ($req) use ($endpoint) {
-                $key = \array_search($endpoint, $this->runningBuckets);
-                if($key !== false) {
-                    unset($this->runningBuckets[$key]);
-                }
+            $item->done(function ($req) use ($item) {
+                $item->setBusy(false);
                 
                 if(!($req instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
                     return;
@@ -380,7 +369,7 @@ class APIManager {
         
         if(!empty($endpoint)) {
             $ratelimit = $this->getRatelimitBucket($endpoint);
-            $this->runningBuckets[] = $ratelimit->getEndpoint();
+            $ratelimit->setBusy(true);
         }
         
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().'"');
@@ -399,21 +388,11 @@ class APIManager {
             if($ratelimit instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) {
                 if(isset($this->bucketRatelimitPromises[$endpoint])) {
                     $this->bucketRatelimitPromises[$endpoint]->done(function () use ($endpoint) {
-                        unset($this->bucketRatelimitPromises[$endpoint]);
-                        
-                        $key = \array_search($endpoint, $this->runningBuckets);
-                        if($key !== false) {
-                            unset($this->runningBuckets[$key]);
-                        }
-                        
+                        $ratelimit->setBusy(false);
                         $this->processDelayed();
                     });
                 } else {
-                    $key = \array_search($endpoint, $this->runningBuckets);
-                    if($key !== false) {
-                        unset($this->runningBuckets[$key]);
-                    }
-                    
+                    $ratelimit->setBusy(false);
                     $this->processDelayed();
                 }
             } else {

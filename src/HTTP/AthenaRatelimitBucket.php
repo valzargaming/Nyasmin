@@ -37,6 +37,11 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
     protected $cache;
     
     /**
+     * @var bool
+     */
+    protected $busy = false;
+    
+    /**
      * DO NOT initialize this class yourself.
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
      * @param string                                   $endpoint
@@ -57,6 +62,21 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
      */
     function __destruct() {
         $this->clear();
+    }
+    
+    /**
+     * Whether we are busy.
+     * @return bool
+     */
+    function isBusy(): bool {
+        return $this->busy;
+    }
+    
+    /**
+     * Sets the busy flag (marking as running).
+     */
+    function setBusy(bool $busy) {
+        $this->busy = $busy;
     }
     
     /**
