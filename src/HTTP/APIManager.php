@@ -290,13 +290,13 @@ class APIManager {
             }
             
             $item->setBusy(true);
-            $item = $this->extractFromBucket($item);
+            $buckItem = $this->extractFromBucket($item);
             
-            if(!($item instanceof \React\Promise\ExtendedPromiseInterface)) {
-                $item = \React\Promise\resolve($item);
+            if(!($buckItem instanceof \React\Promise\ExtendedPromiseInterface)) {
+                $buckItem = \React\Promise\resolve($buckItem);
             }
             
-            $item->done(function ($req) use ($item) {
+            $buckItem->done(function ($req) use ($item) {
                 $item->setBusy(false);
                 
                 if(!($req instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
@@ -387,7 +387,7 @@ class APIManager {
         })->then(function () use ($ratelimit, $endpoint) {
             if($ratelimit instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) {
                 if(isset($this->bucketRatelimitPromises[$endpoint])) {
-                    $this->bucketRatelimitPromises[$endpoint]->done(function () use ($endpoint) {
+                    $this->bucketRatelimitPromises[$endpoint]->done(function () use ($ratelimit) {
                         $ratelimit->setBusy(false);
                         $this->processDelayed();
                     });
