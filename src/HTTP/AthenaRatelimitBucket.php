@@ -74,6 +74,7 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
     
     /**
      * Sets the busy flag (marking as running).
+     * @param bool  $busy
      */
     function setBusy(bool $busy) {
         $this->busy = $busy;
