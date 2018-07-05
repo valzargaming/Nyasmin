@@ -205,7 +205,6 @@ class Message extends ClientBase {
      * @param array     $options  The collector options.
      * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\MessageReaction
-     *
      */
     function collectReactions(callable $filter, array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
@@ -227,7 +226,7 @@ class Message extends ClientBase {
                 }
             };
             
-            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use (&$collect, &$listener, $options, $resolve, $reject) {
+            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function () use (&$collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('messageReactionAdd', $listener);
                 
                 if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {

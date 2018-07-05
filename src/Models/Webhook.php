@@ -200,7 +200,7 @@ class Webhook extends ClientBase {
                                 $fs = null;
                                 if($files) {
                                     $fs = $files;
-                                    $files = nulL;
+                                    $files = null;
                                 }
                                 
                                 $message = array(

@@ -659,7 +659,7 @@ class Guild extends ClientBase {
             $received = 0;
             $timers = array();
             
-            $listener = function ($guild, $members) use(&$listener, $query, $limit, &$received, &$timers, $resolve) {
+            $listener = function ($guild, $members) use (&$listener, $query, $limit, &$received, &$timers, $resolve) {
                 if($guild->id !== $this->id) {
                     return;
                 }

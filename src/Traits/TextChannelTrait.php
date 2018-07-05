@@ -103,7 +103,7 @@ trait TextChannelTrait {
                 }
             };
             
-            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function() use (&$collect, &$listener, $options, $resolve, $reject) {
+            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function () use (&$collect, &$listener, $options, $resolve, $reject) {
                 $this->client->removeListener('message', $listener);
                 
                 if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {
@@ -238,7 +238,7 @@ trait TextChannelTrait {
                                 $fs = null;
                                 if($files) {
                                     $fs = $files;
-                                    $files = nulL;
+                                    $files = null;
                                 }
                                 
                                 $message = array(

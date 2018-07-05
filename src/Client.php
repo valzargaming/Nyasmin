@@ -719,7 +719,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      * @see \CharlotteDunois\Yasmin\Models\User
      */
     function fetchUser(string $userid) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use  ($userid) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
             if($this->users->has($userid)) {
                 return $resolve($this->users->get($userid));
             }
