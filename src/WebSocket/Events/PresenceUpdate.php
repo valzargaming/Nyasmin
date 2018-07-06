@@ -26,9 +26,15 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
     }
     
     function handle(array $data) {
-        try {
-            $user = $this->client->users->resolve($data['user']['id']);
-            
+        $user = $this->client->users->get($data['user']['id']);
+        
+        if(($data['status'] ?? null) === 'offline' && $user === null) {
+            return;
+        }
+        
+        if($user === null) {
+            $user = $this->client->fetchUser($data['user']['id']);
+        } else {
             if(\count($data['user']) > 1 && $user->_shouldUpdate($data['user'])) {
                 $oldUser = null;
                 if($this->clones) {
@@ -41,6 +47,10 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                 return;
             }
             
+            $user = \React\Promise\resolve($user);
+        }
+        
+        $user->done(function ($user) use ($data) {
             $guild = $this->client->guilds->get($data['guild_id']);
             if($guild) {
                 $presence = $guild->presences->get($user->id);
@@ -58,8 +68,6 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                 
                 $this->client->emit('presenceUpdate', $presence, $oldPresence);
             }
-        } catch (\Throwable | \Exception | \Error $e) {
-            /* Continue regardless of error */
-        }
+        }, array($this->client, 'handlePromiseRejection'));
     }
 }
