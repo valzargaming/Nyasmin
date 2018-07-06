@@ -57,6 +57,10 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                 $oldPresence = null;
                 
                 if($presence) {
+                    if($data['status'] === 'offline' && $presence->status === 'offline') {
+                        return;
+                    }
+                    
                     if($this->clones) {
                         $oldPresence = clone $presence;
                     }
