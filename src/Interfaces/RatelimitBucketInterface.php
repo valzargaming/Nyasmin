@@ -10,8 +10,17 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Manages a route ratelimit.
- * @internal
+ * This interface defines required methods and their arguments for managing route ratelimits using various systems.<br>
+ * The ratelimit bucket queue is always managed in memory (as in belongs to that process), however the ratelimits are distributed to the used system.
+ *
+ * Included are two ratelimit bucket systems:<br>
+ *  * In memory ratelimit bucket, using arrays - Class: <code>\CharlotteDunois\Yasmin\HTTP\RatelimitBucket</code> (default)<br>
+ *  * Redis ratelimit bucket, using Athena to interface with Redis - Class: <code>\CharlotteDunois\Yasmin\HTTP\AthenaRatelimitBucket</code>
+ *
+ * To use a different one than the default, you have to pass the full qualified class name to the client constructor as client option <code>http.ratelimitbucket.name</code>.
+ *
+ * The Redis ratelimit bucket system uses Athena, an asynchronous redis cache for PHP. The package is called <code>charlottedunois/athena</code> (which is suggested on composer).<br>
+ * To be able to use the Redis ratelimit bucket, you need to pass an instance of <code>AthenaCache</code> as client option <code>http.ratelimitbucket.athena</code> to the client.
  */
 interface RatelimitBucketInterface {
     /**
@@ -26,6 +35,20 @@ interface RatelimitBucketInterface {
      * Destroys the bucket.
      */
     function __destruct();
+    
+    /**
+     * Whether we are busy.
+     * @return bool
+     */
+    function isBusy(): bool;
+    
+    /**
+     * Sets the busy flag (marking as running).
+     * @param bool  $busy
+     */
+    function setBusy(bool $busy) {
+        $this->busy = $busy;
+    }
     
     /**
      * Sets the ratelimits from the response.

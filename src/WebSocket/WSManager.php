@@ -370,7 +370,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                 $this->client->emit('debug', 'Connected to WS');
                 
                 $ratelimits = &$this->ratelimits;
-                $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer($ratelimits['time'], function () use($ratelimits) {
+                $ratelimits['timer'] = $this->client->getLoop()->addPeriodicTimer($ratelimits['time'], function () use ($ratelimits) {
                     $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
                 });
                 
@@ -474,7 +474,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
                     $this->renewConnection(false);
                 });
-            }, function($error) use ($resolve, $reject) {
+            }, function ($error) use ($resolve, $reject) {
                 $this->client->emit('error', $error);
                 
                 if($this->ws) {

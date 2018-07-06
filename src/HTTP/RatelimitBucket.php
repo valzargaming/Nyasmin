@@ -10,7 +10,8 @@
 namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
- * Manages a route's ratelimit.
+ * Manages a route's ratelimit in memory.
+ * @internal
  */
 final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
@@ -44,6 +45,11 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
     protected $queue = array();
     
     /**
+     * @var bool
+     */
+    protected $busy = false;
+    
+    /**
      * DO NOT initialize this class yourself.
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
      * @param string                                   $endpoint
@@ -58,6 +64,22 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
      */
     function __destruct() {
         $this->clear();
+    }
+    
+    /**
+     * Whether we are busy.
+     * @return bool
+     */
+    function isBusy(): bool {
+        return $this->busy;
+    }
+    
+    /**
+     * Sets the busy flag (marking as running).
+     * @param bool  $busy
+     */
+    function setBusy(bool $busy) {
+        $this->busy = $busy;
     }
     
     /**

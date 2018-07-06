@@ -10,9 +10,10 @@
 namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
- * Manages a route's ratelimit using Athena. Requires client option `http.ratelimitbucket.athena` to be set to an instance of `AthenaCache`.
+ * Manages a route's ratelimit in Redis, using Athena. Requires client option <code>http.ratelimitbucket.athena</code> to be set to an instance of <code>AthenaCache</code>.
  *
- * Requires the suggested package `charlottedunois/athena`.
+ * Requires the suggested package <code>charlottedunois/athena</code>.
+ * @internal
  */
 final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
@@ -36,6 +37,11 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
     protected $cache;
     
     /**
+     * @var bool
+     */
+    protected $busy = false;
+    
+    /**
      * DO NOT initialize this class yourself.
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
      * @param string                                   $endpoint
@@ -56,6 +62,22 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
      */
     function __destruct() {
         $this->clear();
+    }
+    
+    /**
+     * Whether we are busy.
+     * @return bool
+     */
+    function isBusy(): bool {
+        return $this->busy;
+    }
+    
+    /**
+     * Sets the busy flag (marking as running).
+     * @param bool  $busy
+     */
+    function setBusy(bool $busy) {
+        $this->busy = $busy;
     }
     
     /**
