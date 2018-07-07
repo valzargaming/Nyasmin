@@ -10,10 +10,10 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Something all Models, with the need for a client, extend. Do not use this.
+ * Something all Models, with the need for a client, extend.
  * @property \CharlotteDunois\Yasmin\Client  $client  The client which initiated the instance.
  */
-class ClientBase extends Base {
+abstract class ClientBase extends Base {
     /**
      * @var \CharlotteDunois\Yasmin\Client
      * @internal

@@ -10,10 +10,9 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Something all Models extend. Do not use this.
- * @internal
+ * Something all Models extend.
  */
-class Base implements \JsonSerializable, \Serializable {
+abstract class Base implements \JsonSerializable, \Serializable {
     /**
      * Default constructor.
      * @internal
