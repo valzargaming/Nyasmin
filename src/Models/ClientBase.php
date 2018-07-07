@@ -21,8 +21,8 @@ abstract class ClientBase extends Base {
     protected $client;
     
     /**
+     * The client which will be used to unserialize.
      * @var \CharlotteDunois\Yasmin\Client|null
-     * @internal
      */
     public static $serializeClient;
     
