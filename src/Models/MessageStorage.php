@@ -15,6 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
 class MessageStorage extends Storage {
     protected $channel;
     protected $timer;
+    protected $enabled;
     
     /**
      * @internal
@@ -22,14 +23,17 @@ class MessageStorage extends Storage {
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, ?array $data = null) {
         parent::__construct($client, $data);
         $this->channel = $channel;
+        $this->enabled = (bool) $this->client->getOption('messageCache', true);
         
-        $time = (int) $this->client->getOption('messageCacheLifetime', 0);
-        $inv = (int) $this->client->getOption('messageSweepInterval', $time);
-        
-        if($inv > 0) {
-            $this->timer = $this->client->addPeriodicTimer($inv, function () use ($time) {
-                $this->sweep($time);
-            });
+        if($this->enabled) {
+            $time = (int) $this->client->getOption('messageCacheLifetime', 0);
+            $inv = (int) $this->client->getOption('messageSweepInterval', $time);
+            
+            if($inv > 0) {
+                $this->timer = $this->client->addPeriodicTimer($inv, function () use ($time) {
+                    $this->sweep($time);
+                });
+            }
         }
     }
     
@@ -49,6 +53,17 @@ class MessageStorage extends Storage {
      */
     function get($key) {
         return parent::get($key);
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    function set($key, $value) {
+        if(!$this->enabled) {
+            return $this;
+        }
+        
+        return parent::set($key, $value);
     }
     
     /**

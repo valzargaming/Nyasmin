@@ -20,7 +20,7 @@
         "react/promise": "^2.7.0",
         "guzzlehttp/guzzle": "^6.3.2",
         "charlottedunois/eventemitter": "^0.1.4",
-        "charlottedunois/validator": "^0.1.8"
+        "charlottedunois/validator": "^0.1.9"
     },
     "suggest": {
         "charlottedunois/athena": "For Redis-backed ratelimit bucket",

@@ -190,8 +190,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'disableClones' => bool|string[], (disables cloning of class instances (for perfomance), affects update events - bool: true - disables all cloning)
      *   'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext, defaults to true)
      *   'fetchAllMembers' => bool, (fetches all guild members, this should be avoided - necessary members get automatically fetched)
+     *   'messageCache' => bool, (enables message cache, defaults to true)
      *   'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration)
      *   'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime)
+     *   'presenceCache' => bool, (enables presence cache, defaults to true)
      *   'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding)
      *   'shardCount' => int, (shard count, important for sharding)
      *   'userSweepInterval' => int, (interval when the user cache gets invalidated (users sharing no mutual guilds get removed), defaults to 600)
@@ -231,14 +233,6 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
         
         // ONLY use this if you know to 100% the consequences and know what you are doing
         if(!empty($options['internal.api.instance'])) {
-            if(\is_string($options['internal.api.instance']) && !\class_exists($options['internal.api.instance'], true)) {
-                throw new \RuntimeException('Custom API Manager class does not exist');
-            }
-            
-            if(!\in_array('CharlotteDunois\\Yasmin\\HTTP\\APIManager', \class_parents($options['internal.api.instance']))) {
-                throw new \RuntimeException('Custom API Manager does not extend Yasmin API Manager');
-            }
-            
             if(\is_string($options['internal.api.instance'])) {
                 $api = $options['internal.api.instance'];
                 $this->api = new $api($this);
@@ -249,28 +243,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         }
         
-        if(!empty($options['http.ratelimitbucket.name'])) {
-            if(!\class_exists($options['http.ratelimitbucket.name'], true)) {
-                throw new \RuntimeException('Custom Ratelimit Bucket class does not exist');
-            }
-            
-            if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\RatelimitBucketInterface', \class_implements($options['http.ratelimitbucket.name']))) {
-                throw new \RuntimeException('Custom Ratelimit Bucket does not implement RatelimitBucketInterface');
-            }
-        }
-        
         // ONLY use this if you know to 100% the consequences and know what you are doing
         if(($options['internal.ws.disable'] ?? false) !== true) {
             // ONLY use this if you know to 100% the consequences and know what you are doing
             if(!empty($options['internal.ws.instance'])) {
-                if(\is_string($options['internal.ws.instance']) && !\class_exists($options['internal.ws.instance'], true)) {
-                    throw new \RuntimeException('Custom WS Manager class does not exist');
-                }
-                
-                if(!\in_array('CharlotteDunois\\Yasmin\\WebSocket\\WSManager', \class_parents($options['internal.ws.instance']))) {
-                    throw new \RuntimeException('Custom WS Manager does not extend Yasmin WS Manager');
-                }
-                
                 if(\is_string($options['internal.ws.instance'])) {
                     $ws = $options['internal.ws.instance'];
                     $this->ws = new $ws($this);
@@ -935,26 +911,30 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'disableClones' => 'boolean|array:string',
             'disableEveryone' => 'boolean',
             'fetchAllMembers' => 'boolean',
+            'messageCache' => 'boolean',
             'messageCacheLifetime' => 'integer|min:0',
             'messageSweepInterval' => 'integer|min:0',
+            'presenceCache' => 'boolean',
             'shardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
             'userSweepInterval' => 'integer|min:0',
-            'http.ratelimitbucket.name' => 'string',
+            'http.ratelimitbucket.name' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\RatelimitBucketInterface,string_only',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',
             'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',
             'ws.presence' => 'array',
-            'internal.storages.channels' => 'string',
-            'internal.storages.emojis' => 'string',
-            'internal.storages.guilds' => 'string',
-            'internal.storages.messages' => 'string',
-            'internal.storages.members' => 'string',
-            'internal.storages.presences' => 'string',
-            'internal.storages.roles' => 'string',
-            'internal.storages.users' => 'string'
+            'internal.api.instance' => 'class:CharlotteDunois\\Yasmin\\HTTP\\APIManager',
+            'internal.storages.channels' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.emojis' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.guilds' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.messages' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.members' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.presences' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.roles' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.users' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.ws.instance' => 'class:CharlotteDunois\\Yasmin\\WebSocket\\WSManager'
         ));
         
         if($validator->fails()) {
@@ -984,15 +964,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
         );
         
         foreach($storages as $name => $base) {
-            if(!empty($this->options['internal.storages.'.$name])) {
-                if(!\class_exists($this->options['internal.storages.'.$name], true)) {
-                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not exist');
-                }
-                
-                if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface', \class_implements($this->options['internal.storages.'.$name]))) {
-                    throw new \RuntimeException('Custom Storage class for "'.$name.'" does not implement StorageInterface');
-                }
-            } else {
+            if(empty($this->options['internal.storages.'.$name])) {
                 $this->options['internal.storages.'.$name] = $base;
             }
         }
