@@ -46,9 +46,7 @@ interface RatelimitBucketInterface {
      * Sets the busy flag (marking as running).
      * @param bool  $busy
      */
-    function setBusy(bool $busy) {
-        $this->busy = $busy;
-    }
+    function setBusy(bool $busy);
     
     /**
      * Sets the ratelimits from the response.
