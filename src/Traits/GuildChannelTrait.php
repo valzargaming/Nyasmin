@@ -203,6 +203,7 @@ trait GuildChannelTrait {
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Models\Permissions
      * @throws \InvalidArgumentException
+     * @see https://discordapp.com/developers/docs/topics/permissions#permission-overwrites
      */
     function permissionsFor($member) {
         $member = $this->guild->members->resolve($member);
@@ -211,11 +212,7 @@ trait GuildChannelTrait {
             return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
         }
         
-        $maxBitfield = $member->roles->map(function ($role) {
-            return $role->permissions->bitfield;
-        })->max();
-        
-        $permissions = new \CharlotteDunois\Yasmin\Models\Permissions($maxBitfield);
+        $permissions = $member->permissions;
         
         if($permissions->has('ADMINISTRATOR')) {
             return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
@@ -224,18 +221,18 @@ trait GuildChannelTrait {
         $overwrites = $this->overwritesFor($member);
         
         if($overwrites['everyone']) {
-            $permissions->add($overwrites['everyone']->allow->bitfield);
             $permissions->remove($overwrites['everyone']->deny->bitfield);
-        }
-        
-        if($overwrites['member']) {
-            $permissions->add($overwrites['member']->allow->bitfield);
-            $permissions->remove($overwrites['member']->deny->bitfield);
+            $permissions->add($overwrites['everyone']->allow->bitfield);
         }
         
         foreach($overwrites['roles'] as $role) {
-            $permissions->add($role->allow->bitfield);
             $permissions->remove($role->deny->bitfield);
+            $permissions->add($role->allow->bitfield);
+        }
+        
+        if($overwrites['member']) {
+            $permissions->remove($overwrites['member']->deny->bitfield);
+            $permissions->add($overwrites['member']->allow->bitfield);
         }
         
         return $permissions;
