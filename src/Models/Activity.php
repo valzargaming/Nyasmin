@@ -107,7 +107,7 @@ class Activity extends ClientBase {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

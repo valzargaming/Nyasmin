@@ -26,7 +26,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

@@ -55,7 +55,7 @@ class MessageAttachment extends Base {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

@@ -67,7 +67,7 @@ class VoiceChannel extends ClientBase
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

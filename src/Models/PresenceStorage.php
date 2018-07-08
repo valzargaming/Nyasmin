@@ -59,7 +59,7 @@ class PresenceStorage extends Storage {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     function set($key, $value) {
         if(!$this->enabled) {
@@ -75,7 +75,7 @@ class PresenceStorage extends Storage {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     function delete($key) {
         parent::delete($key);

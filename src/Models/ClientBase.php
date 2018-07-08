@@ -34,7 +34,7 @@ abstract class ClientBase extends Base {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @internal
      */

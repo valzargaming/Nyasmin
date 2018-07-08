@@ -50,7 +50,7 @@ class ClientUser extends User {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

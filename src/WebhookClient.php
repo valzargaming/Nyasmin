@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin;
 /**
  * The webhook client.
  *
- * @inheritDoc
+ * {@inheritdoc}
  */
 class WebhookClient extends \CharlotteDunois\Yasmin\Models\Webhook {
     /**

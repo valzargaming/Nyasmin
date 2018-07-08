@@ -107,7 +107,7 @@ class MessageEmbed extends Base {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

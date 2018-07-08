@@ -81,7 +81,7 @@ class GroupDMChannel extends DMChannel {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

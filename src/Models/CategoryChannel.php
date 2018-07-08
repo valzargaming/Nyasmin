@@ -53,7 +53,7 @@ class CategoryChannel extends ClientBase
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

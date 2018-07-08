@@ -75,7 +75,7 @@ class TextChannel extends ClientBase
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal

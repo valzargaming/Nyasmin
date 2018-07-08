@@ -72,7 +72,7 @@ class Permissions extends Base {
     }
     
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      *
      * @throws \RuntimeException
      * @internal
