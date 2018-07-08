@@ -32,6 +32,10 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             }
             
             $user->done(function ($user) use ($channel, $data) {
+                if(!empty($data['member']) && $channel === 'text' && !$channel->guild->members->has($user->id)) {
+                    $guild->_addMember($data['member'], true);
+                }
+                
                 if($channel->_updateTyping($user, $data['timestamp'])) {
                     $this->client->emit('typingStart', $channel, $user);
                 }

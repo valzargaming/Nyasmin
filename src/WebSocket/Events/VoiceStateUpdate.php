@@ -34,25 +34,35 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                 }
                 
                 $guild = $this->client->guilds->get($data['guild_id']);
-                $guild->fetchMember($user->id)->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
-                    $oldMember = null;
-                    if($this->clones) {
-                        $oldMember = clone $member;
+                if($guild) {
+                    if($guild->members->has($data['user_id'])) {
+                        $member = \React\Promise\resolve($guild->members->get($data['user_id']));
+                    } elseif(!empty($data['member'])) {
+                        $member = \React\Promise\resolve($guild->_addMember($data['member'], true));
+                    } else {
+                        $member = $guild->fetchMember($user->id);
                     }
                     
-                    if($member->voiceChannel) {
-                        $member->voiceChannel->members->delete($member->id);
-                    }
-                    
-                    $member->_setVoiceState($data);
-                    $this->client->emit('voiceStateUpdate', $member, $oldMember);
-                }, function () use ($guild, $user) {
-                    foreach($guild->channels as $channel) {
-                        if($channel->type instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
-                            $channel->members->delete($user->id);
+                    $member->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
+                        $oldMember = null;
+                        if($this->clones) {
+                            $oldMember = clone $member;
                         }
-                    }
-                });
+                        
+                        if($member->voiceChannel) {
+                            $member->voiceChannel->members->delete($member->id);
+                        }
+                        
+                        $member->_setVoiceState($data);
+                        $this->client->emit('voiceStateUpdate', $member, $oldMember);
+                    }, function () use ($guild, $user) {
+                        foreach($guild->channels as $channel) {
+                            if($channel->type instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
+                                $channel->members->delete($user->id);
+                            }
+                        }
+                    });
+                }
             } else {
                 $channel = $this->client->channels->get($data['channel_id']);
                 if($channel) {
