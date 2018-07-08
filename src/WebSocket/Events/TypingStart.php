@@ -35,7 +35,7 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 if(!empty($data['member']) && $channel->type === 'text' && !$channel->guild->members->has($user->id)) {
                     $member = $data['member'];
                     $member['user'] = $user->id;
-                    $member = \React\Promise\resolve($guild->_addMember($member, true));
+                    $channel->guild->_addMember($member, true);
                 }
                 
                 if($channel->_updateTyping($user, $data['timestamp'])) {
