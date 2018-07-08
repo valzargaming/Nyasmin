@@ -12,7 +12,13 @@ namespace CharlotteDunois\Yasmin;
 /**
  * The webhook client.
  *
- * {@inheritdoc}
+ * @property string                                    $id         The webhook ID.
+ * @property string|null                               $name       The webhook default name, or null.
+ * @property string|null                               $avatar     The webhook default avatar, or null.
+ * @property string|null                               $channelID  The channel the webhook belongs to.
+ * @property string|null                               $guildID    The guild the webhook belongs to, or null.
+ * @property \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
+ * @property string                                    $token      The webhook token.
  */
 class WebhookClient extends \CharlotteDunois\Yasmin\Models\Webhook {
     /**
