@@ -38,7 +38,9 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                     if($guild->members->has($data['user_id'])) {
                         $member = \React\Promise\resolve($guild->members->get($data['user_id']));
                     } elseif(!empty($data['member'])) {
-                        $member = \React\Promise\resolve($guild->_addMember($data['member'], true));
+                        $member = $data['member'];
+                        $member['user'] = $user->id;
+                        $member = \React\Promise\resolve($guild->_addMember($member, true));
                     } else {
                         $member = $guild->fetchMember($user->id);
                     }
