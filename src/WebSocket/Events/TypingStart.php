@@ -32,7 +32,7 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             }
             
             $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($channel, $data) {
-                if(!empty($data['member']) && $channel === 'text' && !$channel->guild->members->has($user->id)) {
+                if(!empty($data['member']) && $channel->type === 'text' && !$channel->guild->members->has($user->id)) {
                     $member = $data['member'];
                     $member['user'] = $user->id;
                     $member = \React\Promise\resolve($guild->_addMember($member, true));
