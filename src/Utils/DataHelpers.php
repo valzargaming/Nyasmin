@@ -109,8 +109,8 @@ class DataHelpers {
     }
     
     /**
-     * Parses mentions in a text. Resolves with an array of <code>[ 'type' => string, 'ref' => Models ]</code> arrays, in the order they were parsed.
-     * For mentions not available to this method or the client (e.g. mentioning a channel with no access to), <code>ref</code> will be the parsed mention (string).
+     * Parses mentions in a text. Resolves with an array of `[ 'type' => string, 'ref' => Models ]` arrays, in the order they were parsed.
+     * For mentions not available to this method or the client (e.g. mentioning a channel with no access to), `ref` will be the parsed mention (string).
      * Includes everyone and here mentions.
      *
      * @param \CharlotteDunois\Yasmin\Client|null  $client
@@ -201,14 +201,14 @@ class DataHelpers {
      * Splits a string into multiple chunks at a designated character that do not exceed a specific length.
      *
      * Options will be merged into default split options (see Message), so missing elements will get added.
-     * <pre>
+     * ```
      * array(
      *     'before' => string, (the string to add before the chunk)
      *     'after' => string, (the string to add after the chunk)
      *     'char' => string, (the string to split on)
      *     'maxLength' => int (the max. length of each chunk)
      * )
-     * </pre>
+     * ```
      *
      * @param string  $text
      * @param array   $options  Options controlling the behaviour of the split.
@@ -301,14 +301,14 @@ class DataHelpers {
     }
     
     /**
-     * Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as <code>$filter(\.\.\.$args)</code>). Resolves with an array of arguments (from the event).
+     * Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as `$filter(\.\.\.$args)`). Resolves with an array of arguments (from the event).
      *
      * Options may be:
-     * <pre>
+     * ```
      * array(
      *     'time' => int (if the event hasn't been found yet, this will define a timeout (in seconds) after which the promise gets rejected)
      * )
-     * </pre>
+     * ```
      *
      * @param \CharlotteDunois\Events\EventEmitterInterface  $emitter
      * @param string                                         $event

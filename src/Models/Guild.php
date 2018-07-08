@@ -222,14 +222,14 @@ class Guild extends ClientBase {
      *
      * Options are as following (all fields are optional):
      *
-     * <pre>
+     * ```
      * array(
      *   'nick' => string, (the nickname for the user, requires MANAGE_NICKNAMES permissions)
      *   'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (array or Collection of Role instances or role IDs, requires MANAGE_ROLES permission)
      *   'mute' => bool, (whether the user is muted, requires MUTE_MEMBERS permission)
      *   'deaf' => bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)
      * )
-     * </pre>
+     * ```
      *
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user         A guild member or User instance, or the user ID.
      * @param string                                      $accessToken  The OAuth Access Token for the given user.
@@ -302,7 +302,7 @@ class Guild extends ClientBase {
      *
      * Options are as following (all fields except name are optional):
      *
-     * <pre>
+     * ```
      * array(
      *   'name' => string,
      *   'type' => 'category'|'text'|'voice', (defaults to 'text')
@@ -320,7 +320,7 @@ class Guild extends ClientBase {
      *   *      'allow' => \CharlotteDunois\Yasmin\Models\Permissions|int,
      *   *      'deny' => \CharlotteDunois\Yasmin\Models\Permissions|int
      *   *  )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason
@@ -417,7 +417,7 @@ class Guild extends ClientBase {
      *
      * Options are as following (all are optional):
      *
-     * <pre>
+     * ```
      * array(
      *   'name' => string,
      *   'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions,
@@ -425,7 +425,7 @@ class Guild extends ClientBase {
      *   'hoist' => bool,
      *   'mentionable' => bool
      * )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason
@@ -463,7 +463,7 @@ class Guild extends ClientBase {
      *
      * Options are as following (at least one is required):
      *
-     * <pre>
+     * ```
      * array(
      *   'name' => string,
      *   'region' => string,
@@ -478,7 +478,7 @@ class Guild extends ClientBase {
      *   'splash' => string, (file path or URL, or data)
      *   'region' => string|\CharlotteDunois\Yasmin\Models\VoiceRegion
      * )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason
@@ -558,7 +558,7 @@ class Guild extends ClientBase {
      *
      * Options are as following (all are optional):
      *
-     * <pre>
+     * ```
      * array(
      *   'before' => string|\CharlotteDunois\Yasmin\Models\AuditLogEntry, (string = Audit Log Entry ID)
      *   'after' => string|\CharlotteDunois\Yasmin\Models\AuditLogEntry, (string = Audit Log Entry ID)
@@ -566,7 +566,7 @@ class Guild extends ClientBase {
      *   'user' => string|\CharlotteDunois\Yasmin\Models\User,
      *   'type' => string|int
      * )
-     * </pre>
+     * ```
      *
      * @param array  $options
      * @return \React\Promise\ExtendedPromiseInterface
@@ -856,7 +856,7 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Batch-updates the guild's channels positions. Channels is an array of <code>channel ID (string)|GuildChannelInterface => position (int)</code> pairs. Resolves with $this.
+     * Batch-updates the guild's channels positions. Channels is an array of `channel ID (string)|GuildChannelInterface => position (int)` pairs. Resolves with $this.
      * @param array   $channels
      * @param string  $reason
      * @return \React\Promise\ExtendedPromiseInterface
@@ -880,7 +880,7 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Batch-updates the guild's roles positions. Roles is an array of <code>role ID (string)|Role => position (int)</code> pairs. Resolves with $this.
+     * Batch-updates the guild's roles positions. Roles is an array of `role ID (string)|Role => position (int)` pairs. Resolves with $this.
      * @param array   $roles
      * @param string  $reason
      * @return \React\Promise\ExtendedPromiseInterface

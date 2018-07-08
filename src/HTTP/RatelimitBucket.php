@@ -145,12 +145,12 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
      * Retrieves ratelimit meta data.
      *
      * The resolved value must be:
-     * <pre>
+     * ```
      * array(
      *     'limited' => bool,
      *     'resetTime' => int|null
      * )
-     * </pre>
+     * ```
      *
      * @return \React\Promise\ExtendedPromiseInterface|array
      */

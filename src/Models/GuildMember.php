@@ -249,7 +249,7 @@ class GuildMember extends ClientBase {
      *
      * Options are as following (only one required):
      *
-     * <pre>
+     * ```
      * array(
      *   'nick' => string,
      *   'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs)
@@ -257,7 +257,7 @@ class GuildMember extends ClientBase {
      *   'mute' => bool,
      *   'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
      * )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason

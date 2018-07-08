@@ -14,16 +14,16 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property string            $type               The embed type.
  * @property string|null       $title              The title, or null.
- * @property array|null        $author             The author in the format <code>[ 'name' => string, 'icon' => string, 'url' => string ]</code>, or null.
+ * @property array|null        $author             The author in the format `[ 'name' => string, 'icon' => string, 'url' => string ]`, or null.
  * @property string|null       $description        The description, or null.
  * @property string|null       $url                The URL, or null.
  * @property int|string|null   $timestamp          The timestamp, or the set timestamp (as ISO string), or null.
  * @property int|null          $color              The color, or null.
- * @property array|null        $footer             The footer in the format <code>[ 'name' => string, 'icon' => string ]</code>, or null.
- * @property array|null        $image              The image in the format <code>[ 'url' => string, 'height' => int, 'width' => int ]</code>, or null.
- * @property array|null        $thumbnail          The thumbnail in the format <code>[ 'url' => string, 'height' => int, 'width' => int ]</code>, or null.
- * @property array|null        $video              The video in the format <code>[ 'url' => string, 'height' => int, 'width' => int ]</code>, or null.
- * @property array|null        $provider           The provider in the format <code>[ 'name' => string, 'url' => string ]</code>, or null.
+ * @property array|null        $footer             The footer in the format `[ 'name' => string, 'icon' => string ]`, or null.
+ * @property array|null        $image              The image in the format `[ 'url' => string, 'height' => int, 'width' => int ]`, or null.
+ * @property array|null        $thumbnail          The thumbnail in the format `[ 'url' => string, 'height' => int, 'width' => int ]`, or null.
+ * @property array|null        $video              The video in the format `[ 'url' => string, 'height' => int, 'width' => int ]`, or null.
+ * @property array|null        $provider           The provider in the format `[ 'name' => string, 'url' => string ]`, or null.
  *
  * @property \DateTime|null    $datetime           The DateTime instance of timestamp, or null.
  */

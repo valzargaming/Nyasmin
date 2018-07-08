@@ -14,13 +14,13 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * The ratelimit bucket queue is always managed in memory (as in belongs to that process), however the ratelimits are distributed to the used system.
  *
  * Included are two ratelimit bucket systems:<br>
- *  * In memory ratelimit bucket, using arrays - Class: <code>\CharlotteDunois\Yasmin\HTTP\RatelimitBucket</code> (default)<br>
- *  * Redis ratelimit bucket, using Athena to interface with Redis - Class: <code>\CharlotteDunois\Yasmin\HTTP\AthenaRatelimitBucket</code>
+ *  * In memory ratelimit bucket, using arrays - Class: `\CharlotteDunois\Yasmin\HTTP\RatelimitBucket` (default)<br>
+ *  * Redis ratelimit bucket, using Athena to interface with Redis - Class: `\CharlotteDunois\Yasmin\HTTP\AthenaRatelimitBucket`
  *
- * To use a different one than the default, you have to pass the full qualified class name to the client constructor as client option <code>http.ratelimitbucket.name</code>.
+ * To use a different one than the default, you have to pass the full qualified class name to the client constructor as client option `http.ratelimitbucket.name`.
  *
- * The Redis ratelimit bucket system uses Athena, an asynchronous redis cache for PHP. The package is called <code>charlottedunois/athena</code> (which is suggested on composer).<br>
- * To be able to use the Redis ratelimit bucket, you need to pass an instance of <code>AthenaCache</code> as client option <code>http.ratelimitbucket.athena</code> to the client.
+ * The Redis ratelimit bucket system uses Athena, an asynchronous redis cache for PHP. The package is called `charlottedunois/athena` (which is suggested on composer).<br>
+ * To be able to use the Redis ratelimit bucket, you need to pass an instance of `AthenaCache` as client option `http.ratelimitbucket.athena` to the client.
  */
 interface RatelimitBucketInterface {
     /**
@@ -87,12 +87,12 @@ interface RatelimitBucketInterface {
      * Retrieves ratelimit meta data.
      *
      * The resolved value must be:
-     * <pre>
+     * ```
      * array(
      *     'limited' => bool,
      *     'resetTime' => int|null
      * )
-     * </pre>
+     * ```
      *
      * @return \React\Promise\ExtendedPromiseInterface|array
      */

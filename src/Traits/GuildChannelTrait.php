@@ -18,14 +18,14 @@ trait GuildChannelTrait {
      *
      * Options are as following (all are optional).
      *
-     * <pre>
+     * ```
      * array(
      *    'maxAge' => int,
      *    'maxUses' => int, (0 = unlimited)
      *    'temporary' => bool,
      *    'unique' => bool
      * )
-     * </pre>
+     * ```
      *
      * @param array $options
      * @return \React\Promise\ExtendedPromiseInterface
@@ -97,7 +97,7 @@ trait GuildChannelTrait {
      *
      * Options are as following (at least one is required).
      *
-     * <pre>
+     * ```
      * array(
      *    'name' => string,
      *    'position' => int,
@@ -108,7 +108,7 @@ trait GuildChannelTrait {
      *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *    'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
      * )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason
@@ -241,13 +241,13 @@ trait GuildChannelTrait {
     /**
      * Returns the permissions overwrites for the given member as an associative array.
      *
-     * <pre>
+     * ```
      * array(
      *     'everyone' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite|null,
      *     'member' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite|null,
      *     'roles' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite[]
      * )
-     * </pre>
+     * ```
      *
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return array

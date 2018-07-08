@@ -57,13 +57,13 @@ class Webhook extends ClientBase {
      *
      * Options are as following (at least one is required):
      *
-     * <pre>
+     * ```
      * array(
      *    'name' => string,
      *    'avatar' => string, (data, filepath or URL)
      *    'channel' => \CharlotteDunois\Yasmin\Models\TextChannel|string
      * )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason
@@ -129,10 +129,10 @@ class Webhook extends ClientBase {
      *
      * Options are as following (all are optional):
      *
-     * <pre>
+     * ```
      * array(
      *    'embeds' => \CharlotteDunois\Yasmin\Models\MessageEmbed[]|array[], (an array of (embed) array/object or MessageEmbed instances)
-     *    'files' => array, (an array of <code>[ 'name' => string, 'data' => string || 'path' => string ]</code> or just plain file contents, file paths or URLs)
+     *    'files' => array, (an array of `[ 'name' => string, 'data' => string || 'path' => string ]` or just plain file contents, file paths or URLs)
      *    'nonce' => string, (a snowflake used for optimistic sending)
      *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone (which itself defaults to false))
      *    'tts' => bool,
@@ -147,7 +147,7 @@ class Webhook extends ClientBase {
      *   *   'char' => string, (The string to split on)
      *   *   'maxLength' => int, (The max. length of each message)
      *   * )
-     * </pre>
+     * ```
      *
      * @param string  $content  The webhook message content.
      * @param array   $options  Any webhook message options.

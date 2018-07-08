@@ -19,9 +19,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                             $applicationID  The application ID associated with the activity, or null.
  * @property \CharlotteDunois\Yasmin\Models\RichPresenceAssets|null  $assets         Assets for rich presence, or null.
  * @property string|null                                             $details        Details about the activity, or null.
- * @property array|null                                              $party          Party of the activity, an array in the format <code>[ 'id' => string, 'size' => [ size (int), max (int|null) ]|null ]</code>, or null.
+ * @property array|null                                              $party          Party of the activity, an array in the format `[ 'id' => string, 'size' => [ size (int), max (int|null) ]|null ]`, or null.
  * @property string|null                                             $state          State of the activity, or null.
- * @property array|null                                              $timestamps     Timestamps for the activity, an array in the format <code>[ 'start' => \DateTime|null, 'end' => \DateTime|null ]</code>, or null.
+ * @property array|null                                              $timestamps     Timestamps for the activity, an array in the format `[ 'start' => \DateTime|null, 'end' => \DateTime|null ]`, or null.
  * @property int|null                                                $flags          The activity flags (as bitfield), like if an activity is a spectate activity.
  * @property string|null                                             $sessionID      The ID that links to the activity session.
  * @property string|null                                             $syncID         The sync ID. For spotify, this is the spotify track ID.

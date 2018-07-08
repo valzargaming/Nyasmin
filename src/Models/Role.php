@@ -153,7 +153,7 @@ class Role extends ClientBase {
      *
      * Options are as following (only one is required):
      *
-     * <pre>
+     * ```
      * array(
      *   'name' => string,
      *   'color' => int|string,
@@ -162,7 +162,7 @@ class Role extends ClientBase {
      *   'permissions' => int|\CharlotteDunois\Yasmin\Models\Permissions,
      *   'mentionable' => bool
      * )
-     * </pre>
+     * ```
      *
      * @param array  $options
      * @param string $reason

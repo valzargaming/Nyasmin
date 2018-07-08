@@ -241,7 +241,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
-     * Iterates over the items in the collection and passes each item to a given callback. Returning <code>false</code> in the callback will stop the processing.
+     * Iterates over the items in the collection and passes each item to a given callback. Returning `false` in the callback will stop the processing.
      * @param callable  $closure
      * @return $this
     */

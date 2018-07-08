@@ -129,12 +129,12 @@ class Emoji extends ClientBase {
      *
      * Options are as following (at least one required):
      *
-     * <pre>
+     * ```
      * array(
      *   'name' => string,
      *   'roles' => array<string|\CharlotteDunois\Yasmin\Models\Role>|\CharlotteDunois\Yasmin\Utils\Collection<string|\CharlotteDunois\Yasmin\Models\Role>
      * )
-     * </pre>
+     * ```
      *
      * @param array   $options
      * @param string  $reason

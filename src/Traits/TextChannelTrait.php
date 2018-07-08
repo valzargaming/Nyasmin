@@ -70,13 +70,13 @@ trait TextChannelTrait {
      *
      * Options are as following (all are optional):
      *
-     * <pre>
+     * ```
      * array(
      *   'max' => int, (max. messages to collect)
      *   'time' => int, (duration, in seconds, default 30)
      *   'errors' => array, (optional, which failed "conditions" (max not reached in time ("time")) lead to a rejected promise, defaults to [])
      * )
-     * </pre>
+     * ```
      *
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
@@ -137,14 +137,14 @@ trait TextChannelTrait {
      *
      * Options are as following:
      *
-     * <pre>
+     * ```
      * array(
      *   'after' => string, (message ID)
      *   'around' => string, (message ID)
      *   'before' => string, (message ID)
      *   'limit' => int, (1-100, defaults to 50)
      * )
-     * </pre>
+     * ```
      *
      * @param array  $options
      * @return \React\Promise\ExtendedPromiseInterface
@@ -170,10 +170,10 @@ trait TextChannelTrait {
      *
      * Options are as following (all are optional):
      *
-     * <pre>
+     * ```
      * array(
      *    'embed' => array|\CharlotteDunois\Yasmin\Models\MessageEmbed, (an (embed) array/object or an instance of MessageEmbed)
-     *    'files' => array, (an array of <code>[ 'name' => string, 'data' => string || 'path' => string ]</code> or just plain file contents, file paths or URLs)
+     *    'files' => array, (an array of `[ 'name' => string, 'data' => string || 'path' => string ]` or just plain file contents, file paths or URLs)
      *    'nonce' => string, (a snowflake used for optimistic sending)
      *    'disableEveryone' => bool, (whether @everyone and @here should be replaced with plaintext, defaults to client option disableEveryone)
      *    'tts' => bool,
@@ -186,7 +186,7 @@ trait TextChannelTrait {
      *   *   'char' => string, (The string to split on)
      *   *   'maxLength' => int, (The max. length of each message)
      *   * )
-     * </pre>
+     * ```
      *
      * @param string  $content  The message content.
      * @param array   $options  Any message options.

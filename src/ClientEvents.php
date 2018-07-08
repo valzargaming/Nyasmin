@@ -68,7 +68,7 @@ interface ClientEvents {
      * Ratelimit information.
      *
      * The array has the following format:
-     * <pre>
+     * ```
      * array(
      *     'endpoint' => string,
      *     'global' => bool,
@@ -76,7 +76,7 @@ interface ClientEvents {
      *     'remaining => int,
      *     'resetTime' => int|null
      * )
-     * </pre>
+     * ```
      */
     function ratelimit(array $data);
     

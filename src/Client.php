@@ -185,7 +185,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     /**
      * What do you expect this to do? It makes a new Client instance. Available client options are as following (all are optional):
      *
-     * <pre>
+     * ```
      * array(
      *   'disableClones' => bool|string[], (disables cloning of class instances (for perfomance), affects update events - bool: true - disables all cloning)
      *   'disableEveryone' => bool, (disables the everyone and here mentions and replaces them with plaintext, defaults to true)
@@ -205,7 +205,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250)
      *   'ws.presence' => array (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update)
      * )
-     * </pre>
+     * ```
      *
      * @param array                            $options  Any client options.
      * @param \React\EventLoop\LoopInterface   $loop     You can pass an event loop to the class, or it will automatically create one (you still need to make it run yourself).
@@ -498,7 +498,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     /**
      * Creates a new guild. Resolves with an instance of Guild. Options is as following, everything is optional unless specified:
      *
-     * <pre>
+     * ```
      * array(
      *   'name' => string, (required)
      *   'region' => \CharlotteDunois\Yasmin\Models\VoiceRegion|string, (required)
@@ -532,7 +532,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *     ***   'deny' => \CharlotteDunois\Yasmin\Models\Permissions|int
      *     *** )
      * )
-     * </pre>
+     * ```
      *
      * @param array  $options
      * @return \React\Promise\ExtendedPromiseInterface
@@ -838,7 +838,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * Registers an Util, if it has a setLoop method. All methods used need to be static.
-     * It will set the event loop through <code>setLoop</code> and on destroy will call <code>destroy</code>.
+     * It will set the event loop through `setLoop` and on destroy will call `destroy`.
      * @param string $name
      */
     function registerUtil(string $name) {
@@ -849,7 +849,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     }
     
     /**
-     * Destroys an Util and calls <code>destroy</code> (requires that it is registered as such).
+     * Destroys an Util and calls `destroy` (requires that it is registered as such).
      * @param string $name
      */
     function destroyUtil(string $name) {
