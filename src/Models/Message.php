@@ -441,7 +441,7 @@ class Message extends ClientBase {
         $this->nonce = $message['nonce'] ?? null;
         $this->pinned = $message['pinned'] ?? $this->pinned;
         $this->system = (isset($message['type']) ? ($message['type'] > 0) : $this->system);
-        $this->type = (!empty($message['type']) ? self::MESSAGE_TYPES[$message['type']] : $this->type);
+        $this->type = (isset($message['type']) ? self::MESSAGE_TYPES[$message['type']] : $this->type);
         $this->webhookID = $message['webhook_id'] ?? $this->webhookID;
         $this->activity = (!empty($message['activity']) ? (new \CharlotteDunois\Yasmin\Models\MessageActivity($this->client, $message['activity'])) : $this->activity);
         $this->application = (!empty($message['application']) ? (new \CharlotteDunois\Yasmin\Models\MessageApplication($this->client, $message['application'])) : $this->application);
