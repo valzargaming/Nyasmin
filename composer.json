@@ -22,6 +22,9 @@
         "charlottedunois/eventemitter": "^0.1.4",
         "charlottedunois/validator": "^0.1.9"
     },
+    "require-dev": {
+        "psr/http-message": "^1.0"
+    },
     "suggest": {
         "charlottedunois/athena": "For Redis-backed ratelimit bucket",
         "charlottedunois/erlpack": "For WS encoding etf 🚀"

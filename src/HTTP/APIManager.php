@@ -441,10 +441,10 @@ class APIManager {
     
     /**
      * Extracts ratelimits from a response.
-     * @param \GuzzleHttp\Psr7\Response  $response
+     * @param \Psr\Http\Message\ResponseInterface  $response
      * @return mixed[]
      */
-    final function extractRatelimit(\GuzzleHttp\Psr7\Response $response) {
+    final function extractRatelimit(\Psr\Http\Message\ResponseInterface $response) {
         $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
@@ -454,10 +454,10 @@ class APIManager {
     
     /**
      * Handles ratelimits.
-     * @param \GuzzleHttp\Psr7\Response                                         $response
+     * @param \Psr\Http\Message\ResponseInterface                               $response
      * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
      */
-    function handleRatelimit(\GuzzleHttp\Psr7\Response $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
+    function handleRatelimit(\Psr\Http\Message\ResponseInterface $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         \extract($this->extractRatelimit($response));
         
         $global = false;
