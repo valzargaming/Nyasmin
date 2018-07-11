@@ -47,7 +47,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @param string  $data
      * @return mixed
      * @throws \InvalidArgumentException
-     * @throws \CharlotteDunois\Kimberly\KimberlyException
+     * @throws \CharlotteDunois\Kimberly\Exception
      */
     function decode(string $data) {
         $msg = $this->etf->decode($data);
@@ -63,7 +63,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \CharlotteDunois\Kimberly\KimberlyException
+     * @throws \CharlotteDunois\Kimberly\Exception
      */
     function encode($data): string {
         $msg = $this->etf->encode($data);
@@ -93,9 +93,9 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
         $arr = array();
         
         foreach($data as $key => $val) {
-            if($val instanceof \CharlotteDunois\Kimberly\KimberlyAtom) {
+            if($val instanceof \CharlotteDunois\Kimberly\Atom) {
                 $arr[$key] = (string) $val->atom;
-            } elseif($val instanceof \CharlotteDunois\Kimberly\KimberlyObject) {
+            } elseif($val instanceof \CharlotteDunois\Kimberly\BaseObject) {
                 $arr[$key] = $val->toArray();
             } elseif(\is_array($val) || \is_object($val)) {
                 $arr[$key] = $this->convertIDs($val);
