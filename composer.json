@@ -27,7 +27,7 @@
     },
     "suggest": {
         "charlottedunois/athena": "For Redis-backed ratelimit bucket",
-        "charlottedunois/erlpack": "For WS encoding etf 🚀"
+        "charlottedunois/kimberly": "For WS encoding etf 🚀"
     },
     "autoload": {
         "psr-4": {

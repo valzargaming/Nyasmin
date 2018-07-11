@@ -14,10 +14,10 @@ namespace CharlotteDunois\Yasmin\WebSocket\Encoding;
  * @internal
  */
 class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
-    protected $erlpack;
+    protected $etf;
     
     function __construct() {
-        $this->erlpack = new \CharlotteDunois\Erlpack\Erlpack();
+        $this->etf = new \CharlotteDunois\Kimberly\Kimberly();
     }
     
     /**
@@ -33,7 +33,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @throws \RuntimeException
      */
     static function supported(): void {
-        if(!\class_exists('\\CharlotteDunois\\Erlpack\\Erlpack')) {
+        if(!\class_exists('\\CharlotteDunois\\Kimberly\\Kimberly')) {
             throw new \RuntimeException('Unable to use ETF as WS encoding due to missing dependencies');
         }
         
@@ -47,10 +47,10 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @param string  $data
      * @return mixed
      * @throws \InvalidArgumentException
-     * @throws \CharlotteDunois\Erlpack\ErlpackException
+     * @throws \CharlotteDunois\Kimberly\KimberlyException
      */
     function decode(string $data) {
-        $msg = $this->erlpack->decode($data);
+        $msg = $this->etf->decode($data);
         if($msg === '' || $msg === null) {
             throw new \InvalidArgumentException('The ETF decoder was unable to decode the data');
         }
@@ -63,10 +63,10 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \CharlotteDunois\Erlpack\ErlpackException
+     * @throws \CharlotteDunois\Kimberly\KimberlyException
      */
     function encode($data): string {
-        $msg = $this->erlpack->encode($data);
+        $msg = $this->etf->encode($data);
         return $msg;
     }
     
@@ -93,9 +93,9 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
         $arr = array();
         
         foreach($data as $key => $val) {
-            if($val instanceof \CharlotteDunois\Erlpack\ErlpackAtom) {
+            if($val instanceof \CharlotteDunois\Kimberly\KimberlyAtom) {
                 $arr[$key] = (string) $val->atom;
-            } elseif($val instanceof \CharlotteDunois\Erlpack\ErlpackObject) {
+            } elseif($val instanceof \CharlotteDunois\Kimberly\KimberlyObject) {
                 $arr[$key] = $val->toArray();
             } elseif(\is_array($val) || \is_object($val)) {
                 $arr[$key] = $this->convertIDs($val);
