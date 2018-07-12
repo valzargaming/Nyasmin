@@ -40,6 +40,11 @@ final class APIRequest {
     private $endpoint;
     
     /**
+     * @var int
+     */
+    protected $retries = 0;
+    
+    /**
      * @var array
      */
     private $options = array();
@@ -217,7 +222,43 @@ final class APIRequest {
     protected function handleAPIError(\Psr\Http\Message\ResponseInterface $response, $body, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $status = $response->getStatusCode();
         
-        if($status === 429 || $status >= 500) {
+        if($status >= 500) {
+            $this->retries++;
+            $maxRetries = (int) $this->api->client->getOption('http.requestMaxRetries', 0);
+            
+            if($maxRetries > 0 && $this->retries > $maxRetries) {
+                $this->api->client->emit('debug', 'Giving up on item "'.$this->endpoint.'" after '.$maxRetries.' retries due to HTTP '.$status);
+                
+                return (new \RuntimeException('Maximum retry of '.$maxRetries.' reached - giving up'));
+            } elseif($this->retries > 2) {
+                $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" delayed due to HTTP '.$status);
+                
+                $delay = $this->api->client->getOption('http.requestErrorDelay', 30);
+                if($this->retries > 4) {
+                    $delay *= 2;
+                }
+                
+                $this->api->client->addTimer($delay, function () use (&$ratelimit) {
+                    if($ratelimit !== null) {
+                        $this->api->unshiftQueue($ratelimit->unshift($this));
+                    } else {
+                        $this->api->unshiftQueue($this);
+                    }
+                });
+                
+                return null;
+            }
+            
+            $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
+            
+            if($ratelimit !== null) {
+                $this->api->unshiftQueue($ratelimit->unshift($this));
+            } else {
+                $this->api->unshiftQueue($this);
+            }
+            
+            return null;
+        } elseif($status === 429) {
             $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
             
             if($ratelimit !== null) {

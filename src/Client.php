@@ -199,6 +199,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'userSweepInterval' => int, (interval when the user cache gets invalidated (users sharing no mutual guilds get removed), defaults to 600)
      *   'http.ratelimitbucket.name' => string, (class name of the custom ratelimit bucket, has to implement the interface)
      *   'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done)
+     *   'http.requestErrorDelay' => int|float, (specifies how many seconds should be waited after three HTTP 5XX errors before queueing the request again, after two additional retries the time will be doubled, defaults to 30)
+     *   'http.requestMaxRetries' => int, (specifies how many times the request should be retried on HTTP 5XX until we give up, defaults to 0 (never give up))
      *   'ws.compression' => string, (Enables a specific one, defaults to zlib-stream, which is currently the only available compression)
      *   'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
      *   'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do)
@@ -919,6 +921,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'shardCount' => 'integer|min:1',
             'userSweepInterval' => 'integer|min:0',
             'http.ratelimitbucket.name' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\RatelimitBucketInterface,string_only',
+            'http.requestErrorDelay' => 'int|float|min:30',
+            'http.requestMaxRetries' => 'int|min:0',
             'http.restTimeOffset' => 'integer',
             'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',
