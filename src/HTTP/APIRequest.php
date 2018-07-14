@@ -230,32 +230,22 @@ final class APIRequest {
                 $this->api->client->emit('debug', 'Giving up on item "'.$this->endpoint.'" after '.$maxRetries.' retries due to HTTP '.$status);
                 
                 return (new \RuntimeException('Maximum retry of '.$maxRetries.' reached - giving up'));
-            } elseif($this->retries > 2) {
-                $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" delayed due to HTTP '.$status);
-                
-                $delay = $this->api->client->getOption('http.requestErrorDelay', 30);
-                if($this->retries > 4) {
-                    $delay *= 2;
+            }
+            
+            $this->api->client->emit('debug', 'Delaying unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
+            
+            $delay = (int) $this->api->client->getOption('http.requestErrorDelay', 30);
+            if($this->retries > 2) {
+                $delay *= 2;
+            }
+            
+            $this->api->client->addTimer($delay, function () use (&$ratelimit) {
+                if($ratelimit !== null) {
+                    $this->api->unshiftQueue($ratelimit->unshift($this));
+                } else {
+                    $this->api->unshiftQueue($this);
                 }
-                
-                $this->api->client->addTimer($delay, function () use (&$ratelimit) {
-                    if($ratelimit !== null) {
-                        $this->api->unshiftQueue($ratelimit->unshift($this));
-                    } else {
-                        $this->api->unshiftQueue($this);
-                    }
-                });
-                
-                return null;
-            }
-            
-            $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
-            
-            if($ratelimit !== null) {
-                $this->api->unshiftQueue($ratelimit->unshift($this));
-            } else {
-                $this->api->unshiftQueue($this);
-            }
+            });
             
             return null;
         } elseif($status === 429) {
