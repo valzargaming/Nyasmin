@@ -384,7 +384,7 @@ class APIManager {
             $item->deferred->reject($error);
         })->otherwise(function ($error) {
             $this->client->handlePromiseRejection($error);
-        })->then(function () use ($ratelimit, $endpoint) {
+        })->done(function () use ($ratelimit, $endpoint) {
             if($ratelimit instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) {
                 if(isset($this->bucketRatelimitPromises[$endpoint])) {
                     $this->bucketRatelimitPromises[$endpoint]->done(function () use ($ratelimit) {
