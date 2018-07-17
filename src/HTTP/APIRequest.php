@@ -148,7 +148,7 @@ final class APIRequest {
     /**
      * Executes the request.
      * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
-     * @return \GuzzleHttp\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function execute(?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $request = $this->request();
