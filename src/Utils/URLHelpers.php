@@ -92,10 +92,10 @@ class URLHelpers {
     }
     
     /**
-     * Makes an asynchronous request. Resolves with an instance of Response.
+     * Makes an asynchronous request. Resolves with an instance of ResponseInterface.
      * @param \Psr\Http\Message\RequestInterface  $request
      * @param array|null                          $requestOptions
-     * @return \GuzzleHttp\Promise\Promise
+     * @return \React\Promise\ExtendedPromiseInterface
      * @see \Psr\Http\Message\ResponseInterface
      */
     static function makeRequest(\Psr\Http\Message\RequestInterface $request, ?array $requestOptions = null) {
@@ -105,7 +105,9 @@ class URLHelpers {
         
         self::setTimer();
         
-        return self::$http->sendAsync($request, ($requestOptions ?? array()));
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use (&$request, &$requestOptions) {
+            self::$http->sendAsync($request, ($requestOptions ?? array()))->then($resolve, $reject);
+        }));
     }
     
     /**
