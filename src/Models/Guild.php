@@ -1043,40 +1043,47 @@ class Guild extends ClientBase {
             return;
         }
         
-        $this->name = $guild['name'];
-        $this->icon = $guild['icon'];
-        $this->splash = $guild['splash'];
-        $this->ownerID = $guild['owner_id'];
+        $this->name = $guild['name'] ?? $this->name;
+        $this->icon = $guild['icon'] ?? $this->icon;
+        $this->splash = $guild['splash'] ?? $this->splash;
+        $this->ownerID = $guild['owner_id'] ?? $this->ownerID;
         $this->large = (bool) ($guild['large'] ?? $this->large);
         $this->lazy = (isset($guild['lazy']) ? ((bool) $guild['lazy']) : null);
         $this->memberCount = $guild['member_count']  ?? $this->memberCount;
         
-        $this->defaultMessageNotifications = self::DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']] ?? $this->defaultMessageNotifications;
-        $this->explicitContentFilter = self::EXPLICIT_CONTENT_FILTER[$guild['explicit_content_filter']] ?? $this->explicitContentFilter;
-        $this->region = $guild['region'];
-        $this->verificationLevel = self::VERIFICATION_LEVEL[$guild['verification_level']] ?? $this->verificationLevel;
-        $this->systemChannelID = $guild['system_channel_id'];
+        $this->defaultMessageNotifications = (isset($guild['default_message_notifications']) ? (self::DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']] ?? $this->defaultMessageNotifications) : $this->defaultMessageNotifications);
+        $this->explicitContentFilter = (isset($guild['explicit_content_filter']) ? (self::EXPLICIT_CONTENT_FILTER[$guild['explicit_content_filter']] ?? $this->explicitContentFilter) : $this->explicitContentFilter);
+        $this->region = $guild['region'] ?? $this->region;
+        $this->verificationLevel = (isset($guild['verification_level']) ? (self::VERIFICATION_LEVEL[$guild['verification_level']] ?? $this->verificationLevel) : $this->verificationLevel);
+        $this->systemChannelID = $guild['system_channel_id'] ?? $this->systemChannelID;
         
-        $this->afkChannelID = $guild['afk_channel_id'];
-        $this->afkTimeout = $guild['afk_timeout'];
-        $this->features = $guild['features'];
-        $this->mfaLevel = self::MFA_LEVEL[$guild['mfa_level']] ?? $this->mfaLevel;
-        $this->applicationID = $guild['application_id'];
+        $this->afkChannelID = $guild['afk_channel_id'] ?? $this->afkChannelID;
+        $this->afkTimeout = $guild['afk_timeout'] ?? $this->afkTimeout;
+        $this->features = $guild['features'] ?? $this->features;
+        $this->mfaLevel = (isset($guild['mfa_level']) ? (self::MFA_LEVEL[$guild['mfa_level']] ?? $this->mfaLevel) : $this->mfaLevel);
+        $this->applicationID = $guild['application_id'] ?? $this->applicationID;
         
         $this->embedEnabled = (bool) ($guild['embed_enabled'] ?? $this->embedEnabled);
         $this->embedChannelID = $guild['embed_channel_id'] ?? $this->embedChannelID;
         $this->widgetEnabled = (bool) ($guild['widget_enabled'] ?? $this->widgetEnabled);
         $this->widgetChannelID = $guild['widget_channel_id'] ?? $this->widgetChannelID;
         
-        foreach($guild['roles'] as $role) {
-            $this->roles->factory($role);
+        if(isset($guild['roles'])) {
+            $this->roles->clear();
+            foreach($guild['roles'] as $role) {
+                $this->roles->factory($role);
+            }
         }
         
-        foreach($guild['emojis'] as $emoji) {
-            $this->emojis->factory($emoji);
+        if(isset($guild['emojis'])) {
+            $this->emojis->clear();
+            foreach($guild['emojis'] as $emoji) {
+                $this->emojis->factory($emoji);
+            }
         }
         
-        if(!empty($guild['channels'])) {
+        if(isset($guild['channels'])) {
+            $this->channels->clear();
             foreach($guild['channels'] as $channel) {
                 $this->channels->factory($channel, $this);
             }
