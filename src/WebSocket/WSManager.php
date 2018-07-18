@@ -206,7 +206,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $compression = $this->client->getOption('ws.compression', \CharlotteDunois\Yasmin\Client::WS_DEFAULT_COMPRESSION);
         
         $name = \str_replace('-', '', \ucwords($compression, '-'));
-        if(strpos($name, '\\') === false) {
+        if(\strpos($name, '\\') === false) {
             $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
         }
         
@@ -300,14 +300,14 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $encoding = $querystring['encoding'] ?? $this->encoding ?? self::WS['encoding'];
             
             $name = \str_replace('-', '', \ucwords($encoding, '-'));
-            if(strpos($name, '\\') === false) {
+            if(\strpos($name, '\\') === false) {
                 $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Encoding\\'.$name;
             }
             
             $name::supported();
             
             $interfaces = \class_implements($name);
-            if(!in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSEncodingInterface', $interfaces)) {
+            if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSEncodingInterface', $interfaces)) {
                 throw new \Exception('Specified WS encoding class does not implement necessary interface');
             }
             
@@ -448,7 +448,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->client->emit('disconnect', $code, $reason);
                     
                     if(\in_array($code, $this->wsCloseCodes['end'])) {
-                        return $reject(new \Exception(self::WS_CLOSE_CODES[$code]));
+                        return $reject(new \RuntimeException(self::WS_CLOSE_CODES[$code]));
                     }
                     
                     if($code === 1000 && $this->expectedClose) {
