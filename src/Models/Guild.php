@@ -20,7 +20,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                    $splash                       The guild splash hash, or null.
  * @property string                                                         $ownerID                      The ID of the owner.
  * @property bool                                                           $large                        Whether the guild is considered large.
- * @property bool|null                                                      $lazy                         Whether this guild is run in lazy mode (on the Discord node), or null.
+ * @property bool                                                           $lazy                         Whether this guild is run in lazy mode (on the Discord node).
  * @property int                                                            $memberCount                  How many members the guild has.
  * @property \CharlotteDunois\Yasmin\Models\ChannelStorage                  $channels                     Holds a guild's channels, mapped by their ID.
  * @property \CharlotteDunois\Yasmin\Models\EmojiStorage                    $emojis                       Holds a guild's emojis, mapped by their ID.
@@ -1048,7 +1048,7 @@ class Guild extends ClientBase {
         $this->splash = $guild['splash'] ?? $this->splash;
         $this->ownerID = $guild['owner_id'] ?? $this->ownerID;
         $this->large = (bool) ($guild['large'] ?? $this->large);
-        $this->lazy = (isset($guild['lazy']) ? ((bool) $guild['lazy']) : null);
+        $this->lazy = !empty($guild['lazy']);
         $this->memberCount = $guild['member_count']  ?? $this->memberCount;
         
         $this->defaultMessageNotifications = (isset($guild['default_message_notifications']) ? (self::DEFAULT_MESSAGE_NOTIFICATIONS[$guild['default_message_notifications']] ?? $this->defaultMessageNotifications) : $this->defaultMessageNotifications);
