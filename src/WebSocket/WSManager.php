@@ -297,7 +297,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         if($this->encoding === null) {
-            $encoding = $querystring['encoding'] ?? $this->encoding ?? self::WS['encoding'];
+            $encoding = $querystring['encoding'] ?? self::WS['encoding'];
             
             $name = \str_replace('-', '', \ucwords($encoding, '-'));
             if(\strpos($name, '\\') === false) {
@@ -466,8 +466,9 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     }
                     
                     if($code === 4002 && $this->encoding !== null && $this->encoding->getName() !== self::WS['encoding']) {
+                        $this->gateway = \str_replace('encoding='.$this->encoding->getName(), 'encoding='.self::WS['encoding'], $this->gateway);
                         $this->encoding = null;
-                        $this->gateway = \str_replace('encoding=etf', 'encoding=json', $this->gateway);
+                        
                         $this->client->emit('debug', 'Decoding payload error - Encoding ETF erroneous, falling back to default');
                     }
                     
