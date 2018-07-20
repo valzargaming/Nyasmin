@@ -64,4 +64,32 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         
         $this->client = \CharlotteDunois\Yasmin\Models\ClientBase::$serializeClient;
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    function set($key, $value) {
+        parent::set($key, $value);
+        
+        if($this->checkEmit()) {
+            $this->client->emit('internal.storage.set', $this, $key, $value);
+        }
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    function delete($key) {
+        parent::delete($key);
+        
+        if($this->checkEmit()) {
+            $this->client->emit('internal.storage.delete', $this, $key);
+        }
+    }
+    
+    protected function checkEmit() {
+        $props = array($this->client->channels, $this->client->emojis, $this->client->guilds, $this->client->presences, $this->client->users);
+        
+        return ($this instanceof \CharlotteDunois\Yasmin\Models\GuildMemberStorage || $this instanceof \CharlotteDunois\Yasmin\Models\RoleStorage || \in_array($this, $props));
+    }
 }
