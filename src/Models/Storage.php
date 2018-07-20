@@ -88,8 +88,8 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     }
     
     protected function checkEmit() {
-        $props = array($this->client->channels, $this->client->emojis, $this->client->guilds, $this->client->presences, $this->client->users);
+        $props = array($this->client->channels, $this->client->emojis, $this->client->presences);
         
-        return ($this instanceof \CharlotteDunois\Yasmin\Models\GuildMemberStorage || $this instanceof \CharlotteDunois\Yasmin\Models\RoleStorage || \in_array($this, $props));
+        return !\in_array($this, $props, true);
     }
 }
