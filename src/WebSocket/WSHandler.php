@@ -13,13 +13,15 @@ namespace CharlotteDunois\Yasmin\WebSocket;
  * Handles WS messages.
  *
  * @property \CharlotteDunois\Yasmin\Client               $client
- * @property int                                          $previousSequence
- * @property int                                          $sequence
+ * @property float|null                                   $lastPacketTime
+ * @property int|null                                     $previousSequence
+ * @property int|null                                     $sequence
  * @property \CharlotteDunois\Yasmin\WebSocket\WSManager  $wsmanager
  * @internal
  */
 class WSHandler {
     private $handlers = array();
+    private $lastPacketTime = null;
     private $previousSequence = null;
     private $sequence = null;
     private $wsmanager;
@@ -43,6 +45,9 @@ class WSHandler {
         switch($name) {
             case 'client':
                 return $this->wsmanager->client;
+            break;
+            case 'lastPacketTime':
+                return $this->lastPacketTime;
             break;
             case 'previousSequence':
                 return $this->previousSequence;
@@ -75,6 +80,8 @@ class WSHandler {
      * @return void
      */
     function handle($message) {
+        $this->lastPacketTime = \microtime(true);
+        
         try {
             $packet = $this->wsmanager->encoding->decode($message);
             $this->client->emit('raw', $packet);
