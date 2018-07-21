@@ -19,6 +19,28 @@ trait TextChannelTrait {
     );
     
     /**
+     * @internal
+     */
+    function serialize() {
+        $triggers = $this->typingTriggered;
+        $typings = clone $this->typings;
+        
+        foreach($this->typings as $id => $type) {
+            $type['timer'] = null;
+            $this->typings->set($id, $type);
+        }
+        
+        $this->typingTriggered['timer'] = null;
+        
+        $str = parent::serialize();
+        
+        $this->typingTriggered = $triggers;
+        $this->typings = $typings;
+        
+        return $str;
+    }
+    
+    /**
      * Deletes multiple messages at once. Resolves with $this.
      * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).
      * @param string                                              $reason

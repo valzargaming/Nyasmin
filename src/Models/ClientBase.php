@@ -54,6 +54,7 @@ abstract class ClientBase extends Base {
     function __debugInfo() {
         $vars = \get_object_vars($this);
         unset($vars['client']);
+        
         return $vars;
     }
     
@@ -63,6 +64,7 @@ abstract class ClientBase extends Base {
     function jsonSerialize() {
         $vars = parent::jsonSerialize();
         unset($vars['client']);
+        
         return $vars;
     }
     
@@ -72,6 +74,7 @@ abstract class ClientBase extends Base {
     function serialize() {
         $vars = \get_object_vars($this);
         unset($vars['client']);
+        
         return \serialize($vars);
     }
     
@@ -84,6 +87,7 @@ abstract class ClientBase extends Base {
         }
         
         parent::unserialize($data);
+        
         $this->client = self::$serializeClient;
     }
 }
