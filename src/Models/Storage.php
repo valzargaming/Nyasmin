@@ -18,6 +18,12 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     protected $client;
     
     /**
+     * Tells the storages to emit `internal.storage.set` and `internal.storage.delete` events.
+     * @var bool
+     */
+    public static $emitUpdates = false;
+    
+    /**
      * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
@@ -71,7 +77,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     function set($key, $value) {
         parent::set($key, $value);
         
-        if($this->checkEmit()) {
+        if(static::$emitUpdates) {
             $this->client->emit('internal.storage.set', $this, $key, $value);
         }
     }
@@ -82,14 +88,8 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     function delete($key) {
         parent::delete($key);
         
-        if($this->checkEmit()) {
+        if(static::$emitUpdates) {
             $this->client->emit('internal.storage.delete', $this, $key);
         }
-    }
-    
-    protected function checkEmit() {
-        $props = array($this->client->channels, $this->client->emojis, $this->client->presences);
-        
-        return !\in_array($this, $props, true);
     }
 }
