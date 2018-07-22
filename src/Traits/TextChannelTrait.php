@@ -102,15 +102,19 @@ trait TextChannelTrait {
      *
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
-     * @return \React\Promise\ExtendedPromiseInterface
+     * @return \React\Promise\ExtendedPromiseInterface  This promise is cancellable.
+     * @throws \RangeException          The exception the promise gets rejected with, if waiting times out.
+     * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function collectMessages(callable $filter, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options) {
+        $listener = null;
+        $timer = null;
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options, &$listener, &$timer) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
-            $timer = null;
             
-            $listener = function ($message) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
+            $listener = function ($reaction) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
                 if($message->channel->id === $this->id && $filter($message)) {
                     $collect->set($message->id, $message);
                     
@@ -136,6 +140,9 @@ trait TextChannelTrait {
             });
             
             $this->client->on('message', $listener);
+        }, function (callable $resolve, callable $reject) use (&$listener, &$timer) {
+            $this->client->removeListener('message', $listener);
+            $reject(new \OutOfBoundsException('Operation cancelled'));
         }));
     }
     

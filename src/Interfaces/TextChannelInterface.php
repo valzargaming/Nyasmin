@@ -26,7 +26,9 @@ interface TextChannelInterface {
      * Collects messages during a specific duration (and max. amount). Resolves with a Collection of Message instances, mapped by their IDs.
      * @param callable  $filter
      * @param array     $options
-     * @return \React\Promise\ExtendedPromiseInterface
+     * @return \React\Promise\ExtendedPromiseInterface  This promise is cancellable.
+     * @throws \RangeException          The exception the promise gets rejected with, if waiting times out.
+     * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
     function collectMessages(callable $filter, array $options = array());
