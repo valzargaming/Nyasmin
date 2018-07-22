@@ -242,6 +242,10 @@ class Message extends ClientBase {
             
             $this->client->on('messageReactionAdd', $listener);
         }, function (callable $resolve, callable $reject) use (&$listener, &$timer) {
+            if($timer !== null) {
+                $this->client->cancelTimer($timer);
+            }
+            
             $this->client->removeListener('messageReactionAdd', $listener);
             $reject(new \OutOfBoundsException('Operation cancelled'));
         }));

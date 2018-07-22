@@ -114,7 +114,7 @@ trait TextChannelTrait {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options, &$listener, &$timer) {
             $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
             
-            $listener = function ($reaction) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
+            $listener = function ($message) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
                 if($message->channel->id === $this->id && $filter($message)) {
                     $collect->set($message->id, $message);
                     
@@ -141,6 +141,10 @@ trait TextChannelTrait {
             
             $this->client->on('message', $listener);
         }, function (callable $resolve, callable $reject) use (&$listener, &$timer) {
+            if($timer !== null) {
+                $this->client->cancelTimer($timer);
+            }
+            
             $this->client->removeListener('message', $listener);
             $reject(new \OutOfBoundsException('Operation cancelled'));
         }));
