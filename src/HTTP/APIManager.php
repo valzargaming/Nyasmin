@@ -409,17 +409,19 @@ class APIManager {
     final function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         $endpoint = $request->getEndpoint();
         
-        \preg_match('/\/?(?:(users|voice|invites)(?:\/.*){0,1})|((?:.*?)\/(?:\d+)(?:\/messages\/((?:bulk(?:-|_)delete)|(?:\d+)){0,1})?)/', $endpoint, $matches);
+        \preg_match('/\/?(?:(users|voice|invites)(?:\/.*){0,1})|(((?:.*?)\/(?:\d+))(?:\/messages\/((?:bulk(?:-|_)delete)|(?:\d+)){0,1})?)/', $endpoint, $matches);
         $matches = \array_values(\array_filter($matches, function ($match) {
             return (\strlen($match) > 0);
         }));
         
         if(!empty($matches[1])) {
-            if(\is_numeric(($matches[2] ?? null)) && $request->getMethod() === 'DELETE') {
-                $matches[1] = 'delete@'.$matches[1];
+            if(\is_numeric(($matches[3] ?? null)) && $request->getMethod() === 'DELETE') {
+                return 'delete@'.$matches[1];
+            } elseif(\stripos($matches[1], 'bulk') !== false) {
+                return $matches[1];
             }
             
-            return $matches[1];
+            return ($matches[2] ?? $matches[1]);
         }
         
         return \substr($endpoint, 0, (\strpos($endpoint, '/') ?: \strlen($endpoint)));
