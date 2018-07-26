@@ -409,7 +409,7 @@ class APIManager {
     final function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         $endpoint = $request->getEndpoint();
         
-        \preg_match('/\/?(?:(users|voice|invites|oauth2)(?:\/.*){0,1})|(((?:.*?)\/(?:\d+))(?:\/messages\/((?:bulk(?:-|_)delete)|(?:\d+)){0,1})?)/', $endpoint, $matches);
+        \preg_match('/\/?(?:(users|voice|invites)(?:\/.*){0,1})|(((?:.*?)\/(?:\d+))(?:\/messages\/((?:bulk(?:-|_)delete)|(?:\d+)){0,1})?)/', $endpoint, $matches);
         $matches = \array_values(\array_filter($matches, function ($match) {
             return (\strlen($match) > 0);
         }));
