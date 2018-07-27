@@ -420,7 +420,7 @@ class APIManager {
         
         if(\is_numeric(($matches[2] ?? null)) && $request->getMethod() === 'DELETE') {
             return 'delete@'.$matches[0];
-        } elseif(\stripos(($matches[1] ?? ''), 'bulk') !== false) {
+        } elseif(\stripos(($matches[2] ?? ''), 'bulk') !== false) {
             return $matches[0];
         }
         
