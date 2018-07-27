@@ -316,6 +316,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
         unset($vars['loop'], $vars['ws'], $vars['api'], $vars['timers'],
                 $vars['onceListeners'], $vars['listeners']);
         
+        if(!empty($vars['options']['http.ratelimitbucket.athena'])) {
+            $vars['options']['http.ratelimitbucket.athena'] = $vars['options']['http.ratelimitbucket.athena']->getProperties();
+        }
+        
         return \serialize($vars);
     }
     
@@ -351,6 +355,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             }
         } else {
             $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
+        }
+        
+        if(!empty($this->options['http.ratelimitbucket.athena'])) {
+            $this->options['http.ratelimitbucket.athena'] = new \CharlotteDunois\Athena\AthenaCache($this->loop, $this->options['http.ratelimitbucket.athena']);
         }
         
         foreach($this->utils as $name) {
