@@ -317,7 +317,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 $vars['onceListeners'], $vars['listeners']);
         
         if(!empty($vars['options']['http.ratelimitbucket.athena'])) {
-            $vars['options']['http.ratelimitbucket.athena'] = $vars['options']['http.ratelimitbucket.athena']->getProperties();
+            $vars['options']['http.ratelimitbucket.athena'] = $vars['options']['http.ratelimitbucket.athena']->getOptions();
         }
         
         return \serialize($vars);
