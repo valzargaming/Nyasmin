@@ -97,8 +97,8 @@ class Activity extends ClientBase {
         
         $this->assets = (!empty($activity['assets']) ? (new \CharlotteDunois\Yasmin\Models\RichPresenceAssets($this->client, $this, $activity['assets'])) : null);
         $this->timestamps = (!empty($activity['timestamps']) ? array(
-            'start' => (!empty($activity['timestamps']['start']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $activity['timestamps']['start']) : null),
-            'end' => (!empty($activity['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $activity['timestamps']['end']) : null)
+            'start' => (!empty($activity['timestamps']['start']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime(((int) (((int) $activity['timestamps']['start']) / 1000))) : null),
+            'end' => (!empty($activity['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime(((int) (((int) $activity['timestamps']['end']) / 1000))) : null)
         ) : null);
         
         $this->flags = $activity['flags'] ?? null;
