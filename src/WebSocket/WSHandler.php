@@ -82,22 +82,18 @@ class WSHandler {
     function handle($message) {
         $this->lastPacketTime = \microtime(true);
         
-        try {
-            $packet = $this->wsmanager->encoding->decode($message);
-            $this->client->emit('raw', $packet);
-            
-            if(isset($packet['s'])) {
-                $this->previousSequence = $this->sequence;
-                $this->sequence = $packet['s'];
-            }
-            
-            $this->wsmanager->emit('debug', 'Received WS packet with OP code '.$packet['op']);
-            
-            if(isset($this->handlers[$packet['op']])) {
-                $this->handlers[$packet['op']]->handle($packet);
-            }
-        } catch (\Throwable | \Exception | \Error $e) {
-            $this->wsmanager->client->emit('error', $e);
+        $packet = $this->wsmanager->encoding->decode($message);
+        $this->client->emit('raw', $packet);
+        
+        if(isset($packet['s'])) {
+            $this->previousSequence = $this->sequence;
+            $this->sequence = $packet['s'];
+        }
+        
+        $this->wsmanager->emit('debug', 'Received WS packet with OP code '.$packet['op']);
+        
+        if(isset($this->handlers[$packet['op']])) {
+            $this->handlers[$packet['op']]->handle($packet);
         }
     }
     

@@ -75,12 +75,8 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
     
     function handle($packet) {
         if(isset($this->wsevents[$packet['t']])) {
-            try {
-                $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
-                $this->wsevents[$packet['t']]->handle($packet['d']);
-            } catch (\Throwable | \Exception | \Error $e) {
-                $this->wshandler->client->emit('error', $e);
-            }
+            $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
+            $this->wsevents[$packet['t']]->handle($packet['d']);
         } else {
             $this->wshandler->wsmanager->emit('debug', 'Received WS event '.$packet['t']);
         }
