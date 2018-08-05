@@ -40,7 +40,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $id, $reaction) {
+            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $channel, $id, $reaction) {
                 if($this->client->users->has($data['user_id'])) {
                     $user = \React\Promise\resolve($this->client->users->get($data['user_id']));
                 } else {
@@ -48,21 +48,24 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                 }
                 
                 if(!$reaction) {
-                    $emoji = $this->client->emojis->get($id);
-                    if(!$emoji) {
-                        $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $channel->guild : null), $data['emoji']);
-                        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                            $channel->guild->emojis->set($id, $emoji);
+                    $reaction = $message->reactions->get($id);
+                    if(!$reaction) {
+                        $emoji = $this->client->emojis->get($id);
+                        if(!$emoji) {
+                            $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $channel->guild : null), $data['emoji']);
+                            if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                                $channel->guild->emojis->set($id, $emoji);
+                            }
+                            
+                            $this->client->emojis->set($id, $emoji);
                         }
                         
-                        $this->client->emojis->set($id, $emoji);
+                        $reaction = new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $message, $emoji, array(
+                            'count' => 0,
+                            'me' => false,
+                            'emoji' => $emoji
+                        ));
                     }
-                    
-                    $reaction = new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $message, $emoji, array(
-                        'count' => 0,
-                        'me' => ((bool) ($this->client->user->id === $data['user_id'])),
-                        'emoji' => $emoji
-                    ));
                 }
                 
                 $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($message, $reaction) {
