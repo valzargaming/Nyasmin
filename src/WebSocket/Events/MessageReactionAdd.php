@@ -25,22 +25,28 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
+            $reaction = null;
+            
             if($message) {
+                $reaction = $message->_addReaction($data);
                 $message = \React\Promise\resolve($message);
             } else {
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->done(function ($message) use ($data) {
-                $reaction = $message->_addReaction($data);
-                
+            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $reaction) {
                 if($this->client->users->has($data['user_id'])) {
                     $user = \React\Promise\resolve($this->client->users->get($data['user_id']));
                 } else {
                     $user = $this->client->fetchUser($data['user_id']);
                 }
                 
-                $user->done(function ($user) use ($reaction) {
+                if($reaction === null) {
+                    $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
+                    $reaction = $message->reactions->get($id);
+                }
+                
+                $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($reaction) {
                     $reaction->users->set($user->id, $user);
                     
                     $this->client->emit('messageReactionAdd', $reaction, $user);
