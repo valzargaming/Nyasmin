@@ -31,7 +31,7 @@ class MessageReactionRemoveAll implements \CharlotteDunois\Yasmin\Interfaces\WSE
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->done(function ($message) {
+            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) {
                 $message->reactions->clear();
                 $this->client->emit('messageReactionRemoveAll', $message);
             }, function () {

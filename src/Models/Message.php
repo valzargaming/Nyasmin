@@ -428,13 +428,13 @@ class Message extends ClientBase {
             
             $reaction = new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, array(
                 'count' => 0,
-                'me' => (bool) ($this->client->user->id === $data['user_id']),
+                'me' => ((bool) ($this->client->user->id === $data['user_id'])),
                 'emoji' => $emoji
             ));
             
             $this->reactions->set($id, $reaction);
         } else {
-            $reaction->_patch(array('me' => ($this->client->user->id === $data['user_id'])));
+            $reaction->_patch(array('me' => ((bool) ($this->client->user->id === $data['user_id']))));
         }
         
         $reaction->_incrementCount();

@@ -50,7 +50,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
             $user = \React\Promise\resolve($user);
         }
         
-        $user->done(function ($user) use ($data) {
+        $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($data) {
             $guild = $this->client->guilds->get($data['guild_id']);
             if($guild) {
                 $presence = $guild->presences->get($user->id);
