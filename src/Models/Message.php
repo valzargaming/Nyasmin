@@ -434,7 +434,10 @@ class Message extends ClientBase {
             
             $this->reactions->set($id, $reaction);
         } else {
-            $reaction->_patch(array('me' => ((bool) ($this->client->user->id === $data['user_id']))));
+            $botReacted = (bool) ($this->client->user->id === $data['user_id']);
+            if($botReacted && !$reaction->me) {
+                $reaction->_patch(array('me' => true));
+            }
         }
         
         $reaction->_incrementCount();

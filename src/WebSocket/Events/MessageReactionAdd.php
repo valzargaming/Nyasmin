@@ -35,20 +35,13 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
             }
             
             $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $reaction) {
-                if($this->client->users->has($data['user_id'])) {
-                    $user = \React\Promise\resolve($this->client->users->get($data['user_id']));
-                } else {
-                    $user = $this->client->fetchUser($data['user_id']);
-                }
-                
                 if($reaction === null) {
                     $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
                     $reaction = $message->reactions->get($id);
                 }
                 
-                $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($reaction) {
+                $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($reaction) {
                     $reaction->users->set($user->id, $user);
-                    
                     $this->client->emit('messageReactionAdd', $reaction, $user);
                 }, array($this->client, 'handlePromiseRejection'));
             }, function () {

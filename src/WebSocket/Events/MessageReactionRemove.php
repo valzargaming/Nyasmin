@@ -33,6 +33,10 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                 $reaction = $message->reactions->get($id);
                 if($reaction !== null) {
                     $reaction->_decrementCount();
+                    
+                    if($reaction->users->has($data['user_id'])) {
+                        $reaction->_patch(array('me' => false));
+                    }
                 }
                 
                 $message = \React\Promise\resolve($message);
@@ -41,12 +45,6 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
             }
             
             $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $channel, $id, $reaction) {
-                if($this->client->users->has($data['user_id'])) {
-                    $user = \React\Promise\resolve($this->client->users->get($data['user_id']));
-                } else {
-                    $user = $this->client->fetchUser($data['user_id']);
-                }
-                
                 if(!$reaction) {
                     $reaction = $message->reactions->get($id);
                     if(!$reaction) {
@@ -68,7 +66,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                     }
                 }
                 
-                $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($message, $reaction) {
+                $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($message, $reaction) {
                     $reaction->users->delete($user->id);
                     if($reaction->count === 0) {
                         $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
