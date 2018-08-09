@@ -153,15 +153,7 @@ final class APIRequest {
     function execute(?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $request = $this->request();
         
-        return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) {
-            return $response;
-        }, function ($error) {
-            if($error->hasResponse()) {
-                return $error->getResponse();
-            }
-            
-            throw new \Exception($error->getMessage());
-        })->then(function ($response) use ($ratelimit) {
+        return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) use ($ratelimit) {
             if(!$response) {
                 return -1;
             }
