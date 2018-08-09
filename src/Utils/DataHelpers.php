@@ -24,9 +24,11 @@ class DataHelpers {
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
         self::$loop = $loop;
         
-        $adapters = \React\Filesystem\Filesystem::getSupportedAdapters();
-        if(!empty($adapters)) {
-            self::$filesystem = \React\Filesystem\Filesystem::create($loop);
+        if(self::$filesystem === null) {
+            $adapters = \React\Filesystem\Filesystem::getSupportedAdapters();
+            if(!empty($adapters)) {
+                self::$filesystem = \React\Filesystem\Filesystem::create($loop);
+            }
         }
     }
     
@@ -36,6 +38,14 @@ class DataHelpers {
      */
     static function getFilesystem() {
         return self::$filesystem;
+    }
+    
+    /**
+     * Sets the React Filesystem instance.
+     * @param \React\Filesystem\FilesystemInterface  $filesystem
+     */
+    static function setFilesystem(\React\Filesystem\FilesystemInterface $filesystem) {
+        self::$filesystem = $filesystem;
     }
     
     /**
