@@ -20,16 +20,24 @@ class URLHelpers {
      */
     const DEFAULT_USER_AGENT = 'Yasmin (https://github.com/CharlotteDunois/Yasmin)';
     
-    /** @var \GuzzleHttp\Handler\CurlMultiHandler */
+    /**
+     * @var \GuzzleHttp\Handler\CurlMultiHandler
+     */
     private static $handler;
     
-    /** @var \GuzzleHttp\Client */
+    /**
+     * @var \GuzzleHttp\Client
+     */
     private static $http;
     
-    /** @var \React\EventLoop\LoopInterface */
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
     private static $loop;
     
-    /** @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface */
+    /**
+     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
+     */
     private static $timer;
     
     /**

@@ -13,7 +13,14 @@ namespace CharlotteDunois\Yasmin\Utils;
  * Data Helper methods.
  */
 class DataHelpers {
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
     private static $loop;
+    
+    /**
+     * @var \React\Filesystem\FilesystemInterface|null
+     */
     private static $filesystem;
     
     /**
