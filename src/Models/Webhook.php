@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                               $channelID  The channel the webhook belongs to.
  * @property string|null                               $guildID    The guild the webhook belongs to, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
- * @property string                                    $token      The webhook token.
+ * @property string|null                               $token      The webhook token.
  */
 class Webhook extends ClientBase {
     protected $id;
@@ -264,6 +264,6 @@ class Webhook extends ClientBase {
         $this->channelID = $webhook['channel_id'] ?? null;
         $this->guildID = $webhook['guild_id'] ?? null;
         $this->owner = (!empty($webhook['user']) ? $this->client->users->patch($webhook['user']) : null);
-        $this->token = $webhook['token'];
+        $this->token = $webhook['token'] ?? null;
     }
 }
