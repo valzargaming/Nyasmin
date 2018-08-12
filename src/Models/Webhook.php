@@ -152,10 +152,15 @@ class Webhook extends ClientBase {
      * @param string  $content  The webhook message content.
      * @param array   $options  Any webhook message options.
      * @return \React\Promise\ExtendedPromiseInterface
+     * @throws \BadMethodCallException
      * @see \CharlotteDunois\Yasmin\Models\Message
      * @see https://discordapp.com/developers/docs/resources/channel#message-object
      */
     function send(string $content, array $options = array()) {
+        if(empty($this->token)) {
+            throw new \BadMethodCallException('Can not use webhook without token to send message');
+        }
+        
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
             \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->done(function ($files) use ($content, $options, $resolve, $reject) {
                 $msg = array(
