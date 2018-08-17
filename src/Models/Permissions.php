@@ -62,6 +62,12 @@ class Permissions extends Base {
         'MANAGE_EMOJIS' => (1 << 30)
     );
     
+    /**
+     * The bitfield to remove from channel overwrites to prevent wrong calculated final permissions, as they do nothing.
+     * @var int
+     */
+    const CHANNEL_UNACCESSIBLE_PERMISSIONS = (1 << 3);
+    
     protected $bitfield;
     
     /**

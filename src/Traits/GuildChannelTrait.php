@@ -221,18 +221,18 @@ trait GuildChannelTrait {
         $overwrites = $this->overwritesFor($member);
         
         if($overwrites['everyone']) {
-            $permissions->remove($overwrites['everyone']->deny->bitfield);
-            $permissions->add($overwrites['everyone']->allow->bitfield);
+            $permissions->remove(($overwrites['everyone']->deny->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
+            $permissions->add(($overwrites['everyone']->allow->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
         }
         
         foreach($overwrites['roles'] as $role) {
-            $permissions->remove($role->deny->bitfield);
-            $permissions->add($role->allow->bitfield);
+            $permissions->remove(($role->deny->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
+            $permissions->add(($role->allow->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
         }
         
         if($overwrites['member']) {
-            $permissions->remove($overwrites['member']->deny->bitfield);
-            $permissions->add($overwrites['member']->allow->bitfield);
+            $permissions->remove(($overwrites['member']->deny->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
+            $permissions->add(($overwrites['member']->allow->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
         }
         
         return $permissions;
