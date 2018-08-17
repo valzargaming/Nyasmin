@@ -34,6 +34,14 @@ class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 $guild->_patch(array('unavailable' => true));
                 $this->client->emit('guildUnavailable', $guild);
             } else {
+                foreach($guild->channels as $channel) {
+                    $this->client->channels->delete($channel->id);
+                }
+                
+                foreach($guild->emojis as $emoji) {
+                    $this->client->emojis->delete($channel->id);
+                }
+                
                 $this->client->guilds->delete($guild->id);
                 $this->client->emit('guildDelete', $guild);
             }

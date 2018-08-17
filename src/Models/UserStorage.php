@@ -134,9 +134,10 @@ class UserStorage extends Storage {
         $amount = 0;
         foreach($this->data as $key => $val) {
             if($val->id !== $this->client->user->id && !$val->userFetched && !\in_array($key, $members, true)) {
+                $this->client->presences->delete($key);
                 $this->delete($key);
-                unset($val);
                 
+                unset($val);
                 $amount++;
             }
         }

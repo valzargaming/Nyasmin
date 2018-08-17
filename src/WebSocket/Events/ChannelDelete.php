@@ -29,7 +29,6 @@ class ChannelDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             }
             
             $this->client->channels->delete($channel->id);
-            
             $this->client->emit('channelDelete', $channel);
         }
     }
