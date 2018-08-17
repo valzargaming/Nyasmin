@@ -39,7 +39,7 @@ class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 }
                 
                 foreach($guild->emojis as $emoji) {
-                    $this->client->emojis->delete($channel->id);
+                    $this->client->emojis->delete($emoji->id);
                 }
                 
                 $this->client->guilds->delete($guild->id);
