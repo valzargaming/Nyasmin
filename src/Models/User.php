@@ -128,6 +128,7 @@ class User extends ClientBase {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function __debugInfo() {

@@ -59,7 +59,7 @@ class UserStorage extends Storage {
     }
     
     /**
-     * @return \CharlotteDunois\Yasmin\Models\User
+     * @return \CharlotteDunois\Yasmin\Models\User|null
      * @internal
      */
     function patch(array $user) {
@@ -85,6 +85,7 @@ class UserStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function set($key, $value) {
         parent::set($key, $value);
@@ -97,6 +98,7 @@ class UserStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function delete($key) {
         parent::delete($key);

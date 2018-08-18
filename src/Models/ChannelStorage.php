@@ -65,6 +65,7 @@ class ChannelStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function set($key, $value) {
         parent::set($key, $value);
@@ -77,6 +78,7 @@ class ChannelStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function delete($key) {
         parent::delete($key);
@@ -89,6 +91,7 @@ class ChannelStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function clear() {
         if($this !== $this->client->channels) {

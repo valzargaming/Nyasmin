@@ -57,6 +57,7 @@ class MessageStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function set($key, $value) {
         if(!$this->enabled) {

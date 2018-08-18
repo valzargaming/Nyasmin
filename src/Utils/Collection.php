@@ -849,6 +849,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     protected function dataGet($target, $key, $default = null) {

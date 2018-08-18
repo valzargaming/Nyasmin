@@ -75,6 +75,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function set($key, $value) {
         parent::set($key, $value);
@@ -82,10 +83,13 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         if(static::$emitUpdates) {
             $this->client->emit('internal.storage.set', $this, $key, $value);
         }
+        
+        return $this;
     }
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function delete($key) {
         parent::delete($key);
@@ -93,5 +97,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         if(static::$emitUpdates) {
             $this->client->emit('internal.storage.delete', $this, $key);
         }
+        
+        return $this;
     }
 }

@@ -117,7 +117,7 @@ class APIManager {
     
     /**
      * Clears all buckets and the queue.
-     * @return
+     * @return void
      */
     function clear() {
         $this->limited = true;

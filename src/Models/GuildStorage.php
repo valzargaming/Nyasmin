@@ -46,6 +46,7 @@ class GuildStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @return $this
      */
     function delete($key) {
         $guild = $this->get($key);
