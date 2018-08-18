@@ -21,7 +21,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
         $this->client = $client;
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
             $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);

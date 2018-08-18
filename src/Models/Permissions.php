@@ -80,7 +80,7 @@ class Permissions extends Base {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -93,6 +93,7 @@ class Permissions extends Base {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {

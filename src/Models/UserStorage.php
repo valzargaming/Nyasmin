@@ -59,6 +59,7 @@ class UserStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\User
      * @internal
      */
     function patch(array $user) {
@@ -107,6 +108,7 @@ class UserStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\User
      * @internal
      */
     function factory(array $data, bool $userFetched = false) {

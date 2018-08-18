@@ -76,7 +76,7 @@ class GuildMember extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -429,12 +429,14 @@ class GuildMember extends ClientBase {
     
     /**
      * Automatically converts to a mention.
+     * @return string
      */
     function __toString() {
         return '<@'.(!empty($this->nickname) ? '!' : '').$this->id.'>';
     }
     
     /**
+     * @return void
      * @internal
      */
     function _setSpeaking(bool $speaking) {
@@ -442,6 +444,7 @@ class GuildMember extends ClientBase {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _setVoiceState(array $voice) {
@@ -455,6 +458,7 @@ class GuildMember extends ClientBase {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $data) {

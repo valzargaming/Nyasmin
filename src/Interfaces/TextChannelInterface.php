@@ -60,12 +60,14 @@ interface TextChannelInterface {
     
     /**
      * Starts sending the typing indicator in this channel. Counts up a triggered typing counter.
+     * @return void
      */
     function startTyping();
     
     /**
      * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
      * @param bool  $force
+     * @return void
      */
     function stopTyping(bool $force = false);
     

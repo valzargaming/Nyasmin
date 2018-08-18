@@ -77,8 +77,9 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
     /**
      * Sets the busy flag (marking as running).
      * @param bool  $busy
+     * @return void
      */
-    function setBusy(bool $busy) {
+    function setBusy(bool $busy): void {
         $this->busy = $busy;
     }
     
@@ -114,7 +115,7 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
     
     /**
      * Returns the size of the queue.
-     * @var int
+     * @return int
      */
     function size(): int {
         return \count($this->queue);
@@ -184,8 +185,9 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
     
     /**
      * Unsets all queue items.
+     * @return void
      */
-    function clear() {
+    function clear(): void {
         $this->remaining = 0;
         while($item = \array_shift($this->queue)) {
             unset($item);

@@ -123,7 +123,7 @@ class Message extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -405,12 +405,14 @@ class Message extends ClientBase {
     
     /**
      * Automatically converts to the message content.
+     * @return string
      */
     function __toString() {
         return $this->content;
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\MessageReaction
      * @internal
      */
     function _addReaction(array $data) {
@@ -445,6 +447,7 @@ class Message extends ClientBase {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $message) {

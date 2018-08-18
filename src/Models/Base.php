@@ -30,6 +30,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return bool
      * @throws \Exception
      * @internal
      */
@@ -46,6 +47,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -54,6 +56,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {
@@ -61,6 +64,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return string
      * @internal
      */
     function serialize() {
@@ -69,6 +73,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return void
      * @internal
      */
     function unserialize($data) {
@@ -79,6 +84,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $data) {
@@ -138,6 +144,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return bool
      * @internal
      */
     function _shouldUpdate(array $data) {
@@ -157,6 +164,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _markForDelete() {

@@ -33,6 +33,7 @@ interface StorageInterface extends \Countable, \Iterator {
     
     /**
      * Resets the internal pointer. From Iterator interface.
+     * @return mixed|false
      */
     function rewind();
     

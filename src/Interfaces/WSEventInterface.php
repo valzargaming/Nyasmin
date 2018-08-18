@@ -23,5 +23,5 @@ interface WSEventInterface {
      * Handles events.
      * @return void
      */
-    function handle(array $data);
+    function handle(array $data): void;
 }

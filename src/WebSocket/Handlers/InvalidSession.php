@@ -20,7 +20,7 @@ class InvalidSession implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInte
         $this->wshandler = $wshandler;
     }
     
-    function handle($data) {
+    function handle($data): void {
         if(!$data['d']) {
             $this->wshandler->wsmanager->setSessionID(null);
         }

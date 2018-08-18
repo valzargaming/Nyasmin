@@ -73,7 +73,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
         throw new \Exception('Unable to find WS event');
     }
     
-    function handle($packet) {
+    function handle($packet): void {
         if(isset($this->wsevents[$packet['t']])) {
             $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
             $this->wsevents[$packet['t']]->handle($packet['d']);

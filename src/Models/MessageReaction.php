@@ -41,7 +41,7 @@ class MessageReaction extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -104,6 +104,7 @@ class MessageReaction extends ClientBase {
     
     /**
      * Increments the count.
+     * @return void
      * @internal
      */
     function _incrementCount() {
@@ -112,6 +113,7 @@ class MessageReaction extends ClientBase {
     
     /**
      * Decrements the count.
+     * @return void
      * @internal
      */
     function _decrementCount() {

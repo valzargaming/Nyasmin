@@ -16,7 +16,7 @@ class DataHelpers {
     /**
      * @var \React\EventLoop\LoopInterface
      */
-    private static $loop;
+    protected static $loop;
     
     /**
      * @var \React\Filesystem\FilesystemInterface|null
@@ -26,6 +26,7 @@ class DataHelpers {
     /**
      * Sets the Event Loop.
      * @param \React\EventLoop\LoopInterface  $loop
+     * @return void
      * @internal
      */
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
@@ -50,6 +51,7 @@ class DataHelpers {
     /**
      * Sets the React Filesystem instance.
      * @param \React\Filesystem\FilesystemInterface  $filesystem
+     * @return void
      */
     static function setFilesystem(\React\Filesystem\FilesystemInterface $filesystem) {
         self::$filesystem = $filesystem;

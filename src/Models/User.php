@@ -67,7 +67,7 @@ class User extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -250,12 +250,14 @@ class User extends ClientBase {
     
     /**
      * Automatically converts the User instance to a mention.
+     * @return string
      */
     function __toString() {
         return '<@'.$this->id.'>';
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $user) {

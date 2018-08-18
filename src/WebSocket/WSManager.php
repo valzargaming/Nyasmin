@@ -229,6 +229,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * @return bool
      * @throws \Exception
      * @internal
      */
@@ -245,6 +246,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * @return mixed
      * @throws \RuntimeException
      */
     function __get($name) {

@@ -49,6 +49,8 @@ class Presence extends ClientBase {
     
     /**
      * {@inheritdoc}
+     * @return mixed
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
@@ -66,6 +68,7 @@ class Presence extends ClientBase {
     }
     
     /**
+     * @return mixed
      * @internal
      */
      function jsonSerialize() {
@@ -76,6 +79,7 @@ class Presence extends ClientBase {
      }
      
      /**
+      * @return void
       * @internal
       */
      function _patch(array $presence) {

@@ -44,7 +44,7 @@ class PartialGuild extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -92,6 +92,7 @@ class PartialGuild extends ClientBase {
     
     /**
      * Automatically converts to the guild name.
+     * @return string
      */
     function __toString() {
         return $this->name;

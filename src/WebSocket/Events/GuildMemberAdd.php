@@ -21,7 +21,7 @@ class GuildMemberAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         $this->client = $client;
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $guildmember = $guild->_addMember($data);

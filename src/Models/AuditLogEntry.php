@@ -182,6 +182,7 @@ class AuditLogEntry extends ClientBase {
     
     /**
      * {@inheritdoc}
+     * @return mixed
      * @internal
      */
     function __get($name) {
@@ -287,6 +288,7 @@ class AuditLogEntry extends ClientBase {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {

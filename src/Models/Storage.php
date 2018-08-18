@@ -33,7 +33,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -46,6 +46,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     }
     
     /**
+     * @return string
      * @internal
      */
     function serialize() {
@@ -56,6 +57,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     }
     
     /**
+     * @return void
      * @internal
      */
     function unserialize($data) {

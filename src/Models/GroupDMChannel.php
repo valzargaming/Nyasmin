@@ -82,7 +82,7 @@ class GroupDMChannel extends DMChannel {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -95,6 +95,7 @@ class GroupDMChannel extends DMChannel {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $channel) {

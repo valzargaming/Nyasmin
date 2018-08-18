@@ -55,7 +55,7 @@ class Emoji extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -247,6 +247,7 @@ class Emoji extends ClientBase {
     
     /**
      * Automatically converts to a mention.
+     * @return string
      */
     function __toString() {
         if($this->requireColons === false) {
@@ -257,6 +258,7 @@ class Emoji extends ClientBase {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $emoji) {

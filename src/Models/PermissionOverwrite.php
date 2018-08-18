@@ -45,7 +45,7 @@ class PermissionOverwrite extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -120,6 +120,7 @@ class PermissionOverwrite extends ClientBase {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {

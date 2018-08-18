@@ -68,7 +68,7 @@ class VoiceChannel extends ClientBase
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -131,12 +131,14 @@ class VoiceChannel extends ClientBase
     
     /**
      * Automatically converts to the name.
+     * @return string
      */
     function __toString() {
         return $this->name;
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $channel) {

@@ -31,7 +31,6 @@ class Webhook extends ClientBase {
     
     /**
      * @internal
-     * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $webhook) {
         parent::__construct($client);
@@ -42,6 +41,8 @@ class Webhook extends ClientBase {
     
     /**
      * {@inheritdoc}
+     * @return mixed
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
@@ -261,6 +262,7 @@ class Webhook extends ClientBase {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $webhook) {

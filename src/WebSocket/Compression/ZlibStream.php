@@ -34,6 +34,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
     
     /**
      * Initializes the context.
+     * @return void
      */
     function init(): void {
         $this->context = \inflate_init(\ZLIB_ENCODING_DEFLATE);
@@ -44,6 +45,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
     
     /**
      * Destroys the context.
+     * @return void
      */
     function destroy(): void {
         $this->context = null;
@@ -51,6 +53,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
     
     /**
      * Checks if the system supports it.
+     * @return void
      * @throws \Exception
      */
     static function supported(): void {

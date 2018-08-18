@@ -21,6 +21,7 @@ interface WSEncodingInterface {
     
     /**
      * Checks if the system supports it.
+     * @return void
      * @throws \RuntimeException
      */
     static function supported(): void;

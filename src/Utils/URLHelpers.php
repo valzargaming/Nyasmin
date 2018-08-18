@@ -21,6 +21,11 @@ class URLHelpers {
     const DEFAULT_USER_AGENT = 'Yasmin (https://github.com/CharlotteDunois/Yasmin)';
     
     /**
+     * @var \React\EventLoop\LoopInterface
+     */
+    protected static $loop;
+    
+    /**
      * @var \GuzzleHttp\Handler\CurlMultiHandler
      */
     private static $handler;
@@ -31,11 +36,6 @@ class URLHelpers {
     private static $http;
     
     /**
-     * @var \React\EventLoop\LoopInterface
-     */
-    private static $loop;
-    
-    /**
      * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
      */
     private static $timer;
@@ -43,6 +43,7 @@ class URLHelpers {
     /**
      * Sets the Event Loop.
      * @param \React\EventLoop\LoopInterface  $loop
+     * @return void
      * @internal
      */
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
@@ -51,6 +52,7 @@ class URLHelpers {
     
     /**
      * Sets the Guzzle handler and client.
+     * @return void
      * @internal
      */
     private static function setHTTPClient() {
@@ -61,7 +63,8 @@ class URLHelpers {
     }
     
     /**
-     * Returns the Guzzle client.
+     * Returns the Guzzle client. This method may be changed at any time.
+     * @return \GuzzleHttp\Client
      */
     static function getHTTPClient() {
         if(!self::$http) {
@@ -73,6 +76,7 @@ class URLHelpers {
     
     /**
      * Sets the Guzzle timer.
+     * @return void
      */
     private static function setTimer() {
         if(!self::$timer) {
@@ -91,6 +95,7 @@ class URLHelpers {
     
     /**
      * Cancels the Guzzle timer and unsets it.
+     * @return void
      */
     static function destroy() {
         if(self::$timer) {

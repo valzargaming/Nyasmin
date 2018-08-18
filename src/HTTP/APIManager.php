@@ -91,10 +91,17 @@ class APIManager {
         $this->bucketName = $client->getOption('http.ratelimitbucket.name', '\\CharlotteDunois\\Yasmin\\HTTP\\RatelimitBucket');
     }
     
+    /**
+     * Default destructor.
+     * @internal
+     */
     function __destruct() {
         $this->clear();
     }
     
+    /**
+     * @return mixed
+     */
     function __get($name) {
         switch($name) {
             case 'client':
@@ -110,6 +117,7 @@ class APIManager {
     
     /**
      * Clears all buckets and the queue.
+     * @return
      */
     function clear() {
         $this->limited = true;
@@ -198,6 +206,7 @@ class APIManager {
     /**
      * Unshifts an item into the queue.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest|\CharlotteDunois\Yasmin\HTTP\RatelimitBucket  $item
+     * @return void
      */
     function unshiftQueue($item) {
         \array_unshift($this->queue, $item);
@@ -206,6 +215,7 @@ class APIManager {
     /**
      * Gets the Gateway from the Discord API.
      * @param bool  $bot  Should we use the bot endpoint? Requires token.
+     * @return \React\Promise\ExtendedPromiseInterface
      */
     function getGateway(bool $bot = false) {
         return $this->makeRequest('GET', 'gateway'.($bot ? '/bot' : ''), array());
@@ -222,6 +232,7 @@ class APIManager {
     
     /**
      * Processes the queue on future tick.
+     * @return void
      */
     final protected function processFuture() {
         $this->loop->futureTick(function () {
@@ -231,6 +242,7 @@ class APIManager {
     
     /**
      * Processes the queue delayed, depends on rest time offset.
+     * @return void
      */
     final protected function processDelayed() {
         $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
@@ -247,6 +259,7 @@ class APIManager {
     
     /**
      * Processes the queue.
+     * @return void
      */
     protected function process() {
         if($this->limited) {
@@ -273,6 +286,7 @@ class APIManager {
     /**
      * Processes a queue item.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest|\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $item
+     * @return void
      */
     protected function processItem($item) {
         if($item instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) {
@@ -362,6 +376,7 @@ class APIManager {
     /**
      * Executes an API Request.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $item
+     * @return void
      */
     protected function execute(\CharlotteDunois\Yasmin\HTTP\APIRequest $item) {
         $endpoint = $this->getRatelimitEndpoint($item);
@@ -458,6 +473,7 @@ class APIManager {
      * Handles ratelimits.
      * @param \Psr\Http\Message\ResponseInterface                               $response
      * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
+     * @return void
      */
     function handleRatelimit(\Psr\Http\Message\ResponseInterface $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         \extract($this->extractRatelimit($response));

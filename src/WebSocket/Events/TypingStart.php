@@ -21,7 +21,7 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
         $this->client = $client;
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
             $user = $this->client->users->get($data['user_id']);

@@ -56,7 +56,7 @@ class MessageAttachment extends Base {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -87,6 +87,7 @@ class MessageAttachment extends Base {
     }
     
     /**
+     * @return array
      * @internal
      */
     function _getMessageFilesArray() {

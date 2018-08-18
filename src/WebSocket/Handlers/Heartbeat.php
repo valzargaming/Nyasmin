@@ -21,7 +21,7 @@ class Heartbeat implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet) {
+    function handle($packet): void {
         $this->wshandler->wsmanager->heartbeat();
     }
 }

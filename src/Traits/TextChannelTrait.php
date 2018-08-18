@@ -19,6 +19,7 @@ trait TextChannelTrait {
     );
     
     /**
+     * @return string
      * @internal
      */
     function serialize() {
@@ -302,6 +303,7 @@ trait TextChannelTrait {
     
     /**
      * Starts sending the typing indicator in this channel. Counts up a triggered typing counter.
+     * @return void
      */
     function startTyping() {
         if($this->typingTriggered['count'] === 0) {
@@ -329,6 +331,7 @@ trait TextChannelTrait {
     /**
      * Stops sending the typing indicator in this channel. Counts down a triggered typing counter.
      * @param bool  $force  Reset typing counter and stop sending the indicator.
+     * @return void
      */
     function stopTyping(bool $force = false) {
         if($this->typingTriggered['count'] === 0) {

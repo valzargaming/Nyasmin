@@ -165,7 +165,7 @@ class Guild extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -1002,6 +1002,7 @@ class Guild extends ClientBase {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember
      * @internal
      */
     function _addMember(array $member, bool $initial = false) {
@@ -1015,6 +1016,7 @@ class Guild extends ClientBase {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember|null
      * @internal
      */
     function _removeMember(string $userid) {
@@ -1034,6 +1036,7 @@ class Guild extends ClientBase {
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $guild) {

@@ -51,7 +51,7 @@ class ClientUser extends User {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -64,6 +64,7 @@ class ClientUser extends User {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function __debugInfo() {
@@ -293,6 +294,7 @@ class ClientUser extends User {
     */
     
     /**
+     * @return void
      * @throws \RuntimeException
      * @internal
      */
@@ -301,6 +303,7 @@ class ClientUser extends User {
     }
     
     /**
+     * @return void
      * @throws \RuntimeException
      * @internal
      */
@@ -309,6 +312,7 @@ class ClientUser extends User {
     }
     
     /**
+     * @return void
      * @throws \RuntimeException
      * @internal
      */

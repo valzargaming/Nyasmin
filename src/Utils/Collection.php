@@ -29,6 +29,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function __debugInfo() {
@@ -64,6 +65,7 @@ class Collection implements \Countable, \Iterator {
     
     /**
      * Resets the internal pointer.
+     * @return mixed|false
      * @internal
      */
     function rewind() {
@@ -889,6 +891,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
+     * @return array
      * @internal
      */
     protected function flattenDo(array $array, int $depth, int $in_depth = 0) {
@@ -905,6 +908,7 @@ class Collection implements \Countable, \Iterator {
     }
     
     /**
+     * @return callable
      * @internal
      */
     protected function valueRetriever($value) {

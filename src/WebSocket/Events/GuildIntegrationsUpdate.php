@@ -21,7 +21,7 @@ class GuildIntegrationsUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEv
         $this->client = $client;
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $this->client->emit('guildIntegrationsUpdate', $guild);

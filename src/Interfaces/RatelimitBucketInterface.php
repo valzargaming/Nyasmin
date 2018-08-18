@@ -45,8 +45,9 @@ interface RatelimitBucketInterface {
     /**
      * Sets the busy flag (marking as running).
      * @param bool  $busy
+     * @return void
      */
-    function setBusy(bool $busy);
+    function setBusy(bool $busy): void;
     
     /**
      * Sets the ratelimits from the response.
@@ -106,6 +107,7 @@ interface RatelimitBucketInterface {
     
     /**
      * Unsets all queue items.
+     * @return void
      */
-    function clear();
+    function clear(): void;
 }

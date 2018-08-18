@@ -31,6 +31,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     /**
      * Checks if the system supports it.
      * @throws \RuntimeException
+     * @return void
      */
     static function supported(): void {
         if(!\class_exists('\\CharlotteDunois\\Kimberly\\Kimberly')) {

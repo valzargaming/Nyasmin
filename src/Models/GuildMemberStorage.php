@@ -59,6 +59,7 @@ class GuildMemberStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember
      * @internal
      */
     function factory(array $data) {

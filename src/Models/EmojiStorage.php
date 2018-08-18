@@ -74,6 +74,7 @@ class EmojiStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\Emoji
      * @internal
      */
     function factory(array $data) {

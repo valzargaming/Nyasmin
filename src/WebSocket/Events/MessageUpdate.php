@@ -25,7 +25,7 @@ class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
         $this->clones = !($clones === true || \in_array('messageUpdate', (array) $clones));
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
             $message = $channel->messages->get($data['id']);

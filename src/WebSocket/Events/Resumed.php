@@ -21,7 +21,7 @@ class Resumed implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         $this->client = $client;
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $this->client->wsmanager()->emit('ready');
     }
 }

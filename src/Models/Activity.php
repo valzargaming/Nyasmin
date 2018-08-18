@@ -108,7 +108,7 @@ class Activity extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -135,6 +135,7 @@ class Activity extends ClientBase {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {

@@ -25,7 +25,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         $this->clones = !($clones === true || \in_array('presenceUpdate', (array) $clones));
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $user = $this->client->users->get($data['user']['id']);
         
         if(($data['status'] ?? null) === 'offline' && $user === null) {

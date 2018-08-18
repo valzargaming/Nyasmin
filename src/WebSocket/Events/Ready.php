@@ -26,7 +26,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         });
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         if(empty($data['user']['bot'])) {
             $this->client->wsmanager()->emit('self.ws.error', 'User accounts are not supported');
             return;

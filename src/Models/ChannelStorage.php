@@ -103,6 +103,7 @@ class ChannelStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface
      * @internal
      */
     function factory(array $data, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null) {

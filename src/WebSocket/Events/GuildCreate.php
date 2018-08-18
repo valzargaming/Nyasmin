@@ -26,7 +26,7 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
         });
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
             if(empty($data['unavailable'])) {

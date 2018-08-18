@@ -87,6 +87,7 @@ class PresenceStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\Presence
      * @internal
      */
     function factory(array $data) {

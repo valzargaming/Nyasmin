@@ -32,7 +32,7 @@ class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
         });
     }
     
-    function handle($packet) {
+    function handle($packet): void {
         $this->wshandler->client->emit('debug', 'Connected to Gateway via '.\implode(', ', $packet['d']['_trace']));
         
         $interval = $packet['d']['heartbeat_interval'] / 1000;

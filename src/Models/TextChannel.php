@@ -76,7 +76,7 @@ class TextChannel extends ClientBase
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -168,12 +168,14 @@ class TextChannel extends ClientBase
     
     /**
      * Automatically converts to a mention.
+     * @return string
      */
     function __toString() {
         return '<#'.$this->id.'>';
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $channel) {

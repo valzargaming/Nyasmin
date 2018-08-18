@@ -35,7 +35,7 @@ abstract class ClientBase extends Base {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @internal
      */
     function __get($name) {
@@ -50,6 +50,7 @@ abstract class ClientBase extends Base {
     
     /**
      * @internal
+     * @return mixed
      */
     function __debugInfo() {
         $vars = \get_object_vars($this);
@@ -59,6 +60,7 @@ abstract class ClientBase extends Base {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {
@@ -69,6 +71,7 @@ abstract class ClientBase extends Base {
     }
     
     /**
+     * @return string
      * @internal
      */
     function serialize() {
@@ -79,6 +82,7 @@ abstract class ClientBase extends Base {
     }
     
     /**
+     * @return void
      * @internal
      */
     function unserialize($data) {

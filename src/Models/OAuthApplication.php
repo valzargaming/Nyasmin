@@ -49,7 +49,7 @@ class OAuthApplication extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -77,6 +77,7 @@ class OAuthApplication extends ClientBase {
     
     /**
      * Automatically converts to the application name.
+     * @return string
      */
     function __toString() {
         return $this->name;

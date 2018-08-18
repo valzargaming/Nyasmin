@@ -53,6 +53,7 @@ class AuditLog extends ClientBase {
     
     /**
      * {@inheritdoc}
+     * @return mixed
      * @internal
      */
     function __get($name) {

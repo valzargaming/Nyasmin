@@ -55,6 +55,7 @@ class RoleStorage extends Storage {
     }
     
     /**
+     * @return \CharlotteDunois\Yasmin\Models\Role
      * @internal
      */
     function factory(array $data) {

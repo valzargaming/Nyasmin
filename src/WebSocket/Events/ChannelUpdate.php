@@ -25,7 +25,7 @@ class ChannelUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
         $this->clones = !($clones === true || \in_array('channelUpdate', (array) $clones));
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $channel = $this->client->channels->get($data['id']);
         if($channel) {
             $oldChannel = null;

@@ -21,7 +21,7 @@ class GuildEmojisUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
         $this->client = $client;
     }
     
-    function handle(array $data) {
+    function handle(array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $ids = array();

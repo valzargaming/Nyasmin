@@ -54,7 +54,7 @@ class CategoryChannel extends ClientBase
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -78,6 +78,7 @@ class CategoryChannel extends ClientBase
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $channel) {

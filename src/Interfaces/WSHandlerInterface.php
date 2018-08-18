@@ -23,5 +23,5 @@ interface WSHandlerInterface {
      * Handles packets.
      * @return void
      */
-    function handle($packet);
+    function handle($packet): void;
 }

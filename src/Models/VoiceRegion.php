@@ -44,6 +44,8 @@ class VoiceRegion extends ClientBase {
     
     /**
      * {@inheritdoc}
+     * @return mixed
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {

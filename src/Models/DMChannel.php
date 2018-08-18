@@ -71,7 +71,7 @@ class DMChannel extends ClientBase
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -111,6 +111,7 @@ class DMChannel extends ClientBase
     }
     
     /**
+     * @return void
      * @internal
      */
     function _patch(array $channel) {

@@ -44,7 +44,7 @@ class RichPresenceAssets extends ClientBase {
     
     /**
      * {@inheritdoc}
-     *
+     * @return mixed
      * @throws \RuntimeException
      * @internal
      */
@@ -99,6 +99,7 @@ class RichPresenceAssets extends ClientBase {
     }
     
     /**
+     * @return mixed
      * @internal
      */
     function jsonSerialize() {
