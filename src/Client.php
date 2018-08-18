@@ -31,7 +31,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      * The version of Yasmin.
      * @var string
      */
-    const VERSION = '0.4.2';
+    const VERSION = '0.4.2-dev';
     
     /**
      * WS connection status: Disconnected.
