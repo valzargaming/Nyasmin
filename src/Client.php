@@ -277,8 +277,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     }
     
     /**
-     * @throws \Exception
      * @return bool
+     * @throws \Exception
      * @internal
      */
     function __isset($name) {
@@ -294,8 +294,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     }
     
     /**
-     * @throws \RuntimeException
      * @return mixed
+     * @throws \RuntimeException
      * @internal
      */
     function __get($name) {
