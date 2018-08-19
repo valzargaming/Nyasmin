@@ -18,7 +18,7 @@ class Collector {
      */
     protected $emitter;
     
-    /*
+    /**
      * @var string
      */
     protected $event;
