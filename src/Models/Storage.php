@@ -75,9 +75,43 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * {@inheritdoc}
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    function has($key, $value) {
+        if(\is_array($key) || \is_object($key)) {
+            throw new \InvalidArgumentException('Key can not be an array or object');
+        }
+        
+        $key = (string) $key;
+        return parent::has($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @return mixed|null
+     * @throws \InvalidArgumentException
+     */
+    function get($key) {
+        if(\is_array($key) || \is_object($key)) {
+            throw new \InvalidArgumentException('Key can not be an array or object');
+        }
+        
+        $key = (string) $key;
+        return parent::get($key);
+    }
+    
+    /**
+     * {@inheritdoc}
      * @return $this
+     * @throws \InvalidArgumentException
      */
     function set($key, $value) {
+        if(\is_array($key) || \is_object($key)) {
+            throw new \InvalidArgumentException('Key can not be an array or object');
+        }
+        
+        $key = (string) $key;
         parent::set($key, $value);
         
         if(static::$emitUpdates) {
@@ -90,8 +124,14 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     /**
      * {@inheritdoc}
      * @return $this
+     * @throws \InvalidArgumentException
      */
     function delete($key) {
+        if(\is_array($key) || \is_object($key)) {
+            throw new \InvalidArgumentException('Key can not be an array or object');
+        }
+        
+        $key = (string) $key;
         parent::delete($key);
         
         if(static::$emitUpdates) {

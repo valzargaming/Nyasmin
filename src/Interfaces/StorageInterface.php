@@ -56,24 +56,27 @@ interface StorageInterface extends \Countable, \Iterator {
     function count();
     
     /**
-     * Returns the item at a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
-     * @return mixed|null
-    */
-    function get($key);
-    
-    /**
      * Determines if a given key exists in the collection.
      * @param mixed  $key
      * @return bool
+     * @throws \InvalidArgumentException
     */
     function has($key);
+    
+    /**
+     * Returns the item at a given key. If the key does not exist, null is returned.
+     * @param mixed  $key
+     * @return mixed|null
+     * @throws \InvalidArgumentException
+    */
+    function get($key);
     
     /**
      * Sets a key-value pair.
      * @param mixed  $key
      * @param mixed  $value
      * @return $this
+     * @throws \InvalidArgumentException
      */
     function set($key, $value);
     
