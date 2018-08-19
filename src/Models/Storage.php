@@ -78,7 +78,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
      * @return bool
      * @throws \InvalidArgumentException
      */
-    function has($key, $value) {
+    function has($key) {
         if(\is_array($key) || \is_object($key)) {
             throw new \InvalidArgumentException('Key can not be an array or object');
         }
