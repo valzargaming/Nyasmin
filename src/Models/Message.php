@@ -204,51 +204,21 @@ class Message extends ClientBase {
      * @param callable  $filter   The filter to only collect desired reactions.
      * @param array     $options  The collector options.
      * @return \React\Promise\ExtendedPromiseInterface  This promise is cancellable.
-     * @throws \RangeException          The exception the promise gets rejected with, if waiting times out.
+     * @throws \RangeException          The exception the promise gets rejected with, if collecting times out.
      * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      * @see \CharlotteDunois\Yasmin\Models\MessageReaction
+     * @see \CharlotteDunois\Yasmin\Utils\Collector
      */
     function collectReactions(callable $filter, array $options = array()) {
-        $listener = null;
-        $timer = null;
+        $rfilter = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction) use ($filter) {
+            return ($this->id === $reaction->message->id && $filter($reaction));
+        };
+        $rhandler = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction) {
+            return array(($reaction->emoji->id ?? $reaction->emoji->name), $reaction);
+        };
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options, &$listener, &$timer) {
-            $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
-            
-            $listener = function ($reaction) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
-                if($this->id === $reaction->message->id && $filter($reaction)) {
-                    $collect->set(($reaction->emoji->id ?? $reaction->emoji->name), $reaction);
-                    
-                    if($collect->count() >= ($options['max'] ?? \INF)) {
-                        $this->client->removeListener('messageReactionAdd', $listener);
-                        if($timer !== null) {
-                            $this->client->cancelTimer($timer);
-                        }
-                        
-                        $resolve($collect);
-                    }
-                }
-            };
-            
-            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function () use (&$collect, &$listener, $options, $resolve, $reject) {
-                $this->client->removeListener('messageReactionAdd', $listener);
-                
-                if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {
-                    return $reject(new \RangeException('Not reached max message reactions in specified duration'));
-                }
-                
-                $resolve($collect);
-            });
-            
-            $this->client->on('messageReactionAdd', $listener);
-        }, function (callable $resolve, callable $reject) use (&$listener, &$timer) {
-            if($timer !== null) {
-                $this->client->cancelTimer($timer);
-            }
-            
-            $this->client->removeListener('messageReactionAdd', $listener);
-            $reject(new \OutOfBoundsException('Operation cancelled'));
-        }));
+        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'messageReactionAdd', $rfilter, $rhandler, $options);
+        return $collector->collect();
     }
     
     /**

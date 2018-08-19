@@ -30,6 +30,7 @@ interface TextChannelInterface {
      * @throws \RangeException          The exception the promise gets rejected with, if waiting times out.
      * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      * @see \CharlotteDunois\Yasmin\Models\Message
+     * @see \CharlotteDunois\Yasmin\Utils\Collector
      */
     function collectMessages(callable $filter, array $options = array());
     

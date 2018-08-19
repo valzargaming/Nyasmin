@@ -104,51 +104,21 @@ trait TextChannelTrait {
      * @param callable  $filter   The filter to only collect desired messages.
      * @param array     $options  The collector options.
      * @return \React\Promise\ExtendedPromiseInterface  This promise is cancellable.
-     * @throws \RangeException          The exception the promise gets rejected with, if waiting times out.
+     * @throws \RangeException          The exception the promise gets rejected with, if collecting times out.
      * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      * @see \CharlotteDunois\Yasmin\Models\Message
+     * @see \CharlotteDunois\Yasmin\Utils\Collector
      */
     function collectMessages(callable $filter, array $options = array()) {
-        $listener = null;
-        $timer = null;
+        $mfilter = function (\CharlotteDunois\Yasmin\Models\Message $message) use ($filter) {
+            return ($message->channel->id === $this->id && $filter($message));
+        };
+        $mhandler = function (\CharlotteDunois\Yasmin\Models\Message $message) {
+            return array($message->id, $message);
+        };
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($filter, $options, &$listener, &$timer) {
-            $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
-            
-            $listener = function ($message) use (&$collect, $filter, &$listener, $options, $resolve, &$timer) {
-                if($message->channel->id === $this->id && $filter($message)) {
-                    $collect->set($message->id, $message);
-                    
-                    if($collect->count() >= ($options['max'] ?? \INF)) {
-                        $this->client->removeListener('message', $listener);
-                        if($timer) {
-                            $this->client->cancelTimer($timer);
-                        }
-                        
-                        $resolve($collect);
-                    }
-                }
-            };
-            
-            $timer = $this->client->addTimer((int) ($options['time'] ?? 30), function () use (&$collect, &$listener, $options, $resolve, $reject) {
-                $this->client->removeListener('message', $listener);
-                
-                if(\in_array('time', (array) ($options['errors'] ?? array())) && $collect->count() < ($options['max'] ?? 0)) {
-                    return $reject(new \RangeException('Not reached max messages in specified duration'));
-                }
-                
-                $resolve($collect);
-            });
-            
-            $this->client->on('message', $listener);
-        }, function (callable $resolve, callable $reject) use (&$listener, &$timer) {
-            if($timer !== null) {
-                $this->client->cancelTimer($timer);
-            }
-            
-            $this->client->removeListener('message', $listener);
-            $reject(new \OutOfBoundsException('Operation cancelled'));
-        }));
+        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'message', $mfilter, $mhandler, $options);
+        return $collector->collect();
     }
     
     /**
