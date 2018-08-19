@@ -28,6 +28,7 @@ interface WSCompressionInterface {
     /**
      * Initializes the context.
      * @return void
+     * @throws \Exception
      */
     function init(): void;
     

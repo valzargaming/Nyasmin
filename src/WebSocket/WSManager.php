@@ -317,7 +317,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $querystring['encoding'] = $this->encoding->getName();
         }
         
-        if($this->compressContext && $this->compressContext->getName()) {
+        if($this->compressContext && $this->compressContext->getName() !== '') {
             $this->client->emit('debug', 'Using compress context '.$this->compressContext->getName());
             $querystring['compress'] = $this->compressContext->getName();
         }
@@ -392,7 +392,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     }
                 });
                 
-                $this->ws->on('message', function ($message) {
+                $this->ws->on('message', function (\Ratchet\RFC6455\Messaging\Message $message) {
                     $message = $message->getPayload();
                     if(!$message) {
                         return;
@@ -416,7 +416,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->wshandler->handle($message);
                 });
                 
-                $this->ws->on('error', function ($error) use (&$ready, $reject) {
+                $this->ws->on('error', function (\Throwable $error) use (&$ready, $reject) {
                     if($ready === false) {
                         return $reject($error);
                     }
@@ -477,7 +477,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
                     $this->renewConnection(false);
                 });
-            }, function ($error) use ($resolve, $reject) {
+            }, function (\Throwable $error) use ($resolve, $reject) {
                 $this->client->emit('error', $error);
                 
                 if($this->ws) {

@@ -35,11 +35,12 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
     /**
      * Initializes the context.
      * @return void
+     * @throws \RuntimeException
      */
     function init(): void {
         $this->context = \inflate_init(\ZLIB_ENCODING_DEFLATE);
         if(!$this->context) {
-            throw new \Exception('Unable to initialize Zlib Inflate');
+            throw new \RuntimeException('Unable to initialize Zlib Inflate');
         }
     }
     
