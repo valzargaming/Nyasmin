@@ -24,8 +24,8 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     
     /**
      * Checks if the system supports it.
-     * @throws \RuntimeException
      * @return void
+     * @throws \RuntimeException
      */
     static function supported(): void {
         // Nothing to check
