@@ -101,7 +101,7 @@ trait TextChannelTrait {
      * )
      * ```
      *
-     * @param callable  $filter   The filter to only collect desired messages.
+     * @param callable  $filter   The filter to only collect desired messages. Signature: `function (Message $message): bool`
      * @param array     $options  The collector options.
      * @return \React\Promise\ExtendedPromiseInterface  This promise is cancellable.
      * @throws \RangeException          The exception the promise gets rejected with, if collecting times out.
@@ -110,14 +110,14 @@ trait TextChannelTrait {
      * @see \CharlotteDunois\Yasmin\Utils\Collector
      */
     function collectMessages(callable $filter, array $options = array()) {
-        $mfilter = function (\CharlotteDunois\Yasmin\Models\Message $message) use ($filter) {
-            return ($message->channel->id === $this->id && $filter($message));
-        };
         $mhandler = function (\CharlotteDunois\Yasmin\Models\Message $message) {
             return array($message->id, $message);
         };
+        $mfilter = function (\CharlotteDunois\Yasmin\Models\Message $message) use ($filter) {
+            return ($message->channel->id === $this->id && $filter($message));
+        };
         
-        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'message', $mfilter, $mhandler, $options);
+        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'message', $mhandler, $mfilter, $options);
         return $collector->collect();
     }
     

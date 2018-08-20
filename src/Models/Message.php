@@ -189,7 +189,7 @@ class Message extends ClientBase {
     }
     
     /**
-     * Collects reactions during a specific duration. Resolves with a Collection of MessageReaction instances, mapped by their IDs or names (unicode emojis).
+     * Collects reactions during a specific duration. Resolves with a Collection of `[ $messageReaction, $user ]` arrays, mapped by their IDs or names (unicode emojis).
      *
      * Options are as following:
      *
@@ -201,23 +201,24 @@ class Message extends ClientBase {
      * )
      * ```
      *
-     * @param callable  $filter   The filter to only collect desired reactions.
+     * @param callable  $filter   The filter to only collect desired reactions. Signature: `function (MessageReaction $messageReaction, User $user): bool`
      * @param array     $options  The collector options.
      * @return \React\Promise\ExtendedPromiseInterface  This promise is cancellable.
      * @throws \RangeException          The exception the promise gets rejected with, if collecting times out.
      * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      * @see \CharlotteDunois\Yasmin\Models\MessageReaction
+     * @see \CharlotteDunois\Yasmin\Models\User
      * @see \CharlotteDunois\Yasmin\Utils\Collector
      */
     function collectReactions(callable $filter, array $options = array()) {
-        $rfilter = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction) use ($filter) {
-            return ($this->id === $reaction->message->id && $filter($reaction));
+        $rhandler = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) {
+            return array(($reaction->emoji->id ?? $reaction->emoji->name), array($reaction, $user));
         };
-        $rhandler = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction) {
-            return array(($reaction->emoji->id ?? $reaction->emoji->name), $reaction);
+        $rfilter = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) use ($filter) {
+            return ($this->id === $reaction->message->id && $filter($reaction, $user));
         };
         
-        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'messageReactionAdd', $rfilter, $rhandler, $options);
+        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'messageReactionAdd', $rhandler, $rfilter, $options);
         return $collector->collect();
     }
     

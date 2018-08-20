@@ -26,12 +26,12 @@ class Collector {
     /**
      * @var callable
      */
-    protected $filter;
+    protected $handler;
     
     /**
-     * @var callable
+     * @var callable|null
      */
-    protected $handler;
+    protected $filter;
     
     /**
      * @var array
@@ -69,28 +69,28 @@ class Collector {
     protected static $loop;
     
     /**
-     * The filter gets applied to look for a specific event (invoked as `$filter($item)`).
+     * The handler gets invoked as `$handler(...$item)`. The optional filter get applied to look for a specific event (invoked as `$filter(...$item)`).
      *
      * Options may be:
      * ```
      * array(
-     *     'max' => int, (amount of elements to collect)
-     *     'time' => int, (maximum amount of time (in seconds) to spend collecting, defaults to 30 seconds)
+     *     'max' => int, (maximum amount of elements to collect)
+     *     'time' => int, (maximum amount of time (in seconds) to spend collecting (0 = unlimited), defaults to 30 seconds)
      *     'errors' => string[], (which unmet conditions lead to a promise rejection)
      * )
      * ```
      *
      * @param \CharlotteDunois\Events\EventEmitterInterface  $emitter
      * @param string                                         $event
-     * @param callable                                       $filter
      * @param callable                                       $handler  How the collect item should be handled. Must return an array of `[ $key, $value ]`.
+     * @param callable|null                                  $filter
      * @param array                                          $options
      */
-    function __construct($emitter, string $event, callable $filter, callable $handler, array $options = array()) {
+    function __construct($emitter, string $event, callable $handler, ?callable $filter = null, array $options = array()) {
         $this->emitter = $emitter;
         $this->event = $event;
-        $this->filter = $filter;
         $this->handler = $handler;
+        $this->filter = $filter;
         $this->options = $options;
         $this->bucket = new \CharlotteDunois\Yasmin\Utils\Collection();
     }
@@ -119,9 +119,9 @@ class Collector {
             $filter = $this->filter;
             $handler = $this->handler;
             
-            $this->listener = function ($item) use (&$filter, &$handler) {
-                if($filter($item)) {
-                    list($key, $value) = $handler($item);
+            $this->listener = function (...$item) use (&$filter, &$handler) {
+                if($filter === null || $filter(...$item)) {
+                    list($key, $value) = $handler(...$item);
                     $this->bucket->set($key, $value);
                     
                     if(($this->options['max'] ?? \INF) <= $this->bucket->count()) {
