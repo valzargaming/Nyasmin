@@ -350,7 +350,7 @@ class DataHelpers {
     }
     
     /**
-     * Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as `$filter(\.\.\.$args)`). Resolves with an array of arguments (from the event).
+     * Waits for a specific event to get emitted. Additional filter may be applied to look for a specific event (invoked as `$filter(...$args)`). Resolves with an array of arguments (from the event).
      *
      * Options may be:
      * ```
