@@ -372,7 +372,7 @@ class DataHelpers {
         $options['time'] = $options['time'] ?? 0;
         $options['errors'] = array('max');
         
-        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($emitter, $event, function ($a) {
+        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($emitter, $event, function (...$a) {
             return [ 0, $a ];
         }, $filter, $options);
         

@@ -334,13 +334,17 @@ class Message extends ClientBase {
                 $emoji = $emoji->identifier;
             }
             
-            $prom = \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', function ($reaction) use ($emoji) {
-                return ($reaction->message->id === $this->id  && $reaction->emoji->identifier === $emoji);
-            }, array('time' => 30))->then(function ($args) use ($resolve) {
+            $filter = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) use ($emoji) {
+                return ($user->id === $this->client->user->id && $reaction->message->id === $this->id && $reaction->emoji->identifier === $emoji);
+            };
+            
+            $prom = \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', $filter, array('time' => 30))->then(function ($args) use ($resolve) {
                 $resolve($args[0]);
-            }, function ($error) use ($reject) {
-                if(!($error instanceof \OutOfBoundsException)) {
+            })->otherwise(function ($error) use ($reject) {
+                if($error instanceof \RangeException) {
                     $reject(new \RangeException('Message Reaction did not arrive in time'));
+                } elseif(!($error instanceof \OutOfBoundsException)) {
+                    $reject($error);
                 }
             });
             
