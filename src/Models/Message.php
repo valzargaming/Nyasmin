@@ -308,7 +308,7 @@ class Message extends ClientBase {
     }
     
     /**
-     * Reacts to the message with the specified unicode or custom emoji. Resolves with an instance of MessageReaction
+     * Reacts to the message with the specified unicode or custom emoji. Resolves with an instance of MessageReaction.
      * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string  $emoji
      * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\MessageReaction
