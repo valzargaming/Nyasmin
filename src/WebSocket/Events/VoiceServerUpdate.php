@@ -22,6 +22,6 @@ class VoiceServerUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
     }
     
     function handle(array $data): void {
-        $this->client->emit('self.voiceServerUpdate', $data);
+        $this->client->emit('voiceServerUpdate', $data);
     }
 }

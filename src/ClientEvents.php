@@ -262,6 +262,13 @@ interface ClientEvents {
     function userUpdate(\CharlotteDunois\Yasmin\Models\User $new, ?\CharlotteDunois\Yasmin\Models\User $old);
     
     /**
+     * Emitted when Discord responds to the user's Voice State Update event.
+     * @return void
+     * @see https://discordapp.com/developers/docs/topics/gateway#voice-server-update
+     */
+    function voiceServerUpdate(array $data);
+    
+    /**
      * Emitted when a member's voice state changes (leaves/joins/etc.).
      * @return void
      */
