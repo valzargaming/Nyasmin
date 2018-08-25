@@ -43,7 +43,7 @@ $client->on('message', function ($message) {
     echo 'Received Message from '.$message->author->tag.' in '.($message->channel->type === 'text' ? 'channel #'.$message->channel->name : 'DM').' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
 });
 
-$client->login('YOUR_TOKEN');
+$client->login('YOUR_TOKEN')->done();
 $loop->run();
 ```
 
