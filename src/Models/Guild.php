@@ -1109,6 +1109,10 @@ class Guild extends ClientBase {
                 $member = $this->members->get($state['user_id']);
                 if($member) {
                     $member->_setVoiceState($state);
+                    
+                    if($member->voiceChannel !== null) {
+                        $member->voiceChannel->members->set($member->id, $member);
+                    }
                 }
             }
         }
