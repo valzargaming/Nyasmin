@@ -205,7 +205,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
      *   'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do)
      *   'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250)
-     *   'ws.presence' => array (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update)
+     *   'ws.presence' => array, (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update)
+     *   'ws.presenceUpdate.ignoreUnknownUsers' => bool, (whether we ignore presence updates of uncached users, defaults to false)
      * )
      * ```
      *
@@ -948,6 +949,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',
             'ws.presence' => 'array',
+            'ws.presenceUpdate.ignoreUnknownUsers' => 'bool',
             'internal.api.instance' => 'class:CharlotteDunois\\Yasmin\\HTTP\\APIManager',
             'internal.storages.channels' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
             'internal.storages.emojis' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',

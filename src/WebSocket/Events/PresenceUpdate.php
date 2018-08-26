@@ -17,12 +17,14 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     protected $client;
     protected $clones = false;
+    protected $ignoreUnknown = false;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
         $clones = $this->client->getOption('disableClones', array());
         $this->clones = !($clones === true || \in_array('presenceUpdate', (array) $clones));
+        $this->ignoreUnknown = (bool) $this->Client->getOption('ws.presenceUpdate.ignoreUnknownUsers', false);
     }
     
     function handle(array $data): void {
@@ -33,6 +35,10 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         }
         
         if($user === null) {
+            if($this->ignoreUnknown) {
+                return;
+            }
+            
             $user = $this->client->fetchUser($data['user']['id']);
         } else {
             if(\count($data['user']) > 1 && $user->_shouldUpdate($data['user'])) {
