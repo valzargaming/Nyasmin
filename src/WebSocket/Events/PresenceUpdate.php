@@ -24,7 +24,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         
         $clones = $this->client->getOption('disableClones', array());
         $this->clones = !($clones === true || \in_array('presenceUpdate', (array) $clones));
-        $this->ignoreUnknown = (bool) $this->Client->getOption('ws.presenceUpdate.ignoreUnknownUsers', false);
+        $this->ignoreUnknown = (bool) $this->client->getOption('ws.presenceUpdate.ignoreUnknownUsers', false);
     }
     
     function handle(array $data): void {
