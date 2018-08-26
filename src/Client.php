@@ -949,7 +949,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'ws.encoding' => 'string',
             'ws.largeThreshold' => 'integer|min:50|max:250',
             'ws.presence' => 'array',
-            'ws.presenceUpdate.ignoreUnknownUsers' => 'bool',
+            'ws.presenceUpdate.ignoreUnknownUsers' => 'boolean',
             'internal.api.instance' => 'class:CharlotteDunois\\Yasmin\\HTTP\\APIManager',
             'internal.storages.channels' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
             'internal.storages.emojis' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
