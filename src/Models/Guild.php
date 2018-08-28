@@ -646,14 +646,19 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Fetches all guild members. Resolves with $this.
-     * @param string  $query  Limit fetch to members with similar usernames
-     * @param int     $limit  Maximum number of members to request
+     * Fetches all guild members. If `$query` is used, `$limit` must be set to a non-zero integer. Resolves with $this.
+     * @param string  $query  Limit fetch to members with similar usernames.
+     * @param int     $limit  Maximum number of members to request.
      * @return \React\Promise\ExtendedPromiseInterface
+     * @throws \InvalidArgumentException
      */
     function fetchMembers(string $query = '', int $limit = 0) {
+        if(!empty($query) && $limit <= 0) {
+            throw new \InvalidArgumentException('Invalid arguments given - if query is given, limit must be supplied as well');
+        }
+        
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($query, $limit) {
-            if($this->members->count() === $this->memberCount) {
+            if($this->members->count() >= $this->memberCount) {
                 $resolve($this);
                 return;
             }
@@ -668,7 +673,7 @@ class Guild extends ClientBase {
                 
                 $received += $members->count();
                 
-                if((!empty($query) && $members->count() < 1000) || ($limit > 0 && $received >= $limit) || $this->members->count() === $this->memberCount) {
+                if((!empty($query) && $members->count() < 1000) || ($limit > 0 && $received >= $limit) || $this->members->count() >= $this->memberCount) {
                     if(!empty($timers)) {
                         foreach($timers as $timer) {
                             $this->client->cancelTimer($timer);
@@ -702,7 +707,7 @@ class Guild extends ClientBase {
                 )
             ));
             
-            $timers[] = $this->client->addTimer(120, function () use (&$listener, &$timers, $reject) {
+            $timers[] = $this->client->addTimer(120, function () use (&$listener, &$timers, $reject, $resolve) {
                 foreach($timers as $timer) {
                     $this->client->cancelTimer($timer);
                 }
@@ -710,7 +715,10 @@ class Guild extends ClientBase {
                 if($this->members->count() < $this->memberCount) {
                     $this->client->removeListener('guildMembersChunk', $listener);
                     $reject(new \Exception('Members did not arrive in time'));
+                    return;
                 }
+                
+                $resolve($this);
             });
         }));
     }
