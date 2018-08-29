@@ -15,6 +15,11 @@ namespace CharlotteDunois\Yasmin\HTTP;
  */
 final class APIRequest {
     /**
+     * @var bool
+     */
+    static protected $throw;
+    
+    /**
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;
@@ -47,7 +52,7 @@ final class APIRequest {
     /**
      * @var array
      */
-    private $options = array();
+    protected $options = array();
     
     /**
      * Creates a new API Request.
@@ -64,6 +69,10 @@ final class APIRequest {
         $this->method = $method;
         $this->endpoint = \ltrim($endpoint, '/');
         $this->options = $options;
+        
+        if(self::$throw === null) {
+            self::$throw = (\PHP_VERSION_ID >= 70300);
+        }
     }
     
     /**
@@ -124,7 +133,7 @@ final class APIRequest {
             if(!empty($this->options['data'])) {
                 $options['multipart'][] = array(
                     'name' => 'payload_json',
-                    'contents' => \json_encode($this->options['data'])
+                    'contents' => \json_encode($this->options['data'], (self::$throw ? \JSON_THROW_ON_ERROR : 0))
                 );
             }
         } elseif(!empty($this->options['data'])) {
@@ -187,6 +196,7 @@ final class APIRequest {
      * @param \Psr\Http\Message\ResponseInterface  $response
      * @return mixed
      * @throws \RuntimeException
+     * @throws \JsonException
      */
     static function decodeBody(\Psr\Http\Message\ResponseInterface $response) {
         $body = (string) $response->getBody();
@@ -196,7 +206,7 @@ final class APIRequest {
             throw new \RuntimeException('Invalid API response: HTML response body received');
         }
         
-        $json = \json_decode($body, true);
+        $json = \json_decode($body, true, (self::$throw ? \JSON_THROW_ON_ERROR : 0));
         if($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \RuntimeException('Invalid API response: '.\json_last_error_msg());
         }

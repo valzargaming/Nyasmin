@@ -16,6 +16,9 @@ namespace CharlotteDunois\Yasmin\WebSocket\Encoding;
 class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     protected $etf;
     
+    /**
+     * Constructor.
+     */
     function __construct() {
         $this->etf = new \CharlotteDunois\Kimberly\Kimberly();
     }

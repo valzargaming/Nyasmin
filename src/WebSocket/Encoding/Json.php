@@ -15,6 +15,18 @@ namespace CharlotteDunois\Yasmin\WebSocket\Encoding;
  */
 class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     /**
+     * @var bool
+     */
+    protected $throw;
+    
+    /**
+     * Constructor.
+     */
+    function __construct() {
+        $this->throw = (\PHP_VERSION_ID >= 70300);
+    }
+    
+    /**
      * Returns encoding name (for gateway query string).
      * @return string
      */
@@ -36,9 +48,10 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @param string  $data
      * @return mixed
      * @throws \InvalidArgumentException
+     * @throws \JsonException
      */
     function decode(string $data) {
-        $msg = \json_decode($data, true);
+        $msg = \json_decode($data, true, 512, ($this->throw ? \JSON_THROW_ON_ERROR : 0));
         if($msg === null || \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \InvalidArgumentException('The JSON decoder was unable to decode the data. Error: '.\json_last_error_msg());
         }
@@ -50,9 +63,10 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
+     * @throws \JsonException
      */
     function encode($data): string {
-        return \json_encode($data);
+        return \json_encode($data, ($this->throw ? \JSON_THROW_ON_ERROR : 0));
     }
     
     /**
