@@ -322,6 +322,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $querystring['compress'] = $this->compressContext->getName();
         }
         
+        $reconnect = false;
+        
         if($this->gateway && (!$gateway || $this->gateway === $gateway)) {
             if(!$gateway) {
                 $gateway = $this->gateway;
@@ -342,7 +344,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $reconnect = true;
         } elseif(!empty($querystring)) {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
-            $reconnect = false;
         }
         
         $this->gateway = $gateway;
