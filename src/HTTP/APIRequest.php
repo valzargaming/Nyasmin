@@ -206,7 +206,7 @@ final class APIRequest {
             throw new \RuntimeException('Invalid API response: HTML response body received');
         }
         
-        $json = \json_decode($body, true, (self::$throw ? \JSON_THROW_ON_ERROR : 0));
+        $json = \json_decode($body, true, 512, (self::$throw ? \JSON_THROW_ON_ERROR : 0));
         if($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \RuntimeException('Invalid API response: '.\json_last_error_msg());
         }
