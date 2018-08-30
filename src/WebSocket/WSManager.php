@@ -339,8 +339,10 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             }
             
             $this->client->emit('reconnect');
+            $reconnect = true;
         } elseif(!empty($querystring)) {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
+            $reconnect = false;
         }
         
         $this->gateway = $gateway;
@@ -356,9 +358,9 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $this->wsStatus = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($gateway, $reconnect) {
             $connector = $this->connector;
-            $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject) {
+            $connector($gateway)->done(function (\Ratchet\Client\WebSocket $conn) use ($resolve, $reject, $reconnect) {
                 $this->ws = &$conn;
                 
                 if($this->compressContext) {
@@ -380,9 +382,19 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                 $this->sendIdentify();
                 $ready = false;
                 
-                $this->once('self.ws.ready', function () use (&$ready, $resolve) {
+                $this->once('self.ws.ready', function () use (&$ready, $resolve, $reconnect) {
+                    if($reconnect) {
+                        $this->client->user->setPresence($this->client->user->clientPresence);
+                    }
+                    
                     $ready = true;
                     $resolve();
+                });
+                
+                $this->on('ready', function () use ($reconnect) {
+                    if($reconnect) {
+                        $this->client->user->setPresence($this->client->user->clientPresence);
+                    }
                 });
                 
                 $this->once('self.ws.error', function ($error) use (&$ready, $reject) {
