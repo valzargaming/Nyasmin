@@ -116,6 +116,4 @@ class MessageMentions extends ClientBase {
         
         return parent::__get($name);
     }
-    
-    
 }
