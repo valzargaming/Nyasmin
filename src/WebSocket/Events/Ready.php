@@ -21,20 +21,21 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
-        $wsmanager->once('ready', function () {
+        $this->client->once('ready', function () {
             $this->ready = true;
         });
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         if(empty($data['user']['bot'])) {
-            $this->client->wsmanager()->emit('self.ws.error', 'User accounts are not supported');
+            $ws->emit('self.error', 'User accounts are not supported');
             return;
         }
         
-        $this->client->wsmanager()->setAuthenticated(true);
-        $this->client->wsmanager()->setSessionID($data['session_id']);
-        $this->client->wsmanager()->emit('self.ws.ready');
+        $ws->setAuthenticated(true);
+        $ws->setSessionID($data['session_id']);
+        
+        $ws->emit('self.ready');
         
         if($this->ready && $this->client->user !== null) {
             $this->client->user->_patch($data['user']);
@@ -42,7 +43,9 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
             return;
         }
         
-        $this->client->setClientUser($data['user']);
+        if($this->client->user === null) {
+            $this->client->setClientUser($data['user']);
+        }
         
         foreach($data['guilds'] as $guild) {
             if(!$this->client->guilds->has($guild['id'])) {
@@ -54,7 +57,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         // Emit ready after waiting N guilds * 1.2 seconds - we waited long enough for Discord to get the guilds to us
         $timer = $this->client->addTimer(\ceil(($this->client->guilds->count() * 1.2)), function () {
             if($this->ready === false) {
-                $this->client->wsmanager()->emit('ready');
+                $this->client->wsmanager()->emit('self.ws.ready');
             }
         });
         
@@ -72,7 +75,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
             
             if($unavailableGuilds === 0) {
                 $this->client->cancelTimer($timer);
-                $this->client->wsmanager()->emit('ready');
+                $this->client->wsmanager()->emit('self.ws.ready');
             }
         });
     }

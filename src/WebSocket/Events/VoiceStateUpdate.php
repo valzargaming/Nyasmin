@@ -25,7 +25,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
         $this->clones = !($clones === true || \in_array('voiceStateUpdate', (array) $clones));
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $user = $this->client->users->get($data['user_id']);
         if($user) {
             if(empty($data['channel_id'])) {

@@ -15,38 +15,25 @@ namespace CharlotteDunois\Yasmin\WebSocket\Handlers;
  */
 class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     /**
-     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
-     */
-    public $heartbeat = null;
-    
-    /**
      * @var \CharlotteDunois\Yasmin\WebSocket\WSHandler
      */
     protected $wshandler;
     
     function __construct(\CharlotteDunois\Yasmin\WebSocket\WSHandler $wshandler) {
         $this->wshandler = $wshandler;
-        
-        $this->wshandler->wsmanager->on('close', function () {
-            $this->close();
-        });
     }
     
-    function handle($packet): void {
-        $this->wshandler->client->emit('debug', 'Connected to Gateway via '.\implode(', ', $packet['d']['_trace']));
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void {
+        $this->wshandler->wsmanager->client->emit('debug', 'Shard '.$ws->shardID.' connected to Gateway via '.\implode(', ', $packet['d']['_trace']));
+        
+        $this->wshandler->wsmanager->setLastIdentified(\time());
+        $ws->sendIdentify();
         
         $interval = $packet['d']['heartbeat_interval'] / 1000;
-        $this->wshandler->wsmanager->ratelimits['heartbeatRoom'] = (int) \ceil($this->wshandler->wsmanager->ratelimits['total'] / $interval);
+        $ws->ratelimits['heartbeatRoom'] = (int) \ceil($ws->ratelimits['total'] / $interval);
         
-        $this->heartbeat = $this->wshandler->client->getLoop()->addPeriodicTimer($interval, function () {
-            $this->wshandler->wsmanager->heartbeat();
+        $ws->heartbeat = $this->wshandler->wsmanager->client->loop->addPeriodicTimer($interval, function () use (&$ws) {
+            $ws->heartbeat();
         });
-    }
-    
-    private function close() {
-        if($this->heartbeat !== null) {
-            $this->wshandler->client->getLoop()->cancelTimer($this->heartbeat);
-            $this->heartbeat = null;
-        }
     }
 }

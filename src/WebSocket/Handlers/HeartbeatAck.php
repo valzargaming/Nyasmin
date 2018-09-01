@@ -20,7 +20,7 @@ class HeartbeatAck implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterf
         $this->wshandler = $wshandler;
     }
     
-    function handle($packet): void {
-        $this->wshandler->wsmanager->_pong(\microtime(true));
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void {
+        $ws->_pong(\microtime(true));
     }
 }

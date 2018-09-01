@@ -21,7 +21,7 @@ class GuildMembersChunk implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
         $this->client = $client;
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $members = new \CharlotteDunois\Yasmin\Utils\Collection();

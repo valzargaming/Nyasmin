@@ -13,6 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild. It's recommended to see if a guild is available before performing operations or reading data from it.
  *
  * @property string                                                         $id                           The guild ID.
+ * @property int                                                            $shardID                      On which shard this guild is.
  * @property bool                                                           $available                    Whether the guild is available.
  * @property string                                                         $name                         The guild name.
  * @property int                                                            $createdTimestamp             The timestamp when this guild was created.
@@ -137,7 +138,7 @@ class Guild extends ClientBase {
     /**
      * @internal
      */
-    function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild) {
+    function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild, ?int $shardID = null) {
         parent::__construct($client);
         
         $this->client->guilds->set($guild['id'], $this);
@@ -154,9 +155,13 @@ class Guild extends ClientBase {
         $this->presences = new $presences($client);
         $this->roles = new $roles($client, $this);
         
+        $snowflake = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id);
+        
         $this->id = $guild['id'];
         $this->available = (empty($guild['unavailable']));
-        $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
+        
+        $this->shardID = ($shardID !== null ? $shardID : $snowflake->getShardID($this->client->getOption('shardCount')));
+        $this->createdTimestamp = (int) $snowflake->timestamp;
         
         if($this->available) {
             $this->_patch($guild);
@@ -698,7 +703,7 @@ class Guild extends ClientBase {
             
             $this->client->on('guildMembersChunk', $listener);
             
-            $this->client->wsmanager()->send(array(
+            $this->client->shards->get($this->shardID)->ws->send(array(
                 'op' => \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['REQUEST_GUILD_MEMBERS'],
                 'd' => array(
                     'guild_id' => $this->id,

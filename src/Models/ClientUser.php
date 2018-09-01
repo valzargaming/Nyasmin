@@ -113,19 +113,20 @@ class ClientUser extends User {
     
     /**
      * Set your activity. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\Activity|string|null  $name  The activity name.
-     * @param int                                                  $type  Optional if first argument is an Activity. The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
+     * @param \CharlotteDunois\Yasmin\Models\Activity|string|null  $name     The activity name.
+     * @param int                                                  $type     Optional if first argument is an Activity. The type of your activity. Should be listening (2) or watching (3). For playing/streaming use ClientUser::setGame.
+     * @param int|null                                             $shardID  Unless explicitely given, all presences will be fanned out to all shards.
      * @return \React\Promise\ExtendedPromiseInterface
      */
-    function setActivity($name, int $type = 0) {
+    function setActivity($name, int $type = 0, ?int $shardID = null) {
         if($name === null) {
             return $this->setPresence(array(
                 'game' => null
-            ));
+            ), $shardID);
         } elseif($name instanceof \CharlotteDunois\Yasmin\Models\Activity) {
             return $this->setPresence(array(
                 'game' => $name->jsonSerialize()
-            ));
+            ), $shardID);
         }
         
         $presence = array(
@@ -136,21 +137,22 @@ class ClientUser extends User {
             )
         );
         
-        return $this->setPresence($presence);
+        return $this->setPresence($presence, $shardID);
     }
     
     /**
      * Set your playing game. Resolves with $this.
-     * @param string|null  $name  The game name.
-     * @param string       $url   If you're streaming, this is the url to the stream.
+     * @param string|null  $name     The game name.
+     * @param string       $url      If you're streaming, this is the url to the stream.
+     * @param int|null     $shardID  Unless explicitely given, all presences will be fanned out to all shards.
      * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 21 2
      */
-    function setGame(?string $name, string $url = '') {
+    function setGame(?string $name, string $url = '', ?int $shardID = null) {
         if($name === null) {
             return $this->setPresence(array(
                 'game' => null
-            ));
+            ), $shardID);
         }
         
         $presence = array(
@@ -166,7 +168,7 @@ class ClientUser extends User {
             $presence['game']['url'] = $url;
         }
         
-        return $this->setPresence($presence);
+        return $this->setPresence($presence, $shardID);
     }
     
     /**
@@ -187,11 +189,12 @@ class ClientUser extends User {
      *
      *  Any field in the first dimension is optional and will be automatically filled with the last known value.
      *
-     * @param array $presence
+     * @param array     $presence
+     * @param int|null  $shardID   Unless explicitely given, all presences will be fanned out to all shards.
      * @return \React\Promise\ExtendedPromiseInterface
      * @example ../../examples/docs-examples.php 29 10
      */
-    function setPresence(array $presence) {
+    function setPresence(array $presence, ?int $shardID = null) {
         if(empty($presence)) {
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
         }
@@ -235,7 +238,18 @@ class ClientUser extends User {
             $presence->_patch($this->clientPresence);
         }
         
-        return $this->client->wsmanager()->send($packet)->then(function () {
+        if($shardID === null) {
+            $prms = array();
+            foreach($this->client->shards as $shard) {
+                $prms[] = $shard->ws->send($packet);
+            }
+            
+            return \React\Promise\all($prms)->then(function () {
+                return $this;
+            });
+        }
+        
+        return $this->client->shards->get($shardID)->ws->send($packet)->then(function () {
             return $this;
         });
     }

@@ -23,5 +23,5 @@ interface WSHandlerInterface {
      * Handles packets.
      * @return void
      */
-    function handle($packet): void;
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void;
 }

@@ -21,7 +21,7 @@ class GuildRoleDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInter
         $this->client = $client;
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $role = $guild->roles->get($data['role_id']);

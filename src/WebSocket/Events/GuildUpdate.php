@@ -25,7 +25,7 @@ class GuildUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
         $this->clones = !($clones === true || \in_array('guildUpdate', (array) $clones));
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $guild = $this->client->guilds->get($data['id']);
         if($guild) {
             if(($data['unavailable'] ?? false)) {

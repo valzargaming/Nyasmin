@@ -13,18 +13,12 @@ namespace CharlotteDunois\Yasmin\WebSocket;
  * Handles WS messages.
  *
  * @property \CharlotteDunois\Yasmin\Client               $client
- * @property float|null                                   $lastPacketTime
- * @property int|null                                     $previousSequence
- * @property int|null                                     $sequence
  * @property \CharlotteDunois\Yasmin\WebSocket\WSManager  $wsmanager
  * @internal
  */
 class WSHandler {
-    private $handlers = array();
-    private $lastPacketTime = null;
-    private $previousSequence = null;
-    private $sequence = null;
-    private $wsmanager;
+    protected $wsmanager;
+    protected $handlers = array();
     
     /**
      * DO NOT initialize this class yourself.
@@ -42,25 +36,11 @@ class WSHandler {
     }
     
     function __get($name) {
-        switch($name) {
-            case 'client':
-                return $this->wsmanager->client;
-            break;
-            case 'lastPacketTime':
-                return $this->lastPacketTime;
-            break;
-            case 'previousSequence':
-                return $this->previousSequence;
-            break;
-            case 'sequence':
-                return $this->sequence;
-            break;
-            case 'wsmanager':
-                return $this->wsmanager;
-            break;
+        if(\property_exists($this, $name)) {
+            return $this->$name;
         }
         
-        return null;
+        throw new \RuntimeException('Undefined property: '.\get_class($this).'::$'.$name);
     }
     
     /**
@@ -79,21 +59,18 @@ class WSHandler {
      * Handles a message.
      * @return void
      */
-    function handle($message) {
-        $this->lastPacketTime = \microtime(true);
-        
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $message) {
         $packet = $this->wsmanager->encoding->decode($message);
-        $this->client->emit('raw', $packet);
+        $this->wsmanager->client->emit('raw', $packet);
         
         if(isset($packet['s'])) {
-            $this->previousSequence = $this->sequence;
-            $this->sequence = $packet['s'];
+            $ws->setSequence($packet['s']);
         }
         
-        $this->wsmanager->emit('debug', 'Received WS packet with OP code '.$packet['op']);
+        $this->wsmanager->emit('debug', 'Shard '.$ws->shardID.' received WS packet with OP code '.$packet['op']);
         
         if(isset($this->handlers[$packet['op']])) {
-            $this->handlers[$packet['op']]->handle($packet);
+            $this->handlers[$packet['op']]->handle($ws, $packet);
         }
     }
     

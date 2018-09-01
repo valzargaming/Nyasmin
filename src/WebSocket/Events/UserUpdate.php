@@ -25,7 +25,7 @@ class UserUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface 
         $this->clones = !($clones === true || \in_array('userUpdate', (array) $clones));
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $user = $this->client->users->get($data['id']);
         if($user) {
             $oldUser = null;

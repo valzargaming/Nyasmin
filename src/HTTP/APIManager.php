@@ -86,7 +86,7 @@ class APIManager {
         $this->client = $client;
         $this->endpoints = new \CharlotteDunois\Yasmin\HTTP\APIEndpoints($this);
         
-        $this->loop = $this->client->getLoop();
+        $this->loop = $this->client->loop;
         
         $this->bucketName = $client->getOption('http.ratelimitbucket.name', '\\CharlotteDunois\\Yasmin\\HTTP\\RatelimitBucket');
     }

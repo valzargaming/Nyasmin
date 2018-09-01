@@ -55,7 +55,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
             'VOICE_SERVER_UPDATE' => '\CharlotteDunois\Yasmin\WebSocket\Events\VoiceServerUpdate'
         );
         
-        $events = \array_diff_key($allEvents, \array_flip((array) $this->wshandler->client->getOption('ws.disabledEvents', array())));
+        $events = \array_diff_key($allEvents, \array_flip((array) $this->wshandler->wsmanager->client->getOption('ws.disabledEvents', array())));
         foreach($events as $name => $class) {
             $this->register($name, $class);
         }
@@ -73,12 +73,12 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
         throw new \Exception('Unable to find WS event');
     }
     
-    function handle($packet): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void {
         if(isset($this->wsevents[$packet['t']])) {
-            $this->wshandler->wsmanager->emit('debug', 'Handling WS event '.$packet['t']);
-            $this->wsevents[$packet['t']]->handle($packet['d']);
+            $this->wshandler->wsmanager->emit('debug', 'Shard '.$ws->shardID.' handling WS event '.$packet['t']);
+            $this->wsevents[$packet['t']]->handle($ws, $packet['d']);
         } else {
-            $this->wshandler->wsmanager->emit('debug', 'Received WS event '.$packet['t']);
+            $this->wshandler->wsmanager->emit('debug', 'Shard '.$ws->shardID.' received WS event '.$packet['t']);
         }
     }
     
@@ -92,6 +92,6 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
             throw new \RuntimeException('Specified event class does not implement interface');
         }
         
-        $this->wsevents[$name] = new $class($this->wshandler->client, $this->wshandler->wsmanager);
+        $this->wsevents[$name] = new $class($this->wshandler->wsmanager->client, $this->wshandler->wsmanager);
     }
 }

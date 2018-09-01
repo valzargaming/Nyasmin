@@ -25,7 +25,7 @@ class GuildRoleUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInter
         $this->clones = !($clones === true || \in_array('roleUpdate', (array) $clones));
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $role = $guild->roles->get($data['role']['id']);

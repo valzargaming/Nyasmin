@@ -73,14 +73,14 @@ class GuildStorage extends Storage {
      * @return \CharlotteDunois\Yasmin\Models\Guild
      * @internal
      */
-    function factory(array $data) {
+    function factory(array $data, ?int $shardID = null) {
         if($this->has($data['id'])) {
             $guild = $this->get($data['id']);
             $guild->_patch($data);
             return $guild;
         }
         
-        $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $data);
+        $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $data, $shardID);
         $this->set($guild->id, $guild);
         return $guild;
     }

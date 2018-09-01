@@ -12,11 +12,14 @@ namespace CharlotteDunois\Yasmin;
 /**
  * The client. What else do you expect this to say?
  *
- * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels   It holds all cached channels, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis     It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
- * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds     It holds all guilds, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences  It holds all cached presences (latest ones), mapped by user ID.
- * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users      It holds all cached users, mapped by ID.
+ * @property \React\EventLoop\LoopInterface                  $loop       The event loop.
+ * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels   Holds all cached channels, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis     Holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+ * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds     Holds all guilds, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences  Holds all cached presences (latest ones), mapped by user ID.
+ * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users      Holds all cached users, mapped by ID.
+ * @property int[]                                           $pings      The last 3 websocket pings of each shard.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection        $shards     Holds all shards, mapped by shard ID.
  * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user       User that the client is logged in as. The instance gets created when the client turns ready.
  *
  * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the trait - only for documentation purpose here.
@@ -77,44 +80,45 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * It holds all cached channels, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\ChannelStorage<\CharlotteDunois\Yasmin\Interfaces\ChannelInterface>
+     * @var \CharlotteDunois\Yasmin\Models\ChannelStorage
      * @internal
      */
     protected $channels;
     
     /**
      * It holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
-     * @var \CharlotteDunois\Yasmin\Models\EmojiStorage<\CharlotteDunois\Yasmin\Models\Emoji>
+     * @var \CharlotteDunois\Yasmin\Models\EmojiStorage
      * @internal
      */
     protected $emojis;
     
     /**
      * It holds all guilds, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\GuildStorage<\CharlotteDunois\Yasmin\Models\Guild>
+     * @var \CharlotteDunois\Yasmin\Models\GuildStorage
      * @internal
      */
     protected $guilds;
     
     /**
      * It holds all cached presences (latest ones), mapped by user ID.
-     * @var \CharlotteDunois\Yasmin\Models\PresenceStorage<\CharlotteDunois\Yasmin\Models\PresenceStorage>
+     * @var \CharlotteDunois\Yasmin\Models\PresenceStorage
      * @internal
      */
     protected $presences;
     
     /**
      * It holds all cached users, mapped by ID.
-     * @var \CharlotteDunois\Yasmin\Models\UserStorage<\CharlotteDunois\Yasmin\Models\User>
+     * @var \CharlotteDunois\Yasmin\Models\UserStorage
      * @internal
      */
     protected $users;
     
     /**
-     * The last 3 websocket pings (in ms).
-     * @var int[]
+     * Holds all shards, mapped by shard ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @internal
      */
-    public $pings = array();
+    protected $shards;
     
     /**
      * The UNIX timestamp of the last emitted ready event (or null if none yet).
@@ -162,8 +166,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     protected $ws;
     
     /**
-     * Gateway address.
-     * @var string
+     * Gateway address information.
+     * @var array
      * @internal
      */
     protected $gateway;
@@ -194,8 +198,9 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'messageCacheLifetime' => int, (invalidates messages in the store older than the specified duration)
      *   'messageSweepInterval' => int, (interval when the message cache gets invalidated (see messageCacheLifetime), defaults to messageCacheLifetime)
      *   'presenceCache' => bool, (enables presence cache, defaults to true)
-     *   'shardID' => int, (shard ID, 0-indexed, always needs to be smaller than shardCount, important for sharding)
-     *   'shardCount' => int, (shard count, important for sharding)
+     *   'minShardID' => int, (minimum shard ID to spawn - 0-indexed, if omitted, the client will determine the shards to spawn themself)
+     *   'maxShardID' => int, (maximum shard ID to spawn - 0-indexed, if omitted, the client will determine the shards to spawn themself)
+     *   'shardCount' => int, (shard count, if omitted, the client will determine the shards to spawn themself)
      *   'userSweepInterval' => int, (interval when the user cache gets invalidated (users sharing no mutual guilds get removed), defaults to 600)
      *   'http.ratelimitbucket.name' => string, (class name of the custom ratelimit bucket, has to implement the interface)
      *   'http.restTimeOffset' => int|float, (specifies how many seconds should be waited after one REST request before the next REST request should be done)
@@ -274,6 +279,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
         $this->presences = new $this->options['internal.storages.presences']($this);
         $this->users = new $this->options['internal.storages.users']($this);
         
+        $this->shards = new \CharlotteDunois\Yasmin\Utils\Collection();
+        
         $this->registerUtils();
     }
     
@@ -300,10 +307,22 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      * @internal
      */
     function __get($name) {
-        $props = array('channels', 'emojis', 'guilds', 'presences', 'users', 'user');
+        $props = array('loop', 'channels', 'emojis', 'guilds', 'presences', 'users', 'shards', 'user');
         
         if(\in_array($name, $props)) {
             return $this->$name;
+        }
+        
+        switch($name) {
+            case 'pings':
+                $pings = array();
+                
+                foreach($this->shards as $shard) {
+                    $pings = \array_merge($pings, $shard->ws->pings);
+                }
+                
+                return $pings;
+            break;
         }
         
         throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
@@ -316,7 +335,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     function serialize() {
         $vars = \get_object_vars($this);
         
-        unset($vars['loop'], $vars['ws'], $vars['api'], $vars['timers'],
+        unset($vars['loop'], $vars['ws'], $vars['api'], $vars['shards'], $vars['timers'],
                 $vars['onceListeners'], $vars['listeners']);
         
         if(!empty($vars['options']['http.ratelimitbucket.athena'])) {
@@ -413,24 +432,36 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     }
     
     /**
-     * Gets the average ping. Or NAN.
+     * Calculates the average ping. Or NAN.
      * @return int|float
      */
     function getPing() {
-        $cpings = \count($this->pings);
+        $pings = $this->pings;
+        $cpings = \count($pings);
+        
         if($cpings === 0) {
             return \NAN;
         }
         
-        return ((int) \ceil(\array_sum($this->pings) / $cpings));
+        return ((int) \ceil(\array_sum($pings) / $cpings));
     }
     
     /**
-     * Returns the WS status.
+     * Returns the computed WS status across all shards.
      * @return int
      */
     function getWSstatus() {
-        return $this->ws->status;
+        $largest = 0;
+        
+        foreach($this->shards as $shard) {
+            $largest = ($shard->ws->status > $largest ? $shard->ws->status : $largest);
+            
+            if($shard->ws->status === self::WS_STATUS_CONNECTED) {
+                return self::WS_STATUS_CONNECTED;
+            }
+        }
+        
+        return $largest;
     }
     
     /**
@@ -454,16 +485,16 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 return $resolve();
             }
             
-            if($this->gateway && !$force) {
-                $gateway = \React\Promise\resolve(array('url' => $this->gateway));
-            } elseif($this->gateway) {
-                $gateway = $this->api->getGateway();
+            if(!empty($this->gateway) && !$force) {
+                $gateway = \React\Promise\resolve($this->gateway);
+            } elseif(!empty($this->gateway)) {
+                $gateway = $this->api->getGateway(true);
             } else {
-                $gateway = $this->api->getGatewaySync();
+                $gateway = $this->api->getGatewaySync(true);
             }
             
             $gateway->then(function ($url) {
-                $this->gateway = $url['url'];
+                $this->gateway = $url;
                 
                 $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
                 $encoding = $this->getOption('ws.encoding');
@@ -472,7 +503,36 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                     $wsquery['encoding'] = $encoding;
                 }
                 
-                return $this->ws->connect($url['url'], $wsquery);
+                $minShard = $this->getOption('minShardID');
+                $maxShard = $this->getOption('maxShardID');
+                
+                if($minShard === null || $maxShard === null || $this->getOption('shardCount') === null) {
+                    $minShard = 0;
+                    $maxShard = $url['shards'] - 1;
+                    $this->options['shardCount'] = $url['shards'];
+                }
+                
+                $this->options['numShards'] = $maxShard - $minShard + 1;
+                $prom = \React\Promise\resolve();
+                
+                for($shard = $minShard; $shard <= $maxShard; $shard++) {
+                    $prom = $prom->then(function () use ($shard, $url, $wsquery) {
+                        $prom = $this->ws->connectShard($shard, $url['url'], $wsquery);
+                        
+                        if(!$this->shards->has($shard)) {
+                            $prom = $prom->then(function (\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws) use ($shard) {
+                                $shard = new \CharlotteDunois\Yasmin\Models\Shard($this, $shard, $ws);
+                                $this->shards->set($shard->id, $shard);
+                            });
+                        }
+                        
+                        return $prom;
+                    });
+                }
+                
+                return $prom->then(function () {
+                    return null;
+                });
             })->done($resolve, function ($error) use ($reject) {
                 $this->api->clear();
                 $this->ws->destroy();
@@ -937,7 +997,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'messageCacheLifetime' => 'integer|min:0',
             'messageSweepInterval' => 'integer|min:0',
             'presenceCache' => 'boolean',
-            'shardID' => 'integer|min:0',
+            'minShardID' => 'integer|min:0',
+            'maxShardID' => 'integer|min:0',
             'shardCount' => 'integer|min:1',
             'userSweepInterval' => 'integer|min:0',
             'http.ratelimitbucket.name' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\RatelimitBucketInterface,string_only',

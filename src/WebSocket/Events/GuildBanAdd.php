@@ -21,7 +21,7 @@ class GuildBanAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
         $this->client = $client;
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $user = $this->client->users->patch($data);

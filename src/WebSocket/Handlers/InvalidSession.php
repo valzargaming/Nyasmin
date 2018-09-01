@@ -20,13 +20,13 @@ class InvalidSession implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInte
         $this->wshandler = $wshandler;
     }
     
-    function handle($data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         if(!$data['d']) {
-            $this->wshandler->wsmanager->setSessionID(null);
+            $ws->setSessionID(null);
         }
         
-        $this->wshandler->client->getLoop()->addTimer(\mt_rand(1, 5), function () {
-            $this->wshandler->wsmanager->sendIdentify();
+        $this->wshandler->wsmanager->client->loop->addTimer(\mt_rand(1, 5), function () use (&$ws) {
+            $ws->sendIdentify();
         });
     }
 }

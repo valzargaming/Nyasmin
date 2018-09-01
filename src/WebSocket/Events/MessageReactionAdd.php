@@ -21,7 +21,7 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
         $this->client = $client;
     }
     
-    function handle(array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel) {
             $message = $channel->messages->get($data['message_id']);
