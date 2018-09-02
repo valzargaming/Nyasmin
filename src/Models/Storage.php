@@ -32,7 +32,25 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     }
     
     /**
-     * {@inheritdoc}
+     * @param string  $name
+     * @return bool
+     * @throws \Exception
+     * @internal
+     */
+    function __isset($name) {
+        try {
+            return $this->$name !== null;
+        } catch (\RuntimeException $e) {
+            if($e->getTrace()[0]['function'] === '__get') {
+                return false;
+            }
+            
+            throw $e;
+        }
+    }
+    
+    /**
+     * @param string  $name
      * @return mixed
      * @throws \RuntimeException
      * @internal

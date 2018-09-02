@@ -141,8 +141,6 @@ class Guild extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild, ?int $shardID = null) {
         parent::__construct($client);
         
-        $this->client->guilds->set($guild['id'], $this);
-        
         $channels = $this->client->getOption('internal.storages.channels');
         $emojis = $this->client->getOption('internal.storages.emojis');
         $members = $this->client->getOption('internal.storages.members');
@@ -155,17 +153,19 @@ class Guild extends ClientBase {
         $this->presences = new $presences($client);
         $this->roles = new $roles($client, $this);
         
+        $this->id = (string) $guild['id'];
         $snowflake = \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id);
-        
-        $this->id = $guild['id'];
-        $this->available = (empty($guild['unavailable']));
         
         $this->shardID = ($shardID !== null ? $shardID : $snowflake->getShardID($this->client->getOption('shardCount')));
         $this->createdTimestamp = (int) $snowflake->timestamp;
         
+        $this->available = (empty($guild['unavailable']));
+        
         if($this->available) {
             $this->_patch($guild);
         }
+        
+        $this->client->guilds->set($guild['id'], $this);
     }
     
     /**

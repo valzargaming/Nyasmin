@@ -174,6 +174,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * @param string  $name
      * @return bool
      * @throws \Exception
      * @internal
@@ -191,6 +192,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
+     * @param string  $name
      * @return mixed
      * @throws \RuntimeException
      */

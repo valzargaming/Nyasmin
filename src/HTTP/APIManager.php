@@ -100,7 +100,28 @@ class APIManager {
     }
     
     /**
+     * @param string  $name
+     * @return bool
+     * @throws \Exception
+     * @internal
+     */
+    function __isset($name) {
+        try {
+            return $this->$name !== null;
+        } catch (\RuntimeException $e) {
+            if($e->getTrace()[0]['function'] === '__get') {
+                return false;
+            }
+            
+            throw $e;
+        }
+    }
+    
+    /**
+     * @param string  $name
      * @return mixed
+     * @throws \RuntimeException
+     * @internal
      */
     function __get($name) {
         switch($name) {
@@ -112,7 +133,7 @@ class APIManager {
             break;
         }
         
-        return null;
+        throw new \RuntimeException('Unknown property '.\get_class($this).'::$'.$name);
     }
     
     /**
@@ -148,7 +169,7 @@ class APIManager {
     }
     
     /**
-     * Makes an API request synchronously
+     * Makes an API request synchronously.
      * @param string  $method
      * @param string  $endpoint
      * @param array   $options

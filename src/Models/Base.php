@@ -30,6 +30,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @param string  $name
      * @return bool
      * @throws \Exception
      * @internal
@@ -47,6 +48,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @param string  $name
      * @return mixed
      * @throws \RuntimeException
      * @internal
