@@ -14,16 +14,23 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface WSCompressionInterface {
     /**
+     * Checks if the system supports it.
+     * @return void
+     * @throws \Exception
+     */
+    static function supported(): void;
+    
+    /**
      * Returns compression name (for gateway query string).
      * @return string
      */
-    function getName(): string;
+    static function getName(): string;
     
     /**
      * Returns a boolean for the OP code 2 IDENTIFY packet 'compress' parameter. The parameter is for payload compression.
      * @return bool
      */
-    function isPayloadCompression(): bool;
+    static function isPayloadCompression(): bool;
     
     /**
      * Initializes the context.
@@ -37,13 +44,6 @@ interface WSCompressionInterface {
      * @return void
      */
     function destroy(): void;
-    
-    /**
-     * Checks if the system supports it.
-     * @return void
-     * @throws \Exception
-     */
-    static function supported(): void;
     
     /**
      * Decompresses data.

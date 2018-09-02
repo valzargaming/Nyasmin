@@ -493,7 +493,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 $gateway = $this->api->getGatewaySync(true);
             }
             
-            $gateway->then(function ($url) {
+            $gateway->then(function (array $url) {
                 $this->gateway = $url;
                 
                 $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
@@ -509,7 +509,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 if($minShard === null || $maxShard === null || $this->getOption('shardCount') === null) {
                     $minShard = 0;
                     $maxShard = $url['shards'] - 1;
-                    $this->options['shardCount'] = $url['shards'];
+                    $this->options['shardCount'] = (int) $url['shards'];
                 }
                 
                 $this->options['numShards'] = $maxShard - $minShard + 1;

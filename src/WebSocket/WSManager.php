@@ -108,11 +108,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     protected $compression;
     
     /**
-     * @var string
-     */
-    protected $compressionQS;
-    
-    /**
      * @var \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface
      */
     protected $encoding;
@@ -157,7 +152,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         $this->compression = $name;
-        $this->compressionQS = (new $name())->getName();
         
         if(!$this->connector) {
             $this->connector = new \Ratchet\Client\Connector($this->client->loop);
@@ -234,13 +228,14 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     }
     
     /**
-     * Connects the specified shard to the gateway url.
+     * Connects the specified shard to the gateway url. Resolves with an instance of WSConnection.
      * @return \React\Promise\ExtendedPromiseInterface
-     * @throws \Exception
+     * @throws \RuntimeException
+     * @see \CharlotteDunois\Yasmin\WebSocket\WSConnection
      */
     function connectShard(int $shardID, ?string $gateway = null, array $querystring = array()) {
         if(!$gateway && !$this->gateway) {
-            throw new \Exception('Unable to connect to unknown gateway for shard '.$shardID);
+            throw new \RuntimeException('Unable to connect to unknown gateway for shard '.$shardID);
         }
         
         if(($this->lastIdentify ?? 0) > (\time() - 5)) {
@@ -309,8 +304,9 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         if(!empty($querystring)) {
-            if($this->compressionQS !== '') {
-                $querystring['compress'] = $this->compressionQS;
+            if($this->compression !== '') {
+                $compression = $this->compression;
+                $querystring['compress'] = $compression::getName();
             }
             
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
