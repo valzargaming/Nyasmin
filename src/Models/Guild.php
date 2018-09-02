@@ -165,7 +165,7 @@ class Guild extends ClientBase {
             $this->_patch($guild);
         }
         
-        $this->client->guilds->set($guild['id'], $this);
+        $this->client->guilds->set($this->id, $this);
     }
     
     /**
