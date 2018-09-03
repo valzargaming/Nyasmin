@@ -39,6 +39,7 @@ final class Guild {
             'remove' => 'guilds/%s/members/%s'
         ),
         'bans' => array(
+            'get' => 'guilds/%s/bans/%s',
             'list' => 'guilds/%s/bans',
             'create' => 'guilds/%s/bans/%s',
             'remove' => 'guilds/%s/bans/%s'
@@ -160,6 +161,11 @@ final class Guild {
     function removeGuildMemberRole(string $guildid, string $userid, string $roleid, string $reason = '') {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['members']['removeRole'], $guildid, $userid, $roleid);
         return $this->api->makeRequest('DELETE', $url, array('auditLogReason' => $reason));
+    }
+    
+    function getGuildBan(string $guildid, string $userid) {
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['bans']['get'], $guildid, $userid);
+        return $this->api->makeRequest('GET', $url, array());
     }
     
     function getGuildBans(string $guildid) {

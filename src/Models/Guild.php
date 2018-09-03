@@ -591,7 +591,30 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Fetch all bans of the guild. Resolves with a Collection of array('reason' => string|null, 'user' => User), mapped by the user ID.
+     * Fetches a specific ban for a user. Resolves with an array `[ 'reason' => string|null, 'user' => User ]`.
+     * @param \CharlotteDunois\Yasmin\Models\User|string  $user     An User instance or the user ID.
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    function fetchBan($user) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
+            if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+                $user = $user->id;
+            }
+            
+            $this->client->apimanager()->endpoints->guild->getGuildBan($this->id, $user)->done(function ($data) use ($resolve) {
+                $user = $this->client->users->patch($data['user']);
+                $ban = array(
+                    'reason' => ($data['reason'] ?? null),
+                    'user' => $user
+                );
+                
+                $resolve($ban);
+            }, $reject);
+        }));
+    }
+    
+    /**
+     * Fetch all bans of the guild. Resolves with a Collection of array `[ 'reason' => string|null, 'user' => User ]`, mapped by the user ID.
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function fetchBans() {
