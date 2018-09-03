@@ -42,13 +42,13 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
                 $prm = \React\Promise\resolve();
             }
             
-            $prm->then(function () use ($message) {
+            $prm->done(function () use ($message) {
                 if($message->guild && !($message->member instanceof \CharlotteDunois\Yasmin\Models\GuildMember) && !$message->author->webhook) {
                     return $message->guild->fetchMember($message->author->id)->then(null, function () {
                         // Ignore failure
                     });
                 }
-            })->done(function () use ($message) {
+                
                 $this->client->emit('message', $message);
             }, array($this->client, 'handlePromiseRejection'));
         }
