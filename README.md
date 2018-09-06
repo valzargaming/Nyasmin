@@ -1,6 +1,6 @@
 # Yasmin [![Build Status](https://scrutinizer-ci.com/g/CharlotteDunois/Yasmin/badges/build.png?b=master)](https://scrutinizer-ci.com/g/CharlotteDunois/Yasmin/build-status/master)
 
-Yasmin is a Discord API library for PHP. Yasmin connects to the Real Time Gateway and interacts with the REST API.
+Yasmin is a Discord API library for PHP. Yasmin connects to the Gateway and interacts with the REST API.
 
 This library is **only** for PHP 7.1 (and later) and use in CLI. Only bot accounts are supported by Yasmin.
 
@@ -17,6 +17,8 @@ composer require charlottedunois/yasmin
 ```
 
 <br>
+
+It is important to listen to `error` events. If you don't attach an `error` listener, the event emitter will throw an exception.
 
 **Important Information**: All properties on class instances, which are implemented using a magic method (which means pretty much all properties), are **throwing** if the property doesn't exist.
 
@@ -54,7 +56,7 @@ There is no voice support, as there are many technical reasons against it.
 https://yasmin.neko.run
 
 # Issues
-If you think something is wrong, or not working as expected, then try to listen on the `error` event. This event gets emitted when an error inside the library (or event listener) gets caught. Make sure you also have a rejection handler for all promises, as unhandled promise rejections get swallowed. Feel free to open an issue with as much information as you can get.
+Make sure you also have a rejection handler for all promises, as unhandled promise rejections get swallowed. Feel free to open an issue with as much information as you can get.
 
 # Need help? Join the Yasmin or Discord API guild.
 
