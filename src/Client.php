@@ -28,7 +28,7 @@ namespace CharlotteDunois\Yasmin;
  * @method removeAllListeners($event = null)                   Remove all listeners from an event (or all listeners).
  */
 class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializable {
-    use \CharlotteDunois\Events\EventEmitterTrait;
+    use \CharlotteDunois\Events\EventEmitterErrorTrait;
     
     /**
      * The version of Yasmin.

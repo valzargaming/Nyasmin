@@ -20,7 +20,7 @@
         "react/filesystem": "^0.1.1",
         "react/promise": "^2.7.0",
         "guzzlehttp/guzzle": "^6.3.2",
-        "charlottedunois/eventemitter": "^0.1.4",
+        "charlottedunois/eventemitter": "^0.1.5",
         "charlottedunois/validator": "^0.2.0"
     },
     "require-dev": {
