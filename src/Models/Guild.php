@@ -591,9 +591,10 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Fetches a specific ban for a user. Resolves with an array `[ 'reason' => string|null, 'user' => User ]`.
+     * Fetches a specific ban for a user. Resolves with an instance of GuildBan.
      * @param \CharlotteDunois\Yasmin\Models\User|string  $user     An User instance or the user ID.
      * @return \React\Promise\ExtendedPromiseInterface
+     * @see \CharlotteDunois\Yasmin\Models\GuildBan
      */
     function fetchBan($user) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
@@ -603,10 +604,7 @@ class Guild extends ClientBase {
             
             $this->client->apimanager()->endpoints->guild->getGuildBan($this->id, $user)->done(function ($data) use ($resolve) {
                 $user = $this->client->users->patch($data['user']);
-                $ban = array(
-                    'reason' => ($data['reason'] ?? null),
-                    'user' => $user
-                );
+                $ban = new \CharlotteDunois\Yasmin\Models\GuildBan($this->client, $this, $user, ($data['reason'] ?? null));
                 
                 $resolve($ban);
             }, $reject);
@@ -614,8 +612,9 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Fetch all bans of the guild. Resolves with a Collection of array `[ 'reason' => string|null, 'user' => User ]`, mapped by the user ID.
+     * Fetch all bans of the guild. Resolves with a Collection of GuildBan instances, mapped by the user ID.
      * @return \React\Promise\ExtendedPromiseInterface
+     * @see \CharlotteDunois\Yasmin\Models\GuildBan
      */
     function fetchBans() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
@@ -624,10 +623,9 @@ class Guild extends ClientBase {
                 
                 foreach($data as $ban) {
                     $user = $this->client->users->patch($ban['user']);
-                    $collect->set($user->id, array(
-                        'reason' => ($ban['reason'] ?? null),
-                        'user' => $user
-                    ));
+                    $gban = new \CharlotteDunois\Yasmin\Models\GuildBan($this->client, $this, $user, ($ban['reason'] ?? null));
+                    
+                    $collect->set($user->id, $gban);
                 }
                 
                 $resolve($collect);
