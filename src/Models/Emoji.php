@@ -24,7 +24,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp, or null for unicode emoji.
  * @property string                                               $identifier         The identifier for the emoji.
- * @property string|null                                          $url                The URL to the emoji image, or null for unicode emoji.
+ * @property string                                               $url                DEPRECATED: The URL to the emoji image.
  */
 class Emoji extends ClientBase {
     protected $guild;
@@ -79,12 +79,8 @@ class Emoji extends ClientBase {
                 
                 return \rawurlencode($this->name);
             break;
-            case 'url':
-                if($this->id !== null) {
-                    return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['emojis'], $this->id, ($this->animated ? 'gif' : 'png'));
-                }
-                
-                return null;
+            case 'url': // TODO: DEPRECATED
+                return $this->getImageURL();
             break;
         }
         
@@ -183,6 +179,19 @@ class Emoji extends ClientBase {
                 $resolve();
             }, $reject);
         }));
+    }
+    
+    /**
+     * Get the image URL of the custom emoji.
+     * @return string
+     * @throws \BadMethodCallException  Throws on unicode emojis.
+     */
+    function getImageURL() {
+        if($this->id === null) {
+            throw new \BadMethodCallException('Unable to get image url of a non-guild emoji');
+        }
+        
+        return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['emojis'], $this->id, ($this->animated ? 'gif' : 'png'));
     }
     
     /**

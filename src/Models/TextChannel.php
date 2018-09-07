@@ -26,9 +26,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\MessageStorage                                            $messages               The storage with all cached messages.
  *
  * @property \DateTime                                                                                $createdAt              The DateTime instance of createdTimestamp.
- * @property \CharlotteDunois\Yasmin\Models\Message|null                                              $lastMessage            The last message, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null                                              $lastMessage            DEPRECATED: The last message, or null.
  * @property  \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                     $parent                 Returns the channel's parent, or null.
- * @property  bool|null                                                                               $permissionsLocked      If the permissionOverwrites match the parent channel, or null if no parent.
+ * @property  bool|null                                                                               $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
  */
 class TextChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
@@ -89,30 +89,14 @@ class TextChannel extends ClientBase
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
-            case 'lastMessage':
-                if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
-                    return $this->messages->get($this->lastMessageID);
-                }
-                
-                return null;
+            case 'lastMessage': // TODO: DEPRECATED
+                return $this->getLastMessage();
             break;
             case 'parent':
                 return $this->guild->channels->get($this->parentID);
             break;
-            case 'permissionsLocked':
-                $parent = $this->parent;
-                if($parent) {
-                    if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
-                        return false;
-                    }
-                    
-                    return !((bool) $this->permissionOverwrites->first(function ($perm) use ($parent) {
-                        $permp = $parent->permissionOverwrites->get($perm->id);
-                        return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
-                    }));
-                }
-                
-                return null;
+            case 'permissionsLocked': // TODO: DEPRECATED
+                return $this->isPermissionsLocked();
             break;
         }
         

@@ -26,17 +26,17 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
  * @property string                                                         $voiceSessionID   The voice session ID, or null.
  *
- * @property bool                                                           $bannable         Whether the member is bannable by the client user.
- * @property \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        The role of the member used to set their color, or null.
- * @property int|null                                                       $displayColor     The displayed color of the member.
- * @property string|null                                                    $displayHexColor  The displayed color of the member as hex string.
+ * @property bool                                                           $bannable         DEPRECATED: Whether the member is bannable by the client user.
+ * @property \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        DEPRECATED: The role of the member used to set their color, or null.
+ * @property int|null                                                       $displayColor     DEPRECATED: The displayed color of the member.
+ * @property string|null                                                    $displayHexColor  DEPRECATED: The displayed color of the member as hex string.
  * @property string                                                         $displayName      The displayed name.
- * @property \CharlotteDunois\Yasmin\Models\Role                            $highestRole      The role of the member with the highest position.
- * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        The role used to show the member separately in the memberlist, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Role                            $highestRole      DEPRECATED: The role of the member with the highest position.
+ * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        DEPRECATED: The role used to show the member separately in the memberlist, or null.
  * @property \DateTime                                                      $joinedAt         An DateTime instance of joinedTimestamp.
- * @property bool                                                           $kickable         Whether the guild member is kickable by the client user.
+ * @property bool                                                           $kickable         DEPRECATED: Whether the guild member is kickable by the client user.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
- * @property \CharlotteDunois\Yasmin\Models\Presence                        $presence         The presence of the member in this guild.
+ * @property \CharlotteDunois\Yasmin\Models\Presence|null                   $presence         The presence of the member in this guild, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null                       $user             The User instance of the member. This should never be null, unless you fuck up.
  * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $voiceChannel     The voice channel the member is in, if connected to voice, or null.
  */
@@ -86,94 +86,32 @@ class GuildMember extends ClientBase {
         }
         
         switch($name) {
-            case 'bannable':
-                if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
-                    return false;
-                }
-                
-                $member = $this->guild->me;
-                if($member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['BAN_MEMBERS']) === false) {
-                    return false;
-                }
-                
-                return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
+            case 'bannable': // TODO: DEPRECATED
+                return $this->isBannable();
             break;
-            case 'colorRole':
-                $roles = $this->roles->filter(function ($role) {
-                    return $role->color;
-                });
-                
-                if($roles->count() === 0) {
-                    return null;
-                }
-                
-                return $roles->reduce(function ($prev, $role) {
-                    if($prev === null) {
-                        return $role;
-                    }
-                    
-                    return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
-                });
+            case 'colorRole': // TODO: DEPRECATED
+                return $this->getColorRole();
             break;
-            case 'displayColor':
-                $colorRole = $this->colorRole;
-                if($colorRole !== null && $colorRole->color > 0) {
-                    return $colorRole->color;
-                }
-                
-                return null;
+            case 'displayColor': // TODO: DEPRECATED
+                return $this->getDisplayColor();
             break;
-            case 'displayHexColor':
-                $colorRole = $this->colorRole;
-                if($colorRole !== null && $colorRole->color > 0) {
-                    return $colorRole->hexColor;
-                }
-                
-                return null;
+            case 'displayHexColor': // TODO: DEPRECATED
+                return $this->getDisplayHexColor();
             break;
             case 'displayName':
                 return ($this->nickname ?? $this->user->username);
             break;
-            case 'highestRole':
-                return $this->roles->reduce(function ($prev, $role) {
-                    if($prev === null) {
-                        return $role;
-                    }
-                    
-                    return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
-                });
+            case 'highestRole': // TODO: DEPRECATED
+                return $this->getHighestRole();
             break;
-            case 'hoistRole':
-                $roles = $this->roles->filter(function ($role) {
-                    return $role->hoist;
-                });
-                
-                if($roles->count() === 0) {
-                    return null;
-                }
-                
-                return $roles->reduce(function ($prev, $role) {
-                    if($prev === null) {
-                        return $role;
-                    }
-                    
-                    return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
-                });
+            case 'hoistRole': // TODO: DEPRECATED
+                return $this->getHoistRole();
             break;
             case 'joinedAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->joinedTimestamp);
             break;
-            case 'kickable':
-                if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
-                    return false;
-                }
-                
-                $member = $this->guild->me;
-                if($member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['KICK_MEMBERS']) === false) {
-                    return false;
-                }
-                
-                return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
+            case 'kickable': // TODO: DEPRECATED
+                return $this->isKickable();
             break;
             case 'permissions':
                 if($this->id === $this->guild->ownerID) {
@@ -302,6 +240,124 @@ class GuildMember extends ClientBase {
                 $resolve($this);
             }, $reject);
         }));
+    }
+    
+    /**
+     * Gets the role the member is displayed with.
+     * @return \CharlotteDunois\Yasmin\Models\Role
+     */
+    function getColorRole() {
+        $roles = $this->roles->filter(function ($role) {
+            return $role->color;
+        });
+        
+        if($roles->count() === 0) {
+            return null;
+        }
+        
+        return $roles->reduce(function ($prev, $role) {
+            if($prev === null) {
+                return $role;
+            }
+            
+            return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
+        });
+    }
+    
+    /**
+     * Gets the displayed color of the member.
+     * @return int|null
+     */
+    function getDisplayColor() {
+        $colorRole = $this->getColorRole();
+        if($colorRole !== null && $colorRole->color > 0) {
+            return $colorRole->color;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Gets the displayed color of the member as hex string.
+     * @return string|null
+     */
+    function getDisplayHexColor() {
+        $colorRole = $this->getColorRole();
+        if($colorRole !== null && $colorRole->color > 0) {
+            return $colorRole->hexColor;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Gets the highest role of the member.
+     * @return \CharlotteDunois\Yasmin\Models\Role
+     */
+    function getHighestRole() {
+        return $this->roles->reduce(function ($prev, $role) {
+            if($prev === null) {
+                return $role;
+            }
+            
+            return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
+        });
+    }
+    
+    /**
+     * Gets the role the member is hoisted with.
+     * @return \CharlotteDunois\Yasmin\Models\Role|null
+     */
+    function getHoistRole() {
+        $roles = $this->roles->filter(function ($role) {
+            return $role->hoist;
+        });
+        
+        if($roles->count() === 0) {
+            return null;
+        }
+        
+        return $roles->reduce(function ($prev, $role) {
+            if($prev === null) {
+                return $role;
+            }
+            
+            return ($role->comparePositionTo($prev) > 0 ? $role : $prev);
+        });
+    }
+    
+    /**
+     * Whether the member can be banned by the client user.
+     * @return bool
+     */
+    function isBannable() {
+        if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
+            return false;
+        }
+        
+        $member = $this->guild->me;
+        if($member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['BAN_MEMBERS']) === false) {
+            return false;
+        }
+        
+        return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
+    }
+    
+    /**
+     * Whether the member can be kicked by the client user.
+     * @return bool
+     */
+    function isKickable() {
+        if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
+            return false;
+        }
+        
+        $member = $this->guild->me;
+        if($member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['KICK_MEMBERS']) === false) {
+            return false;
+        }
+        
+        return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
     }
     
     /**

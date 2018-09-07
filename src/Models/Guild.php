@@ -48,7 +48,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Role                            $defaultRole                  The guild's default role.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $embedChannel                 The guild's embed channel, or null.
  * @property \CharlotteDunois\Yasmin\Models\GuildMember                     $me                           The guild member of the client user.
- * @property string                                                         $nameAcronym                  The acronym that shows up in place of a guild icon.
+ * @property string                                                         $nameAcronym                  DEPRECATED: The acronym that shows up in place of a guild icon.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null  $systemChannel                The guild's system channel, or null.
  * @property bool                                                           $vanityURL                    Whether the guild has a vanity invite url.
  * @property bool                                                           $verified                     Whether the guild is verified.
@@ -195,15 +195,8 @@ class Guild extends ClientBase {
             case 'me':
                 return $this->members->get($this->client->user->id);
             break;
-            case 'nameAcronym':
-                \preg_match_all('/\w+/iu', $this->name, $matches);
-                
-                $name = '';
-                foreach($matches[0] as $word) {
-                    $name .= $word[0];
-                }
-                
-                return \mb_strtoupper($name);
+            case 'nameAcronym': // TODO: DEPRECATED
+                return $this->getNameAcronym();
             break;
             case 'systemChannel':
                 return $this->channels->get($this->systemChannelID);
@@ -805,6 +798,21 @@ class Guild extends ClientBase {
         }
         
         return null;
+    }
+    
+    /**
+     * Returns the guild's name acronym.
+     * @return string
+     */
+    function getNameAcronym() {
+        \preg_match_all('/\w+/iu', $this->name, $matches);
+        
+        $name = '';
+        foreach($matches[0] as $word) {
+            $name .= $word[0];
+        }
+        
+        return \mb_strtoupper($name);
     }
     
     /**

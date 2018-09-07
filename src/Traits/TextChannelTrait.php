@@ -170,6 +170,18 @@ trait TextChannelTrait {
     }
     
     /**
+     * Gets the last message in this channel if cached, or null.
+     * @return \CharlotteDunois\Yasmin\Models\Message|null
+     */
+    function getLastMessage() {
+        if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
+            return $this->messages->get($this->lastMessageID);
+        }
+        
+        return null;
+    }
+    
+    /**
      * Sends a message to a channel. Resolves with an instance of Message, or a Collection of Message instances, mapped by their ID.
      *
      * Options are as following (all are optional):

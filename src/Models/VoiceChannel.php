@@ -26,8 +26,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property  bool                                                                                     $full                   Checks if the voice channel is full.
  * @property  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
  * @property  \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                      $parent                 Returns the channel's parent, or null.
- * @property  bool|null                                                                                $permissionsLocked      If the permissionOverwrites match the parent channel, or null if no parent.
- * @property  bool                                                                                     $speakable              Whether the client has permission to send audio to the channel.
+ * @property  bool|null                                                                                $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
+ * @property  bool                                                                                     $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
  */
 class VoiceChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
@@ -79,32 +79,28 @@ class VoiceChannel extends ClientBase
         
         switch($name) {
             case 'full':
-                return ($this->userLimit > 0 && $this->userLimit > $this->members->count());
+                return ($this->userLimit > 0 && $this->userLimit <= $this->members->count());
             break;
             case 'parent':
                 return $this->guild->channels->get($this->parentID);
             break;
-            case 'permissionsLocked':
-                $parent = $this->parent;
-                if($parent) {
-                    if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
-                        return false;
-                    }
-                    
-                    return !((bool) $this->permissionOverwrites->first(function ($perm) use ($parent) {
-                        $permp = $parent->permissionOverwrites->get($perm->id);
-                        return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
-                    }));
-                }
-                
-                return null;
+            case 'permissionsLocked': // TODO: DEPRECATED
+                return $this->isPermissionsLocked();
             break;
-            case 'speakable':
-                return $this->permissionsFor($this->guild->me)->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['SPEAK']);
+            case 'speakable': // TODO: DEPRECATED
+                return $this->canSpeak();
             break;
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * Whether the client user can speak in this channel.
+     * @return bool
+     */
+    function canSpeak() {
+        return $this->permissionsFor($this->guild->me)->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['SPEAK']);
     }
     
     /**

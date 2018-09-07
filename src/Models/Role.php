@@ -23,9 +23,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                        $managed             Whether the role is managed by an integration.
  * @property bool                                        $mentionable         Whether the role is mentionable.
  *
- * @property int                                         $calculatedPosition  The role position in the role manager.
+ * @property int                                         $calculatedPosition  DEPRECATED: The role position in the role manager.
  * @property \DateTime                                   $createdAt           The DateTime instance of createdTimestamp.
- * @property bool                                        $editable            Whether the role can be edited by the client user.
+ * @property bool                                        $editable            DEPRECATED: Whether the role can be edited by the client user.
  * @property string                                      $hexColor            Returns the hex color of the role color.
  * @property \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.
  */
@@ -96,27 +96,14 @@ class Role extends ClientBase {
         }
         
         switch($name) {
-            case 'calculatedPosition':
-                $sorted = $this->guild->roles->sortByDesc(function ($role) {
-                    return $role->position;
-                });
-                
-                return $sorted->indexOf($this);
+            case 'calculatedPosition': // TODO: DEPRECATED
+                return $this->getCalculatedPosition();
             break;
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
-            case 'editable':
-                if($this->managed) {
-                    return false;
-                }
-                
-                $member = $this->guild->me;
-                if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_ROLES'])) {
-                    return false;
-                }
-                
-                return ($member->highestRole->comparePositionTo($this) > 0);
+            case 'editable': // TODO: DEPRECATED
+                return $this->isEditable();
             break;
             case 'hexColor':
                 return '#'.\dechex($this->color);
@@ -219,6 +206,35 @@ class Role extends ClientBase {
                 $resolve();
             }, $reject);
         }));
+    }
+    
+    /**
+     * Calculates the positon of the role in the Discord client.
+     * @return int
+     */
+    function getCalculatedPosition() {
+        $sorted = $this->guild->roles->sortByDesc(function ($role) {
+            return $role->position;
+        });
+        
+        return $sorted->indexOf($this);
+    }
+    
+    /**
+     * Whether the role can be edited by the client user.
+     * @return bool
+     */
+    function isEditable() {
+        if($this->managed) {
+            return false;
+        }
+        
+        $member = $this->guild->me;
+        if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_ROLES'])) {
+            return false;
+        }
+        
+        return ($member->highestRole->comparePositionTo($this) > 0);
     }
     
     /**

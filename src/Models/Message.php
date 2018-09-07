@@ -34,9 +34,9 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property \DateTime                                                                                   $createdAt          An DateTime instance of the createdTimestamp.
  * @property \DateTime|null                                                                              $editedAt           An DateTime instance of the editedTimestamp, or null.
- * @property bool                                                                                        $deletable          Whether the client user can delete the message.
- * @property bool                                                                                        $editable           Whether the client user can edit the message.
- * @property bool                                                                                        $pinnable           Whether the client user can pin the message.
+ * @property bool                                                                                        $deletable          DEPRECATED (with no replacement): Whether the client user can delete the message.
+ * @property bool                                                                                        $editable           DEPRECATED (with no replacement): Whether the client user can edit the message.
+ * @property bool                                                                                        $pinnable           DEPRECATED (with no replacement): Whether the client user can pin the message.
  * @property \CharlotteDunois\Yasmin\Models\Guild|null                                                   $guild              The correspondending guild (if message posted in a guild), or null.
  * @property \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild), or null.
  */
@@ -101,7 +101,7 @@ class Message extends ClientBase {
         $this->id = $message['id'];
         $this->author = (empty($message['webhook_id']) ? $this->client->users->patch($message['author']) : new \CharlotteDunois\Yasmin\Models\User($this->client, $message['author'], true));
         
-        $this->author->lastMessageID = $this->id;
+        $this->author->lastMessageID = $this->id; // TODO: DEPRECATED
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
@@ -143,7 +143,7 @@ class Message extends ClientBase {
                 
                 return null;
             break;
-            case 'deletable':
+            case 'deletable': // TODO: DEPRECATED
             case 'pinnable':
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                     $member = $this->channel->guild->members->get($this->author->id);
@@ -154,7 +154,7 @@ class Message extends ClientBase {
                 
                 return false;
             break;
-            case 'editable':
+            case 'editable': // TODO: DEPRECATED
                 return ($this->author->id === $this->client->user->id);
             break;
             case 'guild':

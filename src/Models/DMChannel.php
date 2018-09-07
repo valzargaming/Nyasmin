@@ -21,7 +21,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
  *
  * @property \DateTime                                      $createdAt          The DateTime instance of createdTimestamp.
- * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        The last message, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        DEPRECATED: The last message, or null.
  * @property  \CharlotteDunois\Yasmin\Models\User|null      $owner              The owner of this channel, or null.
  */
 class DMChannel extends ClientBase
@@ -84,12 +84,8 @@ class DMChannel extends ClientBase
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
-            case 'lastMessage':
-                if(!empty($this->lastMessageID) && $this->messages->has($this->lastMessageID)) {
-                    return $this->messages->get($this->lastMessageID);
-                }
-                
-                return null;
+            case 'lastMessage': // TODO: DEPRECATED
+                return $this->getLastMessage();
             break;
             case 'owner':
                 return $this->client->users->get($this->ownerID);

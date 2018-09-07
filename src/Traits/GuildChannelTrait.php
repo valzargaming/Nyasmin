@@ -199,6 +199,28 @@ trait GuildChannelTrait {
     }
     
     /**
+     * Whether the permission overwrites match the parent channel (permissions synced).
+     * @return bool
+     * @throws \BadMethodCallException
+     */
+    function isPermissionsLocked() {
+        if($this->parentID === null) {
+            throw new \BadMethodCallException('This channel does not have a parent');
+        }
+        
+        $parent = $this->parent;
+        
+        if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
+            return false;
+        }
+        
+        return !((bool) $this->permissionOverwrites->first(function ($perm) use ($parent) {
+            $permp = $parent->permissionOverwrites->get($perm->id);
+            return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
+        }));
+    }
+    
+    /**
      * Returns the permissions for the given member.
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Models\Permissions
