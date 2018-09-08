@@ -50,7 +50,8 @@ $loop->run();
 ```
 
 # Voice Support
-There is no voice support, as there are many technical reasons against it.
+There is no voice support currently. There are plans to make a voice client using pthreads (to allow the main thread a break).
+For simple music streaming, you can use Lavalink with [Luna](https://github.com/CharlotteDunois/Luna).
 
 # Documentation
 https://yasmin.neko.run
