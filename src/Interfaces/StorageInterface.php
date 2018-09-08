@@ -59,9 +59,7 @@ interface StorageInterface extends \Countable, \Iterator {
      * Returns a copy of itself.
      * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
      */
-    function copy() {
-        return (new self($this->data));
-    }
+    function copy();
     
     /**
      * Determines if a given key exists in the collection.
