@@ -97,6 +97,10 @@ class User extends ClientBase {
      */
     public $lastMessageID;
     
+    /**
+     * Whether the user fetched this user.
+     * @var bool
+     */
     protected $userFetched = false;
     
     /**
