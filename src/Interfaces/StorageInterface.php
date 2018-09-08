@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all storages implement.
+ * Something all storages implement. The storage also is used as factory.
  */
 interface StorageInterface extends \Countable, \Iterator {
     /**
@@ -106,6 +106,13 @@ interface StorageInterface extends \Countable, \Iterator {
      * @return mixed|null
     */
     function last(?callable $closure = null);
+    
+    /**
+     * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance (or Collection).
+     * @param callable  $closure
+     * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
+    */
+    function filter(callable $closure);
     
     /**
      * Return the maximum value of a given key.
