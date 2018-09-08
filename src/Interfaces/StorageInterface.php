@@ -57,7 +57,7 @@ interface StorageInterface extends \Countable, \Iterator {
     
     /**
      * Returns a copy of itself.
-     * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
+     * @return StorageInterface
      */
     function copy();
     
@@ -100,9 +100,9 @@ interface StorageInterface extends \Countable, \Iterator {
     function clear();
     
     /**
-     * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance (or Collection).
+     * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance.
      * @param callable  $closure
-     * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
+     * @return StorageInterface
     */
     function filter(callable $closure);
     
@@ -121,10 +121,10 @@ interface StorageInterface extends \Countable, \Iterator {
     function last(?callable $closure = null);
     
     /**
-     * Sorts the storage by the given key in descending order. Returns a new Storage instance (or Collection).
+     * Sorts the storage by the given key in descending order. Returns a new Storage instance.
      * @param mixed|\Closure  $sortkey
      * @param int             $options
-     * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
+     * @return StorageInterface
     */
     function sortByDesc($sortkey, $options = \SORT_REGULAR);
     
