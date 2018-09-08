@@ -128,12 +128,36 @@ interface StorageInterface extends \Countable, \Iterator {
     function last(?callable $closure = null);
     
     /**
+     * Sorts the collection. Returns a new Storage instance.
+     * @param callable    $closure
+     * @param int         $options
+     * @return StorageInterface
+    */
+    function sort(?callable $closure = null, $options = SORT_REGULAR);
+    
+    /**
+     * Sorts the collection by the given key. Returns a new Storage instance.
+     * @param mixed|callable  $sortkey
+     * @param int             $options
+     * @param bool            $descending
+     * @return StorageInterface
+    */
+    function sortBy($sortkey, $options = \SORT_REGULAR, bool $descending = false);
+    
+    /**
      * Sorts the storage by the given key in descending order. Returns a new Storage instance.
      * @param mixed|\Closure  $sortkey
      * @param int             $options
      * @return StorageInterface
     */
     function sortByDesc($sortkey, $options = \SORT_REGULAR);
+    
+    /**
+     * Return the minimum value of a given key.
+     * @param mixed|null  $key
+     * @return int
+    */
+    function min($key = null);
     
     /**
      * Return the maximum value of a given key.

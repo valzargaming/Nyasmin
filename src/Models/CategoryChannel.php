@@ -12,16 +12,16 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild's category channel.
  *
- * @property string                                    $id                     The ID of the channel.
- * @property string                                    $name                   The channel name.
- * @property string                                    $type                   The channel type ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES}).
- * @property \CharlotteDunois\Yasmin\Models\Guild      $guild                  The guild this category channel belongs to.
- * @property int                                       $createdTimestamp       The timestamp of when this channel was created.
- * @property int                                       $position               The channel position.
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $permissionOverwrites   A collection of PermissionOverwrite instances.
+ * @property string                                               $id                     The ID of the channel.
+ * @property string                                               $name                   The channel name.
+ * @property string                                               $type                   The channel type ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES}).
+ * @property \CharlotteDunois\Yasmin\Models\Guild                 $guild                  The guild this category channel belongs to.
+ * @property int                                                  $createdTimestamp       The timestamp of when this channel was created.
+ * @property int                                                  $position               The channel position.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $permissionOverwrites   A collection of PermissionOverwrite instances.
  *
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $children               DEPRECATED: Returns all channels which are childrens of this category.
- * @property \DateTime                                 $createdAt              The DateTime instance of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface  $children               DEPRECATED: Returns all channels which are childrens of this category.
+ * @property \DateTime                                            $createdAt              The DateTime instance of createdTimestamp.
  */
 class CategoryChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
@@ -110,7 +110,7 @@ class CategoryChannel extends ClientBase
     
     /**
      * Returns all channels which are childrens of this category.
-     * @return \CharlotteDunois\Yasmin\Utils\Collection
+     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
      */
     function getChildren() {
         return $this->guild->channels->filter(function ($channel) {
