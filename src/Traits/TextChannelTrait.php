@@ -403,7 +403,8 @@ trait TextChannelTrait {
      */
     function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, ?int $timestamp = null) {
         if($timestamp === null) {
-            return $this->typings->delete($user->id);
+            $this->typings->delete($user->id);
+            return false;
         }
         
         $typing = $this->typings->get($user->id);

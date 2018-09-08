@@ -56,6 +56,14 @@ interface StorageInterface extends \Countable, \Iterator {
     function count();
     
     /**
+     * Returns a copy of itself.
+     * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
+     */
+    function copy() {
+        return (new self($this->data));
+    }
+    
+    /**
      * Determines if a given key exists in the collection.
      * @param mixed  $key
      * @return bool
@@ -94,6 +102,13 @@ interface StorageInterface extends \Countable, \Iterator {
     function clear();
     
     /**
+     * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance (or Collection).
+     * @param callable  $closure
+     * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
+    */
+    function filter(callable $closure);
+    
+    /**
      * Returns the first element that passes a given truth test.
      * @param callable|null  $closure
      * @return mixed|null
@@ -108,11 +123,12 @@ interface StorageInterface extends \Countable, \Iterator {
     function last(?callable $closure = null);
     
     /**
-     * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance (or Collection).
-     * @param callable  $closure
+     * Sorts the storage by the given key in descending order. Returns a new Storage instance (or Collection).
+     * @param mixed|\Closure  $sortkey
+     * @param int             $options
      * @return StorageInterface|\CharlotteDunois\Yasmin\Utils\Collection
     */
-    function filter(callable $closure);
+    function sortByDesc($sortkey, $options = \SORT_REGULAR);
     
     /**
      * Return the maximum value of a given key.
