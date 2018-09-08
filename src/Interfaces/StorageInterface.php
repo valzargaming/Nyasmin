@@ -100,6 +100,13 @@ interface StorageInterface extends \Countable, \Iterator {
     function clear();
     
     /**
+     * Returns the position of the given value in the storage. Returns null if the given value couldn't be found.
+     * @param mixed  $value
+     * @return int|null
+     */
+    function indexOf($value);
+    
+    /**
      * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance.
      * @param callable  $closure
      * @return StorageInterface
