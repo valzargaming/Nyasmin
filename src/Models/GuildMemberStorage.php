@@ -13,6 +13,10 @@ namespace CharlotteDunois\Yasmin\Models;
  * Guild Member Storage to store guild members, utilizes Collection.
  */
 class GuildMemberStorage extends Storage {
+    /**
+     * The guild this storage belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\Guild
+     */
     protected $guild;
     
     /**

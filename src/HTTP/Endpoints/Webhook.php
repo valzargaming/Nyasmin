@@ -32,6 +32,7 @@ final class Webhook {
     );
     
     /**
+     * Constructor.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;

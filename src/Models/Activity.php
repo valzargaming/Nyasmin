@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * Something someone does.
  *
  * @property string                                                  $name           The name of the activity.
- * @property int                                                     $type           The type.
+ * @property int                                                     $type           The activity type.
  * @property string|null                                             $url            The stream url, if streaming.
  *
  * @property string|null                                             $applicationID  The application ID associated with the activity, or null.
@@ -55,19 +55,76 @@ class Activity extends ClientBase {
         3 => 'watching'
     );
     
+    /**
+     * The name of the activity.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * The activity type.
+     * @var int
+     */
     protected $type;
+    
+    /**
+     * The stream url, if streaming.
+     * @var string|null
+     */
     protected $url;
     
+    /**
+     * The application ID associated with the activity, or null.
+     * @var string|null
+     */
     protected $applicationID;
+    
+    /**
+     * Assets for rich presence, or null.
+     * @var \CharlotteDunois\Yasmin\Models\RichPresenceAssets|null
+     */
     protected $assets;
+    
+    /**
+     * Details about the activity, or null.
+     * @var string|null
+     */
     protected $details;
+    
+    /**
+     * Party of the activity, or null.
+     * @var array|null
+     */
     protected $party;
+    
+    /**
+     * State of the activity, or null.
+     * @var string|null
+     */
     protected $state;
+    
+    /**
+     * Timestamps for the activity, or null.
+     * @var array|null
+     */
     protected $timestamps;
     
+    /**
+     * The activity flags (as bitfield), like if an activity is a spectate activity.
+     * @var int|null
+     */
     protected $flags;
+    
+    /**
+     * The ID that links to the activity session.
+     * @var string|null
+     */
     protected $sessionID;
+    
+    /**
+     * The sync ID. For spotify, this is the spotify track ID.
+     * @var string|null
+     */
     protected $syncID;
     
     /**
@@ -78,12 +135,12 @@ class Activity extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $activity) {
         parent::__construct($client);
         
-        $this->name = $activity['name'];
-        $this->type = $activity['type'];
-        $this->url = (!empty($activity['url']) ? $activity['url'] : null);
+        $this->name = (string) $activity['name'];
+        $this->type = (int) $activity['type'];
+        $this->url = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['url'] ?? null), 'string');
         
-        $this->applicationID = $activity['application_id'] ?? null;
-        $this->details = $activity['details'] ?? null;
+        $this->applicationID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['application_id'] ?? null), 'string');
+        $this->details = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['details'] ?? null), 'string');
         $this->party = (!empty($activity['party']) ?
             array(
                 ((string) ($activity['party']['id'] ?? '')),
@@ -93,7 +150,7 @@ class Activity extends ClientBase {
                         (isset($activity['party']['size'][1]) ? ((int) $activity['party']['size'][1]) : null)
                     ) : null)
             ) : null);
-        $this->state = $activity['state'] ?? null;
+        $this->state = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['state'] ?? null), 'string');
         
         $this->assets = (!empty($activity['assets']) ? (new \CharlotteDunois\Yasmin\Models\RichPresenceAssets($this->client, $this, $activity['assets'])) : null);
         $this->timestamps = (!empty($activity['timestamps']) ? array(
@@ -101,9 +158,9 @@ class Activity extends ClientBase {
             'end' => (!empty($activity['timestamps']['end']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime(((int) (((int) $activity['timestamps']['end']) / 1000))) : null)
         ) : null);
         
-        $this->flags = $activity['flags'] ?? null;
-        $this->sessionID = $activity['session_id'] ?? null;
-        $this->syncID = $activity['sync_id'] ?? null;
+        $this->flags = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['flags'] ?? null), 'int');
+        $this->sessionID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['session_id'] ?? null), 'string');
+        $this->syncID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['sync_id'] ?? null), 'string');
     }
     
     /**
@@ -119,7 +176,7 @@ class Activity extends ClientBase {
         
         switch($name) {
             case 'streaming':
-                return (bool) ($this->type === 1);
+                return ($this->type === 1);
             break;
         }
         

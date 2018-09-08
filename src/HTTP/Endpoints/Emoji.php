@@ -32,6 +32,7 @@ final class Emoji {
     protected $api;
     
     /**
+     * Constructor.
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager $api
      */
     function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api) {

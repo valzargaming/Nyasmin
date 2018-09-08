@@ -21,11 +21,34 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \DateTime   $createdAt          The DateTime instance of createdTimestamp.
  */
 class PartialGuild extends ClientBase {
+    /**
+     * The guild ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The guild name.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * The guild icon, or null.
+     * @var string
+     */
     protected $icon;
+    
+    /**
+     * The guild splash, or null.
+     * @var string
+     */
     protected $splash;
     
+    /**
+     * The timestamp when this guild was created.
+     * @var int
+     */
     protected $createdTimestamp;
     
     /**
@@ -34,8 +57,8 @@ class PartialGuild extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $guild) {
         parent::__construct($client);
         
-        $this->id = $guild['id'];
-        $this->name = $guild['name'];
+        $this->id = (string) $guild['id'];
+        $this->name = (string) $guild['name'];
         $this->icon = $guild['icon'] ?? null;
         $this->splash = $guild['splash'] ?? null;
         

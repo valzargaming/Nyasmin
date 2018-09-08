@@ -11,6 +11,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 
 /**
  * Handles the API.
+ *
  * @property \CharlotteDunois\Yasmin\Client             $client
  * @property \CharlotteDunois\Yasmin\HTTP\APIEndpoints  $endpoints
  * @internal

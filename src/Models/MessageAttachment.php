@@ -12,27 +12,62 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents an attachment (from a message).
  *
- * @property string                                           $id                 The attachment ID.
- * @property string                                           $filename           The filename.
- * @property int                                              $size               The filename in bytes.
- * @property string                                           $url                The url to the file.
- * @property int|null                                         $height             The height (if image), or null.
- * @property int|null                                         $width              The width (if image), or null.
- * @property int                                              $createdTimestamp   The timestamp of when this attachment was created.
+ * @property string     $id                 The attachment ID.
+ * @property string     $filename           The filename.
+ * @property int        $size               The filesize in bytes.
+ * @property string     $url                The url to the file.
+ * @property int|null   $height             The height (if image), or null.
+ * @property int|null   $width              The width (if image), or null.
+ * @property int        $createdTimestamp   The timestamp of when this attachment was created.
  *
- * @property \DateTime                                        $createdAt          An DateTime instance of the createdTimestamp.
+ * @property \DateTime  $createdAt          An DateTime instance of the createdTimestamp.
  */
 class MessageAttachment extends Base {
+    /**
+     * The attachment ID
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The filename.
+     * @var string
+     */
     protected $filename;
+    
+    /**
+     * The filesize in bytes.
+     * @var int
+     */
     protected $size;
+    
+    /**
+     * The url to the file.
+     * @var string
+     */
     protected $url;
+    
+    /**
+     * The height (if image), or null.
+     * @var int|null
+     */
     protected $height;
+    
+    /**
+     * The width (if image), or null.
+     * @var int|null
+     */
     protected $width;
     
+    /**
+     * The timestamp of when this attachment was created.
+     * @var int
+     */
     protected $createdTimestamp;
     
     /**
+     * Used for sending attachments.
+     * @var string
      * @internal
      */
     protected $attachment;
@@ -43,12 +78,12 @@ class MessageAttachment extends Base {
      */
     function __construct(array $attachment = array()) {
         if(!empty($attachment)) {
-            $this->id = $attachment['id'];
-            $this->filename = $attachment['filename'];
-            $this->size = $attachment['size'];
-            $this->url = $attachment['url'];
-            $this->height = (!empty($attachment['height']) ? $attachment['height'] : null);
-            $this->width = (!empty($attachment['width']) ? $attachment['width'] : null);
+            $this->id = (string) $attachment['id'];
+            $this->filename = (string) $attachment['filename'];
+            $this->size = (int) $attachment['size'];
+            $this->url = (string) $attachment['url'];
+            $this->height = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($attachment['height'] ?? null), 'int');
+            $this->width = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($attachment['width'] ?? null), 'int');
             
             $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         }
@@ -80,13 +115,14 @@ class MessageAttachment extends Base {
      * @param string  $filename    The filename.
      * @return $this
      */
-    function setAttachment($attachment, string $filename = '') {
+    function setAttachment(string $attachment, string $filename = '') {
         $this->attachment = $attachment;
         $this->filename = $filename;
         return $this;
     }
     
     /**
+     * Returns a proper message files array.
      * @return array
      * @internal
      */

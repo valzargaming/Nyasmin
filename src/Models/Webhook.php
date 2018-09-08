@@ -15,18 +15,52 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                    $id         The webhook ID.
  * @property string|null                               $name       The webhook default name, or null.
  * @property string|null                               $avatar     The webhook default avatar, or null.
- * @property string|null                               $channelID  The channel the webhook belongs to.
- * @property string|null                               $guildID    The guild the webhook belongs to, or null.
+ * @property string|null                               $channelID  The channel ID the webhook belongs to.
+ * @property string|null                               $guildID    The guild ID the webhook belongs to, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null  $owner      The owner of the webhook, or null.
- * @property string|null                               $token      The webhook token.
+ * @property string|null                               $token      The webhook token, or null.
  */
 class Webhook extends ClientBase {
+    /**
+     * The webhook ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The webhook default name, or null.
+     * @var string|null
+     */
     protected $name;
+    
+    /**
+     * The webhook default avatar, or null.
+     * @var string|null
+     */
     protected $avatar;
+    
+    /**
+     * The channel ID the webhook belongs to.
+     * @var string|null
+     */
     protected $channelID;
+    
+    /**
+     * The guild ID the webhook belongs to, or null.
+     * @var string|null
+     */
     protected $guildID;
+    
+    /**
+     * The owner of the webhook, or null.
+     * @var \CharlotteDunois\Yasmin\Models\User|null
+     */
     protected $owner;
+    
+    /**
+     * The webhook token, or null.
+     * @var string|null
+     */
     protected $token;
     
     /**
@@ -35,7 +69,7 @@ class Webhook extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $webhook) {
         parent::__construct($client);
         
-        $this->id = $webhook['id'];
+        $this->id = (string) $webhook['id'];
         $this->_patch($webhook);
     }
     
@@ -268,8 +302,8 @@ class Webhook extends ClientBase {
     function _patch(array $webhook) {
         $this->name = $webhook['name'] ?? null;
         $this->avatar = $webhook['avatar'] ?? null;
-        $this->channelID = $webhook['channel_id'] ?? null;
-        $this->guildID = $webhook['guild_id'] ?? null;
+        $this->channelID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($webhook['channel_id'] ?? null), 'string');
+        $this->guildID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($webhook['guild_id'] ?? null), 'string');
         $this->owner = (!empty($webhook['user']) ? $this->client->users->patch($webhook['user']) : null);
         $this->token = $webhook['token'] ?? null;
     }

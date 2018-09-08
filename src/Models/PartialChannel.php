@@ -13,19 +13,42 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a partial channel (of a guild or a group DM).
  *
  * @property string       $id                The channel ID.
- * @property string|null  $name              The channel name.
+ * @property string|null  $name              The channel name, or null.
  * @property string       $type              The type of the channel.
- * @property string|null  $icon              The icon of the channel.
+ * @property string|null  $icon              The icon of the channel, or null.
  * @property int          $createdTimestamp  The timestamp when this channel was created.
  *
  * @property \DateTime    $createdAt         The DateTime instance of createdTimestamp.
  */
 class PartialChannel extends ClientBase {
+    /**
+     * The channel ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The channel name, or null.
+     * @var string|null
+     */
     protected $name;
+    
+    /**
+     * The type of the channel.
+     * @var string
+     */
     protected $type;
+    
+    /**
+     * The icon of the channel, or null.
+     * @var string|null
+     */
     protected $icon;
     
+    /**
+     * The timestamp when this channel was created.
+     * @var int
+     */
     protected $createdTimestamp;
     
     /**
@@ -34,7 +57,7 @@ class PartialChannel extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client);
         
-        $this->id = $channel['id'];
+        $this->id = (string) $channel['id'];
         $this->name = $channel['name'] ?? null;
         $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->icon = $channel['icon'] ?? null;

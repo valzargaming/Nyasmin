@@ -15,36 +15,43 @@ namespace CharlotteDunois\Yasmin\HTTP;
  */
 final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
+     * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;
     
     /**
+     * The endpoint.
      * @var string
      */
     protected $endpoint;
     
     /**
+     * The requests limit.
      * @var int
      */
     protected $limit = 0;
     
     /**
+     * How many requests can be made.
      * @var int
      */
     protected $remaining = \INF;
     
     /**
+     * When the ratelimit gets reset.
      * @var int
      */
     protected $resetTime = 0;
     
     /**
-     * @var array
+     * The request queue.
+     * @var \CharlotteDunois\Yasmin\HTTP\APIRequest[]
      */
     protected $queue = array();
     
     /**
+     * Whether the bucket is busy.
      * @var bool
      */
     protected $busy = false;

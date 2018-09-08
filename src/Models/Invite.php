@@ -29,19 +29,76 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                                                                                  $url                 Returns the URL for the invite.
  */
 class Invite extends ClientBase {
+    /**
+     * The invite code.
+     * @var string
+     */
     protected $code;
+    
+    /**
+     * The guild this invite belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\Guild
+     */
     protected $guild;
+    
+    /**
+     * The channel which this invite belongs to.
+     * @var \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|\CharlotteDunois\Yasmin\Models\PartialChannel
+     */
     protected $channel;
     
+    /**
+     * When this invite was created, or null.
+     * @var int
+     */
     protected $createdTimestamp;
+    
+    /**
+     * The inviter, or null.
+     * @var \CharlotteDunois\Yasmin\Models\User|null
+     */
     protected $inviter;
+    
+    /**
+     * Maximum uses until the invite expires, or null.
+     * @var int|null
+     */
     protected $maxUses;
+    
+    /**
+     * Duration (in seconds) until the invite expires, or null.
+     * @var int|null
+     */
     protected $maxAge;
+    
+    /**
+     * If the invite is revoked, this will indicate it, or null.
+     * @var bool
+     */
     protected $revoked;
+    
+    /**
+     * If this invite grants temporary membership, or null.
+     * @var bool
+     */
     protected $temporary;
+    
+    /**
+     * Number of times this invite has been used, or null.
+     * @var int|null
+     */
     protected $uses;
     
+    /**
+     * Approximate amount of presences, or null.
+     * @var int|null
+     */
     protected $presenceCount;
+    
+    /**
+     * Approximate amount of members, or null.
+     * @var int|null
+     */
     protected $memberCount;
     
     /**

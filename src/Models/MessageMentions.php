@@ -12,12 +12,12 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Holds message mentions.
  *
- * @property \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $channels  The collection which holds all channel mentions.
+ * @property \CharlotteDunois\Yasmin\Models\Message      $message   The message these mentions belongs to.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection    $channels  The collection which holds all channel mentions, mapped by their ID.
  * @property bool                                        $everyone  Whether the message mentions @everyone or @here.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $members   The collection which holds all members mentions (only in guild channels). Only cached members can be put into this Collection.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $roles     The collection which holds all roles mentions.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $users     The collection which holds all users mentions.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection    $members   The collection which holds all members mentions (only in guild channels), mapped by their ID. Only cached members can be put into this Collection.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection    $roles     The collection which holds all roles mentions, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection    $users     The collection which holds all users mentions, mapped by their ID.
  */
 class MessageMentions extends ClientBase {
     /**
@@ -44,12 +44,40 @@ class MessageMentions extends ClientBase {
      */
     const PATTERN_USERS = '/<@!?(\d+)>/';
     
+    /**
+     * The message these mentions belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\Message
+     */
     protected $message;
     
+    /**
+     * The collection which holds all channel mentions, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $channels;
+    
+    /**
+     * Whether the message mentions @everyone or @here.
+     * @var bool
+     */
     protected $everyone;
+    
+    /**
+     * The collection which holds all members mentions (only in guild channels), mapped by their ID. Only cached members can be put into this Collection.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $members;
+    
+    /**
+     * The collection which holds all roles mentions, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $roles;
+    
+    /**
+     * The collection which holds all users mentions, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $users;
     
     /**

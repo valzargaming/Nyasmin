@@ -20,12 +20,40 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool    $custom      Whether the region is custom.
  */
 class VoiceRegion extends ClientBase {
+    /**
+     * The ID of the region.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The name of the region.
+     * @var string
+     */
     protected $name;
-    protected $sampleHostname;
+    
+    /**
+     * Whether this is a VIP voice region.
+     * @var bool
+     */
     protected $vip;
+    
+    /**
+     * Whether this is an optimal voice region for the client user.
+     * @var bool
+     */
     protected $optimal;
+    
+    /**
+     * Whether this voice region is deprecated and therefore should be avoided.
+     * @var bool
+     */
     protected $deprecated;
+    
+    /**
+     * Whether the region is custom.
+     * @var bool
+     */
     protected $custom;
     
     /**
@@ -34,8 +62,8 @@ class VoiceRegion extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $region) {
         parent::__construct($client);
         
-        $this->id = $region['id'];
-        $this->name = $region['name'];
+        $this->id = (string) $region['id'];
+        $this->name = (string) $region['name'];
         $this->vip = (bool) $region['vip'];
         $this->optimal = (bool) $region['optimal'];
         $this->deprecated = (bool) $region['deprecated'];

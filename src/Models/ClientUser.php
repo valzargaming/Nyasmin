@@ -14,23 +14,11 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class ClientUser extends User {
     /**
+     * The client's presence.
      * @var array
      * @internal
      */
     protected $clientPresence;
-    
-    /**
-     * Holds the latest set presence while waiting for the ratelimit to lift.
-     * WS Presence Update ratelimit 5/60s.
-     * @var array
-     * @internal
-     */
-    protected $firstPresence = array(
-        'presence' => null,
-        'promise' => null,
-        'count' => 0,
-        'time' => 0
-    );
     
     /**
      * @param \CharlotteDunois\Yasmin\Client $client
@@ -197,28 +185,6 @@ class ClientUser extends User {
     function setPresence(array $presence, ?int $shardID = null) {
         if(empty($presence)) {
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
-        }
-        
-        if($this->firstPresence['time'] > (\time() - 60)) {
-            $this->firstPresence['count']++;
-            
-            if($this->firstPresence['count'] > 5) {
-                $this->firstPresence['presence'] = $presence;
-                
-                if($this->firstPresence['promise'] === null) {
-                    $this->firstPresence['promise'] = new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-                        $this->client->addTimer((60 - (\time() - $this->firstPresence['time'])), function () use ($resolve, $reject) {
-                            $this->firstPresence['promise'] = null;
-                            $this->setPresence($this->firstPresence['presence'])->done($resolve, $reject);
-                        });
-                    });
-                }
-                
-                return $this->firstPresence['promise'];
-            }
-        } else {
-            $this->firstPresence['count'] = 1;
-            $this->firstPresence['time'] = \time();
         }
         
         $packet = array(

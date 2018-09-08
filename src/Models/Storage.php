@@ -15,6 +15,10 @@ namespace CharlotteDunois\Yasmin\Models;
 class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface, \Serializable {
     
+    /**
+     * The client this storage belongs to.
+     * @var \CharlotteDunois\Yasmin\Client
+     */
     protected $client;
     
     /**

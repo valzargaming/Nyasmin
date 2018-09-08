@@ -19,10 +19,34 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                              $smallText   The text of the small image, or null.
  */
 class RichPresenceAssets extends ClientBase {
+    /**
+     * The activity which these assets belong to.
+     * @var \CharlotteDunois\Yasmin\Models\Activity
+     */
     protected $activity;
+    
+    /**
+     * The ID of the large image, or null.
+     * @var string|null
+     */
     protected $largeImage;
+    
+    /**
+     * The text of the large image, or null.
+     * @var string|null
+     */
     protected $largeText;
+    
+    /**
+     * The ID of the small image, or null.
+     * @var string|null
+     */
     protected $smallImage;
+    
+    /**
+     * The text of the small image, or null.
+     * @var string|null
+     */
     protected $smallText;
     
     /**

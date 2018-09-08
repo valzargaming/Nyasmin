@@ -12,17 +12,41 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message application.
  *
- * @property string  $id           The ID of the application.
- * @property string  $name         The name of the application.
- * @property string  $icon         The hash of the application icon.
- * @property string  $coverImage   The hash of the application cover image.
- * @property string  $description  The description of the application.
+ * @property string       $id           The ID of the application.
+ * @property string       $name         The name of the application.
+ * @property string|null  $icon         The hash of the application icon, or null.
+ * @property string|null  $coverImage   The hash of the application cover image, or null.
+ * @property string       $description  The description of the application.
  */
 class MessageApplication extends ClientBase {
+    /**
+     * The ID of the application.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The name of the application.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * The hash of the application icon.
+     * @var string|null
+     */
     protected $icon;
+    
+    /**
+     * The hash of the application cover image.
+     * @var string|null
+     */
     protected $coverImage;
+    
+    /**
+     * The description of the application.
+     * @var string
+     */
     protected $description;
     
     /**
@@ -31,11 +55,11 @@ class MessageApplication extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $application) {
         parent::__construct($client);
         
-        $this->id = $application['id'];
-        $this->name = $application['name'];
-        $this->icon = $application['icon'];
-        $this->coverImage = $application['cover_image'];
-        $this->description = $application['description'];
+        $this->id = (string) $application['id'];
+        $this->name = (string) $application['name'];
+        $this->icon = $application['icon'] ?? null;
+        $this->coverImage = $application['cover_image'] ?? null;
+        $this->description = (string) $application['description'];
         
     }
     

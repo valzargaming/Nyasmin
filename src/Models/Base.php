@@ -37,7 +37,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
      */
     function __isset($name) {
         try {
-            return $this->$name !== null;
+            return ($this->$name !== null);
         } catch (\RuntimeException $e) {
             if($e->getTrace()[0]['function'] === '__get') {
                 return false;

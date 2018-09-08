@@ -12,10 +12,14 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a Group DM channel.
  *
- * @property  string|null  $applicationID  Returns the application ID which created the group DM channel.
- * @property  string|null  $icon           The icon of the Group DM channel.
+ * @property string|null  $applicationID  The application which created the group DM channel.
+ * @property string|null  $icon           The icon of the Group DM channel.
  */
 class GroupDMChannel extends DMChannel {
+    /**
+     * The application which created the group DM channel.
+     * @var string|null
+     */
     protected $applicationID;
     
     /**
@@ -24,7 +28,7 @@ class GroupDMChannel extends DMChannel {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $channel) {
         parent::__construct($client, $channel);
         
-        $this->applicationID = $channel['application_id'] ?? null;
+        $this->applicationID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['application_id'] ?? null), 'string');
         $this->icon = $channel['icon'] ?? null;
     }
     
@@ -99,11 +103,11 @@ class GroupDMChannel extends DMChannel {
      * @internal
      */
     function _patch(array $channel) {
-        $this->applicationID = $channel['application_id'] ?? $this->applicationID ?? null;
+        $this->applicationID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['application_id'] ?? $this->applicationID ?? null), 'string');
         $this->icon = $channel['icon'] ?? null;
         
-        $this->ownerID = $channel['owner_id'] ?? $this->ownerID ?? null;
-        $this->lastMessageID = $channel['last_message_id'] ?? $this->lastMessageID ?? null;
+        $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? $this->ownerID ?? null), 'string');
+        $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? $this->lastMessageID ?? null), 'string');
         
         if(isset($channel['recipients'])) {
             $this->recipients->clear();

@@ -52,41 +52,49 @@ final class APIEndpoints {
     );
     
     /**
+     * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;
     
     /**
+     * The channel endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Channel
      */
     public $channel;
     
     /**
+     * The emoji endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Emoji
      */
     public $emoji;
     
     /**
+     * The guild endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Guild
      */
     public $guild;
     
     /**
+     * The invite endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Invite
      */
     public $invite;
     
     /**
+     * The user endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\User
      */
     public $user;
     
     /**
+     * The voice endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Voice
      */
     public $voice;
     
     /**
+     * The webhook endpoints.
      * @var \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook
      */
     public $webhook;
@@ -108,6 +116,10 @@ final class APIEndpoints {
         $this->webhook = new \CharlotteDunois\Yasmin\HTTP\Endpoints\Webhook($api);
     }
     
+    /**
+     * Gets the current OAuth application.
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
     function getCurrentApplication() {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::ENDPOINTS['currentOAuthApplication'];
         return $this->api->makeRequest('GET', $url, array());
@@ -118,7 +130,6 @@ final class APIEndpoints {
      * @param string  $endpoint
      * @param string  ...$args
      * @return string
-     * @internal
      */
     static function format(string $endpoint, ...$args) {
         return \sprintf($endpoint, ...$args);

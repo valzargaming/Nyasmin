@@ -15,41 +15,49 @@ namespace CharlotteDunois\Yasmin\HTTP;
  */
 final class APIRequest {
     /**
+     * Whether we are using a PHP version which supports JSON errors throwing.
      * @var bool
      */
     static protected $throw;
     
     /**
+     * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;
     
     /**
+     * The url.
      * @var string
      */
     protected $url;
     
     /**
+     * The used deferred.
      * @var \React\Promise\Deferred
      */
     public $deferred;
     
     /**
+     * The request method.
      * @var string
      */
     private $method;
     
     /**
+     * The endpoint.
      * @var string
      */
     private $endpoint;
     
     /**
+     * How many times we've retried.
      * @var int
      */
     protected $retries = 0;
     
     /**
+     * Any request options.
      * @var array
      */
     protected $options = array();

@@ -14,6 +14,9 @@ namespace CharlotteDunois\Yasmin\WebSocket\Encoding;
  * @internal
  */
 class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
+    /**
+     * @var \CharlotteDunois\Kimberly\Kimberly
+     */
     protected $etf;
     
     /**

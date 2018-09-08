@@ -13,10 +13,27 @@ namespace CharlotteDunois\Yasmin\Traits;
  * The text based channel trait.
  */
 trait TextChannelTrait {
+    /**
+     * Collection of all typing users (contains arrays).
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
+    protected $typings;
+    
+    /**
+     * Triggered typings in this channel.
+     * @var array
+     * @internal
+     */
     protected $typingTriggered = array(
         'count' => 0,
         'timer' => null
     );
+    
+    /**
+     * The last message's ID, or nul.
+     * @var string|null
+     */
+    protected $lastMessageID;
     
     /**
      * @return string

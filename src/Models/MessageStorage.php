@@ -13,8 +13,22 @@ namespace CharlotteDunois\Yasmin\Models;
  * Message Storage to store and handle messages, utilizes Collection.
  */
 class MessageStorage extends Storage {
+    /**
+     * The channel this storage belongs to.
+     * @var \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface
+     */
     protected $channel;
+    
+    /**
+     * The sweep timer, or null.
+     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface|null
+     */
     protected $timer;
+    
+    /**
+     * Whether the message cache is enabled.
+     * @var bool
+     */
     protected $enabled;
     
     /**

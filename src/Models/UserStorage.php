@@ -14,7 +14,8 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class UserStorage extends Storage {
     /**
-     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
+     * The sweep timer, or null.
+     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface|null
      */
     protected $timer;
     

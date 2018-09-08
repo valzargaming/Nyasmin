@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin\Utils;
  * @property int         $processID  The ID of the process which generated this snowflake.
  * @property int         $increment  The increment index of the snowflake.
  * @property string      $binary     The binary representation of this snowflake.
- * @property string|int  $value     The snowflake value.
+ * @property string|int  $value      The snowflake value.
  * @property \DateTime   $date       A DateTime instance of the timestamp.
  */
 class Snowflake {

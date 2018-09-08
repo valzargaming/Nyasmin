@@ -12,22 +12,22 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild's voice channel.
  *
- * @property  string                                                                                   $id                     The ID of the channel.
- * @property  string                                                                                   $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
- * @property  int                                                                                      $createdTimestamp       When this channel was created.
- * @property  string                                                                                   $name                   The name of the channel.
- * @property  int                                                                                      $bitrate                The bitrate of the channel.
- * @property  \CharlotteDunois\Yasmin\Utils\Collection                                                 $members                Holds all members which currently are in the voice channel. ({@see \CharlotteDunois\Yasmin\Models\GuildMember})
- * @property  string|null                                                                              $parentID               The ID of the parent channel, or null.
- * @property  int                                                                                      $position               The position of the channel.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                  $permissionOverwrites   A collection of PermissionOverwrite instances.
- * @property  int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
+ * @property string                                                                                   $id                     The ID of the channel.
+ * @property string                                                                                   $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
+ * @property int                                                                                      $createdTimestamp       The timestamp of when this channel was created.
+ * @property string                                                                                   $name                   The name of the channel.
+ * @property int                                                                                      $bitrate                The bitrate of the channel.
+ * @property \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                                                 $members                Holds all members which currently are in the voice channel. ({@see \CharlotteDunois\Yasmin\Models\GuildMember})
+ * @property string|null                                                                              $parentID               The ID of the parent channel, or null.
+ * @property int                                                                                      $position               The position of the channel.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                                                 $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
+ * @property int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
  *
- * @property  bool                                                                                     $full                   Checks if the voice channel is full.
- * @property  \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
- * @property  \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                      $parent                 Returns the channel's parent, or null.
- * @property  bool|null                                                                                $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
- * @property  bool                                                                                     $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
+ * @property bool                                                                                     $full                   Checks if the voice channel is full.
+ * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                      $parent                 Returns the channel's parent, or null.
+ * @property bool|null                                                                                $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
+ * @property bool                                                                                     $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
  */
 class VoiceChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
@@ -35,18 +35,70 @@ class VoiceChannel extends ClientBase
                 \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
+    /**
+     * The guild the channel is in.
+     * @var \CharlotteDunois\Yasmin\Models\Guild
+     */
     protected $guild;
     
+    /**
+     * The ID of the channel.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The type of the channel.
+     * @var string
+     */
     protected $type;
+    
+    /**
+     * The timestamp of when this channel was created.
+     * @var int
+     */
     protected $createdTimestamp;
     
+    /**
+     * The name of the channel.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * The bitrate of the channel.
+     * @var int
+     */
     protected $bitrate;
+    
+    /**
+     * Holds all members which currently are in the voice channel.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $members;
+    
+    /**
+     * The ID of the parent channel, or null.
+     * @var string|null
+     */
     protected $parentID;
+    
+    /**
+     * The position of the channel.
+     * @var int
+     */
     protected $position;
+    
+    /**
+     * A collection of PermissionOverwrite instances, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $permissionOverwrites;
+    
+    /**
+     * The maximum amount of users allowed in the channel - 0 means unlimited.
+     * @var int
+     */
     protected $userLimit;
     
     /**
@@ -56,7 +108,7 @@ class VoiceChannel extends ClientBase
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->id = $channel['id'];
+        $this->id = (string) $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->members = new \CharlotteDunois\Yasmin\Utils\Collection();
         $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
@@ -138,11 +190,11 @@ class VoiceChannel extends ClientBase
      * @internal
      */
     function _patch(array $channel) {
-        $this->name = $channel['name'] ?? $this->name ?? '';
-        $this->bitrate = $channel['bitrate'] ?? $this->bitrate ?? 0;
-        $this->parentID = $channel['parent_id'] ?? $this->parentID ?? null;
-        $this->position = $channel['position'] ?? $this->position ?? 0;
-        $this->userLimit = $channel['user_limit'] ?? $this->userLimit ?? 0;
+        $this->name = (string) ($channel['name'] ?? $this->name ?? '');
+        $this->bitrate = (int) ($channel['bitrate'] ?? $this->bitrate ?? 0);
+        $this->parentID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['parent_id'] ?? $this->parentID ?? null), 'string');
+        $this->position = (int) ($channel['position'] ?? $this->position ?? 0);
+        $this->userLimit = (int) ($channel['user_limit'] ?? $this->userLimit ?? 0);
         
         if(isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();

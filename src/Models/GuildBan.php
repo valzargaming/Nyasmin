@@ -18,16 +18,19 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class GuildBan extends ClientBase {
     /**
+     * The guild this ban is from.
      * @var \CharlotteDunois\Yasmin\Models\Guild
      */
     protected $guild;
     
     /**
+     * The banned user.
      * @var \CharlotteDunois\Yasmin\Models\User
      */
     protected $user;
     
     /**
+     * The ban reason, or null.
      * @var string|null
      */
     protected $reason;

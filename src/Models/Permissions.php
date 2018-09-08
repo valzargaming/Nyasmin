@@ -68,6 +68,10 @@ class Permissions extends Base {
      */
     const CHANNEL_UNACCESSIBLE_PERMISSIONS = (1 << 3);
     
+    /**
+     * The bitfield value.
+     * @var int
+     */
     protected $bitfield;
     
     /**

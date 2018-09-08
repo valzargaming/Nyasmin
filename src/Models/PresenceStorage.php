@@ -13,6 +13,10 @@ namespace CharlotteDunois\Yasmin\Models;
  * Presence Storage, which utilizes Collection.
  */
 class PresenceStorage extends Storage {
+    /**
+     * Whether the presence cache is enabled.
+     * @var bool
+     */
     protected $enabled;
     
     /**
@@ -80,6 +84,10 @@ class PresenceStorage extends Storage {
      * @return $this
      */
     function delete($key) {
+        if(!$this->enabled) {
+            return $this;
+        }
+        
         parent::delete($key);
         if($this !== $this->client->presences) {
             $this->client->presences->delete($key);

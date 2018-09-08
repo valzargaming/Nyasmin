@@ -12,33 +12,33 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message.
  *
- * @property string                                                                                      $id                 The message ID.
- * @property \CharlotteDunois\Yasmin\Models\User                                                         $author             The user that created the message.
- * @property \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface                                     $channel            The channel this message was created in.
- * @property int                                                                                         $createdTimestamp   The timestamp of when this message was created.
- * @property int|null                                                                                    $editedTimestamp    The timestamp of when this message was edited, or null.
- * @property string                                                                                      $content            The message content.
- * @property string                                                                                      $cleanContent       The message content with all mentions replaced.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $attachments        A collection of attachments in the message - mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\MessageAttachment})
- * @property \CharlotteDunois\Yasmin\Models\MessageEmbed[]                                               $embeds             An array of embeds in the message.
- * @property \CharlotteDunois\Yasmin\Models\MessageMentions                                              $mentions           All valid mentions that the message contains.
- * @property bool                                                                                        $tts                Whether or not the message was Text-To-Speech.
- * @property string|null                                                                                 $nonce              A random number or string used for checking message delivery, or null.
- * @property bool                                                                                        $pinned             Whether the message is pinned or not.
- * @property bool                                                                                        $system             Whether the message is a system message.
- * @property string                                                                                      $type               The type of the message. ({@see Message::MESSAGE_TYPES})
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                    $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
- * @property string|null                                                                                 $webhookID          ID of the webhook that sent the message, if applicable, or null.
- * @property \CharlotteDunois\Yasmin\Models\MessageActivity|null                                         $activity           The activity attached to this message. Sent with Rich Presence-related chat embeds.
- * @property \CharlotteDunois\Yasmin\Models\MessageApplication|null                                      $application        The application attached to this message. Sent with Rich Presence-related chat embeds.
+ * @property string                                                   $id                 The message ID.
+ * @property \CharlotteDunois\Yasmin\Models\User                      $author             The user that created the message.
+ * @property \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface  $channel            The channel this message was created in.
+ * @property int                                                      $createdTimestamp   The timestamp of when this message was created.
+ * @property int|null                                                 $editedTimestamp    The timestamp of when this message was edited, or null.
+ * @property string                                                   $content            The message content.
+ * @property string                                                   $cleanContent       The message content with all mentions replaced.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                 $attachments        A collection of attachments in the message - mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\MessageAttachment})
+ * @property \CharlotteDunois\Yasmin\Models\MessageEmbed[]            $embeds             An array of embeds in the message.
+ * @property \CharlotteDunois\Yasmin\Models\MessageMentions           $mentions           All valid mentions that the message contains.
+ * @property bool                                                     $tts                Whether or not the message is Text-To-Speech.
+ * @property string|null                                              $nonce              A snowflake used for checking message delivery, or null.
+ * @property bool                                                     $pinned             Whether the message is pinned or not.
+ * @property bool                                                     $system             Whether the message is a system message.
+ * @property string                                                   $type               The type of the message. ({@see Message::MESSAGE_TYPES})
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                 $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
+ * @property string|null                                              $webhookID          ID of the webhook that sent the message, if applicable, or null.
+ * @property \CharlotteDunois\Yasmin\Models\MessageActivity|null      $activity           The activity attached to this message. Sent with Rich Presence-related chat embeds.
+ * @property \CharlotteDunois\Yasmin\Models\MessageApplication|null   $application        The application attached to this message. Sent with Rich Presence-related chat embeds.
  *
- * @property \DateTime                                                                                   $createdAt          An DateTime instance of the createdTimestamp.
- * @property \DateTime|null                                                                              $editedAt           An DateTime instance of the editedTimestamp, or null.
- * @property bool                                                                                        $deletable          DEPRECATED (with no replacement): Whether the client user can delete the message.
- * @property bool                                                                                        $editable           DEPRECATED (with no replacement): Whether the client user can edit the message.
- * @property bool                                                                                        $pinnable           DEPRECATED (with no replacement): Whether the client user can pin the message.
- * @property \CharlotteDunois\Yasmin\Models\Guild|null                                                   $guild              The correspondending guild (if message posted in a guild), or null.
- * @property \CharlotteDunois\Yasmin\Models\GuildMember|null                                             $member             The correspondending guildmember of the author (if message posted in a guild), or null.
+ * @property \DateTime                                                $createdAt          An DateTime instance of the createdTimestamp.
+ * @property \DateTime|null                                           $editedAt           An DateTime instance of the editedTimestamp, or null.
+ * @property bool                                                     $deletable          DEPRECATED (with no replacement): Whether the client user can delete the message.
+ * @property bool                                                     $editable           DEPRECATED (with no replacement): Whether the client user can edit the message.
+ * @property bool                                                     $pinnable           DEPRECATED (with no replacement): Whether the client user can pin the message.
+ * @property \CharlotteDunois\Yasmin\Models\Guild|null                $guild              The correspondending guild (if message posted in a guild), or null.
+ * @property \CharlotteDunois\Yasmin\Models\GuildMember|null          $member             The correspondending guildmember of the author (if message posted in a guild), or null.
  */
 class Message extends ClientBase {
     /**
@@ -70,25 +70,118 @@ class Message extends ClientBase {
      */
     public static $replySeparator = ' ';
     
+    /**
+     * The message ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The user that created the message.
+     * @var \CharlotteDunois\Yasmin\Models\User
+     */
     protected $author;
+    
+    /**
+     * The channel this message was created in.
+     * @var \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface
+     */
     protected $channel;
+    
+    /**
+     * The message content.
+     * @var string
+     */
     protected $content;
+    
+    /**
+     * The timestamp of when this message was created.
+     * @var int
+     */
     protected $createdTimestamp;
+    
+    /**
+     * The timestamp of when this message was edited, or null.
+     * @var int|null
+     */
     protected $editedTimestamp;
+    
+    /**
+     * Whether or not the message is Text-To-Speech.
+     * @var bool
+     */
     protected $tts;
+    
+    /**
+     * A snowflake used for checking message delivery, or null.
+     * @var string|null
+     */
     protected $nonce;
+    
+    /**
+     * Whether the message is pinned or not.
+     * @var bool
+     */
     protected $pinned;
+    
+    /**
+     * Whether the message is a system message.
+     * @var bool
+     */
     protected $system;
+    
+    /**
+     * The type of the message.
+     * @var string
+     */
     protected $type;
+    
+    /**
+     * ID of the webhook that sent the message, if applicable, or null.
+     * @var string|null
+     */
     protected $webhookID;
+    
+    /**
+     * The activity attached to this message. Sent with Rich Presence-related chat embeds.
+     * @var \CharlotteDunois\Yasmin\Models\MessageActivity|null
+     */
     protected $activity;
+    
+    /**
+     * The application attached to this message. Sent with Rich Presence-related chat embeds.
+     * @var \CharlotteDunois\Yasmin\Models\MessageApplication|null
+     */
     protected $application;
     
+    /**
+     * A collection of attachments in the message - mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $attachments;
+    
+    /**
+     * The message content with all mentions replaced.
+     * @var string
+     */
     protected $cleanContent;
+    
+    /**
+     * An array of embeds in the message.
+     * @var \CharlotteDunois\Yasmin\Models\MessageEmbed[]
+     */
     protected $embeds = array();
+    
+    /**
+     * All valid mentions that the message contains.
+     * @var \CharlotteDunois\Yasmin\Models\MessageMentions
+     */
     protected $mentions;
+    
+    /**
+     * A collection of message reactions, mapped by ID (or name).
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $reactions;
     
     /**
@@ -426,15 +519,15 @@ class Message extends ClientBase {
      * @internal
      */
     function _patch(array $message) {
-        $this->content = $message['content'] ?? $this->content ?? '';
+        $this->content = (string) ($message['content'] ?? $this->content ?? '');
         $this->editedTimestamp = (!empty($message['edited_timestamp']) ? (new \DateTime($message['edited_timestamp']))->getTimestamp() : $this->editedTimestamp);
         
-        $this->tts = $message['tts'] ?? $this->tts;
-        $this->nonce = $message['nonce'] ?? null;
-        $this->pinned = $message['pinned'] ?? $this->pinned;
+        $this->tts = (bool) ($message['tts'] ?? $this->tts);
+        $this->nonce = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($message['nonce'] ?? null), 'string');
+        $this->pinned = (bool) ($message['pinned'] ?? $this->pinned);
         $this->system = (isset($message['type']) ? ($message['type'] > 0) : $this->system);
         $this->type = (isset($message['type']) ? self::MESSAGE_TYPES[$message['type']] : $this->type);
-        $this->webhookID = $message['webhook_id'] ?? $this->webhookID;
+        $this->webhookID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($message['webhook_id'] ?? $this->webhookID), 'string');
         $this->activity = (!empty($message['activity']) ? (new \CharlotteDunois\Yasmin\Models\MessageActivity($this->client, $message['activity'])) : $this->activity);
         $this->application = (!empty($message['application']) ? (new \CharlotteDunois\Yasmin\Models\MessageApplication($this->client, $message['application'])) : $this->application);
         

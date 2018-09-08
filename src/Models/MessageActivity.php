@@ -31,8 +31,22 @@ class MessageActivity extends ClientBase {
         'JOIN_REQUEST' => 5
     );
     
+    /**
+     * The party ID associated with this message activity, or null.
+     * @var string|null
+     */
     protected $partyID;
+    
+    /**
+     * The message activity type.
+     * @var int
+     */
     protected $type;
+    
+    /**
+     * The user this message activity is for.
+     * @var \CharlotteDunois\Yasmin\Models\User
+     */
     protected $user;
     
     /**
@@ -41,10 +55,10 @@ class MessageActivity extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $activity) {
         parent::__construct($client);
         
-        $this->partyID = $activity['party_id'] ?? null;
-        $this->type = $activity['type'];
+        $this->partyID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['party_id'] ?? null), 'string');
+        $this->type = (int) $activity['type'];
         
-        if(!empty($activity['party_id'])) {
+        if($activity['party_id'] !== null) {
             $name = \explode(':', $activity['party_id']);
             $this->user = $this->client->users->get(($name[1] ?? $name[0]));
         }

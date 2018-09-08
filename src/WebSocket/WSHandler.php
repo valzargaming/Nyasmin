@@ -12,12 +12,20 @@ namespace CharlotteDunois\Yasmin\WebSocket;
 /**
  * Handles WS messages.
  *
- * @property \CharlotteDunois\Yasmin\Client               $client
  * @property \CharlotteDunois\Yasmin\WebSocket\WSManager  $wsmanager
  * @internal
  */
 class WSHandler {
+    /**
+     * The WS manager.
+     * @var \CharlotteDunois\Yasmin\WebSocket\WSManager
+     */
     protected $wsmanager;
+    
+    /**
+     * The handlers for WS messages, mapped by name.
+     * @var \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface[]
+     */
     protected $handlers = array();
     
     /**

@@ -12,33 +12,54 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a classic DM channel.
  *
- * @property string                                         $id                 The channel ID.
- * @property string                                         $type               The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
- * @property int                                            $createdTimestamp   The timestamp of when this channel was created.
- * @property  string|null                                   $ownerID            The owner ID of this channel, or null.
- * @property  \CharlotteDunois\Yasmin\Utils\Collection      $recipients         The recipients of this channel.
- * @property string|null                                    $lastMessageID      The last message ID, or null.
- * @property \CharlotteDunois\Yasmin\Models\MessageStorage  $messages           The storage with all cached messages.
+ * @property string                                               $id                 The channel ID.
+ * @property string                                               $type               The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
+ * @property int                                                  $createdTimestamp   The timestamp of when this channel was created.
+ * @property string|null                                          $ownerID            The owner ID of this channel, or null.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $recipients         The recipients of this channel, mapped by user ID.
+ * @property string|null                                          $lastMessageID      The last message ID, or null.
+ * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface  $messages           The storage with all cached messages.
  *
- * @property \DateTime                                      $createdAt          The DateTime instance of createdTimestamp.
- * @property \CharlotteDunois\Yasmin\Models\Message|null    $lastMessage        DEPRECATED: The last message, or null.
- * @property  \CharlotteDunois\Yasmin\Models\User|null      $owner              The owner of this channel, or null.
+ * @property \DateTime                                            $createdAt          The DateTime instance of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        DEPRECATED: The last message, or null.
+ * @property \CharlotteDunois\Yasmin\Models\User|null             $owner              The owner of this channel, or null.
  */
 class DMChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
                 \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
     
+    /**
+     * The storage with all cached messages.
+     * @var \CharlotteDunois\Yasmin\Interfaces\StorageInterface
+     */
     protected $messages;
-    protected $typings;
     
     protected $id;
+    
+    /**
+     * The channel type.
+     * @var string
+     */
     protected $type;
+    
+    /**
+     * The owner ID of this channel, or null.
+     * @var string|null
+     */
     protected $ownerID;
+    
+    /**
+     * The recipients of this channel, mapped by user ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $recipients;
     
+    /**
+     * The timestamp of when this channel was created.
+     * @var int
+     */
     protected $createdTimestamp;
-    protected $lastMessageID;
     
     /**
      * @internal
@@ -50,13 +71,13 @@ class DMChannel extends ClientBase
         $this->messages = new $storage($this->client, $this);
         $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
         
-        $this->id = $channel['id'];
+        $this->id = (string) $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
-        $this->lastMessageID = $channel['last_message_id'] ?? null;
+        $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? null), 'string');
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
-        $this->ownerID = $channel['owner_id'] ?? null;
+        $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? null), 'string');
         $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
         
         if(!empty($channel['recipients'])) {
@@ -111,8 +132,8 @@ class DMChannel extends ClientBase
      * @internal
      */
     function _patch(array $channel) {
-        $this->ownerID = $channel['owner_id'] ?? $this->ownerID ?? null;
-        $this->lastMessageID = $channel['last_message_id'] ?? $this->lastMessageID ?? null;
+        $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? $this->ownerID ?? null), 'string');
+        $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? $this->lastMessageID ?? null), 'string');
         
         if(isset($channel['recipients'])) {
             $this->recipients->clear();

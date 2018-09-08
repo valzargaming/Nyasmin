@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $username           The username.
  * @property string                                               $discriminator      The discriminator of this user.
  * @property boolean                                              $bot                Is the user a bot? Or are you a bot?
- * @property string                                               $avatar             The hash of the user's avatar.
+ * @property string|null                                          $avatar             The hash of the user's avatar, or null.
  * @property string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
  * @property boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account, or null if no information provided.
  * @property boolean|null                                         $verified           Whether the email on this account has been verified, or null if no information provided.
@@ -31,16 +31,64 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $tag                Username#Discriminator.
  */
 class User extends ClientBase {
+    /**
+     * The user ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The username.
+     * @var string
+     */
     protected $username;
+    
+    /**
+     * The discriminator of this user.
+     * @var string
+     */
     protected $discriminator;
+    
+    /**
+     * Is the user a bot? Or are you a bot?
+     * @var bool
+     */
     protected $bot;
+    
+    /**
+     * The hash of the user's avatar, or null.
+     * @var string|null
+     */
     protected $avatar;
+    
+    /**
+     * An email address or maybe nothing at all. More likely to be nothing at all.
+     * @var string
+     */
     protected $email;
+    
+    /**
+     * Whether the user has two factor enabled on their account, or null if no information provided.
+     * @var bool|null
+     */
     protected $mfaEnabled;
+    
+    /**
+     * Whether the email on this account has been verified, or null if no information provided.
+     * @var bool|null
+     */
     protected $verified;
+    
+    /**
+     * Determines wether the user is a webhook or not.
+     * @var bool
+     */
     protected $webhook;
     
+    /**
+     * The timestamp of when this user was created.
+     * @var int
+     */
     protected $createdTimestamp;
     
     /**
@@ -57,7 +105,7 @@ class User extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $user, bool $isWebhook = false, bool $userFetched = false) {
         parent::__construct($client);
         
-        $this->id = $user['id'];
+        $this->id = (string) $user['id'];
         $this->webhook = $isWebhook;
         $this->userFetched = $userFetched;
         
@@ -276,11 +324,11 @@ class User extends ClientBase {
      * @internal
      */
     function _patch(array $user) {
-        $this->username = $user['username'];
-        $this->discriminator = $user['discriminator'] ?? '0000';
+        $this->username = (string) $user['username'];
+        $this->discriminator = (string) ($user['discriminator'] ?? '0000');
         $this->bot = (!empty($user['bot']));
-        $this->avatar = $user['avatar'];
-        $this->email = (!empty($user['email']) ? $user['email'] : '');
+        $this->avatar = $user['avatar'] ?? null;
+        $this->email = (string) ($user['email'] ?? '');
         $this->mfaEnabled = (isset($user['mfa_enabled']) ? !empty($user['mfa_enabled']) : null);
         $this->verified = (isset($user['verified']) ? !empty($user['verified']) : null);
     }

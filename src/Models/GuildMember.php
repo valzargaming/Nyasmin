@@ -20,7 +20,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int                                                            $joinedTimestamp  The timestamp of when this member joined.
  * @property bool                                                           $selfDeaf         Whether the member is locally deafened.
  * @property bool                                                           $selfMute         Whether the member is locally muted.
- * @property bool                                                           $speaking         If the member is currently speaking.
  * @property \CharlotteDunois\Yasmin\Utils\Collection                       $roles            A Collection of all roles the member has, mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\Role})
  * @property bool                                                           $suppress         Whether you suppress the member.
  * @property string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
@@ -41,21 +40,76 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null               $voiceChannel     The voice channel the member is in, if connected to voice, or null.
  */
 class GuildMember extends ClientBase {
+    /**
+     * The guild this member belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\Guild
+     */
     protected $guild;
     
+    /**
+     * The ID of the member.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The nickname of the member, or null.
+     * @var string|null
+     */
     protected $nickname;
     
-    protected $deaf;
-    protected $mute;
+    /**
+     * Whether the member is server deafened.
+     * @var bool
+     */
+    protected $deaf = false;
+    
+    /**
+     * Whether the member is server muted.
+     * @var bool
+     */
+    protected $mute = false;
+    
+    /**
+     * Whether the member is locally deafened.
+     * @var bool
+     */
     protected $selfDeaf = false;
+    
+    /**
+     * Whether the member is locally muted.
+     * @var bool
+     */
     protected $selfMute = false;
-    protected $speaking = false;
+    
+    /**
+     * Whether you suppress the member.
+     * @var bool
+     */
     protected $suppress = false;
+    
+    /**
+     * The ID of the voice channel the member is in, or null.
+     * @var string|null
+     */
     protected $voiceChannelID;
+    
+    /**
+     * The voice session ID, or null.
+     * @var string|null
+     */
     protected $voiceSessionID;
     
+    /**
+     * The timestamp of when this member joined.
+     * @var int
+     */
     protected $joinedTimestamp;
+    
+    /**
+     * A Collection of all roles the member has, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $roles;
     
     /**
@@ -65,7 +119,7 @@ class GuildMember extends ClientBase {
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->id = $member['user']['id'];
+        $this->id = (string) $member['user']['id'];
         $this->client->users->patch($member['user']);
         
         $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
@@ -489,14 +543,6 @@ class GuildMember extends ClientBase {
      */
     function __toString() {
         return '<@'.(!empty($this->nickname) ? '!' : '').$this->id.'>';
-    }
-    
-    /**
-     * @return void
-     * @internal
-     */
-    function _setSpeaking(bool $speaking) {
-        $this->speaking = $speaking;
     }
     
     /**

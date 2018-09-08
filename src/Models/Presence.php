@@ -14,21 +14,25 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity the user is doing, or null.
  * @property string                                        $status    What do you expect this to be?
+ * @property string                                        $userID    The user ID this presence belongs to.
  *
  * @property \CharlotteDunois\Yasmin\Models\User|null      $user      The user this presence belongs to.
  */
 class Presence extends ClientBase {
     /**
+     * The user ID this presence belongs to.
      * @var string
      */
-    protected $userid;
+    protected $userID;
     
     /**
+     * The activity the user is doing, or null.
      * @var \CharlotteDunois\Yasmin\Models\Activity
      */
     protected $activity;
     
     /**
+     * What do you expect this to be?
      * @var string
      */
     protected $status;
@@ -42,7 +46,7 @@ class Presence extends ClientBase {
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $presence) {
         parent::__construct($client);
-        $this->userid = $this->client->users->patch($presence['user'])->id;
+        $this->userID = $this->client->users->patch($presence['user'])->id;
         
         $this->_patch($presence);
     }
@@ -60,7 +64,7 @@ class Presence extends ClientBase {
         
         switch($name) {
             case 'user':
-                return $this->client->users->get($this->userid);
+                return $this->client->users->get($this->userID);
             break;
         }
         

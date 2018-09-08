@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Guild        $guild               The guild the role belongs to.
  * @property string                                      $id                  The role ID.
  * @property string                                      $name                The role name.
- * @property int                                         $createdTimestamp    When the role was created.
+ * @property int                                         $createdTimestamp    The timestamp of when the role was created.
  * @property int                                         $color               The color of the role.
  * @property bool                                        $hoist               Whether the role gets displayed separately in the member list.
  * @property int                                         $position            The position of the role in the API.
@@ -58,17 +58,64 @@ class Role extends ClientBase {
         'DARK_NAVY' => 2899536
     );
     
+    /**
+     * The guild the role belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\Guild
+     */
     protected $guild;
     
+    /**
+     * The role ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The role name.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * The color of the role.
+     * @var int
+     */
     protected $color;
+    
+    /**
+     * Whether the role gets displayed separately in the member list.
+     * @var bool
+     */
     protected $hoist;
+    
+    /**
+     * The position of the role in the API.
+     * @var int
+     */
     protected $position;
+    
+    /**
+     * The permissions of the role.
+     * @var \CharlotteDunois\Yasmin\Models\Permissions
+     */
     protected $permissions;
+    
+    /**
+     * Whether the role is managed by an integration.
+     * @var bool
+     */
     protected $managed;
+    
+    /**
+     * Whether the role is mentionable.
+     * @var bool
+     */
     protected $mentionable;
     
+    /**
+     * The timestamp of when the role was created.
+     * @var int
+     */
     protected $createdTimestamp;
     
     /**
@@ -78,7 +125,7 @@ class Role extends ClientBase {
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->id = $role['id'];
+        $this->id = (string) $role['id'];
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->_patch($role);
@@ -317,12 +364,12 @@ class Role extends ClientBase {
      * @internal
      */
     function _patch(array $role) {
-        $this->name = $role['name'];
-        $this->color = $role['color'];
-        $this->hoist = $role['hoist'];
-        $this->position = $role['position'];
+        $this->name = (string) $role['name'];
+        $this->color = (int) $role['color'];
+        $this->hoist = (bool) $role['hoist'];
+        $this->position = (int) $role['position'];
         $this->permissions = new \CharlotteDunois\Yasmin\Models\Permissions($role['permissions']);
-        $this->managed = $role['managed'];
-        $this->mentionable = $role['mentionable'];
+        $this->managed = (bool) $role['managed'];
+        $this->mentionable = (bool) $role['mentionable'];
     }
 }

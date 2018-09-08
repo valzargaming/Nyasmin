@@ -24,22 +24,87 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property array|null        $thumbnail          The thumbnail in the format `[ 'url' => string, 'height' => int, 'width' => int ]`, or null.
  * @property array|null        $video              The video in the format `[ 'url' => string, 'height' => int, 'width' => int ]`, or null.
  * @property array|null        $provider           The provider in the format `[ 'name' => string, 'url' => string ]`, or null.
+ * @property array[]           $fields             An array of embed fields in the format `[ 'name' > string, 'value' => string, 'inline' => bool ]`.
  *
  * @property \DateTime|null    $datetime           The DateTime instance of timestamp, or null.
  */
 class MessageEmbed extends Base {
+    /**
+     * The embed type.
+     * @var string
+     */
     protected $type = 'rich';
+    
+    /**
+     * The title, or null.
+     * @var string|null
+     */
     protected $title;
+    
+    /**
+     * The author, or null.
+     * @var string|null
+     */
     protected $author;
+    
+    /**
+     * The description, or null.
+     * @var string|null
+     */
     protected $description;
+    
+    /**
+     * The URL, or null.
+     * @var string|null
+     */
     protected $url;
+    
+    /**
+     * The timestamp, or the set timestamp (as ISO string), or null.
+     * @var int|string|null
+     */
     protected $timestamp;
+    
+    /**
+     * The color, or null.
+     * @var int|null
+     */
     protected $color;
+    
+    /**
+     * The footer, or null.
+     * @var array|null
+     */
     protected $footer;
+    
+    /**
+     * The image, or null.
+     * @var array|null
+     */
     protected $image;
+    
+    /**
+     * The thumbnail, or null.
+     * @var array|null
+     */
     protected $thumbnail;
+    
+    /**
+     * The video, or null.
+     * @var array|null
+     */
     protected $video;
+    
+    /**
+     * The provider, or null.
+     * @var array|null
+     */
     protected $provider;
+    
+    /**
+     * An array of embed fields.
+     * @var array
+     */
     protected $fields = array();
     
     /**

@@ -17,26 +17,31 @@ namespace CharlotteDunois\Yasmin\HTTP;
  */
 final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
+     * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      */
     protected $api;
     
     /**
+     * The endpoint.
      * @var string
      */
     protected $endpoint;
     
     /**
-     * @var array
+     * The request queue.
+     * @var \CharlotteDunois\Yasmin\HTTP\APIRequest[]
      */
     protected $queue;
     
     /**
+     * The athena cache instance.
      * @var \CharlotteDunois\Athena\AthenaCache
      */
     protected $cache;
     
     /**
+     * Whether the bucket is busy.
      * @var bool
      */
     protected $busy = false;

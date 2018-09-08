@@ -22,13 +22,52 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\User|null             $owner                The User instance of the owner, or null.
  */
 class OAuthApplication extends ClientBase {
+    /**
+     * The application ID.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * The name of the application.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * The hash of the application hash, or null.
+     * @var string|null
+     */
     protected $icon;
+    
+    /**
+     * The application's description, or null.
+     * @var string|null
+     */
     protected $description;
+    
+    /**
+     * An array of RPC origin url strings, if RPC is enabled, or null.
+     * @var string[]|null
+     */
     protected $rpcOrigins;
+    
+    /**
+     * Whether the bot is public.
+     * @var bool
+     */
     protected $botPublic;
+    
+    /**
+     * Whether the bot requires a code grant (full OAuth flow).
+     * @var bool
+     */
     protected $botRequireCodeGrant;
+    
+    /**
+     * The User instance of the owner, or null.
+     * @var \CharlotteDunois\Yasmin\Models\User|null
+     */
     protected $owner;
     
     /**
@@ -37,8 +76,8 @@ class OAuthApplication extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $application) {
         parent::__construct($client);
         
-        $this->id = $application['id'];
-        $this->name = $application['name'];
+        $this->id = (string) $application['id'];
+        $this->name = (string) $application['name'];
         $this->icon = $application['icon'] ?? null;
         $this->description = $application['description'] ?? null;
         $this->rpcOrigins = $application['rpc_origins'] ?? null;

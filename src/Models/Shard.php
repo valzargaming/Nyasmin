@@ -16,11 +16,13 @@ namespace CharlotteDunois\Yasmin\Models;
  */
 class Shard extends ClientBase {
     /**
+     * The shard ID.
      * @var int
      */
     protected $id;
     
     /**
+     * The websocket connection of this shard.
      * @var \CharlotteDunois\Yasmin\WebSocket\WSConnection
      */
     protected $ws;

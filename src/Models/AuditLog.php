@@ -18,10 +18,28 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection  $webhooks  Holds the found webhooks in the audit log, mapped by their ID.
  */
 class AuditLog extends ClientBase {
+    /**
+     * Which guild this audit log is for.
+     * @var \CharlotteDunois\Yasmin\Models\Guild
+     */
     protected $guild;
     
+    /**
+     * Holds the entries, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $entries;
+    
+    /**
+     * Holds the found users in the audit log, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $users;
+    
+    /**
+     * Holds the found webhooks in the audit log, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $webhooks;
     
     /**

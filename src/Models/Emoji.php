@@ -27,15 +27,52 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $url                DEPRECATED: The URL to the emoji image.
  */
 class Emoji extends ClientBase {
+    /**
+     * The guild this emoji belongs to, or null.
+     * @var \CharlotteDunois\Yasmin\Models\Guild|null
+     */
     protected $guild;
     
+    /**
+     * The emoji ID, or null for unicode emoji.
+     * @var string|null
+     */
     protected $id;
+    
+    /**
+     * The emoji name.
+     * @var string
+     */
     protected $name;
+    
+    /**
+     * A collection of roles that this emoji is active for (empty if all).
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $roles;
+    
+    /**
+     * The user that created the emoji, or null.
+     * @var \CharlotteDunois\Yasmin\Models\User|null
+     */
     protected $user;
+    
+    /**
+     * Does the emoji require colons?
+     * @var bool
+     */
     protected $requireColons;
+    
+    /**
+     * Is the emoji managed?
+     * @var bool
+     */
     protected $managed;
     
+    /**
+     * The timestamp of when this emoji was created, or null for unicode emoji.
+     * @var int
+     */
     protected $createdTimestamp;
     
     /**
@@ -44,7 +81,7 @@ class Emoji extends ClientBase {
     function __construct(\CharlotteDunois\Yasmin\Client $client, ?\CharlotteDunois\Yasmin\Models\Guild $guild, array $emoji) {
         parent::__construct($client);
         
-        $this->id = (!empty($emoji['id']) ? $emoji['id'] : null);
+        $this->id = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($emoji['id'] ?? null), 'string');
         $this->createdTimestamp = ($this->id ? ((int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp) : null);
         
         $this->guild = ($this->id ? $guild : null);
@@ -271,7 +308,7 @@ class Emoji extends ClientBase {
      * @internal
      */
     function _patch(array $emoji) {
-        $this->name = $emoji['name'];
+        $this->name = (string) $emoji['name'];
         $this->user = (!empty($emoji['user']) ? $this->client->users->patch($emoji['user']) : null);
         $this->animated = (bool) ($emoji['animated'] ?? false);
         $this->managed = (bool) ($emoji['managed'] ?? false);

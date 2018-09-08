@@ -233,51 +233,6 @@ class DataHelpers {
     }
     
     /**
-     * Splits a string into multiple chunks at a designated character that do not exceed a specific length.
-     *
-     * Options will be merged into default split options (see Message), so missing elements will get added.
-     * ```
-     * array(
-     *     'before' => string, (the string to add before the chunk)
-     *     'after' => string, (the string to add after the chunk)
-     *     'char' => string, (the string to split on)
-     *     'maxLength' => int (the max. length of each chunk)
-     * )
-     * ```
-     *
-     * @param string  $text
-     * @param array   $options  Options controlling the behaviour of the split.
-     * @return string[]
-     * @see \CharlotteDunois\Yasmin\Models\Message
-     */
-    static function splitMessage(string $text, array $options = array()) {
-        $options = \array_merge(\CharlotteDunois\Yasmin\Models\Message::DEFAULT_SPLIT_OPTIONS, $options);
-        
-        if(\mb_strlen($text) > $options['maxLength']) {
-            $i = 0;
-            $messages = array();
-            
-            $parts = \explode($options['char'], $text);
-            foreach($parts as $part) {
-                if(!isset($messages[$i])) {
-                    $messages[$i] = '';
-                }
-                
-                if((\mb_strlen($messages[$i]) + \mb_strlen($part) + 2) >= $options['maxLength']) {
-                    $i++;
-                    $messages[$i] = '';
-                }
-                
-                $messages[$i] .= $part.$options['char'];
-            }
-            
-            return $messages;
-        }
-        
-        return array($text);
-    }
-    
-    /**
      * Resolves files of Message Options.
      * @param array $options
      * @return \React\Promise\ExtendedPromiseInterface
@@ -347,6 +302,87 @@ class DataHelpers {
         }
         
         return \React\Promise\all($promises);
+    }
+    
+    /**
+     * Splits a string into multiple chunks at a designated character that do not exceed a specific length.
+     *
+     * Options will be merged into default split options (see Message), so missing elements will get added.
+     * ```
+     * array(
+     *     'before' => string, (the string to add before the chunk)
+     *     'after' => string, (the string to add after the chunk)
+     *     'char' => string, (the string to split on)
+     *     'maxLength' => int (the max. length of each chunk)
+     * )
+     * ```
+     *
+     * @param string  $text
+     * @param array   $options  Options controlling the behaviour of the split.
+     * @return string[]
+     * @see \CharlotteDunois\Yasmin\Models\Message
+     */
+    static function splitMessage(string $text, array $options = array()) {
+        $options = \array_merge(\CharlotteDunois\Yasmin\Models\Message::DEFAULT_SPLIT_OPTIONS, $options);
+        
+        if(\mb_strlen($text) > $options['maxLength']) {
+            $i = 0;
+            $messages = array();
+            
+            $parts = \explode($options['char'], $text);
+            foreach($parts as $part) {
+                if(!isset($messages[$i])) {
+                    $messages[$i] = '';
+                }
+                
+                if((\mb_strlen($messages[$i]) + \mb_strlen($part) + 2) >= $options['maxLength']) {
+                    $i++;
+                    $messages[$i] = '';
+                }
+                
+                $messages[$i] .= $part.$options['char'];
+            }
+            
+            return $messages;
+        }
+        
+        return array($text);
+    }
+    
+    /**
+     * Typecasts the variable to the type, if not null.
+     * @param mixed   &$variable
+     * @param string  $type
+     * @return mixed|null
+     * @throws \InvalidArgumentException
+     */
+    static function typecastVariable($variable, string $type) {
+        if($variable === null) {
+            return null;
+        }
+        
+        switch($type) {
+            case 'array':
+                $variable = (array) $variable;
+            break;
+            case 'bool':
+                $variable = (bool) $variable;
+            break;
+            case 'float':
+                $variable = (float) $variable;
+            break;
+            case 'int':
+                $variable = (int) $variable;
+            break;
+            case 'string':
+                $variable = (string) $variable;
+            break;
+            default:
+                throw new \InvalidArgumentException('Unsupported type "'.$type.'"');
+            break;
+        }
+        
+        return $variable;
     }
     
     /**

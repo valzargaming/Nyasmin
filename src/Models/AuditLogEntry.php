@@ -12,18 +12,18 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild audit log entry.
  *
- * @property \CharlotteDunois\Yasmin\Models\AuditLog       $log               The guild audit log which this entry belongs to.
- * @property string                                        $id                The ID of the audit log.
- * @property array[]                                       $changes           Specific property changes.
- * @property string                                        $userID            The ID of the user which triggered the audit log.
- * @property string                                        $actionType        Specific action type of this entry in its string presentation.
- * @property string|null                                   $reason            The specified reason, or null.
- * @property int                                           $createdTimestamp  When this audit log entry was created.
- * @property mixed|null                                    $extra             Any extra data from the entry, or null.
- * @property mixed|null                                    $target            The target of this entry, or null.
+ * @property \CharlotteDunois\Yasmin\Models\AuditLog                                                    $log               The guild audit log which this entry belongs to.
+ * @property string                                                                                     $id                The ID of the audit log.
+ * @property array[]                                                                                    $changes           Specific property changes.
+ * @property string                                                                                     $userID            The ID of the user which triggered the audit log.
+ * @property string                                                                                     $actionType        Specific action type of this entry in its string presentation.
+ * @property string|null                                                                                $reason            The specified reason, or null.
+ * @property int                                                                                        $createdTimestamp  When this audit log entry was created.
+ * @property mixed|null                                                                                 $extra             Any extra data from the entry, or null.
+ * @property mixed|null                                                                                 $target            The target of this entry, or null.
  *
- * @property \DateTime                                     $createdAt         The DateTime instance of createdTimestamp.
- * @property \CharlotteDunois\Yasmin\Models\User|null      $user              The user which triggered the audit log.
+ * @property \DateTime                                                                                  $createdAt         The DateTime instance of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Models\User|null                                                   $user              The user which triggered the audit log.
  */
 class AuditLogEntry extends ClientBase {
     /**
@@ -62,33 +62,57 @@ class AuditLogEntry extends ClientBase {
     );
     
     /**
-     * Key mirror of all available audit log targets.
-     * @var string[]
-     * @source
+     * The guild audit log which this entry belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\AuditLog
      */
-    const TARGET_TYPES = array(
-        'ALL' => 'ALL',
-        'GUILD' => 'GUILD',
-        'CHANNEL' => 'CHANNEL',
-        'USER' => 'USER',
-        'ROLE' => 'ROLE',
-        'INVITE' => 'INVITE',
-        'WEBHOOK' => 'WEBHOOK',
-        'EMOJI' => 'EMOJI',
-        'MESSAGE' => 'MESSAGE',
-        'UNKNOWN' => 'UNKNOWN'
-    );
-    
     protected $log;
     
+    /**
+     * The ID of the audit log.
+     * @var string
+     */
     protected $id;
+    
+    /**
+     * Specific property changes.
+     * @var array[]
+     */
     protected $changes;
+    
+    /**
+     * The ID of the user which triggered the audit log.
+     * @var string
+     */
     protected $userID;
+    
+    /**
+     * Specific action type of this entry in its string presentation.
+     * @var string
+     */
     protected $actionType;
+    
+    /**
+     * The specified reason, or null.
+     * @var string|null
+     */
     protected $reason;
     
+    /**
+     * When this audit log entry was created.
+     * @var int
+     */
     protected $createdTimestamp;
+    
+    /**
+     * Any extra data from the entry, or null.
+     * @var mixed|null
+     */
     protected $extra;
+    
+    /**
+     * The target of this entry, or null.
+     * @var mixed|null
+     */
     protected $target;
     
     /**
@@ -98,11 +122,11 @@ class AuditLogEntry extends ClientBase {
         parent::__construct($client);
         $this->log = $log;
         
-        $this->id = $entry['id'];
+        $this->id = (string) $entry['id'];
         $this->changes = $entry['changes'] ?? array();
-        $this->userID = $entry['user_id'];
+        $this->userID = (string) $entry['user_id'];
         $this->actionType = (\array_search($entry['action_type'], self::ACTION_TYPES, true) ?: '');
-        $this->reason = $entry['reason'] ?? null;
+        $this->reason = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($entry['reason'] ?? null), 'string');
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
@@ -137,18 +161,18 @@ class AuditLogEntry extends ClientBase {
         
         $targetType = self::getTargetType($entry['action_type']);
         
-        if($targetType === self::TARGET_TYPES['UNKNOWN']) {
+        if($targetType === 'UNKNOWN') {
             $this->target = \array_reduce($this->changes, function ($carry,  $el) {
                 $carry[$el['key']] = $el['new'] ?? $el['old'] ?? null;
                 return $carry;
             }, array());
             $this->target['id'] = $entry['target_id'] ?? null;
-        } elseif($targetType === self::TARGET_TYPES['USER'] || $targetType === self::TARGET_TYPES['GUILD']) {
+        } elseif($targetType === 'USER' || $targetType === 'GUILD') {
             $method = \strtolower($targetType).'s';
             $this->target = $this->client->$method->get($entry['target_id']);
-        } elseif($targetType === self::TARGET_TYPES['WEBHOOK']) {
+        } elseif($targetType === 'WEBHOOK') {
             $this->target = $this->log->webhooks->get($entry['target_id']);
-        } elseif($targetType === self::TARGET_TYPES['INVITE']) {
+        } elseif($targetType === 'INVITE') {
             if($this->log->guild->me->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_GUILD'])) {
                 $change = null;
                 
@@ -172,7 +196,7 @@ class AuditLogEntry extends ClientBase {
                     return $carry;
                 }, array());
             }
-        } elseif($targetType === self::TARGET_TYPES['MESSAGE']) {
+        } elseif($targetType === 'MESSAGE') {
             $this->target = $this->client->users->get($entry['target_id']);
         } else {
             $method = \strtolower($targetType).'s';
@@ -260,31 +284,31 @@ class AuditLogEntry extends ClientBase {
      */
     static function getTargetType(int $target) {
         if($target < 10) {
-            return self::TARGET_TYPES['GUILD'];
+            return 'GUILD';
         }
         if($target < 20) {
-            return self::TARGET_TYPES['CHANNEL'];
+            return 'CHANNEL';
         }
         if($target < 30) {
-            return self::TARGET_TYPES['USER'];
+            return 'USER';
         }
         if($target < 40) {
-            return self::TARGET_TYPES['ROLE'];
+            return 'ROLE';
         }
         if($target < 50) {
-            return self::TARGET_TYPES['INVITE'];
+            return 'INVITE';
         }
         if($target < 60) {
-            return self::TARGET_TYPES['WEBHOOK'];
+            return 'WEBHOOK';
         }
         if($target < 70) {
-            return self::TARGET_TYPES['EMOJI'];
+            return 'EMOJI';
         }
         if($target < 80) {
-            return self::TARGET_TYPES['MESSAGE'];
+            return 'MESSAGE';
         }
         
-        return self::TARGET_TYPES['UNKNOWN'];
+        return 'UNKNOWN';
     }
     
     /**

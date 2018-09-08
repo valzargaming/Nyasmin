@@ -19,11 +19,34 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Utils\Collection    $users     The users that have given this reaction, mapped by their ID.
  */
 class MessageReaction extends ClientBase {
+    /**
+     * The message this reaction belongs to.
+     * @var \CharlotteDunois\Yasmin\Models\Message
+     */
     protected $message;
+    
+    /**
+     * The emoji this message reaction is for.
+     * @var \CharlotteDunois\Yasmin\Models\Emoji
+     */
     protected $emoji;
     
+    /**
+     * Times this emoji has been reacted.
+     * @var int
+     */
     protected $count;
+    
+    /**
+     * Whether the current user has reacted using this emoji.
+     * @var bool
+     */
     protected $me;
+    
+    /**
+     * The users that have given this reaction, mapped by their ID.
+     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     */
     protected $users;
     
     /**

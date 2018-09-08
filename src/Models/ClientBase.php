@@ -11,6 +11,7 @@ namespace CharlotteDunois\Yasmin\Models;
 
 /**
  * Something all Models, with the need for a client, extend.
+ *
  * @property \CharlotteDunois\Yasmin\Client  $client  The client which initiated the instance.
  */
 abstract class ClientBase extends Base {
