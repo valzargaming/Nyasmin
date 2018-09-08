@@ -661,7 +661,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                     );
                     
                     if($role['name'] === '@everyone') {
-                        $data['roles'][0] = $data['roles'];
+                        $data['roles'][0] = $role;
                     } else {
                         $data['roles'][] = $role;
                         $rolemap[$role['name']] = $roleint++;
