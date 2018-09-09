@@ -15,10 +15,10 @@ namespace CharlotteDunois\Yasmin\HTTP;
  */
 final class APIRequest {
     /**
-     * Whether we are using a PHP version which supports JSON errors throwing.
-     * @var bool
+     * The JSON encode/decode options.
+     * @var int
      */
-    static protected $throw;
+    static protected $jsonOptions;
     
     /**
      * The API manager.
@@ -78,8 +78,8 @@ final class APIRequest {
         $this->endpoint = \ltrim($endpoint, '/');
         $this->options = $options;
         
-        if(self::$throw === null) {
-            self::$throw = (\PHP_VERSION_ID >= 70300);
+        if(self::$jsonOptions === null) {
+            self::$jsonOptions = (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0);
         }
     }
     
@@ -141,7 +141,7 @@ final class APIRequest {
             if(!empty($this->options['data'])) {
                 $options['multipart'][] = array(
                     'name' => 'payload_json',
-                    'contents' => \json_encode($this->options['data'], (self::$throw ? \JSON_THROW_ON_ERROR : 0))
+                    'contents' => \json_encode($this->options['data'], self::$jsonOptions)
                 );
             }
         } elseif(!empty($this->options['data'])) {
@@ -214,7 +214,7 @@ final class APIRequest {
             throw new \RuntimeException('Invalid API response: HTML response body received');
         }
         
-        $json = \json_decode($body, true, 512, (self::$throw ? \JSON_THROW_ON_ERROR : 0));
+        $json = \json_decode($body, true, 512, self::$jsonOptions);
         if($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \RuntimeException('Invalid API response: '.\json_last_error_msg());
         }

@@ -15,15 +15,16 @@ namespace CharlotteDunois\Yasmin\WebSocket\Encoding;
  */
 class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     /**
-     * @var bool
+     * The JSON encode/decode options.
+     * @var int
      */
-    protected $throw;
+    protected $jsonOptions;
     
     /**
      * Constructor.
      */
     function __construct() {
-        $this->throw = (\PHP_VERSION_ID >= 70300);
+        $this->jsonOptions = (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0);
     }
     
     /**
@@ -51,7 +52,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @throws \JsonException
      */
     function decode(string $data) {
-        $msg = \json_decode($data, true, 512, ($this->throw ? \JSON_THROW_ON_ERROR : 0));
+        $msg = \json_decode($data, true, 512, $this->jsonOptions);
         if($msg === null || \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \InvalidArgumentException('The JSON decoder was unable to decode the data. Error: '.\json_last_error_msg());
         }
@@ -66,7 +67,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @throws \JsonException
      */
     function encode($data): string {
-        return \json_encode($data, ($this->throw ? \JSON_THROW_ON_ERROR : 0));
+        return \json_encode($data, $this->jsonOptions);
     }
     
     /**
