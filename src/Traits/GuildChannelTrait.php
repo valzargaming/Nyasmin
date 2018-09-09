@@ -333,6 +333,10 @@ trait GuildChannelTrait {
             throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
         }
         
+        if(\json_encode($allow) === \json_encode($deny)) {
+            throw new \InvalidArgumentException('Allow and deny must have different permissions');
+        }
+        
         $options['allow'] = $allow;
         $options['deny'] = $deny;
         

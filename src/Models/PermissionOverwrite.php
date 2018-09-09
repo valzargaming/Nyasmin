@@ -122,6 +122,10 @@ class PermissionOverwrite extends ClientBase {
             throw new \InvalidArgumentException('One of allow or deny has to be changed');
         }
         
+        if(\json_encode($allow) === \json_encode($deny)) {
+            throw new \InvalidArgumentException('Allow and deny must have different permissions');
+        }
+        
         $options['allow'] = $allow;
         $options['deny'] = $deny;
         
