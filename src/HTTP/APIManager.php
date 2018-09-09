@@ -484,10 +484,11 @@ class APIManager {
      * @return mixed[]
      */
     final function extractRatelimit(\Psr\Http\Message\ResponseInterface $response) {
-        $dateDiff = \time() - ((new \DateTime($response->getHeader('Date')[0]))->getTimestamp());
+        $date = (new \DateTime($response->getHeader('Date')[0]))->getTimestamp();
+        
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
-        $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) (((int) $response->getHeader('Retry-After')[0]) / 1000))) : ($response->hasHeader('X-RateLimit-Reset') ? (((int) $response->getHeader('X-RateLimit-Reset')[0]) + $dateDiff) : null));
+        $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) (((int) $response->getHeader('Retry-After')[0]) / 1000))) : ($response->hasHeader('X-RateLimit-Reset') ? (\time() + (((int) $response->getHeader('X-RateLimit-Reset')[0]) - $date)) : null));
         return \compact('limit', 'remaining', 'resetTime');
     }
     
