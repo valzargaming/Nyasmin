@@ -26,8 +26,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
-        $user = $this->client->users->get($data['user_id']);
-        if($user) {
+        $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($data) {
             if(empty($data['channel_id'])) {
                 if(empty($data['guild_id'])) {
                     return;
@@ -39,7 +38,8 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         $member = \React\Promise\resolve($guild->members->get($data['user_id']));
                     } elseif(!empty($data['member'])) {
                         $member = $data['member'];
-                        $member['user'] = $user->id;
+                        $member['user'] = array('id' => $user->id);
+                        
                         $member = \React\Promise\resolve($guild->_addMember($member, true));
                     } else {
                         $member = $guild->fetchMember($user->id);
@@ -72,7 +72,18 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         return;
                     }
                     
-                    $channel->guild->fetchMember($user->id)->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
+                    if($channel->guild->members->has($data['user_id'])) {
+                        $member = \React\Promise\resolve($channel->guild->members->get($data['user_id']));
+                    } elseif(!empty($data['member'])) {
+                        $member = $data['member'];
+                        $member['user'] = array('id' => $user->id);
+                        
+                        $member = \React\Promise\resolve($channel->guild->_addMember($member, true));
+                    } else {
+                        $member = $channel->guild->fetchMember($user->id);
+                    }
+                    
+                    $member->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
                         $oldMember = null;
                         if($this->clones) {
                             $oldMember = clone $member;
@@ -88,6 +99,6 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                     });
                 }
             }
-        }
+        }, array($this->client, 'handlePromiseRejection'));
     }
 }
