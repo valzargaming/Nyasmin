@@ -312,16 +312,24 @@ trait GuildChannelTrait {
     function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '') {
         $options = array();
         
-        try {
-            $memberOrRole = $this->guild->roles->resolve($memberOrRole)->id;
+        if($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+            $memberOrRole = $memberOrRole->id;
+            $options['type'] = 'member';
+        } elseif($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\Role) {
+            $memberOrRole = $memberOrRole->id;
             $options['type'] = 'role';
-        } catch (\InvalidArgumentException $e) {
+        } else {
             try {
-                $memberOrRole = $this->guild->members->resolve($memberOrRole)->id;
-                $options['type'] = 'member';
+                $memberOrRole = $this->guild->roles->resolve($memberOrRole)->id;
+                $options['type'] = 'role';
             } catch (\InvalidArgumentException $e) {
-                $memberOrRole = $memberOrRole;
-                $options['type'] = 'member';
+                try {
+                    $memberOrRole = $this->guild->members->resolve($memberOrRole)->id;
+                    $options['type'] = 'member';
+                } catch (\InvalidArgumentException $e) {
+                    $memberOrRole = $memberOrRole;
+                    $options['type'] = 'member';
+                }
             }
         }
         
