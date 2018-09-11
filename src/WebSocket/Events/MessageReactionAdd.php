@@ -36,7 +36,7 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
             
             $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $reaction) {
                 if($reaction === null) {
-                    $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
+                    $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
                     $reaction = $message->reactions->get($id);
                 }
                 

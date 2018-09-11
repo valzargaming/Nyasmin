@@ -102,7 +102,7 @@ class PresenceStorage extends Storage {
      */
     function factory(array $data) {
         $presence = new \CharlotteDunois\Yasmin\Models\Presence($this->client, $data);
-        $this->set($data['user']['id'], $presence);
+        $this->set($presence->userID, $presence);
         return $presence;
     }
 }

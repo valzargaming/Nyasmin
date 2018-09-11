@@ -207,7 +207,7 @@ class Message extends ClientBase {
         if(!empty($message['reactions'])) {
             foreach($message['reactions'] as $reaction) {
                 $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->channel->guild, $reaction['emoji'])));
-                $this->reactions->set(($emoji->id ?? $emoji->name), (new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, $reaction)));
+                $this->reactions->set($emoji->uid, (new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, $reaction)));
             }
         }
         
@@ -484,7 +484,7 @@ class Message extends ClientBase {
      * @internal
      */
     function _addReaction(array $data) {
-        $id = (!empty($data['emoji']['id']) ? $data['emoji']['id'] : $data['emoji']['name']);
+        $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
         
         $reaction = $this->reactions->get($id);
         if(!$reaction) {

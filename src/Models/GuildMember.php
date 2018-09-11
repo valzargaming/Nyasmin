@@ -578,8 +578,9 @@ class GuildMember extends ClientBase {
             $this->roles->set($this->guild->id, $this->guild->roles->get($this->guild->id));
             
             foreach($data['roles'] as $role) {
-                if(!$this->roles->has($role)) {
-                    $this->roles->set($role, $this->guild->roles->get($role));
+                if($this->guild->roles->has($role)) {
+                    $grole = $this->guild->roles->get($role);
+                    $this->roles->set($grole->id, $grole);
                 }
             }
         }
