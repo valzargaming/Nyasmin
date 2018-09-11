@@ -141,7 +141,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function chunk(int $numitems, bool $preserve_keys = false) {
-        return (new static(\array_chunk($this->data, $numitems, $preserve_keys)));
+        return (new self(\array_chunk($this->data, $numitems, $preserve_keys)));
     }
     
     /**
@@ -161,7 +161,7 @@ class Collection implements \Countable, \Iterator {
             $new = \array_merge($new, $values);
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -170,7 +170,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function combine($values) {
-        return (new static(\array_combine($this->data, $values)));
+        return (new self(\array_combine($this->data, $values)));
     }
     
     /**
@@ -213,7 +213,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
      */
     function copy() {
-        return (new static($this->data));
+        return (new self($this->data));
     }
     
     /**
@@ -226,7 +226,7 @@ class Collection implements \Countable, \Iterator {
             $arr = $arr->all();
         }
         
-        return (new static(\array_diff($this->data, $arr)));
+        return (new self(\array_diff($this->data, $arr)));
     }
     
     /**
@@ -239,7 +239,7 @@ class Collection implements \Countable, \Iterator {
             $arr = $arr->all();
         }
         
-        return (new static(\array_diff_key($this->data, $arr)));
+        return (new self(\array_diff_key($this->data, $arr)));
     }
     
     /**
@@ -266,7 +266,7 @@ class Collection implements \Countable, \Iterator {
     */
     function every(int $nth, int $offset = 0) {
         if($nth <= 0) {
-            return (new static($this->data));
+            return (new self($this->data));
         }
         
         $new = array();
@@ -276,7 +276,7 @@ class Collection implements \Countable, \Iterator {
             $new[] = $this->data[$i];
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -292,7 +292,7 @@ class Collection implements \Countable, \Iterator {
             }
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -309,7 +309,7 @@ class Collection implements \Countable, \Iterator {
             }
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -339,7 +339,7 @@ class Collection implements \Countable, \Iterator {
     */
     function flatten($depth = 0) {
         $data = $this->flattenDo($this->data, $depth);
-        return (new static($data));
+        return (new self($data));
     }
     
     /**
@@ -348,7 +348,7 @@ class Collection implements \Countable, \Iterator {
     */
     function flip() {
         $data = @\array_flip($this->data);
-        return (new static($data));
+        return (new self($data));
     }
     
     /**
@@ -385,7 +385,7 @@ class Collection implements \Countable, \Iterator {
             $new[$key][] = $val;
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -447,7 +447,7 @@ class Collection implements \Countable, \Iterator {
             $arr = $arr->all();
         }
         
-        return (new static(\array_intersect($this->data, $arr)));
+        return (new self(\array_intersect($this->data, $arr)));
     }
     
     /**
@@ -475,7 +475,7 @@ class Collection implements \Countable, \Iterator {
             $data[$k] = $val;
         }
         
-        return (new static($data));
+        return (new self($data));
     }
     
     /**
@@ -483,7 +483,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function keys() {
-        return (new static(\array_keys($this->data)));
+        return (new self(\array_keys($this->data)));
     }
     
     /**
@@ -515,7 +515,7 @@ class Collection implements \Countable, \Iterator {
     function map(?callable $closure) {
         $keys = \array_keys($this->data);
         $items = \array_map($closure, $this->data, $keys);
-        return (new static(\array_combine($keys, $items)));
+        return (new self(\array_combine($keys, $items)));
     }
     
     /**
@@ -539,7 +539,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function merge(array $arr) {
-        return (new static(\array_merge($this->data, $arr)));
+        return (new self(\array_merge($this->data, $arr)));
     }
     
     /**
@@ -570,7 +570,7 @@ class Collection implements \Countable, \Iterator {
             }
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -600,7 +600,7 @@ class Collection implements \Countable, \Iterator {
             }
         }
         
-        return (new static($data));
+        return (new self($data));
     }
     
     /**
@@ -636,7 +636,7 @@ class Collection implements \Countable, \Iterator {
             $rand = array($rand);
         }
         
-        $col = new static();
+        $col = new self();
         foreach($rand as $key) {
             $col->set($key, $this->data[$key]);
         }
@@ -664,7 +664,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function reverse(bool $preserve_keys = false) {
-        return (new static(\array_reverse($this->data, $preserve_keys)));
+        return (new self(\array_reverse($this->data, $preserve_keys)));
     }
     
     /**
@@ -704,7 +704,7 @@ class Collection implements \Countable, \Iterator {
         $data = $this->data;
         \shuffle($data);
         
-        return (new static($data));
+        return (new self($data));
     }
     
     /**
@@ -716,7 +716,7 @@ class Collection implements \Countable, \Iterator {
     */
     function slice(int $offset, ?int $limit = null, bool $preserve_keys = false) {
         $data = $this->data;
-        return (new static(\array_slice($data, $offset, $limit, $preserve_keys)));
+        return (new self(\array_slice($data, $offset, $limit, $preserve_keys)));
     }
     
     /**
@@ -734,7 +734,7 @@ class Collection implements \Countable, \Iterator {
             \asort($data, $options);
         }
         
-        return (new static($data));
+        return (new self($data));
     }
     
     /**
@@ -763,7 +763,7 @@ class Collection implements \Countable, \Iterator {
             $new[$key] = $this->data[$key];
         }
         
-        return (new static($new));
+        return (new self($new));
     }
     
     /**
@@ -785,7 +785,7 @@ class Collection implements \Countable, \Iterator {
     */
     function splice(int $offset, int $length = null, array $replacement = array()) {
         $data = $this->data;
-        return (new static(\array_splice($data, $offset, $length, $replacement)));
+        return (new self(\array_splice($data, $offset, $length, $replacement)));
     }
     
     /**
@@ -823,7 +823,7 @@ class Collection implements \Countable, \Iterator {
     */
     function unique($key) {
         if($key === null) {
-            return (new static(\array_unique($this->data, SORT_REGULAR)));
+            return (new self(\array_unique($this->data, SORT_REGULAR)));
         }
         
         $key = $this->valueRetriever($key);
@@ -845,7 +845,7 @@ class Collection implements \Countable, \Iterator {
      * @return Collection
     */
     function values() {
-        return (new static(\array_values($this->data)));
+        return (new self(\array_values($this->data)));
     }
     
     /**
@@ -871,7 +871,7 @@ class Collection implements \Countable, \Iterator {
                 
                 $result = \array_column($target, $key);
                 if(\in_array('*', $key)) {
-                    return (new static($result))->collapse();
+                    return (new self($result))->collapse();
                 } else {
                     return $result;
                 }
