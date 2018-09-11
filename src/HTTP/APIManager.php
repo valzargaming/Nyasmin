@@ -286,7 +286,7 @@ class APIManager {
     protected function process() {
         if($this->limited) {
             if(\time() < $this->resetTime) {
-                $this->client->addTimer(($this->resetTime + 1 - \time()), function () {
+                $this->client->addTimer(($this->resetTime - \time()), function () {
                     $this->process();
                 });
                 
@@ -368,7 +368,7 @@ class APIManager {
                     
                     $this->queue[] = $item;
                     
-                    $this->client->addTimer(($data['resetTime'] + 1 - \time()), function () {
+                    $this->client->addTimer(($data['resetTime'] - \time()), function () {
                         $this->process();
                     });
                 }, function ($error) use (&$item) {
@@ -386,7 +386,7 @@ class APIManager {
                 
                 $this->queue[] = $item;
                 
-                $this->client->addTimer(($meta['resetTime'] + 1 - \time()), function () {
+                $this->client->addTimer(($meta['resetTime'] - \time()), function () {
                     $this->process();
                 });
             }
