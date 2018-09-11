@@ -100,6 +100,10 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
         $arr = array();
         
         foreach($data as $key => $val) {
+            if(\is_string($key) && $key[0] === ':') {
+                $key = \mb_substr($key, 1);
+            }
+            
             if($val instanceof \CharlotteDunois\Kimberly\Atom) {
                 $arr[$key] = (string) $val->atom;
             } elseif($val instanceof \CharlotteDunois\Kimberly\BaseObject) {
