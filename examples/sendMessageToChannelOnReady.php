@@ -29,8 +29,13 @@ $client->once('ready', function () use ($client) {
         
         // Making sure the channel exists
         if($channel) {
+            // Send the message
+            
+            // We do not need another promise here, so
+            // we call done, because we want to consume the promise
             $channel->send('Hello, I am a Discord Bot written in PHP using Yasmin.')
-                    ->otherwise(function ($error) {
+                    ->done(null, function ($error) {
+                        // We will just echo any errors for this example
                         echo $error.PHP_EOL;
                     });
         }

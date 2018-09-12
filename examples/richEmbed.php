@@ -24,6 +24,7 @@ $client->once('ready', function () use ($client) {
         if($channel) {
             $embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
             
+            // Build the embed
             $embed
                 ->setTitle('A new Rich Embed')                                                       // Set a title
                 ->setColor(random_int(0, 16777215))                                                  // Set a color (the thing on the left side)
@@ -38,8 +39,13 @@ $client->once('ready', function () use ($client) {
                 ->setFooter('Generated with the Rich Embed Builder (Y)')                               // Set a footer without icon
                 ->setURL('https://github.com/CharlotteDunois/Yasmin');                               // Set the URL
             
+            // Send the message
+            
+            // We do not need another promise here, so
+            // we call done, because we want to consume the promise
             $channel->send('', array('embed' => $embed))
-                    ->otherwise(function ($error) {
+                    ->done(null, function ($error) {
+                        // We will just echo any errors for this example
                         echo $error.PHP_EOL;
                     });
         }
