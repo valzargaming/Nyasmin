@@ -278,11 +278,9 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             });
             
             $this->ws->once('ready', function () {
-                foreach($this->eventsQueue as $ev => $as) {
-                    $this->emit($ev, ...$as);
+                while($ev = \array_shift($this->eventsQueue)) {
+                    $this->emit($ev[0], ...$ev[1]);
                 }
-                
-                $this->eventsQueue = array();
             });
         }
         
@@ -1081,11 +1079,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      */
     function queuedEmit(string $event, ...$args) {
         if($this->readyTimestamp === null) {
-            if(!isset($this->eventsQueue[$event])) {
-                $this->eventsQueue[$event] = array();
-            }
-            
-            $this->eventsQueue[$event][] = $args;
+            $this->eventsQueue[] = array($event, $args);
             return;
         }
         
