@@ -154,12 +154,14 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     protected $user;
     
     /**
+     * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      * @internal
      */
     protected $api;
     
     /**
+     * The WS manager.
      * @var \CharlotteDunois\Yasmin\WebSocket\WSManager|null
      * @internal
      */
