@@ -316,7 +316,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                 });
                 
                 $this->ws->on('error', function (\Throwable $error) use (&$ready, $reject) {
-                    if($ready === false) {
+                    if(!$ready) {
                         return $reject($error);
                     }
                     
@@ -410,7 +410,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             return;
         }
         
-        if($resumable === false) {
+        if(!$resumable) {
             $this->wsSessionID = null;
         }
         
@@ -455,7 +455,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             
             $this->queue[] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);
             
-            if($this->running === false) {
+            if(!$this->running) {
                 $this->processQueue();
             }
         }));
@@ -581,7 +581,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function heartbeat() {
-        if($this->wsHeartbeat['ack'] === false) {
+        if(!$this->wsHeartbeat['ack']) {
             return $this->heartFailure();
         }
         

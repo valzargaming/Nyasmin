@@ -40,9 +40,9 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
     
     /**
      * When the ratelimit gets reset.
-     * @var int
+     * @var float
      */
-    protected $resetTime = 0;
+    protected $resetTime = 0.0;
     
     /**
      * The request queue.
@@ -92,12 +92,12 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
     
     /**
      * Sets the ratelimits from the response.
-     * @param int|null  $limit
-     * @param int|null  $remaining
-     * @param int|null  $resetTime
+     * @param int|null    $limit
+     * @param int|null    $remaining
+     * @param float|null  $resetTime  Reset time in seconds with milliseconds.
      * @return \React\Promise\ExtendedPromiseInterface|void
      */
-    function handleRatelimit(?int $limit, ?int $remaining, ?int $resetTime) {
+    function handleRatelimit(?int $limit, ?int $remaining, ?float $resetTime) {
         if($limit === null && $remaining === null && $resetTime === null) {
             $this->remaining++; // there is no ratelimit...
             return;
@@ -107,8 +107,8 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
         $this->remaining = $remaining ?? $this->remaining;
         $this->resetTime = $resetTime ?? $this->resetTime;
         
-        if($this->remaining === 0 && $this->resetTime > \time()) {
-            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($this->resetTime - \time()).' seconds');
+        if($this->remaining === 0 && $this->resetTime > \microtime(true)) {
+            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($this->resetTime - \microtime(true)).' seconds');
         }
     }
     
@@ -163,7 +163,7 @@ final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
      * @return \React\Promise\ExtendedPromiseInterface|array
      */
     function getMeta() {
-        if($this->resetTime && \time() > $this->resetTime) {
+        if($this->resetTime && \microtime(true) > $this->resetTime) {
             $this->resetTime = null;
             $this->remaining = ($this->limit ? $this->limit : \INF);
             

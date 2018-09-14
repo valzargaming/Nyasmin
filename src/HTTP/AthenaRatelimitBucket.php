@@ -88,12 +88,12 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
     
     /**
      * Sets the ratelimits from the response
-     * @param int|null  $limit
-     * @param int|null  $remaining
-     * @param int|null  $resetTime
+     * @param int|null    $limit
+     * @param int|null    $remaining
+     * @param float|null  $resetTime  Reset time in seconds with milliseconds.
      * @return \React\Promise\ExtendedPromiseInterface|void
      */
-    function handleRatelimit(?int $limit, ?int $remaining, ?int $resetTime) {
+    function handleRatelimit(?int $limit, ?int $remaining, ?float $resetTime) {
         return $this->get()->then(function ($data) use ($limit, $remaining, $resetTime) {
             if($limit === null && $remaining === null && $resetTime === null) {
                 $limit = $data['limit'];
@@ -105,8 +105,8 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
                 $resetTime = $resetTime ?? $data['resetTime'];
             }
             
-            if($remaining === 0 && $resetTime > \time()) {
-                $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($resetTime - \time()).' seconds');
+            if($remaining === 0 && $resetTime > \microtime(true)) {
+                $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($resetTime - \microtime(true)).' seconds');
             }
             
             return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, array('limit' => $limit, 'remaining' => $remaining, 'resetTime' => $resetTime));
@@ -171,7 +171,7 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
      */
     function getMeta() {
         return $this->get()->then(function ($data) {
-            if($data['resetTime'] && \time() > $data['resetTime']) {
+            if($data['resetTime'] && \microtime(true) > $data['resetTime']) {
                 $data['resetTime'] = null;
                 $limited = false;
             } else {

@@ -390,7 +390,7 @@ class GuildMember extends ClientBase {
         }
         
         $member = $this->guild->me;
-        if($member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['BAN_MEMBERS']) === false) {
+        if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['BAN_MEMBERS'])) {
             return false;
         }
         
@@ -407,7 +407,7 @@ class GuildMember extends ClientBase {
         }
         
         $member = $this->guild->me;
-        if($member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['KICK_MEMBERS']) === false) {
+        if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['KICK_MEMBERS'])) {
             return false;
         }
         

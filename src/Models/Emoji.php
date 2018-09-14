@@ -300,7 +300,7 @@ class Emoji extends ClientBase {
      * @return string
      */
     function __toString() {
-        if($this->requireColons === false) {
+        if(!$this->requireColons) {
             return $this->name;
         }
         

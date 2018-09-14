@@ -28,8 +28,7 @@ final class Channel {
             'create' => 'channels/%s/messages',
             'reactions' => array(
                 'create' => 'channels/%s/messages/%s/reactions/%s/@me',
-                'delete' => 'channels/%s/messages/%s/reactions/%s/@me',
-                'deleteUser' => 'channels/%s/messages/%s/reactions/%s/%s',
+                'delete' => 'channels/%s/messages/%s/reactions/%s/%s',
                 'get' => 'channels/%s/messages/%s/reactions/%s',
                 'deleteAll' => 'channels/%s/messages/%s/reactions',
             ),
@@ -117,17 +116,12 @@ final class Channel {
     
     function createMessageReaction(string $channelid, string $messageid, string $emoji) {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['messages']['reactions']['create'], $channelid, $messageid, $emoji);
-        return $this->api->makeRequest('PUT', $url, array());
-    }
-    
-    function deleteMessageReaction(string $channelid, string $messageid, string $emoji) {
-        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['messages']['reactions']['delete'], $channelid, $messageid, $emoji);
-        return $this->api->makeRequest('DELETE', $url, array());
+        return $this->api->makeRequest('PUT', $url, array('reactionRatelimit' => true));
     }
     
     function deleteMessageUserReaction(string $channelid, string $messageid, string $emoji, string $userid) {
-        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['messages']['reactions']['deleteUser'], $channelid, $messageid, $emoji, $userid);
-        return $this->api->makeRequest('DELETE', $url, array());
+        $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['messages']['reactions']['delete'], $channelid, $messageid, $emoji, $userid);
+        return $this->api->makeRequest('DELETE', $url, array('reactionRatelimit' => true));
     }
     
     function getMessageReactions(string $channelid, string $messageid, string $emoji, array $querystring = array()) {

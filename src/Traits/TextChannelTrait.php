@@ -373,7 +373,7 @@ trait TextChannelTrait {
      * @return int
      */
     function isTypingSince(\CharlotteDunois\Yasmin\Models\User $user) {
-        if($this->isTyping($user) === false) {
+        if(!$this->isTyping($user)) {
             return -1;
         }
         

@@ -57,9 +57,9 @@ class APIManager {
     
     /**
      * When can we send again?
-     * @var int
+     * @var float
      */
-    protected $resetTime = 0;
+    protected $resetTime = 0.0;
     
     /**
      * The queue for our API requests.
@@ -267,8 +267,8 @@ class APIManager {
      * @return void
      */
     final protected function processDelayed() {
-        $offset = (int) $this->client->getOption('http.restTimeOffset', 0);
-        if($offset > 0) {
+        $offset = (float) $this->client->getOption('http.restTimeOffset', 0.0);
+        if($offset > 0.0) {
             $this->client->addTimer($offset, function () {
                 $this->process();
             });
@@ -285,8 +285,8 @@ class APIManager {
      */
     protected function process() {
         if($this->limited) {
-            if(\time() < $this->resetTime) {
-                $this->client->addTimer(($this->resetTime - \time()), function () {
+            if(\microtime(true) < $this->resetTime) {
+                $this->client->addTimer(($this->resetTime - \microtime(true)), function () {
                     $this->process();
                 });
                 
@@ -361,14 +361,14 @@ class APIManager {
             
             if($meta instanceof \React\Promise\ExtendedPromiseInterface) {
                 return $meta->then(function ($data) use (&$item) {
-                    if($data['limited'] === false) {
+                    if(!$data['limited']) {
                         $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
                         return $item->shift();
                     }
                     
                     $this->queue[] = $item;
                     
-                    $this->client->addTimer(($data['resetTime'] - \time()), function () {
+                    $this->client->addTimer(($data['resetTime'] - \microtime(true)), function () {
                         $this->process();
                     });
                 }, function ($error) use (&$item) {
@@ -379,14 +379,14 @@ class APIManager {
                     return false;
                 });
             } else {
-                if($meta['limited'] === false) {
+                if(!$meta['limited']) {
                     $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
                     return $item->shift();
                 }
                 
                 $this->queue[] = $item;
                 
-                $this->client->addTimer(($meta['resetTime'] - \time()), function () {
+                $this->client->addTimer(($meta['resetTime'] - \microtime(true)), function () {
                     $this->process();
                 });
             }
@@ -446,6 +446,11 @@ class APIManager {
     final function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         $endpoint = $request->getEndpoint();
         
+        if($request->isReactionEndpoint()) {
+            \preg_match('/channels\/(\d+)\/messages\/(\d+)\/reactions\/.*/', $endpoint, $matches);
+            return 'channels/'.$matches[1].'/messages/'.$matches[2].'/reactions';
+        }
+        
         $firstPart = \substr($endpoint, 0, (\strpos($endpoint, '/') ?: \strlen($endpoint)));
         $majorRoutes = array('channels', 'guilds', 'webhooks');
         
@@ -488,7 +493,11 @@ class APIManager {
         
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
-        $resetTime = ($response->hasHeader('Retry-After') ? (\time() + ((int) (((int) $response->getHeader('Retry-After')[0]) / 1000))) : ($response->hasHeader('X-RateLimit-Reset') ? (\time() + (((int) $response->getHeader('X-RateLimit-Reset')[0]) - $date)) : null));
+        $resetTime = ($response->hasHeader('Retry-After')
+            ? (\microtime(true) + (((int) $response->getHeader('Retry-After')[0]) / 1000))
+            : ($response->hasHeader('X-RateLimit-Reset') ? ((float) \bcadd(\microtime(true), (((int) $response->getHeader('X-RateLimit-Reset')[0]) - $date))) : null)
+        );
+        
         return \compact('limit', 'remaining', 'resetTime');
     }
     
@@ -496,10 +505,15 @@ class APIManager {
      * Handles ratelimits.
      * @param \Psr\Http\Message\ResponseInterface                               $response
      * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
+     * @param bool                                                              $isReactionEndpoint
      * @return void
      */
-    function handleRatelimit(\Psr\Http\Message\ResponseInterface $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
+    function handleRatelimit(\Psr\Http\Message\ResponseInterface $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null, bool $isReactionEndpoint = false) {
         \extract($this->extractRatelimit($response));
+        
+        if($isReactionEndpoint && !empty($resetTime)) {
+            $resetTime = (float) \bcadd(\microtime(true), 0.25);
+        }
         
         $global = false;
         if($response->hasHeader('X-RateLimit-Global')) {
@@ -509,9 +523,9 @@ class APIManager {
             $this->remaining = $remaining ?? $this->remaining;
             $this->resetTime = $resetTime ?? $this->resetTime;
             
-            if($this->remaining === 0 && $this->resetTime > \time()) {
+            if($this->remaining === 0 && $this->resetTime > \microtime(true)) {
                 $this->limited = true;
-                $this->client->emit('debug', 'Global ratelimit encountered, continueing in '.($this->resetTime - \time()).' seconds');
+                $this->client->emit('debug', 'Global ratelimit encountered, continueing in '.($this->resetTime - \microtime(true)).' seconds');
             } else {
                 $this->limited = false;
             }
@@ -522,12 +536,14 @@ class APIManager {
             }
         }
         
-        $this->client->emit('ratelimit', array(
-            'endpoint' => ($ratelimit !== null ? $ratelimit->getEndpoint() : 'global'),
-            'global' => $global,
-            'limit' => $limit,
-            'remaining' => $remaining,
-            'resetTime' => $resetTime
-        ));
+        $this->loop->futureTick(function () use ($ratelimit, $global, $limit, $remaining, $resetTime) {
+            $this->client->emit('ratelimit', array(
+                'endpoint' => ($ratelimit !== null ? $ratelimit->getEndpoint() : 'global'),
+                'global' => $global,
+                'limit' => $limit,
+                'remaining' => $remaining,
+                'resetTime' => $resetTime
+            ));
+        });
     }
 }

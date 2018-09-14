@@ -56,7 +56,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         
         // Emit ready after waiting N guilds * 1.2 seconds - we waited long enough for Discord to get the guilds to us
         $timer = $this->client->addTimer(\ceil(($this->client->guilds->count() * 1.2)), function () {
-            if($this->ready === false) {
+            if(!$this->ready) {
                 $this->client->wsmanager()->emit('self.ws.ready');
             }
         });
@@ -68,7 +68,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
             
             $unavailableGuilds = 0;
             foreach($this->client->guilds as $guild) {
-                if($guild->available === false) {
+                if(!$guild->available) {
                     $unavailableGuilds++;
                 }
             }

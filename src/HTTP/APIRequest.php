@@ -101,6 +101,14 @@ final class APIRequest {
     }
     
     /**
+     * Returns whether this request is to a reaction endpoint.
+     * @return bool
+     */
+    function isReactionEndpoint() {
+        return !empty($this->options['reactionRatelimit']);
+    }
+    
+    /**
      * Returns the Guzzle Request.
      * @return \Psr\Http\Message\RequestInterface
      */
@@ -178,7 +186,7 @@ final class APIRequest {
             $status = $response->getStatusCode();
             $this->api->client->emit('debug', 'Got response for item "'.$this->endpoint.'" with HTTP status code '.$status);
             
-            $this->api->handleRatelimit($response, $ratelimit);
+            $this->api->handleRatelimit($response, $ratelimit, $this->isReactionEndpoint());
             
             if($status === 204) {
                 return 0;

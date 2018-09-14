@@ -1019,7 +1019,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'http.ratelimitbucket.name' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\RatelimitBucketInterface,string_only',
             'http.requestErrorDelay' => 'integer|min:15',
             'http.requestMaxRetries' => 'integer|min:0',
-            'http.restTimeOffset' => 'integer',
+            'http.restTimeOffset' => 'integer|float',
             'ws.compression' => 'string',
             'ws.disabledEvents' => 'array:string',
             'ws.encoding' => 'string',

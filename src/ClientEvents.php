@@ -83,7 +83,7 @@ interface ClientEvents {
      *     'global' => bool,
      *     'limit' => int|float, (float = \INF)
      *     'remaining => int,
-     *     'resetTime' => int|null
+     *     'resetTime' => float|null
      * )
      * ```
      *

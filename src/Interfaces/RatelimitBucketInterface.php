@@ -51,12 +51,12 @@ interface RatelimitBucketInterface {
     
     /**
      * Sets the ratelimits from the response.
-     * @param int|null  $limit
-     * @param int|null  $remaining
-     * @param int|null  $resetTime
+     * @param int|null    $limit
+     * @param int|null    $remaining
+     * @param float|null  $resetTime  Reset time in seconds with milliseconds.
      * @return \React\Promise\ExtendedPromiseInterface|void
      */
-    function handleRatelimit(?int $limit, ?int $remaining, ?int $resetTime);
+    function handleRatelimit(?int $limit, ?int $remaining, ?float $resetTime);
     
     /**
      * Returns the endpoint this bucket is for.
@@ -91,7 +91,7 @@ interface RatelimitBucketInterface {
      * ```
      * array(
      *     'limited' => bool,
-     *     'resetTime' => int|null
+     *     'resetTime' => float|null
      * )
      * ```
      *
