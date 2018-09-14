@@ -1074,7 +1074,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * Puts events into a queue, if the client is not ready yet.
-     * Automatically emits all events once the client is ready.
+     * @return void
      * @internal
      */
     function queuedEmit(string $event, ...$args) {
