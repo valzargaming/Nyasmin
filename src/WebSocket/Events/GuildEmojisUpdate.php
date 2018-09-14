@@ -43,7 +43,7 @@ class GuildEmojisUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
                 }
             }
             
-            $this->client->emit('guildEmojisUpdate', $guild);
+            $this->client->queuedEmit('guildEmojisUpdate', $guild);
         }
     }
 }

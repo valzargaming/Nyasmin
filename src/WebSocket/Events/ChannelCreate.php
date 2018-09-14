@@ -38,7 +38,7 @@ class ChannelCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
         }
         
         \React\Promise\all($prom)->done(function () use ($channel) {
-            $this->client->emit('channelCreate', $channel);
+            $this->client->queuedEmit('channelCreate', $channel);
         }, array($this->client, 'handlePromiseRejection'));
     }
 }

@@ -49,7 +49,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                 
                 $user->_patch($data['user']);
                 
-                $this->client->emit('userUpdate', $user, $oldUser);
+                $this->client->queuedEmit('userUpdate', $user, $oldUser);
                 return;
             }
             
@@ -76,7 +76,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
                     $presence = $guild->presences->factory($data);
                 }
                 
-                $this->client->emit('presenceUpdate', $presence, $oldPresence);
+                $this->client->queuedEmit('presenceUpdate', $presence, $oldPresence);
             }
         }, array($this->client, 'handlePromiseRejection'));
     }

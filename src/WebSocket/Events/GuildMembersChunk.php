@@ -30,7 +30,7 @@ class GuildMembersChunk implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
                 $members->set($member->id, $member);
             }
             
-            $this->client->emit('guildMembersChunk', $guild, $members);
+            $this->client->queuedEmit('guildMembersChunk', $guild, $members);
         }
     }
 }

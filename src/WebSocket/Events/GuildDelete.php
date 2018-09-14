@@ -32,7 +32,7 @@ class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             
             if(!empty($data['unavailable'])) {
                 $guild->_patch(array('unavailable' => true));
-                $this->client->emit('guildUnavailable', $guild);
+                $this->client->queuedEmit('guildUnavailable', $guild);
             } else {
                 foreach($guild->channels as $channel) {
                     $this->client->channels->delete($channel->id);
@@ -43,7 +43,7 @@ class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 }
                 
                 $this->client->guilds->delete($guild->id);
-                $this->client->emit('guildDelete', $guild);
+                $this->client->queuedEmit('guildDelete', $guild);
             }
         }
     }

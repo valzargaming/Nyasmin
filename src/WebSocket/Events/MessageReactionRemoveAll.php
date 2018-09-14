@@ -33,7 +33,7 @@ class MessageReactionRemoveAll implements \CharlotteDunois\Yasmin\Interfaces\WSE
             
             $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) {
                 $message->reactions->clear();
-                $this->client->emit('messageReactionRemoveAll', $message);
+                $this->client->queuedEmit('messageReactionRemoveAll', $message);
             }, function () {
                 // Don't handle it
             });

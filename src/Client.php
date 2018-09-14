@@ -187,6 +187,13 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     protected $utils = array();
     
     /**
+     * Events queue, until client turns ready.
+     * @var array
+     * @internal
+     */
+    protected $eventsQueue = array();
+    
+    /**
      * What do you expect this to do? It makes a new Client instance. Available client options are as following (all are optional):
      *
      * ```
@@ -268,6 +275,14 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             $this->ws->on('ready', function () {
                 $this->readyTimestamp = \time();
                 $this->emit('ready');
+            });
+            
+            $this->ws->once('ready', function () {
+                foreach($this->eventsQueue as $ev => $as) {
+                    $this->emit($ev, ...$as);
+                }
+                
+                $this->eventsQueue = array();
             });
         }
         
@@ -1057,5 +1072,23 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 $this->options['internal.storages.'.$name] = $base;
             }
         }
+    }
+    
+    /**
+     * Puts events into a queue, if the client is not ready yet.
+     * Automatically emits all events once the client is ready.
+     * @internal
+     */
+    function queuedEmit(string $event, ...$args) {
+        if($this->readyTimestamp === null) {
+            if(!isset($this->eventsQueue[$event])) {
+                $this->eventsQueue[$event] = array();
+            }
+            
+            $this->eventsQueue[$event][] = $args;
+            return;
+        }
+        
+        return $this->emit($event, ...$args);
     }
 }

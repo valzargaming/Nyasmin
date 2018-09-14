@@ -35,7 +35,7 @@ class UserUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface 
             
             $user->_patch($data);
             
-            $this->client->emit('userUpdate', $user, $oldUser);
+            $this->client->queuedEmit('userUpdate', $user, $oldUser);
         }
     }
 }

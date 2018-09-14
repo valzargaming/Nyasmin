@@ -72,7 +72,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                         $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
                     }
                     
-                    $this->client->emit('messageReactionRemove', $reaction, $user);
+                    $this->client->queuedEmit('messageReactionRemove', $reaction, $user);
                 }, array($this->client, 'handlePromiseRejection'));
             }, function () {
                 // Don't handle it

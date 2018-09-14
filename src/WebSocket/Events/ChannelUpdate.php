@@ -49,7 +49,7 @@ class ChannelUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             }
             
             \React\Promise\all($prom)->done(function () use ($channel, $oldChannel) {
-                $this->client->emit('channelUpdate', $channel, $oldChannel);
+                $this->client->queuedEmit('channelUpdate', $channel, $oldChannel);
             }, array($this->client, 'handlePromiseRejection'));
         }
     }

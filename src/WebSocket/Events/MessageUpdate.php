@@ -41,10 +41,10 @@ class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
                 $message->_patch($data);
                 
                 if($edited) {
-                    $this->client->emit('messageUpdate', $message, $oldMessage);
+                    $this->client->queuedEmit('messageUpdate', $message, $oldMessage);
                 }
             } else {
-                $this->client->emit('messageUpdateRaw', $channel, $data);
+                $this->client->queuedEmit('messageUpdateRaw', $channel, $data);
             }
         }
     }

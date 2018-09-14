@@ -32,7 +32,7 @@ class GuildBanRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
             }
         
             $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($guild) {
-                $this->client->emit('guildBanRemove', $guild, $user);
+                $this->client->queuedEmit('guildBanRemove', $guild, $user);
             }, array($this->client, 'handlePromiseRejection'));
         }
     }

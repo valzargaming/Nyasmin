@@ -26,7 +26,7 @@ class GuildMemberRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
         if($guild) {
             $guildmember = $guild->_removeMember($data['user']['id']);
             if($guildmember) {
-                $this->client->emit('guildMemberRemove', $guildmember);
+                $this->client->queuedEmit('guildMemberRemove', $guildmember);
             }
         }
     }

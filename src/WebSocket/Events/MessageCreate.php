@@ -49,7 +49,7 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
                     });
                 }
                 
-                $this->client->emit('message', $message);
+                $this->client->queuedEmit('message', $message);
             }, array($this->client, 'handlePromiseRejection'));
         }
     }

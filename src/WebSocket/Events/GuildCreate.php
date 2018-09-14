@@ -34,7 +34,7 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             }
             
             if($this->ready) {
-                $this->client->emit('guildUnavailable', $guild);
+                $this->client->queuedEmit('guildUnavailable', $guild);
             } else {
                 $this->client->wsmanager()->emit('guildCreate');
             }
@@ -51,7 +51,7 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             
             $fetchAll->done(function () use ($guild) {
                 if($this->ready) {
-                    $this->client->emit('guildCreate', $guild);
+                    $this->client->queuedEmit('guildCreate', $guild);
                 } else {
                     $this->client->wsmanager()->emit('guildCreate');
                 }

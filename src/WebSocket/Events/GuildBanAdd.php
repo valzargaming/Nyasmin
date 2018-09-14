@@ -32,7 +32,7 @@ class GuildBanAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             }
         
             $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($guild) {
-                $this->client->emit('guildBanAdd', $guild, $user);
+                $this->client->queuedEmit('guildBanAdd', $guild, $user);
             }, array($this->client, 'handlePromiseRejection'));
         }
     }

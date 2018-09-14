@@ -27,7 +27,7 @@ class GuildRoleDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInter
             $role = $guild->roles->get($data['role_id']);
             if($role) {
                 $guild->roles->delete($role->id);
-                $this->client->emit('roleDelete', $role);
+                $this->client->queuedEmit('roleDelete', $role);
             }
         }
     }

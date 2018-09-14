@@ -25,7 +25,7 @@ class GuildRoleCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInter
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $role = $guild->roles->factory($data['role']);
-            $this->client->emit('roleCreate', $role);
+            $this->client->queuedEmit('roleCreate', $role);
         }
     }
 }

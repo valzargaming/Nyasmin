@@ -42,7 +42,7 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
                 
                 $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($reaction) {
                     $reaction->users->set($user->id, $user);
-                    $this->client->emit('messageReactionAdd', $reaction, $user);
+                    $this->client->queuedEmit('messageReactionAdd', $reaction, $user);
                 }, array($this->client, 'handlePromiseRejection'));
             }, function () {
                 // Don't handle it

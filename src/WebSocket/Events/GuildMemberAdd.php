@@ -25,7 +25,7 @@ class GuildMemberAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $guildmember = $guild->_addMember($data);
-            $this->client->emit('guildMemberAdd', $guildmember);
+            $this->client->queuedEmit('guildMemberAdd', $guildmember);
         }
     }
 }
