@@ -119,7 +119,7 @@ class MessageReaction extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
-            $this->client->apimanager()->endpoints->channel->deleteMessageUserReaction($this->message->channel->id, $this->message->id, ($this->emoji->id ?? \rawurlencode($this->emoji->name)), ($user !== null ? $user->id : '@me'))->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteMessageUserReaction($this->message->channel->id, $this->message->id, $this->emoji->identifier, ($user !== null ? $user->id : '@me'))->done(function () use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
