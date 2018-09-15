@@ -23,24 +23,28 @@ class MessageMentions extends ClientBase {
     /**
      * RegEx pattern to match channel mentions.
      * @var string
+     * @source
      */
      const PATTERN_CHANNELS = '/<#(\d+)>/';
      
     /**
      * RegEx pattern to match custom emoji mentions.
      * @var string
+     * @source
      */
     const PATTERN_EMOJIS = '/<a?:(?:.*?):(\d+)>/';
     
     /**
      * RegEx pattern to match role mentions.
      * @var string
+     * @source
      */
     const PATTERN_ROLES = '/<@&(\d+)>/';
     
     /**
      * RegEx pattern to match user mentions.
      * @var string
+     * @source
      */
     const PATTERN_USERS = '/<@!?(\d+)>/';
     
