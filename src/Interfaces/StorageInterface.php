@@ -128,6 +128,14 @@ interface StorageInterface extends \Countable, \Iterator {
     function last(?callable $closure = null);
     
     /**
+     * Reduces the collection to a single value, passing the result of each iteration into the subsequent iteration.
+     * @param callable   $closure
+     * @param mixed|null $carry
+     * @return mixed|null|void
+    */
+    function reduce(callable $closure, $carry = null);
+    
+    /**
      * Sorts the collection. Returns a new Storage instance.
      * @param callable    $closure
      * @param int         $options

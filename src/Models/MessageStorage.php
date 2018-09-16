@@ -80,7 +80,8 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
             return $this;
         }
         
-        return parent::set($key, $value);
+        parent::set($key, $value);
+        return $this;
     }
     
     /**

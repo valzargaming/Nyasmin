@@ -87,4 +87,19 @@ interface TextChannelInterface {
      * @return bool
      */
     function isTyping(\CharlotteDunois\Yasmin\Models\User $user);
+    
+    /**
+     * @param array  $message
+     * @return \CharlotteDunois\Yasmin\Models\Message
+     * @internal
+     */
+    function _createMessage(array $message);
+    
+    /**
+     * @param \CharlotteDunois\Yasmin\Models\User  $user
+     * @param int|null                             $timestamp
+     * @return boolean
+     * @internal
+     */
+    function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, ?int $timestamp = null);
 }
