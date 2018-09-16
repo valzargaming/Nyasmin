@@ -14,6 +14,14 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface EmojiStorageInterface extends StorageInterface {
     /**
+     * Resolves given data to an emoji.
+     * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string|int  $emoji  string/int = emoji ID
+     * @return \CharlotteDunois\Yasmin\Models\Emoji
+     * @throws \InvalidArgumentException
+     */
+    function resolve($emoji);
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Emoji|null

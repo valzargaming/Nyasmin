@@ -14,6 +14,14 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface RoleStorageInterface extends StorageInterface {
     /**
+     * Resolves given data to a Role.
+     * @param \CharlotteDunois\Yasmin\Models\Role|string|int  $role  string/int = role ID
+     * @return \CharlotteDunois\Yasmin\Models\Role
+     * @throws \InvalidArgumentException
+     */
+    function resolve($role);
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Role|null

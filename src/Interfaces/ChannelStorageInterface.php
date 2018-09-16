@@ -14,6 +14,14 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface ChannelStorageInterface extends StorageInterface {
     /**
+     * Resolves given data to a channel.
+     * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|string|int  $channel  string/int = channel ID
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface
+     * @throws \InvalidArgumentException
+     */
+    function resolve($channel);
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null

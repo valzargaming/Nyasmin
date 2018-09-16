@@ -14,6 +14,14 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface PresenceStorageInterface extends StorageInterface {
     /**
+     * Resolves given data to a presence.
+     * @param \CharlotteDunois\Yasmin\Models\Presence|\CharlotteDunois\Yasmin\Models\User|string|int  $presence  string/int = user ID
+     * @return \CharlotteDunois\Yasmin\Models\Presence
+     * @throws \InvalidArgumentException
+     */
+    function resolve($presence);
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Presence|null

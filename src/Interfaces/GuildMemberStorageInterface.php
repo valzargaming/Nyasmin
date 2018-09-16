@@ -14,6 +14,14 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface GuildMemberStorageInterface extends StorageInterface {
     /**
+     * Resolves given data to a guildmember.
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string|int  $guildmember  string/int = user ID
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember
+     * @throws \InvalidArgumentException
+     */
+    function resolve($guildmember);
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\GuildMember|null
