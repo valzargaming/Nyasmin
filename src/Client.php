@@ -22,10 +22,10 @@ namespace CharlotteDunois\Yasmin;
  * @property \CharlotteDunois\Yasmin\Utils\Collection                     $shards     Holds all shards, mapped by shard ID.
  * @property \CharlotteDunois\Yasmin\Models\ClientUser|null               $user       User that the client is logged in as. The instance gets created when the client turns ready.
  *
- * @method $this  on(string $event, callable $listener)               Attach a listener to an event. The method is from the trait - only for documentation purpose here.
- * @method $this  once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the trait - only for documentation purpose here.
- * @method $this  removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the trait - only for documentation purpose here.
- * @method $this  removeAllListeners($event = null)                   Remove all listeners from an event (or all listeners).
+ * @method on(string $event, callable $listener)               Attach a listener to an event. The method is from the trait - only for documentation purpose here.
+ * @method once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the trait - only for documentation purpose here.
+ * @method removeListener(string $event, callable $listener)   Remove specified listener from an event. The method is from the trait - only for documentation purpose here.
+ * @method removeAllListeners($event = null)                   Remove all listeners from an event (or all listeners).
  */
 class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializable {
     use \CharlotteDunois\Events\EventEmitterErrorTrait;
