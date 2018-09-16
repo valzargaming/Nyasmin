@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Guild Storage to store guilds, utilizes Collection.
  */
-class GuildStorage extends Storage {
+class GuildStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\GuildStorageInterface {
     /**
      * Resolves given data to a guild.
      * @param \CharlotteDunois\Yasmin\Models\Guild|string|int  $guild  string/int = guild ID
@@ -36,8 +36,8 @@ class GuildStorage extends Storage {
     }
     
     /**
-     * Returns the item for a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Guild|null
      */
     function get($key) {
@@ -46,6 +46,18 @@ class GuildStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string                                $key
+     * @param \CharlotteDunois\Yasmin\Models\Guild  $value
+     * @return $this
+     */
+    function set($key, $value) {
+        parent::set($key, $value);
+        return $this;
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param string  $key
      * @return $this
      */
     function delete($key) {
@@ -70,6 +82,9 @@ class GuildStorage extends Storage {
     }
     
     /**
+     * Factory to create (or retrieve existing) guilds.
+     * @param array     $data
+     * @param int|null  $shardID
      * @return \CharlotteDunois\Yasmin\Models\Guild
      * @internal
      */

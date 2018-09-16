@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Message Storage to store and handle messages, utilizes Collection.
  */
-class MessageStorage extends Storage {
+class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\MessageStorageInterface {
     /**
      * The channel this storage belongs to.
      * @var \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface
@@ -61,8 +61,8 @@ class MessageStorage extends Storage {
     }
     
     /**
-     * Returns the item for a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Message|null
      */
     function get($key) {
@@ -71,6 +71,8 @@ class MessageStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string                                  $key
+     * @param \CharlotteDunois\Yasmin\Models\Message  $value
      * @return $this
      */
     function set($key, $value) {

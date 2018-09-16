@@ -23,7 +23,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel) {
+        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
             
             $message = $channel->messages->get($data['message_id']);

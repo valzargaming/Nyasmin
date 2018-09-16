@@ -12,15 +12,15 @@ namespace CharlotteDunois\Yasmin;
 /**
  * The client. What else do you expect this to say?
  *
- * @property \React\EventLoop\LoopInterface                  $loop       The event loop.
- * @property \CharlotteDunois\Yasmin\Models\ChannelStorage   $channels   Holds all cached channels, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\EmojiStorage     $emojis     Holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
- * @property \CharlotteDunois\Yasmin\Models\GuildStorage     $guilds     Holds all guilds, mapped by ID.
- * @property \CharlotteDunois\Yasmin\Models\PresenceStorage  $presences  Holds all cached presences (latest ones), mapped by user ID.
- * @property \CharlotteDunois\Yasmin\Models\UserStorage      $users      Holds all cached users, mapped by ID.
- * @property int[]                                           $pings      The last 3 websocket pings of each shard.
- * @property \CharlotteDunois\Yasmin\Utils\Collection        $shards     Holds all shards, mapped by shard ID.
- * @property \CharlotteDunois\Yasmin\Models\ClientUser|null  $user       User that the client is logged in as. The instance gets created when the client turns ready.
+ * @property \React\EventLoop\LoopInterface                               $loop       The event loop.
+ * @property \CharlotteDunois\Yasmin\Interfaces\ChannelStorageInterface   $channels   Holds all cached channels, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Interfaces\EmojiStorageInterface     $emojis     Holds all emojis, mapped by ID (custom emojis) and/or name (unicode emojis).
+ * @property \CharlotteDunois\Yasmin\Interfaces\GuildStorageInterface     $guilds     Holds all guilds, mapped by ID.
+ * @property \CharlotteDunois\Yasmin\Interfaces\PresenceStorageInterface  $presences  Holds all cached presences (latest ones), mapped by user ID.
+ * @property \CharlotteDunois\Yasmin\Interfaces\UserStorageInterface      $users      Holds all cached users, mapped by ID.
+ * @property int[]                                                        $pings      The last 3 websocket pings of each shard.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection                     $shards     Holds all shards, mapped by shard ID.
+ * @property \CharlotteDunois\Yasmin\Models\ClientUser|null               $user       User that the client is logged in as. The instance gets created when the client turns ready.
  *
  * @method $this  on(string $event, callable $listener)               Attach a listener to an event. The method is from the trait - only for documentation purpose here.
  * @method $this  once(string $event, callable $listener)             Attach a listener to an event, for exactly once. The method is from the trait - only for documentation purpose here.
@@ -1029,14 +1029,14 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             'ws.presence' => 'array',
             'ws.presenceUpdate.ignoreUnknownUsers' => 'boolean',
             'internal.api.instance' => 'class:CharlotteDunois\\Yasmin\\HTTP\\APIManager',
-            'internal.storages.channels' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.emojis' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.guilds' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.messages' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.members' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.presences' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.roles' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
-            'internal.storages.users' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\StorageInterface,string_only',
+            'internal.storages.channels' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\ChannelStorageInterface,string_only',
+            'internal.storages.emojis' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\EmojiStorageInterface,string_only',
+            'internal.storages.guilds' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\GuildStorageInterface,string_only',
+            'internal.storages.messages' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\MessageStorageInterface,string_only',
+            'internal.storages.members' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\GuildMemberStorageInterface,string_only',
+            'internal.storages.presences' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\PresenceStorageInterface,string_only',
+            'internal.storages.roles' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\RoleStorageInterface,string_only',
+            'internal.storages.users' => 'class:CharlotteDunois\\Yasmin\\Interfaces\\UserStorageInterface,string_only',
             'internal.ws.instance' => 'class:CharlotteDunois\\Yasmin\\WebSocket\\WSManager'
         ));
         

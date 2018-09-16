@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Role Storage to store a guild's roles, utilizes Collection.
  */
-class RoleStorage extends Storage {
+class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\RoleStorageInterface {
     /**
      * The guild this storage belongs to.
      * @var \CharlotteDunois\Yasmin\Models\Guild
@@ -50,8 +50,8 @@ class RoleStorage extends Storage {
     }
     
     /**
-     * Returns the item for a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Role|null
      */
     function get($key) {
@@ -59,6 +59,19 @@ class RoleStorage extends Storage {
     }
     
     /**
+     * {@inheritdoc}
+     * @param string                               $key
+     * @param \CharlotteDunois\Yasmin\Models\Role  $value
+     * @return $this
+     */
+    function set($key, $value) {
+        parent::set($key, $value);
+        return $this;
+    }
+    
+    /**
+     * Factory to create (or retrieve existing) roles.
+     * @param array  $data
      * @return \CharlotteDunois\Yasmin\Models\Role
      * @internal
      */

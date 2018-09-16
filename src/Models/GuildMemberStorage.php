@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Guild Member Storage to store guild members, utilizes Collection.
  */
-class GuildMemberStorage extends Storage {
+class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\GuildMemberStorageInterface {
     /**
      * The guild this storage belongs to.
      * @var \CharlotteDunois\Yasmin\Models\Guild
@@ -54,8 +54,8 @@ class GuildMemberStorage extends Storage {
     }
     
     /**
-     * Returns the item for a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\GuildMember|null
      */
     function get($key) {
@@ -63,6 +63,19 @@ class GuildMemberStorage extends Storage {
     }
     
     /**
+     * {@inheritdoc}
+     * @param string                                      $key
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember  $value
+     * @return $this
+     */
+    function set($key, $value) {
+        parent::set($key, $value);
+        return $this;
+    }
+    
+    /**
+     * Factory to create (or retrieve existing) guild members.
+     * @param array  $data
      * @return \CharlotteDunois\Yasmin\Models\GuildMember
      * @internal
      */

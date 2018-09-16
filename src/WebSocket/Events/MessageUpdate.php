@@ -27,7 +27,7 @@ class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel) {
+        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $message = $channel->messages->get($data['id']);
             if($message) {
                 // Minor bug in Discord - Event gets emitted when a message gets updated (not edited!) when additional data is available (e.g. image dimensions)

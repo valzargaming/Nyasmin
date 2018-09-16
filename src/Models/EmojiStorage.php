@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Emoji Storage to store emojis, utilizes Collection.
  */
-class EmojiStorage extends Storage {
+class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\EmojiStorageInterface {
     /**
      * The guild this storage belongs to.
      * @var \CharlotteDunois\Yasmin\Models\Guild
@@ -55,6 +55,8 @@ class EmojiStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string                                $key
+     * @param \CharlotteDunois\Yasmin\Models\Emoji  $value
      * @return $this
      */
     function set($key, $value) {
@@ -68,6 +70,7 @@ class EmojiStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string  $key
      * @return $this
      */
     function delete($key) {
@@ -80,6 +83,8 @@ class EmojiStorage extends Storage {
     }
     
     /**
+     * Factory to create (or retrieve existing) emojis.
+     * @param array  $data
      * @return \CharlotteDunois\Yasmin\Models\Emoji
      * @internal
      */

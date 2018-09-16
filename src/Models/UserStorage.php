@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * User Storage to store and cache users, which utlizies Collection.
  */
-class UserStorage extends Storage {
+class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\UserStorageInterface {
     /**
      * The sweep timer, or null.
      * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface|null
@@ -60,6 +60,8 @@ class UserStorage extends Storage {
     }
     
     /**
+     * Patches an user (retrieves the user if the user exists), returns null if only the ID is in the array, or creates an user.
+     * @param array  $user
      * @return \CharlotteDunois\Yasmin\Models\User|null
      * @internal
      */
@@ -76,8 +78,8 @@ class UserStorage extends Storage {
     }
     
     /**
-     * Returns the item for a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\User|null
      */
     function get($key) {
@@ -86,6 +88,8 @@ class UserStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string                               $key
+     * @param \CharlotteDunois\Yasmin\Models\User  $value
      * @return $this
      */
     function set($key, $value) {
@@ -99,6 +103,7 @@ class UserStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string  $key
      * @return $this
      */
     function delete($key) {
@@ -111,6 +116,9 @@ class UserStorage extends Storage {
     }
     
     /**
+     * Factory to create (or retrieve existing) users.
+     * @param array  $data
+     * @param bool   $userFetched
      * @return \CharlotteDunois\Yasmin\Models\User
      * @internal
      */

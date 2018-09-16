@@ -12,7 +12,8 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 /**
  * Something all textchannels (all text-based channels) implement. See TextChannelTrait for full comments.
  *
- * @method string  getType()  The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
+ * @method string                                                      getType()      The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
+ * @method \CharlotteDunois\Yasmin\Interfaces\MessageStorageInterface  getMessages()  The storage with all cached messages.
  */
 interface TextChannelInterface {
     /**

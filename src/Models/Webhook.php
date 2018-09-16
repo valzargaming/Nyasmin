@@ -287,7 +287,7 @@ class Webhook extends ClientBase {
     protected function executeWebhook(array $opts, array $files) {
         return $this->client->apimanager()->endpoints->webhook->executeWebhook($this->id, $this->token, $opts, $files, array('wait' => true))->then(function ($data) {
             $channel = $this->client->channels->get($this->channelID);
-            if($channel) {
+            if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
                 return $channel->_createMessage($data);
             }
             

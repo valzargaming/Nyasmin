@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Channel Storage to store channels, which utilizes Collection.
  */
-class ChannelStorage extends Storage {
+class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\ChannelStorageInterface {
     /**
      * Channel Types.
      * @var array
@@ -55,8 +55,8 @@ class ChannelStorage extends Storage {
     }
     
     /**
-     * Returns the item for a given key. If the key does not exist, null is returned.
-     * @param mixed  $key
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|null
      */
     function get($key) {
@@ -65,6 +65,8 @@ class ChannelStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string                                               $key
+     * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface  $value
      * @return $this
      */
     function set($key, $value) {
@@ -78,6 +80,7 @@ class ChannelStorage extends Storage {
     
     /**
      * {@inheritdoc}
+     * @param string  $key
      * @return $this
      */
     function delete($key) {

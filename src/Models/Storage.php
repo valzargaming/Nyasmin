@@ -55,7 +55,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * @param string  $name
-     * @return mixed
+     * @return string
      * @throws \RuntimeException
      * @internal
      */
@@ -111,7 +111,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * {@inheritdoc}
-     * @return mixed|null
+     * @return string|null
      * @throws \InvalidArgumentException
      */
     function get($key) {
