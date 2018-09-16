@@ -59,11 +59,12 @@ abstract class Base implements \JsonSerializable, \Serializable {
     
     /**
      * @param string  $name
+     * @param array   $args
      * @return mixed
      * @throws \RuntimeException
      * @internal
      */
-    function __call($name) {
+    function __call($name, $args) {
         if(\substr($name, 0, 3) === 'get') {
             $sname = \substr($name, 3);
             $prop = \lcfirst($sname);
