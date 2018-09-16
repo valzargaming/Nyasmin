@@ -234,9 +234,9 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             }));
         }
         
-        if($this->compressContext && $this->compressContext->getName() !== '') {
-            $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' using compress context '.$this->compressContext->getName());
-        }
+        $compress = \explode('\\', \get_class($this->compressContext));
+        $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' using compress context '.\array_pop($compress));
+        $compress = null;
         
         $ready = false;
         $this->ready = false;
@@ -255,10 +255,8 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $connector($this->wsmanager->gateway)->done(function (\Ratchet\Client\WebSocket $conn) use (&$ready, $resolve, $reject, $reconnect) {
                 $this->ws = $conn;
                 
-                if($this->compressContext) {
-                    $this->compressContext->init();
-                    $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' initialized compress context for shard ');
-                }
+                $this->compressContext->init();
+                $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' initialized compress context for shard ');
                 
                 $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY;
                 
@@ -296,19 +294,17 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                         return;
                     }
                     
-                    if($this->compressContext) {
-                        try {
-                            $message = $this->compressContext->decompress($message);
-                            
-                            if($this->previous) {
-                                $this->previous = false;
-                            }
-                        } catch (\Throwable | \Exception | \Error $e) {
-                            $this->previous = !$this->previous;
-                            $this->wsmanager->client->emit('error', $e);
-                            $this->reconnect(true);
-                            return;
+                    try {
+                        $message = $this->compressContext->decompress($message);
+                        
+                        if($this->previous) {
+                            $this->previous = false;
                         }
+                    } catch (\Throwable | \Exception | \Error $e) {
+                        $this->previous = !$this->previous;
+                        $this->wsmanager->client->emit('error', $e);
+                        $this->reconnect(true);
+                        return;
                     }
                     
                     $this->lastPacketTime = \microtime(true);
@@ -339,10 +335,8 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                     $this->authenticated = false;
                     $this->wsHeartbeat['ack'] = true;
                     
-                    if($this->compressContext) {
-                        $this->compressContext->destroy();
-                        $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' destroyed compress context');
-                    }
+                    $this->compressContext->destroy();
+                    $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' destroyed compress context');
                     
                     $this->ws = null;
                     
@@ -554,7 +548,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                     '$browser' => 'Yasmin '.\CharlotteDunois\Yasmin\Client::VERSION,
                     '$device' => 'Yasmin '.\CharlotteDunois\Yasmin\Client::VERSION
                 ),
-                'compress' => ($this->compressContext ? $this->compressContext->isPayloadCompression() : false),
+                'compress' => $this->compressContext->isPayloadCompression(),
                 'large_threshold' => ((int) $this->wsmanager->client->getOption('ws.largeThreshold', 250)),
                 'shard' => array(
                     $this->shardID,
