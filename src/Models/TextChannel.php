@@ -12,23 +12,23 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild's text channel.
  *
- * @property string                                                                                  $id                     The channel ID.
- * @property string                                                                                  $type                   The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
- * @property \CharlotteDunois\Yasmin\Models\Guild                                                    $guild                  The associated guild.
- * @property int                                                                                     $createdTimestamp       The timestamp of when this channel was created.
- * @property string                                                                                  $name                   The channel name.
- * @property string                                                                                  $topic                  The channel topic.
- * @property bool                                                                                    $nsfw                   Whether the channel is marked as NSFW or not.
- * @property string|null                                                                             $parentID               The ID of the parent channel, or null.
- * @property int                                                                                     $position               The channel position.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
- * @property string|null                                                                             $lastMessageID          The last message ID, or null.
- * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface                                     $messages               The storage with all cached messages.
+ * @property string                                               $id                     The channel ID.
+ * @property string                                               $type                   The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
+ * @property \CharlotteDunois\Yasmin\Models\Guild                 $guild                  The associated guild.
+ * @property int                                                  $createdTimestamp       The timestamp of when this channel was created.
+ * @property string                                               $name                   The channel name.
+ * @property string                                               $topic                  The channel topic.
+ * @property bool                                                 $nsfw                   Whether the channel is marked as NSFW or not.
+ * @property string|null                                          $parentID               The ID of the parent channel, or null.
+ * @property int                                                  $position               The channel position.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
+ * @property string|null                                          $lastMessageID          The last message ID, or null.
+ * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface  $messages               The storage with all cached messages.
  *
- * @property \DateTime                                                                               $createdAt              The DateTime instance of createdTimestamp.
- * @property \CharlotteDunois\Yasmin\Models\Message|null                                             $lastMessage            DEPRECATED: The last message, or null.
- * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                     $parent                 Returns the channel's parent, or null.
- * @property bool|null                                                                               $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
+ * @property \DateTime                                            $createdAt              The DateTime instance of createdTimestamp.
+ * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage            DEPRECATED: The last message, or null.
+ * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null  $parent                 Get the channel's parent, or null.
+ * @property bool|null                                            $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
  */
 class TextChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,

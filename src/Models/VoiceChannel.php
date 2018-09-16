@@ -12,22 +12,22 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild's voice channel.
  *
- * @property string                                                                                   $id                     The ID of the channel.
- * @property string                                                                                   $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
- * @property int                                                                                      $createdTimestamp       The timestamp of when this channel was created.
- * @property string                                                                                   $name                   The name of the channel.
- * @property int                                                                                      $bitrate                The bitrate of the channel.
- * @property \CharlotteDunois\Yasmin\Models\Guild                                                     $guild                  The guild the channel is in.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                 $members                Holds all members which currently are in the voice channel. ({@see \CharlotteDunois\Yasmin\Models\GuildMember})
- * @property string|null                                                                              $parentID               The ID of the parent channel, or null.
- * @property int                                                                                      $position               The position of the channel.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                                                 $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
- * @property int                                                                                      $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
+ * @property string                                               $id                     The ID of the channel.
+ * @property string                                               $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
+ * @property int                                                  $createdTimestamp       The timestamp of when this channel was created.
+ * @property string                                               $name                   The name of the channel.
+ * @property int                                                  $bitrate                The bitrate of the channel.
+ * @property \CharlotteDunois\Yasmin\Models\Guild                 $guild                  The guild the channel is in.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $members                Holds all members which currently are in the voice channel. ({@see \CharlotteDunois\Yasmin\Models\GuildMember})
+ * @property string|null                                          $parentID               The ID of the parent channel, or null.
+ * @property int                                                  $position               The position of the channel.
+ * @property \CharlotteDunois\Yasmin\Utils\Collection             $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
+ * @property int                                                  $userLimit              The maximum amount of users allowed in the channel - 0 means unlimited.
  *
- * @property bool                                                                                     $full                   Checks if the voice channel is full.
- * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null                                      $parent                 Returns the channel's parent, or null.
- * @property bool|null                                                                                $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
- * @property bool                                                                                     $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
+ * @property bool                                                 $full                   Checks if the voice channel is full.
+ * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null  $parent                 Returns the channel's parent, or null.
+ * @property bool|null                                            $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
+ * @property bool                                                 $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
  */
 class VoiceChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
