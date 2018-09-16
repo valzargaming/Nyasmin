@@ -58,6 +58,25 @@ abstract class Base implements \JsonSerializable, \Serializable {
     }
     
     /**
+     * @param string  $name
+     * @return mixed
+     * @throws \RuntimeException
+     * @internal
+     */
+    function __call($name) {
+        if(\substr($name, 0, 3) === 'get') {
+            $sname = \substr($name, 3);
+            $prop = \lcfirst($sname);
+            
+            if($sname !== $prop && \property_exists($this, $prop)) {
+                return $this->$prop;
+            }
+        }
+        
+        throw new \RuntimeException('Unknown method '.\get_class($this).'::$'.$name);
+    }
+    
+    /**
      * @return mixed
      * @internal
      */
