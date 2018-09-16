@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * Something all guild channels implement. See GuildChannelTrait for full comments.
  *
  * @method \CharlotteDunois\Yasmin\Models\Guild                      getGuild()   Gets the associated guild.
- * @method \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface  getParent()  Returns the channel's parent, or null.
+ * @method \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface  getParent()  Gets the channel's parent, or null.
  */
 interface GuildChannelInterface {
     /**
