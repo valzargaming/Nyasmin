@@ -29,4 +29,12 @@ interface RoleStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create (or retrieve existing) roles.
+     * @param array  $data
+     * @return \CharlotteDunois\Yasmin\Models\Role
+     * @internal
+     */
+    function factory(array $data);
 }

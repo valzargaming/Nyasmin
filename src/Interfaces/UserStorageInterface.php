@@ -29,4 +29,13 @@ interface UserStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create (or retrieve existing) users.
+     * @param array  $data
+     * @param bool   $userFetched
+     * @return \CharlotteDunois\Yasmin\Models\User
+     * @internal
+     */
+    function factory(array $data, bool $userFetched = false);
 }

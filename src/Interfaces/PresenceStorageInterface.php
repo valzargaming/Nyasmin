@@ -29,4 +29,12 @@ interface PresenceStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create presences.
+     * @param array  $data
+     * @return \CharlotteDunois\Yasmin\Models\Presence
+     * @internal
+     */
+    function factory(array $data);
 }

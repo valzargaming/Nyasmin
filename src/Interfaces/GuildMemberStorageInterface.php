@@ -29,4 +29,12 @@ interface GuildMemberStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create (or retrieve existing) guild members.
+     * @param array  $data
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember
+     * @internal
+     */
+    function factory(array $data);
 }

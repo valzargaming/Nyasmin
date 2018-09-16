@@ -29,4 +29,13 @@ interface GuildStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create (or retrieve existing) guilds.
+     * @param array     $data
+     * @param int|null  $shardID
+     * @return \CharlotteDunois\Yasmin\Models\Guild
+     * @internal
+     */
+    function factory(array $data, ?int $shardID = null);
 }

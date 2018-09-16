@@ -29,4 +29,13 @@ interface ChannelStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create (or retrieve existing) channels.
+     * @param array                                      $data
+     * @param \CharlotteDunois\Yasmin\Models\Guild|null  $guilds
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface
+     * @internal
+     */
+    function factory(array $data, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null);
 }

@@ -29,4 +29,12 @@ interface EmojiStorageInterface extends StorageInterface {
      * @throws \InvalidArgumentException
      */
     function set($key, $value);
+    
+    /**
+     * Factory to create (or retrieve existing) emojis.
+     * @param array  $data
+     * @return \CharlotteDunois\Yasmin\Models\Emoji
+     * @internal
+     */
+    function factory(array $data);
 }
