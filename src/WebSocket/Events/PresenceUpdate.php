@@ -15,8 +15,22 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
  * @internal
  */
 class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
+    /**
+     * The client.
+     * @var \CharlotteDunois\Yasmin\Client
+     */
     protected $client;
+    
+    /**
+     * Whether we do clones.
+     * @var bool
+     */
     protected $clones = false;
+    
+    /**
+     * Whether we ignore events from unknown users.
+     * @var bool
+     */
     protected $ignoreUnknown = false;
     
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
