@@ -31,6 +31,13 @@ interface UserStorageInterface extends StorageInterface {
     function set($key, $value);
     
     /**
+     * Patches an user (retrieves the user if the user exists), returns null if only the ID is in the array, or creates an user.
+     * @param array  $user
+     * @return \CharlotteDunois\Yasmin\Models\User|null
+     */
+    function patch(array $user);
+    
+    /**
      * Factory to create (or retrieve existing) users.
      * @param array  $data
      * @param bool   $userFetched
