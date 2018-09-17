@@ -162,4 +162,56 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
         
         return $this;
     }
+    
+    /**
+     * {@inheritdoc}
+     * @return StorageInterface
+     */
+    function copy() {
+        return (new static($this->client, $this->data));
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param callable  $closure
+     * @return StorageInterface
+    */
+    function filter(callable $closure) {
+        $col = parent::filter($closure);
+        return (new static($this->client, $col->all()));
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param callable    $closure
+     * @param int         $options
+     * @return StorageInterface
+    */
+    function sort(?callable $closure = null, $options = SORT_REGULAR) {
+        $col = parent::sort($closure, $options);
+        return (new static($this->client, $col->all()));
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param mixed|callable  $sortkey
+     * @param int             $options
+     * @param bool            $descending
+     * @return StorageInterface
+    */
+    function sortBy($sortkey, $options = \SORT_REGULAR, bool $descending = false) {
+        $col = parent::sortBy($sortkey, $options, $descending);
+        return (new static($this->client, $col->all()));
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param mixed|\Closure  $sortkey
+     * @param int             $options
+     * @return StorageInterface
+    */
+    function sortByDesc($sortkey, $options = \SORT_REGULAR) {
+        $col = parent::sortByDesc($sortkey, $options);
+        return (new static($this->client, $col->all()));
+    }
 }

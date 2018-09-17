@@ -56,7 +56,7 @@ interface StorageInterface extends \Countable, \Iterator {
     function count();
     
     /**
-     * Returns a copy of itself.
+     * Returns a copy of itself. This does not make a copy of the stored data.
      * @return StorageInterface
      */
     function copy();
