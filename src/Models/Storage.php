@@ -165,7 +165,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * {@inheritdoc}
-     * @return StorageInterface
+     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
      */
     function copy() {
         return (new static($this->client, $this->data));
@@ -174,7 +174,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     /**
      * {@inheritdoc}
      * @param callable  $closure
-     * @return StorageInterface
+     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
     */
     function filter(callable $closure) {
         $col = parent::filter($closure);
@@ -185,7 +185,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
      * {@inheritdoc}
      * @param callable    $closure
      * @param int         $options
-     * @return StorageInterface
+     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
     */
     function sort(?callable $closure = null, $options = SORT_REGULAR) {
         $col = parent::sort($closure, $options);
@@ -197,7 +197,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
      * @param mixed|callable  $sortkey
      * @param int             $options
      * @param bool            $descending
-     * @return StorageInterface
+     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
     */
     function sortBy($sortkey, $options = \SORT_REGULAR, bool $descending = false) {
         $col = parent::sortBy($sortkey, $options, $descending);
@@ -208,7 +208,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
      * {@inheritdoc}
      * @param mixed|\Closure  $sortkey
      * @param int             $options
-     * @return StorageInterface
+     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
     */
     function sortByDesc($sortkey, $options = \SORT_REGULAR) {
         $col = parent::sortByDesc($sortkey, $options);
