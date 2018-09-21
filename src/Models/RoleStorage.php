@@ -42,7 +42,7 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
             $role = (string) $role;
         }
         
-        if(\is_string($role) && $this->has($role)) {
+        if(\is_string($role) && parent::has($role)) {
             return parent::get($role);
         }
         
@@ -95,7 +95,7 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @internal
      */
     function factory(array $data) {
-        if($this->has($data['id'])) {
+        if(parent::has($data['id'])) {
             $role = parent::get($data['id']);
             $role->_patch($data);
             return $role;
