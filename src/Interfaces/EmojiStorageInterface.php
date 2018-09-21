@@ -14,6 +14,42 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface EmojiStorageInterface extends StorageInterface {
     /**
+     * Returns the current element. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Emoji
+     */
+    function current();
+    
+    /**
+     * Fetch the key from the current element. From Iterator interface.
+     * @return string
+     */
+    function key();
+    
+    /**
+     * Advances the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Emoji|false
+     */
+    function next();
+    
+    /**
+     * Resets the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Emoji|false
+     */
+    function rewind();
+    
+    /**
+     * Checks if current position is valid. From Iterator interface.
+     * @return bool
+     */
+    function valid();
+    
+    /**
+     * Returns all items.
+     * @return \CharlotteDunois\Yasmin\Models\Emoji[]
+     */
+    function all();
+    
+    /**
      * Resolves given data to an emoji.
      * @param \CharlotteDunois\Yasmin\Models\Emoji|\CharlotteDunois\Yasmin\Models\MessageReaction|string|int  $emoji  string/int = emoji ID
      * @return \CharlotteDunois\Yasmin\Models\Emoji

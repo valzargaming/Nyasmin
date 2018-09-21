@@ -14,6 +14,42 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface GuildMemberStorageInterface extends StorageInterface {
     /**
+     * Returns the current element. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember
+     */
+    function current();
+    
+    /**
+     * Fetch the key from the current element. From Iterator interface.
+     * @return string
+     */
+    function key();
+    
+    /**
+     * Advances the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember|false
+     */
+    function next();
+    
+    /**
+     * Resets the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember|false
+     */
+    function rewind();
+    
+    /**
+     * Checks if current position is valid. From Iterator interface.
+     * @return bool
+     */
+    function valid();
+    
+    /**
+     * Returns all items.
+     * @return \CharlotteDunois\Yasmin\Models\GuildMember[]
+     */
+    function all();
+    
+    /**
      * Resolves given data to a guildmember.
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\User|string|int  $guildmember  string/int = user ID
      * @return \CharlotteDunois\Yasmin\Models\GuildMember

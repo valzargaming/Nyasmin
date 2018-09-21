@@ -14,6 +14,42 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface ChannelStorageInterface extends StorageInterface {
     /**
+     * Returns the current element. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface
+     */
+    function current();
+    
+    /**
+     * Fetch the key from the current element. From Iterator interface.
+     * @return string
+     */
+    function key();
+    
+    /**
+     * Advances the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|false
+     */
+    function next();
+    
+    /**
+     * Resets the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|false
+     */
+    function rewind();
+    
+    /**
+     * Checks if current position is valid. From Iterator interface.
+     * @return bool
+     */
+    function valid();
+    
+    /**
+     * Returns all items.
+     * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface[]
+     */
+    function all();
+    
+    /**
      * Resolves given data to a channel.
      * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface|string|int  $channel  string/int = channel ID
      * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface

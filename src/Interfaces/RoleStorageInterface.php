@@ -14,6 +14,42 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface RoleStorageInterface extends StorageInterface {
     /**
+     * Returns the current element. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Role
+     */
+    function current();
+    
+    /**
+     * Fetch the key from the current element. From Iterator interface.
+     * @return string
+     */
+    function key();
+    
+    /**
+     * Advances the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Role|false
+     */
+    function next();
+    
+    /**
+     * Resets the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Role|false
+     */
+    function rewind();
+    
+    /**
+     * Checks if current position is valid. From Iterator interface.
+     * @return bool
+     */
+    function valid();
+    
+    /**
+     * Returns all items.
+     * @return \CharlotteDunois\Yasmin\Models\Role[]
+     */
+    function all();
+    
+    /**
      * Resolves given data to a Role.
      * @param \CharlotteDunois\Yasmin\Models\Role|string|int  $role  string/int = role ID
      * @return \CharlotteDunois\Yasmin\Models\Role

@@ -14,6 +14,42 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface MessageStorageInterface extends StorageInterface {
     /**
+     * Returns the current element. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Message
+     */
+    function current();
+    
+    /**
+     * Fetch the key from the current element. From Iterator interface.
+     * @return string
+     */
+    function key();
+    
+    /**
+     * Advances the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Message|false
+     */
+    function next();
+    
+    /**
+     * Resets the internal pointer. From Iterator interface.
+     * @return \CharlotteDunois\Yasmin\Models\Message|false
+     */
+    function rewind();
+    
+    /**
+     * Checks if current position is valid. From Iterator interface.
+     * @return bool
+     */
+    function valid();
+    
+    /**
+     * Returns all items.
+     * @return \CharlotteDunois\Yasmin\Models\Message[]
+     */
+    function all();
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Message|null
