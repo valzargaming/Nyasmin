@@ -46,8 +46,8 @@ class PresenceStorage extends Storage implements \CharlotteDunois\Yasmin\Interfa
             $presence = (string) $presence;
         }
         
-        if(\is_string($presence) && $this->has($presence)) {
-            return $this->get($presence);
+        if(\is_string($presence) && parent::has($presence)) {
+            return parent::get($presence);
         }
         
         throw new \InvalidArgumentException('Unable to resolve unknown presence');

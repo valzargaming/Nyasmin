@@ -329,6 +329,8 @@ class Emoji extends ClientBase {
             }
         }
         
-        $this->client->emojis->set($this->uid, $this);
+        if($this->id !== null) {
+            $this->client->emojis->set($this->id, $this);
+        }
     }
 }

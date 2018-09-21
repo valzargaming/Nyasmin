@@ -47,8 +47,8 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
             $channel = (string) $channel;
         }
         
-        if(\is_string($channel) && $this->has($channel)) {
-            return $this->get($channel);
+        if(\is_string($channel) && parent::has($channel)) {
+            return parent::get($channel);
         }
         
         throw new \InvalidArgumentException('Unable to resolve unknown channel');
@@ -129,8 +129,8 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
             $guild = (!empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null);
         }
         
-        if($this->has($data['id'])) {
-            $channel = $this->get($data['id']);
+        if(parent::has($data['id'])) {
+            $channel = parent::get($data['id']);
             $channel->_patch($data);
             return $channel;
         }

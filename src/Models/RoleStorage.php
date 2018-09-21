@@ -43,7 +43,7 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
         }
         
         if(\is_string($role) && $this->has($role)) {
-            return $this->get($role);
+            return parent::get($role);
         }
         
         throw new \InvalidArgumentException('Unable to resolve unknown role');
@@ -96,7 +96,7 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      */
     function factory(array $data) {
         if($this->has($data['id'])) {
-            $role = $this->get($data['id']);
+            $role = parent::get($data['id']);
             $role->_patch($data);
             return $role;
         }

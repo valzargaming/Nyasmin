@@ -46,8 +46,8 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
             $emoji = (string) $emoji;
         }
         
-        if(\is_string($emoji) && $this->has($emoji)) {
-            return $this->get($emoji);
+        if(\is_string($emoji) && parent::has($emoji)) {
+            return parent::get($emoji);
         }
         
         throw new \InvalidArgumentException('Unable to resolve unknown emoji');
@@ -107,8 +107,8 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      * @internal
      */
     function factory(array $data) {
-        if($this->has($data['id'])) {
-            $emoji = $this->get($data['id']);
+        if(parent::has($data['id'])) {
+            $emoji = parent::get($data['id']);
             $emoji->_patch($data);
             return $emoji;
         }

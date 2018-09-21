@@ -46,8 +46,8 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
             $guildmember = (string) $guildmember;
         }
         
-        if(\is_string($guildmember) && $this->has($guildmember)) {
-            return $this->get($guildmember);
+        if(\is_string($guildmember) && parent::has($guildmember)) {
+            return parent::get($guildmember);
         }
         
         throw new \InvalidArgumentException('Unable to resolve unknown guild member');
@@ -99,8 +99,8 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
      * @internal
      */
     function factory(array $data) {
-        if($this->has($data['user']['id'])) {
-            $member = $this->get($data['user']['id']);
+        if(parent::has($data['user']['id'])) {
+            $member = parent::get($data['user']['id']);
             $member->_patch($data);
             return $member;
         }
