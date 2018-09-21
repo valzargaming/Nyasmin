@@ -114,11 +114,12 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
         }
         
         $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->guild, $data);
-        $id = ($emoji->id ?? $emoji->name);
         
-        $this->set($id, $emoji);
-        $this->client->emojis->set($id, $emoji);
-            
+        if($emoji->id !== null) {
+            $this->set($emoji->id, $emoji);
+            $this->client->emojis->set($emoji->id, $emoji);
+        }
+        
         return $emoji;
     }
 }
