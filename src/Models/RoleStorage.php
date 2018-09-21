@@ -70,6 +70,16 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
     }
     
     /**
+     * {@inheritdoc}
+     * @param string  $key
+     * @return $this
+     */
+    function delete($key) {
+        parent::delete($key);
+        return $this;
+    }
+    
+    /**
      * Factory to create (or retrieve existing) roles.
      * @param array  $data
      * @return \CharlotteDunois\Yasmin\Models\Role

@@ -74,6 +74,16 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
     }
     
     /**
+     * {@inheritdoc}
+     * @param string  $key
+     * @return $this
+     */
+    function delete($key) {
+        parent::delete($key);
+        return $this;
+    }
+    
+    /**
      * Factory to create (or retrieve existing) guild members.
      * @param array  $data
      * @return \CharlotteDunois\Yasmin\Models\GuildMember

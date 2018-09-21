@@ -85,6 +85,16 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
     }
     
     /**
+     * {@inheritdoc}
+     * @param string  $key
+     * @return $this
+     */
+    function delete($key) {
+        parent::delete($key);
+        return $this;
+    }
+    
+    /**
      * Sweeps messages, deletes messages older than the parameter (timestamp - $time). Returns the amount of sweeped messages.
      * @param int  $time  0 = clear all
      * @return int
