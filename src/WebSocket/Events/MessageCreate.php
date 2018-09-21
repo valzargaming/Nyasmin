@@ -32,7 +32,7 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             
             if(!empty($data['member']) && $channel->type === 'text' && !$channel->guild->members->has($user->id)) {
                 $member = $data['member'];
-                $member['user'] = $user->id;
+                $member['user'] = array('id' => $user->id);
                 $channel->guild->_addMember($member, true);
             }
             
