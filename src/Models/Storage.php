@@ -111,7 +111,7 @@ class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
     
     /**
      * {@inheritdoc}
-     * @return string|null
+     * @return mixed|null
      * @throws \InvalidArgumentException
      */
     function get($key) {
