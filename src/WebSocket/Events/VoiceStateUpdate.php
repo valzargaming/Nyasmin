@@ -68,7 +68,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         $this->client->queuedEmit('voiceStateUpdate', $member, $oldMember);
                     }, function () use ($guild, $user) {
                         foreach($guild->channels as $channel) {
-                            if($channel->type instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
+                            if($channel->type === 'type') {
                                 $channel->members->delete($user->id);
                             }
                         }
