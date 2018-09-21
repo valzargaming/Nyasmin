@@ -56,6 +56,15 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
     /**
      * {@inheritdoc}
      * @param string  $key
+     * @return bool
+     */
+    function has($key) {
+        return parent::has($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\GuildMember|null
      */
     function get($key) {

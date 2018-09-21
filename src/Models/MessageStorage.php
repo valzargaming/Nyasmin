@@ -63,6 +63,15 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
     /**
      * {@inheritdoc}
      * @param string  $key
+     * @return bool
+     */
+    function has($key) {
+        return parent::has($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Message|null
      */
     function get($key) {

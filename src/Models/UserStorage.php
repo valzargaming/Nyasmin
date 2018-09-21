@@ -79,6 +79,15 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
     /**
      * {@inheritdoc}
      * @param string  $key
+     * @return bool
+     */
+    function has($key) {
+        return parent::has($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\User|null
      */
     function get($key) {

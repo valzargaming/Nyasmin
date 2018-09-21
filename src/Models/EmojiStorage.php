@@ -55,6 +55,24 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
     
     /**
      * {@inheritdoc}
+     * @param string  $key
+     * @return bool
+     */
+    function has($key) {
+        return parent::has($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     * @param string  $key
+     * @return \CharlotteDunois\Yasmin\Models\Emoji|null
+     */
+    function get($key) {
+        return parent::get($key);
+    }
+    
+    /**
+     * {@inheritdoc}
      * @param string                                $key
      * @param \CharlotteDunois\Yasmin\Models\Emoji  $value
      * @return $this

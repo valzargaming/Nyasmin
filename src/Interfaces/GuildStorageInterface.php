@@ -58,6 +58,14 @@ interface GuildStorageInterface extends StorageInterface {
     function resolve($guild);
     
     /**
+     * Determines if a given key exists in the collection.
+     * @param string  $key
+     * @return bool
+     * @throws \InvalidArgumentException
+    */
+    function has($key);
+    
+    /**
      * Returns the item at a given key. If the key does not exist, null is returned.
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Guild|null
