@@ -59,6 +59,5 @@ https://yasmin.neko.run
 # Issues
 Make sure you also have a rejection handler for all promises, as unhandled promise rejections get swallowed. Feel free to open an issue with as much information as you can get.
 
-# Need help? Join the Yasmin or Discord API guild.
-
-[![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1&v=1)](https://discord.gg/hUpnqam) [![](https://discordapp.com/api/guilds/81384788765712384/embed.png?style=banner1)](https://discord.gg/MzjnGFF)
+# Need help?
+[![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1&v=1)](https://discord.gg/hUpnqam)
