@@ -193,7 +193,7 @@ class APIManager {
                 }
                 
                 $resolve($body);
-            } catch (\Throwable | \Exception | \Error $e) {
+            } catch (\Throwable $e) {
                 $reject($e);
             }
         }));

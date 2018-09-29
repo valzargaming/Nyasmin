@@ -300,7 +300,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                         if($this->previous) {
                             $this->previous = false;
                         }
-                    } catch (\Throwable | \Exception | \Error $e) {
+                    } catch (\Throwable $e) {
                         $this->previous = !$this->previous;
                         $this->wsmanager->client->emit('error', $e);
                         $this->reconnect(true);
