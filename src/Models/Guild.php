@@ -451,6 +451,7 @@ class Guild extends ClientBase {
      *   'topic' => string, (only for text channels)
      *   'bitrate' => int, (only for voice channels)
      *   'userLimit' => int, (only for voice channels, 0 = unlimited)
+     *   'slowmode' => int, (only for text channels)
      *   'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array, (an array or Collection of PermissionOverwrite instances or permission overwrite arrays*)
      *   'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *   'nsfw' => bool (only for text channels)
@@ -491,6 +492,10 @@ class Guild extends ClientBase {
             
             if(isset($options['userLimit'])) {
                 $data['user_limit'] = $options['userLimit'];
+            }
+            
+            if(isset($options['slowmode'])) {
+                $data['rate_limit_per_user'] = (int) $options['slowmode'];
             }
             
             if(isset($options['permissionOverwrites'])) {

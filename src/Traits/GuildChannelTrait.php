@@ -105,6 +105,7 @@ trait GuildChannelTrait {
      *    'nsfw' => bool, (text channels only)
      *    'bitrate' => int, (voice channels only)
      *    'userLimit' => int, (voice channels only)
+     *    'slowmode' => int, (text channels only)
      *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *    'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
      * )
@@ -144,6 +145,10 @@ trait GuildChannelTrait {
         
         if(isset($options['userLimit'])) {
             $data['user_limit'] = (int) $options['userLimit'];
+        }
+        
+        if(isset($options['slowmode'])) {
+            $data['rate_limit_per_user'] = (int) $options['slowmode'];
         }
         
         if(isset($options['parent'])) {

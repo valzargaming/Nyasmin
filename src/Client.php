@@ -530,6 +530,12 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
                 }
                 
                 $this->options['numShards'] = $maxShard - $minShard + 1;
+                
+                $remlogin = ($url['remaining'] ?? \INF);
+                if($remlogin < $this->options['numShards']) {
+                    throw new \RangeException('Remaining gateway identify limit is not sufficient ('.$remlogin.' - '.$this->options['numShards'].' shards)');
+                }
+                
                 $prom = \React\Promise\resolve();
                 
                 for($shard = $minShard; $shard <= $maxShard; $shard++) {

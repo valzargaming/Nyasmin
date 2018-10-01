@@ -21,6 +21,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                        $nsfw                   Whether the channel is marked as NSFW or not.
  * @property string|null                                                 $parentID               The ID of the parent channel, or null.
  * @property int                                                         $position               The channel position.
+ * @property int                                                         $slowmode               Ratelimit to send one message for each non-bot user, without `MANAGE_CHANNEL` and `MANAGE_MESSAGES` permissions, in seconds (0-120).
  * @property \CharlotteDunois\Yasmin\Utils\Collection                    $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
  * @property string|null                                                 $lastMessageID          The last message ID, or null.
  * @property \CharlotteDunois\Yasmin\Interfaces\MessageStorageInterface  $messages               The storage with all cached messages.
@@ -89,6 +90,12 @@ class TextChannel extends ClientBase
      * @var int
      */
     protected $position;
+    
+    /**
+     * Ratelimit to send one message for each non-bot user, without `MANAGE_CHANNEL` and `MANAGE_MESSAGES` permissions, in seconds (0-120).
+     * @var int
+     */
+    protected $slowmode;
     
     /**
      * A collection of PermissionOverwrite instances, mapped by their ID.
@@ -200,6 +207,16 @@ class TextChannel extends ClientBase
     }
     
     /**
+     * Sets the slowmode in seconds for this channel.
+     * @param int     $slowmode
+     * @param string  $reason
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    function setSlowmode(int $slowmode, string $reason = '') {
+        return $this->edit(array('slowmode' => $slowmode), $reason);
+    }
+    
+    /**
      * Automatically converts to a mention.
      * @return string
      */
@@ -217,6 +234,7 @@ class TextChannel extends ClientBase
         $this->nsfw = (bool) ($channel['nsfw'] ?? $this->nsfw ?? false);
         $this->parentID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['parent_id'] ?? $this->parentID ?? null), 'string');
         $this->position = (int) ($channel['position'] ?? $this->position ?? 0);
+        $this->slowmode = (int) ($channel['rate_limit_per_user'] ?? $this->slowmode ?? 0);
         
         if(isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
