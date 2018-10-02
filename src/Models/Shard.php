@@ -50,4 +50,12 @@ class Shard extends ClientBase {
         
         return parent::__get($name);
     }
+    
+    /**
+     * @return string
+     * @internal
+     */
+    function __toString() {
+        return ((string) $this->id);
+    }
 }
