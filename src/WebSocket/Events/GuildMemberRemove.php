@@ -25,7 +25,7 @@ class GuildMemberRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
         $this->client = $client;
     }
     
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $guildmember = $guild->_removeMember($data['user']['id']);

@@ -41,7 +41,7 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
         $this->ignoreUnknown = (bool) $this->client->getOption('ws.presenceUpdate.ignoreUnknownUsers', false);
     }
     
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $user = $this->client->users->get($data['user']['id']);
         
         if(($data['status'] ?? null) === 'offline' && $user === null) {

@@ -263,10 +263,11 @@ interface ClientEvents {
     
     /**
      * Emitted when Discord responds to the user's Voice State Update event.
+     * If you get `null` for `$data`, then this means that there's no endpoint yet and need to await it = Awaiting Endpoint.
      * @return void
      * @see https://discordapp.com/developers/docs/topics/gateway#voice-server-update
      */
-    function voiceServerUpdate(array $data);
+    function voiceServerUpdate(?array $data);
     
     /**
      * Emitted when a member's voice state changes (leaves/joins/etc.).

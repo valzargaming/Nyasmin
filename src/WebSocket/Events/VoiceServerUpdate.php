@@ -25,7 +25,7 @@ class VoiceServerUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
         $this->client = $client;
     }
     
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $this->client->queuedEmit('voiceServerUpdate', $data);
     }
 }

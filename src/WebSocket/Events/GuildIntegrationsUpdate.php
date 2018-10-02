@@ -25,7 +25,7 @@ class GuildIntegrationsUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEv
         $this->client = $client;
     }
     
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $this->client->queuedEmit('guildIntegrationsUpdate', $guild);

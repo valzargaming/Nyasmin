@@ -34,7 +34,7 @@ class GuildMemberUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
         $this->clones = !($clones === true || \in_array('guildMemberUpdate', (array) $clones));
     }
     
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
             $guildmember = $guild->members->get($data['user']['id']);

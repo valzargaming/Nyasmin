@@ -35,7 +35,7 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         });
     }
     
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void {
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         if(empty($data['user']['bot'])) {
             $ws->emit('self.error', 'User accounts are not supported');
             return;

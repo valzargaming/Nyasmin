@@ -23,5 +23,5 @@ interface WSEventInterface {
      * Handles events.
      * @return void
      */
-    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, array $data): void;
+    function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void;
 }
