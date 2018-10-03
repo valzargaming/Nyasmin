@@ -386,7 +386,7 @@ class Message extends ClientBase {
      * @return string
      */
     function getJumpURL() {
-        $guild = ($this->channel->type === 'text' ? $this->guild->id : '@me');
+        $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $this->guild->id : '@me');
         return 'https://canary.discordapp.com/channels/'.$guild.'/'.$this->channel->getId().'/'.$this->id;
     }
     
@@ -495,8 +495,8 @@ class Message extends ClientBase {
                 $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $this->channel->getGuild() : null);
                 
                 $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $data['emoji']);
-                if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                    $this->channel->guild->emojis->set($id, $emoji);
+                if($guild) {
+                    $guild->emojis->set($id, $emoji);
                 }
             }
             
@@ -554,7 +554,7 @@ class Message extends ClientBase {
         }
         
         foreach($this->mentions->users as $user) {
-            $guildCheck = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface && $this->channel->guild->members->has($user->id));
+            $guildCheck = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface && $this->channel->getGuild()->members->has($user->id));
             $this->cleanContent = \str_replace($user->__toString(), ($guildCheck ? $this->channel->getGuild()->members->get($user->id)->displayName : $user->username), $this->cleanContent);
         }
         
