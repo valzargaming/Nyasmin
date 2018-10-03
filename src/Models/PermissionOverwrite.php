@@ -84,7 +84,7 @@ class PermissionOverwrite extends ClientBase {
         
         switch($name) {
             case 'guild':
-                return $this->channel->guild;
+                return $this->channel->getGuild();
             break;
             case 'target':
                 return ($this->type === 'role' ? $this->channel->guild->roles->get($this->id) : $this->channel->guild->members->get($this->id));
@@ -130,7 +130,7 @@ class PermissionOverwrite extends ClientBase {
         $options['deny'] = $deny;
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->id, $this->id, $options, $reason)->done(function () use ($options, $resolve) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->getId(), $this->id, $options, $reason)->done(function () use ($options, $resolve) {
                 $this->allow = new \CharlotteDunois\Yasmin\Models\Permissions(($options['allow'] ?? 0));
                 $this->deny = new \CharlotteDunois\Yasmin\Models\Permissions(($options['deny'] ?? 0));
                 $resolve($this);
@@ -145,7 +145,7 @@ class PermissionOverwrite extends ClientBase {
      */
     function delete(string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->channel->deleteChannelPermission($this->channel->id, $this->id, $reason)->then(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteChannelPermission($this->channel->getId(), $this->id, $reason)->then(function () use ($resolve) {
                 $resolve();
             }, $reject);
         }));

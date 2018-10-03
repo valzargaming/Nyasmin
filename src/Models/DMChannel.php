@@ -24,9 +24,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        DEPRECATED: The last message, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null             $owner              The owner of this channel, or null.
  */
-class DMChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
+class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
     
     /**

@@ -27,10 +27,10 @@ class MessageDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel) {
-            $message = $channel->messages->get($data['id']);
-            if($message) {
-                $channel->messages->delete($message->id);
+        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+            $message = $channel->getMessages()->get($data['id']);
+            if($message instanceof \CharlotteDunois\Yasmin\Models\Message) {
+                $channel->getMessages()->delete($message->id);
                 $this->client->queuedEmit('messageDelete', $message);
             } else {
                 $this->client->queuedEmit('messageDeleteRaw', $channel, $data['id']);

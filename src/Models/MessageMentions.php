@@ -103,7 +103,7 @@ class MessageMentions extends ClientBase {
             foreach($matches[1] as $match) {
                 $channel = $this->client->channels->get($match);
                 if($channel) {
-                    $this->channels->set($channel->id, $channel);
+                    $this->channels->set($channel->getId(), $channel);
                 }
             }
         }
@@ -125,7 +125,7 @@ class MessageMentions extends ClientBase {
             }
         }
         
-        if($message->channel->type === 'text' && !empty($msg['mention_roles'])) {
+        if($message->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !empty($msg['mention_roles'])) {
             foreach($msg['mention_roles'] as $id) {
                 $role = $message->channel->guild->roles->get($id);
                 if($role) {

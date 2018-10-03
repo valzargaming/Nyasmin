@@ -30,8 +30,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                 $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
  */
 class VoiceChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
+    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
                 \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     

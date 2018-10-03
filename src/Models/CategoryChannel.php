@@ -23,9 +23,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface  $children               DEPRECATED: Returns all channels which are childrens of this category.
  * @property \DateTime                                            $createdAt              The DateTime instance of createdTimestamp.
  */
-class CategoryChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
+class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     /**

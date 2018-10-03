@@ -131,7 +131,7 @@ trait TextChannelTrait {
             return array($message->id, $message);
         };
         $mfilter = function (\CharlotteDunois\Yasmin\Models\Message $message) use ($filter) {
-            return ($message->channel->id === $this->id && $filter($message));
+            return ($message->channel->getId() === $this->id && $filter($message));
         };
         
         $collector = new \CharlotteDunois\Yasmin\Utils\Collector($this->client, 'message', $mhandler, $mfilter, $options);

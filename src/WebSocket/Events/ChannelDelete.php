@@ -27,12 +27,12 @@ class ChannelDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['id']);
-        if($channel) {
-            if($channel->guild) {
-                $channel->guild->channels->delete($channel->id);
+        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\ChannelInterface) {
+            if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                $channel->getGuild()->channels->delete($channel->getId());
             }
             
-            $this->client->channels->delete($channel->id);
+            $this->client->channels->delete($channel->getId());
             $this->client->queuedEmit('channelDelete', $channel);
         }
     }

@@ -36,10 +36,10 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             }
             
             $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($channel, $data) {
-                if(!empty($data['member']) && $channel->type === 'text' && !$channel->guild->members->has($user->id)) {
+                if(!empty($data['member']) && $channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !$channel->getGuild()->members->has($user->id)) {
                     $member = $data['member'];
                     $member['user'] = $user->id;
-                    $channel->guild->_addMember($member, true);
+                    $channel->getGuild()->_addMember($member, true);
                 }
                 
                 if($channel->_updateTyping($user, $data['timestamp'])) {

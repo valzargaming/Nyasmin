@@ -18,7 +18,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * @method \CharlotteDunois\Yasmin\Utils\Collection             getPermissionOverwrites()  Gets the channel's permission overwrites.
  * @method \CharlotteDunois\Yasmin\Models\CategoryChannel|null  getParent()                Gets the channel's parent, or null.
  */
-interface GuildChannelInterface {
+interface GuildChannelInterface extends ChannelInterface {
     /**
      * Creates an invite. Resolves with an instance of Invite.
      * @param array $options

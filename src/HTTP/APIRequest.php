@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
 final class APIRequest {
     /**
      * The JSON encode/decode options.
-     * @var int
+     * @var int|null
      */
     static protected $jsonOptions;
     

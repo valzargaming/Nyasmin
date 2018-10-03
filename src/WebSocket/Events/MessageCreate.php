@@ -30,10 +30,10 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $user = $this->client->users->patch($data['author']);
             
-            if(!empty($data['member']) && $channel->type === 'text' && !$channel->guild->members->has($user->id)) {
+            if(!empty($data['member']) && $channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !$channel->getGuild()->members->has($user->id)) {
                 $member = $data['member'];
                 $member['user'] = array('id' => $user->id);
-                $channel->guild->_addMember($member, true);
+                $channel->getGuild()->_addMember($member, true);
             }
             
             $message = $channel->_createMessage($data);

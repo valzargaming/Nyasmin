@@ -206,7 +206,9 @@ class Message extends ClientBase {
         $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
         if(!empty($message['reactions'])) {
             foreach($message['reactions'] as $reaction) {
-                $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->channel->guild, $reaction['emoji'])));
+                $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $this->channel->getGuild() : null);
+                
+                $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $reaction['emoji'])));
                 $this->reactions->set($emoji->uid, (new \CharlotteDunois\Yasmin\Models\MessageReaction($this->client, $this, $emoji, $reaction)));
             }
         }
@@ -239,7 +241,7 @@ class Message extends ClientBase {
             case 'deletable': // TODO: DEPRECATED
             case 'pinnable':
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                    $member = $this->channel->guild->members->get($this->author->id);
+                    $member = $this->channel->getGuild()->members->get($this->author->id);
                     if($member) {
                         return $member->permissionsIn($this->channel)->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_MESSAGES']);
                     }
@@ -252,14 +254,14 @@ class Message extends ClientBase {
             break;
             case 'guild':
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                    return $this->channel->guild;
+                    return $this->channel->getGuild();
                 }
                 
                 return null;
             break;
             case 'member':
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                    return $this->channel->guild->members->get($this->author->id);
+                    return $this->channel->getGuild()->members->get($this->author->id);
                 }
                 
                 return null;
@@ -275,7 +277,7 @@ class Message extends ClientBase {
      */
     function clearReactions() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->deleteMessageReactions($this->channel->id, $this->id)->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteMessageReactions($this->channel->getId(), $this->id)->done(function () use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -334,7 +336,7 @@ class Message extends ClientBase {
                 $msg['embed'] = $options['embed'];
             }
             
-            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->id, $this->id, $msg)->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->getId(), $this->id, $msg)->done(function () use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -353,7 +355,7 @@ class Message extends ClientBase {
                     $this->delete(0, $reason)->done($resolve, $reject);
                 });
             } else {
-                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->id, $this->id, $reason)->done(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->getId(), $this->id, $reason)->done(function () use ($resolve) {
                     $resolve();
                 }, $reject);
             }
@@ -385,7 +387,7 @@ class Message extends ClientBase {
      */
     function getJumpURL() {
         $guild = ($this->channel->type === 'text' ? $this->guild->id : '@me');
-        return 'https://canary.discordapp.com/channels/'.$guild.'/'.$this->channel->id.'/'.$this->id;
+        return 'https://canary.discordapp.com/channels/'.$guild.'/'.$this->channel->getId().'/'.$this->id;
     }
     
     /**
@@ -394,7 +396,7 @@ class Message extends ClientBase {
      */
     function pin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->pinChannelMessage($this->channel->id, $this->id)->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->pinChannelMessage($this->channel->getId(), $this->id)->done(function () use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -441,7 +443,7 @@ class Message extends ClientBase {
                 }
             });
             
-            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->id, $this->id, $emoji)->done(null, function ($error) use ($prom, $reject) {
+            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->getId(), $this->id, $emoji)->done(null, function ($error) use ($prom, $reject) {
                 $prom->cancel();
                 $reject($error);
             });
@@ -465,7 +467,7 @@ class Message extends ClientBase {
      */
     function unpin() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->unpinChannelMessage($this->channel->id, $this->id)->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->unpinChannelMessage($this->channel->getId(), $this->id)->done(function () use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -490,7 +492,9 @@ class Message extends ClientBase {
         if(!$reaction) {
             $emoji = $this->client->emojis->get($id);
             if(!$emoji) {
-                $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $this->channel->guild : null), $data['emoji']);
+                $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $this->channel->getGuild() : null);
+                
+                $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $data['emoji']);
                 if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                     $this->channel->guild->emojis->set($id, $emoji);
                 }
@@ -542,7 +546,7 @@ class Message extends ClientBase {
         $this->mentions = new \CharlotteDunois\Yasmin\Models\MessageMentions($this->client, $this, $message);
         
         foreach($this->mentions->channels as $channel) {
-            $this->cleanContent = \str_replace('<#'.$channel->id.'>', $channel->name, $this->cleanContent);
+            $this->cleanContent = \str_replace('<#'.$channel->getId().'>', $channel->name, $this->cleanContent);
         }
         
         foreach($this->mentions->roles as $role) {
@@ -550,10 +554,11 @@ class Message extends ClientBase {
         }
         
         foreach($this->mentions->users as $user) {
-            $this->cleanContent = \str_replace($user->__toString(), ($this->channel->type === 'text' && $this->channel->guild->members->has($user->id) ? $this->channel->guild->members->get($user->id)->displayName : $user->username), $this->cleanContent);
+            $guildCheck = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface && $this->channel->guild->members->has($user->id));
+            $this->cleanContent = \str_replace($user->__toString(), ($guildCheck ? $this->channel->getGuild()->members->get($user->id)->displayName : $user->username), $this->cleanContent);
         }
         
-        if(!empty($message['member']) && !$this->guild->members->has($this->author->id)) {
+        if(!empty($message['member']) && $this->guild !== null && !$this->guild->members->has($this->author->id)) {
             $member = $message['member'];
             $member['user'] = $message['author'];
             $this->guild->_addMember($member, true);

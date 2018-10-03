@@ -28,7 +28,7 @@ class MessageReactionRemoveAll implements \CharlotteDunois\Yasmin\Interfaces\WSE
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
-            $message = $channel->messages->get($data['message_id']);
+            $message = $channel->getMessages()->get($data['message_id']);
             if($message) {
                 $message = \React\Promise\resolve($message);
             } else {

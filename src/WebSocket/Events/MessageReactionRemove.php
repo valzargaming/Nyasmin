@@ -30,7 +30,7 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
             
-            $message = $channel->messages->get($data['message_id']);
+            $message = $channel->getMessages()->get($data['message_id']);
             $reaction = null;
             
             if($message) {
@@ -54,7 +54,9 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                     if(!$reaction) {
                         $emoji = $this->client->emojis->get($id);
                         if(!$emoji) {
-                            $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $channel->guild : null), $data['emoji']);
+                            $guild = ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $channel->getGuild() : null);
+                            
+                            $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $data['emoji']);
                             if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                                 $channel->guild->emojis->set($id, $emoji);
                             }

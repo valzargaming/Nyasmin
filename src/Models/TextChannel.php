@@ -32,8 +32,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool|null                                                   $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
  */
 class TextChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\ChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
+    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
                 \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait, \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
     

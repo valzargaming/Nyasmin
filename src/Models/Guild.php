@@ -1058,7 +1058,7 @@ class Guild extends ClientBase {
             
             foreach($channels as $chan => $position) {
                 if($chan instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
-                    $chan = $chan->id;
+                    $chan = $chan->getId();
                 }
                 
                 $options[] = array('id' => $chan, 'position' => (int) $position);
