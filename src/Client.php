@@ -397,7 +397,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             $this->api = new \CharlotteDunois\Yasmin\HTTP\APIManager($this);
         }
         
-        if(!empty($this->options['http.ratelimitbucket.athena'])) {
+        if(isset($this->options['http.ratelimitbucket.athena'])) {
             $this->options['http.ratelimitbucket.athena'] = new \CharlotteDunois\Athena\AthenaCache($this->loop, $this->options['http.ratelimitbucket.athena']);
         }
         
