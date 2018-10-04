@@ -72,10 +72,10 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                     }
                 }
                 
-                $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($message, $reaction) {
+                $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($id, $message, $reaction) {
                     $reaction->users->delete($user->id);
                     if($reaction->count === 0) {
-                        $message->reactions->delete(($reaction->emoji->id ?? $reaction->emoji->name));
+                        $message->reactions->delete($id);
                     }
                     
                     $this->client->queuedEmit('messageReactionRemove', $reaction, $user);
