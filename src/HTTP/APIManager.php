@@ -89,7 +89,7 @@ class APIManager {
         
         $this->loop = $this->client->loop;
         
-        $this->bucketName = $client->getOption('http.ratelimitbucket.name', '\\CharlotteDunois\\Yasmin\\HTTP\\RatelimitBucket');
+        $this->bucketName = $client->getOption('http.ratelimitbucket.name', \CharlotteDunois\Yasmin\HTTP\RatelimitBucket::class);
     }
     
     /**
