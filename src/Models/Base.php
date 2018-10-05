@@ -74,7 +74,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
             }
         }
         
-        throw new \RuntimeException('Unknown method '.\get_class($this).'::$'.$name);
+        throw new \RuntimeException('Unknown method '.\get_class($this).'::'.$name);
     }
     
     /**
