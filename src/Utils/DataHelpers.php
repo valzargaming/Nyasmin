@@ -125,6 +125,32 @@ class DataHelpers {
     }
     
     /**
+     * Cleans the text from mentions, by providing a context message.
+     * @param \CharlotteDunois\Yasmin\Models\Message  $message
+     * @param string                                  $text
+     * @return string
+     */
+    static function cleanContent(\CharlotteDunois\Yasmin\Models\Message $message, string $text) {
+        /** @var \CharlotteDunois\Yasmin\Interfaces\ChannelInterface  $channel */
+        foreach($message->mentions->channels as $channel) {
+            $text = \str_replace('<#'.$channel->getId().'>', '#'.$channel->name, $text);
+        }
+        
+        /** @var \CharlotteDunois\Yasmin\Models\Role  $role */
+        foreach($message->mentions->roles as $role) {
+            $text = \str_replace($role->__toString(), $role->name, $text);
+        }
+        
+        /** @var \CharlotteDunois\Yasmin\Models\User  $user */
+        foreach($message->mentions->users as $user) {
+            $guildCheck = ($message->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface && $message->channel->getGuild()->members->has($user->id));
+            $text = \preg_replace('/<@!?'.$user->id.'>/', ($guildCheck ? $message->channel->getGuild()->members->get($user->id)->displayName : $user->username), $text);
+        }
+        
+        return $text;
+    }
+    
+    /**
      * Escapes any Discord-flavour markdown in a string.
      * @param string  $text            Content to escape.
      * @param bool    $onlyCodeBlock   Whether to only escape codeblocks (takes priority).

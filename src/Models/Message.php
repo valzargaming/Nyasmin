@@ -542,21 +542,8 @@ class Message extends ClientBase {
             }
         }
         
-        $this->cleanContent = $this->content;
         $this->mentions = new \CharlotteDunois\Yasmin\Models\MessageMentions($this->client, $this, $message);
-        
-        foreach($this->mentions->channels as $channel) {
-            $this->cleanContent = \str_replace('<#'.$channel->getId().'>', $channel->name, $this->cleanContent);
-        }
-        
-        foreach($this->mentions->roles as $role) {
-            $this->cleanContent = \str_replace($role->__toString(), $role->name, $this->cleanContent);
-        }
-        
-        foreach($this->mentions->users as $user) {
-            $guildCheck = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface && $this->channel->getGuild()->members->has($user->id));
-            $this->cleanContent = \str_replace($user->__toString(), ($guildCheck ? $this->channel->getGuild()->members->get($user->id)->displayName : $user->username), $this->cleanContent);
-        }
+        $this->cleanContent = \CharlotteDunois\Yasmin\Utils\DataHelpers::cleanContent($this, $this->content);
         
         if(!empty($message['member']) && $this->guild !== null && !$this->guild->members->has($this->author->id)) {
             $member = $message['member'];
