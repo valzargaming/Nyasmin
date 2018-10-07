@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property int  $id  The shard ID.
  */
-class Shard extends ClientBase {
+class Shard extends ClientBase implements \Serializable {
     /**
      * The shard ID.
      * @var int
@@ -49,6 +49,17 @@ class Shard extends ClientBase {
         }
         
         return parent::__get($name);
+    }
+    
+    /**
+     * @return string
+     * @internal
+     */
+    function serialize() {
+        $vars = \get_object_vars($this);
+        unset($vars['client'], $vars['ws']);
+        
+        return \serialize($vars);
     }
     
     /**
