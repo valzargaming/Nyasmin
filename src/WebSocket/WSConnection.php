@@ -288,7 +288,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                     }
                 });
                 
-                $this->ws->on('message', function (\Ratchet\RFC6455\Messaging\Message $message) {
+                $this->ws->on('message', function (\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $reject) {
                     $message = $message->getPayload();
                     if(!$message) {
                         return;
@@ -303,7 +303,12 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                     } catch (\Throwable $e) {
                         $this->previous = !$this->previous;
                         $this->wsmanager->client->emit('error', $e);
-                        $this->reconnect(true);
+                        
+                        if(!$ready) {
+                            return $reject($e);
+                        }
+                        
+                        $this->ws->close(4000, 'Zlib decompression error');
                         return;
                     }
                     
