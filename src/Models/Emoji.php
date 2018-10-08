@@ -322,8 +322,8 @@ class Emoji extends ClientBase {
             $this->roles->clear();
             
             foreach($emoji['roles'] as $role) {
-                if($this->guild->roles->has($role['id'])) {
-                    $r = $this->guild->roles->get($role['id']);
+                if($this->guild->roles->has($role)) {
+                    $r = $this->guild->roles->get($role);
                     $this->roles->set($r->id, $r);
                 }
             }
