@@ -28,11 +28,11 @@ class GuildBanRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
         if($guild) {
-            $user = $this->client->users->patch($data);
+            $user = $this->client->users->patch($data['user']);
             if($user) {
                 $user = \React\Promise\resolve($user);
             } else {
-                $user = $this->client->fetchUser($data['id']);
+                $user = $this->client->fetchUser($data['user']['id']);
             }
         
             $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($guild) {
