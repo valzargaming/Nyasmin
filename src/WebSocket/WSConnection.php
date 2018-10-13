@@ -424,7 +424,10 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
     protected function renewConnection(bool $forceNewGateway = true) {
         if($forceNewGateway) {
             $prom = $this->wsmanager->client->apimanager()->getGateway()->then(function ($url) {
-                return $this->wsmanager->connectShard($this->shardID, $url['url']);
+                $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
+                $wsquery['encoding'] = $this->encoding->getName();
+                
+                return $this->wsmanager->connectShard($this->shardID, $url['url'], $wsquery);
             });
         } else {
             $prom = $this->wsmanager->connectShard($this->shardID);
