@@ -37,8 +37,10 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, ?array $data = null) {
         parent::__construct($client, $data);
         $this->channel = $channel;
-        $this->enabled = (bool) $this->client->getOption('messageCache', true);
         
+        $this->baseStorageArgs[] = &$this->channel;
+        
+        $this->enabled = (bool) $this->client->getOption('messageCache', true);
         if($this->enabled) {
             $time = (int) $this->client->getOption('messageCacheLifetime', 0);
             $inv = (int) $this->client->getOption('messageSweepInterval', $time);

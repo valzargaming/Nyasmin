@@ -25,6 +25,8 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
     function __construct(\CharlotteDunois\Yasmin\Client $client, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null, ?array $data = null) {
         parent::__construct($client, $data);
         $this->guild = $guild;
+        
+        $this->baseStorageArgs[] = &$this->guild;
     }
     
     /**
