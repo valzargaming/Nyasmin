@@ -15,11 +15,11 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface                              $channel   The channel this Permission Overwrite belongs to.
  * @property string                                                                                $id        The ID of the Permission Overwrite.
  * @property string                                                                                $type      The type of the overwrite (member or role).
- * @property \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guildmember, or null if not a member.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                                            $allow     The allowed Permissions instance.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                                            $deny      The denied Permissions instance.
  *
  * @property \CharlotteDunois\Yasmin\Models\Guild                                                  $guild     The guild this Permission Overwrite belongs to.
+ * @property \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null   $target    The role or guild member, or null if not a cached member.
  */
 class PermissionOverwrite extends ClientBase {
     /**
@@ -39,12 +39,6 @@ class PermissionOverwrite extends ClientBase {
      * @var string
      */
     protected $type;
-    
-    /**
-     * The role or guildmember, or null if not a member.
-     * @var \CharlotteDunois\Yasmin\Models\Role|\CharlotteDunois\Yasmin\Models\GuildMember|null
-     */
-    protected $target;
     
     /**
      * The allowed Permissions instance.
