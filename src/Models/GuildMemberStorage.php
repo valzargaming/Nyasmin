@@ -26,7 +26,7 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
         parent::__construct($client, $data);
         $this->guild = $guild;
         
-        $this->baseStorageArgs[] = &$this->guild;
+        $this->baseStorageArgs[] = $this->guild;
     }
     
     /**

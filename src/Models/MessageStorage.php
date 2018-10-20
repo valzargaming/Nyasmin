@@ -38,7 +38,7 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
         parent::__construct($client, $data);
         $this->channel = $channel;
         
-        $this->baseStorageArgs[] = &$this->channel;
+        $this->baseStorageArgs[] = $this->channel;
         
         $this->enabled = (bool) $this->client->getOption('messageCache', true);
         if($this->enabled) {

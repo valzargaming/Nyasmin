@@ -26,7 +26,7 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
         parent::__construct($client, $data);
         $this->guild = $guild;
         
-        $this->baseStorageArgs[] = &$this->guild;
+        $this->baseStorageArgs[] = $this->guild;
     }
     
     /**
