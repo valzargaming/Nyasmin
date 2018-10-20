@@ -160,7 +160,7 @@ class ClientUser extends User {
     }
     
     /**
-     * Set your presence. Ratelimit is 5/60s, which gets handled by this method and after the ratelimit passed, it will set the last set presence as presence, skipping all previous set presences. Resolves with $this.
+     * Set your presence. Ratelimit is 5/60s, the gateway drops all further presence updates. Resolves with $this.
      *
      * ```
      * array(

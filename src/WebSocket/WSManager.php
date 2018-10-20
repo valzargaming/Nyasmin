@@ -119,6 +119,12 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
     protected $gateway;
     
     /**
+     * The WS gateway query string.
+     * @var array
+     */
+    protected $gatewayQS = array();
+    
+    /**
      * The timestamp of the latest identify (Ratelimit 1/5s).
      * @var int
      */
@@ -205,6 +211,9 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             break;
             case 'gateway':
                 return $this->gateway;
+            break;
+            case 'gatewayQS':
+                return $this->gatewayQS;
             break;
             case 'lastIdentify':
                 return $this->lastIdentify;
@@ -309,6 +318,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                 $querystring['compress'] = $compression::getName();
             }
             
+            $this->gatewayQS = $querystring;
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
         

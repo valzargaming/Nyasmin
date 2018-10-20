@@ -249,138 +249,26 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use (&$ready, $reconnect) {
-            $connector = $this->wsmanager->connector;
+        $deferred = new \React\Promise\Deferred();
+        
+        $connector = $this->wsmanager->connector;
+        $connector($this->wsmanager->gateway)->done(function (\Ratchet\Client\WebSocket $conn) use (&$ready, $deferred, $reconnect) {
+            $this->initWS($conn, $ready, $reconnect, $deferred);
+        }, function (\Throwable $error) use ($deferred) {
+            $this->wsmanager->client->emit('error', $error);
             
-            $connector($this->wsmanager->gateway)->done(function (\Ratchet\Client\WebSocket $conn) use (&$ready, $resolve, $reject, $reconnect) {
-                $this->ws = $conn;
-                
-                $this->compressContext->init();
-                $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' initialized compress context for shard ');
-                
-                $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY;
-                
-                $this->emit('open');
-                $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' connected to WS');
-                
-                $ratelimits = &$this->ratelimits;
-                $ratelimits['timer'] = $this->wsmanager->client->loop->addPeriodicTimer($ratelimits['time'], function () use ($ratelimits) {
-                    $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
-                });
-                
-                $this->once('self.ready', function () use (&$ready, $resolve, $reconnect) {
-                    $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
-                    
-                    if($reconnect && $this->wsmanager->client->user !== null) {
-                        $this->wsmanager->client->user->setPresence($this->wsmanager->client->user->clientPresence);
-                    }
-                    
-                    $ready = true;
-                    $this->ready = true;
-                    
-                    $resolve($this);
-                });
-                
-                $this->once('self.error', function ($error) use (&$ready, $reject) {
-                    if(!$ready) {
-                        $this->disconnect();
-                        $reject(new \Exception($error));
-                    }
-                });
-                
-                $this->ws->on('message', function (\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $reject) {
-                    $message = $message->getPayload();
-                    if(!$message) {
-                        return;
-                    }
-                    
-                    try {
-                        $message = $this->compressContext->decompress($message);
-                        
-                        if($this->previous) {
-                            $this->previous = false;
-                        }
-                    } catch (\Throwable $e) {
-                        $this->previous = !$this->previous;
-                        $this->wsmanager->client->emit('error', $e);
-                        
-                        if(!$ready) {
-                            return $reject($e);
-                        }
-                        
-                        $this->ws->close(4000, 'Zlib decompression error');
-                        return;
-                    }
-                    
-                    $this->lastPacketTime = \microtime(true);
-                    $this->wsmanager->wshandler->handle($this, $message);
-                });
-                
-                $this->ws->on('error', function (\Throwable $error) use (&$ready, $reject) {
-                    if(!$ready) {
-                        return $reject($error);
-                    }
-                    
-                    $this->wsmanager->client->emit('error', $error);
-                });
-                
-                $this->ws->on('close', function (int $code, string $reason) use ($reject) {
-                    if($this->ratelimits['timer']) {
-                        $this->wsmanager->client->loop->cancelTimer($this->ratelimits['timer']);
-                    }
-                    
-                    if($this->heartbeat) {
-                        $this->wsmanager->client->loop->cancelTimer($this->heartbeat);
-                        $this->heartbeat = null;
-                    }
-                    
-                    $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];
-                    $this->ratelimits['timer'] = null;
-                    
-                    $this->authenticated = false;
-                    $this->wsHeartbeat['ack'] = true;
-                    
-                    $this->compressContext->destroy();
-                    $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' destroyed compress context');
-                    
-                    $this->ws = null;
-                    
-                    if($this->status <= \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
-                        $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
-                    }
-                    
-                    $this->emit('close', $code, $reason);
-                    
-                    if(\in_array($code, $this->wsCloseCodes['end'])) {
-                        return $reject(new \RuntimeException(\CharlotteDunois\Yasmin\WebSocket\WSManager::WS_CLOSE_CODES[$code]));
-                    }
-                    
-                    if($code === 1000 && $this->expectedClose) {
-                        $this->queue = array();
-                        
-                        $this->wsSessionID = null;
-                        $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_IDLE;
-                        
-                        return;
-                    }
-                    
-                    if($code === 1000 || ($code >= 4000 && !\in_array($code, $this->wsCloseCodes['resumable']))) {
-                        $this->wsSessionID = null;
-                    }
-                    
-                    $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
-                    $this->renewConnection(false);
-                });
-            }, function (\Throwable $error) use ($resolve, $reject) {
-                $this->wsmanager->client->emit('error', $error);
-                
-                if($this->ws) {
-                    $this->ws->close(1006);
-                }
-                
-                $this->renewConnection(true)->done($resolve, $reject);
+            if($this->ws) {
+                $this->ws->close(1006);
+            }
+            
+            $this->renewConnection(true)->done(function () use ($deferred) {
+                $deferred->resolve();
+            }, function (\Thowable $e) use ($deferred) {
+                $deferred->reject($e);
             });
-        }));
+        });
+        
+        return $deferred->promise();
     }
     
     /**
@@ -424,10 +312,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
     protected function renewConnection(bool $forceNewGateway = true) {
         if($forceNewGateway) {
             $prom = $this->wsmanager->client->apimanager()->getGateway()->then(function ($url) {
-                $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
-                $wsquery['encoding'] = $this->encoding->getName();
-                
-                return $this->wsmanager->connectShard($this->shardID, $url['url'], $wsquery);
+                return $this->wsmanager->connectShard($this->shardID, $url['url'], $this->wsmanager->gatewayQS);
             });
         } else {
             $prom = $this->wsmanager->connectShard($this->shardID);
@@ -645,5 +530,130 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         
         $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' sending WS packet with OP code '.$packet['op']);
         $this->ws->send($msg);
+    }
+    
+    /**
+     * Initializes the websocet.
+     * @return void
+     */
+    protected function initWS(\Ratchet\Client\WebSocket $conn, bool &$ready, bool $reconnect, \React\Promise\Deferred $deferred) {
+        $this->ws = $conn;
+        
+        $this->compressContext->init();
+        $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' initialized compress context for shard ');
+        
+        $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY;
+        
+        $this->emit('open');
+        $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' connected to WS');
+        
+        $ratelimits = &$this->ratelimits;
+        $ratelimits['timer'] = $this->wsmanager->client->loop->addPeriodicTimer($ratelimits['time'], function () use ($ratelimits) {
+            $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
+        });
+        
+        $this->once('self.ready', function () use (&$ready, $reconnect, $deferred) {
+            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
+            
+            if($reconnect && $this->wsmanager->client->user !== null) {
+                $this->wsmanager->client->user->setPresence($this->wsmanager->client->user->clientPresence);
+            }
+            
+            $ready = true;
+            $this->ready = true;
+            
+            $deferred->resolve($this);
+        });
+        
+        $this->once('self.error', function ($error) use (&$ready, $deferred) {
+            if(!$ready) {
+                $this->disconnect();
+                $deferred->reject(new \Exception($error));
+            }
+        });
+        
+        $this->ws->on('message', function (\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $deferred) {
+            $message = $message->getPayload();
+            if(!$message) {
+                return;
+            }
+            
+            try {
+                $message = $this->compressContext->decompress($message);
+                
+                if($this->previous) {
+                    $this->previous = false;
+                }
+            } catch (\Throwable $e) {
+                $this->previous = true;
+                $this->wsmanager->client->emit('error', $e);
+                
+                if(!$ready) {
+                    return $deferred->reject($e);
+                }
+                
+                $this->ws->close(4000, 'Zlib decompression error');
+                return;
+            }
+            
+            $this->lastPacketTime = \microtime(true);
+            $this->wsmanager->wshandler->handle($this, $message);
+        });
+        
+        $this->ws->on('error', function (\Throwable $error) use (&$ready, $deferred) {
+            if(!$ready) {
+                return $deferred->reject($error);
+            }
+            
+            $this->wsmanager->client->emit('error', $error);
+        });
+        
+        $this->ws->on('close', function (int $code, string $reason) use ($deferred) {
+            if($this->ratelimits['timer']) {
+                $this->wsmanager->client->loop->cancelTimer($this->ratelimits['timer']);
+            }
+            
+            if($this->heartbeat) {
+                $this->wsmanager->client->loop->cancelTimer($this->heartbeat);
+                $this->heartbeat = null;
+            }
+            
+            $this->ratelimits['remaining'] = $this->ratelimits['total'] - $this->ratelimits['heartbeatRoom'];
+            $this->ratelimits['timer'] = null;
+            
+            $this->authenticated = false;
+            $this->wsHeartbeat['ack'] = true;
+            
+            $this->compressContext->destroy();
+            $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' destroyed compress context');
+            
+            $this->ws = null;
+            
+            if($this->status <= \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
+                $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
+            }
+            
+            $this->emit('close', $code, $reason);
+            
+            if(\in_array($code, $this->wsCloseCodes['end'])) {
+                return $deferred->reject(new \RuntimeException(\CharlotteDunois\Yasmin\WebSocket\WSManager::WS_CLOSE_CODES[$code]));
+            }
+            
+            if($code === 1000 && $this->expectedClose) {
+                $this->queue = array();
+                
+                $this->wsSessionID = null;
+                $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_IDLE;
+                
+                return;
+            }
+            
+            if($code === 1000 || ($code >= 4000 && !\in_array($code, $this->wsCloseCodes['resumable']))) {
+                $this->wsSessionID = null;
+            }
+            
+            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
+            $this->renewConnection(false);
+        });
     }
 }
