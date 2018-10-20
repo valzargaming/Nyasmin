@@ -318,11 +318,12 @@ class Collection implements \Countable, \Iterator {
      * @return mixed|null
     */
     function first(?callable $closure = null) {
+        if($closure === null) {
+            $keys = \array_keys($this->data);
+            return $this->data[$keys[0]];
+        }
+        
         foreach($this->data as $key => $val) {
-            if($closure === null) {
-                return $val;
-            }
-            
             $feed = (bool) $closure($val, $key);
             if($feed) {
                 return $val;
@@ -492,15 +493,16 @@ class Collection implements \Countable, \Iterator {
      * @return mixed|null
     */
     function last(?callable $closure = null) {
+        if($closure === null) {
+            $keys = \array_keys($this->data);
+            return $this->data[$keys[(\count($keys) - 1)]];
+        }
+        
         $data = null;
         foreach($this->data as $key => $val) {
-            if($closure === null) {
+            $feed = $closure($val, $key);
+            if($feed) {
                 $data = $val;
-            } else {
-                $feed = $closure($val, $key);
-                if($feed) {
-                    $data = $val;
-                }
             }
         }
         
@@ -669,23 +671,12 @@ class Collection implements \Countable, \Iterator {
     
     /**
      * Searches the collection for the given value and returns its key if found. If the item is not found, false is returned.
-     * @param callable|mixed   $needle
-     * @param bool             $strict
+     * @param mixed   $needle
+     * @param bool    $strict
      * @return mixed|bool
     */
-    function search($needle, bool $strict = false) {
-        if(\is_callable($needle)) {
-            foreach($this->data as $key => $val) {
-                $feed = (bool) $needle($val, $key);
-                if($feed) {
-                    return $key;
-                }
-            }
-        } else {
-            return \array_search($needle, $this->data, $strict);
-        }
-        
-        return false;
+    function search($needle, bool $strict = true) {
+        return \array_search($needle, $this->data, $strict);
     }
     
     /**
@@ -823,7 +814,7 @@ class Collection implements \Countable, \Iterator {
     */
     function unique($key) {
         if($key === null) {
-            return (new self(\array_unique($this->data, SORT_REGULAR)));
+            return (new self(\array_unique($this->data, \SORT_REGULAR)));
         }
         
         $key = $this->valueRetriever($key);
