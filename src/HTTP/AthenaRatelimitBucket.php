@@ -220,6 +220,8 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
      * @return \React\Promise\ExtendedPromiseInterface
      */
     protected function get() {
-        return $this->cache->get('yasmin-ratelimiter-'.$this->endpoint, array('limit' => 0, 'remaining' => 0, 'resetTime' => null));
+        return $this->cache->get('yasmin-ratelimiter-'.$this->endpoint, null, true)->otherwise(function () {
+            return array('limit' => 0, 'remaining' => 0, 'resetTime' => null);
+        });
     }
 }
