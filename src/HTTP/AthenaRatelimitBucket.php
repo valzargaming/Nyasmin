@@ -109,7 +109,7 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
                 $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($resetTime - \microtime(true)).' seconds');
             }
             
-            return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, array('limit' => $limit, 'remaining' => $remaining, 'resetTime' => $resetTime));
+            return $this->set(array('limit' => $limit, 'remaining' => $remaining, 'resetTime' => $resetTime));
         });
     }
     
@@ -150,7 +150,7 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
         $this->get()->then(function ($data) {
             $data['remaining']++;
             
-            return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, $data);
+            return $this->set($data);
         })->done(null, array($this->api->client, 'handlePromiseRejection'));
         
         return $this;
@@ -196,7 +196,7 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
         $this->get()->then(function ($data) {
             $data['remaining']--;
             
-            return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, $data);
+            return $this->set($data);
         })->done(null, array($this->api->client, 'handlePromiseRejection'));
         
         return $item;
@@ -222,6 +222,19 @@ final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\
     protected function get() {
         return $this->cache->get('yasmin-ratelimiter-'.$this->endpoint, null, true)->otherwise(function () {
             return array('limit' => 0, 'remaining' => 0, 'resetTime' => null);
+        });
+    }
+    
+    /**
+     * Sets the cache data.
+     * @param array  $value
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    protected function set(array $value) {
+        return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, $value)->otherwise(function (\Throwable $e) {
+            if($e->getMessage() !== 'Connection closed') {
+                throw $e;
+            }
         });
     }
 }
