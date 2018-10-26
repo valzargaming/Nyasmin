@@ -319,8 +319,12 @@ class Collection implements \Countable, \Iterator {
     */
     function first(?callable $closure = null) {
         if($closure === null) {
+            if(empty($this->data)) {
+                return null;
+            }
+            
             $keys = \array_keys($this->data);
-            return $this->data[$keys[0]];
+            return ($this->data[$keys[0]] ?? null);
         }
         
         foreach($this->data as $key => $val) {
@@ -494,6 +498,10 @@ class Collection implements \Countable, \Iterator {
     */
     function last(?callable $closure = null) {
         if($closure === null) {
+            if(empty($this->data)) {
+                return null;
+            }
+            
             $keys = \array_keys($this->data);
             return $this->data[$keys[(\count($keys) - 1)]];
         }

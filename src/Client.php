@@ -364,7 +364,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * Unserializes the class and re-registers utils. Automatically creates an event loop.
-     * @param string $vars
+     * @param string  $vars
      * @return void
      * @throws \RuntimeException
      */

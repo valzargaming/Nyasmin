@@ -15,6 +15,7 @@
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-json": "*",
+        "ext-zlib": "*",
         "ext-mbstring": "*",
         "ratchet/pawl": "^0.3.1",
         "react/event-loop": "^1.0|^0.5|^0.4.3",
