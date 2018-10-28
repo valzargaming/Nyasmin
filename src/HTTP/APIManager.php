@@ -188,8 +188,7 @@ class APIManager {
                 $body = \CharlotteDunois\Yasmin\HTTP\APIRequest::decodeBody($response);
                 
                 if($status >= 300) {
-                    $error = new \RuntimeException($response->getReasonPhrase());
-                    return $reject($error);
+                    throw new \RuntimeException($response->getReasonPhrase());
                 }
                 
                 $resolve($body);

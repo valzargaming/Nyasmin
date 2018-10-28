@@ -49,11 +49,15 @@ class DataHelpers {
     }
     
     /**
-     * Sets the React Filesystem instance.
-     * @param \React\Filesystem\FilesystemInterface  $filesystem
+     * Sets the React Filesystem instance, or disables it.
+     * @param \React\Filesystem\FilesystemInterface|null  $filesystem
      * @return void
      */
-    static function setFilesystem(\React\Filesystem\FilesystemInterface $filesystem) {
+    static function setFilesystem(?\React\Filesystem\FilesystemInterface $filesystem) {
+        if($filesystem === null) {
+            $filesystem = false;
+        }
+        
         self::$filesystem = $filesystem;
     }
     
@@ -112,7 +116,7 @@ class DataHelpers {
     static function resolveFileResolvable(string $file) {
         $rfile = @\realpath($file);
         if($rfile) {
-            if(self::$filesystem !== null) {
+            if(self::$filesystem) {
                 return self::$filesystem->getContents($file);
             }
             
@@ -313,7 +317,7 @@ class DataHelpers {
                         $file['data'] = $data;
                         return $file;
                     });
-                } elseif(self::$filesystem !== null) {
+                } elseif(self::$filesystem) {
                     $promises[] = self::$filesystem->getContents($file['path'])->then(function ($data) use ($file) {
                         $file['data'] = $data;
                         return $file;
