@@ -27,7 +27,8 @@
         "react/promise": "^2.7.0"
     },
     "require-dev": {
-        "charlottedunois/athena": "dev-master",
+        "charlottedunois/athena": "^0.1.1|dev-master",
+        "charlottedunois/kimberly": "^0.1.2|dev-master",
         "psr/http-message": "^1.0"
     },
     "suggest": {
