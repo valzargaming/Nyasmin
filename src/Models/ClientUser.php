@@ -199,7 +199,7 @@ class ClientUser extends User {
         
         $this->clientPresence = $packet['d'];
         
-        $presence = $this->presence;
+        $presence = $this->getPresence();
         if($presence) {
             $presence->_patch($this->clientPresence);
         }

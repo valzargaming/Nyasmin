@@ -20,7 +20,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int                                                  $position               The channel position.
  * @property \CharlotteDunois\Collect\Collection                  $permissionOverwrites   A collection of PermissionOverwrite instances.
  *
- * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface  $children               DEPRECATED: Returns all channels which are childrens of this category.
  * @property \DateTime                                            $createdAt              The DateTime instance of createdTimestamp.
  */
 class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
@@ -95,9 +94,6 @@ class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Inte
         }
         
         switch($name) {
-            case 'children': // TODO: DEPRECATED
-                return $this->getChildren();
-            break;
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;

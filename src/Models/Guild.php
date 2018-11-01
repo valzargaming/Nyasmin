@@ -48,7 +48,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Role                             $defaultRole                  The guild's default role.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null   $embedChannel                 The guild's embed channel, or null.
  * @property \CharlotteDunois\Yasmin\Models\GuildMember                      $me                           The guild member of the client user.
- * @property string                                                          $nameAcronym                  DEPRECATED: The acronym that shows up in place of a guild icon.
  * @property \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface|null   $systemChannel                The guild's system channel, or null.
  * @property bool                                                            $vanityURL                    Whether the guild has a vanity invite url.
  * @property bool                                                            $verified                     Whether the guild is verified.
@@ -338,9 +337,6 @@ class Guild extends ClientBase {
             break;
             case 'me':
                 return $this->members->get($this->client->user->id);
-            break;
-            case 'nameAcronym': // TODO: DEPRECATED
-                return $this->getNameAcronym();
             break;
             case 'systemChannel':
                 return $this->channels->get($this->systemChannelID);

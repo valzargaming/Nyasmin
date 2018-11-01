@@ -25,15 +25,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
  * @property string                                                         $voiceSessionID   The voice session ID, or null.
  *
- * @property bool                                                           $bannable         DEPRECATED: Whether the member is bannable by the client user.
- * @property \CharlotteDunois\Yasmin\Models\Role|null                       $colorRole        DEPRECATED: The role of the member used to set their color, or null.
- * @property int|null                                                       $displayColor     DEPRECATED: The displayed color of the member.
- * @property string|null                                                    $displayHexColor  DEPRECATED: The displayed color of the member as hex string.
  * @property string                                                         $displayName      The displayed name.
- * @property \CharlotteDunois\Yasmin\Models\Role                            $highestRole      DEPRECATED: The role of the member with the highest position.
- * @property \CharlotteDunois\Yasmin\Models\Role|null                       $hoistRole        DEPRECATED: The role used to show the member separately in the memberlist, or null.
  * @property \DateTime                                                      $joinedAt         An DateTime instance of joinedTimestamp.
- * @property bool                                                           $kickable         DEPRECATED: Whether the guild member is kickable by the client user.
  * @property \CharlotteDunois\Yasmin\Models\Permissions                     $permissions      The permissions of the member, only taking roles into account.
  * @property \CharlotteDunois\Yasmin\Models\Presence|null                   $presence         The presence of the member in this guild, or null.
  * @property \CharlotteDunois\Yasmin\Models\User|null                       $user             The User instance of the member. This should never be null, unless you fuck up.
@@ -140,32 +133,11 @@ class GuildMember extends ClientBase {
         }
         
         switch($name) {
-            case 'bannable': // TODO: DEPRECATED
-                return $this->isBannable();
-            break;
-            case 'colorRole': // TODO: DEPRECATED
-                return $this->getColorRole();
-            break;
-            case 'displayColor': // TODO: DEPRECATED
-                return $this->getDisplayColor();
-            break;
-            case 'displayHexColor': // TODO: DEPRECATED
-                return $this->getDisplayHexColor();
-            break;
             case 'displayName':
                 return ($this->nickname ?? $this->user->username);
             break;
-            case 'highestRole': // TODO: DEPRECATED
-                return $this->getHighestRole();
-            break;
-            case 'hoistRole': // TODO: DEPRECATED
-                return $this->getHoistRole();
-            break;
             case 'joinedAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->joinedTimestamp);
-            break;
-            case 'kickable': // TODO: DEPRECATED
-                return $this->isKickable();
             break;
             case 'permissions':
                 if($this->id === $this->guild->ownerID) {
@@ -394,7 +366,7 @@ class GuildMember extends ClientBase {
             return false;
         }
         
-        return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
+        return ($member->getHighestRole()->comparePositionTo($this->getHighestRole()) > 0);
     }
     
     /**
@@ -411,7 +383,7 @@ class GuildMember extends ClientBase {
             return false;
         }
         
-        return ($member->highestRole->comparePositionTo($this->highestRole) > 0);
+        return ($member->getHighestRole()->comparePositionTo($this->getHighestRole()) > 0);
     }
     
     /**

@@ -23,9 +23,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                        $managed             Whether the role is managed by an integration.
  * @property bool                                        $mentionable         Whether the role is mentionable.
  *
- * @property int                                         $calculatedPosition  DEPRECATED: The role position in the role manager.
  * @property \DateTime                                   $createdAt           The DateTime instance of createdTimestamp.
- * @property bool                                        $editable            DEPRECATED: Whether the role can be edited by the client user.
  * @property string                                      $hexColor            Returns the hex color of the role color.
  * @property \CharlotteDunois\Collect\Collection         $members             A collection of all (cached) guild members which have the role.
  */
@@ -143,14 +141,8 @@ class Role extends ClientBase {
         }
         
         switch($name) {
-            case 'calculatedPosition': // TODO: DEPRECATED
-                return $this->getCalculatedPosition();
-            break;
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
-            break;
-            case 'editable': // TODO: DEPRECATED
-                return $this->isEditable();
             break;
             case 'hexColor':
                 return '#'.\dechex($this->color);
@@ -281,7 +273,7 @@ class Role extends ClientBase {
             return false;
         }
         
-        return ($member->highestRole->comparePositionTo($this) > 0);
+        return ($member->getHighestRole()->comparePositionTo($this) > 0);
     }
     
     /**

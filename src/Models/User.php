@@ -24,10 +24,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int                                                  $createdTimestamp   The timestamp of when this user was created.
  *
  * @property \DateTime                                            $createdAt          An DateTime instance of the createdTimestamp.
- * @property int                                                  $defaultAvatar      DEPRECATED: The identifier of the default avatar for this user.
- * @property \CharlotteDunois\Yasmin\Models\DMChannel|null        $dmChannel          DEPRECATED: The DM channel for this user, if it exists, or null.
- * @property \CharlotteDunois\Yasmin\Models\Message|null          $lastMessage        DEPRECATED (with no replacement): The last message the user sent while the client was online, or null.
- * @property \CharlotteDunois\Yasmin\Models\Presence|null         $presence           DEPRECATED: The presence for this user, or null.
  * @property string                                               $tag                Username#Discriminator.
  */
 class User extends ClientBase {
@@ -92,12 +88,6 @@ class User extends ClientBase {
     protected $createdTimestamp;
     
     /**
-     * DEPRECATED: The last ID of the message the user sent while the client was online, or null.
-     * @var string|null
-     */
-    public $lastMessageID;
-    
-    /**
      * Whether the user fetched this user.
      * @var bool
      */
@@ -131,32 +121,6 @@ class User extends ClientBase {
         switch($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
-            break;
-            case 'defaultAvatar': // TODO: DEPRECATED
-                return ($this->discriminator % 5);
-            break;
-            case 'dmChannel': // TODO: DEPRECATED
-                $channel = $this->client->channels->first(function ($channel) {
-                    return ($channel->type === 'dm' && $channel->isRecipient($this));
-                });
-                
-                return $channel;
-            break;
-            case 'lastMessage': // TODO: DEPRECATED
-                if($this->lastMessageID !== null) {
-                    $channel = $this->client->channels->first(function ($channel) {
-                        return ($channel->type === 'text' && $channel->messages->has($this->lastMessageID));
-                    });
-                    
-                    if($channel) {
-                        return $channel->messages->get($this->lastMessageID);
-                    }
-                }
-                
-                return null;
-            break;
-            case 'presence': // TODO: DEPRECATED
-                return $this->getPresence();
             break;
             case 'tag':
                 return $this->username.'#'.$this->discriminator;

@@ -26,8 +26,6 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property bool                                                 $full                   Checks if the voice channel is full.
  * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null  $parent                 Returns the channel's parent, or null.
- * @property bool|null                                            $permissionsLocked      DEPRECATED: If the permissionOverwrites match the parent channel, or null if no parent.
- * @property bool                                                 $speakable              DEPRECATED: Whether the client has permission to send audio to the channel.
  */
 class VoiceChannel extends ClientBase
     implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
@@ -134,12 +132,6 @@ class VoiceChannel extends ClientBase
             break;
             case 'parent':
                 return $this->guild->channels->get($this->parentID);
-            break;
-            case 'permissionsLocked': // TODO: DEPRECATED
-                return $this->isPermissionsLocked();
-            break;
-            case 'speakable': // TODO: DEPRECATED
-                return $this->canSpeak();
             break;
         }
         
