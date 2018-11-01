@@ -12,10 +12,10 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a guild audit log.
  *
- * @property \CharlotteDunois\Yasmin\Models\Guild      $guild     Which guild this audit log is for.
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $entries   Holds the entries, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $users     Holds the found users in the audit log, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection  $webhooks  Holds the found webhooks in the audit log, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\Guild  $guild     Which guild this audit log is for.
+ * @property \CharlotteDunois\Collect\Collection   $entries   Holds the entries, mapped by their ID.
+ * @property \CharlotteDunois\Collect\Collection   $users     Holds the found users in the audit log, mapped by their ID.
+ * @property \CharlotteDunois\Collect\Collection   $webhooks  Holds the found webhooks in the audit log, mapped by their ID.
  */
 class AuditLog extends ClientBase {
     /**
@@ -26,19 +26,19 @@ class AuditLog extends ClientBase {
     
     /**
      * Holds the entries, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $entries;
     
     /**
      * Holds the found users in the audit log, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $users;
     
     /**
      * Holds the found webhooks in the audit log, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $webhooks;
     
@@ -49,9 +49,9 @@ class AuditLog extends ClientBase {
         parent::__construct($client);
         $this->guild = $guild;
         
-        $this->entries = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->users = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->webhooks = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->entries = new \CharlotteDunois\Collect\Collection();
+        $this->users = new \CharlotteDunois\Collect\Collection();
+        $this->webhooks = new \CharlotteDunois\Collect\Collection();
         
         foreach($audit['users'] as $user) {
             $usr = $this->client->users->patch($user);

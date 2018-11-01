@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * @method string                                               getName()                  Gets the channel's name.
  * @method \CharlotteDunois\Yasmin\Models\Guild                 getGuild()                 Gets the associated guild.
  * @method int                                                  getPosition()              Gets the channel's position.
- * @method \CharlotteDunois\Yasmin\Utils\Collection             getPermissionOverwrites()  Gets the channel's permission overwrites.
+ * @method \CharlotteDunois\Collect\Collection                  getPermissionOverwrites()  Gets the channel's permission overwrites.
  * @method \CharlotteDunois\Yasmin\Models\CategoryChannel|null  getParent()                Gets the channel's parent, or null.
  */
 interface GuildChannelInterface extends ChannelInterface {
@@ -123,7 +123,7 @@ interface GuildChannelInterface extends ChannelInterface {
     
     /**
      * Sets the permission overwrites of the channel. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array  $permissionOverwrites
+     * @param \CharlotteDunois\Collect\Collection|array  $permissionOverwrites
      * @param string                                          $reason
      * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException

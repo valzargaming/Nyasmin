@@ -18,9 +18,9 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 interface TextChannelInterface extends ChannelInterface {
     /**
      * Deletes multiple messages at once. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages
-     * @param string                                              $reason
-     * @param bool                                                $filterOldMessages
+     * @param \CharlotteDunois\Collect\Collection|array|int  $messages
+     * @param string                                         $reason
+     * @param bool                                           $filterOldMessages
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false);

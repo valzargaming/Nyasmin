@@ -20,7 +20,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int                                                            $joinedTimestamp  The timestamp of when this member joined.
  * @property bool                                                           $selfDeaf         Whether the member is locally deafened.
  * @property bool                                                           $selfMute         Whether the member is locally muted.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                       $roles            A Collection of all roles the member has, mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\Role})
+ * @property \CharlotteDunois\Collect\Collection                            $roles            A Collection of all roles the member has, mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\Role})
  * @property bool                                                           $suppress         Whether you suppress the member.
  * @property string|null                                                    $voiceChannelID   The ID of the voice channel the member is in, or null.
  * @property string                                                         $voiceSessionID   The voice session ID, or null.
@@ -108,7 +108,7 @@ class GuildMember extends ClientBase {
     
     /**
      * A Collection of all roles the member has, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $roles;
     
@@ -122,7 +122,7 @@ class GuildMember extends ClientBase {
         $this->id = (string) $member['user']['id'];
         $this->client->users->patch($member['user']);
         
-        $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->roles = new \CharlotteDunois\Collect\Collection();
         $this->joinedTimestamp = (new \DateTime((!empty($member['joined_at']) ? $member['joined_at'] : 'now')))->getTimestamp();
         
         $this->_patch($member);
@@ -213,12 +213,12 @@ class GuildMember extends ClientBase {
     
     /**
      * Adds roles to the guild member. Resolves with $this.
-     * @param array|\CharlotteDunois\Yasmin\Utils\Collection   $roles    A collection or array of Role instances or role IDs.
-     * @param string                                           $reason
+     * @param array|\CharlotteDunois\Collect\Collection   $roles    A collection or array of Role instances or role IDs.
+     * @param string                                      $reason
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function addRoles($roles, string $reason = '') {
-        if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+        if($roles instanceof \CharlotteDunois\Collect\Collection) {
             $roles = $roles->all();
         }
         
@@ -244,7 +244,7 @@ class GuildMember extends ClientBase {
      * ```
      * array(
      *   'nick' => string,
-     *   'roles' => array|\CharlotteDunois\Yasmin\Utils\Collection, (of role instances or role IDs)
+     *   'roles' => array|\CharlotteDunois\Collect\Collection, (of role instances or role IDs)
      *   'deaf' => bool,
      *   'mute' => bool,
      *   'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
@@ -264,7 +264,7 @@ class GuildMember extends ClientBase {
         }
         
         if(isset($options['roles'])) {
-            if($options['roles'] instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+            if($options['roles'] instanceof \CharlotteDunois\Collect\Collection) {
                 $options['roles'] = $options['roles']->all();
             }
             
@@ -462,12 +462,12 @@ class GuildMember extends ClientBase {
     
     /**
      * Removes roles from the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array   $roles    A collection or array of role instances (or role IDs).
-     * @param string                                           $reason
+     * @param \CharlotteDunois\Collect\Collection|array   $roles    A collection or array of role instances (or role IDs).
+     * @param string                                      $reason
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function removeRoles($roles, string $reason = '') {
-        if($roles instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+        if($roles instanceof \CharlotteDunois\Collect\Collection) {
             $roles = $roles->all();
         }
         
@@ -518,7 +518,7 @@ class GuildMember extends ClientBase {
     
     /**
      * Sets the roles of the guild member. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
+     * @param \CharlotteDunois\Collect\Collection|array<\CharlotteDunois\Yasmin\Models\Role>   $roles    A collection or array of role instances (or role IDs).
      * @param string                                                                                $reason
      * @return \React\Promise\ExtendedPromiseInterface
      */

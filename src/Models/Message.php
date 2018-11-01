@@ -19,7 +19,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property int|null                                                 $editedTimestamp    The timestamp of when this message was edited, or null.
  * @property string                                                   $content            The message content.
  * @property string                                                   $cleanContent       The message content with all mentions replaced.
- * @property \CharlotteDunois\Yasmin\Utils\Collection                 $attachments        A collection of attachments in the message - mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\MessageAttachment})
+ * @property \CharlotteDunois\Collect\Collection                      $attachments        A collection of attachments in the message - mapped by their ID. ({@see \CharlotteDunois\Yasmin\Models\MessageAttachment})
  * @property \CharlotteDunois\Yasmin\Models\MessageEmbed[]            $embeds             An array of embeds in the message.
  * @property \CharlotteDunois\Yasmin\Models\MessageMentions           $mentions           All valid mentions that the message contains.
  * @property bool                                                     $tts                Whether or not the message is Text-To-Speech.
@@ -27,7 +27,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                     $pinned             Whether the message is pinned or not.
  * @property bool                                                     $system             Whether the message is a system message.
  * @property string                                                   $type               The type of the message. ({@see Message::MESSAGE_TYPES})
- * @property \CharlotteDunois\Yasmin\Utils\Collection                 $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
+ * @property \CharlotteDunois\Collect\Collection                      $reactions          A collection of message reactions, mapped by ID (or name). ({@see \CharlotteDunois\Yasmin\Models\MessageReaction})
  * @property string|null                                              $webhookID          ID of the webhook that sent the message, if applicable, or null.
  * @property \CharlotteDunois\Yasmin\Models\MessageActivity|null      $activity           The activity attached to this message. Sent with Rich Presence-related chat embeds.
  * @property \CharlotteDunois\Yasmin\Models\MessageApplication|null   $application        The application attached to this message. Sent with Rich Presence-related chat embeds.
@@ -156,7 +156,7 @@ class Message extends ClientBase {
     
     /**
      * A collection of attachments in the message - mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $attachments;
     
@@ -180,7 +180,7 @@ class Message extends ClientBase {
     
     /**
      * A collection of message reactions, mapped by ID (or name).
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $reactions;
     
@@ -197,13 +197,13 @@ class Message extends ClientBase {
         $this->author->lastMessageID = $this->id; // TODO: DEPRECATED
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
-        $this->attachments = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->attachments = new \CharlotteDunois\Collect\Collection();
         foreach($message['attachments'] as $attachment) {
             $atm = new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment);
             $this->attachments->set($atm->id, $atm);
         }
         
-        $this->reactions = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->reactions = new \CharlotteDunois\Collect\Collection();
         if(!empty($message['reactions'])) {
             foreach($message['reactions'] as $reaction) {
                 $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $this->channel->getGuild() : null);

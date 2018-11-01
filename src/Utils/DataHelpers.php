@@ -442,7 +442,7 @@ class DataHelpers {
             return [ 0, $a ];
         }, $filter, $options);
         
-        return $collector->collect()->then(function (\CharlotteDunois\Yasmin\Utils\Collection $bucket) {
+        return $collector->collect()->then(function (\CharlotteDunois\Collect\Collection $bucket) {
             return $bucket->first();
         });
     }

@@ -12,7 +12,7 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Base class for all storages.
  */
-class Storage extends \CharlotteDunois\Yasmin\Utils\Collection
+class Storage extends \CharlotteDunois\Collect\Collection
     implements \CharlotteDunois\Yasmin\Interfaces\StorageInterface, \Serializable {
     
     /**

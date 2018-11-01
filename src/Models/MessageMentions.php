@@ -12,12 +12,12 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Holds message mentions.
  *
- * @property \CharlotteDunois\Yasmin\Models\Message      $message   The message these mentions belongs to.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $channels  The collection which holds all channel mentions, mapped by their ID.
- * @property bool                                        $everyone  Whether the message mentions @everyone or @here.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $members   The collection which holds all members mentions (only in guild channels), mapped by their ID. Only cached members can be put into this Collection.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $roles     The collection which holds all roles mentions, mapped by their ID.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $users     The collection which holds all users mentions, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\Message  $message   The message these mentions belongs to.
+ * @property \CharlotteDunois\Collect\Collection     $channels  The collection which holds all channel mentions, mapped by their ID.
+ * @property bool                                    $everyone  Whether the message mentions @everyone or @here.
+ * @property \CharlotteDunois\Collect\Collection     $members   The collection which holds all members mentions (only in guild channels), mapped by their ID. Only cached members can be put into this Collection.
+ * @property \CharlotteDunois\Collect\Collection     $roles     The collection which holds all roles mentions, mapped by their ID.
+ * @property \CharlotteDunois\Collect\Collection     $users     The collection which holds all users mentions, mapped by their ID.
  */
 class MessageMentions extends ClientBase {
     /**
@@ -56,7 +56,7 @@ class MessageMentions extends ClientBase {
     
     /**
      * The collection which holds all channel mentions, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $channels;
     
@@ -68,19 +68,19 @@ class MessageMentions extends ClientBase {
     
     /**
      * The collection which holds all members mentions (only in guild channels), mapped by their ID. Only cached members can be put into this Collection.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $members;
     
     /**
      * The collection which holds all roles mentions, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $roles;
     
     /**
      * The collection which holds all users mentions, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $users;
     
@@ -91,10 +91,10 @@ class MessageMentions extends ClientBase {
         parent::__construct($client);
         $this->message = $message;
         
-        $this->channels = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->members = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->roles = new \CharlotteDunois\Yasmin\Utils\Collection();
-        $this->users = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->channels = new \CharlotteDunois\Collect\Collection();
+        $this->members = new \CharlotteDunois\Collect\Collection();
+        $this->roles = new \CharlotteDunois\Collect\Collection();
+        $this->users = new \CharlotteDunois\Collect\Collection();
         
         $this->everyone = !empty($msg['mention_everyone']);
         

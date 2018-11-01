@@ -28,7 +28,7 @@ class MessageDeleteBulk implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
-            $messages = new \CharlotteDunois\Yasmin\Utils\Collection();
+            $messages = new \CharlotteDunois\Collect\Collection();
             $messagesRaw = array();
             
             foreach($data['ids'] as $id) {

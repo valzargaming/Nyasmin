@@ -107,7 +107,7 @@ trait GuildChannelTrait {
      *    'userLimit' => int, (voice channels only)
      *    'slowmode' => int, (text channels only)
      *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
-     *    'permissionOverwrites' => \CharlotteDunois\Yasmin\Utils\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
+     *    'permissionOverwrites' => \CharlotteDunois\Collect\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
      * )
      * ```
      *
@@ -156,7 +156,7 @@ trait GuildChannelTrait {
         }
         
         if(isset($options['permissionOverwrites'])) {
-            if($options['permissionOverwrites'] instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+            if($options['permissionOverwrites'] instanceof \CharlotteDunois\Collect\Collection) {
                 $options['permissionOverwrites'] = $options['permissionOverwrites']->all();
             }
             
@@ -191,7 +191,7 @@ trait GuildChannelTrait {
     function fetchInvites() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->done(function ($data) use ($resolve) {
-                $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
+                $collection = new \CharlotteDunois\Collect\Collection();
                 
                 foreach($data as $invite) {
                     $inv = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $invite);
@@ -450,8 +450,8 @@ trait GuildChannelTrait {
     
     /**
      * Sets the permission overwrites of the channel. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array  $permissionOverwrites  An array or Collection of PermissionOverwrite instances or permission overwrite arrays.
-     * @param string                                          $reason
+     * @param \CharlotteDunois\Collect\Collection|array  $permissionOverwrites  An array or Collection of PermissionOverwrite instances or permission overwrite arrays.
+     * @param string                                     $reason
      * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */

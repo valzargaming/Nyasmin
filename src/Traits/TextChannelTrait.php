@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Traits;
 trait TextChannelTrait {
     /**
      * Collection of all typing users (contains arrays).
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $typings;
     
@@ -60,9 +60,9 @@ trait TextChannelTrait {
     
     /**
      * Deletes multiple messages at once. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Utils\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).
-     * @param string                                              $reason
-     * @param bool                                                $filterOldMessages  Automatically filters out too old messages (14 days).
+     * @param \CharlotteDunois\Collect\Collection|array|int  $messages           A collection or array of Message instances, or the number of messages to delete (2-100).
+     * @param string                                         $reason
+     * @param bool                                           $filterOldMessages  Automatically filters out too old messages (14 days).
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function bulkDelete($messages, string $reason = '', bool $filterOldMessages = false) {
@@ -74,7 +74,7 @@ trait TextChannelTrait {
             }
             
             $messages->done(function ($messages) use ($reason, $filterOldMessages, $resolve, $reject) {
-                if($messages instanceof \CharlotteDunois\Yasmin\Utils\Collection) {
+                if($messages instanceof \CharlotteDunois\Collect\Collection) {
                     $messages = $messages->all();
                 }
                 
@@ -174,7 +174,7 @@ trait TextChannelTrait {
     function fetchMessages(array $options = array()) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
             $this->client->apimanager()->endpoints->channel->getChannelMessages($this->id, $options)->done(function ($data) use ($resolve) {
-                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+                $collect = new \CharlotteDunois\Collect\Collection();
                 
                 foreach($data as $m) {
                     $message = $this->_createMessage($m);
@@ -255,7 +255,7 @@ trait TextChannelTrait {
                     $messages = \CharlotteDunois\Yasmin\Utils\DataHelpers::splitMessage($msg['content'], $options['split']);
                     
                     if(\count($messages) > 1) {
-                        $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
+                        $collection = new \CharlotteDunois\Collect\Collection();
                         $i = \count($messages);
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {

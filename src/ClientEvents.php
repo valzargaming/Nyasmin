@@ -174,7 +174,7 @@ interface ClientEvents {
      * @return void
      * @see \CharlotteDunois\Yasmin\Models\GuildMember
      */
-    function guildMembersChunk(\CharlotteDunois\Yasmin\Models\Guild $guild, \CharlotteDunois\Yasmin\Utils\Collection $members);
+    function guildMembersChunk(\CharlotteDunois\Yasmin\Models\Guild $guild, \CharlotteDunois\Collect\Collection $members);
     
     /**
      * Emitted when a role gets created.
@@ -217,7 +217,7 @@ interface ClientEvents {
      * @return void
      * @see \CharlotteDunois\Yasmin\Models\Message
      */
-    function messageDeleteBulk(\CharlotteDunois\Yasmin\Utils\Collection $messages);
+    function messageDeleteBulk(\CharlotteDunois\Collect\Collection $messages);
     
     /**
      * Emitted when someone reacts to a (cached) message.

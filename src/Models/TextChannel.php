@@ -22,7 +22,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                 $parentID               The ID of the parent channel, or null.
  * @property int                                                         $position               The channel position.
  * @property int                                                         $slowmode               Ratelimit to send one message for each non-bot user, without `MANAGE_CHANNEL` and `MANAGE_MESSAGES` permissions, in seconds (0-120).
- * @property \CharlotteDunois\Yasmin\Utils\Collection                    $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
+ * @property \CharlotteDunois\Collect\Collection                         $permissionOverwrites   A collection of PermissionOverwrite instances, mapped by their ID.
  * @property string|null                                                 $lastMessageID          The last message ID, or null.
  * @property \CharlotteDunois\Yasmin\Interfaces\MessageStorageInterface  $messages               The storage with all cached messages.
  *
@@ -98,7 +98,7 @@ class TextChannel extends ClientBase
     
     /**
      * A collection of PermissionOverwrite instances, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $permissionOverwrites;
     
@@ -117,14 +117,14 @@ class TextChannel extends ClientBase
         
         $storage = $this->client->getOption('internal.storages.messages');
         $this->messages = new $storage($this->client, $this);
-        $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->typings = new \CharlotteDunois\Collect\Collection();
         
         $this->id = (string) $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? null), 'string');
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
-        $this->permissionOverwrites = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->permissionOverwrites = new \CharlotteDunois\Collect\Collection();
         
         $this->_patch($channel);
     }
@@ -193,7 +193,7 @@ class TextChannel extends ClientBase
     function fetchWebhooks() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $this->client->apimanager()->endpoints->webhook->getChannelWebhooks($this->id)->done(function ($data) use ($resolve) {
-                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+                $collect = new \CharlotteDunois\Collect\Collection();
                 
                 foreach($data as $web) {
                     $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $web);

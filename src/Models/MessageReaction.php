@@ -12,11 +12,11 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a message reaction.
  *
- * @property \CharlotteDunois\Yasmin\Models\Emoji        $emoji     The emoji this message reaction is for.
- * @property int                                         $count     Times this emoji has been reacted.
- * @property bool                                        $me        Whether the current user has reacted using this emoji.
- * @property \CharlotteDunois\Yasmin\Models\Message      $message   The message this reaction belongs to.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $users     The users that have given this reaction, mapped by their ID.
+ * @property \CharlotteDunois\Yasmin\Models\Emoji    $emoji     The emoji this message reaction is for.
+ * @property int                                     $count     Times this emoji has been reacted.
+ * @property bool                                    $me        Whether the current user has reacted using this emoji.
+ * @property \CharlotteDunois\Yasmin\Models\Message  $message   The message this reaction belongs to.
+ * @property \CharlotteDunois\Collect\Collection     $users     The users that have given this reaction, mapped by their ID.
  */
 class MessageReaction extends ClientBase {
     /**
@@ -45,7 +45,7 @@ class MessageReaction extends ClientBase {
     
     /**
      * The users that have given this reaction, mapped by their ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $users;
     
@@ -59,7 +59,7 @@ class MessageReaction extends ClientBase {
         
         $this->count = (int) $reaction['count'];
         $this->me = (bool) $reaction['me'];
-        $this->users = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->users = new \CharlotteDunois\Collect\Collection();
     }
     
     /**

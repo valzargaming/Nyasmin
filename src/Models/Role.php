@@ -27,7 +27,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \DateTime                                   $createdAt           The DateTime instance of createdTimestamp.
  * @property bool                                        $editable            DEPRECATED: Whether the role can be edited by the client user.
  * @property string                                      $hexColor            Returns the hex color of the role color.
- * @property \CharlotteDunois\Yasmin\Utils\Collection    $members             A collection of all (cached) guild members which have the role.
+ * @property \CharlotteDunois\Collect\Collection         $members             A collection of all (cached) guild members which have the role.
  */
 class Role extends ClientBase {
     /**

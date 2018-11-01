@@ -299,7 +299,7 @@ class User extends ClientBase {
     function fetchUserConnections(string $accessToken) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($accessToken) {
             $this->client->apimanager()->endpoints->user->getUserConnections($accessToken)->done(function ($data) use ($resolve) {
-                $collect = new \CharlotteDunois\Yasmin\Utils\Collection();
+                $collect = new \CharlotteDunois\Collect\Collection();
                 foreach($data as $conn) {
                     $connection = new \CharlotteDunois\Yasmin\Models\UserConnection($this->client, $this, $conn);
                     $collect->set($connection->id, $connection);

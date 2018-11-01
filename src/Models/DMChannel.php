@@ -16,7 +16,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $type               The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
  * @property int                                                  $createdTimestamp   The timestamp of when this channel was created.
  * @property string|null                                          $ownerID            The owner ID of this channel, or null.
- * @property \CharlotteDunois\Yasmin\Utils\Collection             $recipients         The recipients of this channel, mapped by user ID.
+ * @property \CharlotteDunois\Collect\Collection                  $recipients         The recipients of this channel, mapped by user ID.
  * @property string|null                                          $lastMessageID      The last message ID, or null.
  * @property \CharlotteDunois\Yasmin\Interfaces\StorageInterface  $messages           The storage with all cached messages.
  *
@@ -49,7 +49,7 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
     
     /**
      * The recipients of this channel, mapped by user ID.
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $recipients;
     
@@ -67,7 +67,7 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
         
         $storage = $this->client->getOption('internal.storages.messages');
         $this->messages = new $storage($this->client, $this);
-        $this->typings = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->typings = new \CharlotteDunois\Collect\Collection();
         
         $this->id = (string) $channel['id'];
         $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
@@ -76,7 +76,7 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? null), 'string');
-        $this->recipients = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->recipients = new \CharlotteDunois\Collect\Collection();
         
         if(!empty($channel['recipients'])) {
             foreach($channel['recipients'] as $rec) {

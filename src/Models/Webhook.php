@@ -224,7 +224,7 @@ class Webhook extends ClientBase {
                     $messages = \CharlotteDunois\Yasmin\Utils\DataHelpers::splitMessage($msg['content'], $options['split']);
                     
                     if(\count($messages) > 0) {
-                        $collection = new \CharlotteDunois\Yasmin\Utils\Collection();
+                        $collection = new \CharlotteDunois\Collect\Collection();
                         
                         $chunkedSend = function ($msg, $files = null) use ($collection, $reject) {
                             return $this->executeWebhook($msg, ($files ?? array()))->then(function ($message) use ($collection) {

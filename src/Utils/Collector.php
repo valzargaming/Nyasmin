@@ -54,7 +54,7 @@ class Collector {
     protected $reject;
     
     /**
-     * @var \CharlotteDunois\Yasmin\Utils\Collection
+     * @var \CharlotteDunois\Collect\Collection
      */
     protected $bucket;
     
@@ -92,7 +92,7 @@ class Collector {
         $this->handler = $handler;
         $this->filter = $filter;
         $this->options = $options;
-        $this->bucket = new \CharlotteDunois\Yasmin\Utils\Collection();
+        $this->bucket = new \CharlotteDunois\Collect\Collection();
     }
     
     /**
