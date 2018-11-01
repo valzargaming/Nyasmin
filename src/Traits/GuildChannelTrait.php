@@ -121,47 +121,25 @@ trait GuildChannelTrait {
             throw new \InvalidArgumentException('Unable to edit channel with zero information');
         }
         
-        $data = array();
-        
-        if(isset($options['name'])) {
-            $data['name'] = (string) $options['name'];
-        }
-        
-        if(isset($options['position'])) {
-            $data['position'] = (int) $options['position'];
-        }
-        
-        if(isset($options['topic'])) {
-            $data['topic'] = (string) $options['topic'];
-        }
-        
-        if(isset($options['nsfw'])) {
-            $data['nsfw'] = (bool) $options['nsfw'];
-        }
-        
-        if(isset($options['bitrate'])) {
-            $data['bitrate'] = (int) $options['bitrate'];
-        }
-        
-        if(isset($options['userLimit'])) {
-            $data['user_limit'] = (int) $options['userLimit'];
-        }
-        
-        if(isset($options['slowmode'])) {
-            $data['rate_limit_per_user'] = (int) $options['slowmode'];
-        }
-        
-        if(isset($options['parent'])) {
-            $data['parent_id'] = ($options['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $options['parent']->id : $options['parent']);
-        }
-        
-        if(isset($options['permissionOverwrites'])) {
-            if($options['permissionOverwrites'] instanceof \CharlotteDunois\Collect\Collection) {
-                $options['permissionOverwrites'] = $options['permissionOverwrites']->all();
-            }
-            
-            $data['permission_overwrites'] = \array_values($options['permissionOverwrites']);
-        }
+        $data = \CharlotteDunois\Yasmin\Utils\DataHelpers::applyOptions($options, array(
+            'name' => array('type' => 'string'),
+            'position' => array('type' => 'int'),
+            'topic' => array('type' => 'string'),
+            'nsfw' => array('type' => 'bool'),
+            'bitrate' => array('type' => 'int'),
+            'userLimit' => array('key' => 'user_limit', 'type' => 'int'),
+            'slowmode' => array('key' => 'rate_limit_per_user', 'type' => 'int'),
+            'parent' => array('key' => 'parent_id', 'parse' => function ($val) {
+                return ($val instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $val->id : $val);
+            }),
+            'permissionOverwrites' => array('key' => 'permission_overwrites', 'parse' => function ($val) {
+                if($val instanceof \CharlotteDunois\Collect\Collection) {
+                    $val = $val->all();
+                }
+                
+                return \array_values($val);
+            })
+        ));
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
             $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->done(function () use ($resolve) {
@@ -315,37 +293,7 @@ trait GuildChannelTrait {
      * @see \CharlotteDunois\Yasmin\Models\PermissionOverwrite
      */
     function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '') {
-        $options = array();
-        
-        if($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
-            $memberOrRole = $memberOrRole->id;
-            $options['type'] = 'member';
-        } elseif($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\Role) {
-            $memberOrRole = $memberOrRole->id;
-            $options['type'] = 'role';
-        } else {
-            try {
-                $memberOrRole = $this->guild->roles->resolve($memberOrRole)->id;
-                $options['type'] = 'role';
-            } catch (\InvalidArgumentException $e) {
-                $options['type'] = 'member';
-            }
-        }
-        
-        if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
-            throw new \InvalidArgumentException('Allow has to be an int or an instance of Permissions');
-        }
-        
-        if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
-            throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
-        }
-        
-        if(\json_encode($allow) === \json_encode($deny)) {
-            throw new \InvalidArgumentException('Allow and deny must have different permissions');
-        }
-        
-        $options['allow'] = $allow;
-        $options['deny'] = $deny;
+        [ $memberOrRole, $options ] = $this->validateOverwritePermissions($memberOrRole, $allow, $deny);
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
             $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole, $options, $reason)->done(function () use ($memberOrRole, $options, $resolve, $reject) {
@@ -515,5 +463,49 @@ trait GuildChannelTrait {
      */
     function setTopic(string $topic, string $reason = '') {
         return $this->edit(array('topic' => $topic), $reason);
+    }
+    
+    /**
+     * Validates the given overwritePermissions arguments.
+     * @param \CharlotteDunois\Yasmin\Models\GuildMember|\CharlotteDunois\Yasmin\Models\Role|string  $memberOrRole  The member or role.
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $allow         Which permissions should be allowed?
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int                                         $deny          Which permissions should be denied?
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    protected function validateOverwritePermissions($memberOrRole, $allow, $deny = 0) {
+        $options = array();
+        
+        if($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+            $memberOrRole = $memberOrRole->id;
+            $options['type'] = 'member';
+        } elseif($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\Role) {
+            $memberOrRole = $memberOrRole->id;
+            $options['type'] = 'role';
+        } else {
+            try {
+                $memberOrRole = $this->guild->roles->resolve($memberOrRole)->id;
+                $options['type'] = 'role';
+            } catch (\InvalidArgumentException $e) {
+                $options['type'] = 'member';
+            }
+        }
+        
+        if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
+            throw new \InvalidArgumentException('Allow has to be an int or an instance of Permissions');
+        }
+        
+        if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
+            throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
+        }
+        
+        if(\json_encode($allow) === \json_encode($deny)) {
+            throw new \InvalidArgumentException('Allow and deny must have different permissions');
+        }
+        
+        $options['allow'] = $allow;
+        $options['deny'] = $deny;
+        
+        return array($memberOrRole, $options);
     }
 }

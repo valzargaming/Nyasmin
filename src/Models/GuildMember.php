@@ -229,37 +229,27 @@ class GuildMember extends ClientBase {
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
-        $data = array();
-        
-        if(isset($options['nick'])) {
-            $data['nick'] = (string) $options['nick'];
-        }
-        
-        if(isset($options['roles'])) {
-            if($options['roles'] instanceof \CharlotteDunois\Collect\Collection) {
-                $options['roles'] = $options['roles']->all();
-            }
-            
-            $data['roles'] = \array_unique(\array_map(function ($role) {
-                if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
-                    return $role->id;
+        $data = \CharlotteDunois\Yasmin\Utils\DataHelpers::applyOptions($options, array(
+            'nick' => array('type' => 'string'),
+            'roles' => array('parse' => function ($val) {
+                if($val instanceof \CharlotteDunois\Collect\Collection) {
+                    $val = $val->all();
                 }
                 
-                return $role;
-            }, $options['roles']));
-        }
-        
-        if(isset($options['deaf'])) {
-            $data['deaf'] = (bool) $options['deaf'];
-        }
-        
-        if(isset($options['mute'])) {
-            $data['mute'] = (bool) $options['mute'];
-        }
-        
-        if(isset($options['channel'])) {
-            $data['channel_id'] = $this->guild->channels->resolve($options['channel'])->getId();
-        }
+                return \array_unique(\array_map(function ($role) {
+                    if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+                        return $role->id;
+                    }
+                    
+                    return $role;
+                }, $val));
+            }),
+            'deaf' => array('type' => 'bool'),
+            'mute' => array('type' => 'bool'),
+            'channel' => array('parse' => function ($val) {
+                return $this->guild->channels->resolve($val)->getId();
+            })
+        ));
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
             $this->client->apimanager()->endpoints->guild->modifyGuildMember($this->guild->id, $this->id, $data, $reason)->done(function () use ($resolve) {

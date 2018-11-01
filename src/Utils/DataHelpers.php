@@ -95,4 +95,46 @@ class DataHelpers {
         
         return $variable;
     }
+    
+    /**
+     * Converts the input to the specified options.
+     *
+     * Options is
+     * ```
+     * array(
+     *     key => null|newKey|array('key' => newKey, 'type' => string, 'parse' => callable)
+     * )
+     * ```
+     * @param array  $input
+     * @param array  $options
+     * @return array
+     */
+    static function applyOptions(array $input, array $options) {
+        $data = array();
+        
+        foreach($input as $key => $val) {
+            if(!isset($options[$key])) {
+                continue;
+            }
+            
+            if(\is_array($options[$key])) {
+                if(!empty($options[$key]['parse'])) {
+                    $call = $options[$key]['parse'];
+                    $val = $call($val);
+                }
+                
+                if(!empty($options[$key]['type'])) {
+                    $val = self::typecastVariable($val, $options[$key]['type']);
+                }
+                
+                $key = $options[$key]['key'] ?? $key;
+            } elseif(!empty($options[$key])) {
+                $key = $options[$key];
+            }
+            
+            $data[$key] = $val;
+        }
+        
+        return $data;
+    }
 }

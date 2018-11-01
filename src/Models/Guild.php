@@ -629,47 +629,25 @@ class Guild extends ClientBase {
      */
     function edit(array $options, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $data = array();
-            
-            if(!empty($options['name'])) {
-                $data['name'] = $options['name'];
-            }
-            
-            if(!empty($options['region'])) {
-                $data['region'] = $options['region'];
-            }
-            
-            if(isset($options['verificationLevel'])) {
-                $data['verification_level'] = (int) $options['verificationLevel'];
-            }
-            
-            if(isset($options['verificationLevel'])) {
-                $data['explicit_content_filter'] = (int) $options['explicitContentFilter'];
-            }
-            
-            if(isset($options['defaultMessageNotifications'])) {
-                $data['default_message_notifications'] = (int) $options['defaultMessageNotifications'];
-            }
-            
-            if(\array_key_exists('afkChannel', $options)) {
-                $data['afk_channel_id'] = ($options['afkChannel'] === null ? null : ($options['afkChannel'] instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel ? $options['afkChannel']->id : $options['afkChannel']));
-            }
-            
-            if(\array_key_exists('afkTimeout', $options)) {
-                $data['afk_timeout'] = $options['afkTimeout'];
-            }
-            
-            if(\array_key_exists('systemChannel', $options)) {
-                $data['system_channel_id'] = ($options['systemChannel'] === null ? null : ($options['systemChannel'] instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $options['systemChannel']->id : $options['systemChannel']));
-            }
-            
-            if(isset($options['owner'])) {
-                $data['owner_id'] = ($options['owner'] instanceof \CharlotteDunois\Yasmin\Models\GuildMember ? $options['owner']->id : $options['owner']);
-            }
-            
-            if(isset($options['region'])) {
-                $data['region'] = ($options['region'] instanceof \CharlotteDunois\Yasmin\Models\VoiceRegion ? $options['region']->id : $options['region']);
-            }
+            $data = \CharlotteDunois\Yasmin\Utils\DataHelpers::applyOptions($options, array(
+                'name' => array('type' => 'string'),
+                'region' => array('type' => 'string', 'parse' => function ($val) {
+                    return ($val instanceof \CharlotteDunois\Yasmin\Models\VoiceRegion ? $val->id : $val);
+                }),
+                'verificationLevel' => array('key' => 'verification_level', 'type' => 'int'),
+                'explicitContentFilter' => array('key' => 'explicit_content_filter', 'type' => 'int'),
+                'defaultMessageNotifications' => array('key' => 'default_message_notifications', 'type' => 'int'),
+                'afkChannel' => array('key' => 'afk_channel_id', 'parse' => function ($val) {
+                    return ($val instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel ? $val->id : $val);
+                }),
+                'afkTimeout' => array('key' => 'afk_timeout', 'type' => 'int'),
+                'systemChannel' => array('key' => 'system_channel_id', 'parse' => function ($val) {
+                    return ($val instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $val->id : $val);
+                }),
+                'owner' => array('key' => 'owner_id', 'parse' => function ($val) {
+                    return ($val instanceof \CharlotteDunois\Yasmin\Models\GuildMember ? $val->id : $val);
+                })
+            ));
             
             $handleImg = function ($img) {
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($img);

@@ -201,31 +201,14 @@ class Role extends ClientBase {
             throw new \InvalidArgumentException('Unable to edit role with zero information');
         }
         
-        $data = array();
-        
-        if(isset($options['name'])) {
-            $data['name'] = $options['name'];
-        }
-        
-        if(isset($options['color'])) {
-            $data['color'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor($options['color']);
-        }
-        
-        if(isset($options['hoist'])) {
-            $data['hoist'] = (bool) $options['hoist'];
-        }
-        
-        if(isset($options['position'])) {
-            $data['position'] = (int) $options['position'];
-        }
-        
-        if(isset($options['permissions'])) {
-            $data['permissions'] = $options['permissions'];
-        }
-        
-        if(isset($options['mentionable'])) {
-            $data['mentionable'] = (bool) $options['mentionable'];
-        }
+        $data = \CharlotteDunois\Yasmin\Utils\DataHelpers::applyOptions($options, array(
+            'name' => array('type' => 'string'),
+            'color' => array('parse' => array(\CharlotteDunois\Yasmin\Utils\DataHelpers::class, 'resolveColor')),
+            'hoist' => array('type' => 'bool'),
+            'position' => array('type' => 'int'),
+            'permissions' => null,
+            'mentionable' => array('type' => 'bool')
+        ));
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
             $this->client->apimanager()->endpoints->guild->modifyGuildRole($this->guild->id, $this->id, $data, $reason)->done(function () use ($resolve) {
