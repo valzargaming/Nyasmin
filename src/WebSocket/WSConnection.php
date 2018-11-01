@@ -415,14 +415,9 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
     /**
      * Sends an IDENTIFY or RESUME payload, depending on ws session ID.
      * @return void
-     * @throws \RuntimeException
      */
     function sendIdentify() {
         $this->authenticated = false;
-        
-        if(empty($this->wsmanager->client->token)) {
-            throw new \RuntimeException('No client token to start with');
-        }
         
         $op = \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['IDENTIFY'];
         if(empty($this->wsSessionID)) {
@@ -552,7 +547,23 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
         });
         
-        $this->once('self.ready', function () use (&$ready, $reconnect, $deferred) {
+        $this->once('self.ready', $this->initWSSelfReady($ready, $reconnect, $deferred));
+        $this->once('self.error', $this->initWSSelfError($ready, $deferred));
+        
+        $this->ws->on('message', $this->initWSMessage($ready, $deferred));
+        $this->ws->on('error', $this->initWSError($ready, $deferred));
+        $this->ws->on('close', $this->initWSClose($deferred));
+    }
+    
+    /**
+     * Returns the handler for `self.ready` event.
+     * @param bool                     $ready
+     * @param bool                     $reconnect
+     * @param \React\Promise\Deferred  $deferred
+     * @return \Closure
+     */
+    protected function initWSSelfReady(bool &$ready, bool $reconnect, \React\Promise\Deferred &$deferred) {
+        return (function () use (&$ready, $reconnect, $deferred) {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
             
             if($reconnect && $this->wsmanager->client->user !== null) {
@@ -564,15 +575,31 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             
             $deferred->resolve($this);
         });
-        
-        $this->once('self.error', function ($error) use (&$ready, $deferred) {
+    }
+    
+    /**
+     * Returns the handler for `self.error` event.
+     * @param bool                     $ready
+     * @param \React\Promise\Deferred  $deferred
+     * @return \Closure
+     */
+    protected function initWSSelfError(bool &$ready, \React\Promise\Deferred &$deferred) {
+        return (function ($error) use (&$ready, $deferred) {
             if(!$ready) {
                 $this->disconnect();
                 $deferred->reject(new \Exception($error));
             }
         });
-        
-        $this->ws->on('message', function (\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $deferred) {
+    }
+    
+    /**
+     * Returns the handler for `message` event.
+     * @param bool                     $ready
+     * @param \React\Promise\Deferred  $deferred
+     * @return \Closure
+     */
+    protected function initWSMessage(bool &$ready, \React\Promise\Deferred &$deferred) {
+        return (function (\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $deferred) {
             $message = $message->getPayload();
             if(!$message) {
                 return;
@@ -599,16 +626,31 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $this->lastPacketTime = \microtime(true);
             $this->wsmanager->wshandler->handle($this, $message);
         });
-        
-        $this->ws->on('error', function (\Throwable $error) use (&$ready, $deferred) {
+    }
+    
+    /**
+     * Returns the handler for `error` event.
+     * @param bool                     $ready
+     * @param \React\Promise\Deferred  $deferred
+     * @return \Closure
+     */
+    protected function initWSError(bool &$ready, \React\Promise\Deferred &$deferred) {
+        return (function (\Throwable $error) use (&$ready, $deferred) {
             if(!$ready) {
                 return $deferred->reject($error);
             }
             
             $this->wsmanager->client->emit('error', $error);
         });
-        
-        $this->ws->on('close', function (int $code, string $reason) use ($deferred) {
+    }
+    
+    /**
+     * Returns the handler for `close` event.
+     * @param \React\Promise\Deferred  $deferred
+     * @return \Closure
+     */
+    protected function initWSClose(\React\Promise\Deferred &$deferred) {
+        return (function (int $code, string $reason) use ($deferred) {
             if($this->ratelimits['timer']) {
                 $this->wsmanager->client->loop->cancelTimer($this->ratelimits['timer']);
             }

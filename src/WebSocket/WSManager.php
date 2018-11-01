@@ -240,11 +240,16 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * Connects the specified shard to the gateway url. Resolves with an instance of WSConnection.
      * @return \React\Promise\ExtendedPromiseInterface
      * @throws \RuntimeException
+     * @throws \LogicException
      * @see \CharlotteDunois\Yasmin\WebSocket\WSConnection
      */
     function connectShard(int $shardID, ?string $gateway = null, array $querystring = array()) {
         if(!$gateway && !$this->gateway) {
             throw new \RuntimeException('Unable to connect to unknown gateway for shard '.$shardID);
+        }
+        
+        if(empty($this->client->token)) {
+            throw new \LogicException('No client token to start with');
         }
         
         if(($this->lastIdentify ?? 0) > (\time() - 5)) {
@@ -280,6 +285,49 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $reconnect = true;
         }
         
+        $this->handleConnectEncoding($querystring);
+        $this->createConnection($shardID);
+        $this->gateway = $this->handleConnectGateway($gateway, $querystring);
+        
+        return $this->connections[$shardID]->connect($reconnect);
+    }
+    
+    /**
+     * Set last identified timestamp
+     * @param int  $lastIdentified
+     * @return void
+     */
+    function setLastIdentified(int $lastIdentified) {
+        $this->lastIdentify = $lastIdentified;
+    }
+    
+    /**
+     * Creates a new ws connection for a specific shard, if necessary.
+     * @param int  $shardID
+     * @return void
+     */
+    protected function createConnection(int $shardID) {
+        if(empty($this->connections[$shardID])) {
+            $this->connections[$shardID] = new \CharlotteDunois\Yasmin\WebSocket\WSConnection($this, $shardID, $this->compression);
+            
+            $this->connections[$shardID]->on('close', function (int $code, string $reason) use ($shardID) {
+                $this->client->emit('debug', 'Shard '.$shardID.' disconnected with code '.$code.' and reason "'.$reason.'"');
+                
+                $shard = $this->client->shards->get($shardID);
+                if($shard !== null) {
+                    $this->client->emit('disconnect', $shard, $code, $reason);
+                }
+            });
+        }
+    }
+    
+    /**
+     * Handles the connect encoding for the query string.
+     * @param array  $querystring
+     * @return void
+     * @throws \RuntimeException
+     */
+    protected function handleConnectEncoding(array &$querystring) {
         if($this->encoding === null) {
             $encoding = $querystring['encoding'] ?? self::WS['encoding'];
             
@@ -298,20 +346,16 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $this->encoding = new $name();
             $querystring['encoding'] = $this->encoding->getName();
         }
-        
-        if(empty($this->connections[$shardID])) {
-            $this->connections[$shardID] = new \CharlotteDunois\Yasmin\WebSocket\WSConnection($this, $shardID, $this->compression);
-            
-            $this->connections[$shardID]->on('close', function (int $code, string $reason) use ($shardID) {
-                $this->client->emit('debug', 'Shard '.$shardID.' disconnected with code '.$code.' and reason "'.$reason.'"');
-                
-                $shard = $this->client->shards->get($shardID);
-                if($shard !== null) {
-                    $this->client->emit('disconnect', $shard, $code, $reason);
-                }
-            });
-        }
-        
+    }
+    
+    /**
+     * Handles the connect gateway URL in terms to the query string..
+     * @param string  $gateway
+     * @param array   $querystring
+     * @return string
+     * @throws \RuntimeException
+     */
+    protected function handleConnectGateway(string $gateway, array &$querystring) {
         if(!empty($querystring)) {
             if($this->compression !== '') {
                 $compression = $this->compression;
@@ -322,17 +366,6 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
             $gateway = \rtrim($gateway, '/').'/?'.\http_build_query($querystring);
         }
         
-        $this->gateway = $gateway;
-        
-        return $this->connections[$shardID]->connect($reconnect);
-    }
-    
-    /**
-     * Set last identified timestamp
-     * @param int  $lastIdentified
-     * @return void
-     */
-    function setLastIdentified(int $lastIdentified) {
-        $this->lastIdentify = $lastIdentified;
+        return $gateway;
     }
 }
