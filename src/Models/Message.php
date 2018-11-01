@@ -415,7 +415,7 @@ class Message extends ClientBase {
                 return ($user->id === $this->client->user->id && $reaction->message->id === $this->id && $reaction->emoji->identifier === $emoji);
             };
             
-            $prom = \CharlotteDunois\Yasmin\Utils\DataHelpers::waitForEvent($this->client, 'messageReactionAdd', $filter, array('time' => 30))->then(function ($args) use ($resolve) {
+            $prom = \CharlotteDunois\Yasmin\Utils\EventHelpers::waitForEvent($this->client, 'messageReactionAdd', $filter, array('time' => 30))->then(function ($args) use ($resolve) {
                 $resolve($args[0]);
             })->otherwise(function ($error) use ($reject) {
                 if($error instanceof \RangeException) {
@@ -525,7 +525,7 @@ class Message extends ClientBase {
         }
         
         $this->mentions = new \CharlotteDunois\Yasmin\Models\MessageMentions($this->client, $this, $message);
-        $this->cleanContent = \CharlotteDunois\Yasmin\Utils\DataHelpers::cleanContent($this, $this->content);
+        $this->cleanContent = \CharlotteDunois\Yasmin\Utils\MessageHelpers::cleanContent($this, $this->content);
         
         if(!empty($message['member']) && $this->guild !== null && !$this->guild->members->has($this->author->id)) {
             $member = $message['member'];

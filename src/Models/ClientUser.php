@@ -75,7 +75,7 @@ class ClientUser extends User {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->done(function ($data) use ($resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($avatar)->done(function ($data) use ($resolve, $reject) {
                 $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 
                 $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->done(function () use ($resolve) {

@@ -735,7 +735,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             }
             
             if(!empty($options['icon'])) {
-                $pr = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon'])->then(function ($icon) use (&$data) {
+                $pr = \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($options['icon'])->then(function ($icon) use (&$data) {
                     $data['icon'] = $icon;
                 });
             } else {

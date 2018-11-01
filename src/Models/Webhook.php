@@ -117,7 +117,7 @@ class Webhook extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $options, $reason) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable(($options['avatar'] ?? ''))->done(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable(($options['avatar'] ?? ''))->done(function ($avatar = null) use ($data, $reason, $resolve, $reject) {
                 if(!empty($avatar)) {
                     $data['avatar'] = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 }
@@ -197,7 +197,7 @@ class Webhook extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveMessageOptionsFiles($options)->done(function ($files) use ($content, $options, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\MessageHelpers::resolveMessageOptionsFiles($options)->done(function ($files) use ($content, $options, $resolve, $reject) {
                 $msg = array(
                     'content' => $content
                 );
@@ -221,7 +221,7 @@ class Webhook extends ClientBase {
                 
                 if(!empty($options['split'])) {
                     $options['split'] = $split = \array_merge(\CharlotteDunois\Yasmin\Models\Message::DEFAULT_SPLIT_OPTIONS, (\is_array($options['split']) ? $options['split'] : array()));
-                    $messages = \CharlotteDunois\Yasmin\Utils\DataHelpers::splitMessage($msg['content'], $options['split']);
+                    $messages = \CharlotteDunois\Yasmin\Utils\MessageHelpers::splitMessage($msg['content'], $options['split']);
                     
                     if(\count($messages) > 0) {
                         $collection = new \CharlotteDunois\Collect\Collection();

@@ -528,7 +528,7 @@ class Guild extends ClientBase {
      */
     function createEmoji(string $file, string $name, $roles = array(), string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($file, $name, $roles, $reason) {
-            \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($file)->done(function ($file) use ($name, $roles, $reason, $resolve, $reject) {
+            \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($file)->done(function ($file) use ($name, $roles, $reason, $resolve, $reject) {
                 if($roles instanceof \CharlotteDunois\Collect\Collection) {
                     $roles = $roles->all();
                 }
@@ -676,8 +676,8 @@ class Guild extends ClientBase {
             };
             
             $files = array(
-                (isset($options['icon']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['icon'])->then($handleImg) : \React\Promise\resolve(null)),
-                (isset($options['splash']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($options['splash'])->then($handleImg) : \React\Promise\resolve(null))
+                (isset($options['icon']) ? \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($options['icon'])->then($handleImg) : \React\Promise\resolve(null)),
+                (isset($options['splash']) ? \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($options['splash'])->then($handleImg) : \React\Promise\resolve(null))
             );
             
             \React\Promise\all($files)->done(function ($files) use (&$data, $reason, $resolve, $reject) {

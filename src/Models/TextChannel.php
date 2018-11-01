@@ -161,7 +161,7 @@ class TextChannel extends ClientBase
     function createWebhook(string $name, ?string $avatar = null, string $reason = '') {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($name, $avatar, $reason) {
             if(!empty($avatar)) {
-                $file = \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveFileResolvable($avatar)->then(function ($avatar) {
+                $file = \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($avatar)->then(function ($avatar) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 });
             } else {
