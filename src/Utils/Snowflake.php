@@ -160,7 +160,7 @@ class Snowflake {
     function getShardID(int $shardCount) {
         if(\PHP_INT_SIZE === 4) {
             $time = \base_convert(\substr($this->binary, 0, 42), 2, 10);
-            $shard = (int) \bcmod($time, ((string) $shardCount), 0);
+            $shard = (int) \bcmod($time, ((string) $shardCount));
             
             return $shard;
         } else {
