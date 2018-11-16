@@ -445,6 +445,7 @@ class Guild extends ClientBase {
      *   'name' => string,
      *   'type' => 'category'|'text'|'voice', (defaults to 'text')
      *   'topic' => string, (only for text channels)
+     *   'position' => int,
      *   'bitrate' => int, (only for voice channels)
      *   'userLimit' => int, (only for voice channels, 0 = unlimited)
      *   'slowmode' => int, (only for text channels)
@@ -473,42 +474,32 @@ class Guild extends ClientBase {
         }
         
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $data = array(
-                'name' => $options['name'],
-                'type' => (\CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[($options['type'] ?? 'text')] ?? 0)
-            );
-            
-            if(isset($options['topic'])) {
-                $data['topic'] = (string) $options['topic'];
-            }
-            
-            if(isset($options['bitrate'])) {
-                $data['bitrate'] = (int) $options['bitrate'];
-            }
-            
-            if(isset($options['userLimit'])) {
-                $data['user_limit'] = $options['userLimit'];
-            }
-            
-            if(isset($options['slowmode'])) {
-                $data['rate_limit_per_user'] = (int) $options['slowmode'];
-            }
-            
-            if(isset($options['permissionOverwrites'])) {
-                if($options['permissionOverwrites'] instanceof \CharlotteDunois\Collect\Collection) {
-                    $options['permissionOverwrites'] = $options['permissionOverwrites']->all();
-                }
-                
-                $data['permission_overwrites'] = \array_values($options['permissionOverwrites']);
-            }
-            
-            if(isset($options['parent'])) {
-                $data['parent_id'] = ($options['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $options['parent']->id : $options['parent']);
-            }
-            
-            if(isset($options['nsfw'])) {
-                $data['nsfw'] = $options['nsfw'];
-            }
+            $data = \CharlotteDunois\Yasmin\Utils\DataHelpers::applyOptions($options, array(
+                'name' => array('type' => 'string'),
+                'type' => array('type' => 'string', 'parse' => function ($val) {
+                    return (\CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$val] ?? 0);
+                }),
+                'topic' => array('type' => 'string'),
+                'position' => array('type' => 'int'),
+                'bitrate' => array('type' => 'int'),
+                'userLimit' => array('key' => 'user_limit', 'type' => 'int'),
+                'slowmode' => array('key' => 'rate_limit_per_user', 'type' => 'int'),
+                'permissionOverwrites' => array('key' => 'permission_overwrites', 'parse' => function ($val) {
+                    if($val instanceof \CharlotteDunois\Collect\Collection) {
+                        $val = $val->all();
+                    }
+                    
+                    return \array_values($val);
+                }),
+                'parent' => array('key' => 'parent_id', 'parse' => function ($val) {
+                    if($val instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel) {
+                        return $val->id;
+                    }
+                    
+                    return $val;
+                }),
+                'nsfw' => array('type' => 'bool')
+            ));
             
             $this->client->apimanager()->endpoints->guild->createGuildChannel($this->id, $data, $reason)->done(function ($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data, $this);
