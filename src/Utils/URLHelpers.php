@@ -77,6 +77,18 @@ class URLHelpers {
     
     /**
      * Makes an asynchronous request. Resolves with an instance of ResponseInterface.
+     *
+     * The following request options are supported:
+     * ```
+     * array(
+     *     'http_errors' => bool, (whether the HTTP client should obey the HTTP success code)
+     *     'multipart' => array, (multipart form data, an array of `[ 'name' => string, 'contents' => string|resource, 'filename' => string ]`)
+     *     'json' => mixed, (any JSON serializable type to send with the request as body payload)
+     *     'query' => string, (the URL query string to set to)
+     *     'headers' => string[], (HTTP headers to set)
+     * )
+     * ```
+     *
      * @param \Psr\Http\Message\RequestInterface  $request
      * @param array|null                          $requestOptions
      * @return \React\Promise\ExtendedPromiseInterface

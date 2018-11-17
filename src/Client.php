@@ -890,7 +890,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
     
     /**
      * Cancels a timer.
-     * @param \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface  $timer
+     * @param \React\EventLoop\TimerInterface  $timer
      * @return bool
      */
     function cancelTimer($timer) {

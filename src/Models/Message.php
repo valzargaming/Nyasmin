@@ -394,7 +394,7 @@ class Message extends ClientBase {
         try {
             $emoji = $this->client->emojis->resolve($emoji);
         } catch (\InvalidArgumentException $e) {
-            if(\is_numeric($e)) {
+            if(\is_numeric($emoji)) {
                 throw $e;
             }
             

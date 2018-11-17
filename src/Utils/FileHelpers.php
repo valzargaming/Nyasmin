@@ -21,7 +21,7 @@ class FileHelpers {
     /**
      * @var \React\Filesystem\FilesystemInterface|null
      */
-    private static $filesystem;
+    protected static $filesystem;
     
     /**
      * Sets the Event Loop.
