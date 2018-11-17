@@ -504,10 +504,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             
             if(!empty($this->gateway) && !$force) {
                 $gateway = \React\Promise\resolve($this->gateway);
-            } elseif(!empty($this->gateway)) {
-                $gateway = $this->api->getGateway(true);
             } else {
-                $gateway = $this->api->getGatewaySync(true);
+                $gateway = $this->api->getGateway(true);
             }
             
             $gateway->then(function (array $url) {
