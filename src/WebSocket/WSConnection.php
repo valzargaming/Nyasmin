@@ -58,7 +58,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
     );
     
     /**
-     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
+     * @var \React\EventLoop\TimerInterface
      */
     public $heartbeat = null;
     
@@ -318,8 +318,12 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $prom = $this->wsmanager->connectShard($this->shardID);
         }
         
-        return $prom->otherwise(function () use ($forceNewGateway) {
-            $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' errored on making new login after failed connection attempt... retrying in 30 seconds');
+        return $prom->otherwise(function ($error) use ($forceNewGateway) {
+            if($error instanceof \Throwable) {
+                $error = \str_replace(array("\r", "\n"), '', $error->getMessage());
+            }
+            
+            $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' errored ('.$error.') on making new login after failed connection attempt... retrying in 30 seconds');
             
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($forceNewGateway) {
                 $this->wsmanager->client->addTimer(30, function () use ($forceNewGateway, $resolve, $reject) {
