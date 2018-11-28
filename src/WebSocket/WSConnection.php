@@ -262,7 +262,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             }
             
             $this->renewConnection(true)->done(function () use ($deferred) {
-                $deferred->resolve();
+                $deferred->resolve($this);
             }, function (\Throwable $e) use ($deferred) {
                 $deferred->reject($e);
             });
