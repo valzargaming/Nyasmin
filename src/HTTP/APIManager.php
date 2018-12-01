@@ -170,6 +170,35 @@ class APIManager {
     }
     
     /**
+     * Makes an API request synchronously.
+     * @param string  $method
+     * @param string  $endpoint
+     * @param array   $options
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    function makeRequestSync(string $method, string $endpoint, array $options) {
+        $apirequest = new \CharlotteDunois\Yasmin\HTTP\APIRequest($this, $method, $endpoint, $options);
+        
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($apirequest) {
+            try {
+                $request = $apirequest->request();
+                $response = \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequestSync($request, $request->requestOptions);
+                
+                $status = $response->getStatusCode();
+                $body = \CharlotteDunois\Yasmin\HTTP\APIRequest::decodeBody($response);
+                
+                if($status >= 300) {
+                    throw new \RuntimeException($response->getReasonPhrase());
+                }
+                
+                $resolve($body);
+            } catch (\Throwable $e) {
+                $reject($e);
+            }
+        }));
+    }
+    
+    /**
      * Adds an APIRequest to the queue.
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $apirequest
      * @return \React\Promise\ExtendedPromiseInterface
@@ -211,6 +240,15 @@ class APIManager {
      */
     function getGateway(bool $bot = false) {
         return $this->makeRequest('GET', 'gateway'.($bot ? '/bot' : ''), array());
+    }
+    
+    /**
+     * Gets the Gateway from the Discord API synchronously.
+     * @param bool  $bot  Should we use the bot endpoint? Requires token.
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    function getGatewaySync(bool $bot = false) {
+        return $this->makeRequestSync('GET', 'gateway'.($bot ? '/bot' : ''), array());
     }
     
     /**

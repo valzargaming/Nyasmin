@@ -26,9 +26,19 @@ class URLHelpers {
     protected static $loop;
     
     /**
-     * @var \Clue\React\Buzz\Browser
+     * @var \GuzzleHttp\Handler\CurlMultiHandler
      */
-    protected static $http;
+    private static $handler;
+    
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    private static $http;
+    
+    /**
+     * @var \React\EventLoop\TimerInterface|\React\EventLoop\Timer\TimerInterface
+     */
+    private static $timer;
     
     /**
      * Sets the Event Loop.
@@ -37,42 +47,61 @@ class URLHelpers {
      * @internal
      */
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
-        static::$loop = $loop;
-        
-        if(static::$http === null) {
-            static::internalSetClient();
-        }
+        self::$loop = $loop;
     }
     
     /**
-     * Set the HTTP client used in Yasmin (and in this utility).
-     * Be aware that this method can be changed at any time.
-     *
-     * If you want to set the HTTP client, then you need to set it
-     * before the utilities get initialized by the Client!
-     *
-     * The HTTP client is after setting **immutable**.
+     * Sets the Guzzle handler and client.
      * @return void
-     * @throws \LogicException
+     * @internal
      */
-    static function setHTTPClient(\Clue\React\Buzz\Browser $client) {
-        if(static::$http !== null) {
-            throw new \LogicException('Client has already been set');
-        }
-        
-        static::$http = $client;
+    private static function setHTTPClient() {
+        self::$handler = new \GuzzleHttp\Handler\CurlMultiHandler();
+        self::$http = new \GuzzleHttp\Client(array(
+            'handler' => \GuzzleHttp\HandlerStack::create(self::$handler)
+        ));
     }
     
     /**
-     * Returns the client. This method may be changed at any time.
-     * @return \Clue\React\Buzz\Browser
+     * Returns the Guzzle client. This method may be changed at any time.
+     * @return \GuzzleHttp\Client
      */
     static function getHTTPClient() {
-        if(!static::$http) {
-            static::internalSetClient();
+        if(!self::$http) {
+            self::setHTTPClient();
         }
         
-        return static::$http;
+        return self::$http;
+    }
+    
+    /**
+     * Sets the Guzzle timer.
+     * @return void
+     */
+    private static function setTimer() {
+        if(!self::$timer) {
+            self::$timer = self::$loop->addPeriodicTimer(0, \Closure::bind(function () {
+                $this->tick();
+                
+                $queue = \GuzzleHttp\Promise\queue();
+                $handles = $this->handles;
+                
+                if($queue->isEmpty() && \count($handles) === 0) {
+                    URLHelpers::destroy();
+                }
+            }, self::$handler, self::$handler));
+        }
+    }
+    
+    /**
+     * Cancels the Guzzle timer and unsets it.
+     * @return void
+     */
+    static function destroy() {
+        if(self::$timer) {
+            self::$loop->cancelTimer(self::$timer);
+            self::$timer = null;
+        }
     }
     
     /**
@@ -95,60 +124,29 @@ class URLHelpers {
      * @see \Psr\Http\Message\ResponseInterface
      */
     static function makeRequest(\Psr\Http\Message\RequestInterface $request, ?array $requestOptions = null) {
-        if(!static::$http) {
-            static::internalSetClient();
+        if(!self::$http) {
+            self::setHTTPClient();
         }
         
-        $client = static::$http;
+        self::setTimer();
         
-        if(!empty($requestOptions)) {
-            if(isset($requestOptions['http_errors'])) {
-                $client = $client->withOptions(array(
-                    'obeySuccessCode' => !empty($requestOptions['http_errors'])
-                ));
-            }
-            
-            if(isset($requestOptions['multipart'])) {
-                $multipart = new \RingCentral\Psr7\MultipartStream($requestOptions['multipart']);
-                
-                $request = $request->withBody($multipart)
-                                ->withHeader('Content-Type', 'multipart/form-data; boundary="'.$multipart->getBoundary().'"');
-            }
-            
-            if(isset($requestOptions['json'])) {
-                $resource = \fopen('php://temp', 'r+');
-                if($resource === false) {
-                    return \React\Promise\reject((new \RuntimeException('Unable to create stream for JSON data')));
-                }
-                
-                $json = \json_encode($requestOptions['json']);
-                if($json === false) {
-                    return \React\Promise\reject((new \RuntimeException('Unable to encode json. Error: '.\json_last_error_msg())));
-                }
-                
-                \fwrite($resource, $json);
-                \fseek($resource, 0);
-                
-                $stream = new \RingCentral\Psr7\Stream($resource, array('size' => \strlen($json)));
-                $request = $request->withBody($stream);
-                
-                $request = $request->withHeader('Content-Type', 'application/json')
-                                ->withHeader('Content-Length', \strlen($json));
-            }
-            
-            if(isset($requestOptions['query'])) {
-                $uri = $request->getUri()->withQuery($requestOptions['query']);
-                $request = $request->withUri($uri);
-            }
-            
-            if(isset($requestOptions['headers'])) {
-                foreach($requestOptions['headers'] as $key => $val) {
-                    $request = $request->withHeader($key, $val);
-                }
-            }
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use (&$request, &$requestOptions) {
+            self::$http->sendAsync($request, ($requestOptions ?? array()))->then($resolve, $reject);
+        }));
+    }
+    
+    /**
+     * Makes a synchronous request.
+     * @param \Psr\Http\Message\RequestInterface  $request
+     * @param array|null                          $requestOptions
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    static function makeRequestSync(\Psr\Http\Message\RequestInterface $request, ?array $requestOptions = null) {
+        if(!self::$http) {
+            self::setHTTPClient();
         }
         
-        return static::$http->send($request);
+        return self::$http->send($request, ($requestOptions ?? array()));
     }
     
     /**
@@ -158,37 +156,33 @@ class URLHelpers {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     static function resolveURLToData(string $url, ?array $requestHeaders = null) {
-        if(!static::$http) {
-            static::internalSetClient();
+        if(!self::$http) {
+            self::setHTTPClient();
         }
         
-        if($requestHeaders === null) {
-            $requestHeaders = array();
-        }
+        self::setTimer();
         
-        foreach($requestHeaders as $key => $val) {
-            unset($requestHeaders[$key]);
-            $nkey = \ucwords($key, '-');
-            $requestHeaders[$nkey] = $val;
-        }
-        
-        if(empty($requestHeaders['User-Agent'])) {
-            $requestHeaders['User-Agent'] = static::DEFAULT_USER_AGENT;
-        }
-        
-        $request = new \RingCentral\Psr7\Request('GET', $url, $requestHeaders);
-        
-        return static::makeRequest($request)->then(function ($response) {
-            $body = (string) $response->getBody();
-            return $body;
-        });
-    }
-    
-    /**
-     * Sets the client.
-     * @return void
-     */
-    protected static function internalSetClient() {
-        static::$http = new \Clue\React\Buzz\Browser(static::$loop);
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($url, $requestHeaders) {
+            if($requestHeaders === null) {
+                $requestHeaders = array();
+            }
+            
+            foreach($requestHeaders as $key => $val) {
+                unset($requestHeaders[$key]);
+                $nkey = \ucwords($key, '-');
+                $requestHeaders[$nkey] = $val;
+            }
+            
+            if(empty($requestHeaders['User-Agent'])) {
+                $requestHeaders['User-Agent'] = self::DEFAULT_USER_AGENT;
+            }
+            
+            $request = new \GuzzleHttp\Psr7\Request('GET', $url, $requestHeaders);
+            
+            self::$http->sendAsync($request)->then(function ($response) use ($resolve) {
+                $body = (string) $response->getBody();
+                $resolve($body);
+            }, $reject);
+        }));
     }
 }
