@@ -199,40 +199,50 @@ class Storage extends \CharlotteDunois\Collect\Collection
     
     /**
      * {@inheritdoc}
-     * @param callable    $closure
-     * @param int         $options
-     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
-    */
-    function sort(?callable $closure = null, $options = SORT_REGULAR) {
+     * @param bool  $descending
+     * @param int   $options
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sort(bool $descending = false, int $options = \SORT_REGULAR) {
         $args = $this->baseStorageArgs;
-        $args[] = parent::sort($closure, $options)->all();
+        $args[] = parent::sort($descending, $options)->all();
         
         return (new static(...$args));
     }
     
     /**
      * {@inheritdoc}
-     * @param mixed|callable  $sortkey
-     * @param int             $options
-     * @param bool            $descending
-     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
-    */
-    function sortBy($sortkey, $options = \SORT_REGULAR, bool $descending = false) {
+     * @param bool  $descending
+     * @param int   $options
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sortKey(bool $descending = false, int $options = \SORT_REGULAR) {
         $args = $this->baseStorageArgs;
-        $args[] = parent::sortBy($sortkey, $options, $descending)->all();
+        $args[] = parent::sortKey($descending, $options)->all();
         
         return (new static(...$args));
     }
     
     /**
      * {@inheritdoc}
-     * @param mixed|\Closure  $sortkey
-     * @param int             $options
-     * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
-    */
-    function sortByDesc($sortkey, $options = \SORT_REGULAR) {
+     * @param callable  $closure  Callback specification: `function ($a, $b): int`
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sortCustom(callable $closure) {
         $args = $this->baseStorageArgs;
-        $args[] = parent::sortByDesc($sortkey, $options)->all();
+        $args[] = parent::sortCustom($closure)->all();
+        
+        return (new static(...$args));
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @param callable  $closure  Callback specification: `function ($a, $b): int`
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sortCustomKey(callable $closure) {
+        $args = $this->baseStorageArgs;
+        $args[] = parent::sortCustomKey($closure)->all();
         
         return (new static(...$args));
     }

@@ -423,7 +423,7 @@ trait GuildChannelTrait {
         $newPositions[] = array('id' => $this->id, 'position' => $position);
         
         $count = $this->guild->channels->count();
-        $channels = $this->guild->channels->sort(function ($a, $b) {
+        $channels = $this->guild->channels->sortCustom(function ($a, $b) {
             if($a->position === $b->position) {
                 return $a->id <=> $b->id;
             }

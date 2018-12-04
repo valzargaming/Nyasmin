@@ -137,35 +137,32 @@ interface StorageInterface extends \Countable, \Iterator {
     
     /**
      * Sorts the collection. Returns a new Storage instance.
-     * @param callable    $closure
-     * @param int         $options
+     * @param callable  $closure  Callback specification: `function ($a, $b): int`
      * @return StorageInterface
     */
-    function sort(?callable $closure = null, $options = SORT_REGULAR);
+    function sort(bool $descending = false, int $options = \SORT_REGULAR);
     
     /**
-     * Sorts the collection by the given key. Returns a new Storage instance.
-     * @param mixed|callable  $sortkey
-     * @param int             $options
-     * @param bool            $descending
-     * @return StorageInterface
-    */
-    function sortBy($sortkey, $options = \SORT_REGULAR, bool $descending = false);
+     * Sorts the collection by key. Returns a new Storage instance.
+     * @param bool  $descending
+     * @param int   $options
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sortKey(bool $descending = false, int $options = \SORT_REGULAR);
     
     /**
-     * Sorts the storage by the given key in descending order. Returns a new Storage instance.
-     * @param mixed|\Closure  $sortkey
-     * @param int             $options
-     * @return StorageInterface
-    */
-    function sortByDesc($sortkey, $options = \SORT_REGULAR);
+     * Sorts the collection using a custom sorting function. Returns a new Storage instance.
+     * @param callable  $closure  Callback specification: `function ($a, $b): int`
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sortCustom(callable $closure);
     
     /**
-     * Return the minimum value of a given key.
-     * @param mixed|null  $key
-     * @return int
-    */
-    function min($key = null);
+     * Sorts the collection by key using a custom sorting function. Returns a new Storage instance.
+     * @param callable  $closure  Callback specification: `function ($a, $b): int`
+     * @return \CharlotteDunois\Collect\Collection
+     */
+    function sortCustomKey(callable $closure);
     
     /**
      * Return the maximum value of a given key.
@@ -173,4 +170,11 @@ interface StorageInterface extends \Countable, \Iterator {
      * @return int
     */
     function max($key = '');
+    
+    /**
+     * Return the minimum value of a given key.
+     * @param mixed|null  $key
+     * @return int
+    */
+    function min($key = null);
 }

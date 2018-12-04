@@ -235,8 +235,8 @@ class Role extends ClientBase {
      * @return int
      */
     function getCalculatedPosition() {
-        $sorted = $this->guild->roles->sortByDesc(function ($role) {
-            return $role->position;
+        $sorted = $this->guild->roles->sortCustom(function (\CharlotteDunois\Yasmin\Models\Role $a, \CharlotteDunois\Yasmin\Models\Role $b) {
+            return $b->comparePositionTo($a);
         });
         
         return $sorted->indexOf($this);
