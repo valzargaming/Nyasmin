@@ -61,3 +61,11 @@ Make sure you also have a rejection handler for all promises, as unhandled promi
 
 # Need help?
 [![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1&v=1)](https://discord.gg/hUpnqam)
+
+# Windows and SSL
+Unfortunately PHP on Windows does not have access to the Windows Certificate Store. This is an issue because TLS gets used and as such certificate verification gets applied (turning this off is **not** an option).
+
+You will notice this issue by your script exiting immediately after one loop turn without any errors. Unfortunately there is for some reason no error or exception.
+
+As such users of this library need to download a [Certificate Authority extract](https://curl.haxx.se/docs/caextract.html) from the cURL website.<br>
+The path to the caextract must be set in the [`php.ini`](https://secure.php.net/manual/en/openssl.configuration.php) for `openssl.cafile`.
