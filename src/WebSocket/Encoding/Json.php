@@ -53,7 +53,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      */
     function decode(string $data) {
         $msg = \json_decode($data, true, 512, $this->jsonOptions);
-        if($msg === null || \json_last_error() !== \JSON_ERROR_NONE) {
+        if($msg === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \InvalidArgumentException('The JSON decoder was unable to decode the data. Error: '.\json_last_error_msg());
         }
         
