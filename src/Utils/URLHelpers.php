@@ -64,6 +64,14 @@ class URLHelpers {
     }
     
     /**
+     * Sets the client.
+     * @return void
+     */
+    protected static function internalSetClient() {
+        static::$http = new \Clue\React\Buzz\Browser(static::$loop);
+    }
+    
+    /**
      * Returns the client. This method may be changed at any time.
      * @return \Clue\React\Buzz\Browser
      */
@@ -108,44 +116,7 @@ class URLHelpers {
                 ));
             }
             
-            if(isset($requestOptions['multipart'])) {
-                $multipart = new \RingCentral\Psr7\MultipartStream($requestOptions['multipart']);
-                
-                $request = $request->withBody($multipart)
-                                ->withHeader('Content-Type', 'multipart/form-data; boundary="'.$multipart->getBoundary().'"');
-            }
-            
-            if(isset($requestOptions['json'])) {
-                $resource = \fopen('php://temp', 'r+');
-                if($resource === false) {
-                    return \React\Promise\reject((new \RuntimeException('Unable to create stream for JSON data')));
-                }
-                
-                $json = \json_encode($requestOptions['json']);
-                if($json === false) {
-                    return \React\Promise\reject((new \RuntimeException('Unable to encode json. Error: '.\json_last_error_msg())));
-                }
-                
-                \fwrite($resource, $json);
-                \fseek($resource, 0);
-                
-                $stream = new \RingCentral\Psr7\Stream($resource, array('size' => \strlen($json)));
-                $request = $request->withBody($stream);
-                
-                $request = $request->withHeader('Content-Type', 'application/json')
-                                ->withHeader('Content-Length', \strlen($json));
-            }
-            
-            if(isset($requestOptions['query'])) {
-                $uri = $request->getUri()->withQuery($requestOptions['query']);
-                $request = $request->withUri($uri);
-            }
-            
-            if(isset($requestOptions['headers'])) {
-                foreach($requestOptions['headers'] as $key => $val) {
-                    $request = $request->withHeader($key, $val);
-                }
-            }
+            $request = static::applyRequestOptions($request, $requestOptions);
         }
         
         return static::$http->send($request);
@@ -185,10 +156,62 @@ class URLHelpers {
     }
     
     /**
-     * Sets the client.
-     * @return void
+     * Applies request options to the request.
+     *
+     * The following request options are supported:
+     * ```
+     * array(
+     *     'multipart' => array, (multipart form data, an array of `[ 'name' => string, 'contents' => string|resource, 'filename' => string ]`)
+     *     'json' => mixed, (any JSON serializable type to send with the request as body payload)
+     *     'query' => string, (the URL query string to set to)
+     *     'headers' => string[], (HTTP headers to set)
+     * )
+     * ```
+     *
+     * @param \Psr\Http\Message\RequestInterface  $request
+     * @param array                               $requestOptions
+     * @return \Psr\Http\Message\RequestInterface
      */
-    protected static function internalSetClient() {
-        static::$http = new \Clue\React\Buzz\Browser(static::$loop);
+    static function applyRequestOptions(\Psr\Http\Message\RequestInterface $request, array $requestOptions) {
+        if(isset($requestOptions['multipart'])) {
+            $multipart = new \RingCentral\Psr7\MultipartStream($requestOptions['multipart']);
+            
+            $request = $request->withBody($multipart)
+                            ->withHeader('Content-Type', 'multipart/form-data; boundary="'.$multipart->getBoundary().'"');
+        }
+        
+        if(isset($requestOptions['json'])) {
+            $resource = \fopen('php://temp', 'r+');
+            if($resource === false) {
+                return \React\Promise\reject((new \RuntimeException('Unable to create stream for JSON data')));
+            }
+            
+            $json = \json_encode($requestOptions['json']);
+            if($json === false) {
+                return \React\Promise\reject((new \RuntimeException('Unable to encode json. Error: '.\json_last_error_msg())));
+            }
+            
+            \fwrite($resource, $json);
+            \fseek($resource, 0);
+            
+            $stream = new \RingCentral\Psr7\Stream($resource, array('size' => \strlen($json)));
+            $request = $request->withBody($stream);
+            
+            $request = $request->withHeader('Content-Type', 'application/json')
+                            ->withHeader('Content-Length', \strlen($json));
+        }
+        
+        if(isset($requestOptions['query'])) {
+            $uri = $request->getUri()->withQuery($requestOptions['query']);
+            $request = $request->withUri($uri);
+        }
+        
+        if(isset($requestOptions['headers'])) {
+            foreach($requestOptions['headers'] as $key => $val) {
+                $request = $request->withHeader($key, $val);
+            }
+        }
+        
+        return $request;
     }
 }
