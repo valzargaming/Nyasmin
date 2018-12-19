@@ -119,7 +119,7 @@ class URLHelpers {
             $request = static::applyRequestOptions($request, $requestOptions);
         }
         
-        return static::$http->send($request);
+        return $client->send($request);
     }
     
     /**
