@@ -217,7 +217,7 @@ class APIManager {
      * Processes the queue on future tick.
      * @return void
      */
-    final protected function processFuture() {
+    protected function processFuture() {
         $this->loop->futureTick(function () {
             $this->process();
         });
@@ -227,7 +227,7 @@ class APIManager {
      * Processes the queue delayed, depends on rest time offset.
      * @return void
      */
-    final protected function processDelayed() {
+    protected function processDelayed() {
         $offset = (float) $this->client->getOption('http.restTimeOffset', 0.0);
         if($offset > 0.0) {
             $this->client->addTimer($offset, function () {
@@ -404,7 +404,7 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest  $request
      * @return string
      */
-    final function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
+    function getRatelimitEndpoint(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
         $endpoint = $request->getEndpoint();
         
         if($request->isReactionEndpoint()) {
@@ -435,7 +435,7 @@ class APIManager {
      * @param string $endpoint
      * @return \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface
      */
-    final protected function getRatelimitBucket(string $endpoint) {
+    protected function getRatelimitBucket(string $endpoint) {
         if(empty($this->ratelimits[$endpoint])) {
             $bucket = $this->bucketName;
             $this->ratelimits[$endpoint] = new $bucket($this, $endpoint);
@@ -449,7 +449,7 @@ class APIManager {
      * @param \Psr\Http\Message\ResponseInterface  $response
      * @return mixed[]
      */
-    final function extractRatelimit(\Psr\Http\Message\ResponseInterface $response) {
+    function extractRatelimit(\Psr\Http\Message\ResponseInterface $response) {
         $date = (new \DateTime($response->getHeader('Date')[0]))->getTimestamp();
         
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);

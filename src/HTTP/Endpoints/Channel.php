@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Channel".
  * @internal
  */
-final class Channel {
+class Channel {
     /**
      * Endpoints Channels.
      * @var array

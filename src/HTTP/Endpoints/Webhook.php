@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Webhook".
  * @internal
  */
-final class Webhook {
+class Webhook {
     /**
      * Endpoints Webhooks.
      * @var array

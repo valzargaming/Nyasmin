@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Emoji".
  * @internal
  */
-final class Emoji {
+class Emoji {
     /**
      * Endpoints Emojis.
      * @var array

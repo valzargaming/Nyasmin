@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Represents a single HTTP request.
  * @internal
  */
-final class APIRequest {
+class APIRequest {
     /**
      * The JSON encode/decode options.
      * @var int|null

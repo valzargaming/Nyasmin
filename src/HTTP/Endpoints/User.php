@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "User".
  * @internal
  */
-final class User {
+class User {
     /**
      * Endpoints Users.
      * @var array

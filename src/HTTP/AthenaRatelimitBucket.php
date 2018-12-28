@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Requires the suggested package `charlottedunois/athena`.
  * @internal
  */
-final class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
+class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
      * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager

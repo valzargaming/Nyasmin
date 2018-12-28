@@ -398,7 +398,7 @@ trait TextChannelTrait {
     /**
      * @param \CharlotteDunois\Yasmin\Models\User  $user
      * @param int|null                             $timestamp
-     * @return boolean
+     * @return bool
      * @internal
      */
     function _updateTyping(\CharlotteDunois\Yasmin\Models\User $user, ?int $timestamp = null) {

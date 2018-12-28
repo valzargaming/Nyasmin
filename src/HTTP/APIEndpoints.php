@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Handles the API endpoints.
  * @internal
  */
-final class APIEndpoints {
+class APIEndpoints {
     /**
      * CDN constants.
      * @var array

@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Manages a route's ratelimit in memory.
  * @internal
  */
-final class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
+class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
      * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager

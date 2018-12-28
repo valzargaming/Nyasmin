@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Guild".
  * @internal
  */
-final class Guild {
+class Guild {
     /**
      * Endpoints Guilds.
      * @var array

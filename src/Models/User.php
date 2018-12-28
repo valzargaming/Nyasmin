@@ -15,12 +15,12 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string                                               $id                 The user ID.
  * @property string                                               $username           The username.
  * @property string                                               $discriminator      The discriminator of this user.
- * @property boolean                                              $bot                Is the user a bot? Or are you a bot?
+ * @property bool                                                 $bot                Is the user a bot? Or are you a bot?
  * @property string|null                                          $avatar             The hash of the user's avatar, or null.
  * @property string                                               $email              An email address or maybe nothing at all. More likely to be nothing at all.
- * @property boolean|null                                         $mfaEnabled         Whether the user has two factor enabled on their account, or null if no information provided.
- * @property boolean|null                                         $verified           Whether the email on this account has been verified, or null if no information provided.
- * @property boolean                                              $webhook            Determines wether the user is a webhook or not.
+ * @property bool|null                                            $mfaEnabled         Whether the user has two factor enabled on their account, or null if no information provided.
+ * @property bool|null                                            $verified           Whether the email on this account has been verified, or null if no information provided.
+ * @property bool                                                 $webhook            Determines wether the user is a webhook or not.
  * @property int                                                  $createdTimestamp   The timestamp of when this user was created.
  *
  * @property \DateTime                                            $createdAt          An DateTime instance of the createdTimestamp.

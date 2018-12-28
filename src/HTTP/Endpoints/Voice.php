@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Voice".
  * @internal
  */
-final class Voice {
+class Voice {
     /**
      * Endpoints Voice.
      * @var array

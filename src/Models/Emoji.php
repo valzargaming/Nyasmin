@@ -18,8 +18,8 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\Guild|null            $guild              The guild this emoji belongs to, or null.
  * @property int|null                                             $createdTimestamp   The timestamp of when this emoji was created, or null for unicode emoji.
  * @property bool                                                 $animated           Whether this emoji is animated.
- * @property boolean                                              $managed            Is the emoji managed?
- * @property boolean                                              $requireColons      Does the emoji require colons?
+ * @property bool                                                 $managed            Is the emoji managed?
+ * @property bool                                                 $requireColons      Does the emoji require colons?
  * @property \CharlotteDunois\Collect\Collection                  $roles              A collection of roles that this emoji is active for (empty if all).
  *
  * @property \DateTime|null                                       $createdAt          An DateTime instance of the createdTimestamp, or null for unicode emoji.

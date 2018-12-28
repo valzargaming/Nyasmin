@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP\Endpoints;
  * Handles the API endpoints "Invite".
  * @internal
  */
-final class Invite {
+class Invite {
     /**
      * Endpoints Invites.
      * @var array
