@@ -94,6 +94,7 @@ class URLHelpers {
      *     'json' => mixed, (any JSON serializable type to send with the request as body payload)
      *     'query' => string, (the URL query string to set to)
      *     'headers' => string[], (HTTP headers to set)
+     *     'timeout' => float, (after how many seconds the request times out)
      * )
      * ```
      *
@@ -103,16 +104,18 @@ class URLHelpers {
      * @see \Psr\Http\Message\ResponseInterface
      */
     static function makeRequest(\Psr\Http\Message\RequestInterface $request, ?array $requestOptions = null) {
-        if(!static::$http) {
-            static::internalSetClient();
-        }
-        
-        $client = static::$http;
+        $client = static::getHTTPClient();
         
         if(!empty($requestOptions)) {
             if(isset($requestOptions['http_errors'])) {
                 $client = $client->withOptions(array(
                     'obeySuccessCode' => !empty($requestOptions['http_errors'])
+                ));
+            }
+            
+            if(isset($requestOptions['timeout'])) {
+                $client = $client->withOptions(array(
+                    'timeout' => ((float) $requestOptions['timeout'])
                 ));
             }
             
@@ -129,10 +132,6 @@ class URLHelpers {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     static function resolveURLToData(string $url, ?array $requestHeaders = null) {
-        if(!static::$http) {
-            static::internalSetClient();
-        }
-        
         if($requestHeaders === null) {
             $requestHeaders = array();
         }
