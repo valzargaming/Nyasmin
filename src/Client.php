@@ -219,7 +219,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      *   'ws.encoding' => string, (use a specific websocket encoding, JSON or ETF (if suggested package installed), recommended is JSON for now)
      *   'ws.disabledEvents' => string[], (disables specific websocket events (e.g. TYPING_START), only disable websocket events if you know what they do)
      *   'ws.largeThreshold' => int, (50-250, members threshold after which guilds gets counted as large, defaults to 250)
-     *   'ws.presence' => array, (the presence to send on WS connect, see https://discordapp.com/developers/docs/topics/gateway#gateway-status-update)
+     *   'ws.presence' => array, (the presence to send on WS connect, see See Also section)
      *   'ws.presenceUpdate.ignoreUnknownUsers' => bool, (whether we ignore presence updates of uncached users, defaults to false)
      * )
      * ```
@@ -229,8 +229,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      * @throws \Exception
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
-     *
      * @see \CharlotteDunois\Yasmin\ClientEvents
+     * @see https://discordapp.com/developers/docs/topics/gateway#update-status
      */
     function __construct(array $options = array(), ?\React\EventLoop\LoopInterface $loop = null) {
         if(\PHP_SAPI !== 'cli') {
