@@ -232,7 +232,7 @@ class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
      */
     protected function set(array $value) {
         return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, $value)->otherwise(function (\Throwable $e) {
-            if($e->getMessage() !== 'Connection closed') {
+            if($e->getMessage() !== 'Client got destroyed') {
                 throw $e;
             }
         });
