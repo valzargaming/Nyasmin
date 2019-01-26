@@ -379,8 +379,9 @@ class APIManager {
                 $item->deferred->resolve($data);
             }
         }, function ($error) use ($item) {
+            $this->client->emit('debug', 'Request for item "'.$item->getEndpoint().'" failed with '.($error instanceof \Throwable ? 'exception '.\get_class($error) : 'error '.$error));
             $item->deferred->reject($error);
-        })->otherwise(function ($error) {
+        })->then(null, function ($error) {
             $this->client->handlePromiseRejection($error);
         })->done(function () use ($ratelimit, $endpoint) {
             if($ratelimit instanceof \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface) {

@@ -318,7 +318,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $prom = $this->wsmanager->connectShard($this->shardID);
         }
         
-        return $prom->otherwise(function ($error) use ($forceNewGateway) {
+        return $prom->then(null, function ($error) use ($forceNewGateway) {
             if($error instanceof \Throwable) {
                 $error = \str_replace(array("\r", "\n"), '', $error->getMessage());
             }

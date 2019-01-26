@@ -418,7 +418,7 @@ class Message extends ClientBase {
             
             $prom = \CharlotteDunois\Yasmin\Utils\EventHelpers::waitForEvent($this->client, 'messageReactionAdd', $filter, array('time' => 30))->then(function ($args) use ($resolve) {
                 $resolve($args[0]);
-            })->otherwise(function ($error) use ($reject) {
+            }, function ($error) use ($reject) {
                 if($error instanceof \RangeException) {
                     $reject(new \RangeException('Message Reaction did not arrive in time'));
                 } elseif(!($error instanceof \OutOfBoundsException)) {

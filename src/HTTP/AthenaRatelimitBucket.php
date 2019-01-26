@@ -220,7 +220,7 @@ class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
      * @return \React\Promise\ExtendedPromiseInterface
      */
     protected function get() {
-        return $this->cache->get('yasmin-ratelimiter-'.$this->endpoint, null, true)->otherwise(function () {
+        return $this->cache->get('yasmin-ratelimiter-'.$this->endpoint, null, true)->then(null, function () {
             return array('limit' => 0, 'remaining' => 0, 'resetTime' => null);
         });
     }
@@ -231,7 +231,7 @@ class AthenaRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\Rateli
      * @return \React\Promise\ExtendedPromiseInterface
      */
     protected function set(array $value) {
-        return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, $value)->otherwise(function (\Throwable $e) {
+        return $this->cache->set('yasmin-ratelimiter-'.$this->endpoint, $value)->then(null, function (\Throwable $e) {
             if($e->getMessage() !== 'Client got destroyed') {
                 throw $e;
             }
