@@ -255,6 +255,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         $connector($this->wsmanager->gateway)->done(function (\Ratchet\Client\WebSocket $conn) use (&$ready, $deferred, $reconnect) {
             $this->initWS($conn, $ready, $reconnect, $deferred);
         }, function (\Throwable $error) use ($deferred) {
+            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
             $this->wsmanager->client->emit('error', $error);
             
             if($this->ws) {
@@ -311,14 +312,20 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     protected function renewConnection(bool $forceNewGateway = true) {
         if($forceNewGateway) {
+            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING; // distinguish between HTTP call and WS reconnect
+            
             $prom = $this->wsmanager->client->apimanager()->getGateway()->then(function ($url) {
+                $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
                 return $this->wsmanager->connectShard($this->shardID, $url['url'], $this->wsmanager->gatewayQS);
             });
         } else {
+            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
             $prom = $this->wsmanager->connectShard($this->shardID);
         }
         
         return $prom->then(null, function ($error) use ($forceNewGateway) {
+            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
+            
             if($error instanceof \Throwable) {
                 $error = \str_replace(array("\r", "\n"), '', $error->getMessage());
             }
@@ -698,7 +705,6 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                 $this->wsSessionID = null;
             }
             
-            $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
             $this->renewConnection(false);
         });
     }
