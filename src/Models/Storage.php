@@ -28,12 +28,6 @@ class Storage extends \CharlotteDunois\Collect\Collection
     protected $baseStorageArgs;
     
     /**
-     * Tells the storages to emit `internal.storage.set` and `internal.storage.delete` events.
-     * @var bool
-     */
-    public static $emitUpdates = false;
-    
-    /**
      * @internal
      */
     function __construct(\CharlotteDunois\Yasmin\Client $client, array $data = null) {
@@ -145,13 +139,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
         }
         
         $key = (string) $key;
-        parent::set($key, $value);
-        
-        if(static::$emitUpdates) {
-            $this->client->emit('internal.storage.set', $this, $key, $value);
-        }
-        
-        return $this;
+        return parent::set($key, $value);
     }
     
     /**
@@ -165,13 +153,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
         }
         
         $key = (string) $key;
-        parent::delete($key);
-        
-        if(static::$emitUpdates) {
-            $this->client->emit('internal.storage.delete', $this, $key);
-        }
-        
-        return $this;
+        return parent::delete($key);
     }
     
     /**

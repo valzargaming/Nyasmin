@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all guild channels implement. See GuildChannelTrait for full comments.
+ * Something all guild channels implement.
  *
  * @method string                                               getName()                  Gets the channel's name.
  * @method \CharlotteDunois\Yasmin\Models\Guild                 getGuild()                 Gets the associated guild.
@@ -21,6 +21,18 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 interface GuildChannelInterface extends ChannelInterface {
     /**
      * Creates an invite. Resolves with an instance of Invite.
+     *
+     * Options are as following (all are optional).
+     *
+     * ```
+     * array(
+     *    'maxAge' => int,
+     *    'maxUses' => int, (0 = unlimited)
+     *    'temporary' => bool,
+     *    'unique' => bool
+     * )
+     * ```
+     *
      * @param array $options
      * @return \React\Promise\ExtendedPromiseInterface
      */
@@ -38,6 +50,23 @@ interface GuildChannelInterface extends ChannelInterface {
      
     /**
      * Edits the channel. Resolves with $this.
+     *
+     * Options are as following (at least one is required).
+     *
+     * ```
+     * array(
+     *    'name' => string,
+     *    'position' => int,
+     *    'topic' => string, (text channels only)
+     *    'nsfw' => bool, (text channels only)
+     *    'bitrate' => int, (voice channels only)
+     *    'userLimit' => int, (voice channels only)
+     *    'slowmode' => int, (text channels only)
+     *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
+     *    'permissionOverwrites' => \CharlotteDunois\Collect\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
+     * )
+     * ```
+     *
      * @param array   $options
      * @param string  $reason
      * @return \React\Promise\ExtendedPromiseInterface
@@ -69,6 +98,15 @@ interface GuildChannelInterface extends ChannelInterface {
     
     /**
      * Returns the permissions overwrites for the given member.
+     *
+     * ```
+     * array(
+     *     'everyone' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite|null,
+     *     'member' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite|null,
+     *     'roles' => \CharlotteDunois\Yasmin\Models\PermissionOverwrite[]
+     * )
+     * ```
+     *
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return array
      * @throws \InvalidArgumentException
