@@ -312,7 +312,7 @@ class Emoji extends ClientBase {
         $this->user = (!empty($emoji['user']) ? $this->client->users->patch($emoji['user']) : null);
         $this->animated = (bool) ($emoji['animated'] ?? false);
         $this->managed = (bool) ($emoji['managed'] ?? false);
-        $this->requireColons = (bool) ($emoji['require_colons'] ?? true);
+        $this->requireColons = (($emoji['require_colons'] ?? true) && $this->id !== null);
         
         if(isset($emoji['roles'])) {
             $this->roles->clear();
