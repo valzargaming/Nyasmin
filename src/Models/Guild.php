@@ -863,7 +863,7 @@ class Guild extends ClientBase {
      */
     function fetchPruneMembers(int $days) {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days) {
-            $this->client->apimanager()->endpoints->guild->getGuildPruneCount($this->id, $days, $reason)->done(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->guild->getGuildPruneCount($this->id, $days)->done(function ($data) use ($resolve) {
                 $resolve($data['pruned']);
             }, $reject);
         }));
