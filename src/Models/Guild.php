@@ -857,6 +857,19 @@ class Guild extends ClientBase {
     }
     
     /**
+     * Fetches the amount of members from the guild based on how long they have been inactive which would be pruned. Resolves with an integer.
+     * @param int     $days
+     * @return \React\Promise\ExtendedPromiseInterface
+     */
+    function fetchPruneMembers(int $days) {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days) {
+            $this->client->apimanager()->endpoints->guild->getGuildPruneCount($this->id, $days, $reason)->done(function ($data) use ($resolve) {
+                $resolve($data['pruned']);
+            }, $reject);
+        }));
+    }
+    
+    /**
      * Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.
      * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\VoiceRegion
@@ -976,17 +989,16 @@ class Guild extends ClientBase {
     }
     
     /**
-     * Prunes members from the guild based on how long they have been inactive. Resolves with an integer.
+     * Prunes members from the guild based on how long they have been inactive. Resolves with an integer or null.
      * @param int     $days
-     * @param bool    $dry
+     * @param bool    $withCount  Whether the amount of pruned members is returned, discouraged for large guilds.
      * @param string  $reason
      * @return \React\Promise\ExtendedPromiseInterface
      */
-    function pruneMembers(int $days, bool $dry = false, string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days, $dry, $reason) {
-            $method = ($dry ? 'getGuildPruneCount' : 'beginGuildPrune');
-            $this->client->apimanager()->endpoints->guild->$method($this->id, $days, $reason)->done(function ($data) use ($resolve) {
-                $resolve($data['pruned']);
+    function pruneMembers(int $days, bool $withCount = false, string $reason = '') {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($days, $withCount, $reason) {
+            $this->client->apimanager()->endpoints->guild->beginGuildPrune($this->id, $days, $withCount, $reason)->done(function ($data) use ($resolve) {
+                $resolve(($data['pruned'] ?? null));
             }, $reject);
         }));
     }

@@ -220,9 +220,9 @@ class Guild {
         return $this->api->makeRequest('GET', $url, array('querystring' => array('days' => $days)));
     }
     
-    function beginGuildPrune(string $guildid, int $days, string $reason = '') {
+    function beginGuildPrune(string $guildid, int $days, bool $withCount, string $reason = '') {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['prune']['begin'], $guildid);
-        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'querystring' => array('days' => $days)));
+        return $this->api->makeRequest('POST', $url, array('auditLogReason' => $reason, 'querystring' => array('days' => $days, 'compute_prune_count' => $withCount)));
     }
     
     function getGuildVoiceRegions(string $guildid) {
