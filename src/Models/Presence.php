@@ -12,11 +12,12 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a presence.
  *
- * @property \CharlotteDunois\Yasmin\Models\Activity|null  $activity  The activity the user is doing, or null.
- * @property string                                        $status    What do you expect this to be?
- * @property string                                        $userID    The user ID this presence belongs to.
+ * @property \CharlotteDunois\Yasmin\Models\Activity|null       $activity        The activity the user is doing, or null.
+ * @property string                                             $status          What do you expect this to be?
+ * @property \CharlotteDunois\Yasmin\Models\ClientStatus|null   $clientStatus    The client's status on desktop/mobile/web.
+ * @property string                                             $userID          The user ID this presence belongs to.
  *
- * @property \CharlotteDunois\Yasmin\Models\User|null      $user      The user this presence belongs to.
+ * @property \CharlotteDunois\Yasmin\Models\User|null           $user            The user this presence belongs to.
  */
 class Presence extends ClientBase {
     /**
@@ -36,7 +37,13 @@ class Presence extends ClientBase {
      * @var string
      */
     protected $status;
-    
+
+    /**
+     * The client's status for desktop/mobile/web or null.
+     * @var \CharlotteDunois\Yasmin\Models\ClientStatus|null
+     */
+    protected $clientStatus;
+
     /**
      * The manual creation of such an instance is discouraged. There may be an easy and safe way to create such an instance in the future.
      * @param \CharlotteDunois\Yasmin\Client  $client      The client this instance is for.
@@ -78,6 +85,7 @@ class Presence extends ClientBase {
      function jsonSerialize() {
          return array(
              'status' => $this->status,
+             'clientStatus' => $this->clientStatus,
              'game' => $this->activity
          );
      }
@@ -89,5 +97,6 @@ class Presence extends ClientBase {
      function _patch(array $presence) {
          $this->activity = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $presence['game'])) : null);
          $this->status = $presence['status'];
+         $this->clientStatus = (!empty($presence['client_status']) ? (new \CharlotteDunois\Yasmin\Models\ClientStatus($presence['client_status'])) : null);
      }
 }
