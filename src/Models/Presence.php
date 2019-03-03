@@ -14,7 +14,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property \CharlotteDunois\Yasmin\Models\Activity|null       $activity        The activity the user is doing, or null.
  * @property string                                             $status          What do you expect this to be?
- * @property \CharlotteDunois\Yasmin\Models\ClientStatus|null   $clientStatus    The client's status on desktop/mobile/web.
+ * @property \CharlotteDunois\Yasmin\Models\ClientStatus|null   $clientStatus    The client's status on desktop/mobile/web, or null.
  * @property string                                             $userID          The user ID this presence belongs to.
  *
  * @property \CharlotteDunois\Yasmin\Models\User|null           $user            The user this presence belongs to.

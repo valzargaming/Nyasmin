@@ -10,13 +10,41 @@
 namespace CharlotteDunois\Yasmin\Models;
 
 /**
- * Discord Client Status.
+ * Represents an user's client status.
  *
  * @property string|null  $desktop  The status of the user on the desktop client.
  * @property string|null  $mobile   The status of the user on the mobile client.
  * @property string|null  $web      The status of the user on the web client.
  */
 class ClientStatus extends Base {
+    /**
+     * Client status: online.
+     * @var string
+     * @source
+     */
+    const STATUS_ONLINE = 'online';
+    
+    /**
+     * Client status: do not disturb.
+     * @var string
+     * @source
+     */
+    const STATUS_DND = 'dnd';
+    
+    /**
+     * Client status: idle.
+     * @var string
+     * @source
+     */
+    const STATUS_IDLE = 'idle';
+    
+    /**
+     * Client status: offline.
+     * @var string
+     * @source
+     */
+    CONST STATUS_OFFLINE = 'offline';
+    
     /**
      * The status of the user on the desktop client.
      * @var string|null
