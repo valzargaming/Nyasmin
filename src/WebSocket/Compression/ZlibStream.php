@@ -70,17 +70,16 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * Decompresses data.
      * @param string  $data
      * @return string
-     * @throws \BadMethodCallException
-     * @throws \InvalidArgumentException
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function decompress(string $data): string {
         if(!$this->context) {
-            throw new \BadMethodCallException('No inflate context initialized');
+            throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('No inflate context initialized');
         }
         
         $uncompressed = \inflate_add($this->context, $data);
         if($uncompressed === false) {
-            throw new \InvalidArgumentException('The inflate context was unable to decompress the data');
+            throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The inflate context was unable to decompress the data');
         }
         
         return $uncompressed;

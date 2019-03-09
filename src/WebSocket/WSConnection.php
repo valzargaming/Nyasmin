@@ -622,7 +622,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                 if($this->previous) {
                     $this->previous = false;
                 }
-            } catch (\Throwable $e) {
+            } catch (\CharlotteDunois\Yasmin\DiscordException $e) {
                 $this->previous = true;
                 $this->wsmanager->client->emit('error', $e);
                 
@@ -635,7 +635,12 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             }
             
             $this->lastPacketTime = \microtime(true);
-            $this->wsmanager->wshandler->handle($this, $message);
+            
+            try {
+                $this->wsmanager->wshandler->handle($this, $message);
+            } catch (\CharlotteDunois\Yasmin\DiscordException $e) {
+                $this->wsmanager->client->emit('error', $e);
+            }
         });
     }
     

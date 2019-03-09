@@ -53,13 +53,16 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \InvalidArgumentException
-     * @throws \CharlotteDunois\Kimberly\Exception
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function decode(string $data) {
-        $msg = $this->etf->decode($data);
-        if($msg === '' || $msg === null) {
-            throw new \InvalidArgumentException('The ETF decoder was unable to decode the data');
+        try {
+            $msg = $this->etf->decode($data);
+            if($msg === '' || $msg === null) {
+                throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The ETF decoder was unable to decode the data');
+            }
+        } catch (\CharlotteDunois\Kimberly\Exception $e) {
+            throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The ETF decoder was unable to decode the data', 0, $e);
         }
         
         $obj = $this->convertIDs($msg);
@@ -70,11 +73,14 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \CharlotteDunois\Kimberly\Exception
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function encode($data): string {
-        $msg = $this->etf->encode($data);
-        return $msg;
+        try {
+            return $this->etf->encode($data);
+        } catch (\CharlotteDunois\Kimberly\Exception $e) {
+            throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The ETF encoder was unable to encode the data', 0, $e);
+        }
     }
     
     /**

@@ -30,9 +30,7 @@ interface WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \Exception
-     * @throws \BadMethodCallException
-     * @throws \InvalidArgumentException
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function decode(string $data);
     
@@ -40,9 +38,7 @@ interface WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \Exception
-     * @throws \BadMethodCallException
-     * @throws \InvalidArgumentException
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function encode($data): string;
     

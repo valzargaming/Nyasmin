@@ -122,6 +122,7 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
      * @param array                                      $data
      * @param \CharlotteDunois\Yasmin\Models\Guild|null  $guilds
      * @return \CharlotteDunois\Yasmin\Interfaces\ChannelInterface
+     * @throws \CharlotteDunois\Yasmin\DiscordException
      * @internal
      */
     function factory(array $data, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null) {
@@ -137,11 +138,11 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
         
         switch($data['type']) {
             default:
-                throw new \InvalidArgumentException('Unknown channel type');
+                throw new \CharlotteDunois\Yasmin\DiscordException('Unknown channel type');
             break;
             case 0:
                 if($guild === null) {
-                    throw new \InvalidArgumentException('Unknown guild for guild channel');
+                    throw new \CharlotteDunois\Yasmin\DiscordException('Unknown guild for guild channel');
                 }
                 
                 $channel = new \CharlotteDunois\Yasmin\Models\TextChannel($this->client, $guild, $data);
@@ -151,7 +152,7 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
             break;
             case 2:
                 if($guild === null) {
-                    throw new \InvalidArgumentException('Unknown guild for guild channel');
+                    throw new \CharlotteDunois\Yasmin\DiscordException('Unknown guild for guild channel');
                 }
                 
                 $channel = new \CharlotteDunois\Yasmin\Models\VoiceChannel($this->client, $guild, $data);
@@ -161,7 +162,7 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
             break;
             case 4:
                 if($guild === null) {
-                    throw new \InvalidArgumentException('Unknown guild for guild channel');
+                    throw new \CharlotteDunois\Yasmin\DiscordException('Unknown guild for guild channel');
                 }
                 
                 $channel = new \CharlotteDunois\Yasmin\Models\CategoryChannel($this->client, $guild, $data);

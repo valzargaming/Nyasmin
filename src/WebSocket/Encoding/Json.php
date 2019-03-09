@@ -15,19 +15,6 @@ namespace CharlotteDunois\Yasmin\WebSocket\Encoding;
  */
 class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     /**
-     * The JSON encode/decode options.
-     * @var int
-     */
-    protected $jsonOptions;
-    
-    /**
-     * Constructor.
-     */
-    function __construct() {
-        $this->jsonOptions = (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0);
-    }
-    
-    /**
      * Returns encoding name (for gateway query string).
      * @return string
      */
@@ -48,13 +35,12 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Decodes data.
      * @param string  $data
      * @return mixed
-     * @throws \InvalidArgumentException
-     * @throws \JsonException
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function decode(string $data) {
-        $msg = \json_decode($data, true, 512, $this->jsonOptions);
+        $msg = \json_decode($data, true);
         if($msg === null && \json_last_error() !== \JSON_ERROR_NONE) {
-            throw new \InvalidArgumentException('The JSON decoder was unable to decode the data. Error: '.\json_last_error_msg());
+            throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The JSON decoder was unable to decode the data. Error: '.\json_last_error_msg());
         }
         
         return $msg;
@@ -64,10 +50,15 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * Encodes data.
      * @param mixed  $data
      * @return string
-     * @throws \JsonException
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function encode($data): string {
-        return \json_encode($data, $this->jsonOptions);
+        $msg = \json_encode($data);
+        if($msg === false && \json_last_error() !== \JSON_ERROR_NONE) {
+            throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The JSON encoder was unable to encode the data. Error: '.\json_last_error_msg());
+        }
+        
+        return $msg;
     }
     
     /**

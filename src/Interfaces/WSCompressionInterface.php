@@ -49,8 +49,7 @@ interface WSCompressionInterface {
      * Decompresses data.
      * @param string  $data
      * @return string
-     * @throws \BadMethodCallException
-     * @throws \InvalidArgumentException
+     * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function decompress(string $data): string;
 }
