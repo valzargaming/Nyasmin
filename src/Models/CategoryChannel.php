@@ -21,9 +21,7 @@ namespace CharlotteDunois\Yasmin\Models;
  *
  * @property \DateTime                                            $createdAt              The DateTime instance of createdTimestamp.
  */
-class CategoryChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\CategoryChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface {
+class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\CategoryChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     /**
