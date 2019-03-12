@@ -177,4 +177,23 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
         
         return $channel;
     }
+    
+    /**
+     * Get the type for the channel.
+     * @param \CharlotteDunois\Yasmin\Interfaces\ChannelInterface  $channel
+     * @return int
+     */
+    static function getTypeForChannel(\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel) {
+        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GroupDMChannelInterface) {
+            return self::CHANNEL_TYPES['group'];
+        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface) {
+            return self::CHANNEL_TYPES['dm'];
+        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface) {
+            return self::CHANNEL_TYPES['voice'];
+        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\CategoryChannelInterface) {
+            return self::CHANNEL_TYPES['category'];
+        }
+        
+        return self::CHANNEL_TYPES['text'];
+    }
 }

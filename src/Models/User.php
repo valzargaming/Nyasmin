@@ -148,7 +148,7 @@ class User extends ClientBase {
     function createDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->client->channels->first(function ($channel) {
-                return ($channel->type === 'dm' && $channel->isRecipient($this));
+                return ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface && $channel->isRecipient($this));
             });
             
             if($channel) {
@@ -169,7 +169,7 @@ class User extends ClientBase {
     function deleteDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
             $channel = $this->client->channels->first(function ($channel) {
-                return ($channel->type === 'dm' && $channel->isRecipient($this));
+                return ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface && $channel->isRecipient($this));
             });
             
             if(!$channel) {

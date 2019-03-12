@@ -13,7 +13,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild's voice channel.
  *
  * @property string                                               $id                     The ID of the channel.
- * @property string                                               $type                   The type of the channel. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
  * @property int                                                  $createdTimestamp       The timestamp of when this channel was created.
  * @property string                                               $name                   The name of the channel.
  * @property int                                                  $bitrate                The bitrate of the channel.
@@ -43,12 +42,6 @@ class VoiceChannel extends ClientBase
      * @var string
      */
     protected $id;
-    
-    /**
-     * The type of the channel.
-     * @var string
-     */
-    protected $type;
     
     /**
      * The timestamp of when this channel was created.
@@ -106,7 +99,6 @@ class VoiceChannel extends ClientBase
         $this->guild = $guild;
         
         $this->id = (string) $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->members = new \CharlotteDunois\Collect\Collection();
         $this->permissionOverwrites = new \CharlotteDunois\Collect\Collection();
         

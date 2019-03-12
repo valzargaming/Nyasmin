@@ -10,8 +10,8 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all voice channels implement.
+ * Something all group direct message channels implement.
  */
-interface VoiceChannelInterface extends ChannelInterface {
+interface GroupDMChannelInterface extends DMChannelInterface {
     
 }

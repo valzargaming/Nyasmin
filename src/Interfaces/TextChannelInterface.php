@@ -10,7 +10,7 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all textchannels (all text-based channels) implement.
+ * Something all text channels implement.
  *
  * @method \CharlotteDunois\Yasmin\Interfaces\MessageStorageInterface  getMessages()       Gets the storage with all cached messages.
  * @method string                                                      getLastMessageID()  Gets the ID of the last sent message in this channel.

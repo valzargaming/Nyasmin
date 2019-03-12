@@ -13,7 +13,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a classic DM channel.
  *
  * @property string                                               $id                 The channel ID.
- * @property string                                               $type               The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
  * @property int                                                  $createdTimestamp   The timestamp of when this channel was created.
  * @property string|null                                          $ownerID            The owner ID of this channel, or null.
  * @property \CharlotteDunois\Collect\Collection                  $recipients         The recipients of this channel, mapped by user ID.
@@ -23,7 +22,9 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \DateTime                                            $createdAt          The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\User|null             $owner              The owner of this channel, or null.
  */
-class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
+class DMChannel extends ClientBase
+    implements \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface,
+                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
     
     /**
@@ -32,13 +33,11 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
      */
     protected $messages;
     
-    protected $id;
-    
     /**
-     * The channel type.
+     * The channel ID.
      * @var string
      */
-    protected $type;
+    protected $id;
     
     /**
      * The owner ID of this channel, or null.
@@ -69,7 +68,6 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
         $this->typings = new \CharlotteDunois\Collect\Collection();
         
         $this->id = (string) $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? null), 'string');
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;

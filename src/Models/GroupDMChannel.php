@@ -15,7 +15,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null  $applicationID  The application which created the group DM channel.
  * @property string|null  $icon           The icon of the Group DM channel.
  */
-class GroupDMChannel extends DMChannel {
+class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interfaces\GroupDMChannelInterface {
     /**
      * The application which created the group DM channel.
      * @var string|null

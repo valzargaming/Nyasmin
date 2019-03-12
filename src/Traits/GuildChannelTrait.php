@@ -62,7 +62,7 @@ trait GuildChannelTrait {
     function clone(string $name = null, bool $withPermissions = true, bool $withTopic = true, string $reason = '') {
         $data = array(
             'name' => (!empty($name) ? ((string) $name) : $this->name),
-            'type' => \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$this->type]
+            'type' => \CharlotteDunois\Yasmin\Models\ChannelStorage::getTypeForChannel($this)
         );
         
         if($withPermissions) {
@@ -77,7 +77,7 @@ trait GuildChannelTrait {
             $data['parent_id'] = $this->parentID;
         }
         
-        if($this->type === 'voice') {
+        if($this instanceof \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface) {
             $data['bitrate'] = $this->bitrate;
             $data['user_limit'] = $this->userLimit;
         } else {

@@ -13,7 +13,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * Represents a guild's text channel.
  *
  * @property string                                                      $id                     The channel ID.
- * @property string                                                      $type                   The channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
  * @property \CharlotteDunois\Yasmin\Models\Guild                        $guild                  The associated guild.
  * @property int                                                         $createdTimestamp       The timestamp of when this channel was created.
  * @property string                                                      $name                   The channel name.
@@ -51,12 +50,6 @@ class TextChannel extends ClientBase
      * @var string
      */
     protected $id;
-    
-    /**
-     * The channel type.
-     * @var string
-     */
-    protected $type;
     
     /**
      * The ID of the parent channel, or null.
@@ -118,7 +111,6 @@ class TextChannel extends ClientBase
         $this->typings = new \CharlotteDunois\Collect\Collection();
         
         $this->id = (string) $channel['id'];
-        $this->type = \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[$channel['type']];
         $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? null), 'string');
         
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;

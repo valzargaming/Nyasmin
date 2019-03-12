@@ -10,8 +10,8 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all voice channels implement.
+ * Something all category channels implement.
  */
-interface VoiceChannelInterface extends ChannelInterface {
+interface CategoryChannelInterface extends GuildChannelInterface {
     
 }
