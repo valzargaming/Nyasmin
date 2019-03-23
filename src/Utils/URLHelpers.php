@@ -119,7 +119,11 @@ class URLHelpers {
                 ));
             }
             
-            $request = static::applyRequestOptions($request, $requestOptions);
+            try {
+                $request = static::applyRequestOptions($request, $requestOptions);
+            } catch (\RuntimeException $e) {
+                return \React\Promise\reject($e);
+            }
         }
         
         return $client->send($request);
@@ -170,6 +174,7 @@ class URLHelpers {
      * @param \Psr\Http\Message\RequestInterface  $request
      * @param array                               $requestOptions
      * @return \Psr\Http\Message\RequestInterface
+     * @throws \RuntimeException
      */
     static function applyRequestOptions(\Psr\Http\Message\RequestInterface $request, array $requestOptions) {
         if(isset($requestOptions['multipart'])) {
@@ -182,12 +187,12 @@ class URLHelpers {
         if(isset($requestOptions['json'])) {
             $resource = \fopen('php://temp', 'r+');
             if($resource === false) {
-                return \React\Promise\reject((new \RuntimeException('Unable to create stream for JSON data')));
+                throw new \RuntimeException('Unable to create stream for JSON data');
             }
             
             $json = \json_encode($requestOptions['json']);
             if($json === false) {
-                return \React\Promise\reject((new \RuntimeException('Unable to encode json. Error: '.\json_last_error_msg())));
+                throw new \RuntimeException('Unable to encode json. Error: '.\json_last_error_msg());
             }
             
             \fwrite($resource, $json);
