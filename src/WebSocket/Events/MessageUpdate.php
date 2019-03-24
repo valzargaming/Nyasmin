@@ -39,9 +39,6 @@ class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $message = $channel->getMessages()->get($data['id']);
             if($message instanceof \CharlotteDunois\Yasmin\Models\Message) {
-                // Minor bug in Discord - Event gets emitted when a message gets updated (not edited!) when additional data is available (e.g. image dimensions)
-                $edited = ($message->editedTimestamp === ($data['edited_timestamp'] ?? null) || (new \DateTime(($data['edited_timestamp'] ?? 'now')))->getTimestamp() !== $message->editedTimestamp);
-                
                 $oldMessage = null;
                 if($this->clones) {
                     $oldMessage = clone $message;
@@ -49,9 +46,7 @@ class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
                 
                 $message->_patch($data);
                 
-                if($edited) {
-                    $this->client->queuedEmit('messageUpdate', $message, $oldMessage);
-                }
+                $this->client->queuedEmit('messageUpdate', $message, $oldMessage);
             } else {
                 $this->client->queuedEmit('messageUpdateRaw', $channel, $data);
             }

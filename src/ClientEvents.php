@@ -53,7 +53,7 @@ interface ClientEvents {
     function messageDeleteBulkRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $messageIDs);
     
     /**
-     * Emitted when an uncached message gets updated.
+     * Emitted when an uncached message gets updated (does not mean the message got edited, check the edited timestamp for that).
      * @return void
      * @see https://discordapp.com/developers/docs/topics/gateway#message-update
      * @see https://discordapp.com/developers/docs/resources/channel#message-object
@@ -201,7 +201,7 @@ interface ClientEvents {
     function message(\CharlotteDunois\Yasmin\Models\Message $message);
     
     /**
-     * Emitted when a (cached) message gets updated.
+     * Emitted when a (cached) message gets updated (does not mean the message got edited, check the edited timestamp for that).
      * @return void
      */
     function messageUpdate(\CharlotteDunois\Yasmin\Models\Message $new, ?\CharlotteDunois\Yasmin\Models\Message $old);
