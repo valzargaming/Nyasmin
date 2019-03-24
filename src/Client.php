@@ -280,8 +280,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
             });
             
             $this->ws->once('ready', function () {
-                while($ev = \array_shift($this->eventsQueue)) {
-                    $this->emit($ev[0], ...$ev[1]);
+                while([ $event, $args ] = \array_shift($this->eventsQueue)) {
+                    $this->emit($event, ...$args);
                 }
             });
         }
