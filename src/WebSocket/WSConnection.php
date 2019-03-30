@@ -168,7 +168,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->shardID = $shardID;
         $this->compressContext = new $compression();
         
-        $this->on('self.ready', function () {
+        $this->on('self.ws.ready', function () {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
         });
     }
