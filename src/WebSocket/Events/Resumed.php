@@ -27,6 +27,7 @@ class Resumed implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $ws->emit('self.ready');
+        $ws->emit('self.ws.ready');
         $this->client->wsmanager()->emit('ready');
     }
 }
