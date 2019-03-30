@@ -23,9 +23,17 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
+        
+        $this->client->once('ready', function () {
+            $this->ready = true;
+        });
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
+        if(!$this->ready) {
+            return;
+        }
+        
         $channel = $this->client->channels->get($data['channel_id']);
         if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $user = $this->client->users->get($data['user_id']);
