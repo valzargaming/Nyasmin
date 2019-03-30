@@ -21,6 +21,12 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
      */
     protected $client;
     
+    /**
+     * Whether we saw the client going ready.
+     * @var bool
+     */
+    protected $ready = false;
+    
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
