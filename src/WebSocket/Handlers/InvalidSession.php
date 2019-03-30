@@ -25,7 +25,7 @@ class InvalidSession implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInte
             $ws->setSessionID(null);
         }
         
-        $this->wshandler->wsmanager->client->loop->addTimer(\mt_rand(1, 5), function () use (&$ws) {
+        $this->wshandler->wsmanager->client->addTimer(\mt_rand(1, 5), function () use (&$ws) {
             $ws->sendIdentify();
         });
     }

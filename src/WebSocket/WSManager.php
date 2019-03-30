@@ -254,7 +254,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         
         if(($this->lastIdentify ?? 0) > (\time() - 5)) {
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($shardID, $gateway, $querystring) {
-                $this->client->loop->addTimer((5 - (\time() - $this->lastIdentify)), function () use ($shardID, $gateway, $querystring, $resolve, $reject) {
+                $this->client->addTimer((5 - (\time() - $this->lastIdentify)), function () use ($shardID, $gateway, $querystring, $resolve, $reject) {
                     $this->connectShard($shardID, $gateway, $querystring)->done($resolve, $reject);
                 });
             }));
@@ -271,7 +271,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
                     $time = (30 - (\time() - $this->lastIdentify));
                     $this->client->emit('debug', 'Reconnect for shard '.$shardID.' will be attempted in '.$time.' seconds');
                     
-                    $this->client->loop->addTimer($time, function () use ($shardID, $gateway, $querystring, $resolve, $reject) {
+                    $this->client->addTimer($time, function () use ($shardID, $gateway, $querystring, $resolve, $reject) {
                         $this->connectShard($shardID, $gateway, $querystring)->done($resolve, $reject);
                     });
                 }));

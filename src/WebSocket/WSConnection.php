@@ -228,7 +228,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         
         if(($this->wsmanager->lastIdentify ?? 0) > (\time() - 5)) {
             return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-                $this->wsmanager->client->loop->addTimer((5 - (\time() - $this->wsmanager->lastIdentify)), function () use ($resolve, $reject) {
+                $this->wsmanager->client->addTimer((5 - (\time() - $this->wsmanager->lastIdentify)), function () use ($resolve, $reject) {
                     $this->connect()->done($resolve, $reject);
                 });
             }));
