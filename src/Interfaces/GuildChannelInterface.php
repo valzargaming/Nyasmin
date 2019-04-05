@@ -20,25 +20,6 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  */
 interface GuildChannelInterface extends ChannelInterface {
     /**
-     * Creates an invite. Resolves with an instance of Invite.
-     *
-     * Options are as following (all are optional).
-     *
-     * ```
-     * array(
-     *    'maxAge' => int,
-     *    'maxUses' => int, (0 = unlimited)
-     *    'temporary' => bool,
-     *    'unique' => bool
-     * )
-     * ```
-     *
-     * @param array $options
-     * @return \React\Promise\ExtendedPromiseInterface
-     */
-    function createInvite(array $options = array());
-    
-    /**
      * Clones a guild channel. Resolves with an instance of GuildChannelInterface.
      * @param string  $name
      * @param bool    $withPermissions
@@ -80,13 +61,6 @@ interface GuildChannelInterface extends ChannelInterface {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '');
-    
-    /**
-     * Fetches all invites of this channel. Resolves with a Collection of Invite instances, mapped by their code.
-     * @return \React\Promise\ExtendedPromiseInterface
-     * @see \CharlotteDunois\Yasmin\Models\Invite
-     */
-    function fetchInvites();
     
     /**
      * Returns the permissions for the given member.
@@ -176,13 +150,4 @@ interface GuildChannelInterface extends ChannelInterface {
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '');
-    
-    /**
-     * Sets the topic of the channel. Resolves with $this.
-     * @param string  $topic
-     * @param string  $reason
-     * @return \React\Promise\ExtendedPromiseInterface
-     * @throws \InvalidArgumentException
-     */
-    function setTopic(string $topic, string $reason = '');
 }

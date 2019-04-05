@@ -24,12 +24,16 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
         2 => 'voice',
         3 => 'group',
         4 => 'category',
+        5 => 'news',
+        6 => 'store',
         
         'text' => 0,
         'dm' => 1,
         'voice' => 2,
         'group' => 3,
-        'category' => 4
+        'category' => 4,
+        'news' => 5,
+        'store' => 6
     );
     
     /**
@@ -167,6 +171,13 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
                 
                 $channel = new \CharlotteDunois\Yasmin\Models\CategoryChannel($this->client, $guild, $data);
             break;
+            case 6:
+                if($guild === null) {
+                    throw new \CharlotteDunois\Yasmin\DiscordException('Unknown guild for guild channel');
+                }
+                
+                $channel = new \CharlotteDunois\Yasmin\Models\GuildStoreChannel($this->client, $guild, $data);
+            break;
         }
         
         $this->set($channel->id, $channel);
@@ -188,10 +199,14 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
             return self::CHANNEL_TYPES['group'];
         } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface) {
             return self::CHANNEL_TYPES['dm'];
-        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface) {
+        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildVoiceChannelInterface) {
             return self::CHANNEL_TYPES['voice'];
         } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\CategoryChannelInterface) {
             return self::CHANNEL_TYPES['category'];
+        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildNewsChannelInterface) {
+            return self::CHANNEL_TYPES['news'];
+        } elseif($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildStoreChannelInterface) {
+            return self::CHANNEL_TYPES['store'];
         }
         
         return self::CHANNEL_TYPES['text'];

@@ -26,9 +26,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property bool                                                 $full                   Checks if the voice channel is full.
  * @property \CharlotteDunois\Yasmin\Models\CategoryChannel|null  $parent                 Returns the channel's parent, or null.
  */
-class VoiceChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface {
+class VoiceChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\GuildVoiceChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\GuildChannelTrait;
     
     /**

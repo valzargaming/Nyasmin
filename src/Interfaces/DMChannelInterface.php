@@ -12,6 +12,6 @@ namespace CharlotteDunois\Yasmin\Interfaces;
 /**
  * Something all direct message channels implement.
  */
-interface DMChannelInterface extends ChannelInterface {
+interface DMChannelInterface extends ChannelInterface, TextChannelInterface {
     
 }

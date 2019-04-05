@@ -10,8 +10,8 @@
 namespace CharlotteDunois\Yasmin\Interfaces;
 
 /**
- * Something all guild category channels implement.
+ * Something all guild store channels implement.
  */
-interface CategoryChannelInterface extends GuildChannelInterface {
+interface GuildStoreChannelInterface extends GuildChannelInterface {
     
 }

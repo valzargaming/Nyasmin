@@ -22,9 +22,7 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \DateTime                                            $createdAt          The DateTime instance of createdTimestamp.
  * @property \CharlotteDunois\Yasmin\Models\User|null             $owner              The owner of this channel, or null.
  */
-class DMChannel extends ClientBase
-    implements \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface,
-                \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface {
+class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface {
     use \CharlotteDunois\Yasmin\Traits\TextChannelTrait;
     
     /**
