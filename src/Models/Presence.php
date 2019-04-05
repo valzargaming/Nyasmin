@@ -12,7 +12,8 @@ namespace CharlotteDunois\Yasmin\Models;
 /**
  * Represents a presence.
  *
- * @property \CharlotteDunois\Yasmin\Models\Activity|null       $activity        The activity the user is doing, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Activity|null       $activity        The current activity the user is doing, or null.
+ * @property \CharlotteDunois\Yasmin\Models\Activity[]          $activities      All activities the user is doing.
  * @property string                                             $status          What do you expect this to be?
  * @property \CharlotteDunois\Yasmin\Models\ClientStatus|null   $clientStatus    The client's status on desktop/mobile/web, or null.
  * @property string                                             $userID          The user ID this presence belongs to.
@@ -27,7 +28,7 @@ class Presence extends ClientBase {
     protected $userID;
     
     /**
-     * The activity the user is doing, or null.
+     * The current activity the user is doing, or null.
      * @var \CharlotteDunois\Yasmin\Models\Activity
      */
     protected $activity;
@@ -43,6 +44,12 @@ class Presence extends ClientBase {
      * @var \CharlotteDunois\Yasmin\Models\ClientStatus|null
      */
     protected $clientStatus;
+    
+    /**
+     * All activities the user is doing.
+     * @var \CharlotteDunois\Yasmin\Models\Activity[]
+     */
+    protected $activities = array();
 
     /**
      * The manual creation of such an instance is discouraged. There may be an easy and safe way to create such an instance in the future.
@@ -98,5 +105,8 @@ class Presence extends ClientBase {
          $this->activity = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $presence['game'])) : null);
          $this->status = $presence['status'];
          $this->clientStatus = (!empty($presence['client_status']) ? (new \CharlotteDunois\Yasmin\Models\ClientStatus($presence['client_status'])) : null);
+         $this->activities = (!empty($presence['activities']) ? \array_map(function (array $activitiy) {
+             return (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $activitiy));
+         }, $presence['activities']) : array());
      }
 }
