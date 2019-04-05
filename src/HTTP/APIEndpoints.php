@@ -29,7 +29,7 @@ class APIEndpoints {
         'appicons' => 'app-icons/%s/%s.png',
         'appassets' => 'app-assets/%s/%s.png',
         'channelicons' => 'channel-icons/%s/%s.png',
-        'banner' => 'banners/%s/%s.%s'
+        'guildbanners' => 'banners/%s/%s.%s'
     );
     
     /**

@@ -979,7 +979,7 @@ class Guild extends ClientBase {
         }
         
         if($this->banner !== null) {
-            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['banner'], $this->id, $this->banner, $format).(!empty($size) ? '?size='.$size : '');
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['guildbanners'], $this->id, $this->banner, $format).(!empty($size) ? '?size='.$size : '');
         }
         
         return null;
