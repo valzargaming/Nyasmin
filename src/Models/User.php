@@ -147,7 +147,7 @@ class User extends ClientBase {
      */
     function createDM() {
         return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $channel = $this->client->channels->first(function (\CharlotteDunois\Yasmin\Interfaces\ChannelInterface $channel) {
+            $channel = $this->client->channels->first(function ($channel) {
                 return (
                     $channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface &&
                     !($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GroupDMChannelInterface) &&
