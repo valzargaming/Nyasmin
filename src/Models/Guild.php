@@ -42,6 +42,11 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property string|null                                                     $embedChannelID               The ID of the embed channel, or null.
  * @property bool                                                            $widgetEnabled                Whether the guild widget is enabled or not.
  * @property string|null                                                     $widgetChannelID              The ID of the widget channel, or null.
+ * @property int|null                                                        $maxPresences                 The maximum amount of presences the guild can have, or null.
+ * @property int|null                                                        $maxMembers                   The maximum amount of members the guild can have, or null.
+ * @property string|null                                                     $vanityInviteCode             The vanity invite code, or null.
+ * @property string|null                                                     $description                  Guild description used for Server Discovery, or null.
+ * @property string|null                                                     $banner                       Guild banner hash used for Server Discovery, or null.
  *
  * @property \CharlotteDunois\Yasmin\Models\VoiceChannel|null                $afkChannel                   The guild's afk channel, or null.
  * @property \DateTime                                                       $createdAt                    The DateTime instance of createdTimestamp.
@@ -271,6 +276,36 @@ class Guild extends ClientBase {
      * @var string|null
      */
     protected $widgetChannelID;
+    
+    /**
+     * The maximum amount of presences the guild can have, or null.
+     * @var int|null
+     */
+    protected $maxPresences;
+    
+    /**
+     * The maximum amount of members the guild can have, or null.
+     * @var int|null
+     */
+    protected $maxMembers;
+    
+    /**
+     * The vanity invite code, or null.
+     * @var string|null
+     */
+    protected $vanityInviteCode;
+    
+    /**
+     * Guild description used for Server Discovery, or null.
+     * @var string|null
+     */
+    protected $description;
+    
+    /**
+     * Guild banner hash used for Server Discovery, or null.
+     * @var string|null
+     */
+    protected $banner;
     
     /**
      * The timestamp when this guild was created.
@@ -870,6 +905,29 @@ class Guild extends ClientBase {
     }
     
     /**
+     * Returns the vanity invite. The guild must be partnered, i.e. have 'VANITY_URL' in guild features. Resolves with an instance of Invite.
+     * @return \React\Promise\ExtendedPromiseInterface
+     * @see \CharlotteDunois\Yasmin\Models\Invite
+     */
+    function fetchVanityInvite() {
+        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+            if($this->vanityInviteCode !== null) {
+                return $this->client->apimanager()->endpoints->invite->getInvite($this->vanityInviteCode)->done(function ($data) use ($resolve) {
+                    $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
+                    $resolve($invite);
+                }, $reject);
+            }
+            
+            $this->client->apimanager()->endpoints->guild->getGuildVanityURL($this->id)->then(function ($data) {
+                return $this->client->apimanager()->endpoints->invite->getInvite($data['code']);
+            })->done(function ($data) use ($resolve) {
+                $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
+                $resolve($invite);
+            }, $reject);
+        }));
+    }
+    
+    /**
      * Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.
      * @return \React\Promise\ExtendedPromiseInterface
      * @see \CharlotteDunois\Yasmin\Models\VoiceRegion
@@ -907,6 +965,24 @@ class Guild extends ClientBase {
                 $resolve($collect);
             }, $reject);
         }));
+    }
+    
+    /**
+     * Returns the guild's banner URL, or null.
+     * @param string    $format  One of png, jpg or webp.
+     * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @return string|null
+     */
+    function getBannerURL(string $format = 'png', ?int $size = null) {
+        if($size & ($size - 1)) {
+            throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
+        }
+        
+        if($this->banner !== null) {
+            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['banner'], $this->id, $this->banner, $format).(!empty($size) ? '?size='.$size : '');
+        }
+        
+        return null;
     }
     
     /**
@@ -958,22 +1034,6 @@ class Guild extends ClientBase {
         }
         
         return null;
-    }
-    
-    /**
-     * Returns the vanity invite. The guild must be partnered, i.e. have 'VANITY_URL' in guild features. Resolves with an instance of Invite.
-     * @return \React\Promise\ExtendedPromiseInterface
-     * @see \CharlotteDunois\Yasmin\Models\Invite
-     */
-    function getVanityInvite() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->guild->getGuildVanityURL($this->id)->then(function ($data) {
-                return $this->client->apimanager()->endpoints->invite->getInvite($data['code']);
-            })->done(function ($data) use ($resolve) {
-                $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
-                $resolve($invite);
-            }, $reject);
-        }));
     }
     
     /**
@@ -1238,6 +1298,12 @@ class Guild extends ClientBase {
         $this->embedChannelID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['embed_channel_id'] ?? $this->embedChannelID), 'string');
         $this->widgetEnabled = (bool) ($guild['widget_enabled'] ?? $this->widgetEnabled);
         $this->widgetChannelID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['widget_channel_id'] ?? $this->widgetChannelID), 'string');
+        
+        $this->maxPresences = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['max_presences'] ?? $this->maxPresences), 'int');
+        $this->maxMembers = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['max_members'] ?? $this->maxMembers), 'int');
+        $this->vanityInviteCode = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['vanity_url_code'] ?? $this->vanityInviteCode), 'string');
+        $this->description = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['description'] ?? $this->description), 'string');
+        $this->banner = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($guild['banner'] ?? $this->banner), 'string');
         
         if(isset($guild['roles'])) {
             $this->roles->clear();
