@@ -62,6 +62,7 @@ interface ClientEvents {
     
     /**
      * Emitted when an error happens (inside the library or any listeners). You should always listen on this event.
+     * Failing to listen on this event will result in an exception when an error event gets emitted.
      * @return void
      */
     function error(\Throwable $error);
