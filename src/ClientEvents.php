@@ -64,11 +64,11 @@ interface ClientEvents {
      * Emitted when an error happens (inside the library or any listeners). You should always listen on this event.
      * @return void
      */
-    function error(\Exception $error);
+    function error(\Throwable $error);
     
     /**
      * Debug messages.
-     * @param string|\Exception  $message
+     * @param string|mixed  $message
      * @return void
      */
     function debug($message);
