@@ -105,7 +105,7 @@ trait GuildChannelTrait {
      *    'nsfw' => bool, (text channels only)
      *    'bitrate' => int, (voice channels only)
      *    'userLimit' => int, (voice channels only)
-     *    'slowmode' => int, (text channels only)
+     *    'slowmode' => int, (text channels only, 0-21600)
      *    'parent' => \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
      *    'permissionOverwrites' => \CharlotteDunois\Collect\Collection|array (an array or Collection of PermissionOverwrite instances or permission overwrite arrays)
      * )

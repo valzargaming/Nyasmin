@@ -189,7 +189,7 @@ class TextChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
     
     /**
      * Sets the slowmode in seconds for this channel.
-     * @param int     $slowmode
+     * @param int     $slowmode  0-21600
      * @param string  $reason
      * @return \React\Promise\ExtendedPromiseInterface
      */
