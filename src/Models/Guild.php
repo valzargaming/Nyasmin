@@ -969,11 +969,11 @@ class Guild extends ClientBase {
     
     /**
      * Returns the guild's banner URL, or null.
-     * @param string    $format  One of png, jpg or webp.
      * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @param string    $format  One of png, jpg or webp.
      * @return string|null
      */
-    function getBannerURL(string $format = 'png', ?int $size = null) {
+    function getBannerURL(?int $size = null, string $format = 'png') {
         if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
@@ -987,11 +987,11 @@ class Guild extends ClientBase {
     
     /**
      * Returns the guild's icon URL, or null.
-     * @param string    $format  One of png, jpg or webp.
      * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @param string    $format  One of png, jpg or webp.
      * @return string|null
      */
-    function getIconURL(string $format = 'png', ?int $size = null) {
+    function getIconURL(?int $size = null, string $format = 'png') {
         if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
@@ -1020,11 +1020,11 @@ class Guild extends ClientBase {
     
     /**
      * Returns the guild's splash URL, or null.
-     * @param string    $format  One of png, jpg or webp.
      * @param int|null  $size    One of 128, 256, 512, 1024 or 2048.
+     * @param string    $format  One of png, jpg or webp.
      * @return string|null
      */
-    function getSplashURL(string $format = 'png', ?int $size = null) {
+    function getSplashURL(?int $size = null, string $format = 'png') {
         if($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
