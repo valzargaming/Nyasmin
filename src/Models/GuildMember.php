@@ -500,6 +500,15 @@ class GuildMember extends ClientBase {
     }
     
     /**
+     * The internal hook for cloning.
+     * @return void
+     * @internal
+     */
+    function __clone() {
+        $this->roles = clone $this->roles;
+    }
+    
+    /**
      * Automatically converts to a mention.
      * @return string
      */
