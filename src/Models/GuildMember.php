@@ -219,7 +219,7 @@ class GuildMember extends ClientBase {
      *   'roles' => array|\CharlotteDunois\Collect\Collection, (of role instances or role IDs)
      *   'deaf' => bool,
      *   'mute' => bool,
-     *   'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string (will move the member to that channel, if member is connected to voice)
+     *   'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string|null (will move the member to that channel, if member is connected to voice)
      * )
      * ```
      *
@@ -247,7 +247,7 @@ class GuildMember extends ClientBase {
             'deaf' => array('type' => 'bool'),
             'mute' => array('type' => 'bool'),
             'channel' => array('parse' => function ($val) {
-                return $this->guild->channels->resolve($val)->getId();
+                return ($val !== null ? $this->guild->channels->resolve($val)->getId() : null);
             })
         ));
         
@@ -490,8 +490,10 @@ class GuildMember extends ClientBase {
     
     /**
      * Moves the guild member to the given voice channel, if connected to voice. Resolves with $this.
-     * @param \CharlotteDunois\Yasmin\Models\VoiceChannel|string  $channel
-     * @param string                                              $reason
+     * If the member is connected to a voice channel and the new channel is null,
+     * then the member will be disconnected.
+     * @param \CharlotteDunois\Yasmin\Models\VoiceChannel|string|null  $channel
+     * @param string                                                   $reason
      * @return \React\Promise\ExtendedPromiseInterface
      * @throws \InvalidArgumentException
      */
