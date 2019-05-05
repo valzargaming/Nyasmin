@@ -20,6 +20,8 @@ composer require charlottedunois/yasmin
 
 It is important to listen to `error` events. If you don't attach an `error` listener, the event emitter will throw an exception.
 
+Make sure you also have a rejection handler for all promises, as unhandled promise rejections get swallowed and you will never know what happened to them.
+
 **Important Information**: All properties on class instances, which are implemented using a magic method (which means pretty much all properties), are **throwing** if the property doesn't exist.
 
 There is a WIP Gitbook with a few protips in it, feel free to read it: https://charlottedunois.gitbooks.io/yasmin-guide/content/
@@ -55,12 +57,6 @@ For simple music streaming, you can use Lavalink with [Luna](https://github.com/
 
 # Documentation
 https://yasmin.neko.run
-
-# Issues
-Make sure you also have a rejection handler for all promises, as unhandled promise rejections get swallowed. Feel free to open an issue with as much information as you can get.
-
-# Need help?
-[![](https://discordapp.com/api/guilds/389502182065700876/embed.png?style=banner1&v=1)](https://discord.gg/hUpnqam)
 
 # Windows and SSL
 Unfortunately PHP on Windows does not have access to the Windows Certificate Store. This is an issue because TLS gets used and as such certificate verification gets applied (turning this off is **not** an option).
