@@ -13,7 +13,6 @@ namespace CharlotteDunois\Yasmin\Interfaces;
  * Something all channels implement.
  *
  * @method string  getId()                Gets the channel's ID.
- * @method string  getType()              Gets the channel type. ({@see \CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES})
  * @method int     getCreatedTimestamp()  Gets the timestamp of when this channel was created.
  */
 interface ChannelInterface {
