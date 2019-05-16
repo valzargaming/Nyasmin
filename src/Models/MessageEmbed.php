@@ -114,25 +114,31 @@ class MessageEmbed extends Base {
     function __construct(array $embed = array()) {
         if(!empty($embed)) {
             $this->type = $embed['type'] ?? 'rich';
-            $this->title = $embed['title'] ?? null;
+            
+            if(!empty($embed['title'])) {
+                $this->setTitle($embed['title']);
+            }
             
             if(!empty($embed['author'])) {
-                $this->author = array(
-                    'name' => ((string) ($embed['author']['name'] ?? '')),
-                    'icon' => ((string) ($embed['author']['icon_url'] ?? '')),
-                    'url' => ((string) ($embed['author']['url'] ?? ''))
+                $this->setAuthor(
+                    ((string) ($embed['author']['name'] ?? '')),
+                    ((string) ($embed['author']['icon_url'] ?? '')),
+                    ((string) ($embed['author']['url'] ?? ''))
                 );
             }
             
-            $this->description = $embed['description'] ?? null;
+            if(!empty($embed['description'])) {
+                $this->setDescription($embed['description']);
+            }
+            
             $this->url = $embed['url'] ?? null;
             $this->timestamp = (!empty($embed['timestamp']) ? (new \DateTime($embed['timestamp']))->getTimestamp() : null);
             $this->color = $embed['color'] ?? null;
             
             if(!empty($embed['footer'])) {
-                $this->footer = array(
-                    'text' => ((string) ($embed['footer']['text'] ?? '')),
-                    'icon' => ((string) ($embed['footer']['icon_url'] ?? ''))
+                $this->setFooter(
+                    ((string) ($embed['footer']['text'] ?? '')),
+                    ((string) ($embed['footer']['icon_url'] ?? ''))
                 );
             }
             
@@ -167,7 +173,13 @@ class MessageEmbed extends Base {
                 );
             }
             
-            $this->fields = $embed['fields'] ?? array();
+            foreach(($embed['fields'] ?? array()) as $field) {
+                $this->addField(
+                    ((string) ($field['name'] ?? '')),
+                    ((string) ($embed['value'] ?? '')),
+                    ((bool) ($embed['inline'] ?? false))
+                );
+            }
         }
     }
     
@@ -202,8 +214,17 @@ class MessageEmbed extends Base {
     function setAuthor($name, string $iconurl = '', string $url = '') {
         $name = (string) $name;
         
+        if(\mb_strlen($name) === 0) {
+            $this->author = null;
+            return $this;
+        }
+        
         if(\mb_strlen($name) > 256) {
             throw new \InvalidArgumentException('Author name can not be longer than 256 characters.');
+        }
+        
+        if($this->exceedsOverallLimit(\mb_strlen($name))) {
+            throw new \InvalidArgumentException('Embed text values collectively can not exceed than 6000 characters');
         }
         
         $this->author = array(
@@ -236,8 +257,17 @@ class MessageEmbed extends Base {
     function setDescription($description) {
         $description = (string) $description;
         
+        if(\mb_strlen($description) === 0) {
+            $this->description = null;
+            return $this;
+        }
+        
         if(\mb_strlen($description) > 2048) {
             throw new \InvalidArgumentException('Embed description can not be longer than 2048 characters');
+        }
+        
+        if($this->exceedsOverallLimit(\mb_strlen($description))) {
+            throw new \InvalidArgumentException('Embed text values collectively can not exceed than 6000 characters');
         }
         
         $this->description = $description;
@@ -254,8 +284,17 @@ class MessageEmbed extends Base {
     function setFooter($text, string $iconurl = '') {
         $text = (string) $text;
         
+        if(\mb_strlen($text) === 0) {
+            $this->footer = null;
+            return $this;
+        }
+        
         if(\mb_strlen($text) > 2048) {
             throw new \InvalidArgumentException('Footer text can not be longer than 2048 characters.');
+        }
+        
+        if($this->exceedsOverallLimit(\mb_strlen($text))) {
+            throw new \InvalidArgumentException('Embed text values collectively can not exceed than 6000 characters');
         }
         
         $this->footer = array(
@@ -303,8 +342,17 @@ class MessageEmbed extends Base {
      * @throws \InvalidArgumentException
      */
     function setTitle(string $title) {
+        if(\mb_strlen($title) == 0) {
+            $this->title = null;
+            return $this;
+        }
+        
         if(\mb_strlen($title) > 256) {
             throw new \InvalidArgumentException('Embed title can not be longer than 256 characters');
+        }
+        
+        if($this->exceedsOverallLimit(\mb_strlen($title))) {
+            throw new \InvalidArgumentException('Embed text values collectively can not exceed than 6000 characters');
         }
         
         $this->title = $title;
@@ -338,12 +386,20 @@ class MessageEmbed extends Base {
         $title = (string) $title;
         $value = (string) $value;
         
+        if(\mb_strlen($title) === 0 || \mb_strlen($value) === 0) {
+            throw new \InvalidArgumentException('Both embed title and value must not be empty strings');
+        }
+        
         if(\mb_strlen($title) > 256) {
             throw new \InvalidArgumentException('Embed title can not be longer than 256 characters');
         }
         
         if(\mb_strlen($value) > 1024) {
             throw new \InvalidArgumentException('Embed value can not be longer than 1024 characters');
+        }
+        
+        if($this->exceedsOverallLimit((\mb_strlen($title) + \mb_strlen($value)))) {
+            throw new \InvalidArgumentException('Embed text values collectively can not exceed than 6000 characters');
         }
         
         $this->fields[] = array(
@@ -353,5 +409,26 @@ class MessageEmbed extends Base {
         );
         
         return $this;
+    }
+    
+    /**
+     * Checks to see if adding a property has put us over Discord's 6000-char overall limit.
+     * @return bool
+     */
+    protected function exceedsOverallLimit(int $addition): bool {
+        $total = (
+            \mb_strlen(($this->title ?? "")) +
+            \mb_strlen(($this->description ?? "")) +
+            \mb_strlen(($this->footer['text'] ?? "")) +
+            \mb_strlen(($this->author['name'] ?? "")) +
+            $addition
+        );
+        
+        foreach($this->fields as $field) {
+            $total += \mb_strlen($field['name']);
+            $total += \mb_strlen($field['value']);
+        }
+        
+        return ($total > 6000);
     }
 }
