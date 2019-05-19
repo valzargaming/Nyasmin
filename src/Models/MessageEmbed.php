@@ -110,6 +110,7 @@ class MessageEmbed extends Base {
     /**
      * Constructs a new instance.
      * @param array  $embed
+     * @throws \Throwable
      */
     function __construct(array $embed = array()) {
         if(!empty($embed)) {
@@ -176,8 +177,8 @@ class MessageEmbed extends Base {
             foreach(($embed['fields'] ?? array()) as $field) {
                 $this->addField(
                     ((string) ($field['name'] ?? '')),
-                    ((string) ($embed['value'] ?? '')),
-                    ((bool) ($embed['inline'] ?? false))
+                    ((string) ($field['value'] ?? '')),
+                    ((bool) ($field['inline'] ?? false))
                 );
             }
         }
@@ -186,6 +187,7 @@ class MessageEmbed extends Base {
     /**
      * {@inheritdoc}
      * @return mixed
+     * @throws \Exception
      * @throws \RuntimeException
      * @internal
      */
@@ -214,7 +216,7 @@ class MessageEmbed extends Base {
     function setAuthor($name, string $iconurl = '', string $url = '') {
         $name = (string) $name;
         
-        if(\mb_strlen($name) === 0) {
+        if(\strlen($name) === 0) {
             $this->author = null;
             return $this;
         }
@@ -250,14 +252,14 @@ class MessageEmbed extends Base {
     
     /**
      * Set the description of this embed.
-     * @param string  $description  Maxiumum length is 2048 characters.
+     * @param string  $description  Maximum length is 2048 characters.
      * @return $this
      * @throws \InvalidArgumentException
      */
     function setDescription($description) {
         $description = (string) $description;
         
-        if(\mb_strlen($description) === 0) {
+        if(\strlen($description) === 0) {
             $this->description = null;
             return $this;
         }
@@ -284,7 +286,7 @@ class MessageEmbed extends Base {
     function setFooter($text, string $iconurl = '') {
         $text = (string) $text;
         
-        if(\mb_strlen($text) === 0) {
+        if(\strlen($text) === 0) {
             $this->footer = null;
             return $this;
         }
@@ -329,6 +331,7 @@ class MessageEmbed extends Base {
      * Set the timestamp of this embed.
      * @param int|null  $timestamp
      * @return $this
+     * @throws \Exception
      */
     function setTimestamp(?int $timestamp = null) {
         $this->timestamp = (new \DateTime(($timestamp !== null ? '@'.$timestamp : 'now')))->format('c');
@@ -342,7 +345,7 @@ class MessageEmbed extends Base {
      * @throws \InvalidArgumentException
      */
     function setTitle(string $title) {
-        if(\mb_strlen($title) == 0) {
+        if(\strlen($title) == 0) {
             $this->title = null;
             return $this;
         }
@@ -386,7 +389,7 @@ class MessageEmbed extends Base {
         $title = (string) $title;
         $value = (string) $value;
         
-        if(\mb_strlen($title) === 0 || \mb_strlen($value) === 0) {
+        if(\strlen($title) === 0 || \strlen($value) === 0) {
             throw new \InvalidArgumentException('Both embed title and value must not be empty strings');
         }
         
@@ -413,6 +416,7 @@ class MessageEmbed extends Base {
     
     /**
      * Checks to see if adding a property has put us over Discord's 6000-char overall limit.
+     * @param int  $addition
      * @return bool
      */
     protected function exceedsOverallLimit(int $addition): bool {
