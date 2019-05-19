@@ -19,7 +19,6 @@ abstract class Base implements \JsonSerializable, \Serializable {
      */
     function __construct() {
         // We don't have anything to do.
-        echo 'Constructing '.get_class($this).'#'.spl_object_hash($this).PHP_EOL;
     }
     
     /**
@@ -28,7 +27,6 @@ abstract class Base implements \JsonSerializable, \Serializable {
      */
     function __destruct() {
         $this->_markForDelete();
-        echo 'Destructing '.get_class($this).'#'.spl_object_hash($this).PHP_EOL;
     }
     
     /**
