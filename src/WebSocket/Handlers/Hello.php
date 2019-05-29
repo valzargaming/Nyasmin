@@ -24,7 +24,7 @@ class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void {
-        $this->wshandler->wsmanager->client->emit('debug', 'Shard '.$ws->shardID.' connected to Gateway via '.\implode(', ', $packet['d']['_trace']));
+        $this->wshandler->wsmanager->client->emit('debug', 'Shard '.$ws->shardID.' connected to Gateway');
         
         $this->wshandler->wsmanager->setLastIdentified(\time());
         $ws->sendIdentify();
