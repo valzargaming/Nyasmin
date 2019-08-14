@@ -574,7 +574,9 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface, \Serializ
      */
     function destroy(bool $destroyUtils = true) {
         return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
-            $this->api->clear();
+            if($this->api !== null) {
+                $this->api->clear();
+            }
             
             if($this->ws !== null) {
                 $this->ws->destroy();

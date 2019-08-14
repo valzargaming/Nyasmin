@@ -118,6 +118,7 @@ class APIRequest {
         $options = array(
             'http_errors' => false,
             'headers' => array(
+                'X-RateLimit-Precision' => 'millisecond',
                 'User-Agent' => 'DiscordBot (https://github.com/CharlotteDunois/Yasmin, '.\CharlotteDunois\Yasmin\Client::VERSION.')'
             )
         );
@@ -176,33 +177,35 @@ class APIRequest {
     function execute(?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $request = $this->request();
         
-        return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)->then(function ($response) use ($ratelimit) {
-            if(!$response) {
-                return -1;
-            }
-            
-            $status = $response->getStatusCode();
-            $this->api->client->emit('debug', 'Got response for item "'.$this->endpoint.'" with HTTP status code '.$status);
-            
-            $this->api->handleRatelimit($response, $ratelimit, $this->isReactionEndpoint());
-            
-            if($status === 204) {
-                return 0;
-            }
-            
-            $body = self::decodeBody($response);
-            
-            if($status >= 400) {
-                $error = $this->handleAPIError($response, $body, $ratelimit);
-                if($error === null) {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)
+            ->then(function (?\Psr\Http\Message\ResponseInterface $response) use ($ratelimit) {
+                if(!$response) {
                     return -1;
                 }
                 
-                throw $error;
-            }
-            
-            return $body;
-        });
+                $status = $response->getStatusCode();
+                $this->api->client->emit('debug', 'Got response for item "'.$this->endpoint.'" with HTTP status code '.$status);
+                
+                $this->api->handleRatelimit($response, $ratelimit, $this->isReactionEndpoint());
+                
+                if($status === 204) {
+                    return 0;
+                }
+                
+                $body = self::decodeBody($response);
+                
+                if($status >= 400) {
+                    $error = $this->handleAPIError($response, $body, $ratelimit);
+                    if($error === null) {
+                        return -1;
+                    }
+                    
+                    throw $error;
+                }
+                
+                return $body;
+            });
     }
     
     /**

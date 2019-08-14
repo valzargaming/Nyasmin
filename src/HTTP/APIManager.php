@@ -321,6 +321,7 @@ class APIManager {
             $meta = $item->getMeta();
             
             if($meta instanceof \React\Promise\ExtendedPromiseInterface) {
+                /** @noinspection PhpIncompatibleReturnTypeInspection */
                 return $meta->then(function ($data) use (&$item) {
                     if(!$data['limited']) {
                         $this->client->emit('debug', 'Retrieved item from bucket "'.$item->getEndpoint().'"');
@@ -449,16 +450,12 @@ class APIManager {
      * Extracts ratelimits from a response.
      * @param \Psr\Http\Message\ResponseInterface  $response
      * @return mixed[]
+     * @throws \Throwable
      */
     function extractRatelimit(\Psr\Http\Message\ResponseInterface $response) {
-        $date = (new \DateTime($response->getHeader('Date')[0]))->getTimestamp();
-        
         $limit = ($response->hasHeader('X-RateLimit-Limit') ? ((int) $response->getHeader('X-RateLimit-Limit')[0]) : null);
         $remaining = ($response->hasHeader('X-RateLimit-Remaining') ? ((int) $response->getHeader('X-RateLimit-Remaining')[0]) : null);
-        $resetTime = ($response->hasHeader('Retry-After')
-            ? ((float) \bcadd(\microtime(true), (((int) $response->getHeader('Retry-After')[0]) / 1000)))
-            : ($response->hasHeader('X-RateLimit-Reset') ? ((float) \bcadd(\microtime(true), (((int) $response->getHeader('X-RateLimit-Reset')[0]) - $date))) : null)
-        );
+        $resetTime = $this->extractRatelimitResetTime($response);
         
         return \compact('limit', 'remaining', 'resetTime');
     }
@@ -469,12 +466,20 @@ class APIManager {
      * @param \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface|null  $ratelimit
      * @param bool                                                              $isReactionEndpoint
      * @return void
+     * @throws \Throwable
      */
     function handleRatelimit(\Psr\Http\Message\ResponseInterface $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null, bool $isReactionEndpoint = false) {
+        $ctime = \microtime(true);
+        
+        /**
+         * @var int|null    $limit
+         * @var int|null    $remaining
+         * @var float|null  $resetTime
+         */
         \extract($this->extractRatelimit($response));
         
         if($isReactionEndpoint && !empty($resetTime)) {
-            $resetTime = (float) \bcadd(\microtime(true), 0.25);
+            $resetTime = (float) \bcadd($ctime, '0.25', 3);
         }
         
         $global = false;
@@ -485,9 +490,9 @@ class APIManager {
             $this->remaining = $remaining ?? $this->remaining;
             $this->resetTime = $resetTime ?? $this->resetTime;
             
-            if($this->remaining === 0 && $this->resetTime > \microtime(true)) {
+            if($this->remaining === 0 && $this->resetTime > $ctime) {
                 $this->limited = true;
-                $this->client->emit('debug', 'Global ratelimit encountered, continueing in '.($this->resetTime - \microtime(true)).' seconds');
+                $this->client->emit('debug', 'Global ratelimit encountered, continuing in '.($this->resetTime - $ctime).' seconds');
             } else {
                 $this->limited = false;
             }
@@ -507,5 +512,28 @@ class APIManager {
                 'resetTime' => $resetTime
             ));
         });
+    }
+    
+    /**
+     * Returns the ratelimit reset time.
+     * @param \Psr\Http\Message\ResponseInterface  $response
+     * @return float|null
+     * @throws \Throwable
+     */
+    protected function extractRatelimitResetTime(\Psr\Http\Message\ResponseInterface $response): ?float {
+        if($response->hasHeader('Retry-After')) {
+            $retry = (int) $response->getHeader('Retry-After')[0];
+            $retryTime = \bcdiv($retry, 1000, 3);
+            
+            return ((float) \bcadd(\microtime(true), $retryTime, 3));
+        } elseif($response->hasHeader('X-RateLimit-Reset')) {
+            $date = (new \DateTime(($response->getHeader('Date')[0] ?? 'now')))->getTimestamp();
+            $reset = $response->getHeader('X-RateLimit-Reset')[0];
+            
+            $resetTime = \bcsub($reset, $date, 3);
+            return ((float) \bcadd(\microtime(true), $resetTime, 3));
+        }
+        
+        return null;
     }
 }
