@@ -470,13 +470,7 @@ class APIManager {
      */
     function handleRatelimit(\Psr\Http\Message\ResponseInterface $response, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null, bool $isReactionEndpoint = false) {
         $ctime = \microtime(true);
-        
-        /**
-         * @var int|null    $limit
-         * @var int|null    $remaining
-         * @var float|null  $resetTime
-         */
-        \extract($this->extractRatelimit($response));
+        [ 'limit' => $limit, 'remaining' => $remaining, 'resetTime' => $resetTime ] = $this->extractRatelimit($response);
         
         if($isReactionEndpoint && !empty($resetTime)) {
             $resetTime = (float) \bcadd($ctime, '0.25', 3);
