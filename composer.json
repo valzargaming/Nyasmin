@@ -13,7 +13,6 @@
     "require": {
         "php": ">=7.1",
         "ext-bcmath": "*",
-        "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-zlib": "*",
