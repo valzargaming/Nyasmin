@@ -13,8 +13,12 @@
     "require": {
         "php": ">=7.1",
         "ext-bcmath": "*",
+        "ext-date": "*",
+        "ext-filter": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-pcre": "*",
         "ext-zlib": "*",
         "charlottedunois/collection": "^0.2.0",
         "charlottedunois/eventemitter": "^0.1.5",
