@@ -45,7 +45,7 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
             if($this->ready) {
                 $this->client->queuedEmit('guildUnavailable', $guild);
             } else {
-                $this->client->wsmanager()->emit('guildCreate');
+                $ws->emit('guildCreate');
             }
         } else {
             $guild = $this->client->guilds->factory($data, $ws->shardID);
@@ -58,11 +58,11 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
                 $fetchAll = \React\Promise\resolve();
             }
             
-            $fetchAll->done(function () use ($guild) {
+            $fetchAll->done(function () use ($guild, $ws) {
                 if($this->ready) {
                     $this->client->queuedEmit('guildCreate', $guild);
                 } else {
-                    $this->client->wsmanager()->emit('guildCreate');
+                    $ws->emit('guildCreate');
                 }
             }, array($this->client, 'handlePromiseRejection'));
         }
