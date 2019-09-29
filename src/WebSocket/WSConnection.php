@@ -667,6 +667,10 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     protected function initWSClose(\React\Promise\Deferred &$deferred) {
         return (function (int $code, string $reason) use ($deferred) {
+            if($this->ws !== null) {
+                $this->ws->removeAllListeners();
+            }
+            
             if($this->ratelimits['timer']) {
                 $this->wsmanager->client->loop->cancelTimer($this->ratelimits['timer']);
             }
