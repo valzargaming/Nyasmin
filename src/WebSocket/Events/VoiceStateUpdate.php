@@ -97,7 +97,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         if($this->clones) {
                             $oldMember = clone $member;
                         }
-
+                        
                         if($member->voiceChannel) {
                             $member->voiceChannel->members->delete($member->id);
                         }
