@@ -55,7 +55,7 @@ $loop->run();
 There is no voice support.
 
 # Documentation
-https://yasmin.neko.run
+https://charlottedunois.github.io/Yasmin/
 
 # Windows and SSL
 Unfortunately PHP on Windows does not have access to the Windows Certificate Store. This is an issue because TLS gets used and as such certificate verification gets applied (turning this off is **not** an option).
