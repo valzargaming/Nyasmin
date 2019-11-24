@@ -19,7 +19,6 @@ namespace CharlotteDunois\Yasmin\Models;
  * @property \CharlotteDunois\Yasmin\Models\User|null                                                                $inviter             The inviter, or null.
  * @property int|null                                                                                                $maxUses             Maximum uses until the invite expires, or null.
  * @property int|null                                                                                                $maxAge              Duration (in seconds) until the invite expires, or null.
- * @property bool|null                                                                                               $revoked             If the invite is revoked, this will indicate it, or null.
  * @property bool|null                                                                                               $temporary           If this invite grants temporary membership, or null.
  * @property int|null                                                                                                $uses                Number of times this invite has been used, or null.
  * @property int|null                                                                                                $presenceCount       Approximate amount of presences, or null.
@@ -72,12 +71,6 @@ class Invite extends ClientBase {
     protected $maxAge;
     
     /**
-     * If the invite is revoked, this will indicate it, or null.
-     * @var bool
-     */
-    protected $revoked;
-    
-    /**
      * If this invite grants temporary membership, or null.
      * @var bool
      */
@@ -115,7 +108,6 @@ class Invite extends ClientBase {
         $this->inviter = (!empty($invite['inviter']) ? $client->users->patch($invite['inviter']) : null);
         $this->maxUses = $invite['max_uses'] ?? null;
         $this->maxAge = $invite['max_age'] ?? null;
-        $this->revoked = $invite['revoked'] ?? null;
         $this->temporary = $invite['temporary'] ?? null;
         $this->uses = $invite['uses'] ?? null;
         
