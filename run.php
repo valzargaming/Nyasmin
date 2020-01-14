@@ -16,9 +16,11 @@ use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
 $discord = new \CharlotteDunois\Yasmin\Client(array(), $loop);
 
+/*
 set_exception_handler(function (Throwable $e) {
     // reconnect, log uncaught, etc etc
 });
+*/
  
 $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if the bot disconnects due to inactivity (Not tested)
     echo "----- BOT DISCONNECTED FROM DISCORD WITH CODE $code FOR REASON: $erMsg -----" . PHP_EOL;
