@@ -219,7 +219,7 @@ class GuildMember extends ClientBase {
      *   'roles' => array|\CharlotteDunois\Collect\Collection, (of role instances or role IDs)
      *   'deaf' => bool,
      *   'mute' => bool,
-     *   'channel' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string|null (will move the member to that channel, if member is connected to voice)
+     *   'channel_id' => \CharlotteDunois\Yasmin\Models\VoiceChannel|string|null (will move the member to that channel, if member is connected to voice)
      * )
      * ```
      *
@@ -246,7 +246,7 @@ class GuildMember extends ClientBase {
             }),
             'deaf' => array('type' => 'bool'),
             'mute' => array('type' => 'bool'),
-            'channel' => array('parse' => function ($val) {
+            'channel_id' => array('parse' => function ($val) {
                 return ($val !== null ? $this->guild->channels->resolve($val)->getId() : null);
             })
         ));
@@ -498,7 +498,7 @@ class GuildMember extends ClientBase {
      * @throws \InvalidArgumentException
      */
     function setVoiceChannel($channel, string $reason = '') {
-        return $this->edit(array('channel' => $channel), $reason);
+        return $this->edit(array('channel_id' => $channel), $reason);
     }
     
     /**
