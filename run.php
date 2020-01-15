@@ -1801,7 +1801,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if($changes != ""){
-			$changes = "<@$member_id> changed their information:\n" . $changes;
+			$changes = "<@$member_id>'s information has changed:\n" . $changes;
 			//
 			if (strlen($changes) < 1025){
 				//
