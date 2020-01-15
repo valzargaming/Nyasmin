@@ -1996,7 +1996,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$old_avatar				= $user_old->getAvatarURL();
 		
 		$channel_id				= "659804362297573396";
-		$channel				= $member_guild->channels->get($channel_id);
+		//$channel				= $member_guild->channels->get($channel_id);
 		
 		$changes = "";
 		
