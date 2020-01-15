@@ -1,12 +1,13 @@
 {
-    "name": "charlottedunois/yasmin",
+    "name": "valzargaming/yasmin",
     "description": "Yasmin is a Discord API library for PHP.",
     "type": "library",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "CharlotteDunois",
-            "email": "github@charuru.moe"
+            "name": "Valithor",
+            "email": "valzargaming@gmail.com",
+            "homepage": "http://www.valzargaming.com/"
         }
     ],
     "minimum-stability": "stable",
@@ -30,14 +31,6 @@
         "react/filesystem": "^0.1.1",
         "react/promise": "^2.7.0",
         "ringcentral/psr7": "^1.2"
-    },
-    "require-dev": {
-        "charlottedunois/athena": "^0.1.1|dev-master",
-        "charlottedunois/kimberly": "^0.1.2|dev-master"
-    },
-    "suggest": {
-        "charlottedunois/athena": "For Redis-backed ratelimit bucket",
-        "charlottedunois/kimberly": "For WS encoding etf 🚀"
     },
     "autoload": {
         "psr-4": {
