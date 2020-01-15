@@ -34,7 +34,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "V2.7";
+	$version = "V2.8B";
 	
 		
 	//Set status
@@ -1701,10 +1701,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//User properties
 		$new_tag			= $user_new->tag;
-		$new_avatar			= $user_new->avatar;
+		$new_avatar			= $user_new->getAvatarURL();
 		
 		$old_tag			= $user_old->tag;
-		$old_avatar			= $user_old->avatar;
+		$old_avatar			= $user_old->getAvatarURL();
 		
 //		Populate roles
 		$old_member_roles_names 											= array();
@@ -1848,7 +1848,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$user_avatar 											= $user->getAvatarURL();											//echo "author_id: " . $author_id . PHP_EOL;
 			$user_check 											= "$user_username#$user_discriminator"; 							//echo "author_check: " . $author_check . PHP_EOL;\
 			$user_createdTimestamp									= $user->createdTimestamp;
-			$user_createdTimestamp									= date("D M j H:i:s Y", $user_createdTimestamp);
+			$user_createdTimestamp									= date("D M j Y H:i:s", $user_createdTimestamp);
 			
 			$target_guildmember_role_collection 					= $guildmember->roles;					//This is the Role object for the GuildMember
 
@@ -1941,7 +1941,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	$discord->on('messageDelete', function ($message){ //Handling of a message being deleted
 		$message_content = $message->content;
 		echo "messageDelete" . PHP_EOL;
+		//id, author, channel, guild, member
+		//createdAt, editedAt, createdTimestamp, editedTimestamp, content, cleanContent, attachments, embeds, mentions, pinned, type, reactions, webhookID,
 		//
+		
 	});
 	
 	$discord->on('messageDeleteBulk', function ($messages){ //Handling of multiple messages being deleted
@@ -1987,10 +1990,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$user_id				= $user_new->id;
 		
 		$new_tag				= $user_new->tag;
-		$new_avatar				= $user_new->avatar;
+		$new_avatar				= $user_new->getAvatarURL();
 		
 		$old_tag				= $user_old->tag;
-		$old_avatar				= $user_old->avatar;
+		$old_avatar				= $user_old->getAvatarURL();
 		
 		$channel_id				= "659804362297573396";
 		$channel				= $member_guild->channels->get($channel_id);
