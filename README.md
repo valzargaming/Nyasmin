@@ -1,7 +1,5 @@
 This fork is dedicated to maintaining Palace Bot#9203 that is used primarily in the "Blue's Cloudy Palace" guild. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or commit pull requests.=
 
-# Yasmin [![Build Status](https://scrutinizer-ci.com/g/CharlotteDunois/Yasmin/badges/build.png?b=master)](https://scrutinizer-ci.com/g/CharlotteDunois/Yasmin/build-status/master)
-
 Yasmin is a Discord API library for PHP. Yasmin connects to the Gateway and interacts with the REST API.
 
 This library is **only** for PHP 7.1 (and later) and use in CLI. Only bot accounts are supported by Yasmin.
@@ -12,10 +10,10 @@ Before you start using this Library, you **need** to know how PHP works, you nee
 See https://github.com/elazar/asynchronous-php for resources.
 
 # Getting Started
-Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/charlottedunois/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
+Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
 
 ```
-composer require charlottedunois/yasmin
+composer require valzargaming/yasmin
 ```
 
 <br>
