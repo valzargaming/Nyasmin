@@ -33,14 +33,17 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
-	$version														= "V2.6";
+	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
+	$version = "V2.7";
+	
 		
 	//Set status
 	$discord->user->setPresence(
 		array(
 			'since' => null, //unix time (in milliseconds) of when the client went idle, or null if the client is not idle
 			'game' => array(
-				'name' => "over the Palace $version",
+				//'name' => "over the Palace $version",
+				'name' => "$line_count lines of code! $version",
 				'type' => 3, //0, 1, 2, 3, 4 | Game/Playing, Streaming, Listening, Watching, Custom Status
 				'url' => null //stream url, is validated when type is 1, only Youtube and Twitch allowed
 				/*
@@ -54,24 +57,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		)
 	);
 	
-	//Set nickname
-	//Doesn't seem to work on self
-	/*
-	$bot_id															= "662093882795753482";
-	$setup_guild_id 												= "609814936721424400";
-	$setup_guild													= $discord->guilds->get($setup_guild_id);
-	$setup_member 													= $setup_guild->members->get($bot_id); //GuildMember object
-	$setup_member->edit( //Must target guildmember object
-		array(
-			'nick' => "Palace Bot $version"
-		)
-	);
-	*/
-	
 	echo "BOT IS READY" . PHP_EOL;
 	
 	$discord->on('message', function ($message){ //Handling of a message
 		$message_content = $message->content;
+		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, or webhooks
 		$message_content_lower = strtolower($message_content);
 		/*
 		*********************
@@ -190,7 +180,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						$watcher_user = $watcher_member->user;																		//echo "watcher_user class: " . get_class($watcher_user) . PHP_EOL;
 						$watcher_user->createDM()->then(function($watcher_dmchannel) use ($message){	//Promise
 //							echo "watcher_dmchannel class: " . get_class($watcher_dmchannel) . PHP_EOL; //DMChannel
-							return $watcher_dmchannel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message_content}");
+							return $watcher_dmchannel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message->content}");
 						});
 					}catch(Exception $e){
 //						RuntimeException: Unknown property
@@ -493,7 +483,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //			Build the string for the reply
 			$author_role_name_queue 									= "";
 //			$author_role_name_queue_full 								= "Here's a list of roles for you:" . PHP_EOL;
-			foreach ($author_guildmember_roles_ids as $author_role){
+			foreach ($author_member_roles_ids as $author_role){
 				$author_role_name_queue 								= "$author_role_name_queue<@&$author_role> ";
 			}
 			$author_role_name_queue 									= substr($author_role_name_queue, 0, -1);
@@ -1011,7 +1001,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						if ($author_id != $mention_id){
 							$boop_messages										= array();
 							
-							$boop_messages[]										= "<@$author_id> rubs their snoot softly against <@$mention_id>, look at those cuties!";
 							$boop_messages[]										= "<@$author_id> slowly and strategically booped the snoot of <@$mention_id>.";
 							$boop_messages[]										= "With a playful smile, <@$author_id> booped <@$mention_id>'s snoot.";
 							$index_selection										= GetRandomArrayIndex($boop_messages);
@@ -1693,6 +1682,156 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	
 	$discord->on('guildMemberUpdate', function ($member_new, $member_old){ //Handling of a member getting updated
 		echo "guildMemberUpdate" . PHP_EOL;
+		$member_id			= $member_new->id;
+		$member_guild		= $member_new->guild;
+		$new_user			= $member_new->user;
+		$old_user			= $member_old->user;
+		
+		$channel_id			= "659804362297573396";
+		$channel			= $member_guild->channels->get($channel_id);
+		
+		//Member properties
+		$new_nickname		= $member_new->nickname;
+		$new_roles			= $member_new->roles;
+		$new_displayName	= $member_new->displayName;
+		
+		$old_nickname		= $member_old->nickname;
+		$old_roles			= $member_old->roles;
+		$old_displayName	= $member_old->displayName;
+		
+		//User properties
+		$new_tag			= $user_new->tag;
+		$new_avatar			= $user_new->avatar;
+		
+		$old_tag			= $user_old->tag;
+		$old_avatar			= $user_old->avatar;
+		
+//		Populate roles
+		$old_member_roles_names 											= array();
+		$old_member_roles_ids 												= array();
+		$x=0;
+		foreach ($old_roles as $role){
+			if ($x!=0){ //0 is always @everyone so skip it
+				$old_member_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+				$old_member_roles_ids[]										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				if ($role->name == $role_18_name)			$adult 			= true;							//Author has the 18+ role
+				if ($role->name == $role_dev_name)    		$dev 			= true;							//Author has the dev role
+				if ($role->name == $role_owner_name)    	$owner	 		= true;							//Author has the owner role
+				if ($role->name == $role_admin_name)		$admin 			= true;							//Author has the admin role
+				if ($role->name == $role_mod_name)			$mod 			= true;							//Author has the mod role
+				if ($role->name == $role_verified_name)		$verified 		= true;							//Author has the verified role
+				if ($role->name == $role_bot_name)			$bot 			= true;							//Author has the bot role
+				if ($role->name == $role_vzgbot_name)		$vzgbot 		= true;							//Author is this bot
+			}
+			$x++;
+		}
+
+		$new_member_roles_names 											= array();
+		$new_member_roles_ids 												= array();
+		$x=0;
+		foreach ($new_roles as $role){
+			if ($x!=0){ //0 is always @everyone so skip it
+				$new_member_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+				$new_member_roles_ids[]										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				if ($role->name == $role_18_name)			$adult 			= true;							//Author has the 18+ role
+				if ($role->name == $role_dev_name)    		$dev 			= true;							//Author has the dev role
+				if ($role->name == $role_owner_name)    	$owner	 		= true;							//Author has the owner role
+				if ($role->name == $role_admin_name)		$admin 			= true;							//Author has the admin role
+				if ($role->name == $role_mod_name)			$mod 			= true;							//Author has the mod role
+				if ($role->name == $role_verified_name)		$verified 		= true;							//Author has the verified role
+				if ($role->name == $role_bot_name)			$bot 			= true;							//Author has the bot role
+				if ($role->name == $role_vzgbot_name)		$vzgbot 		= true;							//Author is this bot
+			}
+			$x++;
+		}		
+		
+		
+		//Compare changes
+		$changes = "";
+		
+		if ($old_tag != $new_tag){
+			echo "old_tag: " . $old_tag . PHP_EOL;
+			echo "new_tag: " . $new_tag . PHP_EOL;
+			$changes = $changes . "Old tag: $old_tag\n New tag: $new_tag\n";
+		}
+		
+		if ($old_avatar != $new_avatar){
+			echo "old_avatar: " . $old_avatar . PHP_EOL;
+			echo "new_avatar: " . $new_avatar . PHP_EOL;
+			$changes = $changes . "Old avatar: $old_avatar\n New avatar: $new_avatar\n";
+		}
+		
+		if ($old_nickname != $new_nickname){
+			echo "old_nickname: " . $old_nickname . PHP_EOL;
+			echo "new_nickname: " . $new_nickname . PHP_EOL;
+			$changes = $changes . "Old nickname: $old_nickname\n New nickname: $new_nickname\n";
+		}
+		
+		if ($old_member_roles_ids != $new_member_roles_ids){
+			//echo "old_roles: " . $old_roles . PHP_EOL;
+			//echo "new_roles: " . $new_roles . PHP_EOL;
+			//$changes = $changes . "Old roles: $old_roles\n New roles: $new_roles\n";
+			//These are collections we'll need to iterate through
+			
+//			Build the string for the reply
+			$old_role_name_queue 									= "";
+			foreach ($old_member_roles_ids as $old_role){
+				$old_role_name_queue 								= "$old_role_name_queue<@&$old_role> ";
+			}
+			$old_role_name_queue 									= substr($old_role_name_queue, 0, -1);
+			$old_role_name_queue_full 								= $old_role_name_queue_full . PHP_EOL . $old_role_name_queue;
+			$changes = $changes . "Old roles: $old_role_name_queue_full\n";
+			
+			$new_role_name_queue 									= "";
+			foreach ($new_member_roles_ids as $new_role){
+				$new_role_name_queue 								= "$new_role_name_queue<@&$new_role> ";
+			}
+			$new_role_name_queue 									= substr($new_role_name_queue, 0, -1);
+			$new_role_name_queue_full 								= $new_role_name_queue_full . PHP_EOL . $new_role_name_queue;
+			$changes = $changes . "New roles: $new_role_name_queue_full\n";
+		}
+		
+		/*
+		This is basically the same as changing the nickname
+		if ($old_displayName != $new_displayName){
+			echo "old_displayName: " . $old_displayName . PHP_EOL;
+			echo "new_displayName: " . $new_displayName . PHP_EOL;
+			$changes = $changes . "Old displayName: $old_displayName\n New displayName: $new_displayName\n";
+		}
+		*/
+		
+		if($changes != ""){
+			$changes = "<@$member_id> changed their information:\n" . $changes;
+			//
+			if (strlen($changes) < 1025){
+				//
+//				Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+//					->setTitle("Commands")																	// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//					->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
+					->addField("User Update", "$changes")													// New line after this
+					
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+				//Send a message
+				$channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+				return true;
+			}else{
+				$channel->send("**User Update**\n$changes");
+				return true;
+			}
+		}else{ //No info we want to capture was changed
+			return true;
+		}
+		
 	});
 	
 	$discord->on('guildMemberRemove', function ($guildmember){ //Handling of a user leaving the guild
@@ -1842,8 +1981,60 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 		
 	$discord->on('userUpdate', function ($user_new, $user_old){ //Handling of a user changing their username/avatar/etc
+		//This function may never be used because guildMemberUpdate already does everything we want
 		echo "userUpdate" . PHP_EOL;
-		//
+		//id, username, discriminator bot, webhook, email, mfaEnabled, verified, tag, createdTimestamp, createdAt
+		$user_id				= $user_new->id;
+		
+		$new_tag				= $user_new->tag;
+		$new_avatar				= $user_new->avatar;
+		
+		$old_tag				= $user_old->tag;
+		$old_avatar				= $user_old->avatar;
+		
+		$channel_id				= "659804362297573396";
+		$channel				= $member_guild->channels->get($channel_id);
+		
+		$changes = "";
+		
+		if ($old_tag != $new_tag){
+			echo "old_tag: " . $old_tag . PHP_EOL;
+			echo "new_tag: " . $new_tag . PHP_EOL;
+			$changes = $changes . "Old tag: $old_tag\n New tag: $new_tag\n";
+		}
+		
+		if ($old_avatar != $new_avatar){
+			echo "old_avatar: " . $old_avatar . PHP_EOL;
+			echo "new_avatar: " . $new_avatar . PHP_EOL;
+			$changes = $changes . "Old avatar: $old_avatar\n New avatar: $new_avatar\n";
+		}
+		
+		if($changes != ""){
+			$changes = "<@$user_id> changed their information:\n" . $changes;
+			
+			
+//			Build the embed message
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+//				->setTitle("Commands")																	// Set a title
+				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//				->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
+				->addField("User Update", "$changes")													// New line after this
+				
+//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//				->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");                             												// Set the URL
+			//Send a message
+			//TODO
+			return true;
+		}else{ //No info we want to capture was changed
+			return true;
+		}
+		
+		
 	});
 		
 	$discord->on('roleCreate', function ($role){ //Handling of a role being created
@@ -1874,6 +2065,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 }); //end main function ready
 
 require 'token.php'; //Token for the bot
+
 $discord->login($token)->done();
 $loop->run();
 ?>
