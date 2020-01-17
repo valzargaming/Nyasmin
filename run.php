@@ -1266,7 +1266,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					if ($x!=0){ //0 is @everyone so skip it
 						if ($role->id == $role_verified_id)
 							$target_verified 							= true;
-						}
 					}
 					$x++;
 				}
