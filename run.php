@@ -25,8 +25,7 @@ set_exception_handler(function (Throwable $e) {
 $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if the bot disconnects due to inactivity (Not tested)
     echo "----- BOT DISCONNECTED FROM DISCORD WITH CODE $code FOR REASON: $erMsg -----" . PHP_EOL;
 	echo "RESTARTING BOT" . PHP_EOL;
-	$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"';
-	//echo $restart_cmd . PHP_EOL;
+	$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"'; //echo $restart_cmd . PHP_EOL;
 	system($restart_cmd);
 	//die;
 });
@@ -36,7 +35,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
 	$version = "V2.8B";
 	
-		
 	//Set status
 	$discord->user->setPresence(
 		array(
@@ -184,7 +182,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						});
 					}catch(Exception $e){
 //						RuntimeException: Unknown property
-//						echo 'WATCHER IS IN GUILD' . PHP_EOL;
 					}
 				}
 			}
@@ -240,9 +237,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$role_vzgbot_name								= "Palace Bot";					//Guild role for this bot (should not change)
 		$role_vzgbot_id									= "";							//Populated below
 		$vzgbot											= false; 						//Populated below
-		
-//		$role_verified_name = "Verified";
-//		$allowed_verified_roles = [];
 		
 		$author_guild_roles_names 											= array(); 						//Names of all guild roles
 		$author_guild_roles_ids 											= array(); 						//IDs of all guild roles
@@ -415,17 +409,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions
-//			echo "VANITY: $vanity" . PHP_EOL;
 			if(!CheckFile(null, "vanity_option.php")){
-				VarSave(null, "vanity_option.php", $vanity);
-//				echo "NEW VANITY FILE" . PHP_EOL;
+				VarSave(null, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
 			}
-//			VarLoad
-			$vanity_var = VarLoad(null, "vanity_option.php");
-//			echo "vanity_var: $vanity_var" . PHP_EOL;
-//			VarSave
-			$vanity_flip = !$vanity_var;
-//			echo "vanity_flip: $vanity_flip" . PHP_EOL;
+			$vanity_var = VarLoad(null, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
+			$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
 			VarSave(null, "vanity_option.php", $vanity_flip);
 			if ($vanity_flip === true)
 				$message->reply("NSFW functions enabled!");
@@ -440,12 +428,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				VarSave(null, "nsfw_option.php", $nsfw);
 //				echo "NEW NSFW FILE" . PHP_EOL;
 			}
-//			VarLoad
-			$nsfw_var = VarLoad(null, "nsfw_option.php");
-//			echo "nsfw_var: $nsfw_var" . PHP_EOL;
-//			VarSave
-			$nsfw_flip = !$nsfw_var;
-//			echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+			$nsfw_var = VarLoad(null, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave(null, "nsfw_option.php", $nsfw_flip);
 			if ($nsfw_flip === true)
 				$message->reply("NSFW functions enabled!");
@@ -736,7 +720,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(!CheckFile($author_id, "booper_count.php"))			$booper_count		= 0;													
 			else 													$booper_count		= VarLoad($author_id, "booper_count.php");			
 
-			//Load author get statistics
+//			Load author get statistics
 			if(!CheckFile($author_id, "vanity_get_count.php"))		$vanity_get_count	= 0;													
 			else 													$vanity_get_count 	= VarLoad($author_id, "vanity_get_count.php");		
 			if(!CheckFile($author_id, "hugged_count.php"))			$hugged_count		= 0;													
@@ -747,8 +731,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			else 													$nuzzled_count		= VarLoad($author_id, "nuzzled_count.php");				
 			if(!CheckFile($author_id, "booped_count.php"))			$booped_count		= 0;													
 			else 													$booped_count		= VarLoad($author_id, "booped_count.php");				
-			
-			//Load author receive statistics
 			
 			if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 				echo "HUG/SNUGGLE" . PHP_EOL;
@@ -1557,8 +1539,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					return true;
 				}
 			}else{
-				if($react) $message->react("👎");
-				$message->reply("No log found!");
+				//if($react) $message->react("👎");
+				$message->reply("No infractions found!");
 				return true;
 			}
 		}
@@ -1625,10 +1607,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 	$discord->on('guildMemberAdd', function ($guildmember){ //Handling of a member joining the guild
 		echo "guildMemberAdd" . PHP_EOL;
-		//$member is GuildMember class
-		//echo "guildmember_class: " . get_class($guildmember) . PHP_EOL;
 		$user = $guildmember->user;
-		$welcome = true; //Make this work for GuildMember
+		$welcome = true;
 		
 		if($welcome === true){
 			$user_username 											= $user->username; 													//echo "author_username: " . $author_username . PHP_EOL;
@@ -1670,7 +1650,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 				
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL(""); 
+				->setURL("");
 			
 //			Making sure the channel exists
 			if($welcome_channel){
@@ -1768,15 +1748,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($old_nickname != $new_nickname){
 			echo "old_nickname: " . $old_nickname . PHP_EOL;
 			echo "new_nickname: " . $new_nickname . PHP_EOL;
-			$changes = $changes . "Old nickname: $old_nickname\n New nickname: $new_nickname\n";
+			$changes = $changes . "Nickname change:\n`$old_nickname`→`$new_nickname`\n";
 		}
 		
 		if ($old_member_roles_ids != $new_member_roles_ids){
-			//echo "old_roles: " . $old_roles . PHP_EOL;
-			//echo "new_roles: " . $new_roles . PHP_EOL;
-			//$changes = $changes . "Old roles: $old_roles\n New roles: $new_roles\n";
-			//These are collections we'll need to iterate through
-			
 //			Build the string for the reply
 			$old_role_name_queue 									= "";
 			foreach ($old_member_roles_ids as $old_role){
@@ -1793,10 +1768,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$new_role_name_queue 									= substr($new_role_name_queue, 0, -1);
 			$new_role_name_queue_full 								= $new_role_name_queue_full . PHP_EOL . $new_role_name_queue;
 			$changes = $changes . "New roles: $new_role_name_queue_full\n";
+			//TODO: Change to only show the added/removed difference
 		}
 		
 		/*
-		This is basically the same as changing the nickname
+//		This is basically the same as changing the nickname
 		if ($old_displayName != $new_displayName){
 			echo "old_displayName: " . $old_displayName . PHP_EOL;
 			echo "new_displayName: " . $new_displayName . PHP_EOL;
@@ -1805,25 +1781,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if($changes != ""){
-			$changes = "<@$member_id>'s information has changed:\n" . $changes;
-			//
+			//$changes = "<@$member_id>'s information has changed:\n" . $changes;
 			if (strlen($changes) < 1025){
-				//
 //				Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //					->setTitle("Commands")																	// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//					->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
-					->addField("User Update", "$changes")													// New line after this
+					->setDescription("<@$member_id>\n**User Update**\n$changes")									// Set a description (below title, above fields)
+//					->addField("**User Update**", "$changes")												// New line after this
 					
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+					->setAuthor("$old_tag", "$old_avatar")  												// Set an author with icon
 					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 					->setURL("");                             												// Set the URL
-				//Send a message
+//				Send a message
 				$channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
@@ -1840,10 +1814,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	
 	$discord->on('guildMemberRemove', function ($guildmember){ //Handling of a user leaving the guild
 		echo "guildMemberRemove" . PHP_EOL;
-		//$member is GuildMember class
-		//echo "guildmember_class: " . get_class($guildmember) . PHP_EOL;
 		$user = $guildmember->user;
-		$welcome = true; //Make this work for GuildMember
+		$welcome = true;
 		
 		if($welcome === true){
 			$user_username 											= $user->username; 													//echo "author_username: " . $author_username . PHP_EOL;
@@ -1865,10 +1837,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 				$x++;
 			}
-			$mention_role_id_queue = "⠀"; //Invisible unicode
 			foreach ($target_guildmember_roles_mentions as $mention_role){
-//				$mention_role_name_queue 							= "$mention_role_name_queue$mention_role, ";
+//				$mention_role_name_queue 							= $mention_role_name_queue . $mention_role;
 				$mention_role_id_queue 								= $mention_role_id_queue . "$mention_role";
+			}
+			if ( ($mention_role_id_queue === NULL) || ($mention_role_id_queue == "") ){ //String cannot be empty or the embed will throw an exception
+				$mention_role_id_queue = "⠀"; //Invisible unicode
 			}
 			
 			$guild_memberCount										= $guildmember->guild->memberCount;
@@ -1880,8 +1854,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if($introduction_channel_id) 		$introduction_channel	= $guildmember->guild->channels->get($introduction_channel_id);
 				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_channel_id);
 			}catch(Exception $e){
-//				RuntimeException: Unknown property
-//				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
+//				RuntimeException: Unknown property																		//echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
 			}
 			
 //			Build the embed
@@ -1910,7 +1883,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$welcome_channel->send("<@$new_member_id> has left Blue's Cloudy Palace.")
 					->otherwise(function ($error){
 						echo $error.PHP_EOL;
-					});
+				});
 */
 //				Send the message
 //				We do not need another promise here, so we call done, because we want to consume the promise
@@ -1940,17 +1913,70 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
 		$message_content_new = $message_new->content;
 		$message_content_old = $message_old->content;
-		
-		//
 	});
 	
 	$discord->on('messageDelete', function ($message){ //Handling of a message being deleted
-		$message_content = $message->content;
 		echo "messageDelete" . PHP_EOL;
 		//id, author, channel, guild, member
-		//createdAt, editedAt, createdTimestamp, editedTimestamp, content, cleanContent, attachments, embeds, mentions, pinned, type, reactions, webhookID,
-		//
+		//createdAt, editedAt, createdTimestamp, editedTimestamp, content, cleanContent, attachments, embeds, mentions, pinned, type, reactions, webhookID
+		$message_content												= $message->content;
+		$message_id														= $message->id;
+		if ( ($message_content == NULL) || ($message_content == "") ){
+			echo "BLANK MESSAGE" . PHP_EOL;
+			return true;
+		}			//Don't process blank messages, bots, or webhooks
+		$message_content_lower											= strtolower($message_content);
 		
+		//Load author info
+		$author_user													= $message->author; //User object
+		$author_channel 												= $message->channel;
+		$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class											= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return; //Don't process DMs
+		}
+		
+		$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
+		
+		//Load guildmember info
+		
+		$guild				= $message->guild;
+		$channel_id			= "659804362297573396";
+		$channel			= $guild->channels->get($channel_id);
+		
+		//Build the embed stuff
+		
+		$log_message = "Message $message_id deleted from <#$author_channel_id>\n**Content:** $message_content" . PHP_EOL;
+		
+//		Build the embed
+		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+		$embed
+//			->setTitle("$user_check")																// Set a title
+			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//			->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+			->setDescription("$log_message")														// Set a description (below title, above fields)
+			//X days agow
+			->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+//			->addField("Roles", 		"$author_role_name_queue_full")								// New line after this
+			
+			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			
+			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+			->setURL("");
+//			Send the message
+//			We do not need another promise here, so we call done, because we want to consume the promise
+		$channel->send('', array('embed' => $embed))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+		return true; //No more processing, we only want to process the first person mentioned
 	});
 	
 	$discord->on('messageDeleteBulk', function ($messages){ //Handling of multiple messages being deleted
@@ -1966,7 +1992,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		echo "messageReactionAdd" . PHP_EOL;		
 		
-		//Load info data
+		//Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
 		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
@@ -1994,18 +2020,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
 		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
-		
-		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
-		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
-			//
-		}
-		
+				
 		//Load emoji info
-		$emoji						= $reaction->emoji;
-		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
 		//guild, user
 		//animated, managed, requireColons
 		//createdTimestamp, createdAt
+		$emoji						= $reaction->emoji;
+		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
 		
 		$unicode					= false;
 		if ($emoji_id === NULL)
@@ -2016,7 +2037,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($unicode) $response = "$emoji_name";
 		else $response = "<:$emoji_identifier>";
 		
-		//Do things here
+		
+		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
+		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
+			//Do things here
+		}else{
+			//Do things here
+		}
 	});
 	
 	$discord->on('messageReactionRemove', function ($reaction, $user){ //Handling of a message reaction being removed
@@ -2027,13 +2054,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		echo "messageReactionRemove" . PHP_EOL;		
 		
-		//Load info data
+//		Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
 		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
 		$message_content_lower = strtolower($message_content);
 		
-		//Load author info
+//		Load author info
 		$author_user				= $message->author; //User object
 		$author_channel 			= $message->channel;
 		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
@@ -2055,18 +2082,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
 		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
-		
-		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
-		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
-			//
-		}
-		
+				
 		//Load emoji info
-		$emoji						= $reaction->emoji;
-		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
 		//guild, user
 		//animated, managed, requireColons
 		//createdTimestamp, createdAt
+		$emoji						= $reaction->emoji;
+		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
 		
 		$unicode					= false;
 		if ($emoji_id === NULL)
@@ -2078,6 +2100,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		else $response = "<:$emoji_identifier>";
 		
 		//Do things here
+		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
+		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
+			//Do things here
+		}else{
+			//Do things here
+		}
 	});
 	
 	$discord->on('messageReactionRemoveAll', function ($message){ //Handling of all reactions being removed from a message
