@@ -3,7 +3,7 @@
 //Special thanks to keira#7829 <@297969955356540929> for helping me get this behemoth working after converting from DiscordPHP
 
 //DO NOT VAR_DUMP GETS, most objects like GuildMember have a guild property which references all members
-//Use get_class($object) to verify the main object (usually a collection)
+//Use get_class($object) to verify the main object (usually a collection, check src/Models/)
 //Use get_class($object->first())to verify you're getting the right kind of object. IE, $author_guildmember->roles should be Models\Role)
 //If any of these methods resolve to a class of React\Promise\Promise you're probably passing an invalid parameter for the class
 //Always subtract 1 when counting roles because everyone has an @everyone role
@@ -28,7 +28,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 	$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"';
 	//echo $restart_cmd . PHP_EOL;
 	system($restart_cmd);
-	die;
+	//die;
 });
 
 $discord->once('ready', function () use ($discord){	// Listen for events here
@@ -1098,6 +1098,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					
 //					Send the message
 //					We do not need another promise here, so we call done, because we want to consume the promise
+					if($react) $message->react("👍");
 					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 						echo $error.PHP_EOL; //Echo any errors
 					});
@@ -1108,6 +1109,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //					Reply with remaining time
 					$waittime = ($vstats_limit_seconds - $cooldown[1]);
 					$formattime = FormatTime($waittime);
+					if($react) $message->react("👎");
 					$message->reply("You must wait $formattime before using vstats on yourself again.");
 					return true;
 				}
@@ -1184,6 +1186,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						
 //						Send the message
 //						We do not need another promise here, so we call done, because we want to consume the promise
+						if($react) $message->react("👍");
 						$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
@@ -1198,6 +1201,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //					Reply with remaining time
 					$waittime = ($vstats_limit_seconds - $cooldown[1]);
 					$formattime = FormatTime($waittime);
+					if($react) $message->react("👎");
 					$message->reply("You must wait $formattime before using vstats on yourself again.");
 					return true;
 				}
@@ -1269,8 +1273,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"';
 			//echo $restart_cmd . PHP_EOL;
 			system($restart_cmd);
-			echo 'die' . PHP_EOL;
-			die;
+			//echo 'die' . PHP_EOL;
+			//die;
 		}
 		
 		if ($creator || $owner || $dev || $admin) //Only allow these roles to use this
@@ -1700,11 +1704,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$old_displayName	= $member_old->displayName;
 		
 		//User properties
-		$new_tag			= $user_new->tag;
-		$new_avatar			= $user_new->getAvatarURL();
+		$new_tag			= $new_user->tag;
+		$new_avatar			= $new_user->getAvatarURL();
 		
-		$old_tag			= $user_old->tag;
-		$old_avatar			= $user_old->getAvatarURL();
+		$old_tag			= $old_user->tag;
+		$old_avatar			= $old_user->getAvatarURL();
 		
 //		Populate roles
 		$old_member_roles_names 											= array();
@@ -1932,9 +1936,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('messageUpdate', function ($message_new, $message_old){ //Handling of a message being changed
+		echo "messageUpdate" . PHP_EOL;
+		//This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
 		$message_content_new = $message_new->content;
 		$message_content_old = $message_old->content;
-		echo "messageUpdate" . PHP_EOL;
+		
 		//
 	});
 	
@@ -1952,14 +1958,126 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//
 	});
 	
-	$discord->on('messageReactionAdd', function ($reaction, $user){ //Handling of a message being reacted to
-		echo "messageReactionAdd" . PHP_EOL;
-		//
+	$discord->on('messageReactionAdd', function ($reaction, $respondent_user){ //Handling of a message being reacted to
+		$me = $reaction->me;
+		if ($me === true){ //Don't process reactions this bot makes
+			echo "MESSAGE REACTION ADDED" . PHP_EOL;
+			return;
+		}
+		echo "messageReactionAdd" . PHP_EOL;		
+		
+		//Load info data
+		$message					= $reaction->message;
+		$message_content			= $message->content;
+		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
+		$message_content_lower = strtolower($message_content);
+		
+		//Load author info
+		$author_user				= $message->author; //User object
+		$author_channel 			= $message->channel;
+		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class		= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return; //Don't try and process direct messages
+		}
+		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
+		
+		//Load respondent info
+		$respondent_username 		= $respondent_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$respondent_discriminator 	= $respondent_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
+		
+		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
+		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
+			//
+		}
+		
+		//Load emoji info
+		$emoji						= $reaction->emoji;
+		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
+		//guild, user
+		//animated, managed, requireColons
+		//createdTimestamp, createdAt
+		
+		$unicode					= false;
+		if ($emoji_id === NULL)
+						$unicode 	= true;					echo "unicode: " . $unicode . PHP_EOL;
+		$emoji_name					= $emoji->name;			echo "emoji_name: " . $emoji_name . PHP_EOL;
+		$emoji_identifier			= $emoji->identifier;	echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
+		
+		if ($unicode) $response = "$emoji_name";
+		else $response = "<:$emoji_identifier>";
+		
+		//Do things here
 	});
 	
 	$discord->on('messageReactionRemove', function ($reaction, $user){ //Handling of a message reaction being removed
-		echo "messageReactionRemove" . PHP_EOL;
-		//
+		$me = $reaction->me;
+		if ($me === true){ //Don't process reactions this bot makes
+			echo "MESSAGE REACTION REMOVED" . PHP_EOL;
+			return;
+		}
+		echo "messageReactionRemove" . PHP_EOL;		
+		
+		//Load info data
+		$message					= $reaction->message;
+		$message_content			= $message->content;
+		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
+		$message_content_lower = strtolower($message_content);
+		
+		//Load author info
+		$author_user				= $message->author; //User object
+		$author_channel 			= $message->channel;
+		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class		= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return; //Don't try and process direct messages
+		}
+		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
+		
+		//Load respondent info
+		$respondent_username 		= $respondent_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$respondent_discriminator 	= $respondent_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
+		
+		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
+		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
+			//
+		}
+		
+		//Load emoji info
+		$emoji						= $reaction->emoji;
+		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
+		//guild, user
+		//animated, managed, requireColons
+		//createdTimestamp, createdAt
+		
+		$unicode					= false;
+		if ($emoji_id === NULL)
+						$unicode 	= true;					echo "unicode: " . $unicode . PHP_EOL;
+		$emoji_name					= $emoji->name;			echo "emoji_name: " . $emoji_name . PHP_EOL;
+		$emoji_identifier			= $emoji->identifier;	echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
+		
+		if ($unicode) $response = "$emoji_name";
+		else $response = "<:$emoji_identifier>";
+		
+		//Do things here
 	});
 	
 	$discord->on('messageReactionRemoveAll', function ($message){ //Handling of all reactions being removed from a message
@@ -1984,7 +2102,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 		
 	$discord->on('userUpdate', function ($user_new, $user_old){ //Handling of a user changing their username/avatar/etc
-		//This function may never be used because guildMemberUpdate already does everything we want
+		//This event listener may never be used because guildMemberUpdate already does everything we want, maybe for logging purposes later
+		//For example, this will get triggered if a Nitro user changes their discriminator
 		echo "userUpdate" . PHP_EOL;
 		//id, username, discriminator bot, webhook, email, mfaEnabled, verified, tag, createdTimestamp, createdAt
 		$user_id				= $user_new->id;
