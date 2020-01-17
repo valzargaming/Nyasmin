@@ -2000,7 +2000,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 	});
 	
-	$discord->on('messageReactionRemove', function ($reaction, $user){ //Handling of a message reaction being removed
+	$discord->on('messageReactionRemove', function ($reaction, $respondent_user){ //Handling of a message reaction being removed
 		$me = $reaction->me;
 		if ($me === true){ //Don't process reactions this bot makes
 			echo "MESSAGE REACTION REMOVED" . PHP_EOL;
