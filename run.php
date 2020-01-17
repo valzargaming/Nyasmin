@@ -1865,9 +1865,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('messageUpdate', function ($message_new, $message_old){ //Handling of a message being changed
-		echo "messageUpdate" . PHP_EOL;
 		//This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
-		//TODO: If the timestamp is older than timestampSetup nothing will be passed to this method, so we should log that *something* changed
+		//TODO: If the timestamp is older than timestampSetup nothing will be passed to this method, use messageUpdateRaw instead
 		
 		$message_content_new = $message_new->content; //Null if message is too old
 		$message_content_old = $message_old->content; //Null if message is too old
@@ -1884,6 +1883,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "BLANK OR OLD MESSAGE EDITED" . PHP_EOL;
 			return;
 		}
+		
+		echo "messageUpdate" . PHP_EOL;
 
 		/*
 		Debug output
@@ -1971,6 +1972,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 	});
 	
+	$discord->on('messageUpdateRaw', function ($message_new, $message_old){ //Handling of an old/uncached message being changed
+		//
+	});
+	
 	$discord->on('messageDelete', function ($message){ //Handling of a message being deleted
 		echo "messageDelete" . PHP_EOL;
 		//id, author, channel, guild, member
@@ -2035,8 +2040,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		return true; //No more processing, we only want to process the first person mentioned
 	});
 	
+	$discord->on('messageDeleteRaw', function ($message){ //Handling of an old/uncached message being deleted
+		echo "messageDeleteRaw" . PHP_EOL;
+	});
+	
 	$discord->on('messageDeleteBulk', function ($messages){ //Handling of multiple messages being deleted
 		echo "messageDeleteBulk" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('messageDeleteBulkRaw', function ($messages){ //Handling of multiple old/uncached messages being deleted
 		//
 	});
 	
