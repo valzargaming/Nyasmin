@@ -11,6 +11,7 @@
 include __DIR__.'/vendor/autoload.php';
 define('MAIN_INCLUDED', 1); 	//Token and SQL credential files are protected, this must be defined to access
 ini_set('memory_limit', '-1'); 	//Unlimited memory usage
+include 'config.php'; 			//Global config variables
 
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
@@ -84,9 +85,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 																		  VarSave(null, "command_symbol.php", $command_symbol);
 		}else 											$command_symbol = VarLoad(null, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
 //		$server_invite 													= "https://discord.gg/hfqKdWW";					//Invite link to the server (commented this line to disable)
-		$verify_channel_id												= "662858877343236096";							//Channel to send verification messages to (comment this line to disable)
-		$getverified_channel_id											= "662070861960052767";							//Channel to send verification messages to (comment this line to disable)
-//		$watch_channel_id												= "662044237411647550";
+		GLOBAL $verifylog_channel_id, $verify_channel_id, $watch_channel_id;
 		
 		if(!CheckFile(null, "react_option.php"))				$react	= true;											//Bot will not react to messages if false
 		else 													$react 	= VarLoad(null, "react_option.php");			//Load saved option file
@@ -131,8 +130,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
 			$author_guild_avatar 										= $author_guild->getIconURL();
 			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
-			if($getverified_channel_id) 	$getverified_channel 		= $author_guild->channels->get($getverified_channel_id);
-			if($verify_channel_id) 			$verify_channel 			= $author_guild->channels->get($verify_channel_id);
+			if($verify_channel_id) 			$getverified_channel 		= $author_guild->channels->get($verify_channel_id);
+			if($verifiylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifiylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 //			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
 //			if($introduction_channel_id)	$introduction_channel		= $author_guild->channels->get($introduction_channel
@@ -207,52 +206,52 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		else 								$creator 	= true;
 		
 		$role_18_name 									= "18+"; 						//Guild 18+ role
-		$role_18_id 									= ""; 							//Populated below
+		GLOBAL $role_18_id;
 		$adult 											= false; 						//Populated below
 		
 		$role_dev_name 									= "Our Handy Dandy Developer"; 	//Guild Developer role
-		$role_dev_id									= ""; 							//Populated below
+		GLOBAL $role_dev_id;
 		$dev											= false; 						//Populated below
 		
 		$role_owner_name 								= "Emperor Blueberry"; 			//Guild Owner role
-		$role_owner_id									= ""; 							//Populated below
+		GLOBAL $role_owner_id;
 		$owner											= false; 						//Populated below
 		
 		$role_admin_name								= "High Order";					//Guild Administrator role
-		$role_admion_id									= ""; 							//Populated below
+		GLOBAL $role_admin_id;
 		$admin 											= false; 						//Populated below
 		
 		$role_mod_name									= "Palace Guard";				//Guild Moderatir role
-		$role_mod_id									= ""; 							//Populated below
+		GLOBAL $role_mod_id;
 		$mod											= false; 						//Populated below
 		
-		$role_verified_name								= "Floof";						//Guild Verified role
-		$role_verified_id								= "659801869396213773"; 		//Populated below
+		//$role_verified_name							= "Floof";						//Guild Verified role
+		GLOBAL $role_verified_id;
 		$verified										= false; 						//Populated below
 		
 		$role_bot_name									= "Bot";						//Guild Bot role
-		$role_bot_id									= ""; 							//Populated below
+		GLOBAL $role_bot_id;
 		$bot											= false; 						//Populated below
 		
 		$role_vzgbot_name								= "Palace Bot";					//Guild role for this bot (should not change)
-		$role_vzgbot_id									= "";							//Populated below
+		GLOBAL $role_vzgbot_id;
 		$vzgbot											= false; 						//Populated below
 		
 		$author_guild_roles_names 											= array(); 						//Names of all guild roles
 		$author_guild_roles_ids 											= array(); 						//IDs of all guild roles
 		foreach ($author_guild_roles as $role){
-			$author_guild_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
-			$author_guild_roles_ids[] 										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-			if ($role->name == $role_18_name) 			$role_18_id			= $role->id;												//echo "role_18_id: " . $role_18_id . PHP_EOL;
-			if ($role->name == $role_dev_name)			$role_dev_id 		= $role->id;												//echo "role_dev_name: " . $role_dev_name . PHP_EOL;
-			if ($role->name == $role_owner_name)		$role_owner_id	 	= $role->id;												//echo "role_owner_name: " . $role_owner_name . PHP_EOL;
-			if ($role->name == $role_admin_name)		$role_admin_id 		= $role->id;												//echo "role_admin_name: " . $role_admin_name . PHP_EOL;
-			if ($role->name == $role_mod_name)			$role_mod_id 		= $role->id;												//echo "role_mod_name: " . $role_mod_name . PHP_EOL;
-			if ($role->name == $role_verified_name)		$role_verified_id 	= $role->id;												//echo "role_verified_name: " . $role_verified_name . PHP_EOL;
-			if ($role->name == $role_bot_name)			$role_bot_id 		= $role->id;												//echo "role_bot_name: " . $role_bot_name . PHP_EOL;
-			if ($role->name == $role_vzgbot_name)		$role_vzgbot_id 	= $role->id;												//echo "role_vzgbot_name: " . $role_vzgbot_name . PHP_EOL;
-		}																																//echo "discord_guild_roles_names" . PHP_EOL; var_dump($author_guild_roles_names);
-																																		//echo "discord_guild_roles_ids" . PHP_EOL; var_dump($author_guild_roles_ids);
+			$author_guild_roles_names[] 								= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+			$author_guild_roles_ids[] 									= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+			if ($role->id == $role_18_id) 			$role_18_id			= $role->id;												//echo "role_18_id: " . $role_18_id . PHP_EOL;
+			if ($role->id == $role_dev_id)			$role_dev_id 		= $role->id;												//echo "role_dev_name: " . $role_dev_name . PHP_EOL;
+			if ($role->id == $role_owner_id)		$role_owner_id	 	= $role->id;												//echo "role_owner_name: " . $role_owner_name . PHP_EOL;
+			if ($role->id == $role_admin_id)		$role_admin_id 		= $role->id;												//echo "role_admin_name: " . $role_admin_name . PHP_EOL;
+			if ($role->id == $role_mod_id)			$role_mod_id 		= $role->id;												//echo "role_mod_name: " . $role_mod_name . PHP_EOL;
+			if ($role->id == $role_verified_id)		$role_verified_id 	= $role->id;												//echo "role_verified_name: " . $role_verified_name . PHP_EOL;
+			if ($role->id == $role_bot_id)			$role_bot_id 		= $role->id;												//echo "role_bot_name: " . $role_bot_name . PHP_EOL;
+			if ($role->id == $role_vzgbot_id)		$role_vzgbot_id 	= $role->id;												//echo "role_vzgbot_name: " . $role_vzgbot_name . PHP_EOL;
+		}																															//echo "discord_guild_roles_names" . PHP_EOL; var_dump($author_guild_roles_names);
+																																	//echo "discord_guild_roles_ids" . PHP_EOL; var_dump($author_guild_roles_ids);
 		/*
 		*********************
 		*********************
@@ -261,21 +260,21 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 //		Populate arrays of the info we need
-		$author_member_roles_names 											= array();
-		$author_member_roles_ids 											= array();
+		$author_member_roles_names 										= array();
+		$author_member_roles_ids 										= array();
 		$x=0;
 		foreach ($author_member_roles as $role){
 			if ($x!=0){ //0 is always @everyone so skip it
-				$author_member_roles_names[] 								= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
-				$author_member_roles_ids[]									= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-				if ($role->name == $role_18_name)			$adult 			= true;							//Author has the 18+ role
-				if ($role->name == $role_dev_name)    		$dev 			= true;							//Author has the dev role
-				if ($role->name == $role_owner_name)    	$owner	 		= true;							//Author has the owner role
-				if ($role->name == $role_admin_name)		$admin 			= true;							//Author has the admin role
-				if ($role->name == $role_mod_name)			$mod 			= true;							//Author has the mod role
-				if ($role->name == $role_verified_name)		$verified 		= true;							//Author has the verified role
-				if ($role->name == $role_bot_name)			$bot 			= true;							//Author has the bot role
-				if ($role->name == $role_vzgbot_name)		$vzgbot 		= true;							//Author is this bot
+				$author_member_roles_names[] 							= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+				$author_member_roles_ids[]								= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				if ($role->id == $role_18_id)			$adult 			= true;							//Author has the 18+ role
+				if ($role->id == $role_dev_id)    		$dev 			= true;							//Author has the dev role
+				if ($role->id == $role_owner_id)    	$owner	 		= true;							//Author has the owner role
+				if ($role->id == $role_admin_id)		$admin 			= true;							//Author has the admin role
+				if ($role->id == $role_mod_id)			$mod 			= true;							//Author has the mod role
+				if ($role->id == $role_verified_id)		$verified 		= true;							//Author has the verified role
+				if ($role->id == $role_bot_id)			$bot 			= true;							//Author has the bot role
+				if ($role->id == $role_vzgbot_id)		$vzgbot 		= true;							//Author is this bot
 			}
 			$x++;
 		}
@@ -1621,8 +1620,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			$guild_memberCount										= $guildmember->guild->memberCount;
 			
-			$welcome_channel_id										= "662042030557364224";				//Channel to send welcome messages to (comment this line to disable)
-			$introduction_channel_id								= "609814936721424406";				//Channel where members should introduce themselves
+			GLOBAL $welcome_channel_id;
+			GLOBAL $introduction_channel_id;
 			try{
 				if($welcome_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_channel_id);
 				if($introduction_channel_id) 		$introduction_channel	= $guildmember->guild->channels->get($introduction_channel_id);
@@ -1671,8 +1670,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$new_user			= $member_new->user;
 		$old_user			= $member_old->user;
 		
-		$channel_id			= "659804362297573396";
-		$channel			= $member_guild->channels->get($channel_id);
+		GLOBAL $modlog_channel_id;
+		$channel			= $member_guild->channels->get($modlog_channel_id);
 		
 		//Member properties
 		$new_nickname		= $member_new->nickname;
@@ -1698,14 +1697,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($x!=0){ //0 is always @everyone so skip it
 				$old_member_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
 				$old_member_roles_ids[]										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-				if ($role->name == $role_18_name)			$adult 			= true;							//Author has the 18+ role
-				if ($role->name == $role_dev_name)    		$dev 			= true;							//Author has the dev role
-				if ($role->name == $role_owner_name)    	$owner	 		= true;							//Author has the owner role
-				if ($role->name == $role_admin_name)		$admin 			= true;							//Author has the admin role
-				if ($role->name == $role_mod_name)			$mod 			= true;							//Author has the mod role
-				if ($role->name == $role_verified_name)		$verified 		= true;							//Author has the verified role
-				if ($role->name == $role_bot_name)			$bot 			= true;							//Author has the bot role
-				if ($role->name == $role_vzgbot_name)		$vzgbot 		= true;							//Author is this bot
 			}
 			$x++;
 		}
@@ -1717,14 +1708,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($x!=0){ //0 is always @everyone so skip it
 				$new_member_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
 				$new_member_roles_ids[]										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-				if ($role->name == $role_18_name)			$adult 			= true;							//Author has the 18+ role
-				if ($role->name == $role_dev_name)    		$dev 			= true;							//Author has the dev role
-				if ($role->name == $role_owner_name)    	$owner	 		= true;							//Author has the owner role
-				if ($role->name == $role_admin_name)		$admin 			= true;							//Author has the admin role
-				if ($role->name == $role_mod_name)			$mod 			= true;							//Author has the mod role
-				if ($role->name == $role_verified_name)		$verified 		= true;							//Author has the verified role
-				if ($role->name == $role_bot_name)			$bot 			= true;							//Author has the bot role
-				if ($role->name == $role_vzgbot_name)		$vzgbot 		= true;							//Author is this bot
 			}
 			$x++;
 		}		
@@ -1847,8 +1830,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			$guild_memberCount										= $guildmember->guild->memberCount;
 			
-			$welcome_channel_id										= "662042030557364224";				//Channel to send welcome messages to (comment this line to disable)
-			$introduction_channel_id								= "609814936721424406";				//Channel where members should introduce themselves
+			GLOBAL $welcome_channel_id;
+			GLOBAL $introduction_channel_id;
 			try{
 				if($welcome_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_channel_id);
 				if($introduction_channel_id) 		$introduction_channel	= $guildmember->guild->channels->get($introduction_channel_id);
@@ -1947,8 +1930,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//Load guildmember info
 		
 		$guild				= $message->guild;
-		$channel_id			= "659804362297573396";
-		$channel			= $guild->channels->get($channel_id);
+		GLOBAL $modlog_channel_id;
+		$channel			= $guild->channels->get($modlog_channel_id);
 		
 		//Build the embed stuff
 		
@@ -2142,8 +2125,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$old_tag				= $user_old->tag;
 		$old_avatar				= $user_old->getAvatarURL();
 		
-		$channel_id				= "659804362297573396";
-		//$channel				= $member_guild->channels->get($channel_id);
+		GLOBAL $modlog_channel_id;
+		//$channel				= $member_guild->channels->get($modlog_channel_id);
 		
 		$changes = "";
 		
