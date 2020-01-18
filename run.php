@@ -34,7 +34,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "V2.8";
+	$version = "V2.9b";
 	
 	//Set status
 	$discord->user->setPresence(
@@ -1929,15 +1929,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
 		
 		$changes = "";
-		if (($message_content_new != $message_content_old) || (($message_content_old == "") || ($message_content_old == NULL))) 	{		
-			
-//			Log the change
-			echo "message_content_new: " . $message_content_new . PHP_EOL;
-			echo "message_content_old: " . $message_content_old . PHP_EOL;
+		//if (($message_content_new != $message_content_old) || (($message_content_old == "") || ($message_content_old == NULL))) 	{		
+		if ($message_content_new != $message_content_old){		
 			
 //			Build the string for the reply
-			$old_role_name_queue 									= substr($old_role_name_queue, 0, -1);
-			$old_role_name_queue_full 								= $old_role_name_queue_full . PHP_EOL . $old_role_name_queue;
 			$changes = $changes . "**Message ID:**: $message_id_new\n";
 			$changes = $changes . "**Channel:** <#$author_channel_id>\n";
 			$changes = $changes . "**Before:** $message_content_old\n";
@@ -2023,7 +2018,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
 //				->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
 //				->setDescription("")														// Set a description (below title, above fields)
-				->setAuthor($author_check, $author_avatar)  											// Set an author with icon
+				->setAuthor("$author_check ($author_id)", $author_avatar)  											// Set an author with icon
 				->addField("Uncached Message Update", 		"$log_message")				// New line after this
 				
 //				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2105,15 +2100,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('messageDeleteRaw', function ($channel, $message_id){ //Handling of an old/uncached message being deleted
-		echo "messageDeleteRaw" . PHP_EOL;
-		GLOBAL $modlog_channel_id;
-		$guild					= $channel->guild;
-		$mod_channel			= $guild->channels->get($modlog_channel_id);
-		
+		echo "messageDeleteRaw" . PHP_EOL;		
 		$channel_id				= $channel->id;
-		
-		//Build the embed stuff
-		
 		$log_message = "Message with id $message_id was deleted from <#$channel_id>\n" . PHP_EOL;
 		
 //		Build the embed
@@ -2124,8 +2112,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 			->setURL("");
-//			Send the message
-//			We do not need another promise here, so we call done, because we want to consume the promise
+//		Send the message
+//		We do not need another promise here, so we call done, because we want to consume the promise
+		GLOBAL $modlog_channel_id;
+		$guild					= $channel->guild;
+		$mod_channel			= $guild->channels->get($modlog_channel_id);
 		$mod_channel->send('', array('embed' => $embed))->done(null, function ($error){
 			echo $error.PHP_EOL; //Echo any errors
 		});
