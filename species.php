@@ -1,9 +1,17 @@
 <?php
+include_once 'custom_functions.php';
+$species_message_id_default = "";
+if(CheckFile(null, "species_message_id.php"))	$species_message_id = VarLoad(null, "species_message_id.php");			//Load saved option file
+else{
+	$species_message_id = $species_message_id_default;
+	VarSave(null, "species_message_id.php", $species_message_id);
+}
+
 $Aquatic = "🐟"; //:fish:
 $Avian = "🐦"; //:bird:
 $Bat = "🦇"; //:bat:
 $Bear = "🐻"; //:bear:
-$Canine = "🐕" //:dog:
+$Canine = "🐕"; //:dog:
 $Deer = "🦌";//:deer:
 $Dolphin = "🦈"; //:dolphin:
 $Dragon = "🐉"; //:dragon:
@@ -32,7 +40,7 @@ $Shark = "🦈"; //:shark:
 $Squirrel = "🌰"; //:chestnut:
 
 //Message copy-pasta:
-$species menu = "**Role Menu: Species**
+$species_message_text = "**Role Menu: Species**
 :fish: : `Aquatic`
 :bird: : `Avian`
 :bat: : `Bat`
