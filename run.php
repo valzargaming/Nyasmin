@@ -34,7 +34,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "V2.8B";
+	$version = "V2.8";
 	
 	//Set status
 	$discord->user->setPresence(
@@ -1939,6 +1939,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$old_role_name_queue 									= substr($old_role_name_queue, 0, -1);
 			$old_role_name_queue_full 								= $old_role_name_queue_full . PHP_EOL . $old_role_name_queue;
 			$changes = $changes . "**Message ID:**: $message_id_new\n";
+			$changes = $changes . "**Channel:** <#$author_channel_id>\n";
 			$changes = $changes . "**Before:** $message_content_old\n";
 			$changes = $changes . "**After:** $message_content_new\n";
 
@@ -1972,112 +1973,72 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 	});
 	
-	$discord->on('messageUpdateRaw', function ($message_new, $message_old){ //Handling of an old/uncached message being changed
-		//This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
-		//TODO: If the timestamp is older than timestampSetup nothing will be passed to this method, use messageUpdateRaw instead
+	$discord->on('messageUpdateRaw', function ($channel, $data_array){ //Handling of an old/uncached message being changed		
+		$type				= $data_array['type'];
+		$tts				= $data_array['tts'];
+		$timestamp			= $data_array['timestamp'];
+		$pinned				= $data_array['pinned'];
+		$nonce				= $data_array['nonce'];
+		$mentions			= $data_array['mentions'];
+		$mention_roles		= $data_array['mention_roles'];
+		$mention_everyone	= $data_array['mention_everyone'];
+		$member				= $data_array['member']; //echo "member: " . var_dump($member) . PHP_EOL; //username, id, discriminator,avatar
+		$id					= $data_array['id']; echo "id: " . var_dump($id) . PHP_EOL; //username, id, discriminator,avatar
+		$flags				= $data_array['flags'];
+		$embeds				= $data_array['embeds'];
+		$edited_timestamp	= $data_array['edited_timestamp'];
+		$content			= $data_array['content'];
+		$channel_id			= $data_array['channel_id'];
+		$author				= $data_array['author']; //echo "author: " . var_dump($author) . PHP_EOL; //username, id, discriminator,avatar
+		$attachments		= $data_array['attachments'];
+		$guild_id			= $data_array['guild_id'];
 		
-		$message_content_new = $message_new->content; //Null if message is too old
-		$message_content_old = $message_old->content; //Null if message is too old
-		$message_id_new = $message_new->id; //This doesn't match any message id if the message is too old
-		
-		//Only process message changes
-		if ($message_content_new === $message_content_old){
-			echo "NO MESSAGE CONTENT CHANGE OR MESSAGE TOO OLD" . PHP_EOL;
-			return;
-		}
-		
-		//Make sure the messages aren't blank
-		if (($message_content_new == NULL) || ($message_content_new == "")) { //This should never trigger, but just in case...
-			echo "BLANK OR OLD MESSAGE EDITED" . PHP_EOL;
-			return;
-		}
-		
-		echo "messageUpdateRaw" . PHP_EOL;
-
-		/*
-		Debug output
-		
-//		Check the timestamp
-		$createdTimestamp_new = $message_new->createdTimestamp;
-		$createdTimestamp_old = $message_old->createdTimestamp;
-		
-		$editedTimestamp_new = $message_new->editedTimestamp;
-		$editedTimestamp_old = $message_old->editedTimestamp;
-		
-		echo "message_content_new: " . $message_content_new . PHP_EOL;
-		echo "message_content_old: " . $message_content_old . PHP_EOL;
-		echo PHP_EOL;
-		echo "createdTimestamp_new: " . $createdTimestamp_new . PHP_EOL;
-		echo "createdTimestamp_old: " . $createdTimestamp_old . PHP_EOL;
-		echo PHP_EOL;
-		echo "editedTimestamp_new: " . $editedTimestamp_new . PHP_EOL;
-		echo "editedTimestamp_old: " . $editedTimestamp_old . PHP_EOL;
-		echo PHP_EOL;
-		*/
-		
-		//Load global variables
-		$guild = $message_new->guild;
+		$guild				= $channel->guild;
 		GLOBAL $modlog_channel_id;
-		$modlog_channel	= $guild->channels->get($modlog_channel_id);
+		$mod_channel		= $guild->channels->get($modlog_channel_id);
 		
-		//Load author info
-		$author_user				= $message_new->author; //User object
-		$author_channel 			= $message_new->channel;
-		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
-		$author_channel_class		= get_class($author_channel);
-		$is_dm = false;
-		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
-			$is_dm = true;
-			return; //Don't try and process direct messages
-		}
-		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
-		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
-		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
-		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
-		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
-		
-		$changes = "";
-		if (($message_content_new != $message_content_old) || (($message_content_old == "") || ($message_content_old == NULL))) 	{		
+		$log_message = "**Message ID:** $id\n**Channel:** <#$channel_id>\n**New content:** $content" . PHP_EOL;
+		$channel->fetchMessage($id)->then(function($message) use ($mod_channel, $log_message){	//Resolve the promise
+			//Load author info
+			$author_user													= $message->author; //User object
+			$author_channel 												= $message->channel;
+			$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+			$author_channel_class											= get_class($author_channel);
+			$is_dm = false;
+			if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+				$is_dm = true;
+				return; //Don't process DMs
+			}
 			
-//			Log the change
-			echo "message_content_new: " . $message_content_new . PHP_EOL;
-			echo "message_content_old: " . $message_content_old . PHP_EOL;
+			$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+			$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+			$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+			$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+			$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
 			
-//			Build the string for the reply
-			$old_role_name_queue 									= substr($old_role_name_queue, 0, -1);
-			$old_role_name_queue_full 								= $old_role_name_queue_full . PHP_EOL . $old_role_name_queue;
-			$changes = $changes . "**Message ID:**: $message_id_new\n";
-			$changes = $changes . "**Before:** $message_content_old\n";
-			$changes = $changes . "**After:** $message_content_new\n";
-
-		}
-		if ($changes != ""){
-			//Build the embed
-			//$changes = "**Message edit**:\n" . $changes;
-			
-//			Build the embed message
+//			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
-//				->setTitle("Commands")																	// Set a title
+//				->setTitle("$user_check")																// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
-				->addField("Message Update", "$changes")												// New line after this
+//				->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+//				->setDescription("")														// Set a description (below title, above fields)
+				->setAuthor($author_check, $author_avatar)  											// Set an author with icon
+				->addField("Uncached Message Update", 		"$log_message")				// New line after this
 				
 //				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-				->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+				
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
+				->setURL("");
 //			Send the message
 //			We do not need another promise here, so we call done, because we want to consume the promise
-			$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			$mod_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
-			return true;
-		}else{ //No info we want to check was changed
-			return true;
-		}
+			return true; //No more processing, we only want to process the first person mentioned
+		});
 	});
 	
 	$discord->on('messageDelete', function ($message){ //Handling of a message being deleted
@@ -2116,7 +2077,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$channel			= $guild->channels->get($modlog_channel_id);
 		
 		//Build the embed stuff
-		
 		$log_message = "Message $message_id deleted from <#$author_channel_id>\n**Content:** $message_content" . PHP_EOL;
 		
 //		Build the embed
