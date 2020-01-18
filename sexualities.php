@@ -1,8 +1,9 @@
 <?php
+include_once 'custom_functions.php';
 $sexuality_message_id_default = "";
 if(CheckFile(null, "sexuality_message_id.php"))	$sexuality_message_id = VarLoad(null, "sexuality_message_id.php");			//Load saved option file
 else{
-	sexuality_message_id = $sexuality_message_id_default;
+	$sexuality_message_id = $sexuality_message_id_default;
 	VarSave(null, "sexuality_message_id.php", $sexuality_message_id);
 }
 
@@ -15,7 +16,7 @@ $bi = "🚻";
 $gay = "🏳️‍🌈";
 
 //Message copy-pasta:
-$sexuality_message_text: = "**Role Menu: Sexualities**
+$sexuality_message_text = "**Role Menu: Sexualities**
 :kiss_woman_man: : `Straight`
 :question: : `Questioning Sexuality`
 :octagonal_sign: : `Asexual`
