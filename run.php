@@ -749,6 +749,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						$target_guildmember->kick($reason)->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
+						if($react) $message->react("🥾"); //Boot
 						//Build the embed message
 						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 						$embed
@@ -767,8 +768,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
-						if($react) $message->react("🥾"); //Boot
-						return; //No more processing, we only want to process the first person mentioned
 					}else{//Target is not allowed to be kicked
 						$author_channel->send("You can't kick <@$mention_id>!");
 						return;
@@ -2509,9 +2508,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$old_tag				= $user_old->tag;
 		$old_avatar				= $user_old->getAvatarURL();
 		
+		GLOBAL $guild_id;
+		//TODO
+		//$guild					= 
 		GLOBAL $modlog_channel_id;
-		$modlog_channel			= $member_guild->channels->get($modlog_channel_id);
-		
+		//$modlog_channel			= $member_guild->channels->get($modlog_channel_id);
 		$changes = "";
 		
 		if ($old_tag != $new_tag){
