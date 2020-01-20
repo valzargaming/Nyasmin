@@ -105,17 +105,35 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 //		Role picker options		
 		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
-		if(!CheckFile(null, "rolepicker_option.php"))			$rp0	= $rolepicker_option;							//Allow Rolepicker
-		else 													$rp0	= VarLoad(null, "rolepicker_option.php");
-		if(!CheckFile(null, "species_option.php"))				$rp1	= $species_option;								//Species role picker
-		else 													$rp1	= VarLoad(null, "species_option.php");
-		if(!CheckFile(null, "sexuality_option.php"))			$rp2	= $sexuality_option;							//Sexuality role picker
-		else 													$rp2	= VarLoad(null, "sexuality_option.php");
-		if(!CheckFile(null, "gender_option.php"))				$rp3	= $gender_option;								//Gender role picker
-		else 													$rp3	= VarLoad(null, "gender_option.php");
-		if(!CheckFile(null, "customrole_option.php"))			$rp4	= $custom_option;								//Custom role picker
-		else 													$rp4	= VarLoad(null, "customrole_option.php");
+		//role picket message ids
+		GLOBAL $rolepicker_id, $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		
+		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
+			if(!CheckFile(null, "rolepicker_option.php"))			$rp0	= $rolepicker_option;							//Allow Rolepicker
+			else 													$rp0	= VarLoad(null, "rolepicker_option.php");
+			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
+				if(!CheckFile(null, "species_option.php"))				$rp1	= $species_option;								//Species role picker
+				else 													$rp1	= VarLoad(null, "species_option.php");
+			} else $rp1 = false;
+			if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
+				if(!CheckFile(null, "sexuality_option.php"))			$rp2	= $sexuality_option;							//Sexuality role picker
+				else 													$rp2	= VarLoad(null, "sexuality_option.php");
+			} else $rp2 = false;
+			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
+				if(!CheckFile(null, "gender_option.php"))				$rp3	= $gender_option;								//Gender role picker
+				else 													$rp3	= VarLoad(null, "gender_option.php");
+			} else $rp3 = false;
+			if ( ($customroles_message_id != "") || ($gender_message_id != NULL) ){
+				if(!CheckFile(null, "customrole_option.php"))			$rp4	= $custom_option;								//Custom role picker
+				else 													$rp4	= VarLoad(null, "customrole_option.php");
+			}else $rp4 = false;
+		}else{
+			$rp0 = false;
+			$rp1 = false;
+			$rp2 = false;
+			$rp3 = false;
+			$rp4 = false;
+		}
 		/*
 		*********************
 		*********************
