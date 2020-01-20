@@ -1,11 +1,5 @@
 <?php
 include_once 'custom_functions.php';
-$species_message_id_default = "";
-if(CheckFile(null, "species_message_id.php"))	$species_message_id = VarLoad(null, "species_message_id.php");			//Load saved option file
-else{
-	$species_message_id = $species_message_id_default;
-	VarSave(null, "species_message_id.php", $species_message_id);
-}
 
 $aquatic = "🐟"; //:fish:
 $avian = "🐦"; //:bird:
