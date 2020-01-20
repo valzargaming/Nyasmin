@@ -15,6 +15,16 @@ $bicurious = "❔";
 $bi = "🚻";
 $gay = "🏳️‍🌈";
 
+$sexualities = array(
+	"straight" => "👩‍❤️‍💋‍👨", 
+	"questioning" => "❓",
+	"asexual" => "🛑",
+	"pansexual" => "🥘",
+	"bicurious" => "❔",
+	"bi" => "🚻",
+	"gay" => "🏳️‍🌈"
+);
+
 //Message copy-pasta:
 $sexuality_message_text = "**Role Menu: Sexualities**
 :kiss_woman_man: : `Straight`
