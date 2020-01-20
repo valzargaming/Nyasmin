@@ -1516,7 +1516,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							throw $error;
 						}
 					);
-					echo "role added to $role_verified_id" . PHP_EOL;
+					echo "Role added to $role_verified_id" . PHP_EOL;
 				}
 			}
 //			Send the message
