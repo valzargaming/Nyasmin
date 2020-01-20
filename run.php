@@ -1056,7 +1056,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						**📝Reason:** " . str_replace($filter, "", $message_content);
 						//Mute the user and remove the verified role
 						$target_guildmember->addRole($role_muted_id);
-						$target_guildmember->removeRole($role_verified_id);
+						if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
+							$target_guildmember->removeRole($role_verified_id);
 						if($react) $message->react("🤐");
 						//Build the embed message
 						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1156,7 +1157,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						**📝Reason:** " . str_replace($filter, "", $message_content);
 						//Unmute the user and readd the verified role
 						$target_guildmember->removeRole($role_muted_id);
-						$target_guildmember->addRole($role_verified_id);
+						if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
+							$target_guildmember->addRole($role_verified_id);
 						if($react) $message->react("😩");
 						//Build the embed message
 						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1868,6 +1870,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//die;
 		}
 		
+		if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr(($message_content), 0, 8) == $command_symbol . 'verify ') ){ //Verify ;v ;verify
 			echo "GIVING VERIFIED ROLE TO MENTIONED" . PHP_EOL;
