@@ -1,11 +1,5 @@
 <?php
 include_once 'custom_functions.php';
-$sexuality_message_id_default = "";
-if(CheckFile(null, "sexuality_message_id.php"))	$sexuality_message_id = VarLoad(null, "sexuality_message_id.php");			//Load saved option file
-else{
-	$sexuality_message_id = $sexuality_message_id_default;
-	VarSave(null, "sexuality_message_id.php", $sexuality_message_id);
-}
 
 $straight = "👩‍❤️‍💋‍👨"; 
 $questioning = "❓";
