@@ -381,9 +381,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`roles` displays the roles for the author or user being mentioned.\n";
 			//avatar
 			$documentation = $documentation . "`avatar` displays the profile picture of the author or user being mentioned.\n";
-			$doc_length = strlen($documentation);
-			if ($doc_length){
-			//if ($doc_length < 1025){ //Seems to be triggering a false positive, needs fixing
+			$documentation_sanitized = str_replace("*","",$documentation);
+			$documentation_sanitized = str_replace("_","",$documentation);
+			$documentation_sanitized = str_replace("`","",$documentation);
+			$doc_length = strlen($documentation_sanitized);
+			if ($doc_length < 1025){
 //				Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
@@ -458,8 +460,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//Strikeout invalid options
 			if (!$rp0) $documentation = $documentation . "~~"; //Strikeout invalid options
 			
-			
-			$doc_length = strlen($documentation);
+			$documentation_sanitized = str_replace("*","",$documentation);
+			$documentation_sanitized = str_replace("_","",$documentation);
+			$documentation_sanitized = str_replace("`","",$documentation);
+			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
 //				Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
