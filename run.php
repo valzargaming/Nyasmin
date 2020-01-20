@@ -17,6 +17,7 @@ include 'config.php'; 			//Global config variables
 include 'species.php';			//Used by the species role picker function
 include 'sexualities.php';		//Used by the sexuality role picker function
 include 'gender.php';			//Used by the gender role picker function
+include 'custom_roles.php';	//Create your own roles with this template!
 
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
@@ -39,7 +40,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "V2.9F";
+	$version = "V2.10b";
 	
 	//Set status
 	$discord->user->setPresence(
@@ -99,11 +100,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if(!CheckFile(null, "nsfw_option.php"))					$nsfw	= false;										//Allow NSFW commands
 		else 													$nsfw 	= VarLoad(null, "nsfw_option.php");				//Load saved option file
 		if(!CheckFile(null, "species_option.php"))				$rp1	= false;										//Species role picker
-		else 													$rp1	= VarLoad(null, "species_option.php");			//
+		else 													$rp1	= VarLoad(null, "species_option.php");
 		if(!CheckFile(null, "sexualities_option.php"))			$rp2	= false;										//Sexuality role picker
-		else 													$rp2	= VarLoad(null, "sexualities_option.php");		//
+		else 													$rp2	= VarLoad(null, "sexualities_option.php");
 		if(!CheckFile(null, "gender_option.php"))				$rp3	= false;										//Gender role picker
-		else 													$rp3	= VarLoad(null, "gender_option.php");			//
+		else 													$rp3	= VarLoad(null, "gender_option.php");
+		if(!CheckFile(null, "customrole_option.php"))			$rp4	= false;										//Custom role picker
+		else 													$rp4	= VarLoad(null, "customrole_option.php");
 		
 		/*
 		*********************
@@ -2419,8 +2422,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Role picker stuff
 		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
-		GLOBAL $species, $sexualities, $gender;
-		GLOBAL $species_message_id, $sexuality_message_id, $gender_message_id;
+		GLOBAL $species, $sexualities, $gender, $custom_roles;
+		GLOBAL $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		
 		//Load author info
 		$author_user				= $message->author; //User object
@@ -2467,7 +2470,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		
 		//Role picker reactions
-		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option;
+		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option $customrole_option;
 		if($rolepicker_option === true)
 		if($author_id == $rolepicker_id){
 			//Load guild roles info
@@ -2497,7 +2500,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			//Process the reaction to add a role
 			echo "message_id: " . $message_id . PHP_EOL;
-			echo "gender_message_id: " . $gender_message_id . PHP_EOL;
 			$select_name = "";
 			switch ($message_id) {
 				case ($species_message_id):
@@ -2549,7 +2551,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							}
 						}
 						foreach ($sexualities as $var_name => $value){
-							$message->react($value);
+							//$message->react($value);
 						}
 					}
 					break;
@@ -2575,7 +2577,33 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						}
 						//$message->clearReactions();
 						foreach ($gender as $var_name => $value){
-							$message->react($value);
+							//$message->react($value);
+						}
+					}
+					break;
+				case ($customrole_message_id):
+					if($customrole_option){
+						echo "Custom role reaction" . PHP_EOL;
+						foreach ($custom_roles as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 3066993,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						//$message->clearReactions();
+						foreach ($custom_roles as $var_name => $value){
+							//$message->react($value);
 						}
 					}
 					break;
