@@ -1756,7 +1756,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$x = 0;
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 				if ($x == 0){ //We only want the first person mentioned
-	//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//					id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 					$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 					$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 					$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -1764,28 +1764,28 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 					
-	//				Get infraction info in target's folder
+//					Get infraction info in target's folder
 					$infractions = VarLoad($mention_id, "infractions.php");
 					$proper = $command_symbol."removeinfraction <@!$mention_id> ";
 					$strlen = strlen($command_symbol."removeinfraction <@!$mention_id> ");
 					$substr = substr($message_content_lower, $strlen);
 					
-					//Check that message is formatted properly
+//					Check that message is formatted properly
 					if ($proper != substr($message_content_lower, 0, $strlen)){
 						$message->reply("Please format your command properly: ;warn @mention number");
 						return true;
 					}
 					
-					//Check if $substr is a number
+//					Check if $substr is a number
 					if ( ($substr != "") && (is_numeric(intval($substr))) ){
-						//remove array element and reindex
+//						Remove array element and reindex
 						//array_splice($infractions, $substr, 1);
 						if ($infractions[$substr] != NULL){
 							$infractions[$substr] = "Infraction removed by $author_check on " . date("m/d/Y"); // for arrays where key equals offset
-							//save the new infraction log
+//							Save the new infraction log
 							VarSave($mention_id, "infractions.php", $infractions);
 							
-							//Send a message
+//							Send a message
 							if($react) $message->react("👍");
 							$message->reply("Infraction $substr removed from $mention_check!");
 							return true;
@@ -1881,7 +1881,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		GLOBAL $modlog_channel_id;
 		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
 		
-		//Member properties
+//		Member properties
 		$new_nickname		= $member_new->nickname;
 		$new_roles			= $member_new->roles;
 		$new_displayName	= $member_new->displayName;
@@ -1890,7 +1890,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$old_roles			= $member_old->roles;
 		$old_displayName	= $member_old->displayName;
 		
-		//User properties
+//		User properties
 		$new_tag			= $new_user->tag;
 		$new_avatar			= $new_user->getAvatarURL();
 		
@@ -1921,7 +1921,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}		
 		
 		
-		//Compare changes
+//		Compare changes
 		$changes = "";
 		
 		if ($old_tag != $new_tag){
@@ -1944,13 +1944,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($old_member_roles_ids != $new_member_roles_ids){
 //			Build the string for the reply
+
+			/*
+//			Log the full list of old and new roles
+			
 			$old_role_name_queue 									= "";
 			foreach ($old_member_roles_ids as $old_role){
 				$old_role_name_queue 								= "$old_role_name_queue<@&$old_role> ";
 			}
 			$old_role_name_queue 									= substr($old_role_name_queue, 0, -1);
 			$old_role_name_queue_full 								= $old_role_name_queue_full . PHP_EOL . $old_role_name_queue;
-			$changes = $changes . "Old roles: $old_role_name_queue_full\n";
+			//$changes = $changes . "Old roles: $old_role_name_queue_full\n";
 			
 			$new_role_name_queue 									= "";
 			foreach ($new_member_roles_ids as $new_role){
@@ -1959,8 +1963,34 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$new_role_name_queue 									= substr($new_role_name_queue, 0, -1);
 			$new_role_name_queue_full 								= $new_role_name_queue_full . PHP_EOL . $new_role_name_queue;
 			$new_role_name_queue_check								= trim($new_role_name_queue_full);
-			$changes = $changes . "New roles: $new_role_name_queue_full\n";
-			//TODO: Change to only show the added/removed difference
+			//$changes = $changes . "New roles: $new_role_name_queue_full\n";
+			*/
+			
+			
+//			Only log the added/removed difference
+//			New Roles
+			$role_difference_ids = array_diff($old_member_roles_ids, $new_member_roles_ids);
+			foreach ($role_difference_ids as $role_diff){
+				if (in_array($role_diff, $old_member_roles_ids)){
+					$switch = "Removed roles: ";
+				}
+				else{
+					$switch = "Added roles: ";
+				}
+				$changes = $changes . $switch . "<@&$role_diff>";
+			}
+			//Old roles
+			$role_difference_ids = array_diff($new_member_roles_ids, $old_member_roles_ids);
+			foreach ($role_difference_ids as $role_diff){
+				if (in_array($role_diff, $old_member_roles_ids)){
+					$switch = "Removed roles: ";
+				}
+				else{
+					$switch = "Added roles: ";
+				}
+				$changes = $changes . $switch . "<@&$role_diff>";
+			}
+			
 		}
 		
 		/*
@@ -1972,7 +2002,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		*/
 		
-		if( ($new_role_name_queue_check != "") || ($new_role_name_queue_check != NULL)) //User was kicked (They have no roles anymore)
+		if( ($switch != "") || ($switch != NULL)) //User was kicked (They have no roles anymore)
 		if($changes != ""){
 			//$changes = "<@$member_id>'s information has changed:\n" . $changes;
 			if (strlen($changes) < 1025){
@@ -2475,7 +2505,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						echo "species reaction" . PHP_EOL;
 						foreach ($species as $var_name => $value){
 							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
-								$select_name = $var_name;													//echo "select_name: " . $select_name . PHP_EOL;
+								$select_name = $var_name;
+								echo "select_name: " . $select_name . PHP_EOL;
 								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
 									//Create the role
 									$new_role = array(
@@ -2579,7 +2610,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "MESSAGE REACTION REMOVED" . PHP_EOL;
 			return;
 		}
-		echo "messageReactionRemove" . PHP_EOL;		
+		//echo "messageReactionRemove" . PHP_EOL;		
 		GLOBAL $bot_id;
 		
 //		Load message info
@@ -2616,13 +2647,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//animated, managed, requireColons
 		//createdTimestamp, createdAt
 		$emoji						= $reaction->emoji;
-		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
+		$emoji_id					= $emoji->id;			//echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
 		
 		$unicode					= false;
 		if ($emoji_id === NULL)
-						$unicode 	= true;					echo "unicode: " . $unicode . PHP_EOL;
-		$emoji_name					= $emoji->name;			echo "emoji_name: " . $emoji_name . PHP_EOL;
-		$emoji_identifier			= $emoji->identifier;	echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
+						$unicode 	= true;					//echo "unicode: " . $unicode . PHP_EOL;
+		$emoji_name					= $emoji->name;			//echo "emoji_name: " . $emoji_name . PHP_EOL;
+		$emoji_identifier			= $emoji->identifier;	//echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
 		
 		if ($unicode) $response = "$emoji_name";
 		else $response = "<:$emoji_identifier>";
