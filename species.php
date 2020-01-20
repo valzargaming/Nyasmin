@@ -7,37 +7,71 @@ else{
 	VarSave(null, "species_message_id.php", $species_message_id);
 }
 
-$Aquatic = "🐟"; //:fish:
-$Avian = "🐦"; //:bird:
-$Bat = "🦇"; //:bat:
-$Bear = "🐻"; //:bear:
-$Canine = "🐕"; //:dog:
-$Deer = "🦌";//:deer:
-$Dolphin = "🦈"; //:dolphin:
-$Dragon = "🐉"; //:dragon:
-$Equine = "🐴"; //:horse:
-$Feline = "😺"; //:smiley_cat:
-$Fox = "🦊"; //:fox:
-$Hybrid = "🔀"; //:twisted_rightwards_arrows:
-$Mouse = "🐭"; //:mouse: 
-$Pokemon = "🍎"; //:apple
-$Protogen = "🤖"; //:robot;
-$Rabbit = "🐰"; //:rabbit:
-$Reptile = "🦎"; //:lizard:
-$Sergal = "🧀"; //:cheese: 
-$Shapeshifter = "🔷"; //:small_blue_diamond
-$Wolf = "🐺"; //:wolf:
+$aquatic = "🐟"; //:fish:
+$avian = "🐦"; //:bird:
+$bat = "🦇"; //:bat:
+$bear = "🐻"; //:bear:
+$canine = "🐕"; //:dog:
+$deer = "🦌";//:deer:
+$dolphin = "🦈"; //:dolphin:
+$dragon = "🐉"; //:dragon:
+$equine = "🐴"; //:horse:
+$feline = "😺"; //:smiley_cat:
+$fox = "🦊"; //:fox:
+$hybrid = "🔀"; //:twisted_rightwards_arrows:
+$mouse = "🐭"; //:mouse: 
+$pokemon = "🍎"; //:apple
+$protogen = "🤖"; //:robot;
+$rabbit = "🐰"; //:rabbit:
+$reptile = "🦎"; //:lizard:
+$sergal = "🧀"; //:cheese: 
+$shapeshifter = "🔷"; //:small_blue_diamond
+$wolf = "🐺"; //:wolf:
 
-$Goat = "🐐"; //:goat:
-$Human = "🚶"; //:person_walking: 
-$Kobold = "🍆"; //:eggplant:
-$Misc = "🤷"; //:person_shrugging: ///Unlisted Species
-$Otter = "🍿"; //:popcorn:
-$Panda = "🐼"; //:panda_face:
-$Penguin = "🐧"; //:penguin:
-$Raccoon = "🕳️"; //:hole:
-$Shark = "🦈"; //:shark:
-$Squirrel = "🌰"; //:chestnut:
+$goat = "🐐"; //:goat:
+$human = "🚶"; //:person_walking: 
+$mobold = "🍆"; //:eggplant:
+$misc = "🤷"; //:person_shrugging: ///Unlisted Species
+$otter = "🍿"; //:popcorn:
+$panda = "🐼"; //:panda_face:
+$penguin = "🐧"; //:penguin:
+$raccoon = "🕳️"; //:hole:
+$shark = "🦈"; //:shark:
+$squirrel = "🌰"; //:chestnut:
+
+$species = array(
+	"aquatic" => "🐟", //:fish:
+	"avian" => "🐦", //:bird:
+	"bat" => "🦇", //:bat:
+	"bear" => "🐻", //:bear:
+	"canine" => "🐕", //:dog:
+	"deer" => "🦌",//:deer:
+	"dolphin" => "🦈", //:dolphin:
+	"dragon" => "🐉", //:dragon:
+	"equine" => "🐴", //:horse:
+	"feline" => "😺", //:smiley_cat:
+	"fox" => "🦊", //:fox:
+	"hybrid" => "🔀", //:twisted_rightwards_arrows:
+	"mouse" => "🐭", //:mouse: 
+	"pokemon" => "🍎", //:apple
+	"protogen" => "🤖", //:robot,
+	"rabbit" => "🐰", //:rabbit:
+	"reptile" => "🦎", //:lizard:
+	"sergal" => "🧀", //:cheese: 
+	"shapeshifter" => "🔷", //:small_blue_diamond
+	"wolf" => "🐺", //:wolf:
+
+	"goat" => "🐐", //:goat:
+	"human" => "🚶", //:person_walking: 
+	"mobold" => "🍆", //:eggplant:
+	"misc" => "🤷", //:person_shrugging: ///Unlisted Species
+	"otter" => "🍿", //:popcorn:
+	"panda" => "🐼", //:panda_face:
+	"penguin" => "🐧", //:penguin:
+	"raccoon" => "🕳️", //:hole:
+	"shark" => "🦈", //:shark:
+	"squirrel" => "🌰" //:chestnut:
+);
 
 //Message copy-pasta:
 $species_message_text = "**Role Menu: Species**
