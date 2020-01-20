@@ -11,7 +11,12 @@
 include __DIR__.'/vendor/autoload.php';
 define('MAIN_INCLUDED', 1); 	//Token and SQL credential files are protected, this must be defined to access
 ini_set('memory_limit', '-1'); 	//Unlimited memory usage
+
+//Global variables
 include 'config.php'; 			//Global config variables
+include 'species.php';			//Used by the species role picker function
+include 'sexualities.php';		//Used by the sexuality role picker function
+include 'gender.php';			//Used by the gender role picker function
 
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
@@ -84,7 +89,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if(!CheckFile(null, "command_symbol.php")){		$command_symbol	= ";"; //Author must prefix text with this to use commands
-																		  VarSave(null, "command_symbol.php", $command_symbol);
+														VarSave(null, "command_symbol.php", $command_symbol);
 		}else 											$command_symbol = VarLoad(null, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
 //		$server_invite 													= "https://discord.gg/hfqKdWW";					//Invite link to the server (commented this line to disable)	
 		if(!CheckFile(null, "react_option.php"))				$react	= true;											//Bot will not react to messages if false
@@ -93,6 +98,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		else 													$vanity = VarLoad(null, "vanity_option.php");			//Load saved option file
 		if(!CheckFile(null, "nsfw_option.php"))					$nsfw	= false;										//Allow NSFW commands
 		else 													$nsfw 	= VarLoad(null, "nsfw_option.php");				//Load saved option file
+		if(!CheckFile(null, "species_option.php"))				$rp1	= false;										//Species role picker
+		else 													$rp1	= VarLoad(null, "species_option.php");			//
+		if(!CheckFile(null, "sexualities_option.php"))			$rp2	= false;										//Sexuality role picker
+		else 													$rp2	= VarLoad(null, "sexualities_option.php");		//
+		if(!CheckFile(null, "gender_option.php"))				$rp3	= false;										//Gender role picker
+		else 													$rp3	= VarLoad(null, "gender_option.php");			//
 		
 		/*
 		*********************
@@ -282,8 +293,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//TODO:
 				//join
 				//leave
-				//kick/k
-				//ban/b
 				//mute/m
 				//tempmute/tm
 			}
@@ -1384,6 +1393,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		/*
 		*********************
 		*********************
+		Role picker functions
+		*********************
+		*********************
+		*/
+		
+		//TODO
+		
+		/*
+		*********************
+		*********************
 		Restricted command functions
 		*********************
 		*********************
@@ -2356,13 +2375,22 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "MESSAGE REACTION ADDED" . PHP_EOL;
 			return;
 		}
-		echo "messageReactionAdd" . PHP_EOL;		
+		echo "messageReactionAdd" . PHP_EOL;
+		GLOBAL $rolepicker_id;
 		
 		//Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
 		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
 		$message_content_lower = strtolower($message_content);
+		
+		//Load guild info
+		$guild						= $message->guild;
+		
+		//Role picker stuff
+		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
+		GLOBAL $species, $sexualities, $gender;
+		GLOBAL $species_message_id, $sexuality_message_id, $gender_message_id;
 		
 		//Load author info
 		$author_user				= $message->author; //User object
@@ -2386,7 +2414,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
 		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
-				
+		$respondent_member 			= $guild->members->get($respondent_id);
+		
 		//Load emoji info
 		//guild, user
 		//animated, managed, requireColons
@@ -2405,10 +2434,142 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		
 		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
-		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
-			//Do things here
-		}else{
-			//Do things here
+		
+		
+		//Role picker reactions
+		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option;
+		if($rolepicker_option === true)
+		if($author_id == $rolepicker_id){
+			//Load guild roles info
+			$guild_roles													= $guild->roles;
+			$guild_roles_names 												= array();
+			$guild_roles_ids 												= array();
+			$x=0;
+			foreach ($guild_roles as $role){
+				if ($x!=0){ //0 is always @everyone so skip it
+					$guild_roles_names[] 									= strtolower($role->name); 				//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+					$guild_roles_ids[]										= $role->id; 				//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				}
+				$x++;
+			}
+			//Load respondent roles info
+			$respondent_member_role_collection 								= $respondent_member->roles;
+			$respondent_member_roles_names 									= array();
+			$respondent_member_roles_ids 									= array();
+			$x=0;
+			foreach ($respondent_member_role_collection as $role){
+				if ($x!=0){ //0 is @everyone so skip it
+					$respondent_member_roles_names[] 						= strtolower($role->name); 	//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+					$respondent_member_roles_ids[] 							= $role->id; 				//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				}
+				$x++;
+			}
+			
+			//Process the reaction to add a role
+			echo "message_id: " . $message_id . PHP_EOL;
+			echo "gender_message_id: " . $gender_message_id . PHP_EOL;
+			$select_name = "";
+			switch ($message_id) {
+				case ($species_message_id):
+					if($species_option){
+						echo "species reaction" . PHP_EOL;
+						foreach ($species as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;													//echo "select_name: " . $select_name . PHP_EOL;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 15158332,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						//$message->clearReactions();
+						foreach ($species as $var_name => $value){
+							//$message->react($value);
+						}
+						
+					}
+					break;
+				case ($sexuality_message_id):
+					if ($sexuality_option){
+						echo "sexuality reaction" . PHP_EOL;
+						foreach ($sexualities as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 7419530,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						foreach ($sexualities as $var_name => $value){
+							$message->react($value);
+						}
+					}
+					break;
+				case ($gender_message_id):
+					if($gender_option){
+						echo "gender reaction" . PHP_EOL;
+						foreach ($gender as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 3066993,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						//$message->clearReactions();
+						foreach ($gender as $var_name => $value){
+							$message->react($value);
+						}
+					}
+					break;
+			}
+			if($select_name != ""){ //A reaction role was found
+				//Check if the member has a role of the same name
+				if(in_array(strtolower($select_name), $respondent_member_roles_names)){
+					//Remove the role
+					$role_index = array_search(strtolower($select_name), $guild_roles_names);
+					$target_role_id = $guild_roles_ids[$role_index]; echo "target_role_id: " . $target_role_id . PHP_EOL;
+					$respondent_member->removeRole($target_role_id);
+					echo "Role removed: $select_name" . PHP_EOL;
+				}else{
+					echo "Respondent does not already have the role" . PHP_EOL;
+					if(in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+						//Add the role
+						$role_index = array_search(strtolower($select_name), $guild_roles_names);
+						$target_role_id = $guild_roles_ids[$role_index];
+						$respondent_member->addRole($target_role_id);
+						echo "Role added: $select_name" . PHP_EOL;
+					}else{
+						echo "Guild does not have this role" . PHP_EOL;
+					}
+				}
+			}
 		}
 	});
 	
@@ -2419,6 +2580,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return;
 		}
 		echo "messageReactionRemove" . PHP_EOL;		
+		GLOBAL $bot_id;
 		
 //		Load message info
 		$message					= $reaction->message;
@@ -2466,9 +2628,26 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		else $response = "<:$emoji_identifier>";
 		
 		//Do things here
-		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
-		if ($author_id == "662093882795753482"){ //Message reacted to belongs to this bot
-			//Do things here
+		echo "$respondent_check removed their reaction from $author_check's message" . PHP_EOL;
+		if ($author_id == $bot_id){ //Message reacted to belongs to this bot
+			/*
+			*********************
+			*********************
+			Remove reaction trigger
+			*********************
+			*********************
+			*/
+			switch ($message_id) {
+				case 0:
+					echo "" . PHP_EOL;
+					break;
+				case 1:
+					echo "" . PHP_EOL;
+					break;
+				case 2:
+					echo "" . PHP_EOL;
+					break;
+			}
 		}else{
 			//Do things here
 		}
