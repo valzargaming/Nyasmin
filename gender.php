@@ -1,14 +1,9 @@
 <?php
 include_once 'custom_functions.php';
 
-$fluid = "💧";
-$nonbinary = "⛔";
-$female = "♀️";
-$male = "♂️";
-
 $gender = array(
-	"fluid" => "💧",
-	"nonbinary" => "⛔",
+	"gender Fluid" => "💧",
+	"non Binary" => "⛔",
 	"female" => "♀️",
 	"male" => "♂️",
 );
