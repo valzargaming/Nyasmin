@@ -320,7 +320,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//TODO:
 				//join
 				//leave
-				//mute/m
 				//tempmute/tm
 			}
 			if($creator || $owner || $dev || $admin){
@@ -347,6 +346,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`kick @mention reason`\n";
 				//ban
 				$documentation = $documentation . "`ban @mention reason`\n";
+				
+				//Strikeout invalid options
+				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+				//unmute
+				$documentation = $documentation . "`unmute @mention reason`\n";
+				//Strikeout invalid options
+				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+			}
+			if($creator || $owner || $dev || $admin || $mod){
+				$documentation = $documentation . "\n__**Moderators:**__\n";
+				//mute/m
+				$documentation = $documentation . "`mute @mention reason`\n";
 			}
 			if($vanity){
 				$documentation = $documentation . "\n__**Vanity commands:**__\n";
@@ -981,6 +992,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return;
 		}
 		
+		if ( ($role_muted_id != "") || ($role_muted_id != NULL) )
 		if ($mod || $admin || $dev || $owner || $creator)
 		if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 			echo "MUTE" . PHP_EOL;
@@ -1079,6 +1091,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return;
 		}
 		
+		if ( ($role_muted_id != "") || ($role_muted_id != NULL) )
 		if ($mod || $admin || $dev || $owner || $creator)
 		if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unmute
 			echo "UNMUTE" . PHP_EOL;
@@ -1253,7 +1266,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 							->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-							->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
+							->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
 							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 							->setURL("");                             												// Set the URL
 //						Send the message
