@@ -323,7 +323,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($creator || $owner || $dev || $admin){
 				$documentation = $documentation . "\n__**High Staff:**__\n";
 				//current settings
-				$documentation = $documentation . "`settings` sends a DM with settings that can be toggled by chat.\n";
+				$documentation = $documentation . "`settings` sends a DM with current settings.\n";
 				//v
 				$documentation = $documentation . "`v` or `verify` gives the verified role to those mentioned.\n";
 				//cv
@@ -416,9 +416,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($nsfw) $documentation = $documentation . "**Enabled**\n";
 			else $documentation = $documentation . "**Disabled**\n";
 			//rolepicker
-			$documentation = $documentation . "`rolepicker:` ";
+			$documentation = $documentation . "`\nrolepicker:` ";
 			if ($rp0) $documentation = $documentation . "**Enabled**\n";
 			else $documentation = $documentation . "**Disabled**\n";
+			
+			//Strikeout invalid options
+			if (!$rp0) $documentation = $documentation . "~~"; //Strikeout invalid options
+			
 			//species
 			$documentation = $documentation . "`species:` ";
 			if ($rp1) $documentation = $documentation . "**Enabled**\n";
@@ -435,6 +439,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`customrole:` ";
 			if ($rp4) $documentation = $documentation . "**Enabled**\n";
 			else $documentation = $documentation . "**Disabled**\n";
+			
+			//Strikeout invalid options
+			if (!$rp0) $documentation = $documentation . "~~"; //Strikeout invalid options
+			
+			
 			$doc_length = strlen($documentation);
 			if ($doc_length < 1025){
 //				Build the embed message
@@ -1644,7 +1653,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//die;
 		}
 		
-		if ($creator || $owner || $dev || $admin) //Only allow these roles to use this
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr(($message_content), 0, 8) == $command_symbol . 'verify ') ){ //Verify ;v ;verify
 			echo "GIVING VERIFIED ROLE TO MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1722,8 +1731,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}	
 		}
 		
-		if ($creator || $owner || $dev || $admin) //Only allow these roles to use this
-		if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //Clear all messages in the get-verified channel
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
 			echo "CV" . PHP_EOL;
 			$getverified_channel->bulkDelete(100);
 			$getverified_channel->fetchMessages()->then(function($message_collection) use ($getverified_channel){
@@ -1742,7 +1751,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return true;
 		};
 		
-		if ($creator || $owner || $dev || $admin) //Only allow these roles to use this
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
 			echo "SETTING WATCH ON TARGETS MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1783,7 +1792,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //						
 		}
 		
-		if ($creator || $owner || $dev || $admin) //Only allow these roles to use this
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if (substr($message_content_lower, 0, 9) == $command_symbol . 'unwatch '){ //;unwatch @
 			echo "REMOVING WATCH ON TARGETS MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1813,7 +1822,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return true;
 		}
 		
-		if ($creator || $owner || $dev || $admin)
+		if ($creator || $owner || $dev || $admin || $mod)
 		if (substr($message_content_lower, 0, 6) == $command_symbol . 'warn '){ //;warn @
 			echo "WARN TARGETS MENTIONED" . PHP_EOL;
 			//$message->reply("Not yet implemented!");
@@ -1858,7 +1867,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 		}
 		
-		if ($creator || $owner || $dev || $admin)
+		if ($creator || $owner || $dev || $admin || $mod)
 		if (substr($message_content_lower, 0, 13) == $command_symbol . 'infractions '){ //;infractions @
 			echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1924,8 +1933,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 		}
 		
-		if ($creator || $owner || $dev || $admin)
-		if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction '){ //;infractions @
+		if ($creator || $owner || $admin)
+		if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction '){ //;removeinfractions @mention #
 			echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
