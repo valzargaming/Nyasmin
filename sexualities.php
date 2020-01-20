@@ -1,22 +1,14 @@
 <?php
 include_once 'custom_functions.php';
 
-$straight = "👩‍❤️‍💋‍👨"; 
-$questioning = "❓";
-$asexual = "🛑";
-$pansexual = "🥘";
-$bicurious = "❔";
-$bi = "🚻";
-$gay = "🏳️‍🌈";
-
 $sexualities = array(
 	"straight" => "👩‍❤️‍💋‍👨", 
-	"questioning" => "❓",
+	"questioning Sexuality" => "❓",
 	"asexual" => "🛑",
 	"pansexual" => "🥘",
 	"bicurious" => "❔",
 	"bi" => "🚻",
-	"gay" => "🏳️‍🌈"
+	"gay/Lesbian" => "🏳️‍🌈"
 );
 
 //Message copy-pasta:
