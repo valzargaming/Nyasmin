@@ -12,6 +12,13 @@ $nonbinary = "⛔";
 $female = "♀️";
 $male = "♂️";
 
+$gender = array(
+	"fluid" => "💧",
+	"nonbinary" => "⛔",
+	"female" => "♀️",
+	"male" => "♂️",
+);
+
 //Message copy-pasta:
 $gender_message_text = "**Role Menu: Gender**
 :droplet: : `Gender Fluid`
