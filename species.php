@@ -1,38 +1,6 @@
 <?php
 include_once 'custom_functions.php';
 
-$aquatic = "🐟"; //:fish:
-$avian = "🐦"; //:bird:
-$bat = "🦇"; //:bat:
-$bear = "🐻"; //:bear:
-$canine = "🐕"; //:dog:
-$deer = "🦌";//:deer:
-$dolphin = "🦈"; //:dolphin:
-$dragon = "🐉"; //:dragon:
-$equine = "🐴"; //:horse:
-$feline = "😺"; //:smiley_cat:
-$fox = "🦊"; //:fox:
-$hybrid = "🔀"; //:twisted_rightwards_arrows:
-$mouse = "🐭"; //:mouse: 
-$pokemon = "🍎"; //:apple
-$protogen = "🤖"; //:robot;
-$rabbit = "🐰"; //:rabbit:
-$reptile = "🦎"; //:lizard:
-$sergal = "🧀"; //:cheese: 
-$shapeshifter = "🔷"; //:small_blue_diamond
-$wolf = "🐺"; //:wolf:
-
-$goat = "🐐"; //:goat:
-$human = "🚶"; //:person_walking: 
-$mobold = "🍆"; //:eggplant:
-$misc = "🤷"; //:person_shrugging: ///Unlisted Species
-$otter = "🍿"; //:popcorn:
-$panda = "🐼"; //:panda_face:
-$penguin = "🐧"; //:penguin:
-$raccoon = "🕳️"; //:hole:
-$shark = "🦈"; //:shark:
-$squirrel = "🌰"; //:chestnut:
-
 $species = array(
 	"aquatic" => "🐟", //:fish:
 	"avian" => "🐦", //:bird:
@@ -58,7 +26,7 @@ $species = array(
 	"goat" => "🐐", //:goat:
 	"human" => "🚶", //:person_walking: 
 	"mobold" => "🍆", //:eggplant:
-	"misc" => "🤷", //:person_shrugging: ///Unlisted Species
+	"misc/Unlisted Species" => "🤷", //:person_shrugging: ///Unlisted Species
 	"otter" => "🍿", //:popcorn:
 	"panda" => "🐼", //:panda_face:
 	"penguin" => "🐧", //:penguin:
