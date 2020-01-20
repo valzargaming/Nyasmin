@@ -17,7 +17,7 @@ include 'config.php'; 			//Global config variables
 include 'species.php';			//Used by the species role picker function
 include 'sexualities.php';		//Used by the sexuality role picker function
 include 'gender.php';			//Used by the gender role picker function
-include 'custom_roles.php';	//Create your own roles with this template!
+include 'custom_roles.php';		//Create your own roles with this template!
 
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
@@ -93,19 +93,27 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 														VarSave(null, "command_symbol.php", $command_symbol);
 		}else 											$command_symbol = VarLoad(null, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
 //		$server_invite 													= "https://discord.gg/hfqKdWW";					//Invite link to the server (commented this line to disable)	
-		if(!CheckFile(null, "react_option.php"))				$react	= true;											//Bot will not react to messages if false
+
+//		Chat options
+		GLOBAL $react_option, $vanity_option, $nsfw_option;
+		if(!CheckFile(null, "react_option.php"))				$react	= $react_option;								//Bot will not react to messages if false
 		else 													$react 	= VarLoad(null, "react_option.php");			//Load saved option file
-		if(!CheckFile(null, "vanity_option.php"))				$vanity	= true;											//Allow SFW vanity like hug, nuzzle, kiss
+		if(!CheckFile(null, "vanity_option.php"))				$vanity	= $vanity_option;								//Allow SFW vanity like hug, nuzzle, kiss
 		else 													$vanity = VarLoad(null, "vanity_option.php");			//Load saved option file
-		if(!CheckFile(null, "nsfw_option.php"))					$nsfw	= false;										//Allow NSFW commands
+		if(!CheckFile(null, "nsfw_option.php"))					$nsfw	= $nsfw_option;									//Allow NSFW commands
 		else 													$nsfw 	= VarLoad(null, "nsfw_option.php");				//Load saved option file
-		if(!CheckFile(null, "species_option.php"))				$rp1	= false;										//Species role picker
+		
+//		Role picker options		
+		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
+		if(!CheckFile(null, "rolepicker_option.php"))			$rp0	= $rolepicker_option;							//Allow Rolepicker
+		else 													$rp0	= VarLoad(null, "rolepicker_option.php");
+		if(!CheckFile(null, "species_option.php"))				$rp1	= $species_option;								//Species role picker
 		else 													$rp1	= VarLoad(null, "species_option.php");
-		if(!CheckFile(null, "sexualities_option.php"))			$rp2	= false;										//Sexuality role picker
-		else 													$rp2	= VarLoad(null, "sexualities_option.php");
-		if(!CheckFile(null, "gender_option.php"))				$rp3	= false;										//Gender role picker
+		if(!CheckFile(null, "sexuality_option.php"))			$rp2	= $sexuality_option;							//Sexuality role picker
+		else 													$rp2	= VarLoad(null, "sexuality_option.php");
+		if(!CheckFile(null, "gender_option.php"))				$rp3	= $gender_option;								//Gender role picker
 		else 													$rp3	= VarLoad(null, "gender_option.php");
-		if(!CheckFile(null, "customrole_option.php"))			$rp4	= false;										//Custom role picker
+		if(!CheckFile(null, "customrole_option.php"))			$rp4	= $custom_option;								//Custom role picker
 		else 													$rp4	= VarLoad(null, "customrole_option.php");
 		
 		/*
@@ -148,7 +156,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($getverifed_channel_id) 		$getverified_channel 		= $author_guild->channels->get($getverifed_channel_id);
 			if($verifiylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifiylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
-			if($modlog_channel_id) 			$modlog_channel 				= $author_guild->channels->get($modlog_channel_id);
+			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 //			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
 //			if($introduction_channel_id)	$introduction_channel		= $author_guild->channels->get($introduction_channel
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
@@ -282,16 +290,29 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/	
 		
-		if ($message_content == $command_symbol . 'help'){ //;help
+		if ($message_content_lower == $command_symbol . 'help'){ //;help
 			$documentation = "**Command symbol: $command_symbol**\n";
 			if($creator || $owner){ //toggle options
 				$documentation = $documentation . "\n__**Owner:**__\n";
+				//toggle options
+				$documentation = $documentation . "*Bot settings:*\n";
 				//react
-				$documentation = $documentation . "`react` enables/disables reactions to messages.\n";
+				$documentation = $documentation . "`react`\n";
 				//vanity
-				$documentation = $documentation . "`vanity` enables/diables vanity command usage.\n";
+				$documentation = $documentation . "`vanity`\n";
 				//nsfw
-				$documentation = $documentation . "`nsfw` enables/diables nsfw command usage.\n";
+				$documentation = $documentation . "`nsfw`\n";
+				//rolepicker
+				$documentation = $documentation . "`rolepicker`\n";
+				//species
+				$documentation = $documentation . "`species`\n";
+				//sexuality
+				$documentation = $documentation . "`sexuality`\n";
+				//gender
+				$documentation = $documentation . "`gender`\n";
+				//customrole
+				$documentation = $documentation . "`customrole`\n";
+				
 				
 				//TODO:
 				//join
@@ -301,6 +322,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 			if($creator || $owner || $dev || $admin){
 				$documentation = $documentation . "\n__**High Staff:**__\n";
+				//current settings
+				$documentation = $documentation . "`settings` sends a DM with settings that can be toggled by chat.\n";
 				//v
 				$documentation = $documentation . "`v` or `verify` gives the verified role to those mentioned.\n";
 				//cv
@@ -349,11 +372,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //				Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
-//					->setTitle("Commands")																	// Set a title
+					->setTitle("Commands for Blue's Cloudy Palace")											// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-					->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
-					->addField("⠀", "$documentation")														// New line after this
-					
+					->setDescription("$documentation")														// Set a description (below title, above fields)
+//					->addField("⠀", "$documentation")														// New line after this			
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 //					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
@@ -377,6 +399,77 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 		}
 		
+		if($creator || $owner || $dev || $admin)
+		if ($message_content_lower == $command_symbol . 'settings'){ //;settings
+			$documentation = "Command symbol: $command_symbol\n";
+			$documentation = $documentation . "\nBot options:\n";
+			//react
+			$documentation = $documentation . "`react:` ";
+			if ($react) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//vanity
+			$documentation = $documentation . "`vanity:` ";
+			if ($vanity) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//nsfw
+			$documentation = $documentation . "`nsfw:` ";
+			if ($nsfw) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//rolepicker
+			$documentation = $documentation . "`rolepicker:` ";
+			if ($rp0) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//species
+			$documentation = $documentation . "`species:` ";
+			if ($rp1) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//sexuality
+			$documentation = $documentation . "`sexuality:` ";
+			if ($rp2) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//gender
+			$documentation = $documentation . "`gender:` ";
+			if ($rp3) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			//customrole
+			$documentation = $documentation . "`customrole:` ";
+			if ($rp4) $documentation = $documentation . "**Enabled**\n";
+			else $documentation = $documentation . "**Disabled**\n";
+			$doc_length = strlen($documentation);
+			if ($doc_length < 1025){
+//				Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+					->setTitle("Settings for Blue's Cloudy Palace")											// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setDescription("$documentation")														// Set a description (below title, above fields)
+//					->addField("⠀", "$documentation")														// New line after this
+					
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+//				Open a DM channel then send the rich embed message
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND ;SETTINGS EMBED' . PHP_EOL;
+					return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo $error.PHP_EOL; //Echo any errors
+					});
+				});
+				return true;
+			}else{
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND ;SETTINGS MESSAGE' . PHP_EOL;
+					$author_dmchannel->send($documentation);
+				});
+				return true;
+			}
+		}
+		
+		
+		
 		/*
 		*********************
 		*********************
@@ -386,7 +479,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if ($creator || $owner)
-		if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions
+		if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
 //			echo "react: $react" . PHP_EOL;
 			if(!CheckFile(null, "react_option.php")){
 				VarSave(null, "react_option.php", $react);
@@ -406,7 +499,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions
+		if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
 			if(!CheckFile(null, "vanity_option.php")){
 				VarSave(null, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
 			}
@@ -420,7 +513,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions
+		if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
 //			echo "nsfw: $nsfw" . PHP_EOL;
 			if(!CheckFile(null, "nsfw_option.php")){
 				VarSave(null, "nsfw_option.php", $nsfw);
@@ -432,6 +525,86 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($nsfw_flip === true)
 				$message->reply("NSFW functions enabled!");
 			else $message->reply("NSFW functions disabled!");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
+			//echo "rp0: $rp0" . PHP_EOL;
+			if(!CheckFile(null, "rolepicker_option.php")){
+				VarSave(null, "rolepicker_option.php", $nsfw);
+				echo "NEW ROLEPICKER FILE" . PHP_EOL;
+			}
+			$rolepicker_var = VarLoad(null, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+			VarSave(null, "rolepicker_option.php", $rolepicker_flip);
+			if ($rolepicker_flip === true)
+				$message->reply("Rolepicker enabled!");
+			else $message->reply("Rolepicker disabled!");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
+			//echo "rp1: $rp1" . PHP_EOL;
+			if(!CheckFile(null, "species_option.php")){
+				VarSave(null, "species_option.php", $nsfw);
+				echo "NEW SPECIES FILE" . PHP_EOL;
+			}
+			$species_var = VarLoad(null, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+			VarSave(null, "species_option.php", $species_flip);
+			if ($species_flip === true)
+				$message->reply("Species roles enabled!");
+			else $message->reply("Species roles	disabled!");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
+			echo "rp2: $rp2" . PHP_EOL;
+			if(!CheckFile(null, "sexuality_option.php")){
+				VarSave(null, "sexuality_option.php", $nsfw);
+				echo "NEW SEXUALITY FILE" . PHP_EOL;
+			}
+			$sexuality_var = VarLoad(null, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+			VarSave(null, "sexuality_option.php", $sexuality_flip);
+			if ($sexuality_flip === true)
+				$message->reply("Sexuality roles enabled!");
+			else $message->reply("Sexuality roles disabled!");
+			return true;
+		}
+				
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
+			//echo "rp3: $rp3" . PHP_EOL;
+			if(!CheckFile(null, "gender_option.php")){
+				VarSave(null, "gender_option.php", $nsfw);
+				echo "NEW GENDER FILE" . PHP_EOL;
+			}
+			$gender_var = VarLoad(null, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+			VarSave(null, "gender_option.php", $gender_flip);
+			if ($gender_flip === true)
+				$message->reply("Gender roles enabled!");
+			else $message->reply("Gender roles disabled!");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
+			//echo "rp4: $rp4" . PHP_EOL;
+			if(!CheckFile(null, "custom_option.php")){
+				VarSave(null, "custom_option.php", $nsfw);
+				echo "NEW CUSTOM ROLE FILE" . PHP_EOL;
+			}
+			$custom_var = VarLoad(null, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+			VarSave(null, "custom_option.php", $custom_flip);
+			if ($custom_flip === true)
+				$message->reply("Custom roles enabled!");
+			else $message->reply("Custom roles disabled!");
 			return true;
 		}
 		
@@ -2469,10 +2642,22 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
 		
 		
-		//Role picker reactions
-		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option $customrole_option;
-		if($rolepicker_option === true)
+		//Check rolepicker option
+		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
+		if(!CheckFile(null, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
+		else 														$rp0	= VarLoad(null, "rolepicker_option.php");
+		
+		if($rp0 === true)
 		if($author_id == $rolepicker_id){
+			//Check options
+			if(!CheckFile(null, "species_option.php"))				$rp1	= $species_option;										//Species role picker
+			else 													$rp1	= VarLoad(null, "species_option.php");
+			if(!CheckFile(null, "sexuality_option.php"))			$rp2	= $sexuality_option;										//Sexuality role picker
+			else 													$rp2	= VarLoad(null, "sexuality_option.php");
+			if(!CheckFile(null, "gender_option.php"))				$rp3	= $gender_option;										//Gender role picker
+			else 													$rp3	= VarLoad(null, "gender_option.php");
+			if(!CheckFile(null, "customrole_option.php"))			$rp4	= $custom_option;										//Custom role picker
+			else 													$rp4	= VarLoad(null, "customrole_option.php");
 			//Load guild roles info
 			$guild_roles													= $guild->roles;
 			$guild_roles_names 												= array();
@@ -2503,7 +2688,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$select_name = "";
 			switch ($message_id) {
 				case ($species_message_id):
-					if($species_option){
+					if($rp1){
 						echo "species reaction" . PHP_EOL;
 						foreach ($species as $var_name => $value){
 							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
@@ -2531,7 +2716,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					}
 					break;
 				case ($sexuality_message_id):
-					if ($sexuality_option){
+					if ($rp2){
 						echo "sexuality reaction" . PHP_EOL;
 						foreach ($sexualities as $var_name => $value){
 							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
@@ -2556,7 +2741,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					}
 					break;
 				case ($gender_message_id):
-					if($gender_option){
+					if($rp3){
 						echo "gender reaction" . PHP_EOL;
 						foreach ($gender as $var_name => $value){
 							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
@@ -2582,7 +2767,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					}
 					break;
 				case ($customrole_message_id):
-					if($customrole_option){
+					if($rp4){
 						echo "Custom role reaction" . PHP_EOL;
 						foreach ($custom_roles as $var_name => $value){
 							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
