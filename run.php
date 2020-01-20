@@ -382,7 +382,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//avatar
 			$documentation = $documentation . "`avatar` displays the profile picture of the author or user being mentioned.\n";
 			$doc_length = strlen($documentation);
-			if ($doc_length < 1025){
+			if ($doc_length){
+			//if ($doc_length < 1025){ //Seems to be triggering a false positive, needs fixing
 //				Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
@@ -400,7 +401,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
 					echo 'SEND ;HELP EMBED' . PHP_EOL;
 					return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo $error.PHP_EOL; //Echo any errors
+						echo "error: " . $error . PHP_EOL; //Echo any errors
 					});
 				});
 				return true;
@@ -1949,6 +1950,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}	
 		}
 		
+		if( ($getverifed_channel_id != "") || ($getverifed_channel_id != NULL)) //User was kicked (They have no roles anymore)
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
 			echo "CV" . PHP_EOL;
