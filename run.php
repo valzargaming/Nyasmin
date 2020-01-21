@@ -106,12 +106,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($is_dm === false){ //Guild message
 			$author_guild 												= $author_channel->guild;
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
-			
+
+            //Create a folder for the guild if it doesn't exist already
+            CheckDir($author_guild_id);
+
 			//Load config variables for the guild
 			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-			//Create a folder for the guild if it doesn't exist already
-			CheckDir($author_guild_id);
-			
 			if(!CheckFile($author_guild_id, "guild_config.php")){
 				$file = 'guild_config_template.php';
 				if (!copy($file, $guild_config_path)){
@@ -119,7 +119,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}else $message->reply("guild_config.php file created! <@116927250145869826>, please configure it.");
 				
 			}
-			require "$guild_config_path";
+			require "$guild_config_path"; //Configurable channel IDs, role IDs, and message IDs used in the guild for special functions
 			
 			$author_guild_avatar 										= $author_guild->getIconURL();
 			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
@@ -2058,6 +2058,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	//				Place infraction info in target's folder
 					$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
 					$y = 0;
+                    $mention_infraction_queue = "";
+                    $mention_infraction_queue_full = "";
 					foreach ( $infractions as $infraction ){
 						//Build a string
 						$mention_infraction_queue = $mention_infraction_queue . "$y: " . $infraction . PHP_EOL;
@@ -2425,6 +2427,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 				$x++;
 			}
+            $mention_role_id_queue = "";
 			foreach ($target_guildmember_roles_mentions as $mention_role){
 //				$mention_role_name_queue 							= $mention_role_name_queue . $mention_role;
 				$mention_role_id_queue 								= $mention_role_id_queue . "$mention_role";
@@ -3061,6 +3064,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //		Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
+		$message_id                 = $message->id;
 		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
 		$message_content_lower = strtolower($message_content);
 		
