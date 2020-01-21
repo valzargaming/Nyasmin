@@ -106,9 +106,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($is_dm === false){ //Guild message
 			$author_guild 												= $author_channel->guild;
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
+			$guild_owner_id = $author_guild->ownerID;
 
-            //Create a folder for the guild if it doesn't exist already
-            CheckDir($author_guild_id);
+//			Create a folder for the guild if it doesn't exist already
+            if(!CheckDir($author_guild_id)){
+				if(!CheckFile($author_guild_id, "guild_owner_id.php")){
+					VarSave($author_guild_id, "guild_owner_id.php", $guild_owner_id);
+				}else $command_symbol	= VarLoad($author_guild_id, "guild_owner_id.php");
+			}
+			if ($guild_owner_id == $author_id){
+				$owner = true; //Enable usage of restricted commands
+			} else $owner = false;
 
 			//Load config variables for the guild
 			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
@@ -254,8 +262,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		
 		$adult 				= false;
+//		$owner				= false;
 		$dev				= false;
-		$owner				= false;
 		$admin 				= false;
 		$mod				= false;
 		$verified			= false;
@@ -299,6 +307,203 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		if ($creator || $owner)	$bypass = true;
 		else					$bypass = false;
+		
+		/*
+		*********************
+		*********************
+		Owner setup command (NOTE: Changes made here will not affect servers using a manual config file)
+		*********************
+		*********************
+		*/
+		
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'setup'){ //;setup
+			//send DM with usage documentation
+		}
+		
+		if ($creator || $owner)
+		if ($message_content_lower == $command_symbol . 'setup current'){ //;setup
+			//send DM with current settings
+		}
+		
+		//Roles
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup dev '){
+			$filter = "$command_symbol" . "setup dev ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_dev_id.php", $value);
+				$message->reply("Developer role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 13) == $command_symbol . 'setup admin '){
+			$filter = "$command_symbol" . "setup admin ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_admin_id.php", $value);
+				$message->reply("Admin role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup mod '){
+			$filter = "$command_symbol" . "setup mod ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_mod_id.php", $value);
+				$message->reply("Moderator role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup bot '){
+			$filter = "$command_symbol" . "setup bot ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_mod_id.php", $value);
+				$message->reply("Bot role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup vzgbot '){
+			$filter = "$command_symbol" . "setup vzgbot ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_vzgbot_id.php", $value);
+				$message->reply("Palace Bot role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 13) == $command_symbol . 'setup muted '){
+			$filter = "$command_symbol" . "setup muted ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			echo "value: '$value';" . PHP_EOL;
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_muted_id.php", $value);
+				$message->reply("Muted role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup verify '){
+			$filter = "$command_symbol" . "setup verify ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_verified_id.php", $value);
+				$message->reply("Verify role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 13) == $command_symbol . 'setup adult '){
+			$filter = "$command_symbol" . "setup adult ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@&", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "role_18_id.php", $value);
+				$message->reply("Adult role ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			return true;
+		}
+		
+		//Users
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup rolepicker '){
+			$filter = "$command_symbol" . "setup rolepicker ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "rolepicker_id.php", $value);
+				$message->reply("Rolepicker user ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the user");
+			return true;
+		}
+		
+		//Messages
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 15) == $command_symbol . 'setup species '){
+			$filter = "$command_symbol" . "setup species1 ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "species_message_id.php", $value);
+				$message->reply("Species message ID saved!");
+			}else $message->reply("Invalid! Please enter a message ID");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 17) == $command_symbol . 'setup sexuality '){
+			$filter = "$command_symbol" . "setup sexuality ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "sexuality_message_id.php", $value);
+				$message->reply("Sexuality message ID saved!");
+			}else $message->reply("Invalid! Please enter a message ID");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup gender '){
+			$filter = "$command_symbol" . "setup gender ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "gender_message_id.php", $value);
+				$message->reply("Gender message ID saved!");
+			}else $message->reply("Invalid! Please enter a message ID");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 19) == $command_symbol . 'setup customroles '){
+			$filter = "$command_symbol" . "setup customrole ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "customroles_message_id.php", $value);
+				$message->reply("Custom roles message ID saved!");
+			}else $message->reply("Invalid! Please enter a message ID");
+			return true;
+		}
+		
 		
 		/*
 		*********************
