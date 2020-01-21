@@ -2864,7 +2864,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$message_content_lower = strtolower($message_content);
 		
 		//Load guild info
-		$author_guild				= $message->guild;
+		$guild						= $message->guild;
+		$author_guild				= $message->guild; //Redeclared only for checkdir... Really need to fix this (TODO)
 		$author_guild_id			= $author_guild->id;
 		//Create a folder for the guild if it doesn't exist already
 		CheckDir($author_guild_id);
@@ -2876,7 +2877,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//Role picker stuff
 		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
 		GLOBAL $species, $sexualities, $gender, $custom_roles;
-		GLOBAL $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		
 		//Load author info
 		$author_user				= $message->author; //User object
@@ -2925,8 +2925,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Check rolepicker option
 		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
-		//role picker message ids
-		GLOBAL $rolepicker_id, $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
 			if(!CheckFile($author_guild_id, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
 			else 														$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
@@ -3227,7 +3225,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$old_tag				= $user_old->tag;
 		$old_avatar				= $user_old->getAvatarURL();
 		
-		GLOBAL $guild_id;
+		//GLOBAL $guild_id;
 		//TODO
 		//$guild					= 
 		GLOBAL $modlog_channel_id;
