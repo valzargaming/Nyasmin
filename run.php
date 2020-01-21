@@ -104,12 +104,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if ($is_dm === false){ //Guild message
-			GLOBAL $getverifed_channel_id, $verifylog_channel_id, $watch_channel_id, $modlog_channel_id;
+			GLOBAL $getverified_channel_id, $verifylog_channel_id, $watch_channel_id, $modlog_channel_id;
 			$author_guild 												= $author_channel->guild;
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
 			$author_guild_avatar 										= $author_guild->getIconURL();
 			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
-			if($getverifed_channel_id) 		$getverified_channel 		= $author_guild->channels->get($getverifed_channel_id);
+			if($getverified_channel_id) 	$getverified_channel 		= $author_guild->channels->get($getverified_channel_id);
 			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
@@ -1978,7 +1978,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}	
 		}
 		
-		if( ($getverifed_channel_id != "") || ($getverifed_channel_id != NULL)) //User was kicked (They have no roles anymore)
+		if( ($getverified_channel_id != "") || ($getverified_channel_id != NULL)) //User was kicked (They have no roles anymore)
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
 			echo "CV" . PHP_EOL;
