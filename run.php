@@ -104,9 +104,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if ($is_dm === false){ //Guild message
-			GLOBAL $getverified_channel_id, $verifylog_channel_id, $watch_channel_id, $modlog_channel_id;
 			$author_guild 												= $author_channel->guild;
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
+			
+			//Load config variables for the guild
+			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			require "$guild_config_path";
+			
 			$author_guild_avatar 										= $author_guild->getIconURL();
 			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
 			if($getverified_channel_id) 	$getverified_channel 		= $author_guild->channels->get($getverified_channel_id);
@@ -123,7 +127,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$dm_text = "DMs not yet supported! Please use commands for this bot within the server.";
 				$message->reply("$dm_text \n$server_invite");
 			}
-			return true;
+			return;
 		}
 		
 		//Create a folder for the guild if it doesn't exist already
@@ -137,7 +141,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		GLOBAL $server_invite;
-		GLOBAL $command_symbol;
 		if(!CheckFile($author_guild_id, "command_symbol.php")){
 														$command_symbol	= $command_symbol; //Author must prefix text with this to use commands
 		}else 											$command_symbol = VarLoad($author_guild_id, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
@@ -202,13 +205,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		
-		
-		
-		//CheckDir($folder_name);
-		//VarSave($folder_name, "$filename.php", $variable) //Saves variable to a __DIR__\foldername\filename
-		//$variable = VarLoad(folder_name, "$filename.php");
-		//Use clearstatcache() if deleting a file *needs* to be checked if it exists
-		
 		$author_folder = $author_guild_id."/".$author_id;
 		CheckDir($author_folder); //Check if folder exists and create if it doesn't
 		if(CheckFile($author_folder, "watchers.php")){
@@ -253,23 +249,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if($author_check != $creator_check) $creator	= false;
 		else 								$creator 	= true;
 		
-		GLOBAL $role_18_id;
+		
 		$adult 				= false;
-		GLOBAL $role_dev_id;
 		$dev				= false;
-		GLOBAL $role_owner_id;
 		$owner				= false;
-		GLOBAL $role_admin_id;
 		$admin 				= false;
-		GLOBAL $role_mod_id;
 		$mod				= false;
-		GLOBAL $role_verified_id;
 		$verified			= false;
-		GLOBAL $role_bot_id;
 		$bot				= false;
-		GLOBAL $role_vzgbot_id;
 		$vzgbot				= false;
-		GLOBAL $role_muted_id;
 		$muted				= false;
 		
 		$author_guild_roles_names 				= array(); 												//Names of all guild roles
@@ -2256,9 +2244,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$user_createdTimestamp									= date("D M j H:i:s Y", $user_createdTimestamp);
 			
 			$guild_memberCount										= $guildmember->guild->memberCount;
+			$author_guild_id										= $guildmember->guild->id;
+			//Load config variables for the guild
+			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+			echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			require "$guild_config_path";
 			
-			GLOBAL $welcome_channel_id;
-			GLOBAL $welcome_public_channel_id;
 			try{
 				if($welcome_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_channel_id);
 				if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
@@ -2311,7 +2302,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$new_user			= $member_new->user;
 		$old_user			= $member_old->user;
 		
-		GLOBAL $modlog_channel_id;
+		$author_guild_id = $member_new->guild->id;
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
+		
 		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
 		
 //		Member properties
@@ -2502,9 +2498,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 			
 			$guild_memberCount										= $guildmember->guild->memberCount;
+			$author_guild_id = $guildmember->guild->id;
+			//Load config variables for the guild
+			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+			echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			require "$guild_config_path";
 			
-			GLOBAL $welcome_channel_id;
-			GLOBAL $introduction_channel_id;
 			try{
 				if($welcome_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_channel_id);
 				if($introduction_channel_id) 		$introduction_channel	= $guildmember->guild->channels->get($introduction_channel_id);
@@ -2609,7 +2608,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Load global variables
 		$guild = $message_new->guild;
-		GLOBAL $modlog_channel_id;
+		$author_guild_id = $guild->id;
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
+		
 		$modlog_channel	= $guild->channels->get($modlog_channel_id);
 		
 		//Load author info
@@ -2689,7 +2693,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild_id			= $data_array['guild_id'];
 		
 		$guild				= $channel->guild;
-		GLOBAL $modlog_channel_id;
+		$author_guild_id = $guild->id;
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
+		
 		$modlog_channel		= $guild->channels->get($modlog_channel_id);
 		
 		$log_message = "**Message ID:** $id\n**Channel:** <#$channel_id>\n**New content:** $content" . PHP_EOL;
@@ -2765,10 +2774,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
 		
-		//Load guildmember info
-		
+		//Load guild info
 		$guild				= $message->guild;
-		GLOBAL $modlog_channel_id;
+		$author_guild_id	= $guild->id;
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
+		
+		
 		$channel			= $guild->channels->get($modlog_channel_id);
 		
 		//Build the embed stuff
@@ -2814,8 +2828,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			->setURL("");
 //		Send the message
 //		We do not need another promise here, so we call done, because we want to consume the promise
-		GLOBAL $modlog_channel_id;
 		$guild					= $channel->guild;
+		$author_guild_id		= $guild->id;
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
+		
 		$modlog_channel			= $guild->channels->get($modlog_channel_id);
 		$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 			echo $error.PHP_EOL; //Echo any errors
@@ -2839,7 +2858,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return;
 		}
 		echo "messageReactionAdd" . PHP_EOL;
-		GLOBAL $rolepicker_id;
 		
 		//Load message info
 		$message					= $reaction->message;
@@ -2852,6 +2870,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_guild_id			= $author_guild->id;
 		//Create a folder for the guild if it doesn't exist already
 		CheckDir($author_guild_id);
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
+		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
 		
 		//Role picker stuff
 		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
