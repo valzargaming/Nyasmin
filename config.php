@@ -11,7 +11,7 @@
 //Variables need to be reinitialized within the event listener by using the GLOBAL keyword (e.g. GLOBAL $bot_id;)
 
 $server_invite = "https://discordapp.com/oauth2/authorize?client_id=662093882795753482&scope=bot&permissions=8"; //Invite link to add this bot to the server
-$bot_id	= "662093882795753482";	//id of this bot (change it to match your own)
+$bot_id	= "662093882795753482";	//id of this bot (change it to match your bot if not using Palace Bo#9203)
 
 //These are default options that should be set up before the bot is started for the first time. Any future changes need to be done with a chat command
 $react_option = true;
