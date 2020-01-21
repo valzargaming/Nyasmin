@@ -1,37 +1,22 @@
 <?php
-//These are static variables should be set when the bot is first added to the server.
-//Every value should be filled out except where otherwise noted
-//This config file does not include options that can be enabled/disabled with chat commands
+//guild_config.php needs to be located in a folder that shares the guild ID
+//The folder will be automatically created after the bot sees a message being sent in the server for the first time, but you can create it yourself
+//Make a copy of guild_config_template.php and place it in the folder
+//**ALL** field in guild_config.php **MUST** be filled out unless otherwise noted or the bot will probably experience crashes
 
-$guild_id					= "";		//(Not yet implemented)
-$bot_id						= "";		//id of this bot
+//This config file includes options that are enabled/disabled with chat commands
+//Any changes made to this file will require a full restart of the bot before they take place
 
-$rolepicker_id				= "";		//id of the user that posted the role picker messages
-$species_message_id			= ""; //id of the Species Menu message
-$sexuality_message_id		= ""; //id of the Sexualities Menu message
-$gender_message_id			= ""; //id of the Gender Menu message
+//$server_invite 				= "https://discord.gg/vCrewVb"; //Invite link to the server when the bot is sent a DM (comment this line to disable)	
+$bot_id	= "662093882795753482";	//id of this bot (change it to match your own)
 
-$rolepicker_option = true;
-$species_option = true;
-$sexuality_option = true;
-$gender_option = true;
-
-$welcome_channel_id			= "";		//Channel where a detailed message about the user gets posted
-$welcome_public_channel_id	= "";		//Simple welcome message tagging users
-$introduction_channel_id	= "";		//Usually #introductions or #general (Not currently implemented)
-$modlog_channel_id			= "";		//Log stuff here
-$verifylog_channel_id		= "";		//Log verifications (Not currently implemented)
-$getverifed_channel_id		= "";		//Where users should be requesting server verification
-//$watch_channel_id			= "";		//Someone being watched has their messages duplicated to this channel instead of a DM (Leave commented to use DMs)
-
-$role_18_id			= "";						//Leave blank if 18+ commands are not being used
-$role_verified_id	= "";		//Verified role that gives people access to channels
-
-
-$role_dev_id	= "";				//Developer role (overrides certain restrictions)
-$role_owner_id	= "";				//Owner of the guild
-$role_admin_id	= "";				//Admins
-$role_mod_id	= "";				//Moderators
-$role_bot_id	= "";				//Bots
-$role_vzgbot_id	= "";				//Palace Bot: THIS ROLE MUST HAVE ADMINISTRATOR PRIVILEGES!
+//These are default options that should be set up before the bot is started for the first time. Any future changes need to be done with a chat command
+$react_option = true;
+$vanity_option = false;
+$nsfw_option = false;
+$rolepicker_option = false;
+$species_option = false;
+$sexuality_option = false;
+$gender_option = false;
+$custom_option = false; //Edit custom_roles.php before changing this to true!
 ?>
