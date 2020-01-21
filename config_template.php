@@ -7,7 +7,10 @@
 //This config file includes options that are enabled/disabled with chat commands
 //Any changes made to this file will require a full restart of the bot before they take place
 
-//$server_invite 				= "https://discord.gg/vCrewVb"; //Invite link to the server when the bot is sent a DM (comment this line to disable)	
+//Variables in this file are initialized at the global scope when the bot is started
+//Variables need to be reinitialized within the event listener by using the GLOBAL keyword (e.g. GLOBAL $bot_id;)
+
+//$server_invite = "https://discord.gg/vCrewVb"; //Invite link to the server when the bot is sent a DM (comment this line to disable)	
 $bot_id	= "662093882795753482";	//id of this bot (change it to match your own)
 
 //These are default options that should be set up before the bot is started for the first time. Any future changes need to be done with a chat command
