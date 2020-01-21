@@ -131,8 +131,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
 		}else{ //Direct message
 			if ($author_check != 'Palace Bot#9203'){
+				GLOBAL $server_invite;
 				echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
-				$dm_text = "DMs not yet supported! Please use commands for this bot within the server.";
+				$dm_text = "DMs not yet supported! Please use commands for this bot within a server.";
 				$message->reply("$dm_text \n$server_invite");
 			}
 			return;
@@ -148,7 +149,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*********************
 		*/
-		GLOBAL $server_invite;
 		if(!CheckFile($author_guild_id, "command_symbol.php")){
 														$command_symbol	= $command_symbol; //Author must prefix text with this to use commands
 		}else 											$command_symbol = VarLoad($author_guild_id, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
