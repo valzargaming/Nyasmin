@@ -1447,8 +1447,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$kiss_messages[]										= "<@$author_id> has given <@$mention_id> the sweetest kiss on the cheek! Yay!";
 							$kiss_messages[]										= "<@$author_id> gives <@$mention_id> a kiss on the snoot.";
 							$kiss_messages[]										= "<@$author_id> rubs their snoot on <@$mention_id>, how sweet!";
-							$index_selection										= GetRandomArrayIndex($kiss_messages);
-							echo "random kiss_message: " . $kiss_messages[$index_selection];
+							$index_selection										= GetRandomArrayIndex($kiss_messages);						//echo "random kiss_message: " . $kiss_messages[$index_selection];
 //							Send the message
 							$author_channel->send($kiss_messages[$index_selection]);
 							//Increment give stat counter of author
