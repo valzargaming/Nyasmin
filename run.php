@@ -127,8 +127,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
-			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
-//			if($introduction_channel_id)	$introduction_channel		= $author_guild->channels->get($introduction_channel
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
 		}else{ //Direct message
