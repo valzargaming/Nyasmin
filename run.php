@@ -109,6 +109,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			//Load config variables for the guild
 			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			
+			if(!CheckFile($author_guild_id, "guild_config.php")){
+				$file = 'guild_config_template.php';
+				if (!copy($file, $guild_config_path)){
+					$message->reply("Failed to create guild_config file! Please contact <@116927250145869826>\n");
+				}else $message->reply("guild_config.php file created! <@116927250145869826>, please configure it.");
+				
+			}
 			require "$guild_config_path";
 			
 			$author_guild_avatar 										= $author_guild->getIconURL();
@@ -117,7 +125,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
-//			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
+			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
 //			if($introduction_channel_id)	$introduction_channel		= $author_guild->channels->get($introduction_channel
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
