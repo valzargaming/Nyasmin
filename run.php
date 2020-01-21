@@ -95,7 +95,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
 		
-				/*
+		/*
 		*********************
 		*********************
 		Get the guild and guildmember collections for the author
@@ -126,6 +126,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return true;
 		}
 		
+		//Create a folder for the guild if it doesn't exist already
+		CheckDir($author_guild_id);
+		
 		/*
 		*********************
 		*********************
@@ -133,20 +136,24 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*********************
 		*/
+		GLOBAL $server_invite;
+		GLOBAL $command_symbol;
+		if(!CheckFile($author_guild_id, "command_symbol.php")){
+														$command_symbol	= $command_symbol; //Author must prefix text with this to use commands
+		}else 											$command_symbol = VarLoad($author_guild_id, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
 		
-		if(!CheckFile(null, "command_symbol.php")){		$command_symbol	= ";"; //Author must prefix text with this to use commands
-														VarSave(null, "command_symbol.php", $command_symbol);
-		}else 											$command_symbol = VarLoad(null, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
-//		$server_invite 													= "https://discord.gg/hfqKdWW";					//Invite link to the server (commented this line to disable)	
 
 //		Chat options
 		GLOBAL $react_option, $vanity_option, $nsfw_option;
-		if(!CheckFile(null, "react_option.php"))				$react	= $react_option;								//Bot will not react to messages if false
-		else 													$react 	= VarLoad(null, "react_option.php");			//Load saved option file
-		if(!CheckFile(null, "vanity_option.php"))				$vanity	= $vanity_option;								//Allow SFW vanity like hug, nuzzle, kiss
-		else 													$vanity = VarLoad(null, "vanity_option.php");			//Load saved option file
-		if(!CheckFile(null, "nsfw_option.php"))					$nsfw	= $nsfw_option;									//Allow NSFW commands
-		else 													$nsfw 	= VarLoad(null, "nsfw_option.php");				//Load saved option file
+		if(!CheckFile($author_guild_id, "react_option.php"))
+																$react	= $react_option;								//Bot will not react to messages if false
+		else 													$react 	= VarLoad($author_guild_id, "react_option.php");			//Load saved option file
+		if(!CheckFile($author_guild_id, "vanity_option.php"))
+																$vanity	= $vanity_option;								//Allow SFW vanity like hug, nuzzle, kiss
+		else 													$vanity = VarLoad($author_guild_id, "vanity_option.php");			//Load saved option file
+		if(!CheckFile($author_guild_id, "nsfw_option.php"))
+																$nsfw	= $nsfw_option;									//Allow NSFW commands
+		else 													$nsfw 	= VarLoad($author_guild_id, "nsfw_option.php");				//Load saved option file
 		
 //		Role picker options		
 		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
@@ -154,25 +161,30 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		GLOBAL $rolepicker_id, $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
-			if(!CheckFile(null, "rolepicker_option.php"))		$rp0	= $rolepicker_option;							//Allow Rolepicker
-			else 												$rp0	= VarLoad(null, "rolepicker_option.php");
+			if(!CheckFile($author_guild_id, "rolepicker_option.php"))
+																$rp0	= $rolepicker_option;							//Allow Rolepicker
+			else 												$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
 			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile(null, "species_option.php"))		$rp1	= $species_option;								//Species role picker
-				else 											$rp1	= VarLoad(null, "species_option.php");
-			} else												$rp1 = false;
+				if(!CheckFile($author_guild_id, "species_option.php"))
+																$rp1	= $species_option;								//Species role picker
+				else 											$rp1	= VarLoad($author_guild_id, "species_option.php");
+			} else												$rp1	= false;
 			if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile(null, "sexuality_option.php"))	$rp2	= $sexuality_option;							//Sexuality role picker
-				else 											$rp2	= VarLoad(null, "sexuality_option.php");
-			} else												$rp2 = false;
+				if(!CheckFile($author_guild_id, "sexuality_option.php"))
+																$rp2	= $sexuality_option;							//Sexuality role picker
+				else 											$rp2	= VarLoad($author_guild_id, "sexuality_option.php");
+			} else												$rp2	= false;
 			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile(null, "gender_option.php"))		$rp3	= $gender_option;								//Gender role picker
-				else 											$rp3	= VarLoad(null, "gender_option.php");
+				if(!CheckFile($author_guild_id, "gender_option.php"))
+																$rp3	= $gender_option;								//Gender role picker
+				else 											$rp3	= VarLoad($author_guild_id, "gender_option.php");
 			} else $rp3 = false;
 			if ( ($customroles_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile(null, "customrole_option.php"))	$rp4	= $custom_option;								//Custom role picker
-				else 											$rp4	= VarLoad(null, "customrole_option.php");
-			}else												$rp4 = false;
-		}else{
+				if(!CheckFile($author_guild_id, "customrole_option.php"))
+																$rp4	= $custom_option;								//Custom role picker
+				else 											$rp4	= VarLoad($author_guild_id, "customrole_option.php");
+			}else												$rp4	= false;
+		}else{ //All functions are disabled
 			$rp0 = false;
 			$rp1 = false;
 			$rp2 = false;
@@ -197,11 +209,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//$variable = VarLoad(folder_name, "$filename.php");
 		//Use clearstatcache() if deleting a file *needs* to be checked if it exists
 		
-		$author_folder = $author_id;
+		$author_folder = $author_guild_id."/".$author_id;
 		CheckDir($author_folder); //Check if folder exists and create if it doesn't
 		if(CheckFile($author_folder, "watchers.php")){
 			echo "AUTHOR IS BEING WATCHED" . PHP_EOL;
-			$watchers = VarLoad($author_id, "watchers.php");
+			$watchers = VarLoad($author_folder, "watchers.php");
 //			echo "WATCHERS: "; var_dump($watchers); //array of user IDs
 			$null_array = true;
 			foreach ($watchers as $watcher){
@@ -221,7 +233,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 			}
 			if($null_array){ //Delete the null file
-				VarDelete($author_id, "watchers.php");
+				VarDelete($author_folder, "watchers.php");
 				echo 'AUTHOR IS NO LONGER BEING WATCHED BY ANYONE' . PHP_EOL;
 			}
 		}
@@ -521,17 +533,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
 //			echo "react: $react" . PHP_EOL;
-			if(!CheckFile(null, "react_option.php")){
-				VarSave(null, "react_option.php", $react);
+			if(!CheckFile($author_guild_id, "react_option.php")){
+				VarSave($author_guild_id, "react_option.php", $react);
 //				echo "NEW REACT FILE" . PHP_EOL;
 			}
 //			VarLoad
-			$react_var = VarLoad(null, "react_option.php");
+			$react_var = VarLoad($author_guild_id, "react_option.php");
 //			echo "react_var: $react_var" . PHP_EOL;
 //			VarSave
 			$react_flip = !$react_var;
 //			echo "react_flip: $react_flip" . PHP_EOL;
-			VarSave(null, "react_option.php", $react_flip);
+			VarSave($author_guild_id, "react_option.php", $react_flip);
 			if ($react_flip === true)
 				$message->reply("Reaction functions enabled!");
 			else $message->reply("Reaction functions disabled!");
@@ -540,12 +552,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
-			if(!CheckFile(null, "vanity_option.php")){
-				VarSave(null, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
+			if(!CheckFile($author_guild_id, "vanity_option.php")){
+				VarSave($author_guild_id, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
 			}
-			$vanity_var = VarLoad(null, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
+			$vanity_var = VarLoad($author_guild_id, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
 			$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
-			VarSave(null, "vanity_option.php", $vanity_flip);
+			VarSave($author_guild_id, "vanity_option.php", $vanity_flip);
 			if ($vanity_flip === true)
 				$message->reply("NSFW functions enabled!");
 			else $message->reply("NSFW functions disabled!");
@@ -555,13 +567,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
 //			echo "nsfw: $nsfw" . PHP_EOL;
-			if(!CheckFile(null, "nsfw_option.php")){
-				VarSave(null, "nsfw_option.php", $nsfw);
+			if(!CheckFile($author_guild_id, "nsfw_option.php")){
+				VarSave($author_guild_id, "nsfw_option.php", $nsfw);
 //				echo "NEW NSFW FILE" . PHP_EOL;
 			}
-			$nsfw_var = VarLoad(null, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$nsfw_var = VarLoad($author_guild_id, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave(null, "nsfw_option.php", $nsfw_flip);
+			VarSave($author_guild_id, "nsfw_option.php", $nsfw_flip);
 			if ($nsfw_flip === true)
 				$message->reply("NSFW functions enabled!");
 			else $message->reply("NSFW functions disabled!");
@@ -571,13 +583,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
 			//echo "rp0: $rp0" . PHP_EOL;
-			if(!CheckFile(null, "rolepicker_option.php")){
-				VarSave(null, "rolepicker_option.php", $nsfw);
+			if(!CheckFile($author_guild_id, "rolepicker_option.php")){
+				VarSave($author_guild_id, "rolepicker_option.php", $nsfw);
 				echo "NEW ROLEPICKER FILE" . PHP_EOL;
 			}
-			$rolepicker_var = VarLoad(null, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$rolepicker_var = VarLoad($author_guild_id, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave(null, "rolepicker_option.php", $rolepicker_flip);
+			VarSave($author_guild_id, "rolepicker_option.php", $rolepicker_flip);
 			if ($rolepicker_flip === true)
 				$message->reply("Rolepicker enabled!");
 			else $message->reply("Rolepicker disabled!");
@@ -587,13 +599,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
 			//echo "rp1: $rp1" . PHP_EOL;
-			if(!CheckFile(null, "species_option.php")){
-				VarSave(null, "species_option.php", $nsfw);
+			if(!CheckFile($author_guild_id, "species_option.php")){
+				VarSave($author_guild_id, "species_option.php", $nsfw);
 				echo "NEW SPECIES FILE" . PHP_EOL;
 			}
-			$species_var = VarLoad(null, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$species_var = VarLoad($author_guild_id, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave(null, "species_option.php", $species_flip);
+			VarSave($author_guild_id, "species_option.php", $species_flip);
 			if ($species_flip === true)
 				$message->reply("Species roles enabled!");
 			else $message->reply("Species roles	disabled!");
@@ -603,13 +615,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
 			echo "rp2: $rp2" . PHP_EOL;
-			if(!CheckFile(null, "sexuality_option.php")){
-				VarSave(null, "sexuality_option.php", $nsfw);
+			if(!CheckFile($author_guild_id, "sexuality_option.php")){
+				VarSave($author_guild_id, "sexuality_option.php", $nsfw);
 				echo "NEW SEXUALITY FILE" . PHP_EOL;
 			}
-			$sexuality_var = VarLoad(null, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$sexuality_var = VarLoad($author_guild_id, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave(null, "sexuality_option.php", $sexuality_flip);
+			VarSave($author_guild_id, "sexuality_option.php", $sexuality_flip);
 			if ($sexuality_flip === true)
 				$message->reply("Sexuality roles enabled!");
 			else $message->reply("Sexuality roles disabled!");
@@ -619,13 +631,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
 			//echo "rp3: $rp3" . PHP_EOL;
-			if(!CheckFile(null, "gender_option.php")){
-				VarSave(null, "gender_option.php", $nsfw);
+			if(!CheckFile($author_guild_id, "gender_option.php")){
+				VarSave($author_guild_id, "gender_option.php", $nsfw);
 				echo "NEW GENDER FILE" . PHP_EOL;
 			}
-			$gender_var = VarLoad(null, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$gender_var = VarLoad($author_guild_id, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave(null, "gender_option.php", $gender_flip);
+			VarSave($author_guild_id, "gender_option.php", $gender_flip);
 			if ($gender_flip === true)
 				$message->reply("Gender roles enabled!");
 			else $message->reply("Gender roles disabled!");
@@ -635,13 +647,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
 			//echo "rp4: $rp4" . PHP_EOL;
-			if(!CheckFile(null, "custom_option.php")){
-				VarSave(null, "custom_option.php", $nsfw);
+			if(!CheckFile($author_guild_id, "custom_option.php")){
+				VarSave($author_guild_id, "custom_option.php", $nsfw);
 				echo "NEW CUSTOM ROLE FILE" . PHP_EOL;
 			}
-			$custom_var = VarLoad(null, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$custom_var = VarLoad($author_guild_id, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave(null, "custom_option.php", $custom_flip);
+			VarSave($author_guild_id, "custom_option.php", $custom_flip);
 			if ($custom_flip === true)
 				$message->reply("Custom roles enabled!");
 			else $message->reply("Custom roles disabled!");
@@ -807,7 +819,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 			echo "GETTING AVATAR FOR AUTHOR" . PHP_EOL;
 //			Check Cooldown Timer
-			$cooldown = CheckCooldown($author_id, "avatar_time.php", $avatar_limit);
+			$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit);
 			if ( ($cooldown[0] == true) || ($bypass) ){
 //				Build the embed
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -830,7 +842,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					echo $error.PHP_EOL; //Echo any errors
 				});
 //				Set Cooldown
-				SetCooldown($author_id, "avatar_time.php");
+				SetCooldown($author_folder, "avatar_time.php");
 				return true;
 			}else{
 //				Reply with remaining time
@@ -844,7 +856,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avatar @
 			echo "GETTING AVATAR FOR MENTIONED" . PHP_EOL;
 //			Check Cooldown Timer
-			$cooldown = CheckCooldown($author_id, "avatar_time.php", $avatar_limit);
+			$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit);
 			if ( ($cooldown[0] == true) || ($bypass) ){
 				$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 				foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
@@ -887,7 +899,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					});
 					return true;
 //					Set Cooldown
-					SetCooldown($author_id, "avatar_time.php");
+					SetCooldown($author_folder, "avatar_time.php");
 					return true;					
 				}
 				//Foreach method didn't return, so nobody was mentioned
@@ -1327,33 +1339,33 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$vanity_limit['sec'] = 0;
 			$vanity_limit_seconds = TimeArrayToSeconds($vanity_limit);
 //			Load author give statistics
-			if(!CheckFile($author_id, "vanity_give_count.php"))		$vanity_give_count	= 0;													
-			else 													$vanity_give_count	= VarLoad($author_id, "vanity_give_count.php");		
-			if(!CheckFile($author_id, "hugger_count.php"))			$hugger_count		= 0;													
-			else 													$hugger_count 		= VarLoad($author_id, "hugger_count.php");				
-			if(!CheckFile($author_id, "kisser_count.php"))			$kisser_count		= 0;													
-			else 													$kisser_count 		= VarLoad($author_id, "kisser_count.php");				
-			if(!CheckFile($author_id, "nuzzler_count.php"))			$nuzzler_count		= 0;													
-			else 													$nuzzler_count		= VarLoad($author_id, "nuzzler_count.php");			
-			if(!CheckFile($author_id, "booper_count.php"))			$booper_count		= 0;													
-			else 													$booper_count		= VarLoad($author_id, "booper_count.php");			
+			if(!CheckFile($author_folder, "vanity_give_count.php"))		$vanity_give_count	= 0;													
+			else 													$vanity_give_count	= VarLoad($author_guild_id."/".$author_id, "vanity_give_count.php");		
+			if(!CheckFile($author_folder, "hugger_count.php"))			$hugger_count		= 0;													
+			else 													$hugger_count 		= VarLoad($author_guild_id."/".$author_id, "hugger_count.php");				
+			if(!CheckFile($author_folder, "kisser_count.php"))			$kisser_count		= 0;													
+			else 													$kisser_count 		= VarLoad($author_guild_id."/".$author_id, "kisser_count.php");				
+			if(!CheckFile($author_folder, "nuzzler_count.php"))			$nuzzler_count		= 0;													
+			else 													$nuzzler_count		= VarLoad($author_guild_id."/".$author_id, "nuzzler_count.php");			
+			if(!CheckFile($author_folder, "booper_count.php"))			$booper_count		= 0;													
+			else 													$booper_count		= VarLoad($author_guild_id."/".$author_id, "booper_count.php");			
 
 //			Load author get statistics
-			if(!CheckFile($author_id, "vanity_get_count.php"))		$vanity_get_count	= 0;													
-			else 													$vanity_get_count 	= VarLoad($author_id, "vanity_get_count.php");		
-			if(!CheckFile($author_id, "hugged_count.php"))			$hugged_count		= 0;													
-			else 													$hugged_count 		= VarLoad($author_id, "hugged_count.php");				
-			if(!CheckFile($author_id, "kissed_count.php"))			$kissed_count		= 0;													
-			else 													$kissed_count 		= VarLoad($author_id, "kissed_count.php");				
-			if(!CheckFile($author_id, "nuzzled_count.php"))			$nuzzled_count		= 0;													
-			else 													$nuzzled_count		= VarLoad($author_id, "nuzzled_count.php");				
-			if(!CheckFile($author_id, "booped_count.php"))			$booped_count		= 0;													
-			else 													$booped_count		= VarLoad($author_id, "booped_count.php");				
+			if(!CheckFile($author_folder, "vanity_get_count.php"))		$vanity_get_count	= 0;													
+			else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$author_id, "vanity_get_count.php");		
+			if(!CheckFile($author_folder, "hugged_count.php"))			$hugged_count		= 0;													
+			else 													$hugged_count 		= VarLoad($author_guild_id."/".$author_id, "hugged_count.php");				
+			if(!CheckFile($author_folder, "kissed_count.php"))			$kissed_count		= 0;													
+			else 													$kissed_count 		= VarLoad($author_guild_id."/".$author_id, "kissed_count.php");				
+			if(!CheckFile($author_folder, "nuzzled_count.php"))			$nuzzled_count		= 0;													
+			else 													$nuzzled_count		= VarLoad($author_guild_id."/".$author_id, "nuzzled_count.php");				
+			if(!CheckFile($author_folder, "booped_count.php"))			$booped_count		= 0;													
+			else 													$booped_count		= VarLoad($author_guild_id."/".$author_id, "booped_count.php");				
 			
 			if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 				echo "HUG/SNUGGLE" . PHP_EOL;
 //				Check Cooldown Timer
-				$cooldown = CheckCooldown($author_id, "vanity_time.php", $vanity_limit);
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -1377,21 +1389,21 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($hug_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$hugger_count++;
-							VarSave($author_id, "hugger_count.php", $hugger_count);
+							VarSave($author_folder, "hugger_count.php", $hugger_count);
 							//Load target get statistics
-							if(!CheckFile($mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($mention_id, "vanity_get_count.php");
-							if(!CheckFile($mention_id, "hugged_count.php"))			$hugged_count		= 0;
-							else 													$hugged_count 		= VarLoad($mention_id, "hugged_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "hugged_count.php"))			$hugged_count		= 0;
+							else 													$hugged_count 		= VarLoad($author_guild_id."/".$mention_id, "hugged_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$hugged_count++;
-							VarSave($mention_id, "hugged_count.php", $hugged_count);
+							VarSave($author_guild_id."/".$mention_id, "hugged_count.php", $hugged_count);
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
 							$self_hug_messages									= array();
@@ -1401,16 +1413,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($self_hug_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$hugger_count++;
-							VarSave($author_id, "hugger_count.php", $hugger_count);
+							VarSave($author_folder, "hugger_count.php", $hugger_count);
 							//Increment get stat counter of author
 							$vanity_get_count++;
-							VarSave($author_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 							$hugged_count++;
-							VarSave($author_id, "hugged_count.php", $hugged_count);
+							VarSave($author_folder, "hugged_count.php", $hugged_count);
 							//Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}
 					}
@@ -1429,7 +1441,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ( (substr($message_content_lower, 0, 6) == $command_symbol . 'kiss ') || (substr($message_content_lower, 0, 8)) == $command_symbol . 'smooch '){ //;kiss ;smooch
 				echo "KISS" . PHP_EOL;
 //				Check Cooldown Timer
-				$cooldown = CheckCooldown($author_id, "vanity_time.php", $vanity_limit);
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -1455,21 +1467,21 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($kiss_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$kisser_count++;
-							VarSave($author_id, "kisser_count.php", $kisser_count);
+							VarSave($author_folder, "kisser_count.php", $kisser_count);
 							//Load target get statistics
-							if(!CheckFile($mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($mention_id, "vanity_get_count.php");
-							if(!CheckFile($mention_id, "kissed_count.php"))			$kissed_count		= 0;
-							else 													$kissed_count 		= VarLoad($mention_id, "kissed_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "kissed_count.php"))			$kissed_count		= 0;
+							else 													$kissed_count 		= VarLoad($author_guild_id."/".$mention_id, "kissed_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$kissed_count++;
-							VarSave($mention_id, "kissed_count.php", $kissed_count);\
+							VarSave($author_guild_id."/".$mention_id, "kissed_count.php", $kissed_count);\
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
 							$self_kiss_messages										= array();
@@ -1479,16 +1491,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($self_kiss_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$kisser_count++;
-							VarSave($author_id, "kisser_count.php", $kisser_count);
+							VarSave($author_folder, "kisser_count.php", $kisser_count);
 							//Increment get stat counter of author
 							$vanity_get_count++;
-							VarSave($author_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 							$kissed_count++;
-							VarSave($author_id, "kissed_count.php", $kissed_count);
+							VarSave($author_folder, "kissed_count.php", $kissed_count);
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}
 					}
@@ -1507,7 +1519,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (substr($message_content_lower, 0, 8) == $command_symbol . 'nuzzle ' ){ //;nuzzle @
 				echo "NUZZLE" . PHP_EOL;
 //				Check Cooldown Timer
-				$cooldown = CheckCooldown($author_id, "vanity_time.php", $vanity_limit);
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -1533,21 +1545,21 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($nuzzle_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$nuzzler_count++;
-							VarSave($author_id, "nuzzler_count.php", $nuzzler_count);
+							VarSave($author_folder, "nuzzler_count.php", $nuzzler_count);
 							//Load target get statistics
-							if(!CheckFile($mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($mention_id, "vanity_get_count.php");
-							if(!CheckFile($mention_id, "nuzzled_count.php"))		$nuzzled_count		= 0;
-							else 													$nuzzled_count 		= VarLoad($mention_id, "nuzzled_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "nuzzled_count.php"))		$nuzzled_count		= 0;
+							else 													$nuzzled_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzled_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$nuzzled_count++;
-							VarSave($mention_id, "nuzzled_count.php", $nuzzled_count);
+							VarSave($author_guild_id."/".$mention_id, "nuzzled_count.php", $nuzzled_count);
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
 							$self_nuzzle_messages									= array();
@@ -1557,16 +1569,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($self_nuzzle_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$nuzzler_count++;
-							VarSave($author_id, "nuzzler_count.php", $nuzzler_count);
+							VarSave($author_folder, "nuzzler_count.php", $nuzzler_count);
 							//Increment get stat counter of author
 							$vanity_get_count++;
-							VarSave($author_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 							$nuzzled_count++;
-							VarSave($author_id, "nuzzled_count.php", $nuzzled_count);
+							VarSave($author_folder, "nuzzled_count.php", $nuzzled_count);
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}
 					}
@@ -1585,7 +1597,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (substr($message_content_lower, 0, 6) == $command_symbol . 'boop ' ){ //;boop @
 				echo "BOOP" . PHP_EOL;
 //				Check Cooldown Timer
-				$cooldown = CheckCooldown($author_id, "vanity_time.php", $vanity_limit);
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -1609,21 +1621,21 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($boop_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$booper_count++;
-							VarSave($author_id, "booper_count.php", $booper_count);
+							VarSave($author_folder, "booper_count.php", $booper_count);
 							//Load target get statistics
-							if(!CheckFile($mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($mention_id, "vanity_get_count.php");
-							if(!CheckFile($mention_id, "booped_count.php"))			$booped_count		= 0;
-							else 													$booped_count 		= VarLoad($mention_id, "booped_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "booped_count.php"))			$booped_count		= 0;
+							else 													$booped_count 		= VarLoad($author_guild_id."/".$mention_id, "booped_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$booped_count++;
-							VarSave($mention_id, "booped_count.php", $booped_count);
+							VarSave($author_guild_id."/".$mention_id, "booped_count.php", $booped_count);
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
 							$self_boop_messages										= array();
@@ -1633,16 +1645,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$author_channel->send($self_boop_messages[$index_selection]);
 							//Increment give stat counter of author
 							$vanity_give_count++;
-							VarSave($author_id, "vanity_give_count.php", $vanity_give_count);
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
 							$booper_count++;
-							VarSave($author_id, "booper_count.php", $booper_count);
+							VarSave($author_folder, "booper_count.php", $booper_count);
 							//Increment get stat counter of author
 							$vanity_get_count++;
-							VarSave($author_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 							$booped_count++;
-							VarSave($author_id, "booped_count.php", $booped_count);
+							VarSave($author_folder, "booped_count.php", $booped_count);
 //							Set Cooldown
-							SetCooldown($author_id, "vanity_time.php");
+							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing
 						}
 					}
@@ -1669,7 +1681,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			if ($message_content_lower == $command_symbol . 'vstats' ){ //;vstats //Give the author their vanity stats as an embedded message
 //				Check Cooldown Timer
-				$cooldown = CheckCooldown($author_id, "vstats_limit.php", $vstats_limit);
+				$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Build the embed
 					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1703,7 +1715,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						echo $error.PHP_EOL; //Echo any errors
 					});
 //					Set Cooldown
-					SetCooldown($author_id, "vstats_limit.php");
+					SetCooldown($author_folder, "vstats_limit.php");
 					return true;
 				}else{
 //					Reply with remaining time
@@ -1718,7 +1730,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (substr($message_content_lower, 0, 8) == $command_symbol . 'vstats ' ){ //;vstats @
 				echo "GETTING VANITY STATS OF MENTIONED" . PHP_EOL;
 //				Check Cooldown Timer
-				$cooldown = CheckCooldown($author_id, "vstats_limit.php", $vstats_limit);
+				$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object			
@@ -1738,26 +1750,26 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						
 						
 						//Load target get statistics
-						if(!CheckFile($mention_id, "vanity_get_count.php"))		$target_vanity_get_count	= 0;
-						else 													$target_vanity_get_count 	= VarLoad($mention_id, "vanity_get_count.php");
-						if(!CheckFile($mention_id, "vanity_give_count.php"))	$target_vanity_give_count	= 0;
-						else 													$target_vanity_give_count 	= VarLoad($mention_id, "vanity_give_count.php");
-						if(!CheckFile($mention_id, "hugged_count.php"))			$target_hugged_count		= 0;
-						else 													$target_hugged_count 		= VarLoad($mention_id, "hugged_count.php");
-						if(!CheckFile($mention_id, "hugger_count.php"))			$target_hugger_count		= 0;
-						else 													$target_hugger_count 		= VarLoad($mention_id, "hugger_count.php");
-						if(!CheckFile($mention_id, "kissed_count.php"))			$target_kissed_count		= 0;
-						else 													$target_kissed_count 		= VarLoad($mention_id, "kissed_count.php");
-						if(!CheckFile($mention_id, "kisser_count.php"))			$target_kisser_count		= 0;
-						else 													$target_kisser_count 		= VarLoad($mention_id, "kisser_count.php");
-						if(!CheckFile($mention_id, "nuzzled_count.php"))		$target_nuzzled_count		= 0;
-						else 													$target_nuzzled_count 		= VarLoad($mention_id, "nuzzled_count.php");
-						if(!CheckFile($mention_id, "nuzzler_count.php"))		$target_nuzzler_count		= 0;
-						else 													$target_nuzzler_count 		= VarLoad($mention_id, "nuzzler_count.php");
-						if(!CheckFile($mention_id, "booped_count.php"))			$target_booped_count		= 0;
-						else 													$target_booped_count 		= VarLoad($mention_id, "booped_count.php");
-						if(!CheckFile($mention_id, "booper_count.php"))			$target_booper_count		= 0;
-						else 													$target_booper_count 		= VarLoad($mention_id, "booper_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$target_vanity_get_count	= 0;
+						else 													$target_vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "vanity_give_count.php"))	$target_vanity_give_count	= 0;
+						else 													$target_vanity_give_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_give_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "hugged_count.php"))			$target_hugged_count		= 0;
+						else 													$target_hugged_count 		= VarLoad($author_guild_id."/".$mention_id, "hugged_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "hugger_count.php"))			$target_hugger_count		= 0;
+						else 													$target_hugger_count 		= VarLoad($author_guild_id."/".$mention_id, "hugger_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "kissed_count.php"))			$target_kissed_count		= 0;
+						else 													$target_kissed_count 		= VarLoad($author_guild_id."/".$mention_id, "kissed_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "kisser_count.php"))			$target_kisser_count		= 0;
+						else 													$target_kisser_count 		= VarLoad($author_guild_id."/".$mention_id, "kisser_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "nuzzled_count.php"))		$target_nuzzled_count		= 0;
+						else 													$target_nuzzled_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzled_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "nuzzler_count.php"))		$target_nuzzler_count		= 0;
+						else 													$target_nuzzler_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzler_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "booped_count.php"))			$target_booped_count		= 0;
+						else 													$target_booped_count 		= VarLoad($author_guild_id."/".$mention_id, "booped_count.php");
+						if(!CheckFile($author_guild_id."/".$mention_id, "booper_count.php"))			$target_booper_count		= 0;
+						else 													$target_booper_count 		= VarLoad($author_guild_id."/".$mention_id, "booper_count.php");
 						
 						//Build the embed
 						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1791,7 +1803,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							echo $error.PHP_EOL; //Echo any errors
 						});
 //						Set Cooldown
-						SetCooldown($author_id, "vstats_limit.php");
+						SetCooldown($author_folder, "vstats_limit.php");
 						return true; //No more processing, we only want to process the first person mentioned
 					}
 					//Foreach method didn't return, so nobody was mentioned
@@ -2004,10 +2016,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 				
 //				Place watch info in target's folder
-				$watchers[] = VarLoad($mention_id, "$watchers.php");
+				$watchers[] = VarLoad($author_guild_id."/".$mention_id, "$watchers.php");
 				$watchers = array_unique($arr);
 				$watchers[] = $author_id;
-				VarSave($mention_id, "watchers.php", $watchers);
+				VarSave($author_guild_id."/".$mention_id, "watchers.php", $watchers);
 				$mention_watch_name_queue 								= "**<@$mention_id>** ";
 				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
 			}
@@ -2043,9 +2055,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 				
 //				Place watch info in target's folder
-				$watchers[] = VarLoad($mention_id, "$watchers.php");
+				$watchers[] = VarLoad($author_guild_id."/".$mention_id, "$watchers.php");
 				$watchers = array_value_remove($author_id, $watchers);
-				VarSave($mention_id, "watchers.php", $watchers);
+				VarSave($author_guild_id."/".$mention_id, "watchers.php", $watchers);
 				$mention_watch_name_queue 								= "**<@$mention_id>** ";
 				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
 			}
@@ -2082,9 +2094,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_warn_queue 									= "**$mention_check warned $author_check on $warndate for reason:**" . str_replace($filter, "", $message_content);
 				
 //				Place warn info in target's folder
-				$infractions = VarLoad($mention_id, "infractions.php");
+				$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
 				$infractions[] = $mention_warn_queue;
-				VarSave($mention_id, "infractions.php", $infractions);
+				VarSave($author_guild_id."/".$mention_id, "infractions.php", $infractions);
 				$mention_warn_queue_full 								= $mention_warn_queue_full . PHP_EOL . $mention_warn_queue;
 			}
 //			Send a message
@@ -2120,7 +2132,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 					
 	//				Place infraction info in target's folder
-					$infractions = VarLoad($mention_id, "infractions.php");
+					$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
 					$y = 0;
 					foreach ( $infractions as $infraction ){
 						//Build a string
@@ -2186,7 +2198,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 					
 //					Get infraction info in target's folder
-					$infractions = VarLoad($mention_id, "infractions.php");
+					$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
 					$proper = $command_symbol."removeinfraction <@!$mention_id> ";
 					$strlen = strlen($command_symbol."removeinfraction <@!$mention_id> ");
 					$substr = substr($message_content_lower, $strlen);
@@ -2204,7 +2216,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						if ($infractions[$substr] != NULL){
 							$infractions[$substr] = "Infraction removed by $author_check on " . date("m/d/Y"); // for arrays where key equals offset
 //							Save the new infraction log
-							VarSave($mention_id, "infractions.php", $infractions);
+							VarSave($author_guild_id."/".$mention_id, "infractions.php", $infractions);
 							
 //							Send a message
 							if($react) $message->react("👍");
@@ -2836,7 +2848,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$message_content_lower = strtolower($message_content);
 		
 		//Load guild info
-		$guild						= $message->guild;
+		$author_guild				= $message->guild;
+		$author_guild_id			= $author_guild->id;
+		//Create a folder for the guild if it doesn't exist already
+		CheckDir($author_guild_id);
 		
 		//Role picker stuff
 		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
@@ -2858,6 +2873,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
 		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
+		$author_folder				= $author_guild_id."/".$author_id;
 		
 		//Load respondent info
 		$respondent_username 		= $respondent_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
@@ -2865,7 +2881,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
 		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
 		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
-		$respondent_member 			= $guild->members->get($respondent_id);
+		$respondent_member 			= $author_guild->members->get($respondent_id);
 		
 		//Load emoji info
 		//guild, user
@@ -2892,28 +2908,28 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//role picker message ids
 		GLOBAL $rolepicker_id, $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
-			if(!CheckFile(null, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
-			else 														$rp0	= VarLoad(null, "rolepicker_option.php");
+			if(!CheckFile($author_guild_id, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
+			else 														$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
 		} else $rp0 = false;
 		
 		if($rp0 === true)
 		if($author_id == $rolepicker_id){
 			//Check options
 			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile(null, "species_option.php"))				$rp1	= $species_option;										//Species role picker
-				else 													$rp1	= VarLoad(null, "species_option.php");
+				if(!CheckFile($author_guild_id, "species_option.php"))				$rp1	= $species_option;										//Species role picker
+				else 													$rp1	= VarLoad($author_guild_id, "species_option.php");
 			} else $rp1 = false;
 			if ( ($sexuality_message_id != "") || ($sexuality_message_id != NULL) ){
-				if(!CheckFile(null, "sexuality_option.php"))			$rp2	= $sexuality_option;										//Sexuality role picker
-				else 													$rp2	= VarLoad(null, "sexuality_option.php");
+				if(!CheckFile($author_guild_id, "sexuality_option.php"))			$rp2	= $sexuality_option;										//Sexuality role picker
+				else 													$rp2	= VarLoad($author_guild_id, "sexuality_option.php");
 			} else $rp2 = false;
 			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile(null, "gender_option.php"))				$rp3	= $gender_option;										//Gender role picker
-				else 													$rp3	= VarLoad(null, "gender_option.php");
+				if(!CheckFile($author_guild_id, "gender_option.php"))				$rp3	= $gender_option;										//Gender role picker
+				else 													$rp3	= VarLoad($author_guild_id, "gender_option.php");
 			} else $rp3 = false;
 			if ( ($customroles_message_id != "") || ($customroles_message_id != NULL) ){
-				if(!CheckFile(null, "customrole_option.php"))			$rp4	= $custom_option;										//Custom role picker
-				else 													$rp4	= VarLoad(null, "customrole_option.php");
+				if(!CheckFile($author_guild_id, "customrole_option.php"))			$rp4	= $custom_option;										//Custom role picker
+				else 													$rp4	= VarLoad($author_guild_id, "customrole_option.php");
 			} else $rp4 = false;
 			//Load guild roles info
 			$guild_roles													= $guild->roles;
