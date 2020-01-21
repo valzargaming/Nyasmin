@@ -138,7 +138,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$dm_text = "DMs not yet supported! Please use commands for this bot within a server.";
 				$message->reply("$dm_text \n$server_invite");
 			}
-			return;
+			return true;
 		}
 		
 		/*
@@ -149,7 +149,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		if(!CheckFile($author_guild_id, "command_symbol.php")){
-														$command_symbol	= $command_symbol; //Author must prefix text with this to use commands
+														//Author must prefix text with this to use commands
 		}else 											$command_symbol = VarLoad($author_guild_id, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
 		
 
@@ -387,7 +387,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//boop
 				$documentation = $documentation . "`boop`\n";
 			}
-			if($nsfw && $adult ){
+			if($nsfw && $adult){
 				//TODO
 			}
 			//All other functions
@@ -399,8 +399,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//avatar
 			$documentation = $documentation . "`avatar` displays the profile picture of the author or user being mentioned.\n";
 			$documentation_sanitized = str_replace("*","",$documentation);
-			$documentation_sanitized = str_replace("_","",$documentation);
-			$documentation_sanitized = str_replace("`","",$documentation);
+			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
 //				Build the embed message
@@ -425,7 +425,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				});
 				return true;
 			}else{
-				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
 					echo 'SEND ;HELP MESSAGE' . PHP_EOL;
 					$author_dmchannel->send($documentation);
 				});
@@ -478,8 +478,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!$rp0) $documentation = $documentation . "~~"; //Strikeout invalid options
 			
 			$documentation_sanitized = str_replace("*","",$documentation);
-			$documentation_sanitized = str_replace("_","",$documentation);
-			$documentation_sanitized = str_replace("`","",$documentation);
+			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
 //				Build the embed message
@@ -505,7 +505,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				});
 				return true;
 			}else{
-				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
 					echo 'SEND ;SETTINGS MESSAGE' . PHP_EOL;
 					$author_dmchannel->send($documentation);
 				});
@@ -687,7 +687,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$author_role_name_queue 								= "$author_role_name_queue<@&$author_role> ";
 			}
 			$author_role_name_queue 									= substr($author_role_name_queue, 0, -1);
-			$author_role_name_queue_full 								= $author_role_name_queue_full . PHP_EOL . $author_role_name_queue;
+			$author_role_name_queue_full 								= PHP_EOL . $author_role_name_queue;
 //			Send the message
 			if($react) $message->react("👍");
 //			$message->reply($author_role_name_queue_full . PHP_EOL);
@@ -758,10 +758,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //					$mention_role_name_queue 							= "$mention_role_name_queue$mention_role, ";
 					$mention_role_id_queue 								= "$mention_role_id_queue<@&$mention_role> ";
 				}
-				$mention_role_name_queue 								= substr($mention_role_name_queue, 0, -2); 		//Get rid of the extra ", " at the end 
+//				$mention_role_name_queue 								= substr($mention_role_name_queue, 0, -2); 		//Get rid of the extra ", " at the end
 				$mention_role_id_queue 									= substr($mention_role_id_queue, 0, -1); 		//Get rid of the extra ", " at the end 
 //				$mention_role_name_queue_full 							= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
-				$mention_role_id_queue_full 							= $mention_role_id_queue_full . PHP_EOL . $mention_role_id_queue;
+				$mention_role_id_queue_full 							= PHP_EOL . $mention_role_id_queue;
 			
 //				Check if anyone had their roles changed
 //				if ($mention_role_name_queue_default != $mention_role_name_queue){
@@ -861,12 +861,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					
 					$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
-					
-//					Get the roles of the mentioned user
-					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
-					
+
 //					Get the avatar URL of the mentioned user
+                    $target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
 					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";
 					
@@ -890,7 +887,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 						echo $error.PHP_EOL; //Echo any errors
 					});
-					return true;
 //					Set Cooldown
 					SetCooldown($author_folder, "avatar_time.php");
 					return true;					
@@ -916,13 +912,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if ($mod || $admin || $dev || $owner || $creator)
-		if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick
+		if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
 			echo "KICK" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			$mention_kick_name_queue_default							= "<@$author_id> kicked the following users:" . PHP_EOL;
-			$mention_kick_name_queue_full 								= $mention_kick_name_queue_default;
-		
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -937,20 +930,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
 					
-	//				Get the avatar URL of the mentioned user
-					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
+//  				Get the avatar URL of the mentioned user
+//					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+//					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
 					
-	//				Populate arrays of the info we need
-	//				$target_guildmember_roles_names 						= array();
+//  				Populate arrays of the info we need
+//  				$target_guildmember_roles_names 						= array();
 					$x=0;
-					$target_adult = false;
 					$target_dev = false;
 					$target_owner = false;
 					$target_admin = false;
 					$target_mod = false;
-					$target_verified = false;
-					$target_bot = false;
 					$target_vzg = false;
 					$target_guildmember_roles_ids = array();
 					foreach ($target_guildmember_role_collection as $role){
@@ -969,7 +959,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						$x++;
 					}
 					if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-						if ($mention_check == $creator_check) return; //Don't kick the creator
+						if ($mention_check == $creator_check) return true; //Don't kick the creator
 						//Build the string to log
 						$filter = "$command_symbol" . "kick <@!$mention_id>";
 						$warndate = date("m/d/Y");
@@ -1001,17 +991,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						});
 					}else{//Target is not allowed to be kicked
 						$author_channel->send("You can't kick <@$mention_id>!");
-						return;
+						return true;
 					}
 				}else{
 					if($react) $message->react("👎");
 					$author_channel->send("<@$author_id>, you can't kick yourself!");
-					return;
+					return true;
 				}
 			} //foreach method didn't return, so nobody was mentioned
 			if($react) $message->react("👎");
 			$author_channel->send("<@$author_id>, you need to mention someone!");
-			return;
+			return true;
 		}
 		
 		if ( ($role_muted_id != "") || ($role_muted_id != NULL) )
@@ -1020,9 +1010,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "MUTE" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			$mention_mute_name_queue_default							= "<@$author_id> muted the following users:" . PHP_EOL;
-			$mention_mute_name_queue_full 								= $mention_mute_name_queue_default;
-		
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -1037,39 +1024,28 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
 					
-	//				Get the avatar URL of the mentioned user
-					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
-					
-	//				Populate arrays of the info we need
-	//				$target_guildmember_roles_names 						= array();
+//  				Populate arrays of the info we need
+//	    			$target_guildmember_roles_names 						= array();
 					$x=0;
-					$target_adult = false;
 					$target_dev = false;
 					$target_owner = false;
 					$target_admin = false;
 					$target_mod = false;
-					$target_verified = false;
-					$target_bot = false;
 					$target_vzg = false;
 					$target_guildmember_roles_ids = array();
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
 							$target_guildmember_roles_ids[] 				= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-							if ($role->id == $role_18_id)		$target_adult 		= true;							//Author has the 18+ role
 							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
 							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
 							if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-							if ($role->id == $role_verified_id)	$target_verified 	= true;							//Author has the verified role
-							if ($role->id == $role_bot_id)		$target_bot 		= true;							//Author has the bot role
 							if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
-							if ($role->id == $role_muted_id)	$target_muted 		= true;							//Author is this bot
 						}
 						$x++;
 					}
 					if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-						if ($mention_check == $creator_check) return; //Don't mute the creator
+						if ($mention_check == $creator_check) return true; //Don't mute the creator
 						//Build the string to log
 						$filter = "$command_symbol" . "mute <@!$mention_id>";
 						$warndate = date("m/d/Y");
@@ -1101,17 +1077,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						});
 					}else{//Target is not allowed to be muteed
 						$author_channel->send("You can't mute <@$mention_id>!");
-						return;
+						return true;
 					}
 				}else{
 					if($react) $message->react("👎");
 					$author_channel->send("<@$author_id>, you can't mute yourself!");
-					return;
+					return true;
 				}
 			} //foreach method didn't return, so nobody was mentioned
 			if($react) $message->react("👎");
 			$author_channel->send("<@$author_id>, you need to mention someone!");
-			return;
+			return true;
 		}
 		
 		if ( ($role_muted_id != "") || ($role_muted_id != NULL) )
@@ -1120,9 +1096,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "UNMUTE" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			$mention_mute_name_queue_default							= "<@$author_id> unmuted the following users:" . PHP_EOL;
-			$mention_mute_name_queue_full 								= $mention_mute_name_queue_default;
-		
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -1136,41 +1109,29 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					//Get the roles of the mentioned user
 					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
-					
-	//				Get the avatar URL of the mentioned user
-					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
-					
+
 	//				Populate arrays of the info we need
 	//				$target_guildmember_roles_names 						= array();
 					$x=0;
-					$target_adult = false;
 					$target_dev = false;
 					$target_owner = false;
 					$target_admin = false;
 					$target_mod = false;
-					$target_verified = false;
-					$target_bot = false;
 					$target_vzg = false;
-					$target_muted = false;
 					$target_guildmember_roles_ids = array();
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
 							$target_guildmember_roles_ids[] 				= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-							if ($role->id == $role_18_id)		$target_adult 		= true;							//Author has the 18+ role
 							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
 							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
 							if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-							if ($role->id == $role_verified_id)	$target_verified 	= true;							//Author has the verified role
-							if ($role->id == $role_bot_id)		$target_bot 		= true;							//Author has the bot role
 							if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
-							if ($role->id == $role_muted_id)	$target_muted 		= true;							//Author is this bot
 						}
 						$x++;
 					}
 					if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-						if ($mention_check == $creator_check) return; //Don't mute the creator
+						if ($mention_check == $creator_check) return true; //Don't mute the creator
 						//Build the string to log
 						$filter = "$command_symbol" . "unmute <@!$mention_id>";
 						$warndate = date("m/d/Y");
@@ -1202,17 +1163,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						});
 					}else{//Target is not allowed to be muteed
 						$author_channel->send("You can't mute <@$mention_id>!");
-						return;
+						return true;
 					}
 				}else{
 					if($react) $message->react("👎");
 					$author_channel->send("<@$author_id>, you can't mute yourself!");
-					return;
+					return true;
 				}
 			} //foreach method didn't return, so nobody was mentioned
 			if($react) $message->react("👎");
 			$author_channel->send("<@$author_id>, you need to mention someone!");
-			return;
+			return true;
 		}
 		
 		if ($admin || $owner || $creator)
@@ -1220,12 +1181,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "BAN" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			$mention_ban_name_queue_default							= "<@$author_id> banned the following users:" . PHP_EOL;
-			$mention_ban_name_queue_full 								= $mention_ban_name_queue_default;
-		
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_json 											= json_decode($mention_param_encode, true); 				//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
@@ -1236,39 +1194,32 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
 					
-	//				Get the avatar URL of the mentioned user
-					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
-					
-	//				Populate arrays of the info we need
-	//				$target_guildmember_roles_names 						= array();
+//  				Get the avatar URL of the mentioned user
+//					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+//					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
+
+//  				Populate arrays of the info we need
+//  				$target_guildmember_roles_names 						= array();
 					$x=0;
-					$target_adult = false;
 					$target_dev = false;
 					$target_owner = false;
 					$target_admin = false;
 					$target_mod = false;
-					$target_verified = false;
-					$target_bot = false;
 					$target_vzg = false;
 					$target_guildmember_roles_ids = array();
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
 							$target_guildmember_roles_ids[] 						= $role->id; 											//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-							if ($role->id == $role_18_id)		$target_adult 		= true;							//Author has the 18+ role
 							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
 							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
 							if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-							if ($role->id == $role_verified_id)	$target_verified 	= true;							//Author has the verified role
-							if ($role->id == $role_bot_id)		$target_bot 		= true;							//Author has the bot role
 							if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
-							if ($role->id == $role_muted_id)	$target_muted		= true;							//Author is this bot
 						}
 						$x++;
 					}
 					if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-						if ($mention_check == $creator_check) return; //Don't ban the creator
+						if ($mention_check == $creator_check) return true; //Don't ban the creator
 						//Build the string to log
 						$filter = "$command_symbol" . "ban <@!$mention_id>";
 						$warndate = date("m/d/Y");
@@ -1298,20 +1249,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							echo $error.PHP_EOL; //Echo any errors
 						});
 						if($react) $message->react("🔨"); //Hammer
-						return; //No more processing, we only want to process the first person mentioned
+						return true; //No more processing, we only want to process the first person mentioned
 					}else{//Target is not allowed to be banned
 						$author_channel->send("You can't ban <@$mention_id>!");
-						return;
+						return true;
 					}
 				}else{
 					if($react) $message->react("👎");
 					$author_channel->send("<@$author_id>, you can't ban yourself!");
-					return;
+					return true;
 				}
 			} //foreach method didn't return, so nobody was mentioned
 			if($react) $message->react("👎");
 			$author_channel->send("<@$author_id>, you need to mention someone!");
-			return;
+			return true;
 		}
 		
 		/*
@@ -1362,14 +1313,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-					$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
-					$mention_role_name_queue_full 								= $mention_role_name_queue_default;
-				
 					foreach ( $mentions_arr as $mention_param ){
 						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-						$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
 							$hug_messages										= array();
@@ -1438,14 +1385,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-					$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
-					$mention_role_name_queue_full 								= $mention_role_name_queue_default;
-					
 					foreach ( $mentions_arr as $mention_param ){
 						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-						$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
 							$kiss_messages											= array();
@@ -1515,14 +1458,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-					$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
-					$mention_role_name_queue_full 								= $mention_role_name_queue_default;
-				
 					foreach ( $mentions_arr as $mention_param ){
 						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-						$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
 							$nuzzle_messages										= array();
@@ -1593,14 +1532,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-					$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
-					$mention_role_name_queue_full 								= $mention_role_name_queue_default;
-				
 					foreach ( $mentions_arr as $mention_param ){
 						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-						$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
 							$boop_messages										= array();
@@ -1905,7 +1840,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 				
 //				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 //				$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
@@ -2005,7 +1939,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 				
 //				Place watch info in target's folder
 				$watchers[] = VarLoad($author_guild_id."/".$mention_id, "$watchers.php");
@@ -2044,7 +1977,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 				
 //				Place watch info in target's folder
 				$watchers[] = VarLoad($author_guild_id."/".$mention_id, "$watchers.php");
@@ -2068,7 +2000,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//$message->reply("Not yet implemented!");
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			if ($warn_channel)	$mention_warn_name_mention_default		= "<@$author_id>";
+			if ($modlog_channel)	$mention_warn_name_mention_default		= "<@$author_id>";
 			$mention_warn_queue_default									= $mention_warn_name_mention_default."warned the following users:" . PHP_EOL;
 			$mention_warn_queue_full 									= "";
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
@@ -2294,7 +2226,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//Greet the new user
 				$welcome_public_channel->send("Welcome <@$user_id> to Blue’s Cloudy Palace!");
 			}
-			return;
+			return true;
 		}
 		
 	}); //end guildMemberAdd function
@@ -2578,13 +2510,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//Only process message changes
 		if ($message_content_new === $message_content_old){
 			echo "NO MESSAGE CONTENT CHANGE OR MESSAGE TOO OLD" . PHP_EOL;
-			return;
+			return true;
 		}
 		
 		//Make sure the messages aren't blank
 		if (($message_content_new == NULL) || ($message_content_new == "")) { //This should never trigger, but just in case...
 			echo "BLANK OR OLD MESSAGE EDITED" . PHP_EOL;
-			return;
+			return true;
 		}
 		
 		echo "messageUpdate" . PHP_EOL;
@@ -2628,7 +2560,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$is_dm = false;
 		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
 			$is_dm = true;
-			return; //Don't try and process direct messages
+			return true; //Don't try and process direct messages
 		}
 		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
 		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
@@ -2715,7 +2647,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$is_dm = false;
 			if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
 				$is_dm = true;
-				return; //Don't process DMs
+				return true; //Don't process DMs
 			}
 			
 			$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
@@ -2769,7 +2701,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$is_dm = false;
 		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
 			$is_dm = true;
-			return; //Don't process DMs
+			return true; //Don't process DMs
 		}
 		
 		$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
@@ -2859,14 +2791,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$me = $reaction->me;
 		if ($me === true){ //Don't process reactions this bot makes
 			echo "MESSAGE REACTION ADDED" . PHP_EOL;
-			return;
+			return true;
 		}
 		echo "messageReactionAdd" . PHP_EOL;
 		
 		//Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
-		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
+		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
 		$message_content_lower = strtolower($message_content);
 		
 		//Load guild info
@@ -2892,7 +2824,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$is_dm = false;
 		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
 			$is_dm = true;
-			return; //Don't try and process direct messages
+			return true; //Don't try and process direct messages
 		}
 		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
 		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
@@ -3121,7 +3053,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$me = $reaction->me;
 		if ($me === true){ //Don't process reactions this bot makes
 			echo "MESSAGE REACTION REMOVED" . PHP_EOL;
-			return;
+			return true;
 		}
 		//echo "messageReactionRemove" . PHP_EOL;		
 		GLOBAL $bot_id;
@@ -3129,7 +3061,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //		Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
-		if ( ($message_content == NULL) || ($message_content == "") ) return; //Don't process blank messages, bots, webhooks, or rich embeds
+		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
 		$message_content_lower = strtolower($message_content);
 		
 //		Load author info
@@ -3140,7 +3072,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$is_dm = false;
 		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
 			$is_dm = true;
-			return; //Don't try and process direct messages
+			return true; //Don't try and process direct messages
 		}
 		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
 		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
