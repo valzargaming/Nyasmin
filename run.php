@@ -159,9 +159,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		else 													$nsfw 	= VarLoad($author_guild_id, "nsfw_option.php");				//Load saved option file
 		
 //		Role picker options		
-		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
-		//role picker message ids
-		GLOBAL $rolepicker_id, $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
+		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;		
 		
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
 			if(!CheckFile($author_guild_id, "rolepicker_option.php"))
@@ -547,8 +545,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
 			VarSave($author_guild_id, "vanity_option.php", $vanity_flip);
 			if ($vanity_flip === true)
-				$message->reply("NSFW functions enabled!");
-			else $message->reply("NSFW functions disabled!");
+				$message->reply("Vanity functions enabled!");
+			else $message->reply("Vanity functions disabled!");
 			return true;
 		}
 		
