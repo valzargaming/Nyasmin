@@ -40,7 +40,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "V2.10";
+	$version = "V2.10b";
 	
 	//Set status
 	$discord->user->setPresence(
@@ -81,6 +81,51 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		include_once "custom_functions.php";
 		include_once "constants.php";
 		
+		//Load author data from message
+		$author_user													= $message->author; //User object
+		$author_channel 												= $message->channel;
+		$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class											= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel") //True if direct message
+			$is_dm = true;
+		$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
+		
+				/*
+		*********************
+		*********************
+		Get the guild and guildmember collections for the author
+		*********************
+		*********************
+		*/
+		
+		if ($is_dm === false){ //Guild message
+			GLOBAL $getverifed_channel_id, $verifylog_channel_id, $watch_channel_id, $modlog_channel_id;
+			$author_guild 												= $author_channel->guild;
+			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
+			$author_guild_avatar 										= $author_guild->getIconURL();
+			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
+			if($getverifed_channel_id) 		$getverified_channel 		= $author_guild->channels->get($getverifed_channel_id);
+			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
+			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
+			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
+//			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
+//			if($introduction_channel_id)	$introduction_channel		= $author_guild->channels->get($introduction_channel
+			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
+			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
+		}else{ //Direct message
+			if ($author_check != 'Palace Bot#9203'){
+				echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
+				$dm_text = "DMs not yet supported! Please use commands for this bot within the server.";
+				$message->reply("$dm_text \n$server_invite");
+			}
+			return true;
+		}
+		
 		/*
 		*********************
 		*********************
@@ -109,24 +154,24 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		GLOBAL $rolepicker_id, $species_message_id, $sexuality_message_id, $gender_message_id, $customroles_message_id;
 		
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
-			if(!CheckFile(null, "rolepicker_option.php"))			$rp0	= $rolepicker_option;							//Allow Rolepicker
-			else 													$rp0	= VarLoad(null, "rolepicker_option.php");
+			if(!CheckFile(null, "rolepicker_option.php"))		$rp0	= $rolepicker_option;							//Allow Rolepicker
+			else 												$rp0	= VarLoad(null, "rolepicker_option.php");
 			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile(null, "species_option.php"))				$rp1	= $species_option;								//Species role picker
-				else 													$rp1	= VarLoad(null, "species_option.php");
-			} else $rp1 = false;
+				if(!CheckFile(null, "species_option.php"))		$rp1	= $species_option;								//Species role picker
+				else 											$rp1	= VarLoad(null, "species_option.php");
+			} else												$rp1 = false;
 			if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile(null, "sexuality_option.php"))			$rp2	= $sexuality_option;							//Sexuality role picker
-				else 													$rp2	= VarLoad(null, "sexuality_option.php");
-			} else $rp2 = false;
+				if(!CheckFile(null, "sexuality_option.php"))	$rp2	= $sexuality_option;							//Sexuality role picker
+				else 											$rp2	= VarLoad(null, "sexuality_option.php");
+			} else												$rp2 = false;
 			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile(null, "gender_option.php"))				$rp3	= $gender_option;								//Gender role picker
-				else 													$rp3	= VarLoad(null, "gender_option.php");
+				if(!CheckFile(null, "gender_option.php"))		$rp3	= $gender_option;								//Gender role picker
+				else 											$rp3	= VarLoad(null, "gender_option.php");
 			} else $rp3 = false;
 			if ( ($customroles_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile(null, "customrole_option.php"))			$rp4	= $custom_option;								//Custom role picker
-				else 													$rp4	= VarLoad(null, "customrole_option.php");
-			}else $rp4 = false;
+				if(!CheckFile(null, "customrole_option.php"))	$rp4	= $custom_option;								//Custom role picker
+				else 											$rp4	= VarLoad(null, "customrole_option.php");
+			}else												$rp4 = false;
 		}else{
 			$rp0 = false;
 			$rp1 = false;
@@ -134,59 +179,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$rp3 = false;
 			$rp4 = false;
 		}
-		/*
-		*********************
-		*********************
-		Load data for author and channel
-		*********************
-		*********************
-		*/
-		$author_user													= $message->author; //User object
-		$author_channel 												= $message->channel;
-		$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
-		$author_channel_class											= get_class($author_channel);
-		$is_dm = false;
-		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel") //True if direct message
-			$is_dm = true;
-		
-		$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
-		$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
-		$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
-		$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
-		$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
 		
 		echo "Message from $author_check <$author_id> <#$author_channel_id>: {$message_content}", PHP_EOL;
-		
-		/*
-		*********************
-		*********************
-		Get the guild and guildmember collections for the author
-		*********************
-		*********************
-		*/
-		
-		if ($is_dm === false){ //Guild message
-			GLOBAL $getverifed_channel_id, $watch_channel_id, $modlog_channel_id;
-			$author_guild 												= $author_channel->guild;
-			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
-			$author_guild_avatar 										= $author_guild->getIconURL();
-			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
-			if($getverifed_channel_id) 		$getverified_channel 		= $author_guild->channels->get($getverifed_channel_id);
-			if($verifiylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifiylog_channel_id);
-			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
-			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
-//			if($welcome_channel_id) 		$welcome_channel			= $author_guild->channels->get($welcome_channel_id);
-//			if($introduction_channel_id)	$introduction_channel		= $author_guild->channels->get($introduction_channel
-			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
-			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
-		}else{ //Direct message
-			if ($author_check != 'Palace Bot#9203'){
-				echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
-				$dm_text = "DMs not yet supported! Please use commands for this bot within the server.";
-				$message->reply("$dm_text \n$server_invite");
-			}
-			return true;
-		}
 		
 		/*
 		*********************
@@ -2969,6 +2963,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 									$guild->createRole($new_role);
 									echo "Role created" . PHP_EOL;
 								}
+								//Messages can have a max of 20 different reacts, but species has more than 20 options
+								//Clear reactions to avoid discord ratelimit
+								$message->clearReactions(); 
 							}
 						}
 						//$message->clearReactions();
