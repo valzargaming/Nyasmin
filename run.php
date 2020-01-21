@@ -109,6 +109,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			//Load config variables for the guild
 			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			//Create a folder for the guild if it doesn't exist already
+			CheckDir($author_guild_id);
 			
 			if(!CheckFile($author_guild_id, "guild_config.php")){
 				$file = 'guild_config_template.php';
@@ -138,9 +140,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 			return;
 		}
-		
-		//Create a folder for the guild if it doesn't exist already
-		CheckDir($author_guild_id);
 		
 		/*
 		*********************
