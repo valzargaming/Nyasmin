@@ -9,10 +9,10 @@ if(!CheckFile($author_guild_id, "command_symbol.php")){
 }else $command_symbol	= VarLoad($author_guild_id, "command_symbol.php");
 
 //Channel IDs
-if(!CheckFile($author_guild_id, "welcome_channel_id.php")){
-	$welcome_channel_id	= "";	//Channel where a detailed message about the user gets posted
-	VarSave($author_guild_id, "welcome_channel_id.php", $welcome_channel_id);
-}else $welcome_channel_id	= VarLoad($author_guild_id, "welcome_channel_id.php");
+if(!CheckFile($author_guild_id, "welcome_log_channel_id.php")){
+	$welcome_log_channel_id	= "";	//Channel where a detailed message about the user gets posted
+	VarSave($author_guild_id, "welcome_log_channel_id.php", $welcome_log_channel_id);
+}else $welcome_log_channel_id	= VarLoad($author_guild_id, "welcome_log_channel_id.php");
 
 if(!CheckFile($author_guild_id, "welcome_public_channel_id.php")){
 	$welcome_public_channel_id	= "";	//Simple welcome message tagging users
