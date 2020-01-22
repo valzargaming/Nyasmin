@@ -123,8 +123,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(!CheckFile($author_guild_id, "guild_config.php")){
 				$file = 'guild_config_template.php';
 				if (!copy($file, $guild_config_path)){
-					$message->reply("Failed to create guild_config file! Please contact <@116927250145869826>\n");
-				}else $message->reply("guild_config.php file created! <@116927250145869826>, please configure it.");
+					$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
+				}else $author_channel->send("<@$guild_owner_id>, I'm here! Please ;setup the bot or contact <@116927250145869826> for assistance.");
 				
 			}
 			require "$guild_config_path"; //Configurable channel IDs, role IDs, and message IDs used in the guild for special functions
@@ -322,7 +322,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if ($message_content_lower == $command_symbol . 'setup current'){ //;setup
+		if ($message_content_lower == $command_symbol . 'currentsetup'){ //;setup
 			//send DM with current settings
 		}
 		
@@ -413,15 +413,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup verify '){
-			$filter = "$command_symbol" . "setup verify ";
+		if (substr($message_content_lower, 0, 16) == $command_symbol . 'setup verified '){
+			$filter = "$command_symbol" . "setup verified ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<@&", "", $value);
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_verified_id.php", $value);
-				$message->reply("Verify role ID saved!");
+				$message->reply("Verified role ID saved!");
 			}else $message->reply("Invalid! Please enter an ID or @mention the role");
 			return true;
 		}
@@ -455,10 +455,67 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return true;
 		}
 		
+		//Channels
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 15) == $command_symbol . 'setup welcome '){
+			$filter = "$command_symbol" . "setup welcome ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "welcome_public_channel_id.php", $value);
+				$message->reply("Welcome channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup log '){
+			$filter = "$command_symbol" . "setup log ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "modlog_channel_id.php", $value);
+				$message->reply("Log channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup verify '){
+			$filter = "$command_symbol" . "setup verify ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "getverified_channel_id.php", $value);
+				$message->reply("Verify channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 13) == $command_symbol . 'setup watch '){
+			$filter = "$command_symbol" . "setup watch ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "watch_channel_id.php", $value);
+				$message->reply("Watch channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}		
+		
 		//Messages
 		if ($creator || $owner)
 		if (substr($message_content_lower, 0, 15) == $command_symbol . 'setup species '){
-			$filter = "$command_symbol" . "setup species1 ";
+			$filter = "$command_symbol" . "setup species ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = trim($value);
 			if(is_numeric($value)){
@@ -2388,7 +2445,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild_id										= $guildmember->guild->id;
 			//Load config variables for the guild
 			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-			echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			require "$guild_config_path";
 			
 			try{
