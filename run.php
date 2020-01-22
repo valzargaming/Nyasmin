@@ -132,7 +132,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild_avatar 										= $author_guild->getIconURL();
 			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
 			if($getverified_channel_id) 	$getverified_channel 		= $author_guild->channels->get($getverified_channel_id);
-			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
+//			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
@@ -317,13 +317,135 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if ($creator || $owner)
-		if ($message_content_lower == $command_symbol . 'setup'){ //;setup
-			//send DM with usage documentation
+		if ($message_content_lower == $command_symbol . 'setup'){ //;setup	
+			$documentation = $documentation . "`currentsetup` send DM with current settings.\n";
+			//Roles
+			$documentation = $documentation . "\n**Roles:**\n";
+			$documentation = $documentation . "`setup dev @role`\n";
+			$documentation = $documentation . "`setup admin @role`\n";
+			$documentation = $documentation . "`setup mod @role`\n";
+			$documentation = $documentation . "`setup bot @role`\n";
+			$documentation = $documentation . "`setup vzg @role` (Role with the name Palace Bot, not the actual bot)\n";
+			$documentation = $documentation . "`setup muted @role`\n";
+			$documentation = $documentation . "`setup verified @role`\n";
+			$documentation = $documentation . "`setup adult @role`\n";
+			//User
+			$documentation = $documentation . "**Users:**\n";
+			$documentation = $documentation . "`setup rolepicker @user` The user who posted the rolepicker messages\n";
+			//Channels
+			$documentation = $documentation . "**Channels:**\n";
+			$documentation = $documentation . "`setup welcome #channel` Simple welcome message tagging new user\n";
+			$documentation = $documentation . "`setup welcomelog #channel` Detailed message about the user\n";
+			$documentation = $documentation . "`setup log #channel` Detailed log channel\n";
+//			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n"; //Not currently implemented
+			$documentation = $documentation . "`setup watch #channel` ;watch messages are duplicated here instead of in a DM\n";
+			//Messages
+			$documentation = $documentation . "**Messages:**\n";
+			$documentation = $documentation . "`setup species messageid`\n";
+			$documentation = $documentation . "`setup sexuality messageid`\n";
+			$documentation = $documentation . "`setup gender messageid`\n";
+			$documentation = $documentation . "`setup customroles messageid`\n";
+			
+			$documentation_sanitized = str_replace("*","",$documentation);
+			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
+			$doc_length = strlen($documentation_sanitized);
+			if ($doc_length < 1025){
+//				Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+					->setTitle("Server setup commands")														// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setDescription("$documentation")														// Set a description (below title, above fields)
+//					->addField("⠀", "$documentation")														// New line after this			
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+//				Open a DM channel then send the rich embed message
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND ;SETUP EMBED' . PHP_EOL;
+					return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "error: " . $error . PHP_EOL; //Echo any errors
+					});
+				});
+				return true;
+			}else{
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
+					echo 'SEND ;SETUP MESSAGE' . PHP_EOL;
+					$author_dmchannel->send($documentation);
+				});
+				return true;
+			}
 		}
 		
 		if ($creator || $owner)
-		if ($message_content_lower == $command_symbol . 'currentsetup'){ //;setup
+		if ($message_content_lower == $command_symbol . 'currentsetup'){ //;currentsetup
 			//send DM with current settings
+			//Roles
+			$documentation = $documentation . "\n**Roles:**\n";
+			$documentation = $documentation . "`dev @role` $role_dev_id\n";
+			$documentation = $documentation . "`admin @role` $role_admin_id\n";
+			$documentation = $documentation . "`mod @role` $role_mod_id\n";
+			$documentation = $documentation . "`bot @role` $role_bot_id\n";
+			$documentation = $documentation . "`vzg @role` $role_vzgbot_id\n";
+			$documentation = $documentation . "`muted @role` $role_muted_id\n";
+			$documentation = $documentation . "`verified @role` $role_verified_id\n";
+			$documentation = $documentation . "`adult @role` $role_18_id\n";
+			//User
+			$documentation = $documentation . "**Users:**\n";
+			$documentation = $documentation . "`rolepicker @user` $rolepicker_id\n";
+			//Channels
+			$documentation = $documentation . "**Channels:**\n";
+			$documentation = $documentation . "`welcome #channel` $welcome_public_channel_id\n";
+			$documentation = $documentation . "`welcomelog #channel` $welcome_log_channel_id\n";
+			$documentation = $documentation . "`log #channel` $modlog_channel_id\n";
+//			$documentation = $documentation . "`verify #channel`\n"; //Not currently implemented
+			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
+			//Messages
+			$documentation = $documentation . "**Messages:**\n";
+			$documentation = $documentation . "`species messageid` $species_message_id\n";
+			$documentation = $documentation . "`sexuality messageid` $sexuality_message_id\n";
+			$documentation = $documentation . "`gender messageid` $gender_message_id\n";
+			$documentation = $documentation . "`customroles messageid` $customrole_message_id\n";
+			
+			$documentation_sanitized = str_replace("*","",$documentation);
+			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
+			$doc_length = strlen($documentation_sanitized);
+			if ($doc_length < 1025){
+//				Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+					->setTitle("Server setup commands")														// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setDescription("$documentation")														// Set a description (below title, above fields)
+//					->addField("⠀", "$documentation")														// New line after this			
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+//				Open a DM channel then send the rich embed message
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND ;CURRENTSETUP EMBED' . PHP_EOL;
+					return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "error: " . $error . PHP_EOL; //Echo any errors
+					});
+				});
+				return true;
+			}else{
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
+					echo 'SEND ;CURRENTSETUP MESSAGE' . PHP_EOL;
+					$author_dmchannel->send($documentation);
+				});
+				return true;
+			}
 		}
 		
 		//Roles
@@ -445,9 +567,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup rolepicker '){
 			$filter = "$command_symbol" . "setup rolepicker ";
 			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@", "", $value);
+			$value = str_replace("<@!", "", $value);
 			$value = str_replace(">", "", $value);
-			$value = trim($value);
+			$value = trim($value); echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "rolepicker_id.php", $value);
 				$message->reply("Rolepicker user ID saved!");
@@ -675,6 +797,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation_sanitized = str_replace("*","",$documentation);
 			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
 			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
 //				Build the embed message
