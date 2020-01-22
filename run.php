@@ -40,7 +40,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "V2.10b";
+	$version = "RC V1.0.0";
 	
 	//Set status
 	$discord->user->setPresence(
@@ -124,7 +124,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$file = 'guild_config_template.php';
 				if (!copy($file, $guild_config_path)){
 					$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
-				}else $author_channel->send("<@$guild_owner_id>, I'm here! Please ;setup the bot or contact <@116927250145869826> for assistance.");
+				}else $author_channel->send("<@$guild_owner_id>, I'm here! Please ;setup the bot.");
 				
 			}
 			require "$guild_config_path"; //Configurable channel IDs, role IDs, and message IDs used in the guild for special functions
