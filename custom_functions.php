@@ -65,7 +65,9 @@ function VarSave($foldername, $filename, $variable){
 	}
 	//Save variable to a file
 	$serialized_variable = serialize($variable); 
-	file_put_contents($path.$filename, $serialized_variable); //echo "FULL PATH: $path$filename" . PHP_EOL;
+	if(file_put_contents($path.$filename, $serialized_variable)){ //echo "FULL PATH: $path$filename" . PHP_EOL;
+		return true;
+	}else return false; //Erorr
 }
 
 //Loads a variable from a file
