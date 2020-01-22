@@ -15,7 +15,7 @@ if(!CheckFile($author_guild_id, "welcome_log_channel_id.php")){
 }else $welcome_log_channel_id	= VarLoad($author_guild_id, "welcome_log_channel_id.php");
 
 if(!CheckFile($author_guild_id, "welcome_public_channel_id.php")){
-	$welcome_public_channel_id	= "";	//Simple welcome message tagging users
+	$welcome_public_channel_id	= "";	//Simple welcome message tagging new users
 	VarSave($author_guild_id, "welcome_public_channel_id.php", $welcome_public_channel_id);
 }else $welcome_public_channel_id	= VarLoad($author_guild_id, "welcome_public_channel_id.php");
 
