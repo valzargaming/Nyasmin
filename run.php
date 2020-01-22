@@ -471,6 +471,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup welcomelog '){
+			$filter = "$command_symbol" . "setup welcomelog ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "welcome_log_channel_id.php", $value);
+				$message->reply("Welcome log channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
 		if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup log '){
 			$filter = "$command_symbol" . "setup log ";
 			$value = str_replace($filter, "", $message_content_lower);
@@ -2449,9 +2463,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			require "$guild_config_path";
 			
 			try{
-				if($welcome_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_channel_id);
+				if($welcome_log_channel_id) 		$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
 				if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
-				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_channel_id);
+				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			}catch(Exception $e){
 //				RuntimeException: Unknown property
 //				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
@@ -2704,9 +2718,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			require "$guild_config_path";
 			
 			try{
-				if($welcome_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_channel_id);
+				if($welcome_log_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
 				if($introduction_channel_id) 		$introduction_channel	= $guildmember->guild->channels->get($introduction_channel_id);
-				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_channel_id);
+				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			}catch(Exception $e){
 //				RuntimeException: Unknown property																		//echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
 			}
