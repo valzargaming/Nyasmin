@@ -19,10 +19,10 @@ if(!CheckFile($author_guild_id, "welcome_public_channel_id.php")){
 	VarSave($author_guild_id, "welcome_public_channel_id.php", $welcome_public_channel_id);
 }else $welcome_public_channel_id	= VarLoad($author_guild_id, "welcome_public_channel_id.php");
 
-if(!CheckFile($author_guild_id, "introduction_channel_id.php")){
-	$introduction_channel_id	= "";	//Usually #introductions or #general (Not currently implemented)
-	VarSave($author_guild_id, "introduction_channel_id.php", $introduction_channel_id);
-}else $introduction_channel_id	= VarLoad($author_guild_id, "introduction_channel_id.php");
+if(!CheckFile($author_guild_id, "general_channel_id.php")){
+	$general_channel_id	= "";	//Usually #introductions or #general, used to welcome verified users
+	VarSave($author_guild_id, "general_channel_id.php", $general_channel_id);
+}else $general_channel_id	= VarLoad($author_guild_id, "general_channel_id.php");
 
 if(!CheckFile($author_guild_id, "modlog_channel_id.php")){
 	$modlog_channel_id	= "";	//Usually #introductions or #general (Not currently implemented)
