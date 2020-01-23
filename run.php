@@ -61,7 +61,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			'afk' => false
 		)
 	);
-	echo "BOT IS READY" . PHP_EOL;
+	echo 'Logged in as '.$discord->user->tag.' created on '.$discord->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
 	$timestampSetup = time();
 	echo "timestampSetup: " . $timestampSetup . PHP_EOL;
 	//Save this to a file to be loaded, used in messageUpdate
@@ -334,6 +334,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup rolepicker @user` The user who posted the rolepicker messages\n";
 			//Channels
 			$documentation = $documentation . "**Channels:**\n";
+			$documentation = $documentation . "`setup general #channel` The primary chat channel, also welcomes new users to everyone\n";
 			$documentation = $documentation . "`setup welcome #channel` Simple welcome message tagging new user\n";
 			$documentation = $documentation . "`setup welcomelog #channel` Detailed message about the user\n";
 			$documentation = $documentation . "`setup log #channel` Detailed log channel\n";
@@ -400,6 +401,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`rolepicker @user` $rolepicker_id\n";
 			//Channels
 			$documentation = $documentation . "**Channels:**\n";
+			$documentation = $documentation . "`general #channel` $general_channel_id\n";
 			$documentation = $documentation . "`welcome #channel` $welcome_public_channel_id\n";
 			$documentation = $documentation . "`welcomelog #channel` $welcome_log_channel_id\n";
 			$documentation = $documentation . "`log #channel` $modlog_channel_id\n";
@@ -578,6 +580,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		//Channels
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 15) == $command_symbol . 'setup general '){
+			$filter = "$command_symbol" . "setup general ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "general_channel_id.php", $value);
+				$message->reply("General channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
 		if ($creator || $owner)
 		if (substr($message_content_lower, 0, 15) == $command_symbol . 'setup welcome '){
 			$filter = "$command_symbol" . "setup welcome ";
@@ -759,9 +775,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`kick @mention reason`\n";
 				//ban
 				$documentation = $documentation . "`ban @mention reason`\n";
-				
 				//Strikeout invalid options
 				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+				//mute
+				$documentation = $documentation . "`mute @mention reason`\n";
 				//unmute
 				$documentation = $documentation . "`unmute @mention reason`\n";
 				//Strikeout invalid options
@@ -1387,7 +1404,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							echo $error.PHP_EOL; //Echo any errors
 						});
 					}else{//Target is not allowed to be kicked
-						$author_channel->send("You can't kick <@$mention_id>!");
+						$author_channel->send("<@$mention_id> cannot be kicked because of their roles!");
 						return true;
 					}
 				}else{
@@ -1472,8 +1489,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
-					}else{//Target is not allowed to be muteed
-						$author_channel->send("You can't mute <@$mention_id>!");
+					}else{//Target is not allowed to be muted
+						$author_channel->send("<@$mention_id> cannot be muted because of their roles!");
 						return true;
 					}
 				}else{
@@ -1504,18 +1521,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($author_id != $mention_id){ //Don't let anyone mute themselves
 					//Get the roles of the mentioned user
-					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
+					$target_guildmember 									= $message->guild->members->get($mention_id);
+					$target_guildmember_role_collection 					= $target_guildmember->roles;
 
-	//				Populate arrays of the info we need
-	//				$target_guildmember_roles_names 						= array();
-					$x=0;
+//					Get the roles of the mentioned user
 					$target_dev = false;
 					$target_owner = false;
 					$target_admin = false;
 					$target_mod = false;
 					$target_vzg = false;
+//					Populate arrays of the info we need
 					$target_guildmember_roles_ids = array();
+					$x=0;
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
 							$target_guildmember_roles_ids[] 				= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
@@ -1551,15 +1568,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 							->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-							->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
+							->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
 							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 							->setURL("");                             												// Set the URL
 //						Send the message
 						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
-					}else{//Target is not allowed to be muteed
-						$author_channel->send("You can't mute <@$mention_id>!");
+					}else{//Target is not allowed to be unmuted
+						$author_channel->send("<@$mention_id> cannot be unmuted because of their roles!");
 						return true;
 					}
 				}else{
@@ -1648,7 +1665,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						if($react) $message->react("🔨"); //Hammer
 						return true; //No more processing, we only want to process the first person mentioned
 					}else{//Target is not allowed to be banned
-						$author_channel->send("You can't ban <@$mention_id>!");
+						$author_channel->send("<@$mention_id> cannot be banned because of their roles!");
 						return true;
 					}
 				}else{
@@ -1680,27 +1697,27 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$vanity_limit['sec'] = 0;
 			$vanity_limit_seconds = TimeArrayToSeconds($vanity_limit);
 //			Load author give statistics
-			if(!CheckFile($author_folder, "vanity_give_count.php"))		$vanity_give_count	= 0;													
+			if(!CheckFile($author_folder, "vanity_give_count.php"))	$vanity_give_count	= 0;													
 			else 													$vanity_give_count	= VarLoad($author_guild_id."/".$author_id, "vanity_give_count.php");		
-			if(!CheckFile($author_folder, "hugger_count.php"))			$hugger_count		= 0;													
+			if(!CheckFile($author_folder, "hugger_count.php"))		$hugger_count		= 0;													
 			else 													$hugger_count 		= VarLoad($author_guild_id."/".$author_id, "hugger_count.php");				
-			if(!CheckFile($author_folder, "kisser_count.php"))			$kisser_count		= 0;													
+			if(!CheckFile($author_folder, "kisser_count.php"))		$kisser_count		= 0;													
 			else 													$kisser_count 		= VarLoad($author_guild_id."/".$author_id, "kisser_count.php");				
-			if(!CheckFile($author_folder, "nuzzler_count.php"))			$nuzzler_count		= 0;													
+			if(!CheckFile($author_folder, "nuzzler_count.php"))		$nuzzler_count		= 0;													
 			else 													$nuzzler_count		= VarLoad($author_guild_id."/".$author_id, "nuzzler_count.php");			
-			if(!CheckFile($author_folder, "booper_count.php"))			$booper_count		= 0;													
+			if(!CheckFile($author_folder, "booper_count.php"))		$booper_count		= 0;													
 			else 													$booper_count		= VarLoad($author_guild_id."/".$author_id, "booper_count.php");			
 
 //			Load author get statistics
-			if(!CheckFile($author_folder, "vanity_get_count.php"))		$vanity_get_count	= 0;													
+			if(!CheckFile($author_folder, "vanity_get_count.php"))	$vanity_get_count	= 0;													
 			else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$author_id, "vanity_get_count.php");		
-			if(!CheckFile($author_folder, "hugged_count.php"))			$hugged_count		= 0;													
+			if(!CheckFile($author_folder, "hugged_count.php"))		$hugged_count		= 0;													
 			else 													$hugged_count 		= VarLoad($author_guild_id."/".$author_id, "hugged_count.php");				
-			if(!CheckFile($author_folder, "kissed_count.php"))			$kissed_count		= 0;													
+			if(!CheckFile($author_folder, "kissed_count.php"))		$kissed_count		= 0;													
 			else 													$kissed_count 		= VarLoad($author_guild_id."/".$author_id, "kissed_count.php");				
-			if(!CheckFile($author_folder, "nuzzled_count.php"))			$nuzzled_count		= 0;													
+			if(!CheckFile($author_folder, "nuzzled_count.php"))		$nuzzled_count		= 0;													
 			else 													$nuzzled_count		= VarLoad($author_guild_id."/".$author_id, "nuzzled_count.php");				
-			if(!CheckFile($author_folder, "booped_count.php"))			$booped_count		= 0;													
+			if(!CheckFile($author_folder, "booped_count.php"))		$booped_count		= 0;													
 			else 													$booped_count		= VarLoad($author_guild_id."/".$author_id, "booped_count.php");				
 			
 			if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
@@ -1730,10 +1747,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$hugger_count++;
 							VarSave($author_folder, "hugger_count.php", $hugger_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "hugged_count.php"))			$hugged_count		= 0;
-							else 													$hugged_count 		= VarLoad($author_guild_id."/".$mention_id, "hugged_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																		$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "hugged_count.php"))		$hugged_count		= 0;
+							else 																		$hugged_count 		= VarLoad($author_guild_id."/".$mention_id, "hugged_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -1803,10 +1820,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$kisser_count++;
 							VarSave($author_folder, "kisser_count.php", $kisser_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "kissed_count.php"))			$kissed_count		= 0;
-							else 													$kissed_count 		= VarLoad($author_guild_id."/".$mention_id, "kissed_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																		$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "kissed_count.php"))		$kissed_count		= 0;
+							else 																		$kissed_count 		= VarLoad($author_guild_id."/".$mention_id, "kissed_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -1854,11 +1871,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 					foreach ( $mentions_arr as $mention_param ){
-						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_param_encode 										= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 												= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 												= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
 							$nuzzle_messages										= array();
@@ -1877,10 +1894,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$nuzzler_count++;
 							VarSave($author_folder, "nuzzler_count.php", $nuzzler_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																		$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
 							if(!CheckFile($author_guild_id."/".$mention_id, "nuzzled_count.php"))		$nuzzled_count		= 0;
-							else 													$nuzzled_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzled_count.php");
+							else 																		$nuzzled_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzled_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -2243,9 +2260,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 //				Get the roles of the mentioned user
 				echo "mention_id: " . $mention_id . PHP_EOL;
-				$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-				$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
-																																		//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
+				$target_guildmember 									= $message->guild->members->get($mention_id);
+				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
 				
 //				Populate arrays of the info we need
 				$target_verified										= false; //Default
@@ -2264,12 +2280,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
 //					Add the verified role to the member
 					$target_guildmember->addRole($role_verified_id)->done(
-						function () use ($message) {
-							//$message->reply('I have successfully synced your character and updated your roles.');
+						function () use ($general_channel) {
+							if ($general_channel)
+								$general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
+							
 						},
 						function ($error) {
 							throw $error;
 						}
+						//Welcome the newly verified in general
+						//$general_channel->send('Welcome to the Palace, <@$mention_id>!');
+						
 					);
 					echo "Role added to $role_verified_id" . PHP_EOL;
 				}
@@ -2278,7 +2299,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($mention_role_name_queue_default != $mention_role_name_queue_full){
 				if($verify_channel){
 					if($react) $message->react("👍");
-					$verify_channel->send($mention_role_name_queue_full . PHP_EOL);
+					if($verify_channel)
+						$verify_channel->send($mention_role_name_queue_full . PHP_EOL);
 					return true;
 				}else{
 					if($react) $message->react("👍");
@@ -2286,17 +2308,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					return true;
 				}
 			}else{
-				/*
-				if($verify_channel){
-					$verify_channel->send($mention_role_name_queue_full . PHP_EOL);
-					if($react) $message->react("👍");
-				}else{
-					$author_channel->send($mention_role_name_queue_full . PHP_EOL);
-					if($react) $message->react("👍");
-				}
-				*/
 				if($react) $message->react("👎");
-				$message->reply("Everyone mentioned already has the verified role!" . PHP_EOL);
+				$message->reply("Nobody mentioned needs to be verified!" . PHP_EOL);
 				return true;
 			}	
 		}
@@ -2586,9 +2599,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			require "$guild_config_path";
 			
 			try{
+				if($general_channel_id) 			$general_channel		= $guildmember->guild->channels->get($general_channel_id);
 				if($welcome_log_channel_id) 		$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
 				if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
-				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			}catch(Exception $e){
 //				RuntimeException: Unknown property
 //				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
@@ -2842,8 +2855,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			try{
 				if($welcome_log_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
-				if($introduction_channel_id) 		$introduction_channel	= $guildmember->guild->channels->get($introduction_channel_id);
-				else 								$introduction_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			}catch(Exception $e){
 //				RuntimeException: Unknown property																		//echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
 			}
@@ -3632,9 +3643,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('error', function ($error){ //Handling of thrown errors
-		echo "ERROR" . PHP_EOL;
-		echo $error . PHP_EOL;
-		return true;
+		echo "ERROR: $error" . PHP_EOL;
 	});
 }); //end main function ready
 
