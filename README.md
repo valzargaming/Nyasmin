@@ -1,4 +1,4 @@
-# This fork is dedicated to maintaining Palace Bot#9203 that is used primarily in the "Blue's Cloudy Palace" guild. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or commit pull requests.
+**This fork is dedicated to maintaining Palace Bot#9203 that is used primarily in the "Blue's Cloudy Palace" guild. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or pull requests committed. This bot is confirmed to be working with PHP 7.3.**
 
 Yasmin is a Discord API library for PHP. Yasmin connects to the Gateway and interacts with the REST API.
 
