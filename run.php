@@ -79,7 +79,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		include_once "custom_functions.php";
-		include_once "constants.php";
+		include "constants.php"; //Redeclare $now every time
 		
 		//Load author data from message
 		$author_user													= $message->author; //User object
@@ -135,6 +135,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
+			if($general_channel_id) 		$general_channel			= $author_guild->channels->get($general_channel_id);
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
 		}else{ //Direct message
@@ -175,23 +176,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;		
 		
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
-			if(!CheckFile($author_guild_id, "rolepicker_option.php"))
+			if(!CheckFile($author_guild_id, "rolepicker_option.php")){
 																$rp0	= $rolepicker_option;							//Allow Rolepicker
-			else 												$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
+			}else 												$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
 			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "species_option.php"))
+				if(!CheckFile($author_guild_id, "species_option.php")){
 																$rp1	= $species_option;								//Species role picker
-				else 											$rp1	= VarLoad($author_guild_id, "species_option.php");
+				}else 											$rp1	= VarLoad($author_guild_id, "species_option.php");
 			} else												$rp1	= false;
 			if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "sexuality_option.php"))
+				if(!CheckFile($author_guild_id, "sexuality_option.php")){
 																$rp2	= $sexuality_option;							//Sexuality role picker
-				else 											$rp2	= VarLoad($author_guild_id, "sexuality_option.php");
+				}else 											$rp2	= VarLoad($author_guild_id, "sexuality_option.php");
 			} else												$rp2	= false;
 			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "gender_option.php"))
+				if(!CheckFile($author_guild_id, "gender_option.php")){
 																$rp3	= $gender_option;								//Gender role picker
-				else 											$rp3	= VarLoad($author_guild_id, "gender_option.php");
+				}else 											$rp3	= VarLoad($author_guild_id, "gender_option.php");
 			} else $rp3 = false;
 			if ( ($customroles_message_id != "") || ($gender_message_id != NULL) ){
 				if(!CheckFile($author_guild_id, "customrole_option.php"))
@@ -209,6 +210,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		echo "Message from $author_check <$author_id> <#$author_channel_id>: {$message_content}", PHP_EOL;
 		
 		/*
+
 		*********************
 		*********************
 		Load persistent variables for author
@@ -340,6 +342,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup log #channel` Detailed log channel\n";
 //			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n"; //Not currently implemented
 			$documentation = $documentation . "`setup watch #channel` ;watch messages are duplicated here instead of in a DM\n";
+			$documentation = $documentation . "`setup rolepicker channel #channel` Where users pick a role\n";
 			//Messages
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`setup species messageid`\n";
@@ -407,6 +410,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`log #channel` $modlog_channel_id\n";
 //			$documentation = $documentation . "`verify #channel`\n"; //Not currently implemented
 			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
+			$documentation = $documentation . "`rolepicker channel #channel` $rolepicker_channel_id\n";
 			//Messages
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`species messageid` $species_message_id\n";
@@ -501,7 +505,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_mod_id.php", $value);
+				VarSave($author_guild_id, "role_bot_id.php", $value);
 				$message->reply("Bot role ID saved!");
 			}else $message->reply("Invalid! Please enter an ID or @mention the role");
 			return true;
@@ -561,21 +565,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				VarSave($author_guild_id, "role_18_id.php", $value);
 				$message->reply("Adult role ID saved!");
 			}else $message->reply("Invalid! Please enter an ID or @mention the role");
-			return true;
-		}
-		
-		//Users
-		if ($creator || $owner)
-		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup rolepicker '){
-			$filter = "$command_symbol" . "setup rolepicker ";
-			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value);
-			$value = str_replace(">", "", $value);
-			$value = trim($value); echo "value: " . $value . PHP_EOL;
-			if(is_numeric($value)){
-				VarSave($author_guild_id, "rolepicker_id.php", $value);
-				$message->reply("Rolepicker user ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the user");
 			return true;
 		}
 		
@@ -661,6 +650,35 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				VarSave($author_guild_id, "watch_channel_id.php", $value);
 				$message->reply("Watch channel ID saved!");
 			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}		
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 26) == $command_symbol . 'setup rolepicker channel '){
+			$filter = "$command_symbol" . "setup rolepicker channel ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "rolepicker_channel_id.php", $value);
+				$message->reply("Rolepicker channel ID saved!");
+			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+
+		//Users
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup rolepicker '){
+			$filter = "$command_symbol" . "setup rolepicker ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "rolepicker_id.php", $value);
+				$message->reply("Rolepicker user ID saved!");
+			}else $message->reply("Invalid! Please enter an ID or @mention the user");
 			return true;
 		}		
 		
@@ -777,17 +795,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`ban @mention reason`\n";
 				//Strikeout invalid options
 				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
-				//mute
-				$documentation = $documentation . "`mute @mention reason`\n";
 				//unmute
 				$documentation = $documentation . "`unmute @mention reason`\n";
 				//Strikeout invalid options
 				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+				
 			}
 			if($creator || $owner || $dev || $admin || $mod){
 				$documentation = $documentation . "\n__**Moderators:**__\n";
+				//Strikeout invalid options
+				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
 				//mute/m
 				$documentation = $documentation . "`mute @mention reason`\n";
+				//Strikeout invalid options
+				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+				//whois
+				$documentation = $documentation . "`whois @mention`\n";
+				
 			}
 			if($vanity){
 				$documentation = $documentation . "\n__**Vanity commands:**__\n";
@@ -2011,6 +2035,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 			}
 			
+			//TODO: Spin The Bottle
+			
 			//ymdhis cooldown time
 			$vstats_limit['year'] = 0;
 			$vstats_limit['month'] = 0;
@@ -2170,7 +2196,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		
-		//TODO
+		//TODO? (This is already done with messageReactionAdd)
 		
 		/*
 		*********************
@@ -2180,7 +2206,67 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		
-		if ($creator || $owner) //Only allow these roles to use this
+		if ($creator) //Only allow these roles to use this
+		if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whois
+			//TODO
+			echo "WHOIS" . PHP_EOL;
+			$filter = "$command_symbol" . "whois ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value);
+			$value = str_replace(">", "", $value);
+			if(is_numeric($value)){
+				$mention_member				= $author_guild->members->get($value);
+				$mention_user				= $mention_member->user;
+				
+				$mention_id					= $mention_member->id;
+				$mention_check				= $mention_user->tag;
+				$mention_nickname			= $mention_member->nickname;
+				$mention_avatar 			= $mention_user->getAvatarURL();
+				
+				$mention_joined				= $mention_member->joinedAt;
+				$mention_joinedTimestamp	= $mention_member->joinedTimestamp;
+				$mention_joinedDate			= date("D M j H:i:s Y", $mention_joinedTimestamp);
+				$mention_joinedDateTime		= new DateTime('@' . $mention_joinedTimestamp);
+				
+				$mention_created			= $mention_user->createdAt;
+				$mention_createdTimestamp	= $mention_user->createdTimestamp;
+				$mention_createdDate		= date("D M j H:i:s Y", $mention_createdTimestamp);
+				$mention_createdDateTime	= new DateTime('@' . $mention_createdTimestamp);
+				
+				$mention_joinedAge = $mention_joinedDateTime->diff($now)->days . " days";
+				$mention_createdAge = $mention_createdDateTime->diff($now)->days . " days";
+				
+//				Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+					->setTitle("$mention_check ($mention_nickname)")																// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//					->setDescription("Blue's Cloudy Palace")									// Set a description (below title, above fields)
+					->addField("ID", "$mention_id", true)
+					->addField("Avatar", "[Link]($mention_avatar)", true)
+					->addField("Account Created", "$mention_createdDate", true)
+					->addField("Account Age", "$mention_createdAge", true)
+					->addField("Joined Server", "$mention_joinedDate", true)
+					->addField("Server Age", "$mention_joinedAge", true)
+
+//					->addField("Last username", "", true) //Needs persistent logging of users as an array
+//					->addField("Last Nicknames", "", true) //Needs persistent logging of users as an array
+
+					->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setImage("$image_path")             													// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}else $message->reply("Invalid! Please enter an ID or @mention the user");
+			return true;
+		}
+		
+		if ($creator) //Only allow these roles to use this
 		if ($message_content_lower == $command_symbol . 'genimage'){
 			include "imagecreate_include.php"; //Generates $img_output_path
 			$image_path = "http://www.valzargaming.com/discord%20-%20palace/" . $img_output_path;
@@ -2280,33 +2366,35 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
 //					Add the verified role to the member
 					$target_guildmember->addRole($role_verified_id)->done(
-						function () use ($general_channel) {
-							if ($general_channel)
-								$general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
-							
+						function (){
+							//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
 						},
 						function ($error) {
 							throw $error;
 						}
-						//Welcome the newly verified in general
-						//$general_channel->send('Welcome to the Palace, <@$mention_id>!');
-						
 					);
-					echo "Role added to $role_verified_id" . PHP_EOL;
+					echo "Verify role added ($role_verified_id)" . PHP_EOL;
 				}
 			}
 //			Send the message
 			if ($mention_role_name_queue_default != $mention_role_name_queue_full){
+				/*
 				if($verify_channel){
 					if($react) $message->react("👍");
 					if($verify_channel)
 						$verify_channel->send($mention_role_name_queue_full . PHP_EOL);
 					return true;
-				}else{
-					if($react) $message->react("👍");
-					$author_channel->send($mention_role_name_queue_full . PHP_EOL);
-					return true;
 				}
+				*/
+				if($react) $message->react("👍");
+				if($author_channel)
+					$author_channel->send($mention_role_name_queue_full . PHP_EOL);
+				if($general_channel){
+					$msg = "Welcome to the Palace, <@$mention_id>!";
+					if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+					$general_channel->send($msg);
+				}
+				return true;
 			}else{
 				if($react) $message->react("👎");
 				$message->reply("Nobody mentioned needs to be verified!" . PHP_EOL);
@@ -2319,8 +2407,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
 			echo "CV" . PHP_EOL;
 			$getverified_channel->bulkDelete(100);
+			//Delete any messages that aren't cached
 			$getverified_channel->fetchMessages()->then(function($message_collection) use ($getverified_channel){
-				foreach ($message_collection as $message){													//Model/Message				//echo "message_collection message class:" . get_class($message) . PHP_EOL;
+				foreach ($message_collection as $message){
 					$getverified_channel->message->delete();
 				}
 			});
@@ -2332,6 +2421,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($message_content_lower == $command_symbol . 'clearall'){ //;clearall Clear as many messages in the author's channel at once as possible
 			echo "CLEARALL" . PHP_EOL;
 			$author_channel->bulkDelete(100);
+			//Delete any messages that aren't cached
+			$author_channel->fetchMessages()->then(function($message_collection) use ($author_channel){
+				foreach ($message_collection as $message){
+					$author_channel->message->delete();
+				}
+			});
 			return true;
 		};
 		
@@ -2600,7 +2695,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			try{
 				if($general_channel_id) 			$general_channel		= $guildmember->guild->channels->get($general_channel_id);
+			}catch(Exception $e){
+//				RuntimeException: Unknown property
+//				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
+			}
+			try{
 				if($welcome_log_channel_id) 		$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
+			}catch(Exception $e){
+//				RuntimeException: Unknown property
+//				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
+			}
+			try{
 				if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
 			}catch(Exception $e){
 //				RuntimeException: Unknown property
