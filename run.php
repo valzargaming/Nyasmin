@@ -3324,8 +3324,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//Create a folder for the guild if it doesn't exist already
 		CheckDir($author_guild_id);
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		//Role picker stuff
