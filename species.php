@@ -21,8 +21,10 @@ $species = array(
 	"reptile" => "🦎", //:lizard:
 	"sergal" => "🧀", //:cheese: 
 	"shapeshifter" => "🔷", //:small_blue_diamond
-	"wolf" => "🐺", //:wolf:
+);
 
+$species2 = array(
+	"wolf" => "🐺", //:wolf:
 	"goat" => "🐐", //:goat:
 	"human" => "🚶", //:person_walking: 
 	"mobold" => "🍆", //:eggplant:
