@@ -346,6 +346,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//Messages
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`setup species messageid`\n";
+			$documentation = $documentation . "`setup species2 messageid`\n";
 			$documentation = $documentation . "`setup sexuality messageid`\n";
 			$documentation = $documentation . "`setup gender messageid`\n";
 			$documentation = $documentation . "`setup customroles messageid`\n";
@@ -414,6 +415,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//Messages
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`species messageid` $species_message_id\n";
+			$documentation = $documentation . "`species2 messageid` $species2_message_id\n";
 			$documentation = $documentation . "`sexuality messageid` $sexuality_message_id\n";
 			$documentation = $documentation . "`gender messageid` $gender_message_id\n";
 			$documentation = $documentation . "`customroles messageid` $customrole_message_id\n";
@@ -696,6 +698,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 16) == $command_symbol . 'setup species2 '){
+			$filter = "$command_symbol" . "setup species2 ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($author_guild_id, "species2_message_id.php", $value);
+				$message->reply("Species2 message ID saved!");
+			}else $message->reply("Invalid! Please enter a message ID");
+			return true;
+		}
+		
+		if ($creator || $owner)
 		if (substr($message_content_lower, 0, 17) == $command_symbol . 'setup sexuality '){
 			$filter = "$command_symbol" . "setup sexuality ";
 			$value = str_replace($filter, "", $message_content_lower);
@@ -756,6 +770,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`rolepicker`\n";
 				//species
 				$documentation = $documentation . "`species`\n";
+				//species2
+				$documentation = $documentation . "`species2`\n";
 				//sexuality
 				$documentation = $documentation . "`sexuality`\n";
 				//gender
@@ -1759,8 +1775,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						if ($author_id != $mention_id){
 							$hug_messages										= array();
 							$hug_messages[]										= "<@$author_id> has given <@$mention_id> a hug! How sweet!";
-							$hug_messages[]										= "<@$author_id> saw that <@$mention_id> needed attention, so user gave them a hug!";
-							$hug_messages[]										= "<@$author_id> gave <@$mention_id> a hug! Isn't this adorable!";
+							$hug_messages[]										= "<@$author_id> saw that <@$mention_id> needed attention, so <@$author_id> gave them a hug!";
+							$hug_messages[]										= "<@$author_id> gave <@$mention_id> a hug! Isn't this adorable?";
 							$index_selection									= GetRandomArrayIndex($hug_messages);
 
 							//Send the message
@@ -3329,7 +3345,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Role picker stuff
 		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
-		GLOBAL $species, $sexualities, $gender, $custom_roles;
+		GLOBAL $species, $species2, $sexualities, $gender, $custom_roles;
 		
 		//Load author info
 		$author_user				= $message->author; //User object
@@ -3452,7 +3468,38 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 								}
 								//Messages can have a max of 20 different reacts, but species has more than 20 options
 								//Clear reactions to avoid discord ratelimit
-								$message->clearReactions(); 
+								//$message->clearReactions(); 
+							}
+						}
+						//$message->clearReactions();
+						foreach ($species as $var_name => $value){
+							//$message->react($value);
+						}
+						
+					}
+					break;
+				case ($species2_message_id):
+					if($rp1){
+						echo "species2 reaction" . PHP_EOL;
+						foreach ($species2 as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								echo "select_name: " . $select_name . PHP_EOL;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 15158332,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+								//Messages can have a max of 20 different reacts, but species has more than 20 options
+								//Clear reactions to avoid discord ratelimit
+								//$message->clearReactions(); 
 							}
 						}
 						//$message->clearReactions();
