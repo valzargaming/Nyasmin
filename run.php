@@ -840,6 +840,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`nuzzle`\n";
 				//boop
 				$documentation = $documentation . "`boop`\n";
+				//bap
+				$documentation = $documentation . "`bap`\n";
 			}
 			if($nsfw && $adult){
 				//TODO
@@ -1748,6 +1750,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			else 													$nuzzler_count		= VarLoad($author_guild_id."/".$author_id, "nuzzler_count.php");			
 			if(!CheckFile($author_folder, "booper_count.php"))		$booper_count		= 0;													
 			else 													$booper_count		= VarLoad($author_guild_id."/".$author_id, "booper_count.php");			
+			if(!CheckFile($author_folder, "baper_count.php"))		$baper_count		= 0;													
+			else 													$baper_count		= VarLoad($author_guild_id."/".$author_id, "baper_count.php");			
 
 //			Load author get statistics
 			if(!CheckFile($author_folder, "vanity_get_count.php"))	$vanity_get_count	= 0;													
@@ -1759,7 +1763,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(!CheckFile($author_folder, "nuzzled_count.php"))		$nuzzled_count		= 0;													
 			else 													$nuzzled_count		= VarLoad($author_guild_id."/".$author_id, "nuzzled_count.php");				
 			if(!CheckFile($author_folder, "booped_count.php"))		$booped_count		= 0;													
-			else 													$booped_count		= VarLoad($author_guild_id."/".$author_id, "booped_count.php");				
+			else 													$booped_count		= VarLoad($author_guild_id."/".$author_id, "booped_count.php");
+			if(!CheckFile($author_folder, "baped_count.php"))		$baped_count		= 0;													
+			else 													$baped_count		= VarLoad($author_guild_id."/".$author_id, "baped_count.php");				
 			
 			if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 				echo "HUG/SNUGGLE" . PHP_EOL;
@@ -2052,6 +2058,80 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 			}
 			
+			if (substr($message_content_lower, 0, 5) == $command_symbol . 'bap ' ){ //;bap @
+				echo "BAP" . PHP_EOL;
+//				Check Cooldown Timer
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+				if ( ($cooldown[0] == true) || ($bypass) ){
+//					Get an array of people mentioned
+					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					foreach ( $mentions_arr as $mention_param ){
+						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						
+						if ($author_id != $mention_id){
+							$bap_messages										= array();
+							
+							$bap_messages[]										= "<@$mention_id> was hit on the snoot by <@$author_id>!";
+							$bap_messages[]										= "<@$author_id> glared at <@$mention_id>, giving them a bap on the snoot!";
+							$bap_messages[]										= "Snoot of <@$mention_id> was attacked by <@$author_id>!";
+							
+							$index_selection										= GetRandomArrayIndex($bap_messages);
+//							echo "random bap_messages: " . $bap_messages[$index_selection];
+//							Send the message
+							$author_channel->send($bap_messages[$index_selection]);
+							//Increment give stat counter of author
+							$vanity_give_count++;
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
+							$baper_count++;
+							VarSave($author_folder, "baper_count.php", $baper_count);
+							//Load target get statistics
+							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($author_guild_id."/".$mention_id, "baped_count.php"))			$baped_count		= 0;
+							else 													$baped_count 		= VarLoad($author_guild_id."/".$mention_id, "baped_count.php");
+							//Increment get stat counter of target
+							$vanity_get_count++;
+							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							$baped_count++;
+							VarSave($author_guild_id."/".$mention_id, "baped_count.php", $baped_count);
+//							Set Cooldown
+							SetCooldown($author_folder, "vanity_time.php");
+							return true; //No more processing, we only want to process the first person mentioned
+						}else{
+							$self_bap_messages										= array();
+							$self_bap_messages[]									= "<@$author_id> placed a paw on their own nose. How silly!";
+							$index_selection										= GetRandomArrayIndex($self_bap_messages);
+//							Send the mssage
+							$author_channel->send($self_bap_messages[$index_selection]);
+							//Increment give stat counter of author
+							$vanity_give_count++;
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
+							$baper_count++;
+							VarSave($author_folder, "baper_count.php", $baper_count);
+							//Increment get stat counter of author
+							$vanity_get_count++;
+							VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
+							$baped_count++;
+							VarSave($author_folder, "baped_count.php", $baped_count);
+//							Set Cooldown
+							SetCooldown($author_folder, "vanity_time.php");
+							return true; //No more processing
+						}
+					}
+					//Foreach method didn't return, so nobody was mentioned
+					$author_channel->send("<@$author_id>, you need to mention someone!");
+					return true;
+				}else{
+//					Reply with remaining time
+					$waittime = $vanity_limit_seconds - $cooldown[1];
+					$formattime = FormatTime($waittime);
+					$message->reply("You must wait $formattime before using vanity commands again.");
+					return true;
+				}
+			}
+			
 			//TODO: Spin The Bottle
 			
 			//ymdhis cooldown time
@@ -2078,12 +2158,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						->addField("Kisses", 			"$kisser_count", true)
 						->addField("Nuzzles", 			"$nuzzler_count", true)
 						->addField("Boops", 			"$booper_count", true)
+						->addField("Baps", 				"$baper_count", true)
 						->addField("⠀", 				"⠀", true)												// Invisible unicode for separator
 						->addField("Total Received", 	"$vanity_get_count")									// New line after this
 						->addField("Hugs", 				"$hugged_count", true)
 						->addField("Kisses", 			"$kissed_count", true)
 						->addField("Nuzzles", 			"$nuzzled_count", true)
 						->addField("Boops", 			"$booped_count", true)
+						->addField("Baps", 				"$baped_count", true)
 						
 						->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //						->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
