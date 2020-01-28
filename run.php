@@ -208,7 +208,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		echo "Message from $author_check <$author_id> <#$author_channel_id>: {$message_content}", PHP_EOL;
-		
+		$author_webhook = $author_user->webhook;
+		if ($author_webhook === true) return true; //Don't process webhooks
 		/*
 
 		*********************
@@ -2252,6 +2253,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_joinedAge = $mention_joinedDateTime->diff($now)->days . " days";
 				$mention_createdAge = $mention_createdDateTime->diff($now)->days . " days";
 				
+				//Load history
+				$mention_folder = "users/$mention_id";
+				CheckDir($mention_folder);
+				$mention_nicknames_array = VarLoad($mention_folder, "nicknames.php");
+				foreach ($mention_nicknames_array as $nickname){
+					$mention_nicknames = $mention_nicknames . $nickname . "\n";
+				}
+				
+				$mention_tags_array = VarLoad($mention_folder, "tags.php");
+				foreach ($mention_tags_array as $tag){
+					$mention_tags = $mention_tags . $tag . "\n";
+				}
+				
+				
+				if ($mention_nicknames == NULL) $mention_nicknames = "No nicknames tracked";
+				if ($mention_tags == NULL) $mention_tags = "No tags tracked";
+				
 //				Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
@@ -2264,9 +2282,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					->addField("Account Age", "$mention_createdAge", true)
 					->addField("Joined Server", "$mention_joinedDate", true)
 					->addField("Server Age", "$mention_joinedAge", true)
-
-//					->addField("Last username", "", true) //Needs persistent logging of users as an array
-//					->addField("Last Nicknames", "", true) //Needs persistent logging of users as an array
+					->addField("Tag history", "`$mention_tags`")
+					->addField("Nickname history", "`$mention_nicknames`")
 
 					->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
 //					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
@@ -2693,41 +2710,25 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$user = $guildmember->user;
 		$welcome = true;
 		
+		$user_username 											= $user->username; 													//echo "author_username: " . $author_username . PHP_EOL;
+		$user_id 												= $user->id;														//echo "new_user_id: " . $new_user_id . PHP_EOL;
+		$user_discriminator 									= $user->discriminator;												//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$user_avatar 											= $user->getAvatarURL();											//echo "author_id: " . $author_id . PHP_EOL;
+		$user_check 											= "$user_username#$user_discriminator"; 							//echo "author_check: " . $author_check . PHP_EOL;\
+		$user_tag												= $user->tag;
+		$user_createdTimestamp									= $user->createdTimestamp;
+		$user_createdTimestamp									= date("D M j H:i:s Y", $user_createdTimestamp);
+		
+		$guild_memberCount										= $guildmember->guild->memberCount;
+		$author_guild_id										= $guildmember->guild->id;
+		
 		if($welcome === true){
-			$user_username 											= $user->username; 													//echo "author_username: " . $author_username . PHP_EOL;
-			$user_id 												= $user->id;														//echo "new_user_id: " . $new_user_id . PHP_EOL;
-			$user_discriminator 									= $user->discriminator;												//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
-			$user_avatar 											= $user->getAvatarURL();											//echo "author_id: " . $author_id . PHP_EOL;
-			$user_check 											= "$user_username#$user_discriminator"; 							//echo "author_check: " . $author_check . PHP_EOL;\
-			$user_createdTimestamp									= $user->createdTimestamp;
-			$user_createdTimestamp									= date("D M j H:i:s Y", $user_createdTimestamp);
-			
-			$guild_memberCount										= $guildmember->guild->memberCount;
-			$author_guild_id										= $guildmember->guild->id;
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-			//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			require "$guild_config_path";
-			
-			try{
-				if($general_channel_id) 			$general_channel		= $guildmember->guild->channels->get($general_channel_id);
-			}catch(Exception $e){
-//				RuntimeException: Unknown property
-//				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
-			}
-			try{
-				if($welcome_log_channel_id) 		$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
-			}catch(Exception $e){
-//				RuntimeException: Unknown property
-//				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
-			}
-			try{
-				if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
-			}catch(Exception $e){
-//				RuntimeException: Unknown property
-//				echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
-			}
-			
+			if($welcome_log_channel_id) 		$welcome_log_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
+			if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
+
 //			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
@@ -2748,20 +2749,24 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 				->setURL("");
 			
-//			Making sure the channel exists
-			if($welcome_channel){
-//				Send a detailed embed with user info
-				$welcome_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			if($welcome_log_channel){ //Send a detailed embed with user info
+				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
 			}
-			if($welcome_public_channel){
-				//Greet the new user
+			if($welcome_public_channel){ //Greet the new user to the server
 				$welcome_public_channel->send("Welcome <@$user_id> to Blue’s Cloudy Palace!");
 			}
-			return true;
 		}
 		
+		$user_folder = "users/$user_id";
+		CheckDir($user_folder);
+		//Place user info in target's folder
+		$array = VarLoad($user_folder, "tags.php");
+		if (!in_array($user_tag, $array)) $array[] = $user_tag;
+		VarSave($user_folder, "tags.php", $array);
+		
+		return true;	
 	}); //end guildMemberAdd function
 	
 	$discord->on('guildMemberUpdate', function ($member_new, $member_old){ //Handling of a member getting updated
@@ -2771,10 +2776,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$new_user			= $member_new->user;
 		$old_user			= $member_old->user;
 		
+		$user_folder			= "users/$member_id";
+		CheckDir($user_folder);
+		
 		$author_guild_id = $member_new->guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
@@ -2821,23 +2828,45 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 //		Compare changes
 		$changes = "";
+		include_once "custom_functions.php";
 		
 		if ($old_tag != $new_tag){
 			echo "old_tag: " . $old_tag . PHP_EOL;
 			echo "new_tag: " . $new_tag . PHP_EOL;
 			$changes = $changes . "Old tag: $old_tag\n New tag: $new_tag\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "tags.php");
+			if (!in_array($old_tag, $array))
+				$array[] = $old_tag; 
+			if (!in_array($new_tag, $array)) $array[] = $new_tag;
+			VarSave($user_folder, "tags.php", $array);
 		}
 		
 		if ($old_avatar != $new_avatar){
 			echo "old_avatar: " . $old_avatar . PHP_EOL;
 			echo "new_avatar: " . $new_avatar . PHP_EOL;
 			$changes = $changes . "Old avatar: $old_avatar\n New avatar: $new_avatar\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "avatars.php");
+			if (!in_array($old_avatar, $array))
+				$array[] = $old_avatar; 
+			if (!in_array($new_avatar, $array)) $array[] = $new_avatar;
+			VarSave($user_folder, "avatars.php", $array);
 		}
 		
 		if ($old_nickname != $new_nickname){
 			echo "old_nickname: " . $old_nickname . PHP_EOL;
 			echo "new_nickname: " . $new_nickname . PHP_EOL;
 			$changes = $changes . "Nickname change:\n`$old_nickname`→`$new_nickname`\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "nicknames.php");
+			if (!in_array($old_nickname, $array))
+				$array[] = $old_nickname; 
+			if (!in_array($new_nickname, $array)) $array[] = $new_nickname;
+			VarSave($user_folder, "nicknames.php", $array);
 		}
 		
 		if ($old_member_roles_ids != $new_member_roles_ids){
@@ -2970,12 +2999,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$guild_memberCount										= $guildmember->guild->memberCount;
 			$author_guild_id = $guildmember->guild->id;
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-			echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			require "$guild_config_path";
 			
 			try{
-				if($welcome_log_channel_id) 			$welcome_channel		= $guildmember->guild->channels->get($welcome_log_channel_id);
+				if($welcome_log_channel_id) $welcome_log_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			}catch(Exception $e){
 //				RuntimeException: Unknown property																		//echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
 			}
@@ -2999,18 +3027,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setURL("");                             												// Set the URL
 			
 //			Making sure the channel exists
-			if($welcome_channel){
+			if($welcome_log_channel){
 				echo "Welcome channel found!";
 //				Send the message, announcing the member's departure
 /*
-				$welcome_channel->send("<@$new_member_id> has left Blue's Cloudy Palace.")
+				$welcome_log_channel->send("<@$new_member_id> has left Blue's Cloudy Palace.")
 					->otherwise(function ($error){
 						echo $error.PHP_EOL;
 				});
 */
 //				Send the message
 //				We do not need another promise here, so we call done, because we want to consume the promise
-				$welcome_channel->send('', array('embed' => $embed))->done(null, function ($error){
+				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
 				return true;
@@ -3033,7 +3061,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	
 	$discord->on('messageUpdate', function ($message_new, $message_old){ //Handling of a message being changed
 		//This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
-		//TODO: If the timestamp is older than timestampSetup nothing will be passed to this method, use messageUpdateRaw instead
+		//If the timestamp is older than timestampSetup nothing will be passed to this method, use messageUpdateRaw instead
 		
 		$message_content_new = $message_new->content; //Null if message is too old
 		$message_content_old = $message_old->content; //Null if message is too old
@@ -3078,8 +3106,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild = $message_new->guild;
 		$author_guild_id = $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		$modlog_channel	= $guild->channels->get($modlog_channel_id);
@@ -3163,8 +3190,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild				= $channel->guild;
 		$author_guild_id = $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		$modlog_channel		= $guild->channels->get($modlog_channel_id);
@@ -3246,8 +3272,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild				= $message->guild;
 		$author_guild_id	= $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		
@@ -3299,8 +3324,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild					= $channel->guild;
 		$author_guild_id		= $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";
-		echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		$modlog_channel			= $guild->channels->get($modlog_channel_id);
@@ -3714,63 +3738,53 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 		
 	$discord->on('userUpdate', function ($user_new, $user_old){ //Handling of a user changing their username/avatar/etc
-		//This event listener may never be used because guildMemberUpdate already does everything we want, maybe for logging purposes later
+		//This event listener will never be used for guild-related function because guildMemberUpdate already does everything we want, but is useful for logging purposes
 		//For example, this will get triggered if a Nitro user changes their discriminator
 		echo "userUpdate" . PHP_EOL;
 		//id, username, discriminator bot, webhook, email, mfaEnabled, verified, tag, createdTimestamp, createdAt
 		$user_id				= $user_new->id;
 		
+		$user_folder			= "users/$user_id";
+		CheckDir($user_folder);
+		
+		$new_username			= $user_new->username;
+		$new_discriminator		= $user_new->discriminator;
 		$new_tag				= $user_new->tag;
 		$new_avatar				= $user_new->getAvatarURL();
 		
+		$old_username			= $user_old->username;
+		$old_discriminator		= $user_old->discriminator;
 		$old_tag				= $user_old->tag;
 		$old_avatar				= $user_old->getAvatarURL();
 		
-		//GLOBAL $guild_id;
-		//TODO
-		//$guild					= 
-		GLOBAL $modlog_channel_id;
-		//$modlog_channel			= $member_guild->channels->get($modlog_channel_id);
 		$changes = "";
 		
 		if ($old_tag != $new_tag){
-			echo "old_tag: " . $old_tag . PHP_EOL;
-			echo "new_tag: " . $new_tag . PHP_EOL;
-			$changes = $changes . "Old tag: $old_tag\n New tag: $new_tag\n";
+			//echo "old_tag: " . $old_tag . PHP_EOL;
+			//echo "new_tag: " . $new_tag . PHP_EOL;
+			$changes = $changes . "Old tag: $old_tag\nNew tag: $new_tag\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "tags.php");
+			if (!in_array($old_tag, $array))
+				$array[] = $old_tag; 
+			if (!in_array($new_tag, $array)) $array[] = $new_tag;
+			VarSave($user_folder, "tags.php", $array);
 		}
 		
 		if ($old_avatar != $new_avatar){
-			echo "old_avatar: " . $old_avatar . PHP_EOL;
-			echo "new_avatar: " . $new_avatar . PHP_EOL;
-			$changes = $changes . "Old avatar: $old_avatar\n New avatar: $new_avatar\n";
+			//echo "old_avatar: " . $old_avatar . PHP_EOL;
+			//echo "new_avatar: " . $new_avatar . PHP_EOL;
+			$changes = $changes . "Old avatar: $old_avatar\nNew avatar: $new_avatar\n";
+			
+			//Place user info in target's folder
+			VarSave($user_folder, "avatars.php", $new_avatar);
 		}
 		
 		if($changes != ""){
-			$changes = "<@$user_id> changed their information:\n" . $changes;
-			
-			
-//			Build the embed message
-			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-			$embed
-//				->setTitle("Commands")																	// Set a title
-				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
-				->addField("User Update", "$changes")													// New line after this
-				
-//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-//				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-//				->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
-			//Send a message
-			//TODO
-			return true;
-		}else{ //No info we want to capture was changed
-			return true;
+			echo "<@$user_id> changed their information:\n" . $changes . PHP_EOL;	
 		}
-		
-		
+		return true;
 	});
 		
 	$discord->on('roleCreate', function ($role){ //Handling of a role being created
@@ -3802,4 +3816,4 @@ require 'token.php'; //Token for the bot
 
 $discord->login($token)->done();
 $loop->run();
-?>
+?> 
