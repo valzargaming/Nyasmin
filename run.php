@@ -675,7 +675,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup rolepicker '){
 			$filter = "$command_symbol" . "setup rolepicker ";
 			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 			$value = str_replace(">", "", $value);
 			$value = trim($value); echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
@@ -2224,12 +2224,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
-		if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whoiswjocj O 
+		if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whois
 			echo "WHOIS" . PHP_EOL;			
 			$filter = "$command_symbol" . "whois ";
 			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 			$value = str_replace(">", "", $value);
+			$value = trim($value);
 			if(is_numeric($value)){
 				$mention_member				= $author_guild->members->get($value);
 				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
@@ -2374,11 +2375,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "v ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				$filter = "$command_symbol" . "verify ";
 				$value = str_replace($filter, "", $value);
-				$value = str_replace("<@!", "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2495,7 +2496,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "watch ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2547,7 +2548,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "unwatch ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2634,7 +2635,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "infractions ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2716,7 +2717,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "removeinfraction ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2863,11 +2864,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
 		
 //		Member properties
-		$new_nickname		= $member_new->nickname;
 		$new_roles			= $member_new->roles;
 		$new_displayName	= $member_new->displayName;
 		
-		$old_nickname		= $member_old->nickname;
 		$old_roles			= $member_old->roles;
 		$old_displayName	= $member_old->displayName;
 		
@@ -2932,16 +2931,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			VarSave($user_folder, "avatars.php", $array);
 		}
 		
-		if ($old_nickname != $new_nickname){
-			echo "old_nickname: " . $old_nickname . PHP_EOL;
-			echo "new_nickname: " . $new_nickname . PHP_EOL;
-			$changes = $changes . "Nickname change:\n`$old_nickname`→`$new_nickname`\n";
+		// ->nickname seems to return null sometimes, so use displayName instead
+		if ($old_displayName != $new_displayName){
+			echo "old_displayName: " . $old_displayName . PHP_EOL;
+			echo "new_displayName: " . $new_displayName . PHP_EOL;
+			$changes = $changes . "Nickname change:\n`$old_displayName`→`$new_displayName`\n";
 			
 			//Place user info in target's folder
 			$array = VarLoad($user_folder, "nicknames.php");
-			if (!in_array($old_nickname, $array))
-				$array[] = $old_nickname; 
-			if (!in_array($new_nickname, $array)) $array[] = $new_nickname;
+			if (!in_array($old_displayName, $array))
+				$array[] = $old_displayName; 
+			if (!in_array($new_displayName, $array)) $array[] = $new_displayName;
 			VarSave($user_folder, "nicknames.php", $array);
 		}
 		
@@ -2993,19 +2993,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 				$changes = $changes . $switch . "<@&$role_diff>";
 			}
-			
 		}
 		
-		/*
-//		This is basically the same as changing the nickname
-		if ($old_displayName != $new_displayName){
-			echo "old_displayName: " . $old_displayName . PHP_EOL;
-			echo "new_displayName: " . $new_displayName . PHP_EOL;
-			$changes = $changes . "Old displayName: $old_displayName\n New displayName: $new_displayName\n";
-		}
-		*/
-		
-		if( ($switch != "") || ($switch != NULL)) //User was kicked (They have no roles anymore)
+		//echo "switch: " . $switch . PHP_EOL;
+		//if( ($switch != "") || ($switch != NULL)) //User was kicked (They have no roles anymore)
 		if($changes != ""){
 			//$changes = "<@$member_id>'s information has changed:\n" . $changes;
 			if (strlen($changes) < 1025){
