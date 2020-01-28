@@ -358,7 +358,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
-//				Build the embed message
+ 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 					->setTitle("Server setup commands")														// Set a title
@@ -427,7 +427,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
-//				Build the embed message
+ 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 					->setTitle("Server setup commands")														// Set a title
@@ -468,7 +468,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_dev_id.php", $value);
 				$message->reply("Developer role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -482,7 +482,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_admin_id.php", $value);
 				$message->reply("Admin role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -496,7 +496,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_mod_id.php", $value);
 				$message->reply("Moderator role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -510,7 +510,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_bot_id.php", $value);
 				$message->reply("Bot role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -524,7 +524,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_vzgbot_id.php", $value);
 				$message->reply("Palace Bot role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -539,7 +539,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_muted_id.php", $value);
 				$message->reply("Muted role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -553,7 +553,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_verified_id.php", $value);
 				$message->reply("Verified role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -567,7 +567,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "role_18_id.php", $value);
 				$message->reply("Adult role ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the role");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
 		}
 		
@@ -582,7 +582,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "general_channel_id.php", $value);
 				$message->reply("General channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
 		
@@ -596,7 +596,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "welcome_public_channel_id.php", $value);
 				$message->reply("Welcome channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
 		
@@ -610,7 +610,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "welcome_log_channel_id.php", $value);
 				$message->reply("Welcome log channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
 		
@@ -624,7 +624,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "modlog_channel_id.php", $value);
 				$message->reply("Log channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
 		
@@ -638,7 +638,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "getverified_channel_id.php", $value);
 				$message->reply("Verify channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
 		
@@ -652,7 +652,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "watch_channel_id.php", $value);
 				$message->reply("Watch channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}		
 		
@@ -666,7 +666,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "rolepicker_channel_id.php", $value);
 				$message->reply("Rolepicker channel ID saved!");
-			}else $message->reply("Invalid! Please enter a channel ID or <#mention> a channel");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
 
@@ -681,7 +681,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "rolepicker_id.php", $value);
 				$message->reply("Rolepicker user ID saved!");
-			}else $message->reply("Invalid! Please enter an ID or @mention the user");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the user");
 			return true;
 		}		
 		
@@ -694,7 +694,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "species_message_id.php", $value);
 				$message->reply("Species message ID saved!");
-			}else $message->reply("Invalid! Please enter a message ID");
+			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
 		}
 		
@@ -706,7 +706,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "species2_message_id.php", $value);
 				$message->reply("Species2 message ID saved!");
-			}else $message->reply("Invalid! Please enter a message ID");
+			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
 		}
 		
@@ -718,7 +718,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "sexuality_message_id.php", $value);
 				$message->reply("Sexuality message ID saved!");
-			}else $message->reply("Invalid! Please enter a message ID");
+			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
 		}
 		
@@ -730,7 +730,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "gender_message_id.php", $value);
 				$message->reply("Gender message ID saved!");
-			}else $message->reply("Invalid! Please enter a message ID");
+			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
 		}
 		
@@ -742,7 +742,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($author_guild_id, "customroles_message_id.php", $value);
 				$message->reply("Custom roles message ID saved!");
-			}else $message->reply("Invalid! Please enter a message ID");
+			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
 		}
 		
@@ -858,7 +858,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
-//				Build the embed message
+ 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 					->setTitle("Commands for Blue's Cloudy Palace")											// Set a title
@@ -937,7 +937,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
-//				Build the embed message
+ 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 					->setTitle("Settings for Blue's Cloudy Palace")											// Set a title
@@ -2223,16 +2223,16 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		
-		if ($creator) //Only allow these roles to use this
-		if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whois
-			//TODO
-			echo "WHOIS" . PHP_EOL;
+		if($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whoiswjocj O 
+			echo "WHOIS" . PHP_EOL;			
 			$filter = "$command_symbol" . "whois ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<@!", "", $value);
 			$value = str_replace(">", "", $value);
 			if(is_numeric($value)){
 				$mention_member				= $author_guild->members->get($value);
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
 				$mention_user				= $mention_member->user;
 				
 				$mention_id					= $mention_member->id;
@@ -2260,17 +2260,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				foreach ($mention_nicknames_array as $nickname){
 					$mention_nicknames = $mention_nicknames . $nickname . "\n";
 				}
+				if ($mention_nicknames == NULL) $mention_nicknames = "No nicknames tracked";
 				
 				$mention_tags_array = VarLoad($mention_folder, "tags.php");
 				foreach ($mention_tags_array as $tag){
 					$mention_tags = $mention_tags . $tag . "\n";
 				}
-				
-				
-				if ($mention_nicknames == NULL) $mention_nicknames = "No nicknames tracked";
 				if ($mention_tags == NULL) $mention_tags = "No tags tracked";
-				
-//				Build the embed message
+				 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 					->setTitle("$mention_check ($mention_nickname)")																// Set a title
@@ -2295,7 +2292,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
-			}else $message->reply("Invalid! Please enter an ID or @mention the user");
+			}else $message->reply("Invalid input! Please enter an ID or @mention the user");
 			return true;
 		}
 		
@@ -2367,6 +2364,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 			$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
 			$mention_role_name_queue_full 								= $mention_role_name_queue_default;
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "v ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value);
+				$value = str_replace(">", "", $value);
+				$filter = "$command_symbol" . "verify ";
+				$value = str_replace($filter, "", $value);
+				$value = str_replace("<@!", "", $value);
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 			
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
@@ -2472,6 +2486,19 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$mention_watch_name_queue_default							= $mention_watch_name_mention_default."is watching the following users:" . PHP_EOL;
 			$mention_watch_name_queue_full 								= "";
 			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "watch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value);
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
@@ -2510,6 +2537,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 			$mention_watch_name_queue_default							= "<@$author_id> is no longer watching the following users:" . PHP_EOL;
 			$mention_watch_name_queue_full 								= "";
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "unwatch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value);
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
@@ -2541,6 +2582,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($modlog_channel)	$mention_warn_name_mention_default		= "<@$author_id>";
 			$mention_warn_queue_default									= $mention_warn_name_mention_default."warned the following users:" . PHP_EOL;
 			$mention_warn_queue_full 									= "";
+			
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
@@ -2553,7 +2595,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //				Build the string to log
 				$filter = "$command_symbol" . "warn <@!$mention_id>";
 				$warndate = date("m/d/Y");
-				$mention_warn_queue 									= "**$mention_check warned $author_check on $warndate for reason:**" . str_replace($filter, "", $message_content);
+				$mention_warn_queue 									= "**$mention_check warned $author_check on $warndate for reason: **" . str_replace($filter, "", $message_content);
 				
 //				Place warn info in target's folder
 				$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
@@ -2582,6 +2624,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "infractions ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value);
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
 			$x = 0;
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 				if ($x == 0){ //We only want the first person mentioned
@@ -2611,7 +2667,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($mention_infraction_queue != ""){
 				$length = strlen($mention_infraction_queue_full);
 				if ($length < 1025){
-//				Build the embed message
+ 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //					->setTitle("Commands")																	// Set a title
@@ -2650,6 +2706,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "removeinfraction ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value);
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
 			$x = 0;
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 				if ($x == 0){ //We only want the first person mentioned
@@ -2933,7 +3003,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if($changes != ""){
 			//$changes = "<@$member_id>'s information has changed:\n" . $changes;
 			if (strlen($changes) < 1025){
-//				Build the embed message
+ 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //					->setTitle("Commands")																	// Set a title
