@@ -2256,15 +2256,21 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//Load history
 				$mention_folder = "users/$mention_id";
 				CheckDir($mention_folder);
-				$mention_nicknames_array = VarLoad($mention_folder, "nicknames.php");
+				$mention_nicknames_array = array_reverse(VarLoad($mention_folder, "nicknames.php"));
+				$x=0;
 				foreach ($mention_nicknames_array as $nickname){
-					$mention_nicknames = $mention_nicknames . $nickname . "\n";
+					if ($x<5)
+						$mention_nicknames = $mention_nicknames . $nickname . "\n";
+					$x++;
 				}
 				if ($mention_nicknames == NULL) $mention_nicknames = "No nicknames tracked";
 				
-				$mention_tags_array = VarLoad($mention_folder, "tags.php");
+				$mention_tags_array = array_reverse(VarLoad($mention_folder, "tags.php"));
+				$x=0;
 				foreach ($mention_tags_array as $tag){
-					$mention_tags = $mention_tags . $tag . "\n";
+					if ($x<5)
+						$mention_tags = $mention_tags . $tag . "\n";
+					$x++;
 				}
 				if ($mention_tags == NULL) $mention_tags = "No tags tracked";
 				 
@@ -2279,8 +2285,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					->addField("Account Age", "$mention_createdAge", true)
 					->addField("Joined Server", "$mention_joinedDate", true)
 					->addField("Server Age", "$mention_joinedAge", true)
-					->addField("Tag history", "`$mention_tags`")
-					->addField("Nickname history", "`$mention_nicknames`")
+					->addField("Tag history (last 5)", "`$mention_tags`")
+					->addField("Nickname history (last 5)", "`$mention_nicknames`")
 
 					->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
 //					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
