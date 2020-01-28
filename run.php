@@ -2238,7 +2238,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				$mention_id					= $mention_member->id;
 				$mention_check				= $mention_user->tag;
-				$mention_nickname			= $mention_member->nickname;
+				$mention_nickname			= $mention_member->displayName;
 				$mention_avatar 			= $mention_user->getAvatarURL();
 				
 				$mention_joined				= $mention_member->joinedAt;
