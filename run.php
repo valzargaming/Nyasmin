@@ -121,7 +121,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			} else $owner = false;
 			
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php";														echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			if(!CheckFile($guild_folder, "guild_config.php")){
 				$file = 'guild_config_template.php';
 				if (!copy($file, $guild_config_path)){
