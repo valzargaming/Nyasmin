@@ -362,7 +362,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
  
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
-					->setTitle("Server setup commands")														// Set a title
+					->setTitle("Setup commands for $author_guild_name")														// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
 					->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this			
@@ -431,7 +431,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
  
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
-					->setTitle("Server setup commands")														// Set a title
+					->setTitle("Current setup for $author_guild_name")														// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
 					->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this			
