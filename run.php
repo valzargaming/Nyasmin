@@ -678,7 +678,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if (substr($message_content_lower, 0, 18) == $command_symbol . 'setup rolepicker '){
 			$filter = "$command_symbol" . "setup rolepicker ";
 			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 			$value = str_replace(">", "", $value);
 			$value = trim($value); echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
@@ -1177,6 +1177,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "GETTING ROLES FOR MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "unmute ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 			//$mention_role_name_queue_full								= "Here's a list of roles for the requested users:" . PHP_EOL;
 			$mention_role_name_queue_default							= "";
 //			$mentions_arr_check = (array)$mentions_arr;																					//echo "mentions_arr_check: " . PHP_EOL; var_dump ($mentions_arr_check); //Shows the collection object
@@ -1312,6 +1324,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit);
 			if ( ($cooldown[0] == true) || ($bypass) ){
 				$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+				if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "unmute ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 				foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //					id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 					$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
@@ -1376,6 +1400,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "KICK" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "unmute ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -1470,7 +1506,19 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 			echo "MUTE" . PHP_EOL;
 //			Get an array of people mentioned
-			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			$mentions_arr 												= $message->mentions->users;
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "mute ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -1558,6 +1606,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "UNMUTE" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "unmute ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -1644,6 +1704,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "BAN" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "ban ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
 			foreach ( $mentions_arr as $mention_param ){
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 				//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
@@ -2316,7 +2388,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			echo "WHOIS" . PHP_EOL;			
 			$filter = "$command_symbol" . "whois ";
 			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
@@ -2463,11 +2535,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "v ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				$filter = "$command_symbol" . "verify ";
 				$value = str_replace($filter, "", $value);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2584,7 +2656,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "watch ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2635,7 +2707,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "unwatch ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2720,7 +2792,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "infractions ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
@@ -2802,7 +2874,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "removeinfraction ";
 				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
 					$mention_member				= $author_guild->members->get($value);
