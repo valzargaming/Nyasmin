@@ -142,7 +142,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($author_check != 'Palace Bot#9203'){
 				GLOBAL $server_invite;
 				echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
-				$dm_text = "DMs not yet supported! Please use commands for this bot within a server.";
+				$dm_text = "Please use commands for this bot within a server.";
 				$message->reply("$dm_text \n$server_invite");
 			}
 			return true;
@@ -2939,6 +2939,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		CheckDir($user_folder);
 		
 		$author_guild_id = $member_new->guild->id;
+		if(!CheckDir($author_guild_id)){
+			if(!CheckFile($author_guild_id, "guild_owner_id.php")){
+				VarSave($author_guild_id, "guild_owner_id.php", $guild_owner_id);
+			}else $command_symbol	= VarLoad($author_guild_id, "guild_owner_id.php");
+		}
 		//Load config variables for the guild
 		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
