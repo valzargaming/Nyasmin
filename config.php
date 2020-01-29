@@ -15,7 +15,7 @@ $bot_id	= "662093882795753482";	//id of this bot (change it to match your bot if
 
 //These are default options that should be set up before the bot is started for the first time. Any future changes need to be done with a chat command
 $react_option = true;
-$vanity_option = true;
+$vanity_option = false;
 $nsfw_option = false;
 $rolepicker_option = false;
 $species_option = false;
