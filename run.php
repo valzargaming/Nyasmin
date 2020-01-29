@@ -106,6 +106,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($is_dm === false){ //Guild message
 			$author_guild 												= $author_channel->guild;
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
+			$author_guild_name											= $author_guild->name;
 			$guild_owner_id = $author_guild->ownerID;
 
 //			Create a folder for the guild if it doesn't exist already
@@ -863,7 +864,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
  
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
-					->setTitle("Commands for Blue's Cloudy Palace")											// Set a title
+					->setTitle("Commands for $author_guild_name")											// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
 					->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this			
@@ -942,7 +943,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
  
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
-					->setTitle("Settings for Blue's Cloudy Palace")											// Set a title
+					->setTitle("Settings for $author_guild_name")											// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
 					->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this
@@ -1153,7 +1154,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$embed
 //				->setTitle("Roles")																		// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-				->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 				->addField("Roles", 		"$author_role_name_queue_full")								// New line after this if ,true
 				
 				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1231,7 +1232,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$embed
 //						->setTitle("Roles")																		// Set a title
 						->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-						->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+						->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //						->addField("Roles", 	"$mention_role_name_queue_full")								// New line after this
 						->addField("Roles", 	"$mention_role_id_queue_full", true)							// New line after this
 						
@@ -1276,7 +1277,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$embed
 //					->setTitle("Avatar")																	// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//					->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+//					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //					->addField("Total Given", 		"$vanity_give_count")									// New line after this
 					
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1329,7 +1330,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$embed
 //					->setTitle("Avatar")																	// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//					->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+//					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //					->addField("Total Given", 		"$vanity_give_count")									// New line after this
 						
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2152,7 +2153,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$embed
 						->setTitle("Vanity Stats")																// Set a title
 						->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-						->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+						->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 						->addField("Total Given", 		"$vanity_give_count")									// New line after this
 						->addField("Hugs", 				"$hugger_count", true)
 						->addField("Kisses", 			"$kisser_count", true)
@@ -2242,7 +2243,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						$embed
 							->setTitle("Vanity Stats")																// Set a title
 							->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-							->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+							->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 							->addField("Total Given", 		"$target_vanity_give_count")							// New line after this
 							->addField("Hugs", 				"$target_hugger_count", true)
 							->addField("Kisses", 			"$target_kisser_count", true)
@@ -2361,7 +2362,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$embed
 					->setTitle("$mention_check ($mention_nickname)")																// Set a title
 					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//					->setDescription("Blue's Cloudy Palace")									// Set a description (below title, above fields)
+//					->setDescription("$author_guild_name")									// Set a description (below title, above fields)
 					->addField("ID", "$mention_id", true)
 					->addField("Avatar", "[Link]($mention_avatar)", true)
 					->addField("Account Created", "$mention_createdDate", true)
@@ -2395,7 +2396,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$embed
 //				->setTitle("$author_check")																// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-				->setDescription("Blue's Cloudy Palace")									// Set a description (below title, above fields)
+				->setDescription("$author_guild_name")									// Set a description (below title, above fields)
 //				->addField("⠀", "$documentation")														// New line after this
 				
 				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2549,7 +2550,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$getverified_channel->message->delete();
 				}
 			});
-			$getverified_channel->send("Welcome to Blue's Cloudly Palace! Please introduce yourself here and one of our staff members will verify you shortly.");
+			$getverified_channel->send("Welcome to $author_guild_name! Please introduce yourself here and one of our staff members will verify you shortly.");
 			return true;
 		}		
 		
@@ -2880,6 +2881,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		$guild_memberCount										= $guildmember->guild->memberCount;
 		$author_guild_id										= $guildmember->guild->id;
+		$author_guild_name										= $guildmember->guild->name;
 		
 		if($welcome === true){
 			//Load config variables for the guild
@@ -2893,8 +2895,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$embed
 //				->setTitle("$user_check")																			// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
-				->setDescription("<@$user_id> just joined **Blue's Cloudy Palace**\n
+//				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+				->setDescription("<@$user_id> just joined **$author_guild_name**\n
 				There are now **$guild_memberCount** members.\n
 				Account created on $user_createdTimestamp")												// Set a description (below title, above fields)
 				//X days agow
@@ -2912,9 +2914,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
+			}elseif($modlog_channel){ //Send a detailed embed with user info
+				$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
 			}
 			if($welcome_public_channel){ //Greet the new user to the server
-				$welcome_public_channel->send("Welcome <@$user_id> to Blue’s Cloudy Palace!");
+				$welcome_public_channel->send("Welcome <@$user_id> to $author_guild_name!");
 			}
 		}
 		
@@ -3084,6 +3090,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//echo "switch: " . $switch . PHP_EOL;
 		//if( ($switch != "") || ($switch != NULL)) //User was kicked (They have no roles anymore)
+		if( ($modlog_channel_id != NULL) && ($modlog_channel_id != "") )
 		if($changes != ""){
 			//$changes = "<@$member_id>'s information has changed:\n" . $changes;
 			if (strlen($changes) < 1025){
@@ -3167,7 +3174,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$embed
 //				->setTitle("Leave notification")														// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+//				->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 				->setDescription("<@$user_id> has left the server!\n
 				There are now **$guild_memberCount** members.")											// Set a description (below title, above fields)
 //				->setAuthor("$member_check", "$author_guild_avatar")  									// Set an author with icon
@@ -3180,18 +3187,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 				->setURL("");                             												// Set the URL
 			
-//			Making sure the channel exists
 			if($welcome_log_channel){
 				echo "Welcome channel found!";
 //				Send the message, announcing the member's departure
-/*
-				$welcome_log_channel->send("<@$new_member_id> has left Blue's Cloudy Palace.")
-					->otherwise(function ($error){
-						echo $error.PHP_EOL;
-				});
-*/
-//				Send the message
-//				We do not need another promise here, so we call done, because we want to consume the promise
 				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
@@ -3301,7 +3299,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$embed
 //				->setTitle("Commands")																	// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Commands for Blue's Cloudy Palace")									// Set a description (below title, above fields)
+//				->setDescription("Commands for $author_guild_name")									// Set a description (below title, above fields)
 				->addField("Message Update", "$changes")												// New line after this
 				
 //				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -3373,7 +3371,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$embed
 //				->setTitle("$user_check")																// Set a title
 				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+//				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //				->setDescription("")														// Set a description (below title, above fields)
 				->setAuthor("$author_check ($author_id)", $author_avatar)  											// Set an author with icon
 				->addField("Uncached Message Update", 		"$log_message")				// New line after this
@@ -3440,7 +3438,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$embed
 //			->setTitle("$user_check")																// Set a title
 			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//			->setDescription("Blue's Cloudy Palace")												// Set a description (below title, above fields)
+//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 			->setDescription("$log_message")														// Set a description (below title, above fields)
 			//X days ago
 			->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
