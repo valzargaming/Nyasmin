@@ -109,19 +109,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild_name											= $author_guild->name;
 			$guild_owner_id = $author_guild->ownerID;
 
+			$guild_folder = "\\guilds\\$author_guild_id";
 //			Create a folder for the guild if it doesn't exist already
-            if(!CheckDir($author_guild_id)){
-				if(!CheckFile($author_guild_id, "guild_owner_id.php")){
-					VarSave($author_guild_id, "guild_owner_id.php", $guild_owner_id);
-				}else $command_symbol	= VarLoad($author_guild_id, "guild_owner_id.php");
+            if(!CheckDir($guild_folder)){
+				if(!CheckFile($guild_folder, "guild_owner_id.php")){
+					VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
+				}else $command_symbol	= VarLoad($guild_folder, "guild_owner_id.php");
 			}
 			if ($guild_owner_id == $author_id){
 				$owner = true; //Enable usage of restricted commands
 			} else $owner = false;
-
+			
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-			if(!CheckFile($author_guild_id, "guild_config.php")){
+			$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php";														echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			if(!CheckFile($guild_folder, "guild_config.php")){
 				$file = 'guild_config_template.php';
 				if (!copy($file, $guild_config_path)){
 					$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
@@ -156,49 +157,49 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*********************
 		*/
-		if(!CheckFile($author_guild_id, "command_symbol.php")){
+		if(!CheckFile($guild_folder, "command_symbol.php")){
 														//Author must prefix text with this to use commands
-		}else 											$command_symbol = VarLoad($author_guild_id, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
+		}else 											$command_symbol = VarLoad($guild_folder, "command_symbol.php");			//Load saved option file (Not used yet, but might be later)
 		
 
 //		Chat options
 		GLOBAL $react_option, $vanity_option, $nsfw_option;
-		if(!CheckFile($author_guild_id, "react_option.php"))
+		if(!CheckFile($guild_folder, "react_option.php"))
 																$react	= $react_option;								//Bot will not react to messages if false
-		else 													$react 	= VarLoad($author_guild_id, "react_option.php");			//Load saved option file
-		if(!CheckFile($author_guild_id, "vanity_option.php"))
+		else 													$react 	= VarLoad($guild_folder, "react_option.php");			//Load saved option file
+		if(!CheckFile($guild_folder, "vanity_option.php"))
 																$vanity	= $vanity_option;								//Allow SFW vanity like hug, nuzzle, kiss
-		else 													$vanity = VarLoad($author_guild_id, "vanity_option.php");			//Load saved option file
-		if(!CheckFile($author_guild_id, "nsfw_option.php"))
+		else 													$vanity = VarLoad($guild_folder, "vanity_option.php");			//Load saved option file
+		if(!CheckFile($guild_folder, "nsfw_option.php"))
 																$nsfw	= $nsfw_option;									//Allow NSFW commands
-		else 													$nsfw 	= VarLoad($author_guild_id, "nsfw_option.php");				//Load saved option file
+		else 													$nsfw 	= VarLoad($guild_folder, "nsfw_option.php");				//Load saved option file
 		
 //		Role picker options		
 		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;		
 		
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
-			if(!CheckFile($author_guild_id, "rolepicker_option.php")){
+			if(!CheckFile($guild_folder, "rolepicker_option.php")){
 																$rp0	= $rolepicker_option;							//Allow Rolepicker
-			}else 												$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
+			}else 												$rp0	= VarLoad($guild_folder, "rolepicker_option.php");
 			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "species_option.php")){
+				if(!CheckFile($guild_folder, "species_option.php")){
 																$rp1	= $species_option;								//Species role picker
-				}else 											$rp1	= VarLoad($author_guild_id, "species_option.php");
+				}else 											$rp1	= VarLoad($guild_folder, "species_option.php");
 			} else												$rp1	= false;
 			if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "sexuality_option.php")){
+				if(!CheckFile($guild_folder, "sexuality_option.php")){
 																$rp2	= $sexuality_option;							//Sexuality role picker
-				}else 											$rp2	= VarLoad($author_guild_id, "sexuality_option.php");
+				}else 											$rp2	= VarLoad($guild_folder, "sexuality_option.php");
 			} else												$rp2	= false;
 			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "gender_option.php")){
+				if(!CheckFile($guild_folder, "gender_option.php")){
 																$rp3	= $gender_option;								//Gender role picker
-				}else 											$rp3	= VarLoad($author_guild_id, "gender_option.php");
+				}else 											$rp3	= VarLoad($guild_folder, "gender_option.php");
 			} else $rp3 = false;
 			if ( ($customroles_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "customrole_option.php"))
+				if(!CheckFile($guild_folder, "customrole_option.php"))
 																$rp4	= $custom_option;								//Custom role picker
-				else 											$rp4	= VarLoad($author_guild_id, "customrole_option.php");
+				else 											$rp4	= VarLoad($guild_folder, "customrole_option.php");
 			}else												$rp4	= false;
 		}else{ //All functions are disabled
 			$rp0 = false;
@@ -220,7 +221,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		
-		$author_folder = $author_guild_id."/".$author_id;
+		$author_folder = $guild_folder."\\".$author_id;
 		CheckDir($author_folder); //Check if folder exists and create if it doesn't
 		if(CheckFile($author_folder, "watchers.php")){
 			echo "AUTHOR IS BEING WATCHED" . PHP_EOL;
@@ -467,7 +468,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_dev_id.php", $value);
+				VarSave($guild_folder, "role_dev_id.php", $value);
 				$message->reply("Developer role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -481,7 +482,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_admin_id.php", $value);
+				VarSave($guild_folder, "role_admin_id.php", $value);
 				$message->reply("Admin role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -495,7 +496,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_mod_id.php", $value);
+				VarSave($guild_folder, "role_mod_id.php", $value);
 				$message->reply("Moderator role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -509,7 +510,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_bot_id.php", $value);
+				VarSave($guild_folder, "role_bot_id.php", $value);
 				$message->reply("Bot role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -523,7 +524,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_vzgbot_id.php", $value);
+				VarSave($guild_folder, "role_vzgbot_id.php", $value);
 				$message->reply("Palace Bot role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -538,7 +539,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = trim($value);
 			echo "value: '$value';" . PHP_EOL;
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_muted_id.php", $value);
+				VarSave($guild_folder, "role_muted_id.php", $value);
 				$message->reply("Muted role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -552,7 +553,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_verified_id.php", $value);
+				VarSave($guild_folder, "role_verified_id.php", $value);
 				$message->reply("Verified role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -566,7 +567,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "role_18_id.php", $value);
+				VarSave($guild_folder, "role_18_id.php", $value);
 				$message->reply("Adult role ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the role");
 			return true;
@@ -581,7 +582,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "general_channel_id.php", $value);
+				VarSave($guild_folder, "general_channel_id.php", $value);
 				$message->reply("General channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -595,7 +596,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "welcome_public_channel_id.php", $value);
+				VarSave($guild_folder, "welcome_public_channel_id.php", $value);
 				$message->reply("Welcome channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -609,7 +610,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "welcome_log_channel_id.php", $value);
+				VarSave($guild_folder, "welcome_log_channel_id.php", $value);
 				$message->reply("Welcome log channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -623,7 +624,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "modlog_channel_id.php", $value);
+				VarSave($guild_folder, "modlog_channel_id.php", $value);
 				$message->reply("Log channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -637,7 +638,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "getverified_channel_id.php", $value);
+				VarSave($guild_folder, "getverified_channel_id.php", $value);
 				$message->reply("Verify channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -651,7 +652,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "watch_channel_id.php", $value);
+				VarSave($guild_folder, "watch_channel_id.php", $value);
 				$message->reply("Watch channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -665,7 +666,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value); echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "rolepicker_channel_id.php", $value);
+				VarSave($guild_folder, "rolepicker_channel_id.php", $value);
 				$message->reply("Rolepicker channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
@@ -680,7 +681,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace(">", "", $value);
 			$value = trim($value); echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "rolepicker_id.php", $value);
+				VarSave($guild_folder, "rolepicker_id.php", $value);
 				$message->reply("Rolepicker user ID saved!");
 			}else $message->reply("Invalid input! Please enter an ID or @mention the user");
 			return true;
@@ -693,7 +694,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "species_message_id.php", $value);
+				VarSave($guild_folder, "species_message_id.php", $value);
 				$message->reply("Species message ID saved!");
 			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
@@ -705,7 +706,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "species2_message_id.php", $value);
+				VarSave($guild_folder, "species2_message_id.php", $value);
 				$message->reply("Species2 message ID saved!");
 			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
@@ -717,7 +718,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "sexuality_message_id.php", $value);
+				VarSave($guild_folder, "sexuality_message_id.php", $value);
 				$message->reply("Sexuality message ID saved!");
 			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
@@ -729,7 +730,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "gender_message_id.php", $value);
+				VarSave($guild_folder, "gender_message_id.php", $value);
 				$message->reply("Gender message ID saved!");
 			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
@@ -741,7 +742,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = trim($value);
 			if(is_numeric($value)){
-				VarSave($author_guild_id, "customroles_message_id.php", $value);
+				VarSave($guild_folder, "customroles_message_id.php", $value);
 				$message->reply("Custom roles message ID saved!");
 			}else $message->reply("Invalid input! Please enter a message ID");
 			return true;
@@ -984,17 +985,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
 //			echo "react: $react" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "react_option.php")){
-				VarSave($author_guild_id, "react_option.php", $react);
+			if(!CheckFile($guild_folder, "react_option.php")){
+				VarSave($guild_folder, "react_option.php", $react);
 //				echo "NEW REACT FILE" . PHP_EOL;
 			}
 //			VarLoad
-			$react_var = VarLoad($author_guild_id, "react_option.php");
+			$react_var = VarLoad($guild_folder, "react_option.php");
 //			echo "react_var: $react_var" . PHP_EOL;
 //			VarSave
 			$react_flip = !$react_var;
 //			echo "react_flip: $react_flip" . PHP_EOL;
-			VarSave($author_guild_id, "react_option.php", $react_flip);
+			VarSave($guild_folder, "react_option.php", $react_flip);
 			if ($react_flip === true)
 				$message->reply("Reaction functions enabled!");
 			else $message->reply("Reaction functions disabled!");
@@ -1003,12 +1004,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
-			if(!CheckFile($author_guild_id, "vanity_option.php")){
-				VarSave($author_guild_id, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
+			if(!CheckFile($guild_folder, "vanity_option.php")){
+				VarSave($guild_folder, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
 			}
-			$vanity_var = VarLoad($author_guild_id, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
+			$vanity_var = VarLoad($guild_folder, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
 			$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
-			VarSave($author_guild_id, "vanity_option.php", $vanity_flip);
+			VarSave($guild_folder, "vanity_option.php", $vanity_flip);
 			if ($vanity_flip === true)
 				$message->reply("Vanity functions enabled!");
 			else $message->reply("Vanity functions disabled!");
@@ -1018,13 +1019,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
 //			echo "nsfw: $nsfw" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "nsfw_option.php")){
-				VarSave($author_guild_id, "nsfw_option.php", $nsfw);
+			if(!CheckFile($guild_folder, "nsfw_option.php")){
+				VarSave($guild_folder, "nsfw_option.php", $nsfw);
 //				echo "NEW NSFW FILE" . PHP_EOL;
 			}
-			$nsfw_var = VarLoad($author_guild_id, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$nsfw_var = VarLoad($guild_folder, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave($author_guild_id, "nsfw_option.php", $nsfw_flip);
+			VarSave($guild_folder, "nsfw_option.php", $nsfw_flip);
 			if ($nsfw_flip === true)
 				$message->reply("NSFW functions enabled!");
 			else $message->reply("NSFW functions disabled!");
@@ -1034,13 +1035,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
 			//echo "rp0: $rp0" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "rolepicker_option.php")){
-				VarSave($author_guild_id, "rolepicker_option.php", $nsfw);
+			if(!CheckFile($guild_folder, "rolepicker_option.php")){
+				VarSave($guild_folder, "rolepicker_option.php", $nsfw);
 				echo "NEW ROLEPICKER FILE" . PHP_EOL;
 			}
-			$rolepicker_var = VarLoad($author_guild_id, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$rolepicker_var = VarLoad($guild_folder, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave($author_guild_id, "rolepicker_option.php", $rolepicker_flip);
+			VarSave($guild_folder, "rolepicker_option.php", $rolepicker_flip);
 			if ($rolepicker_flip === true)
 				$message->reply("Rolepicker enabled!");
 			else $message->reply("Rolepicker disabled!");
@@ -1050,13 +1051,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
 			//echo "rp1: $rp1" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "species_option.php")){
-				VarSave($author_guild_id, "species_option.php", $nsfw);
+			if(!CheckFile($guild_folder, "species_option.php")){
+				VarSave($guild_folder, "species_option.php", $nsfw);
 				echo "NEW SPECIES FILE" . PHP_EOL;
 			}
-			$species_var = VarLoad($author_guild_id, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$species_var = VarLoad($guild_folder, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave($author_guild_id, "species_option.php", $species_flip);
+			VarSave($guild_folder, "species_option.php", $species_flip);
 			if ($species_flip === true)
 				$message->reply("Species roles enabled!");
 			else $message->reply("Species roles	disabled!");
@@ -1066,13 +1067,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
 			echo "rp2: $rp2" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "sexuality_option.php")){
-				VarSave($author_guild_id, "sexuality_option.php", $nsfw);
+			if(!CheckFile($guild_folder, "sexuality_option.php")){
+				VarSave($guild_folder, "sexuality_option.php", $nsfw);
 				echo "NEW SEXUALITY FILE" . PHP_EOL;
 			}
-			$sexuality_var = VarLoad($author_guild_id, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave($author_guild_id, "sexuality_option.php", $sexuality_flip);
+			VarSave($guild_folder, "sexuality_option.php", $sexuality_flip);
 			if ($sexuality_flip === true)
 				$message->reply("Sexuality roles enabled!");
 			else $message->reply("Sexuality roles disabled!");
@@ -1082,13 +1083,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
 			//echo "rp3: $rp3" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "gender_option.php")){
-				VarSave($author_guild_id, "gender_option.php", $nsfw);
+			if(!CheckFile($guild_folder, "gender_option.php")){
+				VarSave($guild_folder, "gender_option.php", $nsfw);
 				echo "NEW GENDER FILE" . PHP_EOL;
 			}
-			$gender_var = VarLoad($author_guild_id, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$gender_var = VarLoad($guild_folder, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave($author_guild_id, "gender_option.php", $gender_flip);
+			VarSave($guild_folder, "gender_option.php", $gender_flip);
 			if ($gender_flip === true)
 				$message->reply("Gender roles enabled!");
 			else $message->reply("Gender roles disabled!");
@@ -1098,13 +1099,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
 			//echo "rp4: $rp4" . PHP_EOL;
-			if(!CheckFile($author_guild_id, "custom_option.php")){
-				VarSave($author_guild_id, "custom_option.php", $nsfw);
+			if(!CheckFile($guild_folder, "custom_option.php")){
+				VarSave($guild_folder, "custom_option.php", $nsfw);
 				echo "NEW CUSTOM ROLE FILE" . PHP_EOL;
 			}
-			$custom_var = VarLoad($author_guild_id, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+			$custom_var = VarLoad($guild_folder, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-			VarSave($author_guild_id, "custom_option.php", $custom_flip);
+			VarSave($guild_folder, "custom_option.php", $custom_flip);
 			if ($custom_flip === true)
 				$message->reply("Custom roles enabled!");
 			else $message->reply("Custom roles disabled!");
@@ -1742,31 +1743,31 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$vanity_limit_seconds = TimeArrayToSeconds($vanity_limit);
 //			Load author give statistics
 			if(!CheckFile($author_folder, "vanity_give_count.php"))	$vanity_give_count	= 0;													
-			else 													$vanity_give_count	= VarLoad($author_guild_id."/".$author_id, "vanity_give_count.php");		
+			else 													$vanity_give_count	= VarLoad($author_folder, "vanity_give_count.php");		
 			if(!CheckFile($author_folder, "hugger_count.php"))		$hugger_count		= 0;													
-			else 													$hugger_count 		= VarLoad($author_guild_id."/".$author_id, "hugger_count.php");				
+			else 													$hugger_count 		= VarLoad($author_folder, "hugger_count.php");				
 			if(!CheckFile($author_folder, "kisser_count.php"))		$kisser_count		= 0;													
-			else 													$kisser_count 		= VarLoad($author_guild_id."/".$author_id, "kisser_count.php");				
+			else 													$kisser_count 		= VarLoad($author_folder, "kisser_count.php");				
 			if(!CheckFile($author_folder, "nuzzler_count.php"))		$nuzzler_count		= 0;													
-			else 													$nuzzler_count		= VarLoad($author_guild_id."/".$author_id, "nuzzler_count.php");			
+			else 													$nuzzler_count		= VarLoad($author_folder, "nuzzler_count.php");			
 			if(!CheckFile($author_folder, "booper_count.php"))		$booper_count		= 0;													
-			else 													$booper_count		= VarLoad($author_guild_id."/".$author_id, "booper_count.php");			
+			else 													$booper_count		= VarLoad($author_folder, "booper_count.php");			
 			if(!CheckFile($author_folder, "baper_count.php"))		$baper_count		= 0;													
-			else 													$baper_count		= VarLoad($author_guild_id."/".$author_id, "baper_count.php");			
+			else 													$baper_count		= VarLoad($author_folder, "baper_count.php");			
 
 //			Load author get statistics
 			if(!CheckFile($author_folder, "vanity_get_count.php"))	$vanity_get_count	= 0;													
-			else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$author_id, "vanity_get_count.php");		
+			else 													$vanity_get_count 	= VarLoad($author_folder, "vanity_get_count.php");		
 			if(!CheckFile($author_folder, "hugged_count.php"))		$hugged_count		= 0;													
-			else 													$hugged_count 		= VarLoad($author_guild_id."/".$author_id, "hugged_count.php");				
+			else 													$hugged_count 		= VarLoad($author_folder, "hugged_count.php");				
 			if(!CheckFile($author_folder, "kissed_count.php"))		$kissed_count		= 0;													
-			else 													$kissed_count 		= VarLoad($author_guild_id."/".$author_id, "kissed_count.php");				
+			else 													$kissed_count 		= VarLoad($author_folder, "kissed_count.php");				
 			if(!CheckFile($author_folder, "nuzzled_count.php"))		$nuzzled_count		= 0;													
-			else 													$nuzzled_count		= VarLoad($author_guild_id."/".$author_id, "nuzzled_count.php");				
+			else 													$nuzzled_count		= VarLoad($author_folder, "nuzzled_count.php");				
 			if(!CheckFile($author_folder, "booped_count.php"))		$booped_count		= 0;													
-			else 													$booped_count		= VarLoad($author_guild_id."/".$author_id, "booped_count.php");
+			else 													$booped_count		= VarLoad($author_folder, "booped_count.php");
 			if(!CheckFile($author_folder, "baped_count.php"))		$baped_count		= 0;													
-			else 													$baped_count		= VarLoad($author_guild_id."/".$author_id, "baped_count.php");				
+			else 													$baped_count		= VarLoad($author_folder, "baped_count.php");				
 			
 			if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 				echo "HUG/SNUGGLE" . PHP_EOL;
@@ -1795,15 +1796,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$hugger_count++;
 							VarSave($author_folder, "hugger_count.php", $hugger_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
-							else 																		$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "hugged_count.php"))		$hugged_count		= 0;
-							else 																		$hugged_count 		= VarLoad($author_guild_id."/".$mention_id, "hugged_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																		$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "hugged_count.php"))		$hugged_count		= 0;
+							else 																		$hugged_count 		= VarLoad($guild_folder."/".$mention_id, "hugged_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$hugged_count++;
-							VarSave($author_guild_id."/".$mention_id, "hugged_count.php", $hugged_count);
+							VarSave($guild_folder."/".$mention_id, "hugged_count.php", $hugged_count);
 //							Set Cooldown
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
@@ -1868,15 +1869,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$kisser_count++;
 							VarSave($author_folder, "kisser_count.php", $kisser_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
-							else 																		$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "kissed_count.php"))		$kissed_count		= 0;
-							else 																		$kissed_count 		= VarLoad($author_guild_id."/".$mention_id, "kissed_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																		$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "kissed_count.php"))		$kissed_count		= 0;
+							else 																		$kissed_count 		= VarLoad($guild_folder."/".$mention_id, "kissed_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$kissed_count++;
-							VarSave($author_guild_id."/".$mention_id, "kissed_count.php", $kissed_count);\
+							VarSave($guild_folder."/".$mention_id, "kissed_count.php", $kissed_count);\
 //							Set Cooldown
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
@@ -1942,15 +1943,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$nuzzler_count++;
 							VarSave($author_folder, "nuzzler_count.php", $nuzzler_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
-							else 																		$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "nuzzled_count.php"))		$nuzzled_count		= 0;
-							else 																		$nuzzled_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzled_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																		$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "nuzzled_count.php"))		$nuzzled_count		= 0;
+							else 																		$nuzzled_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzled_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$nuzzled_count++;
-							VarSave($author_guild_id."/".$mention_id, "nuzzled_count.php", $nuzzled_count);
+							VarSave($guild_folder."/".$mention_id, "nuzzled_count.php", $nuzzled_count);
 //							Set Cooldown
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
@@ -2014,15 +2015,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$booper_count++;
 							VarSave($author_folder, "booper_count.php", $booper_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "booped_count.php"))			$booped_count		= 0;
-							else 													$booped_count 		= VarLoad($author_guild_id."/".$mention_id, "booped_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "booped_count.php"))			$booped_count		= 0;
+							else 													$booped_count 		= VarLoad($guild_folder."/".$mention_id, "booped_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$booped_count++;
-							VarSave($author_guild_id."/".$mention_id, "booped_count.php", $booped_count);
+							VarSave($guild_folder."/".$mention_id, "booped_count.php", $booped_count);
 //							Set Cooldown
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
@@ -2088,15 +2089,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$baper_count++;
 							VarSave($author_folder, "baper_count.php", $baper_count);
 							//Load target get statistics
-							if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($author_guild_id."/".$mention_id, "baped_count.php"))			$baped_count		= 0;
-							else 													$baped_count 		= VarLoad($author_guild_id."/".$mention_id, "baped_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
+							else 													$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "baped_count.php"))			$baped_count		= 0;
+							else 													$baped_count 		= VarLoad($guild_folder."/".$mention_id, "baped_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
-							VarSave($author_guild_id."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 							$baped_count++;
-							VarSave($author_guild_id."/".$mention_id, "baped_count.php", $baped_count);
+							VarSave($guild_folder."/".$mention_id, "baped_count.php", $baped_count);
 //							Set Cooldown
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
@@ -2217,26 +2218,26 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						
 						
 						//Load target get statistics
-						if(!CheckFile($author_guild_id."/".$mention_id, "vanity_get_count.php"))		$target_vanity_get_count	= 0;
-						else 													$target_vanity_get_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_get_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "vanity_give_count.php"))	$target_vanity_give_count	= 0;
-						else 													$target_vanity_give_count 	= VarLoad($author_guild_id."/".$mention_id, "vanity_give_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "hugged_count.php"))			$target_hugged_count		= 0;
-						else 													$target_hugged_count 		= VarLoad($author_guild_id."/".$mention_id, "hugged_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "hugger_count.php"))			$target_hugger_count		= 0;
-						else 													$target_hugger_count 		= VarLoad($author_guild_id."/".$mention_id, "hugger_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "kissed_count.php"))			$target_kissed_count		= 0;
-						else 													$target_kissed_count 		= VarLoad($author_guild_id."/".$mention_id, "kissed_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "kisser_count.php"))			$target_kisser_count		= 0;
-						else 													$target_kisser_count 		= VarLoad($author_guild_id."/".$mention_id, "kisser_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "nuzzled_count.php"))		$target_nuzzled_count		= 0;
-						else 													$target_nuzzled_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzled_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "nuzzler_count.php"))		$target_nuzzler_count		= 0;
-						else 													$target_nuzzler_count 		= VarLoad($author_guild_id."/".$mention_id, "nuzzler_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "booped_count.php"))			$target_booped_count		= 0;
-						else 													$target_booped_count 		= VarLoad($author_guild_id."/".$mention_id, "booped_count.php");
-						if(!CheckFile($author_guild_id."/".$mention_id, "booper_count.php"))			$target_booper_count		= 0;
-						else 													$target_booper_count 		= VarLoad($author_guild_id."/".$mention_id, "booper_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))		$target_vanity_get_count	= 0;
+						else 													$target_vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "vanity_give_count.php"))	$target_vanity_give_count	= 0;
+						else 													$target_vanity_give_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_give_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "hugged_count.php"))			$target_hugged_count		= 0;
+						else 													$target_hugged_count 		= VarLoad($guild_folder."/".$mention_id, "hugged_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "hugger_count.php"))			$target_hugger_count		= 0;
+						else 													$target_hugger_count 		= VarLoad($guild_folder."/".$mention_id, "hugger_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "kissed_count.php"))			$target_kissed_count		= 0;
+						else 													$target_kissed_count 		= VarLoad($guild_folder."/".$mention_id, "kissed_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "kisser_count.php"))			$target_kisser_count		= 0;
+						else 													$target_kisser_count 		= VarLoad($guild_folder."/".$mention_id, "kisser_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "nuzzled_count.php"))		$target_nuzzled_count		= 0;
+						else 													$target_nuzzled_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzled_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "nuzzler_count.php"))		$target_nuzzler_count		= 0;
+						else 													$target_nuzzler_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzler_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "booped_count.php"))			$target_booped_count		= 0;
+						else 													$target_booped_count 		= VarLoad($guild_folder."/".$mention_id, "booped_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "booper_count.php"))			$target_booper_count		= 0;
+						else 													$target_booper_count 		= VarLoad($guild_folder."/".$mention_id, "booper_count.php");
 						
 						//Build the embed
 						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -2596,10 +2597,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 				
 //				Place watch info in target's folder
-				$watchers[] = VarLoad($author_guild_id."/".$mention_id, "$watchers.php");
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
 				$watchers = array_unique($arr);
 				$watchers[] = $author_id;
-				VarSave($author_guild_id."/".$mention_id, "watchers.php", $watchers);
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
 				$mention_watch_name_queue 								= "**<@$mention_id>** ";
 				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
 			}
@@ -2648,9 +2649,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 				
 //				Place watch info in target's folder
-				$watchers[] = VarLoad($author_guild_id."/".$mention_id, "$watchers.php");
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
 				$watchers = array_value_remove($author_id, $watchers);
-				VarSave($author_guild_id."/".$mention_id, "watchers.php", $watchers);
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
 				$mention_watch_name_queue 								= "**<@$mention_id>** ";
 				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
 			}
@@ -2688,9 +2689,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$mention_warn_queue 									= "**$mention_check warned $author_check on $warndate for reason: **" . str_replace($filter, "", $message_content);
 				
 //				Place warn info in target's folder
-				$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
+				$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
 				$infractions[] = $mention_warn_queue;
-				VarSave($author_guild_id."/".$mention_id, "infractions.php", $infractions);
+				VarSave($guild_folder."/".$mention_id, "infractions.php", $infractions);
 				$mention_warn_queue_full 								= $mention_warn_queue_full . PHP_EOL . $mention_warn_queue;
 			}
 //			Send a message
@@ -2740,7 +2741,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 					
 	//				Place infraction info in target's folder
-					$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
+					$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
 					$y = 0;
                     $mention_infraction_queue = "";
                     $mention_infraction_queue_full = "";
@@ -2822,7 +2823,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 					
 //					Get infraction info in target's folder
-					$infractions = VarLoad($author_guild_id."/".$mention_id, "infractions.php");
+					$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
 					$proper = $command_symbol."removeinfraction <@!$mention_id> ";
 					$strlen = strlen($command_symbol."removeinfraction <@!$mention_id> ");
 					$substr = substr($message_content_lower, $strlen);
@@ -2840,7 +2841,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						if ($infractions[$substr] != NULL){
 							$infractions[$substr] = "Infraction removed by $author_check on " . date("m/d/Y"); // for arrays where key equals offset
 //							Save the new infraction log
-							VarSave($author_guild_id."/".$mention_id, "infractions.php", $infractions);
+							VarSave($guild_folder."/".$mention_id, "infractions.php", $infractions);
 							
 //							Send a message
 							if($react) $message->react("👍");
@@ -2945,10 +2946,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		CheckDir($user_folder);
 		
 		$author_guild_id = $member_new->guild->id;
-		if(!CheckDir($author_guild_id)){
-			if(!CheckFile($author_guild_id, "guild_owner_id.php")){
-				VarSave($author_guild_id, "guild_owner_id.php", $guild_owner_id);
-			}else $command_symbol	= VarLoad($author_guild_id, "guild_owner_id.php");
+		$guild_folder = "\\guilds\\$author_guild_id";
+		if(!CheckDir($guild_folder)){
+			if(!CheckFile($guild_folder, "guild_owner_id.php")){
+				VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
+			}else $command_symbol	= VarLoad($guild_folder, "guild_owner_id.php");
 		}
 		//Load config variables for the guild
 		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
@@ -3424,7 +3426,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild				= $message->guild;
 		$author_guild_id	= $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		
@@ -3476,7 +3478,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild					= $channel->guild;
 		$author_guild_id		= $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		$modlog_channel			= $guild->channels->get($modlog_channel_id);
@@ -3514,9 +3516,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_guild				= $message->guild; //Redeclared only for checkdir... Really need to fix this (TODO)
 		$author_guild_id			= $author_guild->id;
 		//Create a folder for the guild if it doesn't exist already
-		CheckDir($author_guild_id);
+		$guild_folder = "\\guilds\\$author_guild_id";
+		CheckDir($guild_folder);
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		//Role picker stuff
@@ -3567,32 +3570,31 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
 		
-		
 		//Check rolepicker option
 		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
 		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
-			if(!CheckFile($author_guild_id, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
-			else 														$rp0	= VarLoad($author_guild_id, "rolepicker_option.php");
+			if(!CheckFile($guild_folder, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
+			else 														$rp0	= VarLoad($guild_folder, "rolepicker_option.php");
 		} else $rp0 = false;
 		
 		if($rp0 === true)
 		if($author_id == $rolepicker_id){
 			//Check options
 			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "species_option.php"))				$rp1	= $species_option;										//Species role picker
-				else 													$rp1	= VarLoad($author_guild_id, "species_option.php");
+				if(!CheckFile($guild_folder, "species_option.php"))				$rp1	= $species_option;										//Species role picker
+				else 													$rp1	= VarLoad($guild_folder, "species_option.php");
 			} else $rp1 = false;
 			if ( ($sexuality_message_id != "") || ($sexuality_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "sexuality_option.php"))			$rp2	= $sexuality_option;										//Sexuality role picker
-				else 													$rp2	= VarLoad($author_guild_id, "sexuality_option.php");
+				if(!CheckFile($guild_folder, "sexuality_option.php"))			$rp2	= $sexuality_option;										//Sexuality role picker
+				else 													$rp2	= VarLoad($guild_folder, "sexuality_option.php");
 			} else $rp2 = false;
 			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "gender_option.php"))				$rp3	= $gender_option;										//Gender role picker
-				else 													$rp3	= VarLoad($author_guild_id, "gender_option.php");
+				if(!CheckFile($guild_folder, "gender_option.php"))				$rp3	= $gender_option;										//Gender role picker
+				else 													$rp3	= VarLoad($guild_folder, "gender_option.php");
 			} else $rp3 = false;
 			if ( ($customroles_message_id != "") || ($customroles_message_id != NULL) ){
-				if(!CheckFile($author_guild_id, "customrole_option.php"))			$rp4	= $custom_option;										//Custom role picker
-				else 													$rp4	= VarLoad($author_guild_id, "customrole_option.php");
+				if(!CheckFile($guild_folder, "customrole_option.php"))			$rp4	= $custom_option;										//Custom role picker
+				else 													$rp4	= VarLoad($guild_folder, "customrole_option.php");
 			} else $rp4 = false;
 			//Load guild roles info
 			$guild_roles													= $guild->roles;
