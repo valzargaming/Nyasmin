@@ -237,7 +237,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						$watcher_user = $watcher_member->user;																		//echo "watcher_user class: " . get_class($watcher_user) . PHP_EOL;
 						$watcher_user->createDM()->then(function($watcher_dmchannel) use ($message){	//Promise
 //							echo "watcher_dmchannel class: " . get_class($watcher_dmchannel) . PHP_EOL; //DMChannel
-							return $watcher_dmchannel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message->content}");
+							if($watcher_dmchannel) $watcher_dmchannel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message->content}");
+							return true;
 						});
 					}catch(Exception $e){
 //						RuntimeException: Unknown property
@@ -1445,9 +1446,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 							->setURL("");                             												// Set the URL
 //						Send the message
-						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
+						return true;
 					}else{//Target is not allowed to be kicked
 						$author_channel->send("<@$mention_id> cannot be kicked because of their roles!");
 						return true;
@@ -1531,9 +1533,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 							->setURL("");                             												// Set the URL
 //						Send the message
-						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
+						return true;
 					}else{//Target is not allowed to be muted
 						$author_channel->send("<@$mention_id> cannot be muted because of their roles!");
 						return true;
@@ -1617,9 +1620,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 							->setURL("");                             												// Set the URL
 //						Send the message
-						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
+						return true;
 					}else{//Target is not allowed to be unmuted
 						$author_channel->send("<@$mention_id> cannot be unmuted because of their roles!");
 						return true;
@@ -1704,7 +1708,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 							->setURL("");                             												// Set the URL
 //						Send the message
-						return $modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 							echo $error.PHP_EOL; //Echo any errors
 						});
 						if($react) $message->react("🔨"); //Hammer
@@ -2530,7 +2534,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if($general_channel){
 					$msg = "Welcome to the Palace, <@$mention_id>!";
 					if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
-					$general_channel->send($msg);
+					if($general_channel)$general_channel->send($msg);
 				}
 				return true;
 			}else{
@@ -2551,7 +2555,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$getverified_channel->message->delete();
 				}
 			});
-			$getverified_channel->send("Welcome to $author_guild_name! Please introduce yourself here and one of our staff members will verify you shortly.");
+			if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name! Please introduce yourself here and one of our staff members will verify you shortly.");
 			return true;
 		}		
 		
@@ -2606,8 +2610,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 //			Send a message
 			if ($mention_watch_name_queue != ""){
-				if ($watch_channel)
-				$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+				if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 				else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 //				React to the original message
 //				if($react) $message->react("👀");
@@ -2658,9 +2661,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //			React to the original message
 			if($react) $message->react("👍");
 //			Send the message
-			if ($watch_channel){
-			$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
-			}else $author_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+			if ($watch_channel)	$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+			else $author_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 			return true;
 		}
 		
@@ -2696,8 +2698,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 //			Send a message
 			if ($mention_warn_queue != ""){
-				if ($watch_channel)
-				$watch_channel->send($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
+				if ($watch_channel)$watch_channel->send($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
 				else $message->reply($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
 //				React to the original message
 //				if($react) $message->react("👀");
@@ -3111,12 +3112,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 					->setURL("");                             												// Set the URL
 //				Send a message
-				$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+				if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
 				return true;
 			}else{
-				$modlog_channel->send("**User Update**\n$changes");
+				if($modlog_channel)$modlog_channel->send("**User Update**\n$changes");
 				return true;
 			}
 		}else{ //No info we want to capture was changed
@@ -3294,7 +3295,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if($modlog_channel)
-		if($changes != ""){
+		if ($changes != ""){
 			//Build the embed
 			//$changes = "**Message edit**:\n" . $changes;
 			
@@ -3314,7 +3315,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setURL("");                             												// Set the URL
 //			Send the message
 //			We do not need another promise here, so we call done, because we want to consume the promise
-			$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
 			return true;
@@ -3388,7 +3389,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setURL("");
 //			Send the message
 //			We do not need another promise here, so we call done, because we want to consume the promise
-			$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
 			return true; //No more processing, we only want to process the first person mentioned
@@ -3456,8 +3457,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			->setURL("");
 //			Send the message
 //			We do not need another promise here, so we call done, because we want to consume the promise
-		if ($modlog_channel)
-		$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+		if ($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 			echo $error.PHP_EOL; //Echo any errors
 		});
 		return true; //No more processing, we only want to process the first person mentioned
@@ -3485,7 +3485,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		include "$guild_config_path";
 		
 		$modlog_channel			= $guild->channels->get($modlog_channel_id);
-		$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+		if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 			echo $error.PHP_EOL; //Echo any errors
 		});
 		return true; //No more processing, we only want to process the first person mentioned
