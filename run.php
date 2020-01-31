@@ -803,7 +803,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//unwatch
 				$documentation = $documentation . "`unwatch` removes the effects of the watch command.\n";
 				//vwatch
-				$documentation = $documentation . "`vwatch` gives the verified role to the mentioned and watches them.\n";
+				$documentation = $documentation . "`vw` or `vwatch` gives the verified role to the mentioned and watches them.\n";
 				//warn
 				$documentation = $documentation . "`warn` logs an infraction.\n";
 				//infractions
@@ -2737,7 +2737,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
-		if (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch '){ //;vwatch @
+		if ( (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch ') || (substr($message_content_lower, 0, 4) == $command_symbol . 'vw ')){ //;vwatch @
 			echo "VERIFYING AND WATCHING TARGET MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
 			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2748,6 +2748,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 				$filter = "$command_symbol" . "vwatch ";
 				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				$filter = "$command_symbol" . "vw ";
+				$value = str_replace($filter, "", $value);
 				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 				$value = str_replace(">", "", $value);
 				if(is_numeric($value)){
