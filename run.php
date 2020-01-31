@@ -86,9 +86,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_channel 												= $message->channel;
 		$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
 		$author_channel_class											= get_class($author_channel);
-		$is_dm = false;
+		$is_dm															= false;
 		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel") //True if direct message
-			$is_dm = true;
+		$is_dm															= true;
 		$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
 		$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
 		$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
@@ -107,14 +107,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild 												= $author_channel->guild;
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
 			$author_guild_name											= $author_guild->name;
-			$guild_owner_id = $author_guild->ownerID;
+			$guild_owner_id												= $author_guild->ownerID;
 
 			$guild_folder = "\\guilds\\$author_guild_id";
 //			Create a folder for the guild if it doesn't exist already
             if(!CheckDir($guild_folder)){
 				if(!CheckFile($guild_folder, "guild_owner_id.php")){
 					VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
-				}else $guild_owner_id	= VarLoad($guild_folder, "guild_owner_id.php");
+				}else $guild_owner_id = VarLoad($guild_folder, "guild_owner_id.php");
 			}
 			if ($guild_owner_id == $author_id){
 				$owner = true; //Enable usage of restricted commands
@@ -201,11 +201,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				else 											$rp4	= VarLoad($guild_folder, "customrole_option.php");
 			}else												$rp4	= false;
 		}else{ //All functions are disabled
-			$rp0 = false;
-			$rp1 = false;
-			$rp2 = false;
-			$rp3 = false;
-			$rp4 = false;
+																$rp0 	= false;
+																$rp1 	= false;
+																$rp2 	= false;
+																$rp3 	= false;
+																$rp4 	= false;
 		}
 		
 		echo "Message from $author_check <$author_id> <#$author_channel_id>: {$message_content}", PHP_EOL;
@@ -266,15 +266,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		else 								$creator 	= true;
 		
 		
-		$adult 				= false;
-//		$owner				= false;
-		$dev				= false;
-		$admin 				= false;
-		$mod				= false;
-		$verified			= false;
-		$bot				= false;
-		$vzgbot				= false;
-		$muted				= false;
+		$adult 		= false;
+//		$owner		= false;
+		$dev		= false;
+		$admin 		= false;
+		$mod		= false;
+		$verified	= false;
+		$bot		= false;
+		$vzgbot		= false;
+		$muted		= false;
 		
 		$author_guild_roles_names 				= array(); 												//Names of all guild roles
 		$author_guild_roles_ids 				= array(); 												//IDs of all guild roles
@@ -1275,12 +1275,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		//ymdhis cooldown time
-		$avatar_limit['year'] = 0;
-		$avatar_limit['month'] = 0;
-		$avatar_limit['day'] = 0;
-		$avatar_limit['hour'] = 0;
-		$avatar_limit['min'] = 10;
-		$avatar_limit['sec'] = 0;
+		$avatar_limit['year']	= 0;
+		$avatar_limit['month']	= 0;
+		$avatar_limit['day']	= 0;
+		$avatar_limit['hour']	= 0;
+		$avatar_limit['min']	= 10;
+		$avatar_limit['sec']	= 0;
 		$avatar_limit_seconds = TimeArrayToSeconds($avatar_limit);																		//echo "TimeArrayToSeconds: " . $avatar_limit_seconds . PHP_EOL;
 		if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 			echo "GETTING AVATAR FOR AUTHOR" . PHP_EOL;
@@ -1339,18 +1339,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 				foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //					id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
-					$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-					$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-					$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-					$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+					$mention_param_encode 								= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+					$mention_json 										= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+					$mention_id 										= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+					$mention_username 									= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
 					
-					$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
-					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+					$mention_discriminator 								= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+					$mention_check 										= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 
 //					Get the avatar URL of the mentioned user
-                    $target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";
+                    $target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+					$target_guildmember_user							= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+					$mention_avatar 									= "{$target_guildmember_user->getAvatarURL()}";
 					
 //					Build the embed
 					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1424,15 +1424,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($author_id != $mention_id){ //Don't let anyone kick themselves
 					//Get the roles of the mentioned user
-					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
+					$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+					$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
 					
 //  				Get the avatar URL of the mentioned user
-//					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-//					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
+//					$target_guildmember_user							= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+//					$mention_avatar 									= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
 					
 //  				Populate arrays of the info we need
-//  				$target_guildmember_roles_names 						= array();
+//  				$target_guildmember_roles_names 					= array();
 					$x=0;
 					$target_dev = false;
 					$target_owner = false;
@@ -1442,7 +1442,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$target_guildmember_roles_ids = array();
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
-							$target_guildmember_roles_ids[] 				= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+							$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
 							if ($role->id == $role_18_id)		$target_adult 		= true;							//Author has the 18+ role
 							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
 							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
@@ -1531,11 +1531,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($author_id != $mention_id){ //Don't let anyone mute themselves
 					//Get the roles of the mentioned user
-					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
+					$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+					$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
 					
 //  				Populate arrays of the info we need
-//	    			$target_guildmember_roles_names 						= array();
+//	    			$target_guildmember_roles_names 					= array();
 					$x=0;
 					$target_dev = false;
 					$target_owner = false;
@@ -1545,7 +1545,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$target_guildmember_roles_ids = array();
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
-							$target_guildmember_roles_ids[] 				= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+							$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
 							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
 							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
@@ -1630,8 +1630,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($author_id != $mention_id){ //Don't let anyone mute themselves
 					//Get the roles of the mentioned user
-					$target_guildmember 									= $message->guild->members->get($mention_id);
-					$target_guildmember_role_collection 					= $target_guildmember->roles;
+					$target_guildmember 								= $message->guild->members->get($mention_id);
+					$target_guildmember_role_collection 				= $target_guildmember->roles;
 
 //					Get the roles of the mentioned user
 					$target_dev = false;
@@ -1644,7 +1644,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$x=0;
 					foreach ($target_guildmember_role_collection as $role){
 						if ($x!=0){ //0 is @everyone so skip it
-							$target_guildmember_roles_ids[] 				= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+							$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
 							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
 							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
@@ -1727,15 +1727,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($author_id != $mention_id){ //Don't let anyone ban themselves
 					//Get the roles of the mentioned user
-					$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_role_collection 					= $target_guildmember->roles;					//This is the Role object for the GuildMember
+					$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+					$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
 					
 //  				Get the avatar URL of the mentioned user
-//					$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-//					$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
+//					$target_guildmember_user							= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+//					$mention_avatar 									= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
 
 //  				Populate arrays of the info we need
-//  				$target_guildmember_roles_names 						= array();
+//  				$target_guildmember_roles_names 					= array();
 					$x=0;
 					$target_dev = false;
 					$target_owner = false;
@@ -1852,18 +1852,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 					foreach ( $mentions_arr as $mention_param ){
-						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
-							$hug_messages										= array();
-							$hug_messages[]										= "<@$author_id> has given <@$mention_id> a hug! How sweet!";
-							$hug_messages[]										= "<@$author_id> saw that <@$mention_id> needed attention, so <@$author_id> gave them a hug!";
-							$hug_messages[]										= "<@$author_id> gave <@$mention_id> a hug! Isn't this adorable?";
-							$index_selection									= GetRandomArrayIndex($hug_messages);
+							$hug_messages								= array();
+							$hug_messages[]								= "<@$author_id> has given <@$mention_id> a hug! How sweet!";
+							$hug_messages[]								= "<@$author_id> saw that <@$mention_id> needed attention, so <@$author_id> gave them a hug!";
+							$hug_messages[]								= "<@$author_id> gave <@$mention_id> a hug! Isn't this adorable?";
+							$index_selection							= GetRandomArrayIndex($hug_messages);
 
 							//Send the message
 							$author_channel->send($hug_messages[$index_selection]);
@@ -1874,9 +1874,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							VarSave($author_folder, "hugger_count.php", $hugger_count);
 							//Load target get statistics
 							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
-							else 																		$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							else 																	$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
 							if(!CheckFile($guild_folder."/".$mention_id, "hugged_count.php"))		$hugged_count		= 0;
-							else 																		$hugged_count 		= VarLoad($guild_folder."/".$mention_id, "hugged_count.php");
+							else 																	$hugged_count 		= VarLoad($guild_folder."/".$mention_id, "hugged_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -1886,9 +1886,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
-							$self_hug_messages									= array();
-							$self_hug_messages[]								= "<@$author_id> hugs themself. What a wierdo!";
-							$index_selection									= GetRandomArrayIndex($self_hug_messages);
+							$self_hug_messages							= array();
+							$self_hug_messages[]						= "<@$author_id> hugs themself. What a wierdo!";
+							$index_selection							= GetRandomArrayIndex($self_hug_messages);
 							//Send the message
 							$author_channel->send($self_hug_messages[$index_selection]);
 							//Increment give stat counter of author
@@ -1924,20 +1924,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 					foreach ( $mentions_arr as $mention_param ){
-						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
-							$kiss_messages											= array();
-							$kiss_messages[]										= "<@$author_id> put their nose to <@$mention_id>’s for a good old smooch! Now that’s cute!";
-							$kiss_messages[]										= "<@$mention_id> was surprised when <@$author_id> leaned in and gave them a kiss! Hehe!";
-							$kiss_messages[]										= "<@$author_id> has given <@$mention_id> the sweetest kiss on the cheek! Yay!";
-							$kiss_messages[]										= "<@$author_id> gives <@$mention_id> a kiss on the snoot.";
-							$kiss_messages[]										= "<@$author_id> rubs their snoot on <@$mention_id>, how sweet!";
-							$index_selection										= GetRandomArrayIndex($kiss_messages);						//echo "random kiss_message: " . $kiss_messages[$index_selection];
+							$kiss_messages								= array();
+							$kiss_messages[]							= "<@$author_id> put their nose to <@$mention_id>’s for a good old smooch! Now that’s cute!";
+							$kiss_messages[]							= "<@$mention_id> was surprised when <@$author_id> leaned in and gave them a kiss! Hehe!";
+							$kiss_messages[]							= "<@$author_id> has given <@$mention_id> the sweetest kiss on the cheek! Yay!";
+							$kiss_messages[]							= "<@$author_id> gives <@$mention_id> a kiss on the snoot.";
+							$kiss_messages[]							= "<@$author_id> rubs their snoot on <@$mention_id>, how sweet!";
+							$index_selection							= GetRandomArrayIndex($kiss_messages);						//echo "random kiss_message: " . $kiss_messages[$index_selection];
 //							Send the message
 							$author_channel->send($kiss_messages[$index_selection]);
 							//Increment give stat counter of author
@@ -1947,9 +1947,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							VarSave($author_folder, "kisser_count.php", $kisser_count);
 							//Load target get statistics
 							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
-							else 																		$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							else 																	$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
 							if(!CheckFile($guild_folder."/".$mention_id, "kissed_count.php"))		$kissed_count		= 0;
-							else 																		$kissed_count 		= VarLoad($guild_folder."/".$mention_id, "kissed_count.php");
+							else 																	$kissed_count 		= VarLoad($guild_folder."/".$mention_id, "kissed_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -1959,9 +1959,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
-							$self_kiss_messages										= array();
-							$self_kiss_messages[]									= "<@$author_id> tried to kiss themselves in the mirror. How silly!";
-							$index_selection										= GetRandomArrayIndex($self_kiss_messages);
+							$self_kiss_messages							= array();
+							$self_kiss_messages[]						= "<@$author_id> tried to kiss themselves in the mirror. How silly!";
+							$index_selection							= GetRandomArrayIndex($self_kiss_messages);
 							//Send the message
 							$author_channel->send($self_kiss_messages[$index_selection]);
 							//Increment give stat counter of author
@@ -1997,20 +1997,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 					foreach ( $mentions_arr as $mention_param ){
-						$mention_param_encode 										= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 												= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 												= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
-							$nuzzle_messages										= array();
-							$nuzzle_messages[]										= "<@$author_id> nuzzled into <@$mention_id>’s neck! Sweethearts~ :blue_heart:";
-							$nuzzle_messages[]										= "<@$mention_id> was caught off guard when <@$author_id> nuzzled into their chest! How cute!";
-							$nuzzle_messages[]										= "<@$author_id> wanted to show <@$mention_id> some more affection, so they nuzzled into <@$mention_id>’s fluff!";
-							$nuzzle_messages[]										= "<@$author_id> rubs their snoot softly against <@$mention_id>, look at those cuties!";
-							$nuzzle_messages[]										= "<@$author_id> takes their snoot and nuzzles <@$mention_id> cutely.";
-							$index_selection										= GetRandomArrayIndex($nuzzle_messages);
+							$nuzzle_messages							= array();
+							$nuzzle_messages[]							= "<@$author_id> nuzzled into <@$mention_id>’s neck! Sweethearts~ :blue_heart:";
+							$nuzzle_messages[]							= "<@$mention_id> was caught off guard when <@$author_id> nuzzled into their chest! How cute!";
+							$nuzzle_messages[]							= "<@$author_id> wanted to show <@$mention_id> some more affection, so they nuzzled into <@$mention_id>’s fluff!";
+							$nuzzle_messages[]							= "<@$author_id> rubs their snoot softly against <@$mention_id>, look at those cuties!";
+							$nuzzle_messages[]							= "<@$author_id> takes their snoot and nuzzles <@$mention_id> cutely.";
+							$index_selection							= GetRandomArrayIndex($nuzzle_messages);
 //							echo "random nuzzle_messages: " . $nuzzle_messages[$index_selection];
 //							Send the message
 							$author_channel->send($nuzzle_messages[$index_selection]);
@@ -2021,9 +2021,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							VarSave($author_folder, "nuzzler_count.php", $nuzzler_count);
 							//Load target get statistics
 							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
-							else 																		$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							else 																	$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
 							if(!CheckFile($guild_folder."/".$mention_id, "nuzzled_count.php"))		$nuzzled_count		= 0;
-							else 																		$nuzzled_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzled_count.php");
+							else 																	$nuzzled_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzled_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -2033,9 +2033,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
-							$self_nuzzle_messages									= array();
-							$self_nuzzle_messages[]									= "<@$author_id> curled into a ball in an attempt to nuzzle themselves.";
-							$index_selection										= GetRandomArrayIndex($self_nuzzle_messages);
+							$self_nuzzle_messages						= array();
+							$self_nuzzle_messages[]						= "<@$author_id> curled into a ball in an attempt to nuzzle themselves.";
+							$index_selection							= GetRandomArrayIndex($self_nuzzle_messages);
 //							Send the mssage
 							$author_channel->send($self_nuzzle_messages[$index_selection]);
 							//Increment give stat counter of author
@@ -2071,18 +2071,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 					foreach ( $mentions_arr as $mention_param ){
-						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
-							$boop_messages										= array();
-							
-							$boop_messages[]										= "<@$author_id> slowly and strategically booped the snoot of <@$mention_id>.";
-							$boop_messages[]										= "With a playful smile, <@$author_id> booped <@$mention_id>'s snoot.";
-							$index_selection										= GetRandomArrayIndex($boop_messages);
+							$boop_messages								= array();
+							$boop_messages[]							= "<@$author_id> slowly and strategically booped the snoot of <@$mention_id>.";
+							$boop_messages[]							= "With a playful smile, <@$author_id> booped <@$mention_id>'s snoot.";
+							$index_selection							= GetRandomArrayIndex($boop_messages);
 //							echo "random boop_messages: " . $boop_messages[$index_selection];
 //							Send the message
 							$author_channel->send($boop_messages[$index_selection]);
@@ -2092,10 +2091,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$booper_count++;
 							VarSave($author_folder, "booper_count.php", $booper_count);
 							//Load target get statistics
-							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($guild_folder."/".$mention_id, "booped_count.php"))			$booped_count		= 0;
-							else 													$booped_count 		= VarLoad($guild_folder."/".$mention_id, "booped_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																	$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "booped_count.php"))		$booped_count		= 0;
+							else 																	$booped_count 		= VarLoad($guild_folder."/".$mention_id, "booped_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -2105,9 +2104,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
-							$self_boop_messages										= array();
-							$self_boop_messages[]									= "<@$author_id> placed a paw on their own nose. How silly!";
-							$index_selection										= GetRandomArrayIndex($self_boop_messages);
+							$self_boop_messages							= array();
+							$self_boop_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
+							$index_selection							= GetRandomArrayIndex($self_boop_messages);
 //							Send the mssage
 							$author_channel->send($self_boop_messages[$index_selection]);
 							//Increment give stat counter of author
@@ -2143,20 +2142,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 					foreach ( $mentions_arr as $mention_param ){
-						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 						
 						if ($author_id != $mention_id){
-							$bap_messages										= array();
-							
-							$bap_messages[]										= "<@$mention_id> was hit on the snoot by <@$author_id>!";
-							$bap_messages[]										= "<@$author_id> glared at <@$mention_id>, giving them a bap on the snoot!";
-							$bap_messages[]										= "Snoot of <@$mention_id> was attacked by <@$author_id>!";
-							
-							$index_selection										= GetRandomArrayIndex($bap_messages);
+							$bap_messages								= array();
+							$bap_messages[]								= "<@$mention_id> was hit on the snoot by <@$author_id>!";
+							$bap_messages[]								= "<@$author_id> glared at <@$mention_id>, giving them a bap on the snoot!";
+							$bap_messages[]								= "Snoot of <@$mention_id> was attacked by <@$author_id>!";
+							$index_selection							= GetRandomArrayIndex($bap_messages);
 //							echo "random bap_messages: " . $bap_messages[$index_selection];
 //							Send the message
 							$author_channel->send($bap_messages[$index_selection]);
@@ -2166,10 +2163,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							$baper_count++;
 							VarSave($author_folder, "baper_count.php", $baper_count);
 							//Load target get statistics
-							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))		$vanity_get_count	= 0;
-							else 													$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
-							if(!CheckFile($guild_folder."/".$mention_id, "baped_count.php"))			$baped_count		= 0;
-							else 													$baped_count 		= VarLoad($guild_folder."/".$mention_id, "baped_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																	$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "baped_count.php"))		$baped_count		= 0;
+							else 																	$baped_count 		= VarLoad($guild_folder."/".$mention_id, "baped_count.php");
 							//Increment get stat counter of target
 							$vanity_get_count++;
 							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
@@ -2179,9 +2176,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							SetCooldown($author_folder, "vanity_time.php");
 							return true; //No more processing, we only want to process the first person mentioned
 						}else{
-							$self_bap_messages										= array();
-							$self_bap_messages[]									= "<@$author_id> placed a paw on their own nose. How silly!";
-							$index_selection										= GetRandomArrayIndex($self_bap_messages);
+							$self_bap_messages							= array();
+							$self_bap_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
+							$index_selection							= GetRandomArrayIndex($self_bap_messages);
 //							Send the mssage
 							$author_channel->send($self_bap_messages[$index_selection]);
 							//Increment give stat counter of author
@@ -2278,43 +2275,43 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
 				if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
-					$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object			
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object			
 					foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //						id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
-						$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-						$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-						$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-						$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
-						$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
-						$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						$mention_username 								= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+						$mention_discriminator 							= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+						$mention_check 									= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 						
 //						Get the avatar URL
-						$target_guildmember 									= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-						$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-						$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;
+						$target_guildmember 							= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+						$target_guildmember_user						= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+						$mention_avatar 								= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;
 						
 						
 						//Load target get statistics
-						if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))		$target_vanity_get_count	= 0;
-						else 													$target_vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$target_vanity_get_count	= 0;
+						else 																	$target_vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
 						if(!CheckFile($guild_folder."/".$mention_id, "vanity_give_count.php"))	$target_vanity_give_count	= 0;
-						else 													$target_vanity_give_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_give_count.php");
-						if(!CheckFile($guild_folder."/".$mention_id, "hugged_count.php"))			$target_hugged_count		= 0;
-						else 													$target_hugged_count 		= VarLoad($guild_folder."/".$mention_id, "hugged_count.php");
-						if(!CheckFile($guild_folder."/".$mention_id, "hugger_count.php"))			$target_hugger_count		= 0;
-						else 													$target_hugger_count 		= VarLoad($guild_folder."/".$mention_id, "hugger_count.php");
-						if(!CheckFile($guild_folder."/".$mention_id, "kissed_count.php"))			$target_kissed_count		= 0;
-						else 													$target_kissed_count 		= VarLoad($guild_folder."/".$mention_id, "kissed_count.php");
-						if(!CheckFile($guild_folder."/".$mention_id, "kisser_count.php"))			$target_kisser_count		= 0;
-						else 													$target_kisser_count 		= VarLoad($guild_folder."/".$mention_id, "kisser_count.php");
+						else 																	$target_vanity_give_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_give_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "hugged_count.php"))		$target_hugged_count		= 0;
+						else 																	$target_hugged_count 		= VarLoad($guild_folder."/".$mention_id, "hugged_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "hugger_count.php"))		$target_hugger_count		= 0;
+						else 																	$target_hugger_count 		= VarLoad($guild_folder."/".$mention_id, "hugger_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "kissed_count.php"))		$target_kissed_count		= 0;
+						else 																	$target_kissed_count 		= VarLoad($guild_folder."/".$mention_id, "kissed_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "kisser_count.php"))		$target_kisser_count		= 0;
+						else 																	$target_kisser_count 		= VarLoad($guild_folder."/".$mention_id, "kisser_count.php");
 						if(!CheckFile($guild_folder."/".$mention_id, "nuzzled_count.php"))		$target_nuzzled_count		= 0;
-						else 													$target_nuzzled_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzled_count.php");
+						else 																	$target_nuzzled_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzled_count.php");
 						if(!CheckFile($guild_folder."/".$mention_id, "nuzzler_count.php"))		$target_nuzzler_count		= 0;
-						else 													$target_nuzzler_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzler_count.php");
-						if(!CheckFile($guild_folder."/".$mention_id, "booped_count.php"))			$target_booped_count		= 0;
-						else 													$target_booped_count 		= VarLoad($guild_folder."/".$mention_id, "booped_count.php");
-						if(!CheckFile($guild_folder."/".$mention_id, "booper_count.php"))			$target_booper_count		= 0;
-						else 													$target_booper_count 		= VarLoad($guild_folder."/".$mention_id, "booper_count.php");
+						else 																	$target_nuzzler_count 		= VarLoad($guild_folder."/".$mention_id, "nuzzler_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "booped_count.php"))		$target_booped_count		= 0;
+						else 																	$target_booped_count 		= VarLoad($guild_folder."/".$mention_id, "booped_count.php");
+						if(!CheckFile($guild_folder."/".$mention_id, "booper_count.php"))		$target_booper_count		= 0;
+						else 																	$target_booper_count 		= VarLoad($guild_folder."/".$mention_id, "booper_count.php");
 						
 						//Build the embed
 						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -2646,95 +2643,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		};
 		
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
-		if (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch '){ //;vwatch @
-			echo "VERIFYING AND WATCHING TARGET MENTIONED" . PHP_EOL;
-//			Get an array of people mentioned
-			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
-			$mention_watch_name_queue_default							= $mention_watch_name_mention_default."is watching the following users:" . PHP_EOL;
-			$mention_watch_name_queue_full 								= "";
-			
-			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
-				$filter = "$command_symbol" . "vwatch ";
-				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
-				$value = str_replace(">", "", $value);
-				if(is_numeric($value)){
-					$mention_member				= $author_guild->members->get($value);
-					$mention_user				= $mention_member->user;
-					$mentions_arr				= array($mention_user);
-				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
-				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
-			}
-			
-			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
-				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				
-//				Place watch info in target's folder
-				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
-				$watchers = array_unique($arr);
-				$watchers[] = $author_id;
-				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
-				$mention_watch_name_queue 								= "**<@$mention_id>** ";
-				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
-				
-				echo "mention_id: " . $mention_id . PHP_EOL;
-				$target_guildmember 									= $message->guild->members->get($mention_id);
-				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
-				
-//				Populate arrays of the info we need
-				$target_verified										= false; //Default
-				$x=0;
-				foreach ($target_guildmember_role_collection as $role){
-					if ($x!=0){ //0 is @everyone so skip it
-						if ($role->id == $role_verified_id)
-							$target_verified 							= true;
-					}
-					$x++;
-				}
-				
-				if($target_verified == false){
-//					Build the string for the reply
-					$mention_role_name_queue 							= "**<@$mention_id>** ";
-					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
-//					Add the verified role to the member
-					$target_guildmember->addRole($role_verified_id)->done(
-						function (){
-							//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
-						},
-						function ($error) {
-							throw $error;
-						}
-					);
-					echo "Verify role added to $mention_id" . PHP_EOL;
-				}
-			}
-//			Send a message
-			if ($mention_watch_name_queue != ""){
-				if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
-				else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
-//				React to the original message
-//				if($react) $message->react("👀");
-				if($react) $message->react("👁");
-				if($general_channel){
-					$msg = "Welcome to the Palace, <@$mention_id>!";
-					if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
-					if($general_channel)$general_channel->send($msg);
-				}
-				return true;
-			}else{
-				if($react) $message->react("👎");
-				$message->reply("Nobody in the guild was mentioned!");
-				return true;
-			}
-//						
-		}
-		
-		
-		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
 			echo "SETTING WATCH ON TARGETS MENTIONED" . PHP_EOL;
 //			Get an array of people mentioned
@@ -2826,6 +2734,93 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if ($watch_channel)	$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 			else $author_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 			return true;
+		}
+		
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch '){ //;vwatch @
+			echo "VERIFYING AND WATCHING TARGET MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
+			$mention_watch_name_queue_default							= $mention_watch_name_mention_default."is watching the following users:" . PHP_EOL;
+			$mention_watch_name_queue_full 								= "";
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "vwatch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				
+//				Place watch info in target's folder
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
+				$watchers = array_unique($arr);
+				$watchers[] = $author_id;
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
+				$mention_watch_name_queue 								= "**<@$mention_id>** ";
+				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
+				
+				echo "mention_id: " . $mention_id . PHP_EOL;
+				$target_guildmember 									= $message->guild->members->get($mention_id);
+				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
+				
+//				Populate arrays of the info we need
+				$target_verified										= false; //Default
+				$x=0;
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						if ($role->id == $role_verified_id)
+							$target_verified 							= true;
+					}
+					$x++;
+				}
+				
+				if($target_verified == false){
+//					Build the string for the reply
+					$mention_role_name_queue 							= "**<@$mention_id>** ";
+					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
+//					Add the verified role to the member
+					$target_guildmember->addRole($role_verified_id)->done(
+						function (){
+							//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
+						},
+						function ($error) {
+							throw $error;
+						}
+					);
+					echo "Verify role added to $mention_id" . PHP_EOL;
+				}
+			}
+//			Send a message
+			if ($mention_watch_name_queue != ""){
+				if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+				else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+//				React to the original message
+//				if($react) $message->react("👀");
+				if($react) $message->react("👁");
+				if($general_channel){
+					$msg = "Welcome to the Palace, <@$mention_id>!";
+					if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+					if($general_channel)$general_channel->send($msg);
+				}
+				return true;
+			}else{
+				if($react) $message->react("👎");
+				$message->reply("Nobody in the guild was mentioned!");
+				return true;
+			}
 		}
 		
 		if ($creator || $owner || $dev || $admin || $mod)
