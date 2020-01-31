@@ -127,7 +127,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if (!copy($file, $guild_config_path)){
 					$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
 				}else $author_channel->send("<@$guild_owner_id>, I'm here! Please ;setup the bot.");
-				
 			}
 			include "$guild_config_path"; //Configurable channel IDs, role IDs, and message IDs used in the guild for special functions
 			
@@ -794,7 +793,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				//current settings
 				$documentation = $documentation . "`settings` sends a DM with current settings.\n";
 				//v
-				$documentation = $documentation . "`v` or `verify` gives the verified role to those mentioned.\n";
+				$documentation = $documentation . "`v` or `verify` gives the verified role.\n";
 				//cv
 				$documentation = $documentation . "`cv` or `clearv` clears the verification channel and posts a short notice.\n";
 				//clearall
@@ -803,6 +802,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`watch` sends a direct message to the author whenever the mentioned sends a message.\n";
 				//unwatch
 				$documentation = $documentation . "`unwatch` removes the effects of the watch command.\n";
+				//vwatch
+				$documentation = $documentation . "`vwatch` gives the verified role to the mentioned and watches them.\n";
 				//warn
 				$documentation = $documentation . "`warn` logs an infraction.\n";
 				//infractions
@@ -2643,6 +2644,95 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			});
 			return true;
 		};
+		
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch '){ //;vwatch @
+			echo "VERIFYING AND WATCHING TARGET MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
+			$mention_watch_name_queue_default							= $mention_watch_name_mention_default."is watching the following users:" . PHP_EOL;
+			$mention_watch_name_queue_full 								= "";
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "vwatch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				
+//				Place watch info in target's folder
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
+				$watchers = array_unique($arr);
+				$watchers[] = $author_id;
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
+				$mention_watch_name_queue 								= "**<@$mention_id>** ";
+				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
+				
+				echo "mention_id: " . $mention_id . PHP_EOL;
+				$target_guildmember 									= $message->guild->members->get($mention_id);
+				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
+				
+//				Populate arrays of the info we need
+				$target_verified										= false; //Default
+				$x=0;
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						if ($role->id == $role_verified_id)
+							$target_verified 							= true;
+					}
+					$x++;
+				}
+				
+				if($target_verified == false){
+//					Build the string for the reply
+					$mention_role_name_queue 							= "**<@$mention_id>** ";
+					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
+//					Add the verified role to the member
+					$target_guildmember->addRole($role_verified_id)->done(
+						function (){
+							//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
+						},
+						function ($error) {
+							throw $error;
+						}
+					);
+					echo "Verify role added to $mention_id" . PHP_EOL;
+				}
+			}
+//			Send a message
+			if ($mention_watch_name_queue != ""){
+				if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+				else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+//				React to the original message
+//				if($react) $message->react("👀");
+				if($react) $message->react("👁");
+				if($general_channel){
+					$msg = "Welcome to the Palace, <@$mention_id>!";
+					if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+					if($general_channel)$general_channel->send($msg);
+				}
+				return true;
+			}else{
+				if($react) $message->react("👎");
+				$message->reply("Nobody in the guild was mentioned!");
+				return true;
+			}
+//						
+		}
+		
 		
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 		if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
