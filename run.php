@@ -114,14 +114,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
             if(!CheckDir($guild_folder)){
 				if(!CheckFile($guild_folder, "guild_owner_id.php")){
 					VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
-				}else $command_symbol	= VarLoad($guild_folder, "guild_owner_id.php");
+				}else $guild_owner_id	= VarLoad($guild_folder, "guild_owner_id.php");
 			}
 			if ($guild_owner_id == $author_id){
 				$owner = true; //Enable usage of restricted commands
 			} else $owner = false;
 			
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php";														//echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			if(!CheckFile($guild_folder, "guild_config.php")){
 				$file = 'guild_config_template.php';
 				if (!copy($file, $guild_config_path)){
@@ -2959,8 +2959,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if($welcome === true){
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-			include "$guild_config_path";
+			$guild_folder = "\\guilds\\$author_guild_id";
+			$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			include "$guild_config_path"; echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			if($welcome_log_channel_id) 		$welcome_log_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
 
@@ -3023,10 +3024,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if(!CheckDir($guild_folder)){
 			if(!CheckFile($guild_folder, "guild_owner_id.php")){
 				VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
-			}else $command_symbol	= VarLoad($guild_folder, "guild_owner_id.php");
+			}else $guild_owner_id	= VarLoad($guild_folder, "guild_owner_id.php");
 		}
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		include "$guild_config_path";
 		
 		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
@@ -3235,7 +3236,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$guild_memberCount										= $guildmember->guild->memberCount;
 			$author_guild_id = $guildmember->guild->id;
 			//Load config variables for the guild
-			$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			$guild_folder = "\\guilds\\$author_guild_id";
+			$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 			include "$guild_config_path";
 			
 			try{
@@ -3333,7 +3335,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild = $message_new->guild;
 		$author_guild_id = $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		require "$guild_config_path";
 		
 		$modlog_channel	= $guild->channels->get($modlog_channel_id);
@@ -3419,7 +3422,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild				= $channel->guild;
 		$author_guild_id = $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		include "$guild_config_path";
 		
 		$modlog_channel		= $guild->channels->get($modlog_channel_id);
@@ -3501,7 +3505,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild				= $message->guild;
 		$author_guild_id	= $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		include "$guild_config_path";
 		
 		
@@ -3553,7 +3558,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild					= $channel->guild;
 		$author_guild_id		= $guild->id;
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		include "$guild_config_path";
 		
 		$modlog_channel			= $guild->channels->get($modlog_channel_id);
@@ -3594,7 +3600,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$guild_folder = "\\guilds\\$author_guild_id";
 		CheckDir($guild_folder);
 		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "\\guilds\\$author_guild_id\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		include "$guild_config_path";
 		
 		//Role picker stuff
