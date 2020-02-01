@@ -68,6 +68,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	
 	$discord->on('message', function ($message){ //Handling of a message
 		$message_content = $message->content;
+		$message_id = $message->id;
 		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, or webhooks
 		$message_content_lower = strtolower($message_content);
 		/*
@@ -137,8 +138,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 			if($general_channel_id) 		$general_channel			= $author_guild->channels->get($general_channel_id);
-			if($suggestion_pending_channel_id) 	$suggestion_pending_channel		= $author_guild->channels->get($suggestion_pending_channel_id);
-			if($suggestion_approved_channel_id) $suggestion_approved_channel	= $author_guild->channels->get($suggestion_approved_channel_id);
+			if($suggestion_pending_channel_id) 	$suggestion_pending_channel		= $author_guild->channels->get(strval($suggestion_pending_channel_id));
+			if($suggestion_approved_channel_id) $suggestion_approved_channel	= $author_guild->channels->get(strval($suggestion_approved_channel_id));
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
 		}else{ //Direct message
@@ -348,6 +349,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n"; //Not currently implemented
 			$documentation = $documentation . "`setup watch #channel` ;watch messages are duplicated here instead of in a DM\n";
 			$documentation = $documentation . "`setup rolepicker channel #channel` Where users pick a role\n";
+			$documentation = $documentation . "`setup suggestion pending #channel` \n";
+			$documentation = $documentation . "`setup suggestion approved #channel` \n";
 			//Messages
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`setup species messageid`\n";
@@ -417,6 +420,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 //			$documentation = $documentation . "`verify #channel`\n"; //Not currently implemented
 			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
 			$documentation = $documentation . "`rolepicker channel #channel` $rolepicker_channel_id\n";
+			$documentation = $documentation . "`suggestion pending #channel` $suggestion_pending_channel_id\n";
+			$documentation = $documentation . "`suggestion approved #channel` $suggestion_approved_channel_id\n";
 			//Messages
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`species messageid` $species_message_id\n";
@@ -675,8 +680,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if (substr($message_content_lower, 0, 34) == $command_symbol . 'setup suggestion pending channel '){
-			$filter = "$command_symbol" . "setup suggestion pending channel";
+		if (substr($message_content_lower, 0, 26) == $command_symbol . 'setup suggestion pending '){
+			$filter = "$command_symbol" . "setup suggestion pending ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<#", "", $value);
 			$value = str_replace(">", "", $value);
@@ -689,8 +694,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if (substr($message_content_lower, 0, 35) == $command_symbol . 'setup suggestion approved channel '){
-			$filter = "$command_symbol" . "setup suggestion approved channel ";
+		if (substr($message_content_lower, 0, 27) == $command_symbol . 'setup suggestion approved '){
+			$filter = "$command_symbol" . "setup suggestion approved ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<#", "", $value);
 			$value = str_replace(">", "", $value);
@@ -850,7 +855,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`unmute @mention reason`\n";
 				//Strikeout invalid options
 				if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
-				
+				//ban
+				$documentation = $documentation . "`suggest approve #`\n";
+				//ban
+				$documentation = $documentation . "`suggest deny #`\n";
 			}
 			if($creator || $owner || $dev || $admin || $mod){
 				$documentation = $documentation . "\n__**Moderators:**__\n";
@@ -1418,31 +1426,98 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 		}
 		
-		if ($suggestion_pending_channel)
-		if (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion '){ //;suggestion
-			$filter = "$command_symbol" . "suggestion ";
-			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
-			if ( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter text for your suggestion");
-			//Post embedded suggestion to suggestion_pending_channel
-			//React with thumbsup and thumbsdown
-		}
-		
-		if ($suggestion_approved_channel)
+		//if ($suggestion_approved_channel_id)
 		if ($creator || $owner || $mod || $admin || $dev)
-		if (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion approve '){ //;suggestion
+		if ( (substr($message_content_lower, 0, 20) == $command_symbol . 'suggestion approve ') || (substr($message_content_lower, 0, 17) == $command_symbol . 'suggest approve ') ) { //;suggestion
 			$filter = "$command_symbol" . "suggestion approve ";
 			$value = str_replace($filter, "", $message_content_lower);
-			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
-			if( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter text for your suggestion");
+			$filter = "$command_symbol" . "suggest approve ";
+			$value = str_replace($filter, "", $value);
+			if( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter an integer number");
 			if(is_numeric($value)){
-				//Get message id of index
-				//Return if resolved message content is an empty string or null
-				//Repost embedded suggestion to suggestion_approved_channel
-				//React with thumbsup and thumbsdown
-			}else return $message->reply("Invalid input! Please enter a valid message ID");
+				//Get the message stored at the index
+				$array = VarLoad($guild_folder, "guild_suggestions.php");
+				if( ($array[$value]) && ($array[$value] != "Approved" ) && ($array[$value] != "Denied" ) ){
+					$embed = $array[$value];
+					//Repost the suggestion
+					$suggestion_approved_channel->send('', array('embed' => $embed))->then(function($message) use ($guild_folder, $embed){
+						$message->react("👍");
+						$message->react("👎");
+					});
+					//Clear the value stored in the array
+					$array[$value] = "Approved";
+					return $message->react("👍");
+				}else return $message->reply("Suggestion not found or already processed!");
+			}else return $message->reply("Invalid input! Please enter an integer number");
+			return true; //catch
+		}
+		
+		if ($creator || $owner || $mod || $admin || $dev)
+		if ( (substr($message_content_lower, 0, 17) == $command_symbol . 'suggestion deny ') || (substr($message_content_lower, 0, 14) == $command_symbol . 'suggest deny ') ) { //;suggestion
+			$filter = "$command_symbol" . "suggestion deny ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$filter = "$command_symbol" . "suggest deny ";
+			$value = str_replace($filter, "", $value);
+			if( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter an integer number");
+			if(is_numeric($value)){
+				//Get the message stored at the index
+				$array = VarLoad($guild_folder, "guild_suggestions.php");
+				if( ($array[$value]) && ($array[$value] != "Approved" ) && ($array[$value] != "Denied" ) ){
+					$embed = $array[$value];
+					//Clear the value stored in the array
+					$array[$value] = "Denied";
+					return $message->react("👍");
+				}else return $message->reply("Suggestion not found or already processed!");
+			}else return $message->reply("Invalid input! Please enter an integer number");
+			return true; //catch
+		}
+		
+		if ($suggestion_pending_channel)
+		if ( (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'suggest ') ){ //;suggestion
+			$filter = "$command_symbol" . "suggestion ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$filter = "$command_symbol" . "suggest ";
+			$value = str_replace($filter, "", $value);
+			if ( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter text for your suggestion");
+				//Build the embed message
+				$message_sanitized = str_replace("*","",$message_content_lower);
+				$message_sanitized = str_replace("_","",$message_sanitized);
+				$message_sanitized = str_replace("`","",$message_sanitized);
+				$message_sanitized = str_replace("\n","",$message_sanitized);
+				$doc_length = strlen($message_sanitized);
+				if ($doc_length < 1025){
+					//Find the size of $suggestions and get what will be the next number
+					$array = VarLoad($guild_folder, "guild_suggestions.php");
+					$array_count = sizeof($array);
+					//Build the embed
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+						->setTitle("#$array_count")																	// Set a title
+						->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+						->setDescription("$value")																// Set a description (below title, above fields)
+	//					->addField("⠀", "$reason")																// New line after this
+						
+	//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+	//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+	//				Post embedded suggestion to suggestion_pending_channel
+					$suggestion_pending_channel->send('', array('embed' => $embed))->then(function($message) use ($guild_folder, $embed){
+						$message->react("👍");
+						$message->react("👎");
+						//Save the suggestion somewhere
+						$array = VarLoad($guild_folder, "guild_suggestions.php");
+						$array[] = $embed;
+						VarSave($guild_folder, "guild_suggestions.php", $array);
+					});
+				}else{
+					$message->reply("Please shorten your suggestion!");
+				}
+				$message->delete();
+				return true;
+				
 		}
 		
 		
