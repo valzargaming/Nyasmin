@@ -137,6 +137,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 			if($general_channel_id) 		$general_channel			= $author_guild->channels->get($general_channel_id);
+			if($suggestion_pending_channel_id) 	$suggestion_pending_channel		= $author_guild->channels->get($suggestion_pending_channel_id);
+			if($suggestion_approved_channel_id) $suggestion_approved_channel	= $author_guild->channels->get($suggestion_approved_channel_id);
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
 		}else{ //Direct message
@@ -668,6 +670,34 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($guild_folder, "rolepicker_channel_id.php", $value);
 				$message->reply("Rolepicker channel ID saved!");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 34) == $command_symbol . 'setup suggestion pending channel '){
+			$filter = "$command_symbol" . "setup suggestion pending channel";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				VarSave($guild_folder, "suggestion_pending_channel_id.php", $value);
+				$message->reply("Suggestion pending channel ID saved!");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 35) == $command_symbol . 'setup suggestion approved channel '){
+			$filter = "$command_symbol" . "setup suggestion approved channel ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				VarSave($guild_folder, "suggestion_approved_channel_id.php", $value);
+				$message->reply("Suggestion approved channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
@@ -1388,6 +1418,35 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 		}
 		
+		if ($suggestion_pending_channel)
+		if (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion '){ //;suggestion
+			$filter = "$command_symbol" . "suggestion ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			if ( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter text for your suggestion");
+			//Post embedded suggestion to suggestion_pending_channel
+			//React with thumbsup and thumbsdown
+		}
+		
+		if ($suggestion_approved_channel)
+		if ($creator || $owner || $mod || $admin || $dev)
+		if (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion approve '){ //;suggestion
+			$filter = "$command_symbol" . "suggestion approve ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			if( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter text for your suggestion");
+			if(is_numeric($value)){
+				//Get message id of index
+				//Return if resolved message content is an empty string or null
+				//Repost embedded suggestion to suggestion_approved_channel
+				//React with thumbsup and thumbsdown
+			}else return $message->reply("Invalid input! Please enter a valid message ID");
+		}
+		
+		
+		
 		/*
 		*********************
 		*********************
@@ -1396,7 +1455,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*/
 		
-		if ($mod || $admin || $dev || $owner || $creator)
+		if ($creator || $owner || $mod || $admin || $dev)
 		if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
 			echo "KICK" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1503,7 +1562,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ( ($role_muted_id != "") || ($role_muted_id != NULL) )
-		if ($mod || $admin || $dev || $owner || $creator)
+		if ($creator || $owner || $mod || $admin || $dev)
 		if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 			echo "MUTE" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1602,7 +1661,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ( ($role_muted_id != "") || ($role_muted_id != NULL) )
-		if ($mod || $admin || $dev || $owner || $creator)
+		if ($creator || $owner || $mod || $admin || $dev)
 		if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unmute
 			echo "UNMUTE" . PHP_EOL;
 //			Get an array of people mentioned
@@ -2625,7 +2684,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$getverified_channel->message->delete();
 				}
 			});
-			if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name! Please introduce yourself here and one of our staff members will verify you shortly.");
+			if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name! Please introduce yourself here and one of our staff members will verify you shortly. Be sure to include info about your fursona, your age, where you found us, and why you want to join us!");
 			return true;
 		}		
 		
