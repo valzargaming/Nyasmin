@@ -26,28 +26,38 @@ if(!CheckFile($guild_folder, "general_channel_id.php")){
 
 if(!CheckFile($guild_folder, "modlog_channel_id.php")){
 	$modlog_channel_id	= "";	//Usually #introductions or #general (Not currently implemented)
-	VarSave($guild_folder, "modlog_channel_id.php", $modlog_channel_id); //Log stuff here
+	VarSave($guild_folder, "modlog_channel_id.php", $modlog_channel_id); 
 }else $modlog_channel_id	= VarLoad($guild_folder, "modlog_channel_id.php");
 
 if(!CheckFile($guild_folder, "verifylog_channel_id.php")){
 	$verifylog_channel_id	= "";	//Log verifications (Not currently implemented)
-	VarSave($guild_folder, "verifylog_channel_id.php", $verifylog_channel_id); //Log stuff here
+	VarSave($guild_folder, "verifylog_channel_id.php", $verifylog_channel_id); 
 }else $verifylog_channel_id	= VarLoad($guild_folder, "verifylog_channel_id.php");
 
 if(!CheckFile($guild_folder, "getverified_channel_id.php")){
 	$getverified_channel_id	= "";	//Where users should be requesting server verification
-	VarSave($guild_folder, "getverified_channel_id.php", $getverified_channel_id); //Log stuff here
+	VarSave($guild_folder, "getverified_channel_id.php", $getverified_channel_id); 
 }else $getverified_channel_id	= VarLoad($guild_folder, "getverified_channel_id.php");
 
 if(!CheckFile($guild_folder, "watch_channel_id.php")){
 	$watch_channel_id	= "";	//Someone being watched has their messages duplicated to this channel instead of a DM (Leave commented to use DMs)
-	VarSave($watch_channel_id, "watch_channel_id.php", $watch_channel_id); //Log stuff here
+	VarSave($watch_channel_id, "watch_channel_id.php", $watch_channel_id); 
 }else $watch_channel_id	= VarLoad($guild_folder, "watch_channel_id.php");
 
 if(!CheckFile($guild_folder, "rolepicker_channel_id.php")){
 	$rolepicker_channel_id	= "";	//Channel where a detailed message about the user gets posted
 	VarSave($guild_folder, "rolepicker_channel_id.php", $rolepicker_channel_id);
 }else $rolepicker_channel_id	= VarLoad($guild_folder, "rolepicker_channel_id.php");
+
+if(!CheckFile($guild_folder, "suggestion_pending_channel_id.php")){
+	$suggestion_pending_channel_id	= "";	//Channel where moderators can see pending suggestions
+	VarSave($guild_folder, "suggestion_pending_channel_id.php", $suggestion_pending_channel_id); 
+}else $suggestion_pending_channel_id	= VarLoad($guild_folder, "suggestion_pending_channel_id.php");
+
+if(!CheckFile($guild_folder, "suggestion_approved_channel_id.php")){
+	$suggestion_approved_channel_id	= "";	//Channel where approved suggestions get reposted to for community voting
+	VarSave($guild_folder, "suggestion_approved_channel_id.php", $suggestion_approved_channel_id); 
+}else $suggestion_approved_channel_id	= VarLoad($guild_folder, "suggestion_approved_channel_id.php");
 
 //Optional Role IDs
 if(!CheckFile($guild_folder, "role_18_id.php")){
