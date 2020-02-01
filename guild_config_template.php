@@ -29,15 +29,15 @@ if(!CheckFile($guild_folder, "modlog_channel_id.php")){
 	VarSave($guild_folder, "modlog_channel_id.php", strval($modlog_channel_id)); 
 }else $modlog_channel_id	= strval(VarLoad($guild_folder, "modlog_channel_id.php"));
 
-if(!CheckFile($guild_folder, "verifylog_channel_id.php")){
-	$verifylog_channel_id	= "";	//Log verifications (Not currently implemented)
-	VarSave($guild_folder, "verifylog_channel_id.php", strval($verifylog_channel_id)); 
-}else $verifylog_channel_id	= strval(VarLoad($guild_folder, "verifylog_channel_id.php"));
-
 if(!CheckFile($guild_folder, "getverified_channel_id.php")){
 	$getverified_channel_id	= "";	//Where users should be requesting server verification
 	VarSave($guild_folder, "getverified_channel_id.php", strval($getverified_channel_id)); 
 }else $getverified_channel_id	= strval(VarLoad($guild_folder, "getverified_channel_id.php"));
+
+if(!CheckFile($guild_folder, "verifylog_channel_id.php")){
+	$verifylog_channel_id	= "";	//Log verifications (Not currently implemented)
+	VarSave($guild_folder, "verifylog_channel_id.php", strval($verifylog_channel_id)); 
+}else $verifylog_channel_id	= strval(VarLoad($guild_folder, "verifylog_channel_id.php"));
 
 if(!CheckFile($guild_folder, "watch_channel_id.php")){
 	$watch_channel_id	= "";	//Someone being watched has their messages duplicated to this channel instead of a DM (Leave commented to use DMs)
