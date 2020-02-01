@@ -3835,23 +3835,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		//Load message info
 		$message					= $reaction->message;
 		$message_content			= $message->content;
-		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
-		$message_content_lower = strtolower($message_content);
 		
 		//Load guild info
 		$guild						= $message->guild;
 		$author_guild				= $message->guild; //Redeclared only for checkdir... Really need to fix this (TODO)
 		$author_guild_id			= $author_guild->id;
-		//Create a folder for the guild if it doesn't exist already
-		$guild_folder = "\\guilds\\$author_guild_id";
-		CheckDir($guild_folder);
-		//Load config variables for the guild
-		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-		include "$guild_config_path";
-		
-		//Role picker stuff
-		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
-		GLOBAL $species, $species2, $sexualities, $gender, $custom_roles;
 		
 		//Load author info
 		$author_user				= $message->author; //User object
@@ -3870,13 +3858,28 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
 		$author_folder				= $author_guild_id."/".$author_id;
 		
+		
 		//Load respondent info
 		$respondent_username 		= $respondent_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
 		$respondent_discriminator 	= $respondent_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
 		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
 		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
-		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
+		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				echo "respondent_check: " . $respondent_check . PHP_EOL;
 		$respondent_member 			= $author_guild->members->get($respondent_id);
+		
+		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
+		$message_content_lower = strtolower($message_content);
+		
+		//Create a folder for the guild if it doesn't exist already
+		$guild_folder = "\\guilds\\$author_guild_id";
+		CheckDir($guild_folder);
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		include "$guild_config_path";
+		
+		//Role picker stuff
+		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
+		GLOBAL $species, $species2, $sexualities, $gender, $custom_roles;
 		
 		//Load emoji info
 		//guild, user
