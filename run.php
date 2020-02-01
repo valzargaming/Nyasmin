@@ -132,9 +132,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			include "$guild_config_path"; //Configurable channel IDs, role IDs, and message IDs used in the guild for special functions
 			
 			$author_guild_avatar 										= $author_guild->getIconURL();
-			$author_guild_roles 										= $author_guild->roles; 								//Role object for the guild
+			$author_guild_roles 										= $author_guild->roles;
 			if($getverified_channel_id) 	$getverified_channel 		= $author_guild->channels->get($getverified_channel_id);
-//			if($verifylog_channel_id) 		$verify_channel 			= $author_guild->channels->get($verifylog_channel_id);
+			if($verifylog_channel_id) 		$verifylog_channel 			= $author_guild->channels->get($verifylog_channel_id);
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 			if($general_channel_id) 		$general_channel			= $author_guild->channels->get($general_channel_id);
@@ -345,8 +345,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup general #channel` The primary chat channel, also welcomes new users to everyone\n";
 			$documentation = $documentation . "`setup welcome #channel` Simple welcome message tagging new user\n";
 			$documentation = $documentation . "`setup welcomelog #channel` Detailed message about the user\n";
-			$documentation = $documentation . "`setup log #channel` Detailed log channel\n";
-//			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n"; //Not currently implemented
+			$documentation = $documentation . "`setup log #channel` Detailed log channel\n"; //Modlog
+			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n";
 			$documentation = $documentation . "`setup watch #channel` ;watch messages are duplicated here instead of in a DM\n";
 			$documentation = $documentation . "`setup rolepicker channel #channel` Where users pick a role\n";
 			$documentation = $documentation . "`setup suggestion pending #channel` \n";
@@ -417,7 +417,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`welcome #channel` $welcome_public_channel_id\n";
 			$documentation = $documentation . "`welcomelog #channel` $welcome_log_channel_id\n";
 			$documentation = $documentation . "`log #channel` $modlog_channel_id\n";
-//			$documentation = $documentation . "`verify #channel`\n"; //Not currently implemented
+			$documentation = $documentation . "`getverified #channel` $getverified_channel_id\n";
+			$documentation = $documentation . "`verifylog #channel` $verifylog_channel_id\n";
 			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
 			$documentation = $documentation . "`rolepicker channel #channel` $rolepicker_channel_id\n";
 			$documentation = $documentation . "`suggestion pending #channel` $suggestion_pending_channel_id\n";
@@ -647,6 +648,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(is_numeric($value)){
 				VarSave($guild_folder, "getverified_channel_id.php", $value);
 				$message->reply("Verify channel ID saved!");
+			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
+			return true;
+		}
+		
+		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 17) == $command_symbol . 'setup verifylog '){
+			$filter = "$command_symbol" . "setup verifylog ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<#", "", $value);
+			$value = str_replace(">", "", $value);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($guild_folder, "verifylog_channel_id.php", $value);
+				$message->reply("Verifylog channel ID saved!");
 			}else $message->reply("Invalid input! Please enter a channel ID or <#mention> a channel");
 			return true;
 		}
@@ -2632,11 +2647,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator) //Only allow these roles to use this
 		if ($message_content_lower == $command_symbol . 'processmessages'){	
-//			$verify_channel																					//TextChannel				//echo "channel_messages class: " . get_class($verify_channel) . PHP_EOL;
-//			$author_messages = $verify_channel->fetchMessages(); 											//Promise
+//			$verifylog_channel																					//TextChannel				//echo "channel_messages class: " . get_class($verifylog_channel) . PHP_EOL;
+//			$author_messages = $verifylog_channel->fetchMessages(); 											//Promise
 //			echo "author_messages class: " . get_class($author_messages) . PHP_EOL; 						//Promise
-			$verify_channel->fetchMessages()->then(function($message_collection) use ($verify_channel){	//Resolve the promise
-//				$verify_channel and the new $message_collection can be used here
+			$verifylog_channel->fetchMessages()->then(function($message_collection) use ($verifylog_channel){	//Resolve the promise
+//				$verifylog_channel and the new $message_collection can be used here
 //				echo "message_collection class: " . get_class($message_collection) . PHP_EOL; 				//Collection messages
 				foreach ($message_collection as $message){													//Model/Message				//echo "message_collection message class:" . get_class($message) . PHP_EOL;
 //					DO STUFF HERE TO MESSAGES
@@ -2694,8 +2709,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				echo "mention_id: " . $mention_id . PHP_EOL;
 				$target_guildmember 									= $message->guild->members->get($mention_id);
 				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
+
+//				Get the avatar URL of the mentioned user
+				$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+				$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
 				
-//				Populate arrays of the info we need
 				$target_verified										= false; //Default
 				$x=0;
 				foreach ($target_guildmember_role_collection as $role){
@@ -2705,47 +2723,52 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					}
 					$x++;
 				}
-				
-				if($target_verified == false){
-//					Build the string for the reply
-					$mention_role_name_queue 							= "**<@$mention_id>** ";
-					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
-//					Add the verified role to the member
+				if($target_verified == false){ //Add the verified role to the member
 					$target_guildmember->addRole($role_verified_id)->done(
-						function (){
-							//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
-						},
 						function ($error) {
 							throw $error;
 						}
-					);
-					echo "Verify role added ($role_verified_id)" . PHP_EOL;
-				}
-			}
-//			Send the message
-			if ($mention_role_name_queue_default != $mention_role_name_queue_full){
-				/*
-				if($verify_channel){
+					); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
+				
+//					Build the embed
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+//						->setTitle("Roles")																		// Set a title
+						->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//						->setDescription("$author_guild_name")													// Set a description (below title, above fields)
+						->addField("Verified", 		"<@$mention_id>")											// New line after this if ,true
+
+						->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
+//						->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setAuthor("$author_check", "$author_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+//					Send the message
 					if($react) $message->react("👍");
-					if($verify_channel)
-						$verify_channel->send($mention_role_name_queue_full . PHP_EOL);
+					//Log the verification
+					if($verifylog_channel){
+						$verifylog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+							echo $error.PHP_EOL; //Echo any errors
+						});
+					}elseif($modlog_channel){
+						$modlog_channel->end('', array('embed' => $embed))->done(null, function ($error){
+							echo $error.PHP_EOL; //Echo any errors
+						});
+					}
+					//Welcome the verified user
+					if($general_channel){
+						$msg = "Welcome to the Palace, <@$mention_id>!";
+						if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+						if($general_channel)$general_channel->send($msg);
+					}
+					return true;
+				}else{
+					if($react) $message->react("👎");
+					$message->reply("$mention_check does not need to be verified!" . PHP_EOL);
 					return true;
 				}
-				*/
-				if($react) $message->react("👍");
-				if($author_channel)
-					$author_channel->send($mention_role_name_queue_full . PHP_EOL);
-				if($general_channel){
-					$msg = "Welcome to the Palace, <@$mention_id>!";
-					if ($rolepicker_channel_id != "" && $rolepicker_channel_id != NULL) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
-					if($general_channel)$general_channel->send($msg);
-				}
-				return true;
-			}else{
-				if($react) $message->react("👎");
-				$message->reply("Nobody mentioned needs to be verified!" . PHP_EOL);
-				return true;
-			}	
+			}
 		}
 		
 		if( ($getverified_channel_id != "") || ($getverified_channel_id != NULL)) //User was kicked (They have no roles anymore)
