@@ -3606,13 +3606,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$changes = "";
 		//if (($message_content_new != $message_content_old) || (($message_content_old == "") || ($message_content_old == NULL))) 	{		
 		if ($message_content_new != $message_content_old){		
-			
 //			Build the string for the reply
-			$changes = $changes . "**Message ID:**: $message_id_new\n";
+			$changes = $changes . "[Link](https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new)\n";
 			$changes = $changes . "**Channel:** <#$author_channel_id>\n";
+			$changes = $changes . "**Message ID:**: $message_id_new\n";
+			
 			$changes = $changes . "**Before:** $message_content_old\n";
 			$changes = $changes . "**After:** $message_content_new\n";
-
 		}
 		
 		if($modlog_channel)
