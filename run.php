@@ -138,6 +138,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 			if($general_channel_id) 		$general_channel			= $author_guild->channels->get($general_channel_id);
+			if($rolepicker_channel_id) 		$rolepicker_channel			= $author_guild->channels->get($rolepicker_channel_id);
 			if($suggestion_pending_channel_id) 	$suggestion_pending_channel		= $author_guild->channels->get(strval($suggestion_pending_channel_id));
 			if($suggestion_approved_channel_id) $suggestion_approved_channel	= $author_guild->channels->get(strval($suggestion_approved_channel_id));
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
@@ -198,7 +199,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 																$rp3	= $gender_option;								//Gender role picker
 				}else 											$rp3	= VarLoad($guild_folder, "gender_option.php");
 			} else $rp3 = false;
-			if ( ($customroles_message_id != "") || ($gender_message_id != NULL) ){
+			if ( ($customroles_message_id != "") || ($customroles_message_id != NULL) ){
 				if(!CheckFile($guild_folder, "customrole_option.php"))
 																$rp4	= $custom_option;								//Custom role picker
 				else 											$rp4	= VarLoad($guild_folder, "customrole_option.php");
@@ -338,8 +339,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup verified @role`\n";
 			$documentation = $documentation . "`setup adult @role`\n";
 			//User
+			/* Deprecated
 			$documentation = $documentation . "**Users:**\n";
 			$documentation = $documentation . "`setup rolepicker @user` The user who posted the rolepicker messages\n";
+			*/
 			//Channels
 			$documentation = $documentation . "**Channels:**\n";
 			$documentation = $documentation . "`setup general #channel` The primary chat channel, also welcomes new users to everyone\n";
@@ -352,12 +355,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup suggestion pending #channel` \n";
 			$documentation = $documentation . "`setup suggestion approved #channel` \n";
 			//Messages
+			
 			$documentation = $documentation . "**Messages:**\n";
+			/* Deprecated
 			$documentation = $documentation . "`setup species messageid`\n";
 			$documentation = $documentation . "`setup species2 messageid`\n";
+			$documentation = $documentation . "`setup species3 messageid`\n";
 			$documentation = $documentation . "`setup sexuality messageid`\n";
 			$documentation = $documentation . "`setup gender messageid`\n";
 			$documentation = $documentation . "`setup customroles messageid`\n";
+			*/
+			$documentation = $documentation . "**Messages:**\n";
+			$documentation = $documentation . "`message species`\n";
+			$documentation = $documentation . "`message species2`\n";
+			$documentation = $documentation . "`message species3`\n";
+			$documentation = $documentation . "`message sexuality`\n";
+			$documentation = $documentation . "`message gender`\n";
+			$documentation = $documentation . "`message customroles`\n";
 			
 			$documentation_sanitized = str_replace("*","",$documentation);
 			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
@@ -397,7 +411,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'currentsetup'){ //;currentsetup
-			//send DM with current settings
+			//Send DM with current settings
 			//Roles
 			$documentation = $documentation . "\n**Roles:**\n";
 			$documentation = $documentation . "`dev @role` $role_dev_id\n";
@@ -427,9 +441,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "**Messages:**\n";
 			$documentation = $documentation . "`species messageid` $species_message_id\n";
 			$documentation = $documentation . "`species2 messageid` $species2_message_id\n";
+			$documentation = $documentation . "`species3 messageid` $species3_message_id\n";
 			$documentation = $documentation . "`sexuality messageid` $sexuality_message_id\n";
 			$documentation = $documentation . "`gender messageid` $gender_message_id\n";
-			$documentation = $documentation . "`customroles messageid` $customrole_message_id\n";
+			$documentation = $documentation . "`customroles messageid` $customroles_message_id\n";
 			
 			$documentation_sanitized = str_replace("*","",$documentation);
 			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
@@ -763,6 +778,18 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
+		if (substr($message_content_lower, 0, 16) == $command_symbol . 'setup species3 '){
+			$filter = "$command_symbol" . "setup species3 ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = trim($value);
+			if(is_numeric($value)){
+				VarSave($guild_folder, "species3_message_id.php", $value);
+				$message->reply("Species3 message ID saved!");
+			}else $message->reply("Invalid input! Please enter a message ID");
+			return true;
+		}
+		
+		if ($creator || $owner)
 		if (substr($message_content_lower, 0, 17) == $command_symbol . 'setup sexuality '){
 			$filter = "$command_symbol" . "setup sexuality ";
 			$value = str_replace($filter, "", $message_content_lower);
@@ -798,6 +825,87 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			return true;
 		}
 		
+		if( ($rolepicker_id != "") && ($rolepicker_id != NULL) ){ //Message rolepicker menus
+			if ($rolepicker_channel){
+				GLOBAL $species, $species2, $species3, $species_message_text, $species2_message_text, $species3_message_text;
+				GLOBAL $sexualities, $sexuality_message_text;
+				GLOBAL $gender, $gender_message_text;
+				GLOBAL $customroles, $customroles_message_text;
+				
+				if ($creator || $owner)
+				if ($message_content_lower == $command_symbol . 'message species'){ //;message species
+					$rolepicker_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){;
+						VarSave($guild_folder, "species_message_id.php", $message->id);
+						foreach($species as $var_name => $value){
+							$message->react($value);
+						}
+						return true;
+					});
+					return true;
+				}
+				
+				if ($creator || $owner)
+				if ($message_content_lower == $command_symbol . 'message species2'){ //;message species2
+					$rolepicker_channel->send($species2_message_text)->then(function($message) use ($guild_folder, $species2){;
+						VarSave($guild_folder, "species2_message_id.php", $message->id);
+						foreach($species2 as $var_name => $value){
+							$message->react($value);
+						}
+						return true;
+					});
+					return true;
+				}
+				
+				if ($creator || $owner)
+				if ($message_content_lower == $command_symbol . 'message species3'){ //;message species3
+					$rolepicker_channel->send($species3_message_text)->then(function($message) use ($guild_folder, $species3){;
+						VarSave($guild_folder, "species3_message_id.php", $message->id);
+						foreach($species3 as $var_name => $value){
+							$message->react($value);
+						}
+						return true;
+					});
+					return true;
+				}
+				
+				if ($creator || $owner)
+				if ( ($message_content_lower == $command_symbol . 'message sexuality') || ($message_content_lower == $command_symbol . 'message sexualities') ) { //;message sexual
+					$rolepicker_channel->send($sexuality_message_text)->then(function($message) use ($guild_folder, $sexualities){;
+						VarSave($guild_folder, "sexuality_message_id.php", $message->id);
+						foreach($sexualities as $var_name => $value){
+							$message->react($value);
+						}
+						return true;
+					});
+					return true;
+				}
+				
+				if ($creator || $owner)
+				if ($message_content_lower == $command_symbol . 'message gender'){ //;message gender
+					$rolepicker_channel->send($gender_message_text)->then(function($message) use ($guild_folder, $gender){;
+						VarSave($guild_folder, "gender_message_id.php", $message->id);
+						foreach($gender as $var_name => $value){
+							$message->react($value);
+						}
+						return true;
+					});
+					return true;
+				}
+				
+				if ($creator || $owner)
+				if ($message_content_lower == $command_symbol . 'message customroles'){ //;message customroles
+					$rolepicker_channel->send($customroles_message_text)->then(function($message) use ($guild_folder, $customroles){;
+						VarSave($guild_folder, "customroles_message_id.php", $message->id);
+						foreach($customroles as $var_name => $value){
+							$message->react($value);
+						}
+						return true;
+					});
+					return true;
+				}
+				
+			}
+		}
 		
 		/*
 		*********************
@@ -825,6 +933,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`species`\n";
 				//species2
 				$documentation = $documentation . "`species2`\n";
+				//species3
+				$documentation = $documentation . "`species3`\n";
 				//sexuality
 				$documentation = $documentation . "`sexuality`\n";
 				//gender
@@ -3620,26 +3730,36 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//Build the embed
 			//$changes = "**Message edit**:\n" . $changes;
 			
-//			Build the embed message
-			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-			$embed
-//				->setTitle("Commands")																	// Set a title
-				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Commands for $author_guild_name")									// Set a description (below title, above fields)
-				->addField("Message Update", "$changes")												// New line after this
-				
-//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-				->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
-				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
-//			Send the message
-//			We do not need another promise here, so we call done, because we want to consume the promise
-			if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
-			});
-			return true;
+			
+			$changes_sanitized = str_replace("*","",$changes);
+			$changes_sanitized = str_replace("_","",$changes_sanitized);
+			$changes_sanitized = str_replace("`","",$changes_sanitized);
+			$changes_sanitized = str_replace("\n","",$changes_sanitized);
+			$doc_length = strlen($documentation_sanitized);
+			if ($doc_length < 1025){
+	//			Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+	//				->setTitle("Commands")																	// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+	//				->setDescription("Commands for $author_guild_name")									// Set a description (below title, above fields)
+					->addField("Message Update", "$changes")												// New line after this
+					
+	//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+	//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+					->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+	//			Send the message
+	//			We do not need another promise here, so we call done, because we want to consume the promise
+				if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+				return true;
+			}else{
+				if($modlog_channel)$modlog_channel->send($changes);
+			}
 		}else{ //No info we want to check was changed
 			return true;
 		}
@@ -3879,7 +3999,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Role picker stuff
 		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
-		GLOBAL $species, $species2, $sexualities, $gender, $custom_roles;
+		GLOBAL $species, $species2, $species3, $sexualities, $gender, $customroles;
 		
 		//Load emoji info
 		//guild, user
@@ -4011,7 +4131,38 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							}
 						}
 						//$message->clearReactions();
-						foreach ($species as $var_name => $value){
+						foreach ($species2 as $var_name => $value){
+							//$message->react($value);
+						}
+						
+					}
+					break;
+				case ($species3_message_id):
+					if($rp1){
+						echo "species3 reaction" . PHP_EOL;
+						foreach ($species3 as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								echo "select_name: " . $select_name . PHP_EOL;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 15158332,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+								//Messages can have a max of 20 different reacts, but species has more than 20 options
+								//Clear reactions to avoid discord ratelimit
+								//$message->clearReactions(); 
+							}
+						}
+						//$message->clearReactions();
+						foreach ($species3 as $var_name => $value){
 							//$message->react($value);
 						}
 						
@@ -4068,10 +4219,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						}
 					}
 					break;
-				case ($customrole_message_id):
+				case ($customroles_message_id):
 					if($rp4){
-						echo "Custom role reaction" . PHP_EOL;
-						foreach ($custom_roles as $var_name => $value){
+						echo "Custom roles reaction" . PHP_EOL;
+						foreach ($customroles as $var_name => $value){
 							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
 								$select_name = $var_name;
 								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
@@ -4089,7 +4240,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 							}
 						}
 						//$message->clearReactions();
-						foreach ($custom_roles as $var_name => $value){
+						foreach ($customroles as $var_name => $value){
 							//$message->react($value);
 						}
 					}
