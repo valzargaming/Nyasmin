@@ -48,7 +48,7 @@ $species_message_text = "**Role Menu: Species**
 :bear: : `Bear`
 :dog: : `Canine`
 :deer: : `Deer`
-:dolphin: : 'Dolphin'
+:dolphin: : `Dolphin`
 :dragon: : `Dragon`
 :horse: : `Equine`
 :smiley_cat: : `Feline`";
@@ -77,6 +77,4 @@ $species_message_text3 = "**Role Menu: Species3**
 :hole: : `Raccoon`
 :shark: : `Shark` 
 :chestnut: : `Squirrel`";
-
-
 ?>
