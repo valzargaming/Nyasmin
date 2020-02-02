@@ -53,7 +53,7 @@ $species_message_text = "**Role Menu: Species**
 :horse: : `Equine`
 :smiley_cat: : `Feline`";
 
-$species_message_text2 = "**Role Menu: Species2**
+$species2_message_text = "**Role Menu: Species2**
 :fox: : `Fox`
 :twisted_rightwards_arrows: : `Hybrid`
 :basketball: : `Kangaroo`
@@ -66,7 +66,7 @@ $species_message_text2 = "**Role Menu: Species2**
 :small_blue_diamond: : `Shapeshifter`
 :wolf: : `Wolf`";
 
-$species_message_text3 = "**Role Menu: Species3**
+$species3_message_text = "**Role Menu: Species3**
 :goat: : `Goat`
 :person_walking: : `Human`
 :eggplant: : `Kobold`
