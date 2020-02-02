@@ -351,7 +351,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup log #channel` Detailed log channel\n"; //Modlog
 			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n";
 			$documentation = $documentation . "`setup watch #channel` ;watch messages are duplicated here instead of in a DM\n";
+			/* Deprecated
 			$documentation = $documentation . "`setup rolepicker channel #channel` Where users pick a role\n";
+			*/
 			$documentation = $documentation . "`setup suggestion pending #channel` \n";
 			$documentation = $documentation . "`setup suggestion approved #channel` \n";
 			//Messages
@@ -434,9 +436,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`getverified #channel` $getverified_channel_id\n";
 			$documentation = $documentation . "`verifylog #channel` $verifylog_channel_id\n";
 			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
-			/* Deprecated
 			$documentation = $documentation . "`rolepicker channel #channel` $rolepicker_channel_id\n";
-			*/
 			$documentation = $documentation . "`suggestion pending #channel` $suggestion_pending_channel_id\n";
 			$documentation = $documentation . "`suggestion approved #channel` $suggestion_approved_channel_id\n";
 			//Messages
@@ -2874,7 +2874,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					//Welcome the verified user
 					if($general_channel){
 						$msg = "Welcome to the Palace, <@$mention_id>!";
-						if ($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+						if($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
 						if($general_channel)$general_channel->send($msg);
 					}
 					return true;
@@ -3088,7 +3088,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				if($react) $message->react("👁");
 				if($general_channel){
 					$msg = "Welcome to the Palace, <@$mention_id>!";
-					if ($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+					if($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
 					if($general_channel)$general_channel->send($msg);
 				}
 				return true;
