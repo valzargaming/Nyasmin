@@ -18,7 +18,7 @@ $sexuality_message_text = "**Role Menu: Sexualities**
 :octagonal_sign: : `Asexual`
 :shallow_pan_of_food: : `Pansexual`
 :grey_question: : `Bicurious`
-:two: : `Bi`
+:restroom: : `Bi`
 :rainbow_flag: : `Gay/Lesbian`
 ";
 ?>
