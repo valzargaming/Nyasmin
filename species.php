@@ -28,7 +28,7 @@ $species2 = array(
 );
 
 $species3 = array(
-	"wolf" => "🐺" //:wolf:
+	"wolf" => "🐺", //:wolf:
 	"goat" => "🐐", //:goat:
 	"human" => "🚶", //:person_walking: 
 	"mobold" => "🍆", //:eggplant:
