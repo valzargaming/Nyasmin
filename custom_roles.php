@@ -7,7 +7,7 @@ $custom_roles = array(
 );
 
 //Message copy-pasta:
-$gender_message_text = "**Role Menu: Custom**
+$custom_message_text = "**Role Menu: Custom**
 :emoji: : `Role Name`
 :emoji: : `Another Role Name`
 ";
