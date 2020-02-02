@@ -8,23 +8,26 @@ $species = array(
 	"bear" => "🐻", //:bear:
 	"canine" => "🐶", //:dog:
 	"deer" => "🦌",//:deer:
-	"dolphin" => "🦈", //:dolphin:
+	"dolphin" => "🐬", //:dolphin:
 	"dragon" => "🐉", //:dragon:
 	"equine" => "🐴", //:horse:
 	"feline" => "😺", //:smiley_cat:
-	"fox" => "🦊", //:fox:
-	"hybrid" => "🔀", //:twisted_rightwards_arrows:
-	"mouse" => "🐭", //:mouse: 
-	"pokemon" => "🍎", //:apple
-	"protogen" => "🤖", //:robot,
-	"rabbit" => "🐰", //:rabbit:
-	"reptile" => "🦎", //:lizard:
-	"sergal" => "🧀", //:cheese: 
-	"shapeshifter" => "🔷", //:small_blue_diamond
 );
 
 $species2 = array(
+	"fox" => "🦊", //:fox:
+	"hybrid" => "🔀", //:twisted_rightwards_arrows:
+	"mouse" => "🐭", //:mouse: 
+	"pokemon" => "🍎", //:apple:
+	"protogen" => "🤖", //:robot:
+	"rabbit" => "🐰", //:rabbit:
+	"reptile" => "🦎", //:lizard:
+	"sergal" => "🧀", //:cheese: 
+	"shapeshifter" => "🔷", //:small_blue_diamond:
 	"wolf" => "🐺", //:wolf:
+);
+
+$species3 = array(
 	"goat" => "🐐", //:goat:
 	"human" => "🚶", //:person_walking: 
 	"mobold" => "🍆", //:eggplant:
@@ -45,9 +48,12 @@ $species_message_text = "**Role Menu: Species**
 :bear: : `Bear`
 :dog: : `Canine`
 :deer: : `Deer`
+:dolphin: : 'Dolphin'
 :dragon: : `Dragon`
 :horse: : `Equine`
-:smiley_cat: : `Feline`
+:smiley_cat: : `Feline`";
+
+$species_message_text2 = "**Role Menu: Species2**
 :fox: : `Fox`
 :twisted_rightwards_arrows: : `Hybrid`
 :basketball: : `Kangaroo`
@@ -58,7 +64,9 @@ $species_message_text = "**Role Menu: Species**
 :lizard: : `Reptile`
 :cheese: : `Sergal`
 :small_blue_diamond: : `Shapeshifter`
-:wolf: : `Wolf`
+:wolf: : `Wolf`";
+
+$species_message_text3 = "**Role Menu: Species3**
 :goat: : `Goat`
 :person_walking: : `Human`
 :eggplant: : `Kobold`
@@ -69,4 +77,6 @@ $species_message_text = "**Role Menu: Species**
 :hole: : `Raccoon`
 :shark: : `Shark` 
 :chestnut: : `Squirrel`";
+
+
 ?>
