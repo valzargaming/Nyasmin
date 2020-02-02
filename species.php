@@ -18,6 +18,7 @@ $species2 = array(
 	"fox" => "🦊", //:fox:
 	"hybrid" => "🔀", //:twisted_rightwards_arrows:
 	"mouse" => "🐭", //:mouse: 
+	"kangaroo" => "🏀", //:basketball: 
 	"pokemon" => "🍎", //:apple:
 	"protogen" => "🤖", //:robot:
 	"rabbit" => "🐰", //:rabbit:
@@ -31,13 +32,13 @@ $species3 = array(
 	"goat" => "🐐", //:goat:
 	"human" => "🚶", //:person_walking: 
 	"mobold" => "🍆", //:eggplant:
-	"misc/Unlisted Species" => "🤷", //:person_shrugging: ///Unlisted Species
 	"otter" => "🍿", //:popcorn:
 	"panda" => "🐼", //:panda_face:
 	"penguin" => "🐧", //:penguin:
 	"raccoon" => "🕳️", //:hole:
 	"shark" => "🦈", //:shark:
-	"squirrel" => "🌰" //:chestnut:
+	"squirrel" => "🌰", //:chestnut:
+	"misc/Unlisted Species" => "🤷" //:person_shrugging: ///Unlisted Species
 );
 
 //Message copy-pasta:
@@ -70,11 +71,11 @@ $species3_message_text = "**Role Menu: Species3**
 :goat: : `Goat`
 :person_walking: : `Human`
 :eggplant: : `Kobold`
-:person_shrugging: : `Misc/Unlisted Species`
 :popcorn: : `Otter`
 :panda_face: : `Panda`
 :penguin: : `Penguin`
 :hole: : `Raccoon`
 :shark: : `Shark` 
-:chestnut: : `Squirrel`";
+:chestnut: : `Squirrel`
+:person_shrugging: : `Misc/Unlisted Species`";
 ?>
