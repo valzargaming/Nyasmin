@@ -124,6 +124,11 @@ if(!CheckFile($guild_folder, "species2_message_id.php")){
 	VarSave($guild_folder, "species2_message_id.php", strval($species2_message_id)); //Leave blank if 18+ commands are not being used
 }else $species2_message_id	= strval(VarLoad($guild_folder, "species2_message_id.php"));
 
+//Rolepicker message IDs
+if(!CheckFile($guild_folder, "species3_message_id.php")){
+	$species3_message_id	= "";	//id of the Species Menu message
+	VarSave($guild_folder, "species3_message_id.php", strval($species3_message_id)); //Leave blank if 18+ commands are not being used
+}else $species3_message_id	= strval(VarLoad($guild_folder, "species3_message_id.php"));
 
 if(!CheckFile($guild_folder, "sexuality_message_id.php")){
 	$sexuality_message_id	= "";	//id of the Sexualities Menu message
