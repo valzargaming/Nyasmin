@@ -835,9 +835,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($creator || $owner)
 				if ($message_content_lower == $command_symbol . 'message species'){ //;message species
-					VarSave($guild_folder, "rolepicker_channel_id.php", $author_channel_id); //Make this channel the rolepicker channel
+					VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
 					$author_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){;
-						VarSave($guild_folder, "species_message_id.php", $message->id);
+						VarSave($guild_folder, "species_message_id.php", strval($message->id));
 						foreach($species as $var_name => $value){
 							$message->react($value);
 						}
@@ -848,9 +848,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($creator || $owner)
 				if ($message_content_lower == $command_symbol . 'message species2'){ //;message species2
-					VarSave($guild_folder, "rolepicker_channel_id.php", $author_channel_id); //Make this channel the rolepicker channel
+					VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
 					$author_channel->send($species2_message_text)->then(function($message) use ($guild_folder, $species2){;
-						VarSave($guild_folder, "species2_message_id.php", $message->id);
+						VarSave($guild_folder, "species2_message_id.php", strval($message->id));
 						foreach($species2 as $var_name => $value){
 							$message->react($value);
 						}
@@ -861,9 +861,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($creator || $owner)
 				if ($message_content_lower == $command_symbol . 'message species3'){ //;message species3
-					VarSave($guild_folder, "rolepicker_channel_id.php", $author_channel_id); //Make this channel the rolepicker channel
+					VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
 					$author_channel->send($species3_message_text)->then(function($message) use ($guild_folder, $species3){;
-						VarSave($guild_folder, "species3_message_id.php", $message->id);
+						VarSave($guild_folder, "species3_message_id.php", strval($message->id));
 						foreach($species3 as $var_name => $value){
 							$message->react($value);
 						}
@@ -874,9 +874,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($creator || $owner)
 				if ( ($message_content_lower == $command_symbol . 'message sexuality') || ($message_content_lower == $command_symbol . 'message sexualities') ) { //;message sexual
-					VarSave($guild_folder, "rolepicker_channel_id.php", $author_channel_id); //Make this channel the rolepicker channel
+					VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
 					$author_channel->send($sexuality_message_text)->then(function($message) use ($guild_folder, $sexualities){;
-						VarSave($guild_folder, "sexuality_message_id.php", $message->id);
+						VarSave($guild_folder, "sexuality_message_id.php", strval($message->id));
 						foreach($sexualities as $var_name => $value){
 							$message->react($value);
 						}
@@ -887,9 +887,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($creator || $owner)
 				if ($message_content_lower == $command_symbol . 'message gender'){ //;message gender
-					VarSave($guild_folder, "rolepicker_channel_id.php", $author_channel_id); //Make this channel the rolepicker channel
+					VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
 					$author_channel->send($gender_message_text)->then(function($message) use ($guild_folder, $gender){;
-						VarSave($guild_folder, "gender_message_id.php", $message->id);
+						VarSave($guild_folder, "gender_message_id.php", strval($message->id));
 						foreach($gender as $var_name => $value){
 							$message->react($value);
 						}
@@ -900,9 +900,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				if ($creator || $owner)
 				if ($message_content_lower == $command_symbol . 'message customroles'){ //;message customroles
-					VarSave($guild_folder, "rolepicker_channel_id.php", $author_channel_id); //Make this channel the rolepicker channel
+					VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
 					$author_channel->send($customroles_message_text)->then(function($message) use ($guild_folder, $customroles){;
-						VarSave($guild_folder, "customroles_message_id.php", $message->id);
+						VarSave($guild_folder, "customroles_message_id.php", strval($message->id));
 						foreach($customroles as $var_name => $value){
 							$message->react($value);
 						}
