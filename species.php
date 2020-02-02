@@ -24,11 +24,11 @@ $species2 = array(
 	"rabbit" => "🐰", //:rabbit:
 	"reptile" => "🦎", //:lizard:
 	"sergal" => "🧀", //:cheese: 
-	"shapeshifter" => "🔷", //:small_blue_diamond:
-	"wolf" => "🐺", //:wolf:
+	"shapeshifter" => "🔷" //:small_blue_diamond:
 );
 
 $species3 = array(
+	"wolf" => "🐺" //:wolf:
 	"goat" => "🐐", //:goat:
 	"human" => "🚶", //:person_walking: 
 	"mobold" => "🍆", //:eggplant:
@@ -64,10 +64,10 @@ $species2_message_text = "**Role Menu: Species2**
 :rabbit: : `Rabbit`
 :lizard: : `Reptile`
 :cheese: : `Sergal`
-:small_blue_diamond: : `Shapeshifter`
-:wolf: : `Wolf`";
+:small_blue_diamond: : `Shapeshifter`";
 
 $species3_message_text = "**Role Menu: Species3**
+:wolf: : `Wolf`
 :goat: : `Goat`
 :person_walking: : `Human`
 :eggplant: : `Kobold`
