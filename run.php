@@ -3730,14 +3730,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				->setURL("");                             												// Set the URL
 			
 			if($welcome_log_channel){
-				echo "Welcome channel found!";
+				//echo "Welcome channel found!" . PHP_EOL;
 //				Send the message, announcing the member's departure
 				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
 				return true;
 			}else{
-				echo "No welcome channel!";
+				echo "No welcome channel!"  . PHP_EOL;
 				return true;
 			}
 		}
