@@ -951,8 +951,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 				
 				//TODO:
-				//join
-				//leave
 				//tempmute/tm
 			}
 			if($creator || $owner || $dev || $admin){
@@ -2569,8 +2567,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 			}
 			
-			//TODO: Spin The Bottle
-			
 			//ymdhis cooldown time
 			$vstats_limit['year'] = 0;
 			$vstats_limit['month'] = 0;
@@ -3667,6 +3663,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	$discord->on('guildMemberRemove', function ($guildmember){ //Handling of a user leaving the guild
 		echo "guildMemberRemove" . PHP_EOL;
 		$user = $guildmember->user;
+		//TODO: Varload welcome setting
 		$welcome = true;
 		
 		if($welcome === true){
@@ -3735,9 +3732,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
-				return true;
-			}else{
-				echo "No welcome channel!"  . PHP_EOL;
 				return true;
 			}
 		}
@@ -4061,7 +4055,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Load guild info
 		$guild						= $message->guild;
-		$author_guild				= $message->guild; //Redeclared only for checkdir... Really need to fix this (TODO)
+		$author_guild				= $message->guild;
 		$author_guild_id			= $author_guild->id;
 		
 		//Load author info
