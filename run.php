@@ -134,7 +134,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild_avatar 										= $author_guild->getIconURL();
 			$author_guild_roles 										= $author_guild->roles;
 			if($getverified_channel_id) 	$getverified_channel 		= $author_guild->channels->get($getverified_channel_id);
-			if($verifylog_channel_id) 		$verifylog_channel 			= $author_guild->channels->get($verifylog_channel_id);
+			if($verifylog_channel_id) 		$verifylog_channel 			= $author_guild->channels->get($verifylog_channel_id); //Modlog is used if this is not declared
 			if($watch_channel_id) 			$watch_channel 				= $author_guild->channels->get($watch_channel_id);
 			if($modlog_channel_id) 			$modlog_channel 			= $author_guild->channels->get($modlog_channel_id);
 			if($general_channel_id) 		$general_channel			= $author_guild->channels->get($general_channel_id);
@@ -349,7 +349,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`setup welcome #channel` Simple welcome message tagging new user\n";
 			$documentation = $documentation . "`setup welcomelog #channel` Detailed message about the user\n";
 			$documentation = $documentation . "`setup log #channel` Detailed log channel\n"; //Modlog
-			$documentation = $documentation . "`setup verify #channel` Detailed log channel\n";
+			$documentation = $documentation . "`setup verify channel #channel` Detailed log channel\n";
 			$documentation = $documentation . "`setup watch #channel` ;watch messages are duplicated here instead of in a DM\n";
 			/* Deprecated
 			$documentation = $documentation . "`setup rolepicker channel #channel` Where users pick a role\n";
@@ -433,7 +433,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`welcome #channel` $welcome_public_channel_id\n";
 			$documentation = $documentation . "`welcomelog #channel` $welcome_log_channel_id\n";
 			$documentation = $documentation . "`log #channel` $modlog_channel_id\n";
-			$documentation = $documentation . "`getverified #channel` $getverified_channel_id\n";
+			$documentation = $documentation . "`verify channel #channel` $getverified_channel_id\n";
 			$documentation = $documentation . "`verifylog #channel` $verifylog_channel_id\n";
 			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
 			$documentation = $documentation . "`rolepicker channel #channel` $rolepicker_channel_id\n";
@@ -656,8 +656,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		}
 		
 		if ($creator || $owner)
-		if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup verify '){
-			$filter = "$command_symbol" . "setup verify ";
+		if (substr($message_content_lower, 0, 22) == $command_symbol . 'setup verify channel '){
+			$filter = "$command_symbol" . "setup verify channel ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<#", "", $value);
 			$value = str_replace(">", "", $value);
@@ -936,10 +936,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`rolepicker`\n";
 				//species
 				$documentation = $documentation . "`species`\n";
+				/*
 				//species2
 				$documentation = $documentation . "`species2`\n";
 				//species3
 				$documentation = $documentation . "`species3`\n";
+				*/
 				//sexuality
 				$documentation = $documentation . "`sexuality`\n";
 				//gender
@@ -1004,6 +1006,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			}
 			if($vanity){
 				$documentation = $documentation . "\n__**Vanity commands:**__\n";
+				//cooldown
+				$documentation = $documentation . "`cooldown` or `cd` tells you how much time you must wait before using another Vanity command \n";
 				//hug/snuggle
 				$documentation = $documentation . "`hug` or `snuggle`\n";
 				//kiss/smooch
@@ -1014,6 +1018,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				$documentation = $documentation . "`boop`\n";
 				//bap
 				$documentation = $documentation . "`bap`\n";
+				//bap
+				$documentation = $documentation . "`pet`\n";
 			}
 			if($nsfw && $adult){
 				//TODO
@@ -1026,6 +1032,9 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`roles` displays the roles for the author or user being mentioned.\n";
 			//avatar
 			$documentation = $documentation . "`avatar` displays the profile picture of the author or user being mentioned.\n";
+			//suggest
+			if($suggestion_pending_channel)
+			$documentation = $documentation . "`suggest`\n";
 			$documentation_sanitized = str_replace("*","",$documentation);
 			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
 			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
@@ -2095,6 +2104,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			else 													$booper_count		= VarLoad($author_folder, "booper_count.php");			
 			if(!CheckFile($author_folder, "baper_count.php"))		$baper_count		= 0;													
 			else 													$baper_count		= VarLoad($author_folder, "baper_count.php");			
+			if(!CheckFile($author_folder, "peter_count.php"))		$peter_count		= 0;													
+			else 													$peter_count		= VarLoad($author_folder, "peter_count.php");			
 
 //			Load author get statistics
 			if(!CheckFile($author_folder, "vanity_get_count.php"))	$vanity_get_count	= 0;													
@@ -2108,7 +2119,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if(!CheckFile($author_folder, "booped_count.php"))		$booped_count		= 0;													
 			else 													$booped_count		= VarLoad($author_folder, "booped_count.php");
 			if(!CheckFile($author_folder, "baped_count.php"))		$baped_count		= 0;													
-			else 													$baped_count		= VarLoad($author_folder, "baped_count.php");				
+			else 													$baped_count		= VarLoad($author_folder, "baped_count.php");
+			if(!CheckFile($author_folder, "peted_count.php"))		$peted_count		= 0;													
+			else 													$peted_count		= VarLoad($author_folder, "peted_count.php");				
+			
+			if ( ($message_content_lower == $command_symbol . 'cooldown') || ($message_content_lower == $command_symbol . 'cd') ){//;cooldown ;cd
+				echo "COOLDOWN CHECK" . PHP_EOL;
+//				Check Cooldown Timer
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $avatar_limit);
+				if ( ($cooldown[0] == true) || ($bypass) ){
+					return $message->reply("No cooldown.");
+				}else{
+//					Reply with remaining time
+					$waittime = $avatar_limit_seconds - $cooldown[1];
+					$formattime = FormatTime($waittime);
+					return $message->reply("You must wait $formattime before using this command again.");
+				}
+			}
 			
 			if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 				echo "HUG/SNUGGLE" . PHP_EOL;
@@ -2472,6 +2499,76 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				}
 			}
 			
+			if (substr($message_content_lower, 0, 5) == $command_symbol . 'pet ' ){ //;pet @
+				echo "PET" . PHP_EOL;
+//				Check Cooldown Timer
+				$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+				if ( ($cooldown[0] == true) || ($bypass) ){
+//					Get an array of people mentioned
+					$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+					foreach ( $mentions_arr as $mention_param ){
+						$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+						$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+						$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+						
+						if ($author_id != $mention_id){
+							$pet_messages								= array();
+							$pet_messages[]								= "<@$author_id> pets <@$mention_id>";
+							$index_selection							= GetRandomArrayIndex($pet_messages);
+//							echo "random pet_messages: " . $pet_messages[$index_selection];
+//							Send the message
+							$author_channel->send($pet_messages[$index_selection]);
+							//Increment give stat counter of author
+							$vanity_give_count++;
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
+							$peter_count++;
+							VarSave($author_folder, "peter_count.php", $peter_count);
+							//Load target get statistics
+							if(!CheckFile($guild_folder."/".$mention_id, "vanity_get_count.php"))	$vanity_get_count	= 0;
+							else 																	$vanity_get_count 	= VarLoad($guild_folder."/".$mention_id, "vanity_get_count.php");
+							if(!CheckFile($guild_folder."/".$mention_id, "peted_count.php"))		$peted_count		= 0;
+							else 																	$peted_count 		= VarLoad($guild_folder."/".$mention_id, "peted_count.php");
+							//Increment get stat counter of target
+							$vanity_get_count++;
+							VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
+							$peted_count++;
+							VarSave($guild_folder."/".$mention_id, "peted_count.php", $peted_count);
+//							Set Cooldown
+							SetCooldown($author_folder, "vanity_time.php");
+							return true; //No more processing, we only want to process the first person mentioned
+						}else{
+							$self_pet_messages							= array();
+							$self_pet_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
+							$index_selection							= GetRandomArrayIndex($self_pet_messages);
+//							Send the mssage
+							$author_channel->send($self_pet_messages[$index_selection]);
+							//Increment give stat counter of author
+							$vanity_give_count++;
+							VarSave($author_folder, "vanity_give_count.php", $vanity_give_count);
+							$peter_count++;
+							VarSave($author_folder, "peter_count.php", $peter_count);
+							//Increment get stat counter of author
+							$vanity_get_count++;
+							VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
+							$peted_count++;
+							VarSave($author_folder, "peted_count.php", $peted_count);
+//							Set Cooldown
+							SetCooldown($author_folder, "vanity_time.php");
+							return true; //No more processing
+						}
+					}
+					//Foreach method didn't return, so nobody was mentioned
+					$author_channel->send("<@$author_id>, you need to mention someone!");
+					return true;
+				}else{
+//					Reply with remaining time
+					$waittime = $vanity_limit_seconds - $cooldown[1];
+					$formattime = FormatTime($waittime);
+					$message->reply("You must wait $formattime before using vanity commands again.");
+					return true;
+				}
+			}
+			
 			//TODO: Spin The Bottle
 			
 			//ymdhis cooldown time
@@ -2499,6 +2596,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						->addField("Nuzzles", 			"$nuzzler_count", true)
 						->addField("Boops", 			"$booper_count", true)
 						->addField("Baps", 				"$baper_count", true)
+						->addField("Pets", 				"$peter_count", true)
 						->addField("⠀", 				"⠀", true)												// Invisible unicode for separator
 						->addField("Total Received", 	"$vanity_get_count")									// New line after this
 						->addField("Hugs", 				"$hugged_count", true)
@@ -2506,6 +2604,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 						->addField("Nuzzles", 			"$nuzzled_count", true)
 						->addField("Boops", 			"$booped_count", true)
 						->addField("Baps", 				"$baped_count", true)
+						->addField("Pets", 				"$peted_count", true)
 						
 						->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //						->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
@@ -2873,7 +2972,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					}
 					//Welcome the verified user
 					if($general_channel){
-						$msg = "Welcome to the Palace, <@$mention_id>!";
+						$msg = "Welcome to $author_guild_name, <@$mention_id>!";
 						if($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
 						if($general_channel)$general_channel->send($msg);
 					}
@@ -2897,7 +2996,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					$getverified_channel->message->delete();
 				}
 			});
-			if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name! Please introduce yourself here and one of our staff members will verify you shortly. Be sure to include info about your fursona, your age, where you found us, and why you want to join us!");
+			if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name discord! Please take a moment to read the rules and fill out the questions below:\n
+			1. How did you find the server?\n
+			2. How old are you?\n
+			3. What kind of YouTube content do you make?\n
+			4. Do you understand the rules?\n
+			5. Do you have any other questions?");
 			return true;
 		}		
 		
@@ -3659,7 +3763,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Only process message changes
 		if ($message_content_new === $message_content_old){
-			echo "NO MESSAGE CONTENT CHANGE OR MESSAGE TOO OLD" . PHP_EOL;
+			//echo "NO MESSAGE CONTENT CHANGE OR MESSAGE TOO OLD" . PHP_EOL;
 			return true;
 		}
 		
@@ -3734,14 +3838,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($changes != ""){
 			//Build the embed
 			//$changes = "**Message edit**:\n" . $changes;
-			
-			
-			$changes_sanitized = str_replace("*","",$changes);
-			$changes_sanitized = str_replace("_","",$changes_sanitized);
-			$changes_sanitized = str_replace("`","",$changes_sanitized);
-			$changes_sanitized = str_replace("\n","",$changes_sanitized);
-			$doc_length = strlen($documentation_sanitized);
-			if ($doc_length < 1025){
+			if ( (strlen($message_content_new) + strlen($message_content_old))  < 1025 ){
 	//			Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
@@ -3763,6 +3860,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				});
 				return true;
 			}else{
+				if ( (strlen($message_content_new) + strlen($message_content_old))  < 2000 )
 				if($modlog_channel)$modlog_channel->send($changes);
 			}
 		}else{ //No info we want to check was changed
