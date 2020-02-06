@@ -1,5 +1,6 @@
 **This fork is dedicated to maintaining Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or pull requests committed. This bot is confirmed to be working with PHP 7.3. You can choose to self-host your own instance of this bot or invite my hosted instance to your server.**
 Invite link: https://discordapp.com/oauth2/authorize?client_id=662093882795753482&scope=bot&permissions=8
+The bot is currently listed as private. Permission to add the bot to your server must be granted by Valithor#5947.
 
 
 
