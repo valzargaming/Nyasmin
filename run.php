@@ -19,6 +19,9 @@ include 'sexualities.php';		//Used by the sexuality role picker function
 include 'gender.php';			//Used by the gender role picker function
 include 'custom_roles.php';		//Create your own roles with this template!
 
+include 'blacklisted_guilds.php'; //Array of Guilds that are not allowed to use this bot
+include 'whitelisted_guilds.php'; //Only guilds in the $whitelisted_guilds array should be allowed to access the bot.
+
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
 $discord = new \CharlotteDunois\Yasmin\Client(array(), $loop);
@@ -66,7 +69,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "timestampSetup: " . $timestampSetup . PHP_EOL;
 	//Save this to a file to be loaded, used in messageUpdate
 	
-	$discord->on('message', function ($message){ //Handling of a message
+	$discord->on('message', function ($message) use ($discord){ //Handling of a message
 		$message_content = $message->content;
 		$message_id = $message->id;
 		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, or webhooks
@@ -143,8 +146,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($suggestion_approved_channel_id) $suggestion_approved_channel	= $author_guild->channels->get(strval($suggestion_approved_channel_id));
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
+			
+			//Leave the guild if blacklisted
+			GLOBAL $blacklisted_guilds;
+			if ($blacklisted_guilds)
+			if (in_array($author_guild_id, $blacklisted_guilds)){
+				$author_guild->leave($author_guild_id)->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}
 		}else{ //Direct message
-			if ($author_check != 'Palace Bot#9203'){
+			if ($author_check != "{$discord->user->tag}"){
 				GLOBAL $server_invite;
 				echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
 				$dm_text = "Please use commands for this bot within a server.";
@@ -3005,7 +3017,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($message_content_lower == $command_symbol . 'clearall'){ //;clearall Clear as many messages in the author's channel at once as possible
 			echo "CLEARALL" . PHP_EOL;
 			$author_channel->bulkDelete(100);
-			//Delete any messages that aren't cached
 			$author_channel->fetchMessages()->then(function($message_collection) use ($author_channel){
 				foreach ($message_collection as $message){
 					$author_channel->message->delete();
