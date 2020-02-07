@@ -155,6 +155,13 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 					echo $error.PHP_EOL; //Echo any errors
 				});
 			}
+			GLOBAL $whitelisted_guilds;
+			if ($whitelisted_guilds)
+			if (!in_array($author_guild_id, $whitelisted_guilds)){
+				$author_guild->leave($author_guild_id)->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}
 		}else{ //Direct message
 			if ($author_check != "{$discord->user->tag}"){
 				GLOBAL $server_invite;
