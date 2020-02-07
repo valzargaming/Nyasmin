@@ -112,6 +112,23 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_guild_id 											= $author_guild->id; 											//echo "discord_guild_id: " . $author_guild_id . PHP_EOL;
 			$author_guild_name											= $author_guild->name;
 			$guild_owner_id												= $author_guild->ownerID;
+			
+			//Leave the guild if blacklisted
+			GLOBAL $blacklisted_guilds;
+			if ($blacklisted_guilds)
+			if (in_array($author_guild_id, $blacklisted_guilds)){
+				$author_guild->leave($author_guild_id)->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}
+			//Leave the guild if not whitelisted
+			GLOBAL $whitelisted_guilds;
+			if ($whitelisted_guilds)
+			if (!in_array($author_guild_id, $whitelisted_guilds)){
+				$author_guild->leave($author_guild_id)->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}
 
 			$guild_folder = "\\guilds\\$author_guild_id";
 //			Create a folder for the guild if it doesn't exist already
@@ -146,22 +163,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			if($suggestion_approved_channel_id) $suggestion_approved_channel	= $author_guild->channels->get(strval($suggestion_approved_channel_id));
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
-			
-			//Leave the guild if blacklisted
-			GLOBAL $blacklisted_guilds;
-			if ($blacklisted_guilds)
-			if (in_array($author_guild_id, $blacklisted_guilds)){
-				$author_guild->leave($author_guild_id)->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
-				});
-			}
-			GLOBAL $whitelisted_guilds;
-			if ($whitelisted_guilds)
-			if (!in_array($author_guild_id, $whitelisted_guilds)){
-				$author_guild->leave($author_guild_id)->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
-				});
-			}
 		}else{ //Direct message
 			if ($author_check != "{$discord->user->tag}"){
 				GLOBAL $server_invite;
