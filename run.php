@@ -50,7 +50,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		array(
 			'since' => null, //unix time (in milliseconds) of when the client went idle, or null if the client is not idle
 			'game' => array(
-				//'name' => "over the Palace $version",
 				'name' => "$line_count lines of code! $version",
 				'type' => 3, //0, 1, 2, 3, 4 | Game/Playing, Streaming, Listening, Watching, Custom Status
 				'url' => null //stream url, is validated when type is 1, only Youtube and Twitch allowed
@@ -164,7 +163,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$author_member 												= $author_guild->members->get($author_id); 				//GuildMember object
 			$author_member_roles 										= $author_member->roles; 								//Role object for the author);
 		}else{ //Direct message
-			if ($author_check != "{$discord->user->tag}"){
+			if ($author_id != $discord->user->id){
 				GLOBAL $server_invite;
 				echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
 				$dm_text = "Please use commands for this bot within a server.";
@@ -3891,7 +3890,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		$mention_roles		= $data_array['mention_roles'];
 		$mention_everyone	= $data_array['mention_everyone'];
 		$member				= $data_array['member']; //echo "member: " . var_dump($member) . PHP_EOL; //username, id, discriminator,avatar
-		$id					= $data_array['id']; echo "id: " . var_dump($id) . PHP_EOL; //username, id, discriminator,avatar
+		$id					= $data_array['id']; //echo "id: " . var_dump($id) . PHP_EOL; //username, id, discriminator,avatar
 		$flags				= $data_array['flags'];
 		$embeds				= $data_array['embeds'];
 		$edited_timestamp	= $data_array['edited_timestamp'];
@@ -3910,7 +3909,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		$modlog_channel		= $guild->channels->get($modlog_channel_id);
 		
-		$log_message = "**Message ID:** $id\n**Channel:** <#$channel_id>\n**New content:** $content" . PHP_EOL;
+		$log_message = "[Link](https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new)
+		**Channel:** <#$channel_id>
+		**Message ID:** $id
+		**New content:** $content" . PHP_EOL;
 		$channel->fetchMessage($id)->then(function($message) use ($modlog_channel, $log_message){	//Resolve the promise
 			//Load author info
 			$author_user													= $message->author; //User object
