@@ -1,4 +1,4 @@
-k<?php
+<?php
 //This file was written by Valithor#5947 <@116927250145869826>
 //Special thanks to keira#7829 <@297969955356540929> for helping me get this behemoth working after converting from DiscordPHP
 
@@ -251,18 +251,19 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if(CheckFile($author_folder, "watchers.php")){
 			echo "AUTHOR IS BEING WATCHED" . PHP_EOL;
 			$watchers = VarLoad($author_folder, "watchers.php");
-//			echo "WATCHERS: "; var_dump($watchers); //array of user IDs
-			$null_array = true;
+//			echo "WATCHERS: " . var_dump($watchers); //array of user IDs
+			$null_array = true; //Assume the object is empty
 			foreach ($watchers as $watcher){
 				if ($watcher != NULL){																									//echo "watcher: " . $watcher . PHP_EOL;
-					$null_array = false; //mark the array as valid
+					$null_array = false; //Mark the array as valid
 					try{
 //						Get objects for the watcher
 						$watcher_member = $author_guild->members->get($watcher);													//echo "watcher_member class: " . get_class($watcher_member) . PHP_EOL;
 						$watcher_user = $watcher_member->user;																		//echo "watcher_user class: " . get_class($watcher_user) . PHP_EOL;
 						$watcher_user->createDM()->then(function($watcher_dmchannel) use ($message){	//Promise
 //							echo "watcher_dmchannel class: " . get_class($watcher_dmchannel) . PHP_EOL; //DMChannel
-							if($watcher_dmchannel) $watcher_dmchannel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message->content}");
+							if($watch_channel) $watch_channel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message->content}");
+							elseif($watcher_dmchannel) $watcher_dmchannel->send("<@{$message->author->id}> sent a message in <#{$message->channel->id}>: \n{$message->content}");
 							return true;
 						});
 					}catch(Exception $e){
@@ -397,10 +398,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`message gender`\n";
 			$documentation = $documentation . "`message customroles`\n";
 			
-			$documentation_sanitized = str_replace("*","",$documentation);
-			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
-			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
-			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("\n","",$documentation);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
  
@@ -470,10 +468,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$documentation = $documentation . "`gender messageid` $gender_message_id\n";
 			$documentation = $documentation . "`customroles messageid` $customroles_message_id\n";
 			
-			$documentation_sanitized = str_replace("*","",$documentation);
-			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
-			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
-			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
+			$documentation_sanitized = str_replace("\n","",$documentation);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
  
@@ -1055,9 +1050,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//suggest
 			if($suggestion_pending_channel)
 			$documentation = $documentation . "`suggest`\n";
-			$documentation_sanitized = str_replace("*","",$documentation);
-			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
-			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
 			$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 			$doc_length = strlen($documentation_sanitized);
 			if ($doc_length < 1025){
@@ -1135,10 +1127,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//Strikeout invalid options
 			if (!$rp0) $documentation = $documentation . "~~"; //Strikeout invalid options
 			
-			$documentation_sanitized = str_replace("*","",$documentation);
-			$documentation_sanitized = str_replace("_","",$documentation_sanitized);
-			$documentation_sanitized = str_replace("`","",$documentation_sanitized);
-			$doc_length = strlen($documentation_sanitized);
+			$doc_length = strlen($documentation);
 			if ($doc_length < 1025){
  
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1183,18 +1172,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
-//			echo "react: $react" . PHP_EOL;
 			if(!CheckFile($guild_folder, "react_option.php")){
 				VarSave($guild_folder, "react_option.php", $react);
-//				echo "NEW REACT FILE" . PHP_EOL;
+				echo "NEW REACT OPTION FILE";
 			}
-//			VarLoad
 			$react_var = VarLoad($guild_folder, "react_option.php");
-//			echo "react_var: $react_var" . PHP_EOL;
-//			VarSave
 			$react_flip = !$react_var;
-//			echo "react_flip: $react_flip" . PHP_EOL;
 			VarSave($guild_folder, "react_option.php", $react_flip);
+			if($react) $message->react("👍");
 			if ($react_flip === true)
 				$message->reply("Reaction functions enabled!");
 			else $message->reply("Reaction functions disabled!");
@@ -1205,10 +1190,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
 			if(!CheckFile($guild_folder, "vanity_option.php")){
 				VarSave($guild_folder, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
+				echo "NEW VANITY OPTION FILE" . PHP_EOL;
 			}
 			$vanity_var = VarLoad($guild_folder, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
 			$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
 			VarSave($guild_folder, "vanity_option.php", $vanity_flip);
+			if($react) $message->react("👍");
 			if ($vanity_flip === true)
 				$message->reply("Vanity functions enabled!");
 			else $message->reply("Vanity functions disabled!");
@@ -1217,14 +1204,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
-//			echo "nsfw: $nsfw" . PHP_EOL;
 			if(!CheckFile($guild_folder, "nsfw_option.php")){
 				VarSave($guild_folder, "nsfw_option.php", $nsfw);
-//				echo "NEW NSFW FILE" . PHP_EOL;
+				echo "NEW NSFW OPTION FILE" . PHP_EOL;
 			}
 			$nsfw_var = VarLoad($guild_folder, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave($guild_folder, "nsfw_option.php", $nsfw_flip);
+			if($react) $message->react("👍");
 			if ($nsfw_flip === true)
 				$message->reply("NSFW functions enabled!");
 			else $message->reply("NSFW functions disabled!");
@@ -1233,7 +1220,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
-			//echo "rp0: $rp0" . PHP_EOL;
 			if(!CheckFile($guild_folder, "rolepicker_option.php")){
 				VarSave($guild_folder, "rolepicker_option.php", $nsfw);
 				echo "NEW ROLEPICKER FILE" . PHP_EOL;
@@ -1241,6 +1227,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$rolepicker_var = VarLoad($guild_folder, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave($guild_folder, "rolepicker_option.php", $rolepicker_flip);
+			if($react) $message->react("👍");
 			if ($rolepicker_flip === true)
 				$message->reply("Rolepicker enabled!");
 			else $message->reply("Rolepicker disabled!");
@@ -1249,7 +1236,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
-			//echo "rp1: $rp1" . PHP_EOL;
 			if(!CheckFile($guild_folder, "species_option.php")){
 				VarSave($guild_folder, "species_option.php", $nsfw);
 				echo "NEW SPECIES FILE" . PHP_EOL;
@@ -1257,6 +1243,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$species_var = VarLoad($guild_folder, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave($guild_folder, "species_option.php", $species_flip);
+			if($react) $message->react("👍");
 			if ($species_flip === true)
 				$message->reply("Species roles enabled!");
 			else $message->reply("Species roles	disabled!");
@@ -1265,7 +1252,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
-			echo "rp2: $rp2" . PHP_EOL;
 			if(!CheckFile($guild_folder, "sexuality_option.php")){
 				VarSave($guild_folder, "sexuality_option.php", $nsfw);
 				echo "NEW SEXUALITY FILE" . PHP_EOL;
@@ -1273,6 +1259,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave($guild_folder, "sexuality_option.php", $sexuality_flip);
+			if($react) $message->react("👍");
 			if ($sexuality_flip === true)
 				$message->reply("Sexuality roles enabled!");
 			else $message->reply("Sexuality roles disabled!");
@@ -1281,7 +1268,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 				
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
-			//echo "rp3: $rp3" . PHP_EOL;
 			if(!CheckFile($guild_folder, "gender_option.php")){
 				VarSave($guild_folder, "gender_option.php", $nsfw);
 				echo "NEW GENDER FILE" . PHP_EOL;
@@ -1289,6 +1275,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			$gender_var = VarLoad($guild_folder, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave($guild_folder, "gender_option.php", $gender_flip);
+			if($react) $message->react("👍");
 			if ($gender_flip === true)
 				$message->reply("Gender roles enabled!");
 			else $message->reply("Gender roles disabled!");
@@ -1297,14 +1284,14 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
-			//echo "rp4: $rp4" . PHP_EOL;
 			if(!CheckFile($guild_folder, "custom_option.php")){
 				VarSave($guild_folder, "custom_option.php", $nsfw);
-				echo "NEW CUSTOM ROLE FILE" . PHP_EOL;
+				echo "NEW CUSTOM ROLE OPTION FILE" . PHP_EOL;
 			}
 			$custom_var = VarLoad($guild_folder, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 			$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
 			VarSave($guild_folder, "custom_option.php", $custom_flip);
+			if($react) $message->react("👍");
 			if ($custom_flip === true)
 				$message->reply("Custom roles enabled!");
 			else $message->reply("Custom roles disabled!");
@@ -1321,10 +1308,12 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*/
 		
 		if ($message_content_lower == $command_symbol . 'ping'){
+			echo 'PING' . PHP_EOL;
 			$message->reply("Pong!");
 			return true;
 		}
 		
+		if ($nsfw)
 		if ($message_content_lower == $command_symbol . '18+'){
 			if ($adult){
 				if($react) $message->react("👍");
@@ -2101,7 +2090,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		*********************
 		*********************
 		*/
-		if (!$vzgbot)
 		if ($vanity){
 			//ymdhis cooldown time
 			$vanity_limit['year'] = 0;
@@ -2904,4 +2892,1672 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
 		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
-		if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
+		if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr(($message_content), 0, 8) == $command_symbol . 'verify ') ){ //Verify ;v ;verify
+			echo "GIVING VERIFIED ROLE TO MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
+			$mention_role_name_queue_full 								= $mention_role_name_queue_default;
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "v ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				$filter = "$command_symbol" . "verify ";
+				$value = str_replace($filter, "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				
+//				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+//				$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+				
+//				Get the roles of the mentioned user
+				echo "mention_id: " . $mention_id . PHP_EOL;
+				$target_guildmember 									= $message->guild->members->get($mention_id);
+				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
+
+//				Get the avatar URL of the mentioned user
+				$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+				$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
+				
+				$target_verified										= false; //Default
+				$x=0;
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						if ($role->id == $role_verified_id)
+							$target_verified 							= true;
+					}
+					$x++;
+				}
+				if($target_verified == false){ //Add the verified role to the member
+					$target_guildmember->addRole($role_verified_id)->done(
+						function ($error) {
+							throw $error;
+						}
+					); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
+				
+//					Build the embed
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+//						->setTitle("Roles")																		// Set a title
+						->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//						->setDescription("$author_guild_name")													// Set a description (below title, above fields)
+						->addField("Verified", 		"<@$mention_id>")											// New line after this if ,true
+
+						->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
+//						->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setAuthor("$author_check", "$author_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+//					Send the message
+					if($react) $message->react("👍");
+					//Log the verification
+					if($verifylog_channel){
+						$verifylog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+							echo $error.PHP_EOL; //Echo any errors
+						});
+					}elseif($modlog_channel){
+						$modlog_channel->end('', array('embed' => $embed))->done(null, function ($error){
+							echo $error.PHP_EOL; //Echo any errors
+						});
+					}
+					//Welcome the verified user
+					if($general_channel){
+						$msg = "Welcome to $author_guild_name, <@$mention_id>!";
+						if($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+						if($general_channel)$general_channel->send($msg);
+					}
+					return true;
+				}else{
+					if($react) $message->react("👎");
+					$message->reply("$mention_check does not need to be verified!" . PHP_EOL);
+					return true;
+				}
+			}
+		}
+		
+		if( ($getverified_channel_id != "") || ($getverified_channel_id != NULL)) //User was kicked (They have no roles anymore)
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
+			echo "CV" . PHP_EOL;
+			$getverified_channel->bulkDelete(100);
+			//Delete any messages that aren't cached
+			$getverified_channel->fetchMessages()->then(function($message_collection) use ($getverified_channel){
+				foreach ($message_collection as $message){
+					$getverified_channel->message->delete();
+				}
+			});
+			if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name discord! Please take a moment to read the rules and fill out the questions below:\n
+			1. How did you find the server?\n
+			2. How old are you?\n
+			3. What kind of YouTube content do you make?\n
+			4. Do you understand the rules?\n
+			5. Do you have any other questions?");
+			return true;
+		}		
+		
+		if ($creator || $owner || $dev || $admin) //Only allow these roles to use this
+		if ($message_content_lower == $command_symbol . 'clearall'){ //;clearall Clear as many messages in the author's channel at once as possible
+			echo "CLEARALL" . PHP_EOL;
+			$author_channel->bulkDelete(100);
+			$author_channel->fetchMessages()->then(function($message_collection) use ($author_channel){
+				foreach ($message_collection as $message){
+					$author_channel->message->delete();
+				}
+			});
+			return true;
+		};
+		
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
+			echo "SETTING WATCH ON TARGETS MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
+			$mention_watch_name_queue_default							= $mention_watch_name_mention_default."is watching the following users:" . PHP_EOL;
+			$mention_watch_name_queue_full 								= "";
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "watch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				
+//				Place watch info in target's folder
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
+				$watchers = array_unique($arr);
+				$watchers[] = $author_id;
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
+				$mention_watch_name_queue 								= "**<@$mention_id>** ";
+				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
+			}
+//			Send a message
+			if ($mention_watch_name_queue != ""){
+				if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+				else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+//				React to the original message
+//				if($react) $message->react("👀");
+				if($react) $message->react("👁");		
+				return true;
+			}else{
+				if($react) $message->react("👎");
+				$message->reply("Nobody in the guild was mentioned!");
+				return true;
+			}
+//						
+		}
+		
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if (substr($message_content_lower, 0, 9) == $command_symbol . 'unwatch '){ //;unwatch @
+			echo "REMOVING WATCH ON TARGETS MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			$mention_watch_name_queue_default							= "<@$author_id> is no longer watching the following users:" . PHP_EOL;
+			$mention_watch_name_queue_full 								= "";
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "unwatch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				
+//				Place watch info in target's folder
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
+				$watchers = array_value_remove($author_id, $watchers);
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
+				$mention_watch_name_queue 								= "**<@$mention_id>** ";
+				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
+			}
+//			React to the original message
+			if($react) $message->react("👍");
+//			Send the message
+			if ($watch_channel)	$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+			else $author_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+			return true;
+		}
+		
+		if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
+		if ( (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch ') || (substr($message_content_lower, 0, 4) == $command_symbol . 'vw ')){ //;vwatch @
+			echo "VERIFYING AND WATCHING TARGET MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
+			$mention_watch_name_queue_default							= $mention_watch_name_mention_default."is watching the following users:" . PHP_EOL;
+			$mention_watch_name_queue_full 								= "";
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "vwatch ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				$filter = "$command_symbol" . "vw ";
+				$value = str_replace($filter, "", $value);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				
+//				Place watch info in target's folder
+				$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
+				$watchers = array_unique($arr);
+				$watchers[] = $author_id;
+				VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
+				$mention_watch_name_queue 								= "**<@$mention_id>** ";
+				$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
+				
+				echo "mention_id: " . $mention_id . PHP_EOL;
+				$target_guildmember 									= $message->guild->members->get($mention_id);
+				$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
+				
+//				Populate arrays of the info we need
+				$target_verified										= false; //Default
+				$x=0;
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						if ($role->id == $role_verified_id)
+							$target_verified 							= true;
+					}
+					$x++;
+				}
+				
+				if($target_verified == false){
+//					Build the string for the reply
+					$mention_role_name_queue 							= "**<@$mention_id>** ";
+					$mention_role_name_queue_full 						= $mention_role_name_queue_full . PHP_EOL . $mention_role_name_queue;
+//					Add the verified role to the member
+					$target_guildmember->addRole($role_verified_id)->done(
+						function (){
+							//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
+						},
+						function ($error) {
+							throw $error;
+						}
+					);
+					echo "Verify role added to $mention_id" . PHP_EOL;
+				}
+			}
+//			Send a message
+			if ($mention_watch_name_queue != ""){
+				if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+				else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
+//				React to the original message
+//				if($react) $message->react("👀");
+				if($react) $message->react("👁");
+				if($general_channel){
+					$msg = "Welcome to the Palace, <@$mention_id>!";
+					if($rolepicker_channel) $msg = $msg . " Feel free to pick out some roles in <#$rolepicker_channel_id>.";
+					if($general_channel)$general_channel->send($msg);
+				}
+				return true;
+			}else{
+				if($react) $message->react("👎");
+				$message->reply("Nobody in the guild was mentioned!");
+				return true;
+			}
+		}
+		
+		if ($creator || $owner || $dev || $admin || $mod)
+		if (substr($message_content_lower, 0, 6) == $command_symbol . 'warn '){ //;warn @
+			echo "WARN TARGETS MENTIONED" . PHP_EOL;
+			//$message->reply("Not yet implemented!");
+//			Get an array of people mentioned
+			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			if ($modlog_channel)	$mention_warn_name_mention_default		= "<@$author_id>";
+			$mention_warn_queue_default									= $mention_warn_name_mention_default."warned the following users:" . PHP_EOL;
+			$mention_warn_queue_full 									= "";
+			
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+				$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+				
+//				Build the string to log
+				$filter = "$command_symbol" . "warn <@!$mention_id>";
+				$warndate = date("m/d/Y");
+				$mention_warn_queue 									= "**$mention_check warned $author_check on $warndate for reason: **" . str_replace($filter, "", $message_content);
+				
+//				Place warn info in target's folder
+				$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
+				$infractions[] = $mention_warn_queue;
+				VarSave($guild_folder."/".$mention_id, "infractions.php", $infractions);
+				$mention_warn_queue_full 								= $mention_warn_queue_full . PHP_EOL . $mention_warn_queue;
+			}
+//			Send a message
+			if ($mention_warn_queue != ""){
+				if ($watch_channel)$watch_channel->send($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
+				else $message->reply($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
+//				React to the original message
+//				if($react) $message->react("👀");
+				if($react) $message->react("👁");		
+				return true;
+			}else{
+				if($react) $message->react("👎");
+				$message->reply("Nobody in the guild was mentioned!");
+				return true;
+			}
+		}
+		
+		if ($creator || $owner || $dev || $admin || $mod)
+		if (substr($message_content_lower, 0, 13) == $command_symbol . 'infractions '){ //;infractions @
+			echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "infractions ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			$x = 0;
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+				if ($x == 0){ //We only want the first person mentioned
+	//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+					$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+					$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+					$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+					$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+					$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+					
+	//				Place infraction info in target's folder
+					$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
+					$y = 0;
+                    $mention_infraction_queue = "";
+                    $mention_infraction_queue_full = "";
+					foreach ( $infractions as $infraction ){
+						//Build a string
+						$mention_infraction_queue = $mention_infraction_queue . "$y: " . $infraction . PHP_EOL;
+						$y++;
+					}
+					$mention_infraction_queue_full 								= $mention_infraction_queue_full . PHP_EOL . $mention_infraction_queue;
+				}
+				$x++;
+			}
+//			Send a message
+			if ($mention_infraction_queue != ""){
+				$length = strlen($mention_infraction_queue_full);
+				if ($length < 1025){
+ 
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+//					->setTitle("Commands")																	// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//					->setDescription("Infractions for $mention_check")										// Set a description (below title, above fields)
+					->addField("Infractions for $mention_check", "$mention_infraction_queue_full")			// New line after this
+//					->addField("⠀", "Use '" . $command_symbol . "removeinfraction @mention #' to remove")	// New line after this
+					
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+//					Send the embed to the author's channel
+					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo $error.PHP_EOL; //Echo any errors
+					});
+					return true;
+				}else{ //Too long, send reply instead of embed
+					$message->reply($mention_infraction_queue_full . PHP_EOL);
+//					React to the original message
+//					if($react) $message->react("👀");
+					if($react) $message->react("🗒️");		
+					return true;
+				}
+			}else{
+				//if($react) $message->react("👎");
+				$message->reply("No infractions found!");
+				return true;
+			}
+		}
+		
+		if ($creator || $owner || $admin)
+		if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction '){ //;removeinfractions @mention #
+			echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
+//			Get an array of people mentioned
+			$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+			
+			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+				$filter = "$command_symbol" . "removeinfraction ";
+				$value = str_replace($filter, "", $message_content_lower);
+				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
+				$value = str_replace(">", "", $value);
+				if(is_numeric($value)){
+					$mention_member				= $author_guild->members->get($value);
+					$mention_user				= $mention_member->user;
+					$mentions_arr				= array($mention_user);
+				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+			}
+			
+			$x = 0;
+			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
+				if ($x == 0){ //We only want the first person mentioned
+//					id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+					$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+					$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+					$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+					$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+					$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+					$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+					
+//					Get infraction info in target's folder
+					$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
+					$proper = $command_symbol."removeinfraction <@!$mention_id> ";
+					$strlen = strlen($command_symbol."removeinfraction <@!$mention_id> ");
+					$substr = substr($message_content_lower, $strlen);
+					
+//					Check that message is formatted properly
+					if ($proper != substr($message_content_lower, 0, $strlen)){
+						$message->reply("Please format your command properly: ;warn @mention number");
+						return true;
+					}
+					
+//					Check if $substr is a number
+					if ( ($substr != "") && (is_numeric(intval($substr))) ){
+//						Remove array element and reindex
+						//array_splice($infractions, $substr, 1);
+						if ($infractions[$substr] != NULL){
+							$infractions[$substr] = "Infraction removed by $author_check on " . date("m/d/Y"); // for arrays where key equals offset
+//							Save the new infraction log
+							VarSave($guild_folder."/".$mention_id, "infractions.php", $infractions);
+							
+//							Send a message
+							if($react) $message->react("👍");
+							$message->reply("Infraction $substr removed from $mention_check!");
+							return true;
+						}else{
+							if($react) $message->react("👎");
+							$message->reply("Infraction '$substr' not found!");
+							return true;
+						}
+						
+					}else{
+						if($react) $message->react("👎");
+						$message->reply("'$substr' is not a number");
+						return true;
+					}
+					
+				}
+				$x++;
+			}
+		}
+		
+	}); //end message function
+		
+	$discord->on('guildMemberAdd', function ($guildmember){ //Handling of a member joining the guild
+		echo "guildMemberAdd" . PHP_EOL;
+		$user = $guildmember->user;
+		$welcome = true;
+		
+		$user_username 											= $user->username; 													//echo "author_username: " . $author_username . PHP_EOL;
+		$user_id 												= $user->id;														//echo "new_user_id: " . $new_user_id . PHP_EOL;
+		$user_discriminator 									= $user->discriminator;												//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$user_avatar 											= $user->getAvatarURL();											//echo "author_id: " . $author_id . PHP_EOL;
+		$user_check 											= "$user_username#$user_discriminator"; 							//echo "author_check: " . $author_check . PHP_EOL;\
+		$user_tag												= $user->tag;
+		$user_createdTimestamp									= $user->createdTimestamp;
+		$user_createdTimestamp									= date("D M j H:i:s Y", $user_createdTimestamp);
+		
+		$guild_memberCount										= $guildmember->guild->memberCount;
+		$author_guild_id										= $guildmember->guild->id;
+		$author_guild_name										= $guildmember->guild->name;
+		
+		if($welcome === true){
+			//Load config variables for the guild
+			$guild_folder = "\\guilds\\$author_guild_id";
+			$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			include "$guild_config_path"; echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			if($welcome_log_channel_id) 		$welcome_log_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
+			if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
+
+//			Build the embed
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+//				->setTitle("$user_check")																			// Set a title
+				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+				->setDescription("<@$user_id> just joined **$author_guild_name**\n
+				There are now **$guild_memberCount** members.\n
+				Account created on $user_createdTimestamp")												// Set a description (below title, above fields)
+				//X days agow
+//				->setAuthor("$user_check", "$author_guild_avatar")  									// Set an author with icon
+//				->addField("Roles", 		"$author_role_name_queue_full")											// New line after this
+				
+				->setThumbnail("$user_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");
+			
+			if($welcome_log_channel){ //Send a detailed embed with user info
+				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}elseif($modlog_channel){ //Send a detailed embed with user info
+				$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+			}
+			if($welcome_public_channel){ //Greet the new user to the server
+				$welcome_public_channel->send("Welcome <@$user_id> to $author_guild_name!");
+			}
+		}
+		
+		$user_folder = "users/$user_id";
+		CheckDir($user_folder);
+		//Place user info in target's folder
+		$array = VarLoad($user_folder, "tags.php");
+		if (!in_array($user_tag, $array)) $array[] = $user_tag;
+		VarSave($user_folder, "tags.php", $array);
+		
+		return true;	
+	}); //end guildMemberAdd function
+	
+	$discord->on('guildMemberUpdate', function ($member_new, $member_old){ //Handling of a member getting updated
+		echo "guildMemberUpdate" . PHP_EOL;
+		$member_id			= $member_new->id;
+		$member_guild		= $member_new->guild;
+		$new_user			= $member_new->user;
+		$old_user			= $member_old->user;
+		
+		$user_folder			= "users/$member_id";
+		CheckDir($user_folder);
+		
+		$author_guild_id = $member_new->guild->id;
+		$guild_folder = "\\guilds\\$author_guild_id";
+		if(!CheckDir($guild_folder)){
+			if(!CheckFile($guild_folder, "guild_owner_id.php")){
+				VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
+			}else $guild_owner_id	= VarLoad($guild_folder, "guild_owner_id.php");
+		}
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		include "$guild_config_path";
+		
+		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
+		
+//		Member properties
+		$new_roles			= $member_new->roles;
+		$new_displayName	= $member_new->displayName;
+		
+		$old_roles			= $member_old->roles;
+		$old_displayName	= $member_old->displayName;
+		
+//		User properties
+		$new_tag			= $new_user->tag;
+		$new_avatar			= $new_user->getAvatarURL();
+		
+		$old_tag			= $old_user->tag;
+		$old_avatar			= $old_user->getAvatarURL();
+		
+//		Populate roles
+		$old_member_roles_names 											= array();
+		$old_member_roles_ids 												= array();
+		$x=0;
+		foreach ($old_roles as $role){
+			if ($x!=0){ //0 is always @everyone so skip it
+				$old_member_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+				$old_member_roles_ids[]										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+			}
+			$x++;
+		}
+
+		$new_member_roles_names 											= array();
+		$new_member_roles_ids 												= array();
+		$x=0;
+		foreach ($new_roles as $role){
+			if ($x!=0){ //0 is always @everyone so skip it
+				$new_member_roles_names[] 									= $role->name; 												//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+				$new_member_roles_ids[]										= $role->id; 												//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+			}
+			$x++;
+		}		
+		
+		
+//		Compare changes
+		$changes = "";
+		include_once "custom_functions.php";
+		
+		if ($old_tag != $new_tag){
+			echo "old_tag: " . $old_tag . PHP_EOL;
+			echo "new_tag: " . $new_tag . PHP_EOL;
+			$changes = $changes . "Old tag: $old_tag\n New tag: $new_tag\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "tags.php");
+			if (!in_array($old_tag, $array))
+				$array[] = $old_tag; 
+			if (!in_array($new_tag, $array)) $array[] = $new_tag;
+			VarSave($user_folder, "tags.php", $array);
+		}
+		
+		if ($old_avatar != $new_avatar){
+			echo "old_avatar: " . $old_avatar . PHP_EOL;
+			echo "new_avatar: " . $new_avatar . PHP_EOL;
+			$changes = $changes . "Old avatar: $old_avatar\n New avatar: $new_avatar\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "avatars.php");
+			if (!in_array($old_avatar, $array))
+				$array[] = $old_avatar; 
+			if (!in_array($new_avatar, $array)) $array[] = $new_avatar;
+			VarSave($user_folder, "avatars.php", $array);
+		}
+		
+		// ->nickname seems to return null sometimes, so use displayName instead
+		if ($old_displayName != $new_displayName){
+			echo "old_displayName: " . $old_displayName . PHP_EOL;
+			echo "new_displayName: " . $new_displayName . PHP_EOL;
+			$changes = $changes . "Nickname change:\n`$old_displayName`→`$new_displayName`\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "nicknames.php");
+			if (!in_array($old_displayName, $array))
+				$array[] = $old_displayName; 
+			if (!in_array($new_displayName, $array)) $array[] = $new_displayName;
+			VarSave($user_folder, "nicknames.php", $array);
+		}
+		
+		if ($old_member_roles_ids != $new_member_roles_ids){
+//			Build the string for the reply
+
+			/*
+//			Log the full list of old and new roles
+			
+			$old_role_name_queue 									= "";
+			foreach ($old_member_roles_ids as $old_role){
+				$old_role_name_queue 								= "$old_role_name_queue<@&$old_role> ";
+			}
+			$old_role_name_queue 									= substr($old_role_name_queue, 0, -1);
+			$old_role_name_queue_full 								= $old_role_name_queue_full . PHP_EOL . $old_role_name_queue;
+			//$changes = $changes . "Old roles: $old_role_name_queue_full\n";
+			
+			$new_role_name_queue 									= "";
+			foreach ($new_member_roles_ids as $new_role){
+				$new_role_name_queue 								= "$new_role_name_queue<@&$new_role> ";
+			}
+			$new_role_name_queue 									= substr($new_role_name_queue, 0, -1);
+			$new_role_name_queue_full 								= $new_role_name_queue_full . PHP_EOL . $new_role_name_queue;
+			$new_role_name_queue_check								= trim($new_role_name_queue_full);
+			//$changes = $changes . "New roles: $new_role_name_queue_full\n";
+			*/
+			
+			
+//			Only log the added/removed difference
+//			New Roles
+			$role_difference_ids = array_diff($old_member_roles_ids, $new_member_roles_ids);
+			foreach ($role_difference_ids as $role_diff){
+				if (in_array($role_diff, $old_member_roles_ids)){
+					$switch = "Removed roles: ";
+				}
+				else{
+					$switch = "Added roles: ";
+				}
+				$changes = $changes . $switch . "<@&$role_diff>";
+			}
+			//Old roles
+			$role_difference_ids = array_diff($new_member_roles_ids, $old_member_roles_ids);
+			foreach ($role_difference_ids as $role_diff){
+				if (in_array($role_diff, $old_member_roles_ids)){
+					$switch = "Removed roles: ";
+				}
+				else{
+					$switch = "Added roles: ";
+				}
+				$changes = $changes . $switch . "<@&$role_diff>";
+			}
+		}
+		
+		//echo "switch: " . $switch . PHP_EOL;
+		//if( ($switch != "") || ($switch != NULL)) //User was kicked (They have no roles anymore)
+		if( ($modlog_channel_id != NULL) && ($modlog_channel_id != "") )
+		if($changes != ""){
+			//$changes = "<@$member_id>'s information has changed:\n" . $changes;
+			if (strlen($changes) < 1025){
+ 
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+//					->setTitle("Commands")																	// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setDescription("<@$member_id>\n**User Update**\n$changes")									// Set a description (below title, above fields)
+//					->addField("**User Update**", "$changes")												// New line after this
+					
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+					->setAuthor("$old_tag", "$old_avatar")  												// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+//				Send a message
+				if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+				return true;
+			}else{
+				if($modlog_channel)$modlog_channel->send("**User Update**\n$changes");
+				return true;
+			}
+		}else{ //No info we want to capture was changed
+			return true;
+		}
+		
+	});
+	
+	$discord->on('guildMemberRemove', function ($guildmember){ //Handling of a user leaving the guild
+		echo "guildMemberRemove" . PHP_EOL;
+		$user = $guildmember->user;
+		//TODO: Varload welcome setting
+		$welcome = true;
+		
+		if($welcome === true){
+			$user_username 											= $user->username; 													//echo "author_username: " . $author_username . PHP_EOL;
+			$user_id 												= $user->id;														//echo "new_user_id: " . $new_user_id . PHP_EOL;
+			$user_discriminator 									= $user->discriminator;												//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+			$user_avatar 											= $user->getAvatarURL();											//echo "author_id: " . $author_id . PHP_EOL;
+			$user_check 											= "$user_username#$user_discriminator"; 							//echo "author_check: " . $author_check . PHP_EOL;\
+			$user_createdTimestamp									= $user->createdTimestamp;
+			$user_createdTimestamp									= date("D M j Y H:i:s", $user_createdTimestamp);
+			
+			$target_guildmember_role_collection 					= $guildmember->roles;					//This is the Role object for the GuildMember
+
+			$target_guildmember_roles_mentions						= array();
+			$x=0;
+			foreach ($target_guildmember_role_collection as $role){
+				if ($x!=0){ //0 is @everyone so skip it
+//					$target_guildmember_roles_names[] 				= $role->name; 													//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+					$target_guildmember_roles_mentions[] 			= "<@&{$role->id}>"; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				}
+				$x++;
+			}
+            $mention_role_id_queue = "";
+			foreach ($target_guildmember_roles_mentions as $mention_role){
+//				$mention_role_name_queue 							= $mention_role_name_queue . $mention_role;
+				$mention_role_id_queue 								= $mention_role_id_queue . "$mention_role";
+			}
+			if ( ($mention_role_id_queue === NULL) || ($mention_role_id_queue == "") ){ //String cannot be empty or the embed will throw an exception
+				$mention_role_id_queue = "⠀"; //Invisible unicode
+			}
+			
+			$guild_memberCount										= $guildmember->guild->memberCount;
+			$author_guild_id = $guildmember->guild->id;
+			//Load config variables for the guild
+			$guild_folder = "\\guilds\\$author_guild_id";
+			$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			include "$guild_config_path";
+			
+			try{
+				if($welcome_log_channel_id) $welcome_log_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
+			}catch(Exception $e){
+//				RuntimeException: Unknown property																		//echo 'AUTHOR NOT IN GUILD' . PHP_EOL;
+			}
+			
+//			Build the embed
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+//				->setTitle("Leave notification")														// Set a title
+				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//				->setDescription("$author_guild_name")													// Set a description (below title, above fields)
+				->setDescription("<@$user_id> has left the server!\n
+				There are now **$guild_memberCount** members.")											// Set a description (below title, above fields)
+//				->setAuthor("$member_check", "$author_guild_avatar")  									// Set an author with icon
+				->addField("Roles", 		"$mention_role_id_queue")									// New line after this
+				
+				->setThumbnail("$user_avatar")															// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')            // Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");                             												// Set the URL
+			
+			if($welcome_log_channel){
+				//echo "Welcome channel found!" . PHP_EOL;
+//				Send the message, announcing the member's departure
+				$welcome_log_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+				return true;
+			}
+		}
+	}); //end GuildMemberRemove function
+		
+	$discord->on('guildBanAdd', function ($guild, $user){ //Handling of a user getting banned
+		echo "guildBanAdd" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('guildBanRemove', function ($guild, $user){ //Handling of a user getting unbanned
+		echo "guildBanRemove" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('messageUpdate', function ($message_new, $message_old){ //Handling of a message being changed
+		//This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
+		//If the timestamp is older than timestampSetup nothing will be passed to this method, use messageUpdateRaw instead
+		
+		$message_content_new = $message_new->content; //Null if message is too old
+		$message_content_old = $message_old->content; //Null if message is too old
+		$message_id_new = $message_new->id; //This doesn't match any message id if the message is too old
+		
+		//Only process message changes
+		if ($message_content_new === $message_content_old){
+			//echo "NO MESSAGE CONTENT CHANGE OR MESSAGE TOO OLD" . PHP_EOL;
+			return true;
+		}
+		
+		//Make sure the messages aren't blank
+		if (($message_content_new == NULL) || ($message_content_new == "")) { //This should never trigger, but just in case...
+			echo "BLANK OR OLD MESSAGE EDITED" . PHP_EOL;
+			return true;
+		}
+		
+		echo "messageUpdate" . PHP_EOL;
+
+		/*
+		Debug output
+		
+//		Check the timestamp
+		$createdTimestamp_new = $message_new->createdTimestamp;
+		$createdTimestamp_old = $message_old->createdTimestamp;
+		
+		$editedTimestamp_new = $message_new->editedTimestamp;
+		$editedTimestamp_old = $message_old->editedTimestamp;
+		
+		echo "message_content_new: " . $message_content_new . PHP_EOL;
+		echo "message_content_old: " . $message_content_old . PHP_EOL;
+		echo PHP_EOL;
+		echo "createdTimestamp_new: " . $createdTimestamp_new . PHP_EOL;
+		echo "createdTimestamp_old: " . $createdTimestamp_old . PHP_EOL;
+		echo PHP_EOL;
+		echo "editedTimestamp_new: " . $editedTimestamp_new . PHP_EOL;
+		echo "editedTimestamp_old: " . $editedTimestamp_old . PHP_EOL;
+		echo PHP_EOL;
+		*/
+		
+		//Load global variables
+		$guild = $message_new->guild;
+		$author_guild_id = $guild->id;
+		//Load config variables for the guild
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		require "$guild_config_path";
+		
+		$modlog_channel	= $guild->channels->get($modlog_channel_id);
+		
+		//Load author info
+		$author_user				= $message_new->author; //User object
+		$author_channel 			= $message_new->channel;
+		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class		= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return true; //Don't try and process direct messages
+		}
+		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
+		
+		$changes = "";
+		//if (($message_content_new != $message_content_old) || (($message_content_old == "") || ($message_content_old == NULL))) 	{		
+		if ($message_content_new != $message_content_old){		
+//			Build the string for the reply
+			$changes = $changes . "[Link](https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new)\n";
+			$changes = $changes . "**Channel:** <#$author_channel_id>\n";
+			$changes = $changes . "**Message ID:**: $message_id_new\n";
+			
+			$changes = $changes . "**Before:** $message_content_old\n";
+			$changes = $changes . "**After:** $message_content_new\n";
+		}
+		
+		if($modlog_channel)
+		if ($changes != ""){
+			//Build the embed
+			//$changes = "**Message edit**:\n" . $changes;
+			if ( (strlen($message_content_new) + strlen($message_content_old))  < 1025 ){
+	//			Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+	//				->setTitle("Commands")																	// Set a title
+					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+	//				->setDescription("Commands for $author_guild_name")									// Set a description (below title, above fields)
+					->addField("Message Update", "$changes")												// New line after this
+					
+	//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+	//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+					->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+	//			Send the message
+	//			We do not need another promise here, so we call done, because we want to consume the promise
+				if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+				return true;
+			}else{
+				if ( (strlen($message_content_new) + strlen($message_content_old))  < 2000 )
+				if($modlog_channel)$modlog_channel->send($changes);
+			}
+		}else{ //No info we want to check was changed
+			return true;
+		}
+	});
+	
+	$discord->on('messageUpdateRaw', function ($channel, $data_array){ //Handling of an old/uncached message being changed		
+		$type				= $data_array['type'];
+		$tts				= $data_array['tts'];
+		$timestamp			= $data_array['timestamp'];
+		$pinned				= $data_array['pinned'];
+		$nonce				= $data_array['nonce'];
+		$mentions			= $data_array['mentions'];
+		$mention_roles		= $data_array['mention_roles'];
+		$mention_everyone	= $data_array['mention_everyone'];
+		$member				= $data_array['member']; //echo "member: " . var_dump($member) . PHP_EOL; //username, id, discriminator,avatar
+		$id					= $data_array['id']; //echo "id: " . var_dump($id) . PHP_EOL; //username, id, discriminator,avatar
+		$flags				= $data_array['flags'];
+		$embeds				= $data_array['embeds'];
+		$edited_timestamp	= $data_array['edited_timestamp'];
+		$content			= $data_array['content'];
+		$channel_id			= $data_array['channel_id'];
+		$author				= $data_array['author']; //echo "author: " . var_dump($author) . PHP_EOL; //username, id, discriminator,avatar
+		$attachments		= $data_array['attachments'];
+		$guild_id			= $data_array['guild_id'];
+		
+		$guild				= $channel->guild;
+		$author_guild_id = $guild->id;
+		//Load config variables for the guild
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		include "$guild_config_path";
+		
+		$modlog_channel		= $guild->channels->get($modlog_channel_id);
+		
+		$log_message = "[Link](https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new)
+		**Channel:** <#$channel_id>
+		**Message ID:** $id
+		**New content:** $content" . PHP_EOL;
+		$channel->fetchMessage($id)->then(function($message) use ($modlog_channel, $log_message){	//Resolve the promise
+			//Load author info
+			$author_user													= $message->author; //User object
+			$author_channel 												= $message->channel;
+			$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+			$author_channel_class											= get_class($author_channel);
+			$is_dm = false;
+			if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+				$is_dm = true;
+				return true; //Don't process DMs
+			}
+			
+			$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+			$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+			$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+			$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+			$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
+			
+//			Build the embed
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+//				->setTitle("$user_check")																// Set a title
+				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//				->setDescription("")														// Set a description (below title, above fields)
+				->setAuthor("$author_check ($author_id)", $author_avatar)  											// Set an author with icon
+				->addField("Uncached Message Update", 		"$log_message")				// New line after this
+				
+//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");
+//			Send the message
+//			We do not need another promise here, so we call done, because we want to consume the promise
+			if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+				echo $error.PHP_EOL; //Echo any errors
+			});
+			return true; //No more processing, we only want to process the first person mentioned
+		});
+	});
+	
+	$discord->on('messageDelete', function ($message){ //Handling of a message being deleted
+		echo "messageDelete" . PHP_EOL;
+		//id, author, channel, guild, member
+		//createdAt, editedAt, createdTimestamp, editedTimestamp, content, cleanContent, attachments, embeds, mentions, pinned, type, reactions, webhookID
+		$message_content												= $message->content;
+		$message_id														= $message->id;
+		if ( ($message_content == NULL) || ($message_content == "") ){
+			echo "BLANK MESSAGE DELETED" . PHP_EOL;
+			return true;
+		}			//Don't process blank messages, bots, or webhooks
+		$message_content_lower											= strtolower($message_content);
+		
+		//Load author info
+		$author_user													= $message->author; //User object
+		$author_channel 												= $message->channel;
+		$author_channel_id												= $author_channel->id; 											//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class											= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return true; //Don't process DMs
+		}
+		
+		$author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 														= $author_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 													= $author_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 													= "$author_username#$author_discriminator"; 					//echo "author_check: " . $author_check . PHP_EOL;
+		
+		//Load guild info
+		$guild				= $message->guild;
+		$author_guild_id	= $guild->id;
+		//Load config variables for the guild
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		include "$guild_config_path";
+		
+		
+		$modlog_channel			= $guild->channels->get($modlog_channel_id);
+		
+		//Build the embed stuff
+		$log_message = "Message $message_id deleted from <#$author_channel_id>\n**Content:** $message_content" . PHP_EOL;
+		
+//		Build the embed
+		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+		$embed
+//			->setTitle("$user_check")																// Set a title
+			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+			->setDescription("$log_message")														// Set a description (below title, above fields)
+			//X days ago
+			->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+//			->addField("Roles", 		"$author_role_name_queue_full")								// New line after this
+			
+			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			
+			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+			->setURL("");
+//			Send the message
+//			We do not need another promise here, so we call done, because we want to consume the promise
+		if ($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+		return true; //No more processing, we only want to process the first person mentioned
+	});
+	
+	$discord->on('messageDeleteRaw', function ($channel, $message_id){ //Handling of an old/uncached message being deleted
+		echo "messageDeleteRaw" . PHP_EOL;		
+		$channel_id				= $channel->id;
+		$log_message = "Message with id $message_id was deleted from <#$channel_id>\n" . PHP_EOL;
+		
+//		Build the embed
+		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+		$embed
+			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setDescription("$log_message")														// Set a description (below title, above fields)
+			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+			->setURL("");
+//		Send the message
+//		We do not need another promise here, so we call done, because we want to consume the promise
+		$guild					= $channel->guild;
+		$author_guild_id		= $guild->id;
+		//Load config variables for the guild
+		$guild_folder = "\\guilds\\$author_guild_id";
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		include "$guild_config_path";
+		
+		$modlog_channel			= $guild->channels->get($modlog_channel_id);
+		if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+		return true; //No more processing, we only want to process the first person mentioned
+	});
+	
+	$discord->on('messageDeleteBulk', function ($messages){ //Handling of multiple messages being deleted
+		echo "messageDeleteBulk" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('messageDeleteBulkRaw', function ($messages){ //Handling of multiple old/uncached messages being deleted
+		//
+	});
+	
+	$discord->on('messageReactionAdd', function ($reaction, $respondent_user){ //Handling of a message being reacted to
+		$me = $reaction->me;
+		if ($me === true){ //Don't process reactions this bot makes
+			echo "MESSAGE REACTION ADDED" . PHP_EOL;
+			return true;
+		}
+		echo "messageReactionAdd" . PHP_EOL;
+		
+		//Load message info
+		$message					= $reaction->message;
+		$message_content			= $message->content;
+		
+		//Load guild info
+		$guild						= $message->guild;
+		$author_guild				= $message->guild;
+		$author_guild_id			= $author_guild->id;
+		
+		//Load author info
+		$author_user				= $message->author; //User object
+		$author_channel 			= $message->channel;
+		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class		= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return true; //Don't try and process direct messages
+		}
+		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
+		$author_folder				= $author_guild_id."/".$author_id;
+		
+		
+		//Load respondent info
+		$respondent_username 		= $respondent_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$respondent_discriminator 	= $respondent_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				echo "respondent_check: " . $respondent_check . PHP_EOL;
+		$respondent_member 			= $author_guild->members->get($respondent_id);
+		
+		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
+		$message_content_lower = strtolower($message_content);
+		
+		//Create a folder for the guild if it doesn't exist already
+		$guild_folder = "\\guilds\\$author_guild_id";
+		CheckDir($guild_folder);
+		//Load config variables for the guild
+		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+		include "$guild_config_path";
+		
+		//Role picker stuff
+		$message_id					= $message->id;														//echo "message_id: " . $message_id . PHP_EOL;
+		GLOBAL $species, $species2, $species3, $sexualities, $gender, $customroles;
+		
+		//Load emoji info
+		//guild, user
+		//animated, managed, requireColons
+		//createdTimestamp, createdAt
+		$emoji						= $reaction->emoji;
+		$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
+		
+		$unicode					= false;
+		if ($emoji_id === NULL)
+						$unicode 	= true;					echo "unicode: " . $unicode . PHP_EOL;
+		$emoji_name					= $emoji->name;			echo "emoji_name: " . $emoji_name . PHP_EOL;
+		$emoji_identifier			= $emoji->identifier;	echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
+		
+		if ($unicode) $response = "$emoji_name";
+		else $response = "<:$emoji_identifier>";
+		
+		
+		echo "$author_check's message was reacted to by $respondent_check" . PHP_EOL;
+		
+		//Check rolepicker option
+		GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;
+		if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
+			if(!CheckFile($guild_folder, "rolepicker_option.php"))				$rp0	= $rolepicker_option;										//Species role picker
+			else 														$rp0	= VarLoad($guild_folder, "rolepicker_option.php");
+		} else $rp0 = false;
+		
+		if($rp0 === true)
+		if($author_id == $rolepicker_id){
+			//Check options
+			if ( ($species_message_id != "") || ($species_message_id != NULL) ){
+				if(!CheckFile($guild_folder, "species_option.php"))				$rp1	= $species_option;										//Species role picker
+				else 													$rp1	= VarLoad($guild_folder, "species_option.php");
+			} else $rp1 = false;
+			if ( ($sexuality_message_id != "") || ($sexuality_message_id != NULL) ){
+				if(!CheckFile($guild_folder, "sexuality_option.php"))			$rp2	= $sexuality_option;										//Sexuality role picker
+				else 													$rp2	= VarLoad($guild_folder, "sexuality_option.php");
+			} else $rp2 = false;
+			if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
+				if(!CheckFile($guild_folder, "gender_option.php"))				$rp3	= $gender_option;										//Gender role picker
+				else 													$rp3	= VarLoad($guild_folder, "gender_option.php");
+			} else $rp3 = false;
+			if ( ($customroles_message_id != "") || ($customroles_message_id != NULL) ){
+				if(!CheckFile($guild_folder, "customrole_option.php"))			$rp4	= $custom_option;										//Custom role picker
+				else 													$rp4	= VarLoad($guild_folder, "customrole_option.php");
+			} else $rp4 = false;
+			//Load guild roles info
+			$guild_roles													= $guild->roles;
+			$guild_roles_names 												= array();
+			$guild_roles_ids 												= array();
+			$x=0;
+			foreach ($guild_roles as $role){
+				if ($x!=0){ //0 is always @everyone so skip it
+					$guild_roles_names[] 									= strtolower($role->name); 				//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+					$guild_roles_ids[]										= $role->id; 				//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				}
+				$x++;
+			}
+			//Load respondent roles info
+			$respondent_member_role_collection 								= $respondent_member->roles;
+			$respondent_member_roles_names 									= array();
+			$respondent_member_roles_ids 									= array();
+			$x=0;
+			foreach ($respondent_member_role_collection as $role){
+				if ($x!=0){ //0 is @everyone so skip it
+					$respondent_member_roles_names[] 						= strtolower($role->name); 	//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
+					$respondent_member_roles_ids[] 							= $role->id; 				//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+				}
+				$x++;
+			}
+			
+			//Process the reaction to add a role
+			echo "message_id: " . $message_id . PHP_EOL;
+			$select_name = "";
+			switch ($message_id) {
+				case ($species_message_id):
+					if($rp1){
+						echo "species reaction" . PHP_EOL;
+						foreach ($species as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								echo "select_name: " . $select_name . PHP_EOL;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 15158332,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+								//Messages can have a max of 20 different reacts, but species has more than 20 options
+								//Clear reactions to avoid discord ratelimit
+								//$message->clearReactions(); 
+							}
+						}
+						//$message->clearReactions();
+						foreach ($species as $var_name => $value){
+							//$message->react($value);
+						}
+						
+					}
+					break;
+				case ($species2_message_id):
+					if($rp1){
+						echo "species2 reaction" . PHP_EOL;
+						foreach ($species2 as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								echo "select_name: " . $select_name . PHP_EOL;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 15158332,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+								//Messages can have a max of 20 different reacts, but species has more than 20 options
+								//Clear reactions to avoid discord ratelimit
+								//$message->clearReactions(); 
+							}
+						}
+						//$message->clearReactions();
+						foreach ($species2 as $var_name => $value){
+							//$message->react($value);
+						}
+						
+					}
+					break;
+				case ($species3_message_id):
+					if($rp1){
+						echo "species3 reaction" . PHP_EOL;
+						foreach ($species3 as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								echo "select_name: " . $select_name . PHP_EOL;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 15158332,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+								//Messages can have a max of 20 different reacts, but species has more than 20 options
+								//Clear reactions to avoid discord ratelimit
+								//$message->clearReactions(); 
+							}
+						}
+						//$message->clearReactions();
+						foreach ($species3 as $var_name => $value){
+							//$message->react($value);
+						}
+						
+					}
+					break;
+				case ($sexuality_message_id):
+					if ($rp2){
+						echo "sexuality reaction" . PHP_EOL;
+						foreach ($sexualities as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 7419530,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						foreach ($sexualities as $var_name => $value){
+							//$message->react($value);
+						}
+					}
+					break;
+				case ($gender_message_id):
+					if($rp3){
+						echo "gender reaction" . PHP_EOL;
+						foreach ($gender as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 3066993,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						//$message->clearReactions();
+						foreach ($gender as $var_name => $value){
+							//$message->react($value);
+						}
+					}
+					break;
+				case ($customroles_message_id):
+					if($rp4){
+						echo "Custom roles reaction" . PHP_EOL;
+						foreach ($customroles as $var_name => $value){
+							if ( ($value == $emoji_name) || ($value == $emoji_name) ){
+								$select_name = $var_name;
+								if(!in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+									//Create the role
+									$new_role = array(
+										'name' => ucfirst($select_name),
+										'permissions' => 0,
+										'color' => 3066993,
+										'hoist' => false,
+										'mentionable' => false
+									);
+									$guild->createRole($new_role);
+									echo "Role created" . PHP_EOL;
+								}
+							}
+						}
+						//$message->clearReactions();
+						foreach ($customroles as $var_name => $value){
+							//$message->react($value);
+						}
+					}
+					break;
+			}
+			if($select_name != ""){ //A reaction role was found
+				//Check if the member has a role of the same name
+				if(in_array(strtolower($select_name), $respondent_member_roles_names)){
+					//Remove the role
+					$role_index = array_search(strtolower($select_name), $guild_roles_names);
+					$target_role_id = $guild_roles_ids[$role_index]; echo "target_role_id: " . $target_role_id . PHP_EOL;
+					$respondent_member->removeRole($target_role_id);
+					echo "Role removed: $select_name" . PHP_EOL;
+				}else{
+					echo "Respondent does not already have the role" . PHP_EOL;
+					if(in_array(strtolower($select_name), $guild_roles_names)){//Check to make sure the role exists in the guild
+						//Add the role
+						$role_index = array_search(strtolower($select_name), $guild_roles_names);
+						$target_role_id = $guild_roles_ids[$role_index];
+						$respondent_member->addRole($target_role_id);
+						echo "Role added: $select_name" . PHP_EOL;
+					}else{
+						echo "Guild does not have this role" . PHP_EOL;
+					}
+				}
+			}
+		}
+	});
+	
+	$discord->on('messageReactionRemove', function ($reaction, $respondent_user){ //Handling of a message reaction being removed
+		$me = $reaction->me;
+		if ($me === true){ //Don't process reactions this bot makes
+			echo "MESSAGE REACTION REMOVED" . PHP_EOL;
+			return true;
+		}
+		//echo "messageReactionRemove" . PHP_EOL;		
+		GLOBAL $bot_id;
+		
+//		Load message info
+		$message					= $reaction->message;
+		$message_content			= $message->content;
+		$message_id                 = $message->id;
+		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, webhooks, or rich embeds
+		$message_content_lower = strtolower($message_content);
+		
+//		Load author info
+		$author_user				= $message->author; //User object
+		$author_channel 			= $message->channel;
+		$author_channel_id			= $author_channel->id; 												//echo "author_channel_id: " . $author_channel_id . PHP_EOL;
+		$author_channel_class		= get_class($author_channel);
+		$is_dm = false;
+		if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True if direct message
+			$is_dm = true;
+			return true; //Don't try and process direct messages
+		}
+		$author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
+		$author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
+		$author_avatar 				= $author_user->getAvatarURL();										//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$author_check 				= "$author_username#$author_discriminator"; 						//echo "author_check: " . $author_check . PHP_EOL;
+		
+		//Load respondent info
+		$respondent_username 		= $respondent_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
+		$respondent_discriminator 	= $respondent_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
+		$respondent_id 				= $respondent_user->id;												//echo "author_id: " . $author_id . PHP_EOL;
+		$respondent_avatar 			= $respondent_user->getAvatarURL();									//echo "author_avatar: " . $author_avatar . PHP_EOL;
+		$respondent_check 			= "$respondent_username#$respondent_discriminator"; 				//echo "author_check: " . $author_check . PHP_EOL;
+				
+		//Load emoji info
+		//guild, user
+		//animated, managed, requireColons
+		//createdTimestamp, createdAt
+		$emoji						= $reaction->emoji;
+		$emoji_id					= $emoji->id;			//echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
+		
+		$unicode					= false;
+		if ($emoji_id === NULL)
+						$unicode 	= true;					//echo "unicode: " . $unicode . PHP_EOL;
+		$emoji_name					= $emoji->name;			//echo "emoji_name: " . $emoji_name . PHP_EOL;
+		$emoji_identifier			= $emoji->identifier;	//echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
+		
+		if ($unicode) $response = "$emoji_name";
+		else $response = "<:$emoji_identifier>";
+		
+		//Do things here
+		echo "$respondent_check removed their reaction from $author_check's message" . PHP_EOL;
+		if ($author_id == $bot_id){ //Message reacted to belongs to this bot
+			/*
+			*********************
+			*********************
+			Remove reaction trigger
+			*********************
+			*********************
+			*/
+			switch ($message_id) {
+				case 0:
+					echo "" . PHP_EOL;
+					break;
+				case 1:
+					echo "" . PHP_EOL;
+					break;
+				case 2:
+					echo "" . PHP_EOL;
+					break;
+			}
+		}else{
+			//Do things here
+		}
+	});
+	
+	$discord->on('messageReactionRemoveAll', function ($message){ //Handling of all reactions being removed from a message
+		$message_content = $message->content;
+		echo "messageReactionRemoveAll" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('channelCreate', function ($channel){ //Handling of a channel being created
+		echo "channelCreate" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('channelDelete', function ($channel){ //Handling of a channel being deleted
+		echo "channelDelete" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('channelUpdate', function ($channel){ //Handling of a channel being changed
+		echo "channelUpdate" . PHP_EOL;
+		//
+	});
+		
+	$discord->on('userUpdate', function ($user_new, $user_old){ //Handling of a user changing their username/avatar/etc
+		//This event listener will never be used for guild-related function because guildMemberUpdate already does everything we want, but is useful for logging purposes
+		//For example, this will get triggered if a Nitro user changes their discriminator
+		echo "userUpdate" . PHP_EOL;
+		//id, username, discriminator bot, webhook, email, mfaEnabled, verified, tag, createdTimestamp, createdAt
+		$user_id				= $user_new->id;
+		
+		$user_folder			= "users/$user_id";
+		CheckDir($user_folder);
+		
+		$new_username			= $user_new->username;
+		$new_discriminator		= $user_new->discriminator;
+		$new_tag				= $user_new->tag;
+		$new_avatar				= $user_new->getAvatarURL();
+		
+		$old_username			= $user_old->username;
+		$old_discriminator		= $user_old->discriminator;
+		$old_tag				= $user_old->tag;
+		$old_avatar				= $user_old->getAvatarURL();
+		
+		$changes = "";
+		
+		if ($old_tag != $new_tag){
+			//echo "old_tag: " . $old_tag . PHP_EOL;
+			//echo "new_tag: " . $new_tag . PHP_EOL;
+			$changes = $changes . "Old tag: $old_tag\nNew tag: $new_tag\n";
+			
+			//Place user info in target's folder
+			$array = VarLoad($user_folder, "tags.php");
+			if (!in_array($old_tag, $array))
+				$array[] = $old_tag; 
+			if (!in_array($new_tag, $array)) $array[] = $new_tag;
+			VarSave($user_folder, "tags.php", $array);
+		}
+		
+		if ($old_avatar != $new_avatar){
+			//echo "old_avatar: " . $old_avatar . PHP_EOL;
+			//echo "new_avatar: " . $new_avatar . PHP_EOL;
+			$changes = $changes . "Old avatar: $old_avatar\nNew avatar: $new_avatar\n";
+			
+			//Place user info in target's folder
+			VarSave($user_folder, "avatars.php", $new_avatar);
+		}
+		
+		if($changes != ""){
+			echo "$old_username changed their information:\n" . $changes . PHP_EOL;	
+		}
+		return true;
+	});
+		
+	$discord->on('roleCreate', function ($role){ //Handling of a role being created
+		echo "roleCreate" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('roleDelete', function ($role){ //Handling of a role being deleted
+		echo "roleDelete" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('roleUpdate', function ($role_new, $role_old){ //Handling of a role being changed
+		echo "roleUpdate" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('voiceStateUpdate', function ($member_new, $member_old){ //Handling of a member's voice state changing (leaves/joins/etc.)
+		echo "voiceStateUpdate" . PHP_EOL;
+		//
+	});
+	
+	$discord->on('error', function ($error){ //Handling of thrown errors
+		echo "ERROR: $error" . PHP_EOL;
+	});
+}); //end main function ready
+
+require 'token.php'; //Token for the bot
+
+$discord->login($token)->done();
+$loop->run();
+?> 
