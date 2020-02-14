@@ -3473,6 +3473,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		CheckDir($user_folder);
 		//Place user info in target's folder
 		$array = VarLoad($user_folder, "tags.php");
+		if($user_tag && $array)
 		if (!in_array($user_tag, $array)) $array[] = $user_tag;
 		VarSave($user_folder, "tags.php", $array);
 		
