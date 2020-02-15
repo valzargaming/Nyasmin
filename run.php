@@ -71,7 +71,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	$discord->on('message', function ($message) use ($discord){ //Handling of a message
 		$message_content = $message->content;
 		$message_id = $message->id;
-		if ( ($message_content == NULL) || ($message_content == "") ) return true; //Don't process blank messages, bots, or webhooks
+		if ( ($message_content == NULL) || ($message_content == "") ) return true;
 		$message_content_lower = strtolower($message_content);
 		/*
 		*********************
@@ -231,7 +231,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 																$rp4 	= false;
 		}
 		
-		echo "Message from $author_check <$author_id> <#$author_channel_id>: {$message_content}", PHP_EOL;
+		echo "Message from $author_check <$author_id> <#$author_channel_id> ($author_guild_id): {$message_content}", PHP_EOL;
 		$author_webhook = $author_user->webhook;
 		if ($author_webhook === true) return true; //Don't process webhooks
 		$author_bot = $author_user->bot;
@@ -3410,7 +3410,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	}); //end message function
 		
 	$discord->on('guildMemberAdd', function ($guildmember){ //Handling of a member joining the guild
-		echo "guildMemberAdd" . PHP_EOL;
+		$author_guild_id = $guildmember->guild->id;
+		echo "guildMemberAdd ($author_guild_id)" . PHP_EOL;
 		$user = $guildmember->user;
 		$welcome = true;
 		
@@ -3481,22 +3482,42 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	}); //end guildMemberAdd function
 	
 	$discord->on('guildMemberUpdate', function ($member_new, $member_old){ //Handling of a member getting updated
-		echo "guildMemberUpdate" . PHP_EOL;
+		$author_guild = $member_new->guild;
+		$author_guild_id = $member_new->guild->id;
+		echo "guildMemberUpdate ($author_guild_id)" . PHP_EOL;
+		
+		//Leave the guild if blacklisted
+		GLOBAL $blacklisted_guilds;
+		if ($blacklisted_guilds)
+		if (in_array($author_guild_id, $blacklisted_guilds)){
+			$author_guild->leave($author_guild_id)->done(null, function ($error){
+				echo $error.PHP_EOL; //Echo any errors
+			});
+		}
+		//Leave the guild if not whitelisted
+		GLOBAL $whitelisted_guilds;
+		if ($whitelisted_guilds)
+		if (!in_array($author_guild_id, $whitelisted_guilds)){
+			$author_guild->leave($author_guild_id)->done(null, function ($error){
+				echo $error.PHP_EOL; //Echo any errors
+			});
+		}
+		
 		$member_id			= $member_new->id;
 		$member_guild		= $member_new->guild;
 		$new_user			= $member_new->user;
 		$old_user			= $member_old->user;
 		
-		$user_folder			= "users/$member_id";
+		$user_folder		= "users/$member_id";
 		CheckDir($user_folder);
 		
-		$author_guild_id = $member_new->guild->id;
 		$guild_folder = "\\guilds\\$author_guild_id";
 		if(!CheckDir($guild_folder)){
 			if(!CheckFile($guild_folder, "guild_owner_id.php")){
 				VarSave($guild_folder, "guild_owner_id.php", $guild_owner_id);
 			}else $guild_owner_id	= VarLoad($guild_folder, "guild_owner_id.php");
 		}
+		
 		//Load config variables for the guild
 		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 		include "$guild_config_path";
@@ -3579,8 +3600,10 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			
 			//Place user info in target's folder
 			$array = VarLoad($user_folder, "nicknames.php");
+			if ($old_displayName && $array)
 			if (!in_array($old_displayName, $array))
 				$array[] = $old_displayName; 
+			if ($new_displayName && $array)
 			if (!in_array($new_displayName, $array)) $array[] = $new_displayName;
 			VarSave($user_folder, "nicknames.php", $array);
 		}
@@ -3671,7 +3694,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('guildMemberRemove', function ($guildmember){ //Handling of a user leaving the guild
-		echo "guildMemberRemove" . PHP_EOL;
+		$author_guild_id = $guildmember->guild->id;
+		echo "guildMemberRemove ($author_guild_id)" . PHP_EOL;
 		$user = $guildmember->user;
 		//TODO: Varload welcome setting
 		$welcome = true;
