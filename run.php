@@ -3432,7 +3432,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			//Load config variables for the guild
 			$guild_folder = "\\guilds\\$author_guild_id";
 			$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-			include "$guild_config_path"; echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+			include "$guild_config_path";
 			if($welcome_log_channel_id) 		$welcome_log_channel	= $guildmember->guild->channels->get($welcome_log_channel_id);
 			if($welcome_public_channel_id) 		$welcome_public_channel	= $guildmember->guild->channels->get($welcome_public_channel_id);
 
@@ -3482,6 +3482,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	}); //end guildMemberAdd function
 	
 	$discord->on('guildMemberUpdate', function ($member_new, $member_old){ //Handling of a member getting updated
+		include_once "custom_functions.php";
 		$author_guild = $member_new->guild;
 		$author_guild_id = $member_new->guild->id;
 		echo "guildMemberUpdate ($author_guild_id)" . PHP_EOL;
@@ -3520,7 +3521,20 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 		//Load config variables for the guild
 		$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-		include "$guild_config_path";
+		if(!include "$guild_config_path"){
+			echo "CONFIG CATCH!" . PHP_EOL;
+			$counter = VarLoad($guild_folder, "config_retry.php");
+			if ($counter >= 10){
+				$counter++;
+				VarSave($guild_folder, "config_retry.php", $config_retry);
+			}else{
+				$author_guild->leave($author_guild_id)->done(null, function ($error){
+					echo $error.PHP_EOL; //Echo any errors
+				});
+				rmdir(__DIR__  . $guild_folder);
+				echo "GUILD DIR REMOVED" . PHP_EOL;
+			}
+		}
 		
 		$modlog_channel		= $member_guild->channels->get($modlog_channel_id);
 		
@@ -3564,8 +3578,6 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		
 //		Compare changes
 		$changes = "";
-		include_once "custom_functions.php";
-		
 		if ($old_tag != $new_tag){
 			echo "old_tag: " . $old_tag . PHP_EOL;
 			echo "new_tag: " . $new_tag . PHP_EOL;
