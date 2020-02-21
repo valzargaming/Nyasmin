@@ -43,7 +43,7 @@ $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
 	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
-	$version = "RC V1.0.0";
+	$version = "RC V1.0.1";
 	
 	//Set status
 	$discord->user->setPresence(
