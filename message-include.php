@@ -2902,7 +2902,7 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 					echo $error.PHP_EOL; //Echo any errors
 				});
 			}elseif($modlog_channel){
-				$modlog_channel->end('', array('embed' => $embed))->done(null, function ($error){
+				$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo $error.PHP_EOL; //Echo any errors
 				});
 			}
