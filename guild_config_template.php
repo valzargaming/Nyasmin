@@ -41,7 +41,7 @@ if(!CheckFile($guild_folder, "verifylog_channel_id.php")){
 
 if(!CheckFile($guild_folder, "watch_channel_id.php")){
 	$watch_channel_id	= "";	//Someone being watched has their messages duplicated to this channel instead of a DM (Leave commented to use DMs)
-	VarSave($watch_channel_id, "watch_channel_id.php", strval($watch_channel_id)); 
+	VarSave($guild_folder, "watch_channel_id.php", strval($watch_channel_id)); 
 }else $watch_channel_id	= strval(VarLoad($guild_folder, "watch_channel_id.php"));
 
 if(!CheckFile($guild_folder, "rolepicker_channel_id.php")){
