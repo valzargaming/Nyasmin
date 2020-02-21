@@ -33,16 +33,12 @@ set_exception_handler(function (Throwable $e) {
 */
  
 $discord->on('disconnect', function($erMsg, $code){ //Automatically reconnect if the bot disconnects due to inactivity (Not tested)
-    echo "----- BOT DISCONNECTED FROM DISCORD WITH CODE $code FOR REASON: $erMsg -----" . PHP_EOL;
-	echo "RESTARTING BOT" . PHP_EOL;
-	$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"'; //echo $restart_cmd . PHP_EOL;
-	system($restart_cmd);
-	//die;
+	include "disconnect-include.php";    
 });
 
 $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "SETUP" . PHP_EOL;
-	$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF'])));
+	//$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF']))); //No longer relevant due to includes
 	$version = "RC V1.1.0";
 	
 	//Set status
@@ -50,7 +46,8 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 		array(
 			'since' => null, //unix time (in milliseconds) of when the client went idle, or null if the client is not idle
 			'game' => array(
-				'name' => "$line_count lines of code! $version",
+				//'name' => "$line_count lines of code! $version",
+				'name' => $version,
 				'type' => 3, //0, 1, 2, 3, 4 | Game/Playing, Streaming, Listening, Watching, Custom Status
 				'url' => null //stream url, is validated when type is 1, only Youtube and Twitch allowed
 				/*
