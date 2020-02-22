@@ -904,10 +904,15 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		$documentation = $documentation . "\n__**High Staff:**__\n";
 		//current settings
 		$documentation = $documentation . "`settings` sends a DM with current settings.\n";
+		
 		//v
+		if(!$role_verified_id) $documentation = $documentation . "~~";
 		$documentation = $documentation . "`v` or `verify` gives the verified role.\n";
+		if(!$role_verified_id) $documentation = $documentation . "~~";
 		//cv
+		if(!$getverified_channel) $documentation = $documentation . "~~";
 		$documentation = $documentation . "`cv` or `clearv` clears the verification channel and posts a short notice.\n";
+		if(!$getverified_channel) $documentation = $documentation . "~~";
 		//clearall
 		$documentation = $documentation . "`clearall` clears the current channel of up to 100 messages.\n";
 		//watch
@@ -915,7 +920,9 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		//unwatch
 		$documentation = $documentation . "`unwatch` removes the effects of the watch command.\n";
 		//vwatch
+		if(!$role_verified_id) $documentation = $documentation . "~~";
 		$documentation = $documentation . "`vw` or `vwatch` gives the verified role to the mentioned and watches them.\n";
+		if(!$role_verified_id) $documentation = $documentation . "~~";
 		//warn
 		$documentation = $documentation . "`warn` logs an infraction.\n";
 		//infractions
@@ -932,10 +939,13 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		$documentation = $documentation . "`unmute @mention reason`\n";
 		//Strikeout invalid options
 		if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
-		//ban
+		
+		if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+		//suggest approve
 		$documentation = $documentation . "`suggest approve #`\n";
-		//ban
+		//suggest deny
 		$documentation = $documentation . "`suggest deny #`\n";
+		if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
 	}
 	if($creator || $owner || $dev || $admin || $mod){
 		$documentation = $documentation . "\n__**Moderators:**__\n";
