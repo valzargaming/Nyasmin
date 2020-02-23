@@ -60,13 +60,13 @@ GLOBAL $species, $species2, $species3, $sexualities, $gender, $customroles;
 //animated, managed, requireColons
 //createdTimestamp, createdAt
 $emoji						= $reaction->emoji;
-$emoji_id					= $emoji->id;			echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
+$emoji_id					= $emoji->id;			//echo "emoji_id: " . $emoji_id . PHP_EOL; //Unicode if null
 
 $unicode					= false;
 if ($emoji_id === NULL)
-				$unicode 	= true;					echo "unicode: " . $unicode . PHP_EOL;
-$emoji_name					= $emoji->name;			echo "emoji_name: " . $emoji_name . PHP_EOL;
-$emoji_identifier			= $emoji->identifier;	echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
+				$unicode 	= true;					//echo "unicode: " . $unicode . PHP_EOL;
+$emoji_name					= $emoji->name;			//echo "emoji_name: " . $emoji_name . PHP_EOL;
+$emoji_identifier			= $emoji->identifier;	//echo "emoji_identifier: " . $emoji_identifier . PHP_EOL;
 
 if ($unicode) $response = "$emoji_name";
 else $response = "<:$emoji_identifier>";
