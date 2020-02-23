@@ -161,7 +161,7 @@ if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
 														$rp4 	= false;
 }
 
-echo "Message from $author_check <$author_id> <#$author_channel_id> ($author_guild_id): {$message_content}", PHP_EOL;
+echo "$author_check <@$author_id> ($author_guild_id): {$message_content}", PHP_EOL;
 $author_webhook = $author_user->webhook;
 if ($author_webhook === true) return true; //Don't process webhooks
 $author_bot = $author_user->bot;
@@ -2788,6 +2788,41 @@ if ($message_content_lower == $command_symbol . 'genimage'){
 		->setImage("$image_path")             													// Set an image (below everything except footer)
 		->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+		->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+		->setURL("");                             												// Set the URL
+//				Open a DM channel then send the rich embed message
+	/*
+	$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+		echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+		$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+	});
+	*/
+	$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+		echo $error.PHP_EOL; //Echo any errors
+	});
+	return true;
+}
+
+if ($author_guild_id == "468979034571931648"); //This command should only be relevant for use on this server
+if ($message_content_lower == $command_symbol . 'serverstatus'){
+	include "imagecreate_include.php"; //Generates $img_output_path
+	$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
+	//echo "image_path: " . $image_path . PHP_EOL;
+//			Build the embed message
+	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+	$embed
+//				->setTitle("$author_check")																// Set a title
+		->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//		->setDescription("$author_guild_name")									// Set a description (below title, above fields)
+//				->addField("⠀", "$documentation")														// New line after this
+		
+//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+		->setImage("$image_path")             													// Set an image (below everything except footer)
+		->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
 		->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 		->setURL("");                             												// Set the URL
 //				Open a DM channel then send the rich embed message
