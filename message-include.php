@@ -2805,9 +2805,9 @@ if ($message_content_lower == $command_symbol . 'genimage'){
 	return true;
 }
 
-if ($author_guild_id == "468979034571931648"); //This command should only be relevant for use on this server
+if ($creator || ($author_guild_id == "468979034571931648") ); //This command should only be relevant for use on this server
 if ($message_content_lower == $command_symbol . 'serverstatus'){
-	include "imagecreate_include.php"; //Generates $img_output_path
+	include "../servers/getserverdata.php";
 	$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
 	//echo "image_path: " . $image_path . PHP_EOL;
 //			Build the embed message
