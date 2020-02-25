@@ -83,7 +83,7 @@ if($modlog_channel)
 if ($changes != ""){
 	//Build the embed
 	//$changes = "**Message edit**:\n" . $changes;
-	if ( (strlen($message_content_new) + strlen($message_content_old))  < 1025 ){
+	if (strlen($changes)  < 1025){
 //			Build the embed message
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
@@ -105,7 +105,7 @@ if ($changes != ""){
 		});
 		return true;
 	}else{
-		if ( (strlen($message_content_new) + strlen($message_content_old))  < 2000 )
+		if (strlen($changes)  < 2000)
 		if($modlog_channel)$modlog_channel->send($changes);
 	}
 }else{ //No info we want to check was changed
