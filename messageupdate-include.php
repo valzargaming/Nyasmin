@@ -103,9 +103,10 @@ if ($changes != ""){
 			echo $error.PHP_EOL; //Echo any errors
 		});
 		return true;
-	}else{
-		if (strlen($changes)  < 2000)
+	}elseif (strlen($changes) < 2000){
 		if($modlog_channel)$modlog_channel->send($changes);
+	}else{
+		if($modlog_channel)$modlog_channel->send("A message was updated but it was too long to log properly: <https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new>");
 	}
 }else{ //No info we want to check was changed
 	return true;
