@@ -1,6 +1,5 @@
 <?
 //This event listener gets triggered willy-nilly so we need to do some checks here if we want to get anything useful out of it
-//If the timestamp is older than timestampSetup nothing will be passed to this method, use messageUpdateRaw instead
 
 $message_content_new = $message_new->content; //Null if message is too old
 $message_content_old = $message_old->content; //Null if message is too old
