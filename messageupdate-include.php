@@ -22,7 +22,7 @@ echo "messageUpdate" . PHP_EOL;
 /*
 Debug output
 
-//		Check the timestamp
+//Check the timestamp
 $createdTimestamp_new = $message_new->createdTimestamp;
 $createdTimestamp_old = $message_old->createdTimestamp;
 
@@ -43,10 +43,6 @@ echo PHP_EOL;
 //Load global variables
 $guild = $message_new->guild;
 $author_guild_id = $guild->id;
-//Load config variables for the guild
-$guild_folder = "\\guilds\\$author_guild_id";
-$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
-require "$guild_config_path";
 
 $modlog_channel	= $guild->channels->get($modlog_channel_id);
 
@@ -60,6 +56,11 @@ if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True
 	$is_dm = true;
 	return true; //Don't try and process direct messages
 }
+//Load config variables for the guild
+$guild_folder = "\\guilds\\$author_guild_id";
+$guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
+require "$guild_config_path";
+
 $author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
 $author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
 $author_id 					= $author_user->id;													//echo "author_id: " . $author_id . PHP_EOL;
