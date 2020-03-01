@@ -1535,7 +1535,8 @@ if ( (substr($message_content_lower, 0, 20) == $command_symbol . 'suggestion app
 			});
 			//Clear the value stored in the array
 			$array[$value] = "Approved";
-			return $message->react("👍");
+			if($react) $message->react("👍");
+			return true;
 		}else return $message->reply("Suggestion not found or already processed!");
 	}else return $message->reply("Invalid input! Please enter an integer number");
 	return true; //catch
@@ -1555,7 +1556,8 @@ if ( (substr($message_content_lower, 0, 17) == $command_symbol . 'suggestion den
 			$embed = $array[$value];
 			//Clear the value stored in the array
 			$array[$value] = "Denied";
-			return $message->react("👍");
+			if($react) $message->react("👍");
+			return true;
 		}else return $message->reply("Suggestion not found or already processed!");
 	}else return $message->reply("Invalid input! Please enter an integer number");
 	return true; //catch
@@ -2888,14 +2890,29 @@ if ($message_content_lower == $command_symbol . 'restart'){
 }
 
 if ($creator)
-if (substr($message_content_lower, 0, 7) == $command_symbol . 'timer '){
+if (substr($message_content_lower, 0, 7) == $command_symbol . 'timer '){ //;timer
 	echo "TIMER" . PHP_EOL;
 	$filter = "$command_symbol" . "timer ";
 	$value = str_replace($filter, "", $message_content_lower);
 	if(is_numeric($value)){
-	$discord->addTimer($value, function() use ($author_channel) {
-		return $author_channel->send("Test");
-	});
+		$discord->addTimer($value, function() use ($author_channel) {
+			return $author_channel->send("Timer");
+		});
+	}else return $message->reply("Invalid input! Please enter a valid number");
+}
+
+if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;remindme
+	echo "REMINDER TIMER" . PHP_EOL;
+	$filter = "$command_symbol" . "remindme ";
+	$value = str_replace($filter, "", $message_content_lower);
+	if(is_numeric($value)){
+		$discord->addTimer($value, function() use ($author_user) {
+			$author_user->createDM()->then(function($author_dmchannel) use ($message){	//Promise
+				if($author_dmchannel) $author_dmchannel->send("This is your requested reminder!");
+				return true;
+			});
+		});
+		if($react) $message->react("👍");
 	}else return $message->reply("Invalid input! Please enter a valid number");
 }
 
