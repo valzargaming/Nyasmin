@@ -238,6 +238,7 @@ $author_guild_roles_ids 				= array(); 												//IDs of all guild roles
 foreach ($author_guild_roles as $role){
 	$author_guild_roles_names[] 		= $role->name; 																		//echo "role[$x] name: " . PHP_EOL; //var_dump($role->name);
 	$author_guild_roles_ids[] 			= $role->id; 																		//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+	if ($role->name == "Palace Bot")	$role_vzgbot_id = $role->id;						//Author is this bot
 }																															//echo "discord_guild_roles_names" . PHP_EOL; var_dump($author_guild_roles_names);
 																															//echo "discord_guild_roles_ids" . PHP_EOL; var_dump($author_guild_roles_ids);
 /*
@@ -783,7 +784,7 @@ if( ($rolepicker_id != "") && ($rolepicker_id != NULL) ){ //Message rolepicker m
 		if ($creator || $owner)
 		if ($message_content_lower == $command_symbol . 'message species'){ //;message species
 			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){;
+			$author_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){
 				VarSave($guild_folder, "species_message_id.php", strval($message->id));
 				foreach($species as $var_name => $value){
 					$message->react($value);
@@ -1660,7 +1661,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick 
 			$target_owner = false;
 			$target_admin = false;
 			$target_mod = false;
-			$target_vzg = false;
+			$target_vzgbot = false;
 			$target_guildmember_roles_ids = array();
 			foreach ($target_guildmember_role_collection as $role){
 				if ($x!=0){ //0 is @everyone so skip it
@@ -1672,7 +1673,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick 
 					if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
 					if ($role->id == $role_verified_id)	$target_verified 	= true;							//Author has the verified role
 					if ($role->id == $role_bot_id)		$target_bot 		= true;							//Author has the bot role
-					if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
+					if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
 					if ($role->id == $role_muted_id)	$target_muted 		= true;							//Author is this bot
 				}
 				$x++;
@@ -1763,7 +1764,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 			$target_owner = false;
 			$target_admin = false;
 			$target_mod = false;
-			$target_vzg = false;
+			$target_vzgbot = false;
 			$target_guildmember_roles_ids = array();
 			foreach ($target_guildmember_role_collection as $role){
 				if ($x!=0){ //0 is @everyone so skip it
@@ -1772,7 +1773,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 					if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 					if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
 					if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-					if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
+					if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
 				}
 				$x++;
 			}
@@ -1860,7 +1861,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unm
 			$target_owner = false;
 			$target_admin = false;
 			$target_mod = false;
-			$target_vzg = false;
+			$target_vzgbot = false;
 //					Populate arrays of the info we need
 			$target_guildmember_roles_ids = array();
 			$x=0;
@@ -1871,7 +1872,8 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unm
 					if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 					if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
 					if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-					if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
+					if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
+					if ($role->name == "Palace Bot")	$target_vzgbot 		= true;							//Author is this bot
 				}
 				$x++;
 			}
@@ -1963,7 +1965,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 			$target_owner = false;
 			$target_admin = false;
 			$target_mod = false;
-			$target_vzg = false;
+			$target_vzgbot = false;
 			$target_guildmember_roles_ids = array();
 			foreach ($target_guildmember_role_collection as $role){
 				if ($x!=0){ //0 is @everyone so skip it
@@ -1972,7 +1974,8 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 					if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
 					if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
 					if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-					if ($role->id == $role_vzgbot_id)	$target_vzg 		= true;							//Author is this bot
+					if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
+					if ($role->name == "Palace Bot")	$target_vzgbot 		= true;							//Author is this bot
 				}
 				$x++;
 			}
@@ -2805,9 +2808,28 @@ if ($message_content_lower == $command_symbol . 'genimage'){
 	return true;
 }
 
+if ($creator)
+if ($message_content_lower == $command_symbol . 'promote'){ //;promote
+	$author_member->addRole($role_admin_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
+		function ($error) {
+			throw $error;
+		}
+	);
+}
+
+if ($creator)
+if ($message_content_lower == $command_symbol . 'demote'){ //;demote
+	$author_member->removeRole($role_admin_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
+		function ($error) {
+			throw $error;
+		}
+	);
+}
+
 if ($creator || ($author_guild_id == "468979034571931648") ); //This command should only be relevant for use on this server
-if ($message_content_lower == $command_symbol . 'serverstatus'){
+if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){
 	include "../servers/getserverdata.php";
+	$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
 	$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
 	//echo "image_path: " . $image_path . PHP_EOL;
 //			Build the embed message
@@ -2815,8 +2837,8 @@ if ($message_content_lower == $command_symbol . 'serverstatus'){
 	$embed
 //				->setTitle("$author_check")																// Set a title
 		->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//		->setDescription("$author_guild_name")									// Set a description (below title, above fields)
-//				->addField("⠀", "$documentation")														// New line after this
+		->setDescription("$alias")									// Set a description (below title, above fields)
+//		->addField("⠀", "$documentation")														// New line after this
 		
 //		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
@@ -2855,7 +2877,7 @@ if ($message_content_lower == $command_symbol . 'processmessages'){
 	return true;
 }
 
-if ($creator) //Only allow these roles to use this
+if ($creator)
 if ($message_content_lower == $command_symbol . 'restart'){
 	echo "RESTARTING BOT" . PHP_EOL;
 	$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"';
@@ -2865,11 +2887,65 @@ if ($message_content_lower == $command_symbol . 'restart'){
 	//die;
 }
 
+if ($creator)
+if (substr($message_content_lower, 0, 7) == $command_symbol . 'timer '){
+	echo "TIMER" . PHP_EOL;
+	$filter = "$command_symbol" . "timer ";
+	$value = str_replace($filter, "", $message_content_lower);
+	if(is_numeric($value)){
+	$discord->addTimer($value, function() use ($author_channel) {
+		return $author_channel->send("Test");
+	});
+	}else return $message->reply("Invalid input! Please enter a valid number");
+}
+
+if ($creator)
+if (substr($message_content_lower, 0, 6) == $command_symbol . 'vote '){ //;vote
+	echo "VOTE" . PHP_EOL;
+	$filter = "$command_symbol" . "vote ";
+	$vote = str_replace($filter, "", $message_content);
+	if($vote != "" && $vote != NULL){
+		$duration = 30; //approx # of seconds
+		$author_channel->send("**VOTE TIME! ($duration seconds)**\n$vote")->then(function($message) use ($discord, $author_channel, $duration){
+			$message->react("👍");
+			$message->react("👎");
+			$discord->addTimer($duration, function() use ($message, $author_channel) {
+				$reactions = $message->reactions;
+				$yes_count = 0;
+				$no_count = 0;
+				foreach ($reactions as $reaction){
+					$emoji = $reaction->emoji;
+					$count = $reaction->count;
+					if ($emoji == "👍")
+						$yes_count = $count;
+					if ($emoji == "👎")
+						$no_count = $count;
+				}
+				//Count reacts
+				$count = ($yes_count - $no_count);
+				if ($count == 0){
+						$author_channel->send("**Vote tied!**");
+						return true;
+				}
+				if ($count > 0){
+						$author_channel->send("**Vote passed!**");
+						return true;
+				}
+				if ($count < 0){
+						$author_channel->send("**Vote failed!**");
+						return true;
+				}
+			});
+			return true;
+		});
+	}else return $message->reply("Invalid input!");
+}
+
 if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
 if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr(($message_content), 0, 8) == $command_symbol . 'verify ') ){ //Verify ;v ;verify
 	echo "GIVING VERIFIED ROLE TO MENTIONED" . PHP_EOL;
-//			Get an array of people mentioned
+//	Get an array of people mentioned
 	$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
 	$mention_role_name_queue_full 								= $mention_role_name_queue_default;
