@@ -982,15 +982,22 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 	}
 	//All other functions
 	$documentation = $documentation . "\n__**General:**__\n";
+	$documentation = $documentation . "`poll` creates a poll\n";
 	//ping
 	$documentation = $documentation . "`ping` replies with 'Pong!'\n";
 	//roles / roles @
 	$documentation = $documentation . "`roles` displays the roles for the author or user being mentioned.\n";
 	//avatar
 	$documentation = $documentation . "`avatar` displays the profile picture of the author or user being mentioned.\n";
+	//poll
+	$documentation = $documentation . "`poll` creates a message for people to vote on.\n";
+	//remindme
+	$documentation = $documentation . "`remindme #` send a DM after # of seconds have passed.\n";
 	//suggest
-	if($suggestion_pending_channel)
-	$documentation = $documentation . "`suggest`\n";
+	if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+	$documentation = $documentation . "`suggest` posts a suggestion for staff to vote on.\n";
+	if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+
 	$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 	$doc_length = strlen($documentation_sanitized);
 	if ($doc_length < 1025){
@@ -2917,13 +2924,13 @@ if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;
 }
 
 if ($creator)
-if (substr($message_content_lower, 0, 6) == $command_symbol . 'vote '){ //;vote
-	echo "VOTE" . PHP_EOL;
-	$filter = "$command_symbol" . "vote ";
-	$vote = str_replace($filter, "", $message_content);
-	if($vote != "" && $vote != NULL){
+if (substr($message_content_lower, 0, 6) == $command_symbol . 'poll '){ //;poll
+	echo "poll" . PHP_EOL;
+	$filter = "$command_symbol" . "poll ";
+	$poll = str_replace($filter, "", $message_content);
+	if($poll != "" && $poll != NULL){
 		$duration = 30; //approx # of seconds
-		$author_channel->send("**VOTE TIME! ($duration seconds)**\n$vote")->then(function($message) use ($discord, $author_channel, $duration){
+		$author_channel->send("**VOTE TIME! ($duration seconds)**\n$poll")->then(function($message) use ($discord, $author_channel, $duration){
 			$message->react("👍");
 			$message->react("👎");
 			$discord->addTimer($duration, function() use ($message, $author_channel) {
