@@ -336,7 +336,7 @@ if ($message_content_lower == $command_symbol . 'setup'){ //;setup
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 			->setTitle("Setup commands for $author_guild_name")														// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this			
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -406,7 +406,7 @@ if ($message_content_lower == $command_symbol . 'currentsetup'){ //;currentsetup
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 			->setTitle("Current setup for $author_guild_name")														// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this			
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1005,7 +1005,7 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 			->setTitle("Commands for $author_guild_name")											// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this			
 //					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1081,7 +1081,7 @@ if ($message_content_lower == $command_symbol . 'settings'){ //;settings
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 			->setTitle("Settings for $author_guild_name")											// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$documentation")														// Set a description (below title, above fields)
 //					->addField("⠀", "$documentation")														// New line after this
 			
@@ -1290,7 +1290,7 @@ if ($message_content_lower == $command_symbol . 'roles'){ //;roles
 	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 	$embed
 //				->setTitle("Roles")																		// Set a title
-		->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+		->setColor("e1452d")																	// Set a color (the thing on the left side)
 		->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 		->addField("Roles", 		"$author_role_name_queue_full")								// New line after this if ,true
 		
@@ -1380,7 +1380,7 @@ if (substr($message_content_lower, 0, 7) == $command_symbol . 'roles '){//;roles
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 //						->setTitle("Roles")																		// Set a title
-				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
 				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //						->addField("Roles", 	"$mention_role_name_queue_full")								// New line after this
 				->addField("Roles", 	"$mention_role_id_queue_full", true)							// New line after this
@@ -1425,7 +1425,7 @@ if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 //					->setTitle("Avatar")																	// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 //					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //					->addField("Total Given", 		"$vanity_give_count")									// New line after this
 			
@@ -1490,7 +1490,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 //					->setTitle("Avatar")																	// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 //					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 //					->addField("Total Given", 		"$vanity_give_count")									// New line after this
 				
@@ -1591,7 +1591,7 @@ if ( (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion ') 
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 				->setTitle("#$array_count")																	// Set a title
-				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
 				->setDescription("$value")																// Set a description (below title, above fields)
 //					->addField("⠀", "$reason")																// New line after this
 				
@@ -1704,7 +1704,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick 
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //							->setTitle("Commands")																	// Set a title
-					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
 					->setDescription("$reason")																// Set a description (below title, above fields)
 //							->addField("⠀", "$reason")																// New line after this
 					
@@ -1803,7 +1803,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //							->setTitle("Commands")																	// Set a title
-					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
 					->setDescription("$reason")																// Set a description (below title, above fields)
 //							->addField("⠀", "$reason")																// New line after this
 					
@@ -1903,7 +1903,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unm
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //							->setTitle("Commands")																	// Set a title
-					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
 					->setDescription("$reason")																// Set a description (below title, above fields)
 //							->addField("⠀", "$reason")																// New line after this
 					
@@ -2004,7 +2004,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 //							->setTitle("Commands")																	// Set a title
-					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
 					->setDescription("$reason")																// Set a description (below title, above fields)
 //							->addField("⠀", "$reason")																// New line after this
 					
@@ -2546,7 +2546,7 @@ if ($vanity){
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 				->setTitle("Vanity Stats")																// Set a title
-				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
 				->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 				->addField("Total Given", 		"$vanity_give_count")									// New line after this
 				->addField("Hugs", 				"$hugger_count", true)
@@ -2638,7 +2638,7 @@ if ($vanity){
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 				$embed
 					->setTitle("Vanity Stats")																// Set a title
-					->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
 					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 					->addField("Total Given", 		"$target_vanity_give_count")							// New line after this
 					->addField("Hugs", 				"$target_hugger_count", true)
@@ -2757,7 +2757,7 @@ if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whoi
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 			->setTitle("$mention_check ($mention_nickname)")																// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 //					->setDescription("$author_guild_name")									// Set a description (below title, above fields)
 			->addField("ID", "$mention_id", true)
 			->addField("Avatar", "[Link]($mention_avatar)", true)
@@ -2791,7 +2791,7 @@ if ($message_content_lower == $command_symbol . 'genimage'){
 	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 	$embed
 //				->setTitle("$author_check")																// Set a title
-		->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+		->setColor("e1452d")																	// Set a color (the thing on the left side)
 		->setDescription("$author_guild_name")									// Set a description (below title, above fields)
 //				->addField("⠀", "$documentation")														// New line after this
 		
@@ -2835,7 +2835,7 @@ if ($message_content_lower == $command_symbol . 'demote'){ //;demote
 	);
 }
 
-if ($creator || ($author_guild_id == "468979034571931648") ); //This command should only be relevant for use on this server
+if ($creator || ($author_guild_id == "468979034571931648") ) //This command should only be relevant for use on this server
 if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){
 	include "../servers/getserverdata.php";
 	$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
@@ -2845,7 +2845,7 @@ if ($message_content_lower == $command_symbol . 'serverstatus' || $message_conte
 	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 	$embed
 //				->setTitle("$author_check")																// Set a title
-		->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+		->setColor("e1452d")																	// Set a color (the thing on the left side)
 		->setDescription("$alias")									// Set a description (below title, above fields)
 //		->addField("⠀", "$documentation")														// New line after this
 		
@@ -2865,6 +2865,72 @@ if ($message_content_lower == $command_symbol . 'serverstatus' || $message_conte
 		});
 	});
 	*/
+	$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+		echo $error.PHP_EOL; //Echo any errors
+	});
+	return true;
+}
+
+if ($creator || ($author_guild_id == "468979034571931648") ) //This command should only be relevant for use on this server
+if ($message_content_lower == $command_symbol . 'players' || $message_content_lower == '!s players'){
+	$playerlist = " ";
+	include "../servers/getserverdata.php";
+	$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
+	$serverinfo0 = print_r($serverinfo[0], true); //json array
+	foreach ($serverinfo[0] as $varname => $varvalue){
+		if ( (substr($varname, 0, 6) == "player") && $varname != "players")
+		$playerlist = $playerlist . "$varvalue, ";
+	}
+	if (trim(substr($playerlist, 0, -2)) == ""){
+		$playerlist = "None";
+	}else{
+		$playerlist = trim(substr($playerlist, 0, -2));
+	}
+	//echo "image_path: " . $image_path . PHP_EOL;
+//	Build the embed message
+	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+	$embed
+//				->setTitle("$author_check")																// Set a title
+		->setColor("e1452d")																	// Set a color (the thing on the left side)
+		->setDescription("$alias\n" . $servers[0]["servername"])																// Set a description (below title, above fields)
+		->addField("Players", $playerlist)												// New line after this
+		
+//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//		->setImage("$image_path")             													// Set an image (below everything except footer)
+		->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+		->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+		->setURL("");                             												// Set the URL
+	
+	$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+		echo $error.PHP_EOL; //Echo any errors
+	});
+	return true;
+}
+
+if ($creator || ($author_guild_id == "468979034571931648") ) //This command should only be relevant for use on this server
+if ($message_content_lower == $command_symbol . 'admins' || $message_content_lower == '!s admins'){
+	include "../servers/getserverdata.php";
+	$admins = $serverinfo[0]["admins"];
+	$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
+	//echo "image_path: " . $image_path . PHP_EOL;
+//	Build the embed message
+	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+	$embed
+//		->setTitle("$author_check")																// Set a title
+		->setColor("e1452d")																	// Set a color (the thing on the left side)
+		->setDescription("$alias\n" . $servers[0]["servername"])																// Set a description (below title, above fields)
+		->addField("Admins", $admins)												// New line after this
+		
+//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//		->setImage("$image_path")             													// Set an image (below everything except footer)
+		->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+		->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+		->setURL("");                             												// Set the URL
+	
 	$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 		echo $error.PHP_EOL; //Echo any errors
 	});
@@ -3029,7 +3095,7 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 //						->setTitle("Roles")																		// Set a title
-				->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
 //						->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 				->addField("Verified", 		"<@$mention_id>")											// New line after this if ,true
 
@@ -3380,7 +3446,7 @@ if (substr($message_content_lower, 0, 13) == $command_symbol . 'infractions '){ 
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 //					->setTitle("Commands")																	// Set a title
-			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
 //					->setDescription("Infractions for $mention_check")										// Set a description (below title, above fields)
 			->addField("Infractions for $mention_check", "$mention_infraction_queue_full")			// New line after this
 //					->addField("⠀", "Use '" . $command_symbol . "removeinfraction @mention #' to remove")	// New line after this
