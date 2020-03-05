@@ -44,8 +44,6 @@ echo PHP_EOL;
 $guild = $message_new->guild;
 $author_guild_id = $guild->id;
 
-$modlog_channel	= $guild->channels->get($modlog_channel_id);
-
 //Load author info
 $author_user				= $message_new->author; //User object
 $author_channel 			= $message_new->channel;
@@ -60,6 +58,8 @@ if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True
 $guild_folder = "\\guilds\\$author_guild_id";
 $guild_config_path = __DIR__  . "$guild_folder\\guild_config.php"; //echo "guild_config_path: " . $guild_config_path . PHP_EOL;
 require "$guild_config_path";
+
+$modlog_channel	= $guild->channels->get($modlog_channel_id);
 
 $author_username 			= $author_user->username; 											//echo "author_username: " . $author_username . PHP_EOL;
 $author_discriminator 		= $author_user->discriminator;										//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
