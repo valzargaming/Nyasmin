@@ -246,7 +246,7 @@ Get the guild-related collections for the author
 *********************
 *********************
 */
-//		Populate arrays of the info we need
+//Populate arrays of the info we need
 $author_member_roles_names 										= array();
 $author_member_roles_ids 										= array();
 $x=0;
@@ -268,6 +268,13 @@ foreach ($author_member_roles as $role){
 }
 if ($creator || $owner)	$bypass = true;
 else					$bypass = false;
+
+if( ($rolepicker_id != "") && ($rolepicker_id != NULL) ){ //Message rolepicker menus
+	GLOBAL $species, $species2, $species3, $species_message_text, $species2_message_text, $species3_message_text;
+	GLOBAL $sexualities, $sexuality_message_text;
+	GLOBAL $gender, $gender_message_text;
+	GLOBAL $customroles, $customroles_message_text;
+}
 
 /*
 *********************
@@ -720,83 +727,191 @@ if ($creator || $owner){
 		}else $message->reply("Invalid input! Please enter a message ID");
 		return true;
 	}
+	//Toggles
+	if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
+		if(!CheckFile($guild_folder, "react_option.php")){
+			VarSave($guild_folder, "react_option.php", $react);
+			echo "NEW REACT OPTION FILE";
+		}
+		$react_var = VarLoad($guild_folder, "react_option.php");
+		$react_flip = !$react_var;
+		VarSave($guild_folder, "react_option.php", $react_flip);
+		if($react) $message->react("👍");
+		if ($react_flip === true)
+			$message->reply("Reaction functions enabled!");
+		else $message->reply("Reaction functions disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
+		if(!CheckFile($guild_folder, "vanity_option.php")){
+			VarSave($guild_folder, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
+			echo "NEW VANITY OPTION FILE" . PHP_EOL;
+		}
+		$vanity_var = VarLoad($guild_folder, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
+		$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
+		VarSave($guild_folder, "vanity_option.php", $vanity_flip);
+		if($react) $message->react("👍");
+		if ($vanity_flip === true)
+			$message->reply("Vanity functions enabled!");
+		else $message->reply("Vanity functions disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
+		if(!CheckFile($guild_folder, "nsfw_option.php")){
+			VarSave($guild_folder, "nsfw_option.php", $nsfw);
+			echo "NEW NSFW OPTION FILE" . PHP_EOL;
+		}
+		$nsfw_var = VarLoad($guild_folder, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "nsfw_option.php", $nsfw_flip);
+		if($react) $message->react("👍");
+		if ($nsfw_flip === true)
+			$message->reply("NSFW functions enabled!");
+		else $message->reply("NSFW functions disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
+		if(!CheckFile($guild_folder, "rolepicker_option.php")){
+			VarSave($guild_folder, "rolepicker_option.php", $nsfw);
+			echo "NEW ROLEPICKER FILE" . PHP_EOL;
+		}
+		$rolepicker_var = VarLoad($guild_folder, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "rolepicker_option.php", $rolepicker_flip);
+		if($react) $message->react("👍");
+		if ($rolepicker_flip === true)
+			$message->reply("Rolepicker enabled!");
+		else $message->reply("Rolepicker disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
+		if(!CheckFile($guild_folder, "species_option.php")){
+			VarSave($guild_folder, "species_option.php", $nsfw);
+			echo "NEW SPECIES FILE" . PHP_EOL;
+		}
+		$species_var = VarLoad($guild_folder, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "species_option.php", $species_flip);
+		if($react) $message->react("👍");
+		if ($species_flip === true)
+			$message->reply("Species roles enabled!");
+		else $message->reply("Species roles	disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
+		if(!CheckFile($guild_folder, "sexuality_option.php")){
+			VarSave($guild_folder, "sexuality_option.php", $nsfw);
+			echo "NEW SEXUALITY FILE" . PHP_EOL;
+		}
+		$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "sexuality_option.php", $sexuality_flip);
+		if($react) $message->react("👍");
+		if ($sexuality_flip === true)
+			$message->reply("Sexuality roles enabled!");
+		else $message->reply("Sexuality roles disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
+		if(!CheckFile($guild_folder, "gender_option.php")){
+			VarSave($guild_folder, "gender_option.php", $nsfw);
+			echo "NEW GENDER FILE" . PHP_EOL;
+		}
+		$gender_var = VarLoad($guild_folder, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "gender_option.php", $gender_flip);
+		if($react) $message->react("👍");
+		if ($gender_flip === true)
+			$message->reply("Gender roles enabled!");
+		else $message->reply("Gender roles disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
+		if(!CheckFile($guild_folder, "custom_option.php")){
+			VarSave($guild_folder, "custom_option.php", $nsfw);
+			echo "NEW CUSTOM ROLE OPTION FILE" . PHP_EOL;
+		}
+		$custom_var = VarLoad($guild_folder, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "custom_option.php", $custom_flip);
+		if($react) $message->react("👍");
+		if ($custom_flip === true)
+			$message->reply("Custom roles enabled!");
+		else $message->reply("Custom roles disabled!");
+		return true;
+	}
+	//Role Messages Setup
+	if ($message_content_lower == $command_symbol . 'message species'){ //;message species
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){
+			VarSave($guild_folder, "species_message_id.php", strval($message->id));
+			foreach($species as $var_name => $value){
+				$message->react($value);
+			}
+			return true;
+		});
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'message species2'){ //;message species2
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($species2_message_text)->then(function($message) use ($guild_folder, $species2){;
+			VarSave($guild_folder, "species2_message_id.php", strval($message->id));
+			foreach($species2 as $var_name => $value){
+				$message->react($value);
+			}
+			return true;
+		});
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'message species3'){ //;message species3
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($species3_message_text)->then(function($message) use ($guild_folder, $species3){;
+			VarSave($guild_folder, "species3_message_id.php", strval($message->id));
+			foreach($species3 as $var_name => $value){
+				$message->react($value);
+			}
+			return true;
+		});
+		return true;
+	}
+	if ( ($message_content_lower == $command_symbol . 'message sexuality') || ($message_content_lower == $command_symbol . 'message sexualities') ) { //;message sexual
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($sexuality_message_text)->then(function($message) use ($guild_folder, $sexualities){;
+			VarSave($guild_folder, "sexuality_message_id.php", strval($message->id));
+			foreach($sexualities as $var_name => $value){
+				$message->react($value);
+			}
+			return true;
+		});
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'message gender'){ //;message gender
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($gender_message_text)->then(function($message) use ($guild_folder, $gender){;
+			VarSave($guild_folder, "gender_message_id.php", strval($message->id));
+			foreach($gender as $var_name => $value){
+				$message->react($value);
+			}
+			return true;
+		});
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'message customroles'){ //;message customroles
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($customroles_message_text)->then(function($message) use ($guild_folder, $customroles){;
+			VarSave($guild_folder, "customroles_message_id.php", strval($message->id));
+			foreach($customroles as $var_name => $value){
+				$message->react($value);
+			}
+			return true;
+		});
+		return true;
+	}
+
 }
 
-if( ($rolepicker_id != "") && ($rolepicker_id != NULL) ){ //Message rolepicker menus
-	GLOBAL $species, $species2, $species3, $species_message_text, $species2_message_text, $species3_message_text;
-	GLOBAL $sexualities, $sexuality_message_text;
-	GLOBAL $gender, $gender_message_text;
-	GLOBAL $customroles, $customroles_message_text;
-	
-	if ($creator || $owner){
-		if ($message_content_lower == $command_symbol . 'message species'){ //;message species
-			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){
-				VarSave($guild_folder, "species_message_id.php", strval($message->id));
-				foreach($species as $var_name => $value){
-					$message->react($value);
-				}
-				return true;
-			});
-			return true;
-		}
-		if ($message_content_lower == $command_symbol . 'message species2'){ //;message species2
-			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($species2_message_text)->then(function($message) use ($guild_folder, $species2){;
-				VarSave($guild_folder, "species2_message_id.php", strval($message->id));
-				foreach($species2 as $var_name => $value){
-					$message->react($value);
-				}
-				return true;
-			});
-			return true;
-		}
-		if ($message_content_lower == $command_symbol . 'message species3'){ //;message species3
-			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($species3_message_text)->then(function($message) use ($guild_folder, $species3){;
-				VarSave($guild_folder, "species3_message_id.php", strval($message->id));
-				foreach($species3 as $var_name => $value){
-					$message->react($value);
-				}
-				return true;
-			});
-			return true;
-		}
-		if ( ($message_content_lower == $command_symbol . 'message sexuality') || ($message_content_lower == $command_symbol . 'message sexualities') ) { //;message sexual
-			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($sexuality_message_text)->then(function($message) use ($guild_folder, $sexualities){;
-				VarSave($guild_folder, "sexuality_message_id.php", strval($message->id));
-				foreach($sexualities as $var_name => $value){
-					$message->react($value);
-				}
-				return true;
-			});
-			return true;
-		}
-		if ($message_content_lower == $command_symbol . 'message gender'){ //;message gender
-			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($gender_message_text)->then(function($message) use ($guild_folder, $gender){;
-				VarSave($guild_folder, "gender_message_id.php", strval($message->id));
-				foreach($gender as $var_name => $value){
-					$message->react($value);
-				}
-				return true;
-			});
-			return true;
-		}
-		if ($message_content_lower == $command_symbol . 'message customroles'){ //;message customroles
-			VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-			$author_channel->send($customroles_message_text)->then(function($message) use ($guild_folder, $customroles){;
-				VarSave($guild_folder, "customroles_message_id.php", strval($message->id));
-				foreach($customroles as $var_name => $value){
-					$message->react($value);
-				}
-				return true;
-			});
-			return true;
-		}
-	}
-}
+
+
 
 /*
 *********************
@@ -1055,120 +1170,6 @@ Creator/Owner option functions
 *********************
 */
 
-if ($creator || $owner){
-	if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
-		if(!CheckFile($guild_folder, "react_option.php")){
-			VarSave($guild_folder, "react_option.php", $react);
-			echo "NEW REACT OPTION FILE";
-		}
-		$react_var = VarLoad($guild_folder, "react_option.php");
-		$react_flip = !$react_var;
-		VarSave($guild_folder, "react_option.php", $react_flip);
-		if($react) $message->react("👍");
-		if ($react_flip === true)
-			$message->reply("Reaction functions enabled!");
-		else $message->reply("Reaction functions disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
-		if(!CheckFile($guild_folder, "vanity_option.php")){
-			VarSave($guild_folder, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
-			echo "NEW VANITY OPTION FILE" . PHP_EOL;
-		}
-		$vanity_var = VarLoad($guild_folder, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
-		$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
-		VarSave($guild_folder, "vanity_option.php", $vanity_flip);
-		if($react) $message->react("👍");
-		if ($vanity_flip === true)
-			$message->reply("Vanity functions enabled!");
-		else $message->reply("Vanity functions disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
-		if(!CheckFile($guild_folder, "nsfw_option.php")){
-			VarSave($guild_folder, "nsfw_option.php", $nsfw);
-			echo "NEW NSFW OPTION FILE" . PHP_EOL;
-		}
-		$nsfw_var = VarLoad($guild_folder, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "nsfw_option.php", $nsfw_flip);
-		if($react) $message->react("👍");
-		if ($nsfw_flip === true)
-			$message->reply("NSFW functions enabled!");
-		else $message->reply("NSFW functions disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
-		if(!CheckFile($guild_folder, "rolepicker_option.php")){
-			VarSave($guild_folder, "rolepicker_option.php", $nsfw);
-			echo "NEW ROLEPICKER FILE" . PHP_EOL;
-		}
-		$rolepicker_var = VarLoad($guild_folder, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "rolepicker_option.php", $rolepicker_flip);
-		if($react) $message->react("👍");
-		if ($rolepicker_flip === true)
-			$message->reply("Rolepicker enabled!");
-		else $message->reply("Rolepicker disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
-		if(!CheckFile($guild_folder, "species_option.php")){
-			VarSave($guild_folder, "species_option.php", $nsfw);
-			echo "NEW SPECIES FILE" . PHP_EOL;
-		}
-		$species_var = VarLoad($guild_folder, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "species_option.php", $species_flip);
-		if($react) $message->react("👍");
-		if ($species_flip === true)
-			$message->reply("Species roles enabled!");
-		else $message->reply("Species roles	disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
-		if(!CheckFile($guild_folder, "sexuality_option.php")){
-			VarSave($guild_folder, "sexuality_option.php", $nsfw);
-			echo "NEW SEXUALITY FILE" . PHP_EOL;
-		}
-		$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "sexuality_option.php", $sexuality_flip);
-		if($react) $message->react("👍");
-		if ($sexuality_flip === true)
-			$message->reply("Sexuality roles enabled!");
-		else $message->reply("Sexuality roles disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
-		if(!CheckFile($guild_folder, "gender_option.php")){
-			VarSave($guild_folder, "gender_option.php", $nsfw);
-			echo "NEW GENDER FILE" . PHP_EOL;
-		}
-		$gender_var = VarLoad($guild_folder, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "gender_option.php", $gender_flip);
-		if($react) $message->react("👍");
-		if ($gender_flip === true)
-			$message->reply("Gender roles enabled!");
-		else $message->reply("Gender roles disabled!");
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
-		if(!CheckFile($guild_folder, "custom_option.php")){
-			VarSave($guild_folder, "custom_option.php", $nsfw);
-			echo "NEW CUSTOM ROLE OPTION FILE" . PHP_EOL;
-		}
-		$custom_var = VarLoad($guild_folder, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "custom_option.php", $custom_flip);
-		if($react) $message->react("👍");
-		if ($custom_flip === true)
-			$message->reply("Custom roles enabled!");
-		else $message->reply("Custom roles disabled!");
-		return true;
-	}
-}
 
 /*
 *********************
