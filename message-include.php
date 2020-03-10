@@ -42,6 +42,14 @@ if ($is_dm === false){ //Guild message
 	$author_guild_name											= $author_guild->name;
 	$guild_owner_id												= $author_guild->ownerID;
 	
+	//Leave the guild if the owner is blacklisted
+	GLOBAL $blacklisted_owners;
+	if ($blacklisted_owners)
+	if (in_array($guild_owner_id, $blacklisted_owners)){
+		$author_guild->leave($author_guild_id)->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+	}
 	//Leave the guild if blacklisted
 	GLOBAL $blacklisted_guilds;
 	if ($blacklisted_guilds)
@@ -58,7 +66,6 @@ if ($is_dm === false){ //Guild message
 			echo $error.PHP_EOL; //Echo any errors
 		});
 	}
-
 	$guild_folder = "\\guilds\\$author_guild_id";
 	//Create a folder for the guild if it doesn't exist already
 	if(!CheckDir($guild_folder)){
@@ -222,7 +229,8 @@ else 								$creator 	= true;
 
 
 $adult 		= false;
-//$owner		= false;
+
+//$owner		= false; //This is populated directly from the guild
 $dev		= false;
 $admin 		= false;
 $mod		= false;
