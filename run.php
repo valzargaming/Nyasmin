@@ -19,6 +19,7 @@ include 'sexualities.php';		//Used by the sexuality role picker function
 include 'gender.php';			//Used by the gender role picker function
 include 'custom_roles.php';		//Create your own roles with this template!
 
+include 'blacklisted_owners.php'; //Array of guild owner user IDs that are not allowed to use this bot
 include 'blacklisted_guilds.php'; //Array of Guilds that are not allowed to use this bot
 include 'whitelisted_guilds.php'; //Only guilds in the $whitelisted_guilds array should be allowed to access the bot.
 
@@ -67,7 +68,7 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	echo "timestampSetup: " . $timestampSetup . PHP_EOL;
 	//Save this to a file to be loaded, used in messageUpdate
 	
-	$discord->on('message', function ($message) use ($discord){ //Handling of a message
+	$discord->on('message', function ($message) use ($discord, $loop){ //Handling of a message
 		include "message-include.php";
 	}); //end message function
 		
