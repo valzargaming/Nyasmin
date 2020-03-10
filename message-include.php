@@ -2857,6 +2857,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 
 	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
 		include "../servers/getserverdata.php"; //Do this async?
+		$sent = false; //No message has been sent yet.
 		//echo 'Got server data!' . PHP_EOL;
 		$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
 		$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
@@ -2868,14 +2869,14 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
 		$remainder = ($rd[0] % 24);
 		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){
+		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round duration must be valid
 			//echo "image_path: " . $image_path . PHP_EOL;
 		//	Build the embed message
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 		//		->setTitle("$author_check")														// Set a title
 				->setColor("e1452d")																	// Set a color (the thing on the left side)
-		//		->setDescription("$alias\n" . $servers[0]["servername"] . "\nRound time: " . $rd[0] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[0]["host"] ." \nPlayers: " . $serverinfo[0]["players"])									// Set a description (below title, above fields)
+				->setDescription("$alias"/* . \n" . $servers[0]["servername"] . "\nRound time: " . $rd[0] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[0]["host"] ." \nPlayers: " . $serverinfo[0]["players"]*/)									// Set a description (below title, above fields)
 		//		->addField("⠀", "$documentation")														// New line after this
 				
 		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2897,13 +2898,14 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
 		}
 		
 		//Round duration info
 		$rd = explode (":",  urldecode($serverinfo[1]["roundduration"]) );
 		$remainder = ($rd[0] % 24);
 		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){
+		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round duration must be valid
 			$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
 			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
 			//echo "image_path: " . $image_path . PHP_EOL;
@@ -2912,7 +2914,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$embed
 		//		->setTitle("$author_check")														// Set a title
 				->setColor("e1452d")																	// Set a color (the thing on the left side)
-		//		->setDescription("$alias\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"])									// Set a description (below title, above fields)
+				->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
 		//		->addField("⠀", "$documentation")														// New line after this
 				
 		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2934,13 +2936,14 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
 		}
 		
 		//Round duration info
 		$rd = explode (":",  urldecode($serverinfo[2]["roundduration"]) );
 		$remainder = ($rd[0] % 24);
 		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){
+		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round duration must be valid
 			$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
 			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=2&rand=" . rand(0,999999999);
 			//echo "image_path: " . $image_path . PHP_EOL;
@@ -2949,7 +2952,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$embed
 		//		->setTitle("$author_check")														// Set a title
 				->setColor("e1452d")																	// Set a color (the thing on the left side)
-		//		->setDescription("$alias\n" . $servers[2]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[2]["host"] ." \nPlayers: " . $serverinfo[2]["players"])									// Set a description (below title, above fields)
+				->setDescription("$alias"/* . "\n" . $servers[2]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[2]["host"] ." \nPlayers: " . $serverinfo[2]["players"]*/)									// Set a description (below title, above fields)
 		//		->addField("⠀", "$documentation")														// New line after this
 				
 		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2971,6 +2974,10 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
+		}
+		if ($sent == false){
+			$author_channel->send("No servers have round in progress!");
 		}
 		return true;
 	}
@@ -3012,6 +3019,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
 		}
 		
 		$playerlist = " ";
@@ -3047,6 +3055,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
 		}
 		
 		$playerlist = " ";
@@ -3082,6 +3091,10 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
+		}
+		if ($sent == false){
+			$author_channel->send("No servers have any players!");
 		}
 		return true;
 	}
