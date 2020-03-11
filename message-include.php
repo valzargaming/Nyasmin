@@ -2666,7 +2666,7 @@ if ($creator){ //Mostly just debug commands
 		);
 	}
 	if ($message_content_lower == $command_symbol . 'demote'){ //;demote
-		$author_member->removeRole($role_admin_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
+		$author_member->removeRole($role_dev_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
 			function ($error) {
 				throw $error;
 			}
