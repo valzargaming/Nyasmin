@@ -2661,14 +2661,14 @@ if ($creator){ //Mostly just debug commands
 	if ($message_content_lower == $command_symbol . 'promote'){ //;promote
 		$author_member->addRole($role_dev_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
 			function ($error) {
-				throw $error;
+				echo $error.PHP_EOL;
 			}
 		);
 	}
 	if ($message_content_lower == $command_symbol . 'demote'){ //;demote
 		$author_member->removeRole($role_dev_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
 			function ($error) {
-				throw $error;
+				echo $error.PHP_EOL;
 			}
 		);
 	}
@@ -3130,7 +3130,7 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 		if($target_verified == false){ //Add the verified role to the member
 			$target_guildmember->addRole($role_verified_id)->done(
 				function ($error) {
-					throw $error;
+					echo $error.PHP_EOL;
 				}
 			); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
 		
@@ -3478,7 +3478,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 						//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
 					},
 					function ($error) {
-						throw $error;
+						echo $error.PHP_EOL;
 					}
 				);
 				echo "Verify role added to $mention_id" . PHP_EOL;
