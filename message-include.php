@@ -2732,21 +2732,27 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$message->reply($http_response_code . ": " . $output);
 	}
 
+	if ($creator || $owner || $dev)
+	if ($message_content_lower == $command_symbol . '?status'){ //;serverstatus
+		include "../servers/getserverdata.php";
+		$debug = var_export($serverinfo, true);
+		if ($debug) $author_channel->send($debug);
+	}
 	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
-		include "../servers/getserverdata.php"; //Do this async?
-		$sent = false; //No message has been sent yet.
-		//echo 'Got server data!' . PHP_EOL;
-		$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
-		$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
-		echo "start vardump" . PHP_EOL;
-		var_dump($serverinfo);
-		echo "end vardump" . PHP_EOL;
-
 		//VirtualBox state
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
 		$output = curl_exec($ch); echo "output: " . $output . PHP_EOL;
+		if ($output != "playing"){ //Don't even try to process anything (including webhooks) if the persistence server is saving.
+			$author_channel->send("Persistence server is saving!");
+			return true;
+		}
+		include "../servers/getserverdata.php"; //Do this async?
+		$sent = false; //No message has been sent yet.
+		//echo 'Got server data!' . PHP_EOL;
+		$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
+		$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
 		//Round duration info
 		$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
 		$remainder = ($rd[0] % 24);
@@ -2779,6 +2785,16 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			*/
 			if ($output != "playing"){
 				$embed->addField("Status", "Persistence server is saving!");
+				$sent = true;
+			}
+			if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != NULL) ){
+				$embed->addField("Epoch", $serverinfo[0]["age"], true);
+				$sent = true;
+			}
+			if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
+				if ($serverinfo[0]["map"] == "control")
+					$embed->addField("Map", "Nomads Temperate", true);
+				else $embed->addField("Map", $serverinfo[0]["map"], true);
 				$sent = true;
 			}
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
