@@ -231,7 +231,7 @@ else 								$creator 	= true;
 $adult 		= false;
 
 //$owner		= false; //This is populated directly from the guild
-$dev		= false;
+$dev		= false; //This is a higher rank than admin because they're assumed to have administrator privileges
 $admin 		= false;
 $mod		= false;
 $verified	= false;
@@ -274,7 +274,7 @@ foreach ($author_member_roles as $role){
 	}
 	$x++;
 }
-if ($creator || $owner)	$bypass = true;
+if ($creator || $owner || $dev)	$bypass = true;
 else					$bypass = false;
 
 if( ($rolepicker_id != "") && ($rolepicker_id != NULL) ){ //Message rolepicker menus
@@ -292,7 +292,7 @@ Owner setup command (NOTE: Changes made here will not affect servers using a man
 *********************
 */
 
-if ($creator || $owner){
+if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'setup'){ //;setup	
 		$documentation = $documentation . "`currentsetup` send DM with current settings.\n";
 		//Roles
@@ -931,7 +931,7 @@ Server Setup Functions
 
 if ($message_content_lower == $command_symbol . 'help'){ //;help
 	$documentation = "**Command symbol: $command_symbol**\n";
-	if($creator || $owner){ //toggle options
+	if($creator || $owner || $dev){ //toggle options
 		$documentation = $documentation . "\n__**Owner:**__\n";
 		//toggle options
 		$documentation = $documentation . "*Bot settings:*\n";
@@ -1452,7 +1452,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 }
 
 //if ($suggestion_approved_channel_id)
-if ($creator || $owner || $mod || $admin || $dev){
+if ($creator || $owner || $dev || $admin || $mod){
 	if ( (substr($message_content_lower, 0, 20) == $command_symbol . 'suggestion approve ') || (substr($message_content_lower, 0, 17) == $command_symbol . 'suggest approve ') ) { //;suggestion
 		$filter = "$command_symbol" . "suggestion approve ";
 		$value = str_replace($filter, "", $message_content_lower);
@@ -1554,7 +1554,7 @@ Mod/Admin command functions
 *********************
 */
 
-if ($creator || $owner || $mod || $admin || $dev)
+if ($creator || $owner || $dev || $admin || $mod)
 if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
 	echo "KICK" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1659,7 +1659,7 @@ if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick 
 	$author_channel->send("<@$author_id>, you need to mention someone!");
 	return true;
 }
-if ($admin || $owner || $creator)
+if ($creator || $owner || $dev || $admin)
 if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 	echo "BAN" . PHP_EOL;
 //			Get an array of people mentioned
@@ -1761,7 +1761,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 	return true;
 }
 if ( ($role_muted_id != "") || ($role_muted_id != NULL) ){ //These commands require the Muted Role to be setup
-	if ($creator || $owner || $mod || $admin || $dev){
+	if ($creator || $owner || $dev || $admin || $mod){
 		if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
 			echo "MUTE" . PHP_EOL;
 //			Get an array of people mentioned
@@ -2735,12 +2735,17 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		echo "start vardump" . PHP_EOL;
 		var_dump($serverinfo);
 		echo "end vardump" . PHP_EOL;
-		
+
+		//VirtualBox state
+		$ch = curl_init(); //create curl resource
+		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+		$output = curl_exec($ch); echo "output: " . $output . PHP_EOL;
 		//Round duration info
 		$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
 		$remainder = ($rd[0] % 24);
 		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round duration must be valid
+		if( (($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0)) || ($output != "playing") ){ //Round duration must be valid
 			//echo "image_path: " . $image_path . PHP_EOL;
 		//	Build the embed message
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -2769,6 +2774,10 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
+			$sent = true;
+		}
+		if ($output != "playing"){
+			$author_channel->send("Persistence server is saving!");
 			$sent = true;
 		}
 		
@@ -2997,7 +3006,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 
-	if($creator || $admin){
+	if($creator || $owner || $dev || $admin){
 		if ($message_content_lower == $command_symbol . 'pause' || $message_content_lower == '!s pause'){ //;pause
 			//Trigger the php script remotely
 			$ch = curl_init(); //create curl resource
@@ -3619,7 +3628,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 	}
 }
 
-if ($creator || $owner || $admin)
+if ($creator || $owner || $dev || $admin)
 if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction '){ //;removeinfractions @mention #
 	echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
 //	Get an array of people mentioned
