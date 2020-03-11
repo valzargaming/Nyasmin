@@ -1613,7 +1613,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					}
 					$x++;
 				}
-				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner)){ //Guild owner and bot creator can kick anyone
+				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner || $dev)){ //Guild owner and bot creator can kick anyone
 					if ($mention_check == $creator_check) return true; //Don't kick the creator
 					//Build the string to log
 					$filter = "$command_symbol" . "kick <@!$mention_id>";
@@ -1711,7 +1711,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					}
 					$x++;
 				}
-				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner)){ //Guild owner and bot creator can mute anyone
+				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner || $dev)){ //Guild owner and bot creator can mute anyone
 					if ($mention_check == $creator_check) return true; //Don't mute the creator
 					//Save current roles in a file for the user
 					VarSave($guild_folder."/".$mention_id, "removed_roles.php", $removed_roles);
@@ -1811,7 +1811,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					}
 					$x++;
 				}
-				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner)){
+				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner || $dev)){
 					if ($mention_check == $creator_check) return true; //Don't mute the creator
 					//Build the string to log
 					$filter = "$command_symbol" . "unmute <@!$mention_id>";
