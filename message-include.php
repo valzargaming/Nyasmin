@@ -1557,7 +1557,7 @@ Mod/Admin command functions
 if ($creator || $owner || $dev || $admin || $mod){
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
 		echo "KICK" . PHP_EOL;
-	//			Get an array of people mentioned
+//		Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 			$filter = "$command_symbol" . "unmute ";
@@ -1613,7 +1613,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					}
 					$x++;
 				}
-				if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner)){ //Guild owner and bot creator can kick anyone
 					if ($mention_check == $creator_check) return true; //Don't kick the creator
 					//Build the string to log
 					$filter = "$command_symbol" . "kick <@!$mention_id>";
@@ -1711,7 +1711,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					}
 					$x++;
 				}
-				if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner)){ //Guild owner and bot creator can mute anyone
 					if ($mention_check == $creator_check) return true; //Don't mute the creator
 					//Save current roles in a file for the user
 					VarSave($guild_folder."/".$mention_id, "removed_roles.php", $removed_roles);
@@ -1811,7 +1811,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					}
 					$x++;
 				}
-				if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+				if( (!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg) || ($creator || $owner)){
 					if ($mention_check == $creator_check) return true; //Don't mute the creator
 					//Build the string to log
 					$filter = "$command_symbol" . "unmute <@!$mention_id>";
@@ -1826,6 +1826,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 						$target_guildmember->addRole($role);
 					}
 					if($role_muted_id) $target_guildmember->removeRole($role_muted_id);
+					if($react) $message->react("😩");
 					//Build the embed message
 					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 					$embed
@@ -1915,7 +1916,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 				}
 				$x++;
 			}
-			if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+			if( (!$target_dev && !$target_owner && !$target_admin && !$target_vzg) || ($creator || $owner)){ //Guild owner and bot creator can ban anyone
 				if ($mention_check == $creator_check) return true; //Don't ban the creator
 				//Build the string to log
 				$filter = "$command_symbol" . "ban <@!$mention_id>";
