@@ -2659,7 +2659,7 @@ if ($creator){ //Mostly just debug commands
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'promote'){ //;promote
-		$author_member->addRole($role_admin_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
+		$author_member->addRole($role_dev_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
 			function ($error) {
 				throw $error;
 			}
