@@ -1554,8 +1554,7 @@ Mod/Admin command functions
 *********************
 */
 
-//if ($creator || $owner || $dev || $admin || $mod){
-if ($creator){
+if ($creator || $owner || $dev || $admin || $mod){
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
 		echo "KICK" . PHP_EOL;
 	//			Get an array of people mentioned
