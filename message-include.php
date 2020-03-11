@@ -1554,110 +1554,312 @@ Mod/Admin command functions
 *********************
 */
 
-if ($creator || $owner || $dev || $admin || $mod)
-if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
-	echo "KICK" . PHP_EOL;
-//			Get an array of people mentioned
-	$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-	if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
-		$filter = "$command_symbol" . "unmute ";
-		$value = str_replace($filter, "", $message_content_lower);
-		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-		$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
-		if(is_numeric($value)){
-			$mention_member				= $author_guild->members->get($value);
-			$mention_user				= $mention_member->user;
-			$mentions_arr				= array($mention_user);
-		}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
-		if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
-	}
-	foreach ( $mentions_arr as $mention_param ){
-		$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-		$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-		$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-		$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-		$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
-		$mention_check 											= $mention_username ."#".$mention_discriminator;
-		
-		
-		if ($author_id != $mention_id){ //Don't let anyone kick themselves
-			//Get the roles of the mentioned user
-			$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-			$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
+//if ($creator || $owner || $dev || $admin || $mod){
+if ($creator){
+	if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
+		echo "KICK" . PHP_EOL;
+	//			Get an array of people mentioned
+		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+			$filter = "$command_symbol" . "unmute ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				$mention_member				= $author_guild->members->get($value);
+				$mention_user				= $mention_member->user;
+				$mentions_arr				= array($mention_user);
+			}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+			if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+		}
+		foreach ( $mentions_arr as $mention_param ){
+			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+			$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+			$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+			$mention_check 											= $mention_username ."#".$mention_discriminator;
 			
-//  				Get the avatar URL of the mentioned user
-//					$target_guildmember_user							= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
-//					$mention_avatar 									= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
 			
-//  				Populate arrays of the info we need
-//  				$target_guildmember_roles_names 					= array();
-			$x=0;
-			$target_dev = false;
-			$target_owner = false;
-			$target_admin = false;
-			$target_mod = false;
-			$target_vzgbot = false;
-			$target_guildmember_roles_ids = array();
-			foreach ($target_guildmember_role_collection as $role){
-				if ($x!=0){ //0 is @everyone so skip it
-					$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-					if ($role->id == $role_18_id)		$target_adult 		= true;							//Author has the 18+ role
-					if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
-					if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
-					if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
-					if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-					if ($role->id == $role_verified_id)	$target_verified 	= true;							//Author has the verified role
-					if ($role->id == $role_bot_id)		$target_bot 		= true;							//Author has the bot role
-					if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
-					if ($role->id == $role_muted_id)	$target_muted 		= true;							//Author is this bot
+			if ($author_id != $mention_id){ //Don't let anyone kick themselves
+				//Get the roles of the mentioned user
+				$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+				$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
+				
+	//  				Get the avatar URL of the mentioned user
+	//					$target_guildmember_user							= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
+	//					$mention_avatar 									= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
+				
+	//  				Populate arrays of the info we need
+	//  				$target_guildmember_roles_names 					= array();
+				$x=0;
+				$target_dev = false;
+				$target_owner = false;
+				$target_admin = false;
+				$target_mod = false;
+				$target_vzgbot = false;
+				$target_guildmember_roles_ids = array();
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+						if ($role->id == $role_18_id)		$target_adult 		= true;							//Author has the 18+ role
+						if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
+						if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
+						if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
+						if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
+						if ($role->id == $role_verified_id)	$target_verified 	= true;							//Author has the verified role
+						if ($role->id == $role_bot_id)		$target_bot 		= true;							//Author has the bot role
+						if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
+						if ($role->id == $role_muted_id)	$target_muted 		= true;							//Author is this bot
+					}
+					$x++;
 				}
-				$x++;
+				if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+					if ($mention_check == $creator_check) return true; //Don't kick the creator
+					//Build the string to log
+					$filter = "$command_symbol" . "kick <@!$mention_id>";
+					$warndate = date("m/d/Y");
+					$reason = "**🥾Kicked:** <@$mention_id>
+					**🗓️Date:** $warndate
+					**📝Reason:** " . str_replace($filter, "", $message_content);
+					//Kick the user
+					$target_guildmember->kick($reason)->done(null, function ($error){
+						echo $error.PHP_EOL; //Echo any errors
+					});
+					if($react) $message->react("🥾"); //Boot
+					//Build the embed message
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+	//							->setTitle("Commands")																	// Set a title
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+						->setDescription("$reason")																// Set a description (below title, above fields)
+	//							->addField("⠀", "$reason")																// New line after this
+						
+	//							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+	//							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+	//						Send the message
+					if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo $error.PHP_EOL; //Echo any errors
+					});
+					return true;
+				}else{//Target is not allowed to be kicked
+					$author_channel->send("<@$mention_id> cannot be kicked because of their roles!");
+					return true;
+				}
+			}else{
+				if($react) $message->react("👎");
+				$author_channel->send("<@$author_id>, you can't kick yourself!");
+				return true;
 			}
-			if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-				if ($mention_check == $creator_check) return true; //Don't kick the creator
-				//Build the string to log
-				$filter = "$command_symbol" . "kick <@!$mention_id>";
-				$warndate = date("m/d/Y");
-				$reason = "**🥾Kicked:** <@$mention_id>
-				**🗓️Date:** $warndate
-				**📝Reason:** " . str_replace($filter, "", $message_content);
-				//Kick the user
-				$target_guildmember->kick($reason)->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
-				});
-				if($react) $message->react("🥾"); //Boot
-				//Build the embed message
-				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-				$embed
+		} //foreach method didn't return, so nobody was mentioned
+		if($react) $message->react("👎");
+		$author_channel->send("<@$author_id>, you need to mention someone!");
+		return true;
+	}
+	if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
+		echo "MUTE" . PHP_EOL;
+//			Get an array of people mentioned
+		$mentions_arr 												= $message->mentions->users;
+		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+			$filter = "$command_symbol" . "mute ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				$mention_member				= $author_guild->members->get($value);
+				$mention_user				= $mention_member->user;
+				$mentions_arr				= array($mention_user);
+			}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+			if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
+		}
+		foreach ( $mentions_arr as $mention_param ){
+			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+			$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+			$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+			$mention_check 											= $mention_username ."#".$mention_discriminator;
+			
+			
+			if ($author_id != $mention_id){ //Don't let anyone mute themselves
+				//Get the roles of the mentioned user
+				$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
+				$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
+				
+//  			Populate arrays of the info we need
+//	    		$target_guildmember_roles_names 					= array();
+				$x=0;
+				$target_dev = false;
+				$target_owner = false;
+				$target_admin = false;
+				$target_mod = false;
+				$target_vzgbot = false;
+				$target_guildmember_roles_ids = array();
+				$removed_roles = array();
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						$removed_roles[] = $role->id;
+						$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+						if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
+						if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
+						if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
+						if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
+						if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
+					}
+					$x++;
+				}
+				if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+					if ($mention_check == $creator_check) return true; //Don't mute the creator
+					//Save current roles in a file for the user
+					VarSave($guild_folder."/".$mention_id, "removed_roles.php", $removed_roles);
+					//Build the string to log
+					$filter = "$command_symbol" . "mute <@!$mention_id>";
+					$warndate = date("m/d/Y");
+					$reason = "**🥾Muted:** <@$mention_id>
+					**🗓️Date:** $warndate
+					**📝Reason:** " . str_replace($filter, "", $message_content);
+					//Remove all roles and add the muted role (TODO: REMOVE ALL ROLES)
+					foreach ($removed_roles as $role){
+						$target_guildmember->removeRole($role);
+					}
+					if($role_muted_id) $target_guildmember->addRole($role_muted_id);
+					if($react) $message->react("🤐");
+					//Build the embed message
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
 //							->setTitle("Commands")																	// Set a title
-					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$reason")																// Set a description (below title, above fields)
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+						->setDescription("$reason")																// Set a description (below title, above fields)
 //							->addField("⠀", "$reason")																// New line after this
-					
+						
 //							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 //							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-					->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
-					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-					->setURL("");                             												// Set the URL
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
 //						Send the message
-				if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
-				});
-				return true;
-			}else{//Target is not allowed to be kicked
-				$author_channel->send("<@$mention_id> cannot be kicked because of their roles!");
+					if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo $error.PHP_EOL; //Echo any errors
+					});
+					return true;
+				}else{//Target is not allowed to be muted
+					$author_channel->send("<@$mention_id> cannot be muted because of their roles!");
+					return true;
+				}
+			}else{
+				if($react) $message->react("👎");
+				$author_channel->send("<@$author_id>, you can't mute yourself!");
 				return true;
 			}
-		}else{
-			if($react) $message->react("👎");
-			$author_channel->send("<@$author_id>, you can't kick yourself!");
-			return true;
+		} //foreach method didn't return, so nobody was mentioned
+		if($react) $message->react("👎");
+		$author_channel->send("<@$author_id>, you need to mention someone!");
+		return true;
+	}
+	if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unmute
+		echo "UNMUTE" . PHP_EOL;
+//			Get an array of people mentioned
+		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
+			$filter = "$command_symbol" . "unmute ";
+			$value = str_replace($filter, "", $message_content_lower);
+			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
+			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			if(is_numeric($value)){
+				$mention_member				= $author_guild->members->get($value);
+				$mention_user				= $mention_member->user;
+				$mentions_arr				= array($mention_user);
+			}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+			if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
 		}
-	} //foreach method didn't return, so nobody was mentioned
-	if($react) $message->react("👎");
-	$author_channel->send("<@$author_id>, you need to mention someone!");
-	return true;
+		foreach ( $mentions_arr as $mention_param ){
+			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
+			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
+			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+			$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
+			$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
+			$mention_check 											= $mention_username ."#".$mention_discriminator;
+			
+			
+			if ($author_id != $mention_id){ //Don't let anyone mute themselves
+				//Get the roles of the mentioned user
+				$target_guildmember 								= $message->guild->members->get($mention_id);
+				$target_guildmember_role_collection 				= $target_guildmember->roles;
+
+//				Get the roles of the mentioned user
+				$target_dev = false;
+				$target_owner = false;
+				$target_admin = false;
+				$target_mod = false;
+				$target_vzgbot = false;
+//				Populate arrays of the info we need
+				$target_guildmember_roles_ids = array();
+				$x=0;
+				foreach ($target_guildmember_role_collection as $role){
+					if ($x!=0){ //0 is @everyone so skip it
+						$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
+						if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
+						if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
+						if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
+						if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
+						if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
+						if ($role->name == "Palace Bot")	$target_vzgbot 		= true;							//Author is this bot
+					}
+					$x++;
+				}
+				if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
+					if ($mention_check == $creator_check) return true; //Don't mute the creator
+					//Build the string to log
+					$filter = "$command_symbol" . "unmute <@!$mention_id>";
+					$warndate = date("m/d/Y");
+					$reason = "**🥾Unmuted:** <@$mention_id>
+					**🗓️Date:** $warndate
+					**📝Reason:** " . str_replace($filter, "", $message_content);
+					//Unmute the user and readd the verified role (TODO: READD REMOVED ROLES)
+					//Save current roles in a file for the user
+					$removed_roles = VarLoad($guild_folder."/".$mention_id, "removed_roles.php");
+					foreach ($removed_roles as $role){
+						$target_guildmember->addRole($role);
+					}
+					if($role_muted_id) $target_guildmember->removeRole($role_muted_id);
+					//Build the embed message
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+//							->setTitle("Commands")																	// Set a title
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+						->setDescription("$reason")																// Set a description (below title, above fields)
+//							->addField("⠀", "$reason")																// New line after this
+						
+//							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+//						Send the message
+					if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo $error.PHP_EOL; //Echo any errors
+					});
+					return true;
+				}else{//Target is not allowed to be unmuted
+					$author_channel->send("<@$mention_id> cannot be unmuted because of their roles!");
+					return true;
+				}
+			}else{
+				if($react) $message->react("👎");
+				$author_channel->send("<@$author_id>, you can't mute yourself!");
+				return true;
+			}
+		} //foreach method didn't return, so nobody was mentioned
+		if($react) $message->react("👎");
+		$author_channel->send("<@$author_id>, you need to mention someone!");
+		return true;
+	}
 }
 if ($creator || $owner || $dev || $admin)
 if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
@@ -1760,203 +1962,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 	$author_channel->send("<@$author_id>, you need to mention someone!");
 	return true;
 }
-if ( ($role_muted_id != "") || ($role_muted_id != NULL) ){ //These commands require the Muted Role to be setup
-	if ($creator || $owner || $dev || $admin || $mod){
-		if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
-			echo "MUTE" . PHP_EOL;
-//			Get an array of people mentioned
-			$mentions_arr 												= $message->mentions->users;
-			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
-				$filter = "$command_symbol" . "mute ";
-				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
-				if(is_numeric($value)){
-					$mention_member				= $author_guild->members->get($value);
-					$mention_user				= $mention_member->user;
-					$mentions_arr				= array($mention_user);
-				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
-				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
-			}
-			foreach ( $mentions_arr as $mention_param ){
-				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
-				$mention_check 											= $mention_username ."#".$mention_discriminator;
-				
-				
-				if ($author_id != $mention_id){ //Don't let anyone mute themselves
-					//Get the roles of the mentioned user
-					$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
-					$target_guildmember_role_collection 				= $target_guildmember->roles;					//This is the Role object for the GuildMember
-					
-//  				Populate arrays of the info we need
-//	    			$target_guildmember_roles_names 					= array();
-					$x=0;
-					$target_dev = false;
-					$target_owner = false;
-					$target_admin = false;
-					$target_mod = false;
-					$target_vzgbot = false;
-					$target_guildmember_roles_ids = array();
-					foreach ($target_guildmember_role_collection as $role){
-						if ($x!=0){ //0 is @everyone so skip it
-							$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
-							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
-							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
-							if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-							if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
-						}
-						$x++;
-					}
-					if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-						if ($mention_check == $creator_check) return true; //Don't mute the creator
-						//Build the string to log
-						$filter = "$command_symbol" . "mute <@!$mention_id>";
-						$warndate = date("m/d/Y");
-						$reason = "**🥾Muted:** <@$mention_id>
-						**🗓️Date:** $warndate
-						**📝Reason:** " . str_replace($filter, "", $message_content);
-						//Mute the user and remove the verified role
-						$target_guildmember->addRole($role_muted_id);
-						if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
-							$target_guildmember->removeRole($role_verified_id);
-						if($react) $message->react("🤐");
-						//Build the embed message
-						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-						$embed
-//							->setTitle("Commands")																	// Set a title
-							->setColor("e1452d")																	// Set a color (the thing on the left side)
-							->setDescription("$reason")																// Set a description (below title, above fields)
-//							->addField("⠀", "$reason")																// New line after this
-							
-//							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-							->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-							->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
-							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-							->setURL("");                             												// Set the URL
-//						Send the message
-						if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-							echo $error.PHP_EOL; //Echo any errors
-						});
-						return true;
-					}else{//Target is not allowed to be muted
-						$author_channel->send("<@$mention_id> cannot be muted because of their roles!");
-						return true;
-					}
-				}else{
-					if($react) $message->react("👎");
-					$author_channel->send("<@$author_id>, you can't mute yourself!");
-					return true;
-				}
-			} //foreach method didn't return, so nobody was mentioned
-			if($react) $message->react("👎");
-			$author_channel->send("<@$author_id>, you need to mention someone!");
-			return true;
-		}
-		if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unmute
-			echo "UNMUTE" . PHP_EOL;
-//			Get an array of people mentioned
-			$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
-			if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
-				$filter = "$command_symbol" . "unmute ";
-				$value = str_replace($filter, "", $message_content_lower);
-				$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-				$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
-				if(is_numeric($value)){
-					$mention_member				= $author_guild->members->get($value);
-					$mention_user				= $mention_member->user;
-					$mentions_arr				= array($mention_user);
-				}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
-				if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
-			}
-			foreach ( $mentions_arr as $mention_param ){
-				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
-				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
-				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
-				$mention_username 										= $mention_json['username']; 									//echo "mention_username: " . $mention_username . PHP_EOL; //Just the discord ID
-				$mention_check 											= $mention_username ."#".$mention_discriminator;
-				
-				
-				if ($author_id != $mention_id){ //Don't let anyone mute themselves
-					//Get the roles of the mentioned user
-					$target_guildmember 								= $message->guild->members->get($mention_id);
-					$target_guildmember_role_collection 				= $target_guildmember->roles;
 
-//					Get the roles of the mentioned user
-					$target_dev = false;
-					$target_owner = false;
-					$target_admin = false;
-					$target_mod = false;
-					$target_vzgbot = false;
-//					Populate arrays of the info we need
-					$target_guildmember_roles_ids = array();
-					$x=0;
-					foreach ($target_guildmember_role_collection as $role){
-						if ($x!=0){ //0 is @everyone so skip it
-							$target_guildmember_roles_ids[] 						= $role->id; 													//echo "role[$x] id: " . PHP_EOL; //var_dump($role->id);
-							if ($role->id == $role_dev_id)    	$target_dev 		= true;							//Author has the dev role
-							if ($role->id == $role_owner_id)    $target_owner	 	= true;							//Author has the owner role
-							if ($role->id == $role_admin_id)	$target_admin 		= true;							//Author has the admin role
-							if ($role->id == $role_mod_id)		$target_mod 		= true;							//Author has the mod role
-							if ($role->id == $role_vzgbot_id)	$target_vzgbot 		= true;							//Author is this bot
-							if ($role->name == "Palace Bot")	$target_vzgbot 		= true;							//Author is this bot
-						}
-						$x++;
-					}
-					if(!$target_dev && !$target_owner && !$target_admin && !$target_mod && !$target_vzg){
-						if ($mention_check == $creator_check) return true; //Don't mute the creator
-						//Build the string to log
-						$filter = "$command_symbol" . "unmute <@!$mention_id>";
-						$warndate = date("m/d/Y");
-						$reason = "**🥾Unmuted:** <@$mention_id>
-						**🗓️Date:** $warndate
-						**📝Reason:** " . str_replace($filter, "", $message_content);
-						//Unmute the user and readd the verified role
-						$target_guildmember->removeRole($role_muted_id);
-						if ( ($role_verified_id != "") || ($role_verified_id != NULL) )
-							$target_guildmember->addRole($role_verified_id);
-						if($react) $message->react("😩");
-						//Build the embed message
-						$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-						$embed
-//							->setTitle("Commands")																	// Set a title
-							->setColor("e1452d")																	// Set a color (the thing on the left side)
-							->setDescription("$reason")																// Set a description (below title, above fields)
-//							->addField("⠀", "$reason")																// New line after this
-							
-//							->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-							->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-							->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
-							->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-							->setURL("");                             												// Set the URL
-//						Send the message
-						if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-							echo $error.PHP_EOL; //Echo any errors
-						});
-						return true;
-					}else{//Target is not allowed to be unmuted
-						$author_channel->send("<@$mention_id> cannot be unmuted because of their roles!");
-						return true;
-					}
-				}else{
-					if($react) $message->react("👎");
-					$author_channel->send("<@$author_id>, you can't mute yourself!");
-					return true;
-				}
-			} //foreach method didn't return, so nobody was mentioned
-			if($react) $message->react("👎");
-			$author_channel->send("<@$author_id>, you need to mention someone!");
-			return true;
-		}
-	}
-}
 
 /*
 *********************
