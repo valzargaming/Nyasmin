@@ -2777,13 +2777,13 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				});
 			});
 			*/
+			if ($output != "playing"){
+				$embed->addField("Status", "Persistence server is saving!");
+				$sent = true;
+			}
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo $error.PHP_EOL; //Echo any errors
 			});
-			$sent = true;
-		}
-		if ($output != "playing"){
-			$author_channel->send("Persistence server is saving!");
 			$sent = true;
 		}
 		
