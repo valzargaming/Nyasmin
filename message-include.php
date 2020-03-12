@@ -47,7 +47,7 @@ if ($is_dm === false){ //Guild message
 	if ($blacklisted_owners)
 	if (in_array($guild_owner_id, $blacklisted_owners)){
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
-			echo $error.PHP_EOL; //Echo any errors
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
 	}
 	//Leave the guild if blacklisted
@@ -55,7 +55,7 @@ if ($is_dm === false){ //Guild message
 	if ($blacklisted_guilds)
 	if (in_array($author_guild_id, $blacklisted_guilds)){
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
-			echo $error.PHP_EOL; //Echo any errors
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
 	}
 	//Leave the guild if not whitelisted
@@ -63,7 +63,7 @@ if ($is_dm === false){ //Guild message
 	if ($whitelisted_guilds)
 	if (!in_array($author_guild_id, $whitelisted_guilds)){
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
-			echo $error.PHP_EOL; //Echo any errors
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
 	}
 	$guild_folder = "\\guilds\\$author_guild_id";
@@ -102,7 +102,7 @@ if ($is_dm === false){ //Guild message
 }else{ //Direct message
 	if ($author_id != $discord->user->id){
 		GLOBAL $server_invite;
-		echo "DIRECT MESSAGE - NO PROCESSING OF FUNCTIONS ALLOWED" . PHP_EOL;			
+		echo "[DM-EARLY BREAK]" . PHP_EOL;			
 		$dm_text = "Please use commands for this bot within a server.";
 		$message->reply("$dm_text \n$server_invite");
 	}
@@ -185,7 +185,7 @@ Load persistent variables for author
 $author_folder = $guild_folder."\\".$author_id;
 CheckDir($author_folder); //Check if folder exists and create if it doesn't
 if(CheckFile($author_folder, "watchers.php")){
-	echo "AUTHOR IS BEING WATCHED" . PHP_EOL;
+echo "[WATCH] $author_id" . PHP_EOL;
 	$watchers = VarLoad($author_folder, "watchers.php");
 //	echo "WATCHERS: " . var_dump($watchers); //array of user IDs
 	$null_array = true; //Assume the object is empty
@@ -208,7 +208,7 @@ if(CheckFile($author_folder, "watchers.php")){
 	}
 	if($null_array){ //Delete the null file
 		VarDelete($author_folder, "watchers.php");
-		echo 'AUTHOR IS NO LONGER BEING WATCHED BY ANYONE' . PHP_EOL;
+		echo "[REMOVE WATCH] $author_id" . PHP_EOL;
 	}
 }
 
@@ -360,15 +360,15 @@ if ($creator || $owner || $dev){
 				->setURL("");                             												// Set the URL
 	//				Open a DM channel then send the rich embed message
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-				echo 'SEND ;SETUP EMBED' . PHP_EOL;
+				echo "[;SETUP EMBED]" . PHP_EOL;
 				return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo "error: " . $error . PHP_EOL; //Echo any errors
+					echo "[ERROR] $error" . PHP_EOL; //Echo any errors
 				});
 			});
 			return true;
 		}else{
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
-				echo 'SEND ;SETUP MESSAGE' . PHP_EOL;
+				echo "[;SETUP MESSAGE]" . PHP_EOL;
 				$author_dmchannel->send($documentation);
 			});
 			return true;
@@ -428,15 +428,15 @@ if ($creator || $owner || $dev){
 				->setURL("");                             												// Set the URL
 	//				Open a DM channel then send the rich embed message
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-				echo 'SEND ;CURRENTSETUP EMBED' . PHP_EOL;
+				echo "[;CURRENTSETUP EMBED]" . PHP_EOL;
 				return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo "error: " . $error . PHP_EOL; //Echo any errors
+					echo "[ERROR] $error" . PHP_EOL; //Echo any errors
 				});
 			});
 			return true;
 		}else{
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
-				echo 'SEND ;CURRENTSETUP MESSAGE' . PHP_EOL;
+				echo "[;CURRENTSETUP MESSAGE]" . PHP_EOL;
 				$author_dmchannel->send($documentation);
 			});
 			return true;
@@ -508,8 +508,7 @@ if ($creator || $owner || $dev){
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<@&", "", $value);
 		$value = str_replace(">", "", $value);
-		$value = trim($value);
-		echo "value: '$value';" . PHP_EOL;
+		$value = trim($value);//echo "value: '$value';" . PHP_EOL;
 		if(is_numeric($value)){
 			VarSave($guild_folder, "role_muted_id.php", $value);
 			$message->reply("Muted role ID saved!");
@@ -630,7 +629,7 @@ if ($creator || $owner || $dev){
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<#", "", $value);
 		$value = str_replace(">", "", $value);
-		$value = trim($value); echo "value: " . $value . PHP_EOL;
+		$value = trim($value); //echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			VarSave($guild_folder, "rolepicker_channel_id.php", $value);
 			$message->reply("Rolepicker channel ID saved!");
@@ -642,7 +641,7 @@ if ($creator || $owner || $dev){
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<#", "", $value);
 		$value = str_replace(">", "", $value);
-		$value = trim($value); echo "value: " . $value . PHP_EOL;
+		$value = trim($value); //echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			VarSave($guild_folder, "suggestion_pending_channel_id.php", $value);
 			$message->reply("Suggestion pending channel ID saved!");
@@ -654,7 +653,7 @@ if ($creator || $owner || $dev){
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<#", "", $value);
 		$value = str_replace(">", "", $value);
-		$value = trim($value); echo "value: " . $value . PHP_EOL;
+		$value = trim($value); //echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			VarSave($guild_folder, "suggestion_approved_channel_id.php", $value);
 			$message->reply("Suggestion approved channel ID saved!");
@@ -667,7 +666,7 @@ if ($creator || $owner || $dev){
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
 		$value = str_replace(">", "", $value);
-		$value = trim($value); echo "value: " . $value . PHP_EOL;
+		$value = trim($value); //echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			VarSave($guild_folder, "rolepicker_id.php", $value);
 			$message->reply("Rolepicker user ID saved!");
@@ -739,7 +738,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'react'){ //toggle reaction functions ;react
 		if(!CheckFile($guild_folder, "react_option.php")){
 			VarSave($guild_folder, "react_option.php", $react);
-			echo "NEW REACT OPTION FILE";
+			echo "[NEW REACT OPTION FILE]";
 		}
 		$react_var = VarLoad($guild_folder, "react_option.php");
 		$react_flip = !$react_var;
@@ -752,8 +751,8 @@ if ($creator || $owner || $dev){
 	}
 	if ($message_content_lower == $command_symbol . 'vanity'){ //toggle vanity functions ;vanity
 		if(!CheckFile($guild_folder, "vanity_option.php")){
-			VarSave($guild_folder, "vanity_option.php", $vanity);														//echo "NEW VANITY FILE" . PHP_EOL;
-			echo "NEW VANITY OPTION FILE" . PHP_EOL;
+			VarSave($guild_folder, "vanity_option.php", $vanity);														//echo "[NEW VANITY FILE]" . PHP_EOL;
+			echo "[NEW VANITY OPTION FILE]" . PHP_EOL;
 		}
 		$vanity_var = VarLoad($guild_folder, "vanity_option.php");														//echo "vanity_var: $vanity_var" . PHP_EOL;
 		$vanity_flip = !$vanity_var;																			//echo "vanity_flip: $vanity_flip" . PHP_EOL;
@@ -767,7 +766,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'nsfw'){ //toggle nsfw functions ;nsfw
 		if(!CheckFile($guild_folder, "nsfw_option.php")){
 			VarSave($guild_folder, "nsfw_option.php", $nsfw);
-			echo "NEW NSFW OPTION FILE" . PHP_EOL;
+			echo "[NEW NSFW OPTION FILE]" . PHP_EOL;
 		}
 		$nsfw_var = VarLoad($guild_folder, "nsfw_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 		$nsfw_flip = !$nsfw_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
@@ -781,7 +780,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'rolepicker'){ //toggle rolepicker ;rolepicker
 		if(!CheckFile($guild_folder, "rolepicker_option.php")){
 			VarSave($guild_folder, "rolepicker_option.php", $nsfw);
-			echo "NEW ROLEPICKER FILE" . PHP_EOL;
+			echo "[NEW ROLEPICKER FILE]" . PHP_EOL;
 		}
 		$rolepicker_var = VarLoad($guild_folder, "rolepicker_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 		$rolepicker_flip = !$rolepicker_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
@@ -795,7 +794,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'species'){ //toggle species ;species
 		if(!CheckFile($guild_folder, "species_option.php")){
 			VarSave($guild_folder, "species_option.php", $nsfw);
-			echo "NEW SPECIES FILE" . PHP_EOL;
+			echo "[NEW SPECIES FILE]" . PHP_EOL;
 		}
 		$species_var = VarLoad($guild_folder, "species_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 		$species_flip = !$species_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
@@ -809,7 +808,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
 		if(!CheckFile($guild_folder, "sexuality_option.php")){
 			VarSave($guild_folder, "sexuality_option.php", $nsfw);
-			echo "NEW SEXUALITY FILE" . PHP_EOL;
+			echo "[NEW SEXUALITY FILE]" . PHP_EOL;
 		}
 		$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 		$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
@@ -823,7 +822,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
 		if(!CheckFile($guild_folder, "gender_option.php")){
 			VarSave($guild_folder, "gender_option.php", $nsfw);
-			echo "NEW GENDER FILE" . PHP_EOL;
+			echo "[NEW GENDER FILE]" . PHP_EOL;
 		}
 		$gender_var = VarLoad($guild_folder, "gender_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 		$gender_flip = !$gender_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
@@ -837,7 +836,7 @@ if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
 		if(!CheckFile($guild_folder, "custom_option.php")){
 			VarSave($guild_folder, "custom_option.php", $nsfw);
-			echo "NEW CUSTOM ROLE OPTION FILE" . PHP_EOL;
+			echo "[NEW CUSTOM ROLE OPTION FILE]" . PHP_EOL;
 		}
 		$custom_var = VarLoad($guild_folder, "custom_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
 		$custom_flip = !$custom_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
@@ -1077,15 +1076,15 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 			->setURL("");                             												// Set the URL
 //				Open a DM channel then send the rich embed message
 		$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-			echo 'SEND ;HELP EMBED' . PHP_EOL;
+			echo "[;HELP EMBED]" . PHP_EOL;
 			return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo "error: " . $error . PHP_EOL; //Echo any errors
+				echo "[ERROR] $error" . PHP_EOL; //Echo any errors
 			});
 		});
 		return true;
 	}else{
 		$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
-			echo 'SEND ;HELP MESSAGE' . PHP_EOL;
+			echo "[;HELP MESSAGE]" . PHP_EOL;
 			$author_dmchannel->send($documentation);
 		});
 		return true;
@@ -1153,15 +1152,15 @@ if ($message_content_lower == $command_symbol . 'settings'){ //;settings
 			->setURL("");                             												// Set the URL
 //				Open a DM channel then send the rich embed message
 		$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-			echo 'SEND ;SETTINGS EMBED' . PHP_EOL;
+			echo "[;SETTINGS EMBED]" . PHP_EOL;
 			return $author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 		});
 		return true;
 	}else{
 		$author_user->createDM()->then(function($author_dmchannel) use ($message, $documentation){	//Promise
-			echo 'SEND ;SETTINGS MESSAGE' . PHP_EOL;
+		echo "[;SETTINGS MESSAGE]" . PHP_EOL;
 			$author_dmchannel->send($documentation);
 		});
 		return true;
@@ -1205,48 +1204,48 @@ if ($message_content_lower == $command_symbol . 'ping'){
 	return true;
 }
 if ($message_content_lower == $command_symbol . 'roles'){ //;roles
-	echo "GETTING ROLES FOR AUTHOR" . PHP_EOL;
-//			Build the string for the reply
+	echo "[GET AUTHOR ROLES]" . PHP_EOL;
+//	Build the string for the reply
 	$author_role_name_queue 									= "";
-//			$author_role_name_queue_full 								= "Here's a list of roles for you:" . PHP_EOL;
+//	$author_role_name_queue_full 								= "Here's a list of roles for you:" . PHP_EOL;
 	foreach ($author_member_roles_ids as $author_role){
 		$author_role_name_queue 								= "$author_role_name_queue<@&$author_role> ";
 	}
 	$author_role_name_queue 									= substr($author_role_name_queue, 0, -1);
 	$author_role_name_queue_full 								= PHP_EOL . $author_role_name_queue;
-//			Send the message
+//	Send the message
 	if($react) $message->react("👍");
-//			$message->reply($author_role_name_queue_full . PHP_EOL);
-//			Build the embed
+//	$message->reply($author_role_name_queue_full . PHP_EOL);
+//	Build the embed
 	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 	$embed
-//				->setTitle("Roles")																		// Set a title
+//		->setTitle("Roles")																		// Set a title
 		->setColor("e1452d")																	// Set a color (the thing on the left side)
 		->setDescription("$author_guild_name")												// Set a description (below title, above fields)
 		->addField("Roles", 		"$author_role_name_queue_full")								// New line after this if ,true
 		
 		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 		->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
 		->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 		->setURL("");                             												// Set the URL
-//			Send the message
-//			We do not need another promise here, so we call done, because we want to consume the promise
+//	Send the message
+//	We do not need another promise here, so we call done, because we want to consume the promise
 	$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-		echo $error.PHP_EOL; //Echo any errors
+		echo "[ERROR] $error".PHP_EOL; //Echo any errors
 	});
 	return true; //No more processing, we only want to process the first person mentioned
 }
 if (substr($message_content_lower, 0, 7) == $command_symbol . 'roles '){//;roles @
-	echo "GETTING ROLES FOR MENTIONED" . PHP_EOL;
-//			Get an array of people mentioned
+	echo "[GET MENTIONED ROLES]" . PHP_EOL;
+//	Get an array of people mentioned
 	$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 		$filter = "$command_symbol" . "unmute ";
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-		$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+		$value = str_replace(">", "", $value); //echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			$mention_member				= $author_guild->members->get($value);
 			$mention_user				= $mention_member->user;
@@ -1256,10 +1255,10 @@ if (substr($message_content_lower, 0, 7) == $command_symbol . 'roles '){//;roles
 	}
 	//$mention_role_name_queue_full								= "Here's a list of roles for the requested users:" . PHP_EOL;
 	$mention_role_name_queue_default							= "";
-//			$mentions_arr_check = (array)$mentions_arr;																					//echo "mentions_arr_check: " . PHP_EOL; var_dump ($mentions_arr_check); //Shows the collection object
-//			$mentions_arr_check2 = empty((array) $mentions_arr_check);																	//echo "mentions_arr_check2: " . PHP_EOL; var_dump ($mentions_arr_check2); //Shows the collection object			
+//	$mentions_arr_check = (array)$mentions_arr;																					//echo "mentions_arr_check: " . PHP_EOL; var_dump ($mentions_arr_check); //Shows the collection object
+//	$mentions_arr_check2 = empty((array) $mentions_arr_check);																	//echo "mentions_arr_check2: " . PHP_EOL; var_dump ($mentions_arr_check2); //Shows the collection object			
 	foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//		id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 		$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 		$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 		$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -1324,7 +1323,7 @@ if (substr($message_content_lower, 0, 7) == $command_symbol . 'roles '){//;roles
 //					Send the message
 //					We do not need another promise here, so we call done, because we want to consume the promise
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			return true; //No more processing
 		}else{
@@ -1347,35 +1346,33 @@ $avatar_limit['min']	= 10;
 $avatar_limit['sec']	= 0;
 $avatar_limit_seconds = TimeArrayToSeconds($avatar_limit);																		//echo "TimeArrayToSeconds: " . $avatar_limit_seconds . PHP_EOL;
 if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
-	echo "GETTING AVATAR FOR AUTHOR" . PHP_EOL;
-//			Check Cooldown Timer
-	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit);
+	echo "[GET AUTHOR AVATAR]" . PHP_EOL;
+	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //	Check Cooldown Timer
 	if ( ($cooldown[0] == true) || ($bypass) ){
-//				Build the embed
+//		Build the embed
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
-//					->setTitle("Avatar")																	// Set a title
+//			->setTitle("Avatar")																	// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
-//					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
-//					->addField("Total Given", 		"$vanity_give_count")									// New line after this
+//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//			->addField("Total Given", 		"$vanity_give_count")									// New line after this
 			
-//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 			->setImage("$author_avatar")             												// Set an image (below everything except footer)
 			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 			->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
 			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 			->setURL("");                             												// Set the URL
 		
-//				Send the message
-//				We do not need another promise here, so we call done, because we want to consume the promise
+//		Send the message
+//		We do not need another promise here, so we call done, because we want to consume the promise
 		$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-			echo $error.PHP_EOL; //Echo any errors
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
-//				Set Cooldown
 		SetCooldown($author_folder, "avatar_time.php");
 		return true;
 	}else{
-//				Reply with remaining time
+//		Reply with remaining time
 		$waittime = $avatar_limit_seconds - $cooldown[1];
 		$formattime = FormatTime($waittime);
 		$message->reply("You must wait $formattime before using this command again.");
@@ -1384,15 +1381,14 @@ if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 }
 if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avatar @
 	echo "GETTING AVATAR FOR MENTIONED" . PHP_EOL;
-//			Check Cooldown Timer
-	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit);
+	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //Check Cooldown Timer
 	if ( ($cooldown[0] == true) || ($bypass) ){
-		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
+		$mentions_arr = $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 		$filter = "$command_symbol" . "unmute ";
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-		$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+		$value = str_replace(">", "", $value);//echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			$mention_member				= $author_guild->members->get($value);
 			$mention_user				= $mention_member->user;
@@ -1401,7 +1397,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 		if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
 	}
 		foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-//					id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//			id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 			$mention_param_encode 								= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 			$mention_json 										= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 			$mention_id 										= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -1410,32 +1406,32 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 			$mention_discriminator 								= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 			$mention_check 										= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 
-//					Get the avatar URL of the mentioned user
+//			Get the avatar URL of the mentioned user
 			$target_guildmember 								= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 			$target_guildmember_user							= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
 			$mention_avatar 									= "{$target_guildmember_user->getAvatarURL()}";
 			
-//					Build the embed
+//			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
-//					->setTitle("Avatar")																	// Set a title
+//			->setTitle("Avatar")																	// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
-//					->setDescription("$author_guild_name")												// Set a description (below title, above fields)
-//					->addField("Total Given", 		"$vanity_give_count")									// New line after this
+//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//			->addField("Total Given", 		"$vanity_give_count")									// New line after this
 				
-//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 			->setImage("$mention_avatar")             												// Set an image (below everything except footer)
 			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 			->setAuthor("$mention_check", "$author_guild_avatar")  									// Set an author with icon
 			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 			->setURL("");                             												// Set the URL
 			
-//					Send the message
-//					We do not need another promise here, so we call done, because we want to consume the promise
+//			Send the message
+//			We do not need another promise here, so we call done, because we want to consume the promise
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
-//					Set Cooldown
+//			Set Cooldown
 			SetCooldown($author_folder, "avatar_time.php");
 			return true;					
 		}
@@ -1443,7 +1439,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 		$author_channel->send("<@$author_id>, you need to mention someone!");
 		return true;
 	}else{
-//				Reply with remaining time
+//		Reply with remaining time
 		$waittime = $avatar_limit_seconds - $cooldown[1];
 		$formattime = FormatTime($waittime);
 		$message->reply("You must wait $formattime before using this command again.");
@@ -1556,14 +1552,14 @@ Mod/Admin command functions
 
 if ($creator || $owner || $dev || $admin || $mod){
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'kick '){ //;kick //TODO: Check $reason
-		echo "KICK" . PHP_EOL;
+		echo "[KICK]" . PHP_EOL;
 //		Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 			$filter = "$command_symbol" . "unmute ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			$value = str_replace(">", "", $value);//echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
 				$mention_member				= $author_guild->members->get($value);
 				$mention_user				= $mention_member->user;
@@ -1623,7 +1619,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 					**📝Reason:** " . str_replace($filter, "", $message_content);
 					//Kick the user
 					$target_guildmember->kick($reason)->done(null, function ($error){
-						echo $error.PHP_EOL; //Echo any errors
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
 					});
 					if($react) $message->react("🥾"); //Boot
 					//Build the embed message
@@ -1642,7 +1638,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 						->setURL("");                             												// Set the URL
 	//						Send the message
 					if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo $error.PHP_EOL; //Echo any errors
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
 					});
 					return true;
 				}else{//Target is not allowed to be kicked
@@ -1660,14 +1656,14 @@ if ($creator || $owner || $dev || $admin || $mod){
 		return true;
 	}
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'mute '){ //;mute
-		echo "MUTE" . PHP_EOL;
+		echo "[MUTE]" . PHP_EOL;
 //			Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users;
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 			$filter = "$command_symbol" . "mute ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			$value = str_replace(">", "", $value);//echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
 				$mention_member				= $author_guild->members->get($value);
 				$mention_user				= $mention_member->user;
@@ -1743,7 +1739,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 						->setURL("");                             												// Set the URL
 //						Send the message
 					if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo $error.PHP_EOL; //Echo any errors
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
 					});
 					return true;
 				}else{//Target is not allowed to be muted
@@ -1761,14 +1757,14 @@ if ($creator || $owner || $dev || $admin || $mod){
 		return true;
 	}
 	if (substr($message_content_lower, 0, 8) == $command_symbol . 'unmute '){ //;unmute
-		echo "UNMUTE" . PHP_EOL;
+		echo "[UNMUTE]" . PHP_EOL;
 //			Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 			$filter = "$command_symbol" . "unmute ";
 			$value = str_replace($filter, "", $message_content_lower);
 			$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-			$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+			$value = str_replace(">", "", $value);//echo "value: " . $value . PHP_EOL;
 			if(is_numeric($value)){
 				$mention_member				= $author_guild->members->get($value);
 				$mention_user				= $mention_member->user;
@@ -1843,7 +1839,7 @@ if ($creator || $owner || $dev || $admin || $mod){
 						->setURL("");                             												// Set the URL
 //						Send the message
 					if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo $error.PHP_EOL; //Echo any errors
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
 					});
 					return true;
 				}else{//Target is not allowed to be unmuted
@@ -1863,14 +1859,14 @@ if ($creator || $owner || $dev || $admin || $mod){
 }
 if ($creator || $owner || $dev || $admin)
 if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
-	echo "BAN" . PHP_EOL;
+	echo "[BAN]" . PHP_EOL;
 //			Get an array of people mentioned
 	$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
 		$filter = "$command_symbol" . "ban ";
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value);
-		$value = str_replace(">", "", $value); echo "value: " . $value . PHP_EOL;
+		$value = str_replace(">", "", $value);//echo "value: " . $value . PHP_EOL;
 		if(is_numeric($value)){
 			$mention_member				= $author_guild->members->get($value);
 			$mention_user				= $mention_member->user;
@@ -1926,7 +1922,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 				**📝Reason:** " . str_replace($filter, "", $message_content);
 				//Ban the user and clear 1 days worth of messages
 				$target_guildmember->ban("1", $reason)->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				//Build the embed message
 				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -1944,7 +1940,7 @@ if (substr($message_content_lower, 0, 5) == $command_symbol . 'ban '){ //;ban
 					->setURL("");                             												// Set the URL
 //						Send the message
 				if($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				if($react) $message->react("🔨"); //Hammer
 				return true; //No more processing, we only want to process the first person mentioned
@@ -2013,7 +2009,7 @@ if ($vanity){
 	else 													$peted_count		= VarLoad($author_folder, "peted_count.php");				
 	
 	if ( ($message_content_lower == $command_symbol . 'cooldown') || ($message_content_lower == $command_symbol . 'cd') ){//;cooldown ;cd
-		echo "COOLDOWN CHECK" . PHP_EOL;
+		echo "[COOLDOWN CHECK]" . PHP_EOL;
 //		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $avatar_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2026,7 +2022,7 @@ if ($vanity){
 		}
 	}
 	if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
-		echo "HUG/SNUGGLE" . PHP_EOL;
+		echo "[HUG/SNUGGLE]" . PHP_EOL;
 //		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2097,7 +2093,7 @@ if ($vanity){
 		}
 	}
 	if ( (substr($message_content_lower, 0, 6) == $command_symbol . 'kiss ') || (substr($message_content_lower, 0, 8)) == $command_symbol . 'smooch '){ //;kiss ;smooch
-		echo "KISS" . PHP_EOL;
+		echo "[KISS]" . PHP_EOL;
 //		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2169,7 +2165,7 @@ if ($vanity){
 		}
 	}
 	if (substr($message_content_lower, 0, 8) == $command_symbol . 'nuzzle '){ //;nuzzle @
-		echo "NUZZLE" . PHP_EOL;
+		echo "[NUZZLE]" . PHP_EOL;
 //		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2242,7 +2238,7 @@ if ($vanity){
 		}
 	}
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'boop '){ //;boop @
-		echo "BOOP" . PHP_EOL;
+		echo "[BOOP]" . PHP_EOL;
 //		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2312,7 +2308,7 @@ if ($vanity){
 		}
 	}
 	if (substr($message_content_lower, 0, 5) == $command_symbol . 'bap '){ //;bap @
-		echo "BAP" . PHP_EOL;
+		echo "[BAP]" . PHP_EOL;
 //				Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2383,7 +2379,7 @@ if ($vanity){
 		}
 	}
 	if (substr($message_content_lower, 0, 5) == $command_symbol . 'pet '){ //;pet @
-		echo "PET" . PHP_EOL;
+		echo "[PET]" . PHP_EOL;
 //				Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
@@ -2462,10 +2458,10 @@ if ($vanity){
 	$vstats_limit_seconds = TimeArrayToSeconds($vstats_limit);
 	
 	if ($message_content_lower == $command_symbol . 'vstats' ){ //;vstats //Give the author their vanity stats as an embedded message
-//				Check Cooldown Timer
+//		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
-//					Build the embed
+//			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
 				->setTitle("Vanity Stats")																// Set a title
@@ -2488,23 +2484,23 @@ if ($vanity){
 				->addField("Pets", 				"$peted_count", true)
 				
 				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//						->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 				->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 				->setURL("");                             												// Set the URL
 			
-//					Send the message
-//					We do not need another promise here, so we call done, because we want to consume the promise
+//			Send the message
+//			We do not need another promise here, so we call done, because we want to consume the promise
 			if($react) $message->react("👍");
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
-//					Set Cooldown
+//			Set Cooldown
 			SetCooldown($author_folder, "vstats_limit.php");
 			return true;
 		}else{
-//					Reply with remaining time
+//			Reply with remaining time
 			$waittime = ($vstats_limit_seconds - $cooldown[1]);
 			$formattime = FormatTime($waittime);
 			if($react) $message->react("👎");
@@ -2514,14 +2510,14 @@ if ($vanity){
 	}
 	
 	if (substr($message_content_lower, 0, 8) == $command_symbol . 'vstats ' ){ //;vstats @
-		echo "GETTING VANITY STATS OF MENTIONED" . PHP_EOL;
-//				Check Cooldown Timer
+		echo "[GET MENTIONED VANITY STATS]" . PHP_EOL;
+//		Check Cooldown Timer
 		$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
-//					Get an array of people mentioned
+//			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object			
 			foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-//						id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 				$mention_param_encode 							= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 									= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 				$mention_id 									= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -2529,7 +2525,7 @@ if ($vanity){
 				$mention_discriminator 							= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 				$mention_check 									= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 				
-//						Get the avatar URL
+//				Get the avatar URL
 				$target_guildmember 							= $message->guild->members->get($mention_id); 	//This is a GuildMember object
 				$target_guildmember_user						= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
 				$mention_avatar 								= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;
@@ -2576,19 +2572,19 @@ if ($vanity){
 					->addField("Boops", 			"$target_booped_count", true)
 					
 					->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
-//							->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             		// Set an image (below everything except footer)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             		// Set an image (below everything except footer)
 					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 					->setAuthor("$mention_check", "$author_guild_avatar")  // Set an author with icon
 					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 					->setURL("");                             												// Set the URL
 				
-//						Send the message
-//						We do not need another promise here, so we call done, because we want to consume the promise
+//				Send the message
+//				We do not need another promise here, so we call done, because we want to consume the promise
 				if($react) $message->react("👍");
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
-//						Set Cooldown
+//				Set Cooldown
 				SetCooldown($author_folder, "vstats_limit.php");
 				return true; //No more processing, we only want to process the first person mentioned
 			}
@@ -2596,7 +2592,7 @@ if ($vanity){
 			$author_channel->send("<@$author_id>, you need to mention someone!");
 			return true;
 		}else{
-//					Reply with remaining time
+//			Reply with remaining time
 			$waittime = ($vstats_limit_seconds - $cooldown[1]);
 			$formattime = FormatTime($waittime);
 			if($react) $message->react("👎");
@@ -2635,46 +2631,46 @@ if ($creator){ //Mostly just debug commands
 		include "imagecreate_include.php"; //Generates $img_output_path
 		$image_path = "http://www.valzargaming.com/discord%20-%20palace/" . $img_output_path;
 		//echo "image_path: " . $image_path . PHP_EOL;
-	//			Build the embed message
+	//	Build the embed message
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
-	//				->setTitle("$author_check")																// Set a title
+	//		->setTitle("$author_check")																// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$author_guild_name")									// Set a description (below title, above fields)
-	//				->addField("⠀", "$documentation")														// New line after this
+	//		->addField("⠀", "$documentation")														// New line after this
 			
 			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-	//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 			->setImage("$image_path")             													// Set an image (below everything except footer)
 			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 			->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
 			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 			->setURL("");                             												// Set the URL
-	//				Open a DM channel then send the rich embed message
+	//		Open a DM channel then send the rich embed message
 		/*
 		$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
 			echo 'SEND GENIMAGE EMBED' . PHP_EOL;
 			$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 		});
 		*/
 		$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-			echo $error.PHP_EOL; //Echo any errors
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'promote'){ //;promote
 		$author_member->addRole($role_dev_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
 			function ($error) {
-				echo $error.PHP_EOL;
+				echo "[ERROR] $error".PHP_EOL;
 			}
 		);
 	}
 	if ($message_content_lower == $command_symbol . 'demote'){ //;demote
 		$author_member->removeRole($role_dev_id)->done( //echo "role_admin_id: $role_admin_id" . PHP_EOL;
 			function ($error) {
-				echo $error.PHP_EOL;
+				echo "[ERROR] $error".PHP_EOL;
 			}
 		);
 	}
@@ -2692,12 +2688,14 @@ if ($creator){ //Mostly just debug commands
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'restart'){
-		echo "RESTARTING BOT" . PHP_EOL;
+		echo "[RESTARTING BOT]" . PHP_EOL;
+		$loop->stop();
+		$loop->run();
+		/*
 		$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"';
 		//echo $restart_cmd . PHP_EOL;
 		system($restart_cmd);
-		//echo 'die' . PHP_EOL;
-		//die;
+		*/
 	}
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'timer '){ //;timer
 		echo "TIMER" . PHP_EOL;
@@ -2743,21 +2741,26 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-		$output = curl_exec($ch); echo "output: " . $output . PHP_EOL;
+		$output = curl_exec($ch);//echo "output: " . $output . PHP_EOL;
 		if ($output != "playing"){ //Don't even try to process anything (including webhooks) if the persistence server is saving.
 			$author_channel->send("Persistence server is saving!");
 			return true;
 		}
 		include "../servers/getserverdata.php"; //Do this async?
-		$sent = false; //No message has been sent yet.
-		//echo 'Got server data!' . PHP_EOL;
-		$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
-		$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
-		//Round duration info
-		$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
-		$remainder = ($rd[0] % 24);
-		$rd[0] = floor($rd[0] / 24);
-		if( (($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0)) || ($output != "playing") ){ //Round duration must be valid
+		$sent = false; //No message has been sent yet.		
+		
+		if ($serverinfo[0]["version"]){ //This should always have a value if the server is online
+			$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
+			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
+			//Round duration info
+			$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
+			$remainder = ($rd[0] % 24);
+			$rd[0] = floor($rd[0] / 24);
+			if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+				$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+			}else{
+				$rt = "STARTING";
+			}
 			//echo "image_path: " . $image_path . PHP_EOL;
 		//	Build the embed message
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -2779,18 +2782,19 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
 				echo 'SEND GENIMAGE EMBED' . PHP_EOL;
 				$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 			});
 			*/
+			if($rt) $embed->addField("Round Time", $rt, true);
 			if ($output != "playing"){
 				$embed->addField("Status", "Persistence server is saving!");
 				$sent = true;
 			}
-			if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != NULL) ){
+			if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != "control")  && ($serverinfo[0]["age"] != NULL) ){
 				$embed->addField("Epoch", $serverinfo[0]["age"], true);
 				$sent = true;
-			}
+			} else $embed->addField("Epoch", urldecode($serverinfo[0]["age"]), true);
 			if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
 				if ($serverinfo[0]["map"] == "control")
 					$embed->addField("Map", "Nomads Temperate", true);
@@ -2798,7 +2802,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$sent = true;
 			}
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			$sent = true;
 		}
@@ -2807,7 +2811,11 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$rd = explode (":",  urldecode($serverinfo[1]["roundduration"]) );
 		$remainder = ($rd[0] % 24);
 		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round duration must be valid
+		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+			$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+		}else{
+			$rt = "STARTING";
+		}
 			$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
 			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
 			//echo "image_path: " . $image_path . PHP_EOL;
@@ -2831,15 +2839,21 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
 				echo 'SEND GENIMAGE EMBED' . PHP_EOL;
 				$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 			});
 			*/
+			if($rt) $embed->addField("Round Time", $rt, true);
+			if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[1]["age"] != NULL) ){
+				$embed->addField("Epoch", $serverinfo[1]["age"], true);
+			}
+			if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[1]["map"] != NULL) ){
+				$embed->addField("Map", urldecode($serverinfo[1]["map"]), true);
+			}
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			$sent = true;
-		}
 		
 		//Round duration info
 		$rd = explode (":",  urldecode($serverinfo[2]["roundduration"]) );
@@ -2869,12 +2883,12 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
 				echo 'SEND GENIMAGE EMBED' . PHP_EOL;
 				$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 			});
 			*/
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			$sent = true;
 		}
@@ -2919,7 +2933,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		
 		if ($playerlist != "None"){
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			$sent = true;
 		}
@@ -2955,7 +2969,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		
 		if ($playerlist != "None"){
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			$sent = true;
 		}
@@ -2991,7 +3005,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		
 		if ($playerlist != "None"){
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 			$sent = true;
 		}
@@ -3023,7 +3037,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			->setURL("");                             												// Set the URL
 		
 		$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-			echo $error.PHP_EOL; //Echo any errors
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
 		return true;
 	}
@@ -3152,7 +3166,7 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 		if($target_verified == false){ //Add the verified role to the member
 			$target_guildmember->addRole($role_verified_id)->done(
 				function ($error) {
-					echo $error.PHP_EOL;
+					echo "[ERROR] $error".PHP_EOL;
 				}
 			); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
 		
@@ -3175,11 +3189,11 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 			//Log the verification
 			if($verifylog_channel){
 				$verifylog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 			}elseif($modlog_channel){
 				$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 			}
 			//Welcome the verified user
@@ -3331,7 +3345,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 				->setURL("");                             												// Set the URL
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo $error.PHP_EOL; //Echo any errors
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 		}else $message->reply("Invalid input! Please enter an ID or @mention the user");
 		return true;
@@ -3500,7 +3514,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 						//if ($general_channel) $general_channel->send('Welcome to the Palace, <@$mention_id>! Feel free to pick out some roles in #role-picker!');
 					},
 					function ($error) {
-						echo $error.PHP_EOL;
+						echo "[ERROR] $error".PHP_EOL;
 					}
 				);
 				echo "Verify role added to $mention_id" . PHP_EOL;
@@ -3632,7 +3646,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 				->setURL("");                             												// Set the URL
 	//					Send the embed to the author's channel
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-					echo $error.PHP_EOL; //Echo any errors
+					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				return true;
 			}else{ //Too long, send reply instead of embed
