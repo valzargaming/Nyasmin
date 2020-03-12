@@ -39,17 +39,16 @@ $discord->on('disconnect', function($erMsg, $code){
 	include "disconnect-include.php";
 });
 
-$discord->once('ready', function () use ($discord){	// Listen for events here
-	echo "SETUP" . PHP_EOL;
+$discord->once('ready', function () use ($discord, $loop){	// Listen for events here
+	echo "[SETUP]" . PHP_EOL;
 	//$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF']))); //No longer relevant due to includes
 	$version = "RC V1.2.0";
 	
-	//Set status
-	$discord->user->setPresence(
+	$discord->user->setPresence( //Discord status
 		array(
 			'since' => null, //unix time (in milliseconds) of when the client went idle, or null if the client is not idle
 			'game' => array(
-				//'name' => "$line_count lines of code! $version",
+		'name' => "$line_count lines of code! $version",
 				'name' => $version,
 				'type' => 3, //0, 1, 2, 3, 4 | Game/Playing, Streaming, Listening, Watching, Custom Status
 				'url' => null //stream url, is validated when type is 1, only Youtube and Twitch allowed
@@ -63,18 +62,17 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 			'afk' => false
 		)
 	);
-	echo 'Logged in as '.$discord->user->tag.' created on '.$discord->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
+	echo '[READY] Logged in as '.$discord->user->tag.' created on '.$discord->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
 	$timestampSetup = time();
-	echo "timestampSetup: " . $timestampSetup . PHP_EOL;
-	//Save this to a file to be loaded, used in messageUpdate
+	echo "[timestampSetup]: " . $timestampSetup . PHP_EOL;
 	
 	$discord->on('message', function ($message) use ($discord, $loop){ //Handling of a message
 		include "message-include.php";
-	}); //end message function
+	});
 		
 	$discord->on('guildMemberAdd', function ($guildmember){ //Handling of a member joining the guild
 		include "guildmemberadd-include.php";
-	}); //end guildMemberAdd function
+	});
 	
 	$discord->on('guildMemberUpdate', function ($member_new, $member_old){ //Handling of a member getting updated
 		include "guildmemberupdate-include.php";
@@ -82,16 +80,15 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	
 	$discord->on('guildMemberRemove', function ($guildmember){ //Handling of a user leaving the guild
 		include 'guildmemberremove-include.php';
-	}); //end GuildMemberRemove function
+	});
 		
 	$discord->on('guildBanAdd', function ($guild, $user){ //Handling of a user getting banned
-		echo "guildBanAdd" . PHP_EOL;
-		//
+		echo "[guildBanAdd]" . PHP_EOL;
+
 	});
 	
 	$discord->on('guildBanRemove', function ($guild, $user){ //Handling of a user getting unbanned
-		echo "guildBanRemove" . PHP_EOL;
-		//
+		echo "[guildBanRemove]" . PHP_EOL;
 	});
 	
 	$discord->on('messageUpdate', function ($message_new, $message_old){ //Handling of a message being changed
@@ -111,12 +108,11 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('messageDeleteBulk', function ($messages){ //Handling of multiple messages being deleted
-		echo "messageDeleteBulk" . PHP_EOL;
-		//
+		echo "[messageDeleteBulk]" . PHP_EOL;
 	});
 	
 	$discord->on('messageDeleteBulkRaw', function ($messages){ //Handling of multiple old/uncached messages being deleted
-		//
+		echo "[messageDeleteBulkRaw]" . PHP_EOL;
 	});
 	
 	$discord->on('messageReactionAdd', function ($reaction, $respondent_user){ //Handling of a message being reacted to
@@ -124,28 +120,24 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 	
 	$discord->on('messageReactionRemove', function ($reaction, $respondent_user){ //Handling of a message reaction being removed
-	include "messagereactionremove-include.php";
+		include "messagereactionremove-include.php";
 	});
 	
 	$discord->on('messageReactionRemoveAll', function ($message){ //Handling of all reactions being removed from a message
-		$message_content = $message->content;
-		echo "messageReactionRemoveAll" . PHP_EOL;
-		//
+		//$message_content = $message->content;
+		echo "[messageReactionRemoveAll]" . PHP_EOL;
 	});
 	
 	$discord->on('channelCreate', function ($channel){ //Handling of a channel being created
-		echo "channelCreate" . PHP_EOL;
-		//
+		echo "[channelCreate]" . PHP_EOL;
 	});
 	
 	$discord->on('channelDelete', function ($channel){ //Handling of a channel being deleted
-		echo "channelDelete" . PHP_EOL;
-		//
+		echo "[channelDelete]" . PHP_EOL;
 	});
 	
 	$discord->on('channelUpdate', function ($channel){ //Handling of a channel being changed
-		echo "channelUpdate" . PHP_EOL;
-		//
+		echo "[channelUpdate]" . PHP_EOL;
 	});
 		
 	$discord->on('userUpdate', function ($user_new, $user_old){ //Handling of a user changing their username/avatar/etc
@@ -153,31 +145,39 @@ $discord->once('ready', function () use ($discord){	// Listen for events here
 	});
 		
 	$discord->on('roleCreate', function ($role){ //Handling of a role being created
-		echo "roleCreate" . PHP_EOL;
-		//
+		echo "[roleCreate]" . PHP_EOL;
 	});
 	
 	$discord->on('roleDelete', function ($role){ //Handling of a role being deleted
-		echo "roleDelete" . PHP_EOL;
-		//
+		echo "[roleDelete]" . PHP_EOL;
 	});
 	
 	$discord->on('roleUpdate', function ($role_new, $role_old){ //Handling of a role being changed
-		echo "roleUpdate" . PHP_EOL;
-		//
+		echo "[roleUpdate]" . PHP_EOL;
 	});
 	
 	$discord->on('voiceStateUpdate', function ($member_new, $member_old){ //Handling of a member's voice state changing (leaves/joins/etc.)
-		echo "voiceStateUpdate" . PHP_EOL;
-		//
+		echo "[voiceStateUpdate]" . PHP_EOL;
 	});
 	
+	/*
 	$discord->on('error', function ($error){ //Handling of thrown errors
-		echo "ERROR: $error" . PHP_EOL;
+		echo "[ERROR] $error" . PHP_EOL;
 	});
+	*/
+	$discord->on("error", function(\Throwable $error){
+		echo '[ERROR]' . $error->getMessage() . PHP_EOL;
+	});
+	
+	/*
+	$discord->wsmanager()->on('debug', function ($debug) {
+		echo "[WS DEBUG] $debug" . PHP_EOL;
+	});
+	*/
+	
 }); //end main function ready
 
-require 'token.php'; //Token for the bot
+require 'token.php';
 
 $discord->login($token)->done();
 $loop->run();
