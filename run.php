@@ -33,7 +33,7 @@ set_exception_handler(function (Throwable $e) {
 });
 */
  
-$discord->on('disconnect', function($erMsg, $code){
+$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop){
 	//Automatically restart the bot if it disconnects
 	//This is almost always going to be caused by error code 1006, meaning the bot did not get heartbeat from Discord
 	include "disconnect-include.php";
