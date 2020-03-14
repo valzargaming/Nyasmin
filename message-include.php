@@ -47,7 +47,9 @@ if ($is_dm === false){ //Guild message
 	if ($blacklisted_owners)
 	if (in_array($guild_owner_id, $blacklisted_owners)){
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
-			echo "[ERROR] $error".PHP_EOL; //Echo any errors
+			if (strlen($error) < (2049) ){
+				echo "[ERROR] $error" . PHP_EOL; //Echo any errors
+			}else echo "[ERROR] [BLACKLISTED OWNER] $author_guild_id";
 		});
 	}
 	//Leave the guild if blacklisted
@@ -55,7 +57,9 @@ if ($is_dm === false){ //Guild message
 	if ($blacklisted_guilds)
 	if (in_array($author_guild_id, $blacklisted_guilds)){
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
-			echo "[ERROR] $error".PHP_EOL; //Echo any errors
+			if (strlen($error) < (2049) ){
+				echo "[ERROR] $error" . PHP_EOL; //Echo any errors
+			}else echo "[ERROR] [BLACKLISTED GUILD] $author_guild_id";
 		});
 	}
 	//Leave the guild if not whitelisted
@@ -234,6 +238,8 @@ $adult 		= false;
 $dev		= false; //This is a higher rank than admin because they're assumed to have administrator privileges
 $admin 		= false;
 $mod		= false;
+$assistant  = false; $role_assistant_id = "688347065398591523";
+$tech  		= false; $role_tech_id 		= "688349304691490826";
 $verified	= false;
 $bot		= false;
 $vzgbot		= false;
@@ -267,6 +273,8 @@ foreach ($author_member_roles as $role){
 		if ($role->id == $role_owner_id)    	$owner	 		= true;							//Author has the owner role
 		if ($role->id == $role_admin_id)		$admin 			= true;							//Author has the admin role
 		if ($role->id == $role_mod_id)			$mod 			= true;							//Author has the mod role
+		if ($role->id == $role_assistant_id)	$assistant 		= true;							//Author has the assistant role
+		if ($role->id == $role_tech_id)			$tech 		= true;							//Author has the tech role
 		if ($role->id == $role_verified_id)		$verified 		= true;							//Author has the verified role
 		if ($role->id == $role_bot_id)			$bot 			= true;							//Author has the bot role
 		if ($role->id == $role_vzgbot_id)		$vzgbot 		= true;							//Author is this bot
@@ -2688,9 +2696,16 @@ if ($creator){ //Mostly just debug commands
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'restart'){
-		echo "[RESTARTING BOT]" . PHP_EOL;
+		echo "[RESTART LOOP]" . PHP_EOL;
+		$dt = new DateTime("now");  // convert UNIX timestamp to PHP DateTime
+		echo "[TIME] " . $dt->format('d-m-Y H:i:s'); // output = 2017-01-01 00:00:00
 		$loop->stop();
+		//$discord = new \CharlotteDunois\Yasmin\Client(array(), $loop);
+		$discord->login($token)->done(null, function ($error){
+			echo "[LOGIN ERROR] $error".PHP_EOL; //Echo any errors
+		});
 		$loop->run();
+		
 		/*
 		$restart_cmd = 'cmd /c "'. __DIR__  . '\run.bat"';
 		//echo $restart_cmd . PHP_EOL;
@@ -2719,23 +2734,6 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
 		$message->reply($http_response_code . ": " . $output);
 	}
-
-	if ($message_content_lower == $command_symbol . 'resume' || $message_content_lower == '!s resume'){ //;resume
-		//Trigger the php script remotely
-		$ch = curl_init(); //create curl resource
-		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/resume.php"); // set url
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-		$output = curl_exec($ch); //$output contains the output string
-		$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-		$message->reply($http_response_code . ": " . $output);
-	}
-
-	if ($creator || $owner || $dev)
-	if ($message_content_lower == $command_symbol . '?status'){ //;serverstatus
-		include "../servers/getserverdata.php";
-		$debug = var_export($serverinfo, true);
-		if ($debug) $author_channel->send($debug);
-	}
 	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
 		//VirtualBox state
 		$ch = curl_init(); //create curl resource
@@ -2749,9 +2747,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		include "../servers/getserverdata.php"; //Do this async?
 		$sent = false; //No message has been sent yet.		
 		
-		if ($serverinfo[0]["version"]){ //This should always have a value if the server is online
-			$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
-			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
+		if ($serverinfo[0]["age"]){ //We got data back for this server, so it must be online, right??
 			//Round duration info
 			$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
 			$remainder = ($rd[0] % 24);
@@ -2761,143 +2757,146 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			}else{
 				$rt = "STARTING";
 			}
-			//echo "image_path: " . $image_path . PHP_EOL;
-		//	Build the embed message
-			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-			$embed
-		//		->setTitle("$author_check")														// Set a title
-				->setColor("e1452d")																	// Set a color (the thing on the left side)
-				->setDescription("$alias"/* . \n" . $servers[0]["servername"] . "\nRound time: " . $rd[0] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[0]["host"] ." \nPlayers: " . $serverinfo[0]["players"]*/)									// Set a description (below title, above fields)
-		//		->addField("⠀", "$documentation")														// New line after this
-				
-		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-		//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
-				->setImage("$image_path")             													// Set an image (below everything except footer)
-				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
-		//				Open a DM channel then send the rich embed message
-			/*
-			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-				echo 'SEND GENIMAGE EMBED' . PHP_EOL;
-				$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+				$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
+				$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
+				//echo "image_path: " . $image_path . PHP_EOL;
+			//	Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+			//		->setTitle("$author_check")														// Set a title
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
+					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+			//		->addField("⠀", "$documentation")														// New line after this
+					
+			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+			//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
+					->setImage("$image_path")             													// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+			//				Open a DM channel then send the rich embed message
+				/*
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+					$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
+					});
+				});
+				*/
+				if($rt) $embed->addField("Round Time", $rt, true);
+				if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != NULL) ){
+					$embed->addField("Epoch", urldecode($serverinfo[0]["age"]), true);
+				}
+				if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
+					$embed->addField("Map", urldecode($serverinfo[0]["map"]), true);
+				}
+				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
-			});
-			*/
-			if($rt) $embed->addField("Round Time", $rt, true);
-			if ($output != "playing"){
-				$embed->addField("Status", "Persistence server is saving!");
 				$sent = true;
-			}
-			if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != "control")  && ($serverinfo[0]["age"] != NULL) ){
-				$embed->addField("Epoch", $serverinfo[0]["age"], true);
-				$sent = true;
-			} else $embed->addField("Epoch", urldecode($serverinfo[0]["age"]), true);
-			if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
-				if ($serverinfo[0]["map"] == "control")
-					$embed->addField("Map", "Nomads Temperate", true);
-				else $embed->addField("Map", $serverinfo[0]["map"], true);
-				$sent = true;
-			}
-			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo "[ERROR] $error".PHP_EOL; //Echo any errors
-			});
-			$sent = true;
 		}
 		
-		//Round duration info
-		$rd = explode (":",  urldecode($serverinfo[1]["roundduration"]) );
-		$remainder = ($rd[0] % 24);
-		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
-			$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
-		}else{
-			$rt = "STARTING";
-		}
-			$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
-			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
-			//echo "image_path: " . $image_path . PHP_EOL;
-		//	Build the embed message
-			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-			$embed
-		//		->setTitle("$author_check")														// Set a title
-				->setColor("e1452d")																	// Set a color (the thing on the left side)
-				->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
-		//		->addField("⠀", "$documentation")														// New line after this
-				
-		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-		//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
-				->setImage("$image_path")             													// Set an image (below everything except footer)
-				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
-		//				Open a DM channel then send the rich embed message
-			/*
-			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-				echo 'SEND GENIMAGE EMBED' . PHP_EOL;
-				$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+		if ($serverinfo[1]["age"]){ //We got data back for this server, so it must be online, right??
+			//Round duration info
+			$rd = explode (":",  urldecode($serverinfo[1]["roundduration"]) );
+			$remainder = ($rd[0] % 24);
+			$rd[0] = floor($rd[0] / 24);
+			if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+				$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+			}else{
+				$rt = "STARTING";
+			}
+				$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
+				$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
+				//echo "image_path: " . $image_path . PHP_EOL;
+			//	Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+			//		->setTitle("$author_check")														// Set a title
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
+					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+			//		->addField("⠀", "$documentation")														// New line after this
+					
+			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+			//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
+					->setImage("$image_path")             													// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+			//				Open a DM channel then send the rich embed message
+				/*
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+					$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
+					});
+				});
+				*/
+				if($rt) $embed->addField("Round Time", $rt, true);
+				if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[1]["age"] != NULL) ){
+					$embed->addField("Epoch", urldecode($serverinfo[1]["age"]), true);
+				}
+				if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[1]["map"] != NULL) ){
+					$embed->addField("Map", urldecode($serverinfo[1]["map"]), true);
+				}
+				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
-			});
-			*/
-			if($rt) $embed->addField("Round Time", $rt, true);
-			if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[1]["age"] != NULL) ){
-				$embed->addField("Epoch", $serverinfo[1]["age"], true);
+				$sent = true;
+		}
+		if ($serverinfo[2]["age"]){ //We got data back for this server, so it must be online, right??
+			//Round duration info
+			$rd = explode (":",  urldecode($serverinfo[2]["roundduration"]) );
+			$remainder = ($rd[0] % 24);
+			$rd[0] = floor($rd[0] / 24);
+			if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+				$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+			}else{
+				$rt = "STARTING";
 			}
-			if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[1]["map"] != NULL) ){
-				$embed->addField("Map", urldecode($serverinfo[1]["map"]), true);
-			}
-			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo "[ERROR] $error".PHP_EOL; //Echo any errors
-			});
-			$sent = true;
-		
-		//Round duration info
-		$rd = explode (":",  urldecode($serverinfo[2]["roundduration"]) );
-		$remainder = ($rd[0] % 24);
-		$rd[0] = floor($rd[0] / 24);
-		if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round duration must be valid
-			$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
-			$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=2&rand=" . rand(0,999999999);
-			//echo "image_path: " . $image_path . PHP_EOL;
-		//	Build the embed message
-			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-			$embed
-		//		->setTitle("$author_check")														// Set a title
-				->setColor("e1452d")																	// Set a color (the thing on the left side)
-				->setDescription("$alias"/* . "\n" . $servers[2]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[2]["host"] ." \nPlayers: " . $serverinfo[2]["players"]*/)									// Set a description (below title, above fields)
-		//		->addField("⠀", "$documentation")														// New line after this
-				
-		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-		//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
-				->setImage("$image_path")             													// Set an image (below everything except footer)
-				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
-		//				Open a DM channel then send the rich embed message
-			/*
-			$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-				echo 'SEND GENIMAGE EMBED' . PHP_EOL;
-				$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+				$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
+				$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=2&rand=" . rand(0,999999999);
+				//echo "image_path: " . $image_path . PHP_EOL;
+			//	Build the embed message
+				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+				$embed
+			//		->setTitle("$author_check")														// Set a title
+					->setColor("e1452d")																	// Set a color (the thing on the left side)
+					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+			//		->addField("⠀", "$documentation")														// New line after this
+					
+			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+			//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
+					->setImage("$image_path")             													// Set an image (below everything except footer)
+					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+					->setURL("");                             												// Set the URL
+			//				Open a DM channel then send the rich embed message
+				/*
+				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+					echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+					$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
+					});
+				});
+				*/
+				if($rt) $embed->addField("Round Time", $rt, true);
+				if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[2]["age"] != NULL) ){
+					$embed->addField("Epoch", urldecode($serverinfo[2]["age"]), true);
+				}
+				if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[2]["map"] != NULL) ){
+					$embed->addField("Map", urldecode($serverinfo[2]["map"]), true);
+				}
+				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
-			});
-			*/
-			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo "[ERROR] $error".PHP_EOL; //Echo any errors
-			});
-			$sent = true;
-		}
-		if ($sent == false){
-			$author_channel->send("No servers have round in progress!");
+				$sent = true;
 		}
 		return true;
 	}
-
 	if ($message_content_lower == $command_symbol . 'players' || $message_content_lower == '!s players'){ //;players
 		include "../servers/getserverdata.php";
 		
@@ -3014,7 +3013,6 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		}
 		return true;
 	}
-
 	if ($message_content_lower == $command_symbol . 'admins' || $message_content_lower == '!s admins'){ //;admins
 		include "../servers/getserverdata.php";
 		$admins = $serverinfo[0]["admins"];
@@ -3042,7 +3040,129 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 
-	if($creator || $owner || $dev || $admin){
+	if ($creator || $owner || $dev || $tech || $assistant) {
+		if ($message_content_lower == $command_symbol . 'resume' || $message_content_lower == '!s resume'){ //;resume
+			//Trigger the php script remotely
+			$ch = curl_init(); //create curl resource
+			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/resume.php"); // set url
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+			$output = curl_exec($ch); //$output contains the output string
+			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+			$message->reply($http_response_code . ": " . $output);
+		}
+		if ($message_content_lower == $command_symbol . 'save 1' || $message_content_lower == '!s save 1'){ //;save 1
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual1.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+				return true;
+			});
+		}
+		if ($message_content_lower == $command_symbol . 'save 2' || $message_content_lower == '!s save 2'){ //;save 2
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual2.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+				return true;
+			});
+		}
+		if ($message_content_lower == $command_symbol . 'save 3' || $message_content_lower == '!s save 3'){ //;save 3
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual3.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+				return true;
+			});
+		}
+	}
+	if ($creator || $owner || $dev || $tech){
+		if ($message_content_lower == $command_symbol . 'load 1' || $message_content_lower == '!s load 1'){ //;load 1
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadmanual1.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+				return true;
+			});
+	}
+		if ($message_content_lower == $command_symbol . 'load 2' || $message_content_lower == '!s load 2'){ //;load 2 
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadmanual2.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+				return true;
+			});
+		}
+		if ($message_content_lower == $command_symbol . 'load 3' || $message_content_lower == '!s load 3'){ //;load 3
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadmanual3.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+				return true;
+			});
+		}
+		if ($message_content_lower == $command_symbol . 'load1h' || $message_content_lower == '!s load1h'){ //;load1h
+			if($react){
+				$message->react("👍");
+				$message->react("⏰");
+			}
+			//Trigger the php script remotely
+			$ch = curl_init(); //create curl resource
+			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load1h.php"); // set url
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+			$output = curl_exec($ch); //$output contains the output string
+			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+			$message->reply($http_response_code . ": " . $output);
+		}
+		if ($message_content_lower == $command_symbol . 'load2h' || $message_content_lower == '!s load2h'){ //;load2h
+			if($react){
+					$message->react("👍");
+					$message->react("⏰");
+			}
+			//Trigger the php script remotely
+			$ch = curl_init(); //create curl resource
+			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load2h.php"); // set url
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+			$output = curl_exec($ch); //$output contains the output string
+			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+			$message->reply($http_response_code . ": " . $output);
+		}
+	}	
+	if ( $creator || $owner || $dev){
+		if ($message_content_lower == $command_symbol . '?status'){ //;serverstatus
+			include "../servers/getserverdata.php";
+			$debug = var_export($serverinfo, true);
+			if ($debug) $author_channel->send($debug);
+		}
 		if ($message_content_lower == $command_symbol . 'pause' || $message_content_lower == '!s pause'){ //;pause
 			//Trigger the php script remotely
 			$ch = curl_init(); //create curl resource
@@ -3052,27 +3172,6 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
 			$message->reply($http_response_code . ": " . $output);
 		}
-
-		if ($message_content_lower == $command_symbol . 'load1h' || $message_content_lower == '!s load1h'){ //;load1h
-			//Trigger the php script remotely
-			$ch = curl_init(); //create curl resource
-			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load1h.php"); // set url
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
-		}
-
-		if ($message_content_lower == $command_symbol . 'load2h' || $message_content_lower == '!s load2h'){ //;load2h
-			//Trigger the php script remotely
-			$ch = curl_init(); //create curl resource
-			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load2h.php"); // set url
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
-		}
-
 		if ($message_content_lower == $command_symbol . 'loadnew' || $message_content_lower == '!s loadnew'){ //;loadnew
 			//Trigger the php script remotely
 			$ch = curl_init(); //create curl resource
@@ -3082,19 +3181,18 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
 			$message->reply($http_response_code . ": " . $output);
 		}
-
-		if ($message_content_lower == $command_symbol . 'VM_restart' || $message_content_lower == '!s VM_restart'){ //;VM_restart
-			//Trigger the php script remotely
-			$ch = curl_init(); //create curl resource
-			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/VM_restart.php"); // set url
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
-		}
+		if ($creator || $dev)
+			if ($message_content_lower == $command_symbol . 'VM_restart' || $message_content_lower == '!s VM_restart'){ //;VM_restart
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/VM_restart.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				$output = curl_exec($ch); //$output contains the output string
+				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
+				$message->reply($http_response_code . ": " . $output);
+			}
 	}
 }
-
 if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;remindme
 	echo "REMINDER TIMER" . PHP_EOL;
 	$filter = "$command_symbol" . "remindme ";
