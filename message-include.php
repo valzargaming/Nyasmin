@@ -238,7 +238,7 @@ $adult 		= false;
 $dev		= false; //This is a higher rank than admin because they're assumed to have administrator privileges
 $admin 		= false;
 $mod		= false;
-$assistant  = false; $role_assistant_id = "688347065398591523";
+$assistant  = false; $role_assistant_id = "688346849349992494";
 $tech  		= false; $role_tech_id 		= "688349304691490826";
 $verified	= false;
 $bot		= false;
@@ -2697,7 +2697,7 @@ if ($creator){ //Mostly just debug commands
 	}
 	if ($message_content_lower == $command_symbol . 'restart'){
 		echo "[RESTART LOOP]" . PHP_EOL;
-		$dt = new DateTime("now");  // convert UNIX timestamp to PHP DateTime
+		$dt = new DateTime("now", new DateTimeZone('America/New_York'));  // convert UNIX timestamp to PHP DateTime
 		echo "[TIME] " . $dt->format('d-m-Y H:i:s'); // output = 2017-01-01 00:00:00
 		$loop->stop();
 		//$discord = new \CharlotteDunois\Yasmin\Client(array(), $loop);
@@ -2730,17 +2730,14 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-		$output = curl_exec($ch); //$output contains the output string
-		$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-		$message->reply($http_response_code . ": " . $output);
+		$message->reply(curl_exec($ch));
 	}
 	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
 		//VirtualBox state
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-		$output = curl_exec($ch);//echo "output: " . $output . PHP_EOL;
-		if ($output != "playing"){ //Don't even try to process anything (including webhooks) if the persistence server is saving.
+		if (curl_exec($ch) != "playing"){ //Don't even try to process anything (including webhooks) if the persistence server is saving.
 			$author_channel->send("Persistence server is saving!");
 			return true;
 		}
@@ -3046,48 +3043,95 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$ch = curl_init(); //create curl resource
 			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/resume.php"); // set url
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
+			curl_setopt($ch, CURLOPT_POST, true);	  
+			$message->reply(curl_exec($ch));
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'save 1' || $message_content_lower == '!s save 1'){ //;save 1
-			$message->react("👍");
-			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
-				//Trigger the php script remotely
-				$ch = curl_init(); //create curl resource
-				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual1.php"); // set url
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
-				return true;
-			});
+			$manual_saving = VarLoad(NULL, "manual_saving.php");
+			if ($manual_saving == true){
+				$message->react("👎");
+				$message->reply("A manual save is already in progress!");
+			}else{
+				$message->react("👍");
+				VarSave(NULL, "manual_saving.php", true);
+				$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+					//Trigger the php script remotely
+					$ch = curl_init(); //create curl resource
+					curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual1.php"); // set url
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+					curl_setopt($ch, CURLOPT_POST, true);
+					$dt = new DateTime("now", new DateTimeZone('America/New_York'));  // convert UNIX timestamp to PHP DateTime
+					$time = $dt->format('d-m-Y H:i:s'); // output = 2017-01-01 00:00:00
+					$message->reply(curl_exec($ch) . " $time EST");
+					VarSave(NULL, "manual_saving.php", false);
+					return true;
+				});
+			}
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'save 2' || $message_content_lower == '!s save 2'){ //;save 2
-			$message->react("👍");
-			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
-				//Trigger the php script remotely
-				$ch = curl_init(); //create curl resource
-				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual2.php"); // set url
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
-				return true;
-			});
+			$manual_saving = VarLoad(NULL, "manual_saving.php");
+			if ($manual_saving == true){
+				$message->react("👎");
+				$message->reply("A manual save is already in progress!");
+			}else{
+				$message->react("👍");
+				VarSave(NULL, "manual_saving.php", true);
+				$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+					//Trigger the php script remotely
+					$ch = curl_init(); //create curl resource
+					curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual2.php"); // set url
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+					curl_setopt($ch, CURLOPT_POST, true);
+					$dt = new DateTime("now", new DateTimeZone('America/New_York'));  // convert UNIX timestamp to PHP DateTime
+					$time = $dt->format('d-m-Y H:i:s'); // output = 2017-01-01 00:00:00
+					$message->reply(curl_exec($ch) . " $time EST");
+					VarSave(NULL, "manual_saving.php", false);
+					return true;
+				});
+			}
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'save 3' || $message_content_lower == '!s save 3'){ //;save 3
-			$message->react("👍");
-			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
-				//Trigger the php script remotely
-				$ch = curl_init(); //create curl resource
-				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual3.php"); // set url
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
-				return true;
-			});
+			$manual_saving = VarLoad(NULL, "manual_saving.php");
+			if ($manual_saving == true){
+				$message->react("👎");
+				$message->reply("A manual save is already in progress!");
+			}else{
+				$message->react("👍");
+				VarSave(NULL, "manual_saving.php", true);
+				$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+					//Trigger the php script remotely
+					$ch = curl_init(); //create curl resource
+					curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/savemanual3.php"); // set url
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+					curl_setopt($ch, CURLOPT_POST, true);
+					$dt = new DateTime("now", new DateTimeZone('America/New_York'));  // convert UNIX timestamp to PHP DateTime
+					$time = $dt->format('d-m-Y H:i:s'); // output = 2017-01-01 00:00:00
+					$message->reply(curl_exec($ch) . " $time EST");
+					VarSave(NULL, "manual_saving.php", false);
+					return true;
+				});
+			}
+			return true;
+		}
+		if ($creator || $owner || $dev){
+			if ($message_content_lower == $command_symbol . 'delete 1' || $message_content_lower == '!s save 1'){ //;save 3
+				$message->react("👍");
+				$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+					//Trigger the php script remotely
+					$ch = curl_init(); //create curl resource
+					curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/deletemanual1.php"); // set url
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+					curl_setopt($ch, CURLOPT_POST, true);  
+					$dt = new DateTime("now", new DateTimeZone('America/New_York'));  // convert UNIX timestamp to PHP DateTime
+					$time = $dt->format('d-m-Y H:i:s'); // output = 2017-01-01 00:00:00
+					$message->reply(curl_exec($ch) . " $time EST");
+					return true;
+				});
+			}
+			return true;
 		}
 	}
 	if ($creator || $owner || $dev || $tech){
@@ -3098,12 +3142,12 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$ch = curl_init(); //create curl resource
 				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadmanual1.php"); // set url
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
+				curl_setopt($ch, CURLOPT_POST, true);
+				$message->reply(curl_exec($ch));
 				return true;
 			});
-	}
+			return true;
+		}
 		if ($message_content_lower == $command_symbol . 'load 2' || $message_content_lower == '!s load 2'){ //;load 2 
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
@@ -3111,11 +3155,11 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$ch = curl_init(); //create curl resource
 				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadmanual2.php"); // set url
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
+				curl_setopt($ch, CURLOPT_POST, true);
+				$message->reply(curl_exec($ch));
 				return true;
 			});
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load 3' || $message_content_lower == '!s load 3'){ //;load 3
 			$message->react("👍");
@@ -3124,37 +3168,37 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$ch = curl_init(); //create curl resource
 				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadmanual3.php"); // set url
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
+				curl_setopt($ch, CURLOPT_POST, true);
+				$message->reply(curl_exec($ch));
 				return true;
 			});
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load1h' || $message_content_lower == '!s load1h'){ //;load1h
-			if($react){
-				$message->react("👍");
-				$message->react("⏰");
-			}
-			//Trigger the php script remotely
-			$ch = curl_init(); //create curl resource
-			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load1h.php"); // set url
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load1h.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				curl_setopt($ch, CURLOPT_POST, true);
+				$message->reply(curl_exec($ch));
+				return true;
+			});
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load2h' || $message_content_lower == '!s load2h'){ //;load2h
-			if($react){
-					$message->react("👍");
-					$message->react("⏰");
-			}
-			//Trigger the php script remotely
-			$ch = curl_init(); //create curl resource
-			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load2h.php"); // set url
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
+			$message->react("👍");
+			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
+				//Trigger the php script remotely
+				$ch = curl_init(); //create curl resource
+				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/load2h.php"); // set url
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+				curl_setopt($ch, CURLOPT_POST, true);
+				$message->reply(curl_exec($ch));
+				return true;
+			});
+			return true;
 		}
 	}	
 	if ( $creator || $owner || $dev){
@@ -3162,24 +3206,25 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			include "../servers/getserverdata.php";
 			$debug = var_export($serverinfo, true);
 			if ($debug) $author_channel->send($debug);
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'pause' || $message_content_lower == '!s pause'){ //;pause
 			//Trigger the php script remotely
 			$ch = curl_init(); //create curl resource
 			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/pause.php"); // set url
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
+			curl_setopt($ch, CURLOPT_POST, true);
+			$message->reply(curl_exec($ch));
+			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'loadnew' || $message_content_lower == '!s loadnew'){ //;loadnew
 			//Trigger the php script remotely
 			$ch = curl_init(); //create curl resource
 			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/loadnew.php"); // set url
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-			$output = curl_exec($ch); //$output contains the output string
-			$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-			$message->reply($http_response_code . ": " . $output);
+			curl_setopt($ch, CURLOPT_POST, true);
+			$message->reply(curl_exec($ch));
+			return true;
 		}
 		if ($creator || $dev)
 			if ($message_content_lower == $command_symbol . 'VM_restart' || $message_content_lower == '!s VM_restart'){ //;VM_restart
@@ -3187,9 +3232,9 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$ch = curl_init(); //create curl resource
 				curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/VM_restart.php"); // set url
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-				$output = curl_exec($ch); //$output contains the output string
-				$http_response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200 if console site is up but 502 if php is not running
-				$message->reply($http_response_code . ": " . $output);
+				curl_setopt($ch, CURLOPT_POST, true);
+				$message->reply(curl_exec($ch));
+				return true;
 			}
 	}
 }
@@ -3235,20 +3280,20 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 	}
 	
 	foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//		id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 		$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 		$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 		$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 		
-//				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
-//				$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
+//		$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
+//		$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 		
-//				Get the roles of the mentioned user
+//		Get the roles of the mentioned user
 		echo "mention_id: " . $mention_id . PHP_EOL;
 		$target_guildmember 									= $message->guild->members->get($mention_id);
 		$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
 
-//				Get the avatar URL of the mentioned user
+//		Get the avatar URL of the mentioned user
 		$target_guildmember_user								= $target_guildmember->user;									//echo "member_class: " . get_class($target_guildmember_user) . PHP_EOL;
 		$mention_avatar 										= "{$target_guildmember_user->getAvatarURL()}";					//echo "mention_avatar: " . $mention_avatar . PHP_EOL;				//echo "target_guildmember_role_collection: " . (count($target_guildmember_role_collection)-1);
 		
@@ -3268,21 +3313,21 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 				}
 			); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
 		
-//					Build the embed
+//			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
-//						->setTitle("Roles")																		// Set a title
+//				->setTitle("Roles")																		// Set a title
 				->setColor("e1452d")																	// Set a color (the thing on the left side)
-//						->setDescription("$author_guild_name")													// Set a description (below title, above fields)
+//				->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 				->addField("Verified", 		"<@$mention_id>")											// New line after this if ,true
 
 				->setThumbnail("$mention_avatar")														// Set a thumbnail (the image in the top right corner)
-//						->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 				->setAuthor("$author_check", "$author_avatar")  									// Set an author with icon
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 				->setURL("");                             												// Set the URL
-//					Send the message
+//			Send the message
 			if($react) $message->react("👍");
 			//Log the verification
 			if($verifylog_channel){
@@ -3480,12 +3525,12 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}
 		
 		foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-	//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+	//		id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 			
-	//				Place watch info in target's folder
+	//		Place watch info in target's folder
 			$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
 			$watchers = array_unique($arr);
 			$watchers[] = $author_id;
@@ -3493,12 +3538,12 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 			$mention_watch_name_queue 								= "**<@$mention_id>** ";
 			$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
 		}
-	//			Send a message
+	//	Send a message
 		if ($mention_watch_name_queue != ""){
 			if ($watch_channel)$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 			else $message->reply($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
-	//				React to the original message
-	//				if($react) $message->react("👀");
+	//		React to the original message
+	//		if($react) $message->react("👀");
 			if($react) $message->react("👁");		
 			return true;
 		}else{
@@ -3510,7 +3555,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 	}
 	if (substr($message_content_lower, 0, 9) == $command_symbol . 'unwatch '){ //;unwatch @
 		echo "REMOVING WATCH ON TARGETS MENTIONED" . PHP_EOL;
-	//			Get an array of people mentioned
+	//	Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		$mention_watch_name_queue_default							= "<@$author_id> is no longer watching the following users:" . PHP_EOL;
 		$mention_watch_name_queue_full 								= "";
@@ -3529,21 +3574,21 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}
 		
 		foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-	//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+	//		id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
 			
-	//				Place watch info in target's folder
+	//		Place watch info in target's folder
 			$watchers[] = VarLoad($guild_folder."/".$mention_id, "$watchers.php");
 			$watchers = array_value_remove($author_id, $watchers);
 			VarSave($guild_folder."/".$mention_id, "watchers.php", $watchers);
 			$mention_watch_name_queue 								= "**<@$mention_id>** ";
 			$mention_watch_name_queue_full 							= $mention_watch_name_queue_full . PHP_EOL . $mention_watch_name_queue;
 		}
-	//			React to the original message
+	//	React to the original message
 		if($react) $message->react("👍");
-	//			Send the message
+	//	Send the message
 		if ($watch_channel)	$watch_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 		else $author_channel->send($mention_watch_name_queue_default . $mention_watch_name_queue_full . PHP_EOL);
 		return true;
