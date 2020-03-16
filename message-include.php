@@ -1050,7 +1050,7 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 	}
 	//All other functions
 	$documentation = $documentation . "\n__**General:**__\n";
-	$documentation = $documentation . "`poll` creates a poll\n";
+	$documentation = $documentation . "`poll # description` creates a timed poll\n";
 	//ping
 	$documentation = $documentation . "`ping` replies with 'Pong!'\n";
 	//roles / roles @
