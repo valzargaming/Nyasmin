@@ -3130,8 +3130,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$message->reply(curl_exec($ch) . " $time EST");
 					return true;
 				});
+				return true;
 			}
-			return true;
 		}
 	}
 	if ($creator || $owner || $dev || $tech){
@@ -3368,19 +3368,22 @@ if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lo
 	if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name discord! Please take a moment to read the rules and fill out the questions below:\n
 	1. How did you find the server?\n
 	2. How old are you?\n
-	3. What kind of YouTube content do you make?\n
-	4. Do you understand the rules?\n
-	5. Do you have any other questions?");
+	3. Do you understand the rules?\n
+	4. Do you have any other questions?");
 	return true;
-}		
+}
 
 if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to use this
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'poll '){ //;poll
 		echo "poll" . PHP_EOL;
 		$filter = "$command_symbol" . "poll ";
 		$poll = str_replace($filter, "", $message_content);
-		if($poll != "" && $poll != NULL){
-			$duration = 30; //approx # of seconds
+		$arr = explode(' ',trim($poll));
+		$duration = $arr[0];
+		$poll = str_replace($duration, "", $poll);
+		echo $poll . PHP_EOL;
+		echo $duration . PHP_EOL;
+		if( ($poll != "" && $poll != NULL) && is_numeric($duration) ){
 			$author_channel->send("**VOTE TIME! ($duration seconds)**\n$poll")->then(function($message) use ($discord, $author_channel, $duration){
 				$message->react("👍");
 				$message->react("👎");
