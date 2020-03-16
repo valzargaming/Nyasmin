@@ -3384,7 +3384,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		echo $poll . PHP_EOL;
 		echo $duration . PHP_EOL;
 		if( ($poll != "" && $poll != NULL) && is_numeric($duration) ){
-			$author_channel->send("**VOTE TIME! ($duration seconds)**\n$poll")->then(function($message) use ($discord, $author_channel, $duration){
+			$author_channel->send("**VOTE TIME! ($duration seconds)**\n`$poll`")->then(function($message) use ($discord, $author_channel, $duration){
 				$message->react("👍");
 				$message->react("👎");
 				$discord->addTimer($duration, function() use ($message, $author_channel) {
