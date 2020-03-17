@@ -2785,6 +2785,9 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != NULL) ){
 					$embed->addField("Epoch", urldecode($serverinfo[0]["age"]), true);
 				}
+				if ( ($serverinfo[0]["season"] != "unknown") && ($serverinfo[0]["season"] != NULL) ){
+					$embed->addField("Season", urldecode($serverinfo[0]["season"]), true);
+				}
 				if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
 					$embed->addField("Map", urldecode($serverinfo[0]["map"]), true);
 				}
@@ -2835,6 +2838,9 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[1]["age"] != NULL) ){
 					$embed->addField("Epoch", urldecode($serverinfo[1]["age"]), true);
 				}
+				if ( ($serverinfo[1]["season"] != "unknown") && ($serverinfo[1]["season"] != NULL) ){
+					$embed->addField("Season", urldecode($serverinfo[1]["season"]), true);
+				}
 				if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[1]["map"] != NULL) ){
 					$embed->addField("Map", urldecode($serverinfo[1]["map"]), true);
 				}
@@ -2881,10 +2887,13 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				});
 				*/
 				if($rt) $embed->addField("Round Time", $rt, true);
-				if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[2]["age"] != NULL) ){
+				if ( ($serverinfo[2]["age"] != "unknown") && ($serverinfo[2]["age"] != NULL) ){
 					$embed->addField("Epoch", urldecode($serverinfo[2]["age"]), true);
 				}
-				if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[2]["map"] != NULL) ){
+				if ( ($serverinfo[2]["season"] != "unknown") && ($serverinfo[2]["season"] != NULL) ){
+					$embed->addField("Season", urldecode($serverinfo[2]["season"]), true);
+				}
+				if ( ($serverinfo[2]["map"] != "unknown") && ($serverinfo[2]["map"] != NULL) ){
 					$embed->addField("Map", urldecode($serverinfo[2]["map"]), true);
 				}
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
