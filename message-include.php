@@ -2728,7 +2728,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	if ($message_content_lower == $command_symbol . 'agecheck'){
 		echo "[AGECHECK]" . PHP_EOL;
 		$message->react("⏰")->then(function($author_channel) use ($message, $author_guild){	//Promise
-			$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
+			//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
 			$civ_staff_channel = $author_guild->channels->get("562715700360380434");
 			//Get list of players
 			include "../servers/getserverdata.php";
@@ -2818,7 +2818,18 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; // echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
 			$valid = preg_match($regex, $joined);
 			if ($valid == true){
-				$author_channel->send("$ckey joined byond on " . $joined);
+				$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
+				//Check Byond account age 
+				$now = strtotime("now"); echo "now: $now" . PHP_EOL;
+				$minimum_time = strtotime("-30 days"); echo "minimum_time: $minimum_time" . PHP_EOL;
+				//Ban account if younger than 30 days
+				if($joined_time > $minimum_time){
+					//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 30 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
+					//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 30 days because their Byond account was too new");
+					$message->reply("$ckey joined byond on " . $joined . "\n $ckey was banned for 30 days because their Byond account was too new");
+					$civ_staff_channel = $author_guild->channels->get("562715700360380434");
+					if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 30 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
+				}else $author_channel->send("$ckey joined byond on " . $joined);
 			}else $message->reply("Byond account for $ckey does not exist!");
 		}else $message->reply("ckey cannot be  blank!");
 		return true;
