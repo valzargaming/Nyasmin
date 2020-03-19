@@ -2926,7 +2926,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	//				->setTitle("$author_check")																// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$alias\n" . $servers[0]["servername"])																// Set a description (below title, above fields)
-			->addField("Players", $playerlist)												// New line after this
+			->addField("Players (" . $serverinfo[0]["players"].")", urldecode($playerlist))												// New line after this
 			
 	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
@@ -2962,7 +2962,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	//				->setTitle("$author_check")																// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$alias\n" . $servers[1]["servername"])																// Set a description (below title, above fields)
-			->addField("Players", $playerlist)												// New line after this
+			->addField("Players (" . $serverinfo[1]["players"].")", urldecode($playerlist))												// New line after this
 			
 	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
@@ -2998,7 +2998,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	//				->setTitle("$author_check")																// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
 			->setDescription("$alias\n" . $servers[2]["servername"])																// Set a description (below title, above fields)
-			->addField("Players", $playerlist)												// New line after this
+			->addField("Players (" . $serverinfo[2]["players"].")", urldecode($playerlist))												// New line after this
 			
 	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
 	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
