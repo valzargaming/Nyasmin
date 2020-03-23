@@ -2784,8 +2784,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 					//Ban account if younger than 90 days
 					if($joined_time > $minimum_time){
-						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
-						//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new");
+						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord.");
+						//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
 						$message->reply("$ckey joined byond on " . $joined . "\n $ckey was banned because their Byond account was too new");
 						$civ_staff_channel = $author_guild->channels->get("562715700360380434");
 						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban at discord.gg\hBEtg4x ");
@@ -2830,10 +2830,10 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 						//Ban account if younger than 90 days
 						if($joined_time > $minimum_time){
 							$banlist[] = $ckey;
-							//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
-							//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new");
-							if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
-							else $message->reply("$ckey was banned for 999 days because their Byond account was too new"); //DEBUG
+							//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord.");
+							//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
+							if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord.");
+							else $message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)"); //DEBUG
 						}
 					}
 				}//else $message->reply("Byond account for $ckey is whitelisted!");
