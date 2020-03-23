@@ -49,7 +49,9 @@ if ($is_dm === false){ //Guild message
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
 			if (strlen($error) < (2049) ){
 				echo "[ERROR] $error" . PHP_EOL; //Echo any errors
-			}else echo "[ERROR] [BLACKLISTED OWNER] $author_guild_id";
+			}else{
+				echo "[ERROR] [BLACKLISTED OWNER] $author_guild_id";
+			}
 		});
 	}
 	//Leave the guild if blacklisted
@@ -59,7 +61,9 @@ if ($is_dm === false){ //Guild message
 		$author_guild->leave($author_guild_id)->done(null, function ($error){
 			if (strlen($error) < (2049) ){
 				echo "[ERROR] $error" . PHP_EOL; //Echo any errors
-			}else echo "[ERROR] [BLACKLISTED GUILD] $author_guild_id";
+			}else{
+				echo "[ERROR] [BLACKLISTED GUILD] $author_guild_id";
+			}
 		});
 	}
 	//Leave the guild if not whitelisted
@@ -2744,7 +2748,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
 				
 				//Check yyyy-mm-dd format validity of joined
-				$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; // echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
+				$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
 				$valid = preg_match($regex, $joined);
 				if ($valid == true){
 					$message->reply("$ckey joined byond on " . $joined);
@@ -2771,20 +2775,20 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
 				
 				//Check yyyy-mm-dd format validity of joined
-				$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; // echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
+				$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
 				$valid = preg_match($regex, $joined);
 				if ($valid == true){
 					$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
 					//Check Byond account age 
-					$now = strtotime("now"); echo "now: $now" . PHP_EOL;
-					$minimum_time = strtotime("-90 days"); echo "minimum_time: $minimum_time" . PHP_EOL;
+					$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 					//Ban account if younger than 90 days
 					if($joined_time > $minimum_time){
 						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
 						//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new");
 						$message->reply("$ckey joined byond on " . $joined . "\n $ckey was banned because their Byond account was too new");
 						$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban at https://discord.gg/hBEtg4x");
+						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban at discord.gg\hBEtg4x ");
 					}else $author_channel->send("$ckey joined byond on " . $joined);
 				}else $message->reply("Byond account for $ckey does not exist!");
 			}else $message->reply("Byond account for $ckey is whitelisted!");
@@ -2804,8 +2808,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$playerlist[] = urldecode($varvalue);
 			}
 			//Check Byond account age 
-			$now = strtotime("now"); echo "now: $now" . PHP_EOL;
-			$minimum_time = strtotime("-90 days"); echo "minimum_time: $minimum_time" . PHP_EOL;
+			$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+			$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 			$banlist = array();
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			foreach($playerlist as $ckey){
@@ -2820,7 +2824,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$joined_pos = strpos($byond_curl , "joined"); //10  //Parse for the joined date
 					$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
 					//Check yyyy-mm-dd format validity of joined
-					$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; // echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
+					$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
 					if (preg_match($regex, $joined) == true){
 						$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
 						//Ban account if younger than 90 days
@@ -3327,14 +3331,14 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			});
 			return true;
 		}
-		if (substr($message_content_lower, 0, 13) == '!s whitelist '){ //!s whitelist ckey
+		if (substr($message_content_lower, 0, 12) == '!s whitelist'){ //!s whitelist ckey
 			echo "[WHITELIST]" . PHP_EOL;
-			$filter = "!s whitelist ";
+			$filter = "!s whitelist";
 			$ckey = str_replace($filter, "", $message_content_lower); //echo "ckey: $ckey" . PHP_EOL;
+			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			if ($ckey != ""){
 				//$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 				//Load whitelist from file
-				$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 				if (!in_array(strtolower($ckey), $civ13_whitelist)){
 					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 					$ch = curl_init(); //create curl resource
@@ -3347,7 +3351,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
 					
 					//Check yyyy-mm-dd format validity of joined
-					$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; // echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
+					$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
 					$valid = preg_match($regex, $joined);
 					if ($valid == true){
 						//Add ckey to whitelist array
@@ -3358,12 +3362,26 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 						//Save modified whitelist
 					}else $message->reply("Byond account for $ckey does not exist!");
 				}else $message->reply("Byond account for $ckey is already whitelisted!");
-			}else $message->reply("ckey cannot be blank!");
-				//curl to check if ckey exists
-				
-				
-				
-
+			}else{
+				//$message->reply("ckey cannot be blank!");
+				//Display the whitelist
+				$civ13_whitelist = implode(", ", $civ13_whitelist);
+				//$message->reply("The following accounts are whitelisted: $civ13_whitelist");
+				if ($civ13_whitelist != ""){
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+	//					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+						->addField("Whitelist", "$civ13_whitelist")														// New line after this
+						->setImage("$image_path")             													// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR]" . PHP_EOL . $error . PHP_EOL; //Echo any errors
+					});
+				}
+			}
 		}
 	}	
 	if ( $creator || $owner || $dev){
