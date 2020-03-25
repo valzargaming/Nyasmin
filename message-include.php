@@ -3388,7 +3388,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		if ($message_content_lower == $command_symbol . '?status'){ //;serverstatus
 			include "../servers/getserverdata.php";
 			$debug = var_export($serverinfo, true);
-			if ($debug) $author_channel->send($debug);
+			if ($debug) $author_channel->send(urldecode($debug));
+			else $author_channel->send("No debug info found!");
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'pause' || $message_content_lower == '!s pause'){ //;pause
