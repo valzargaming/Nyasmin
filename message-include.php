@@ -2804,61 +2804,64 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	}
 	if ($message_content_lower == $command_symbol . 'agecheck'){ //;agecheck
 		echo "[AGECHECK]" . PHP_EOL;
-		$message->react("⏰")->then(function($author_channel) use ($message, $author_guild){	//Promise
-			//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
-			$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-			//Get list of players
-			include "../servers/getserverdata.php";
-			$playerlist = array();
-			foreach ($serverinfo[0] as $varname => $varvalue){
-				if ( (substr($varname, 0, 6) == "player") && $varname != "players")
-					$playerlist[] = urldecode($varvalue);
-			}
-			//Check Byond account age 
-			$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
-			$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
-			$banlist = array();
-			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
-			$civ13_checked = VarLoad(null, "civ13_checked.php");
-			$civ13_checked_clone = $civ13_checked;
-			foreach($playerlist as $ckey){
-				if (!in_array($ckey, $civ13_checked))
-				if (!in_array($ckey, $civ13_whitelist)){
-					echo "[CKEY] $ckey" . PHP_EOL;
-					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
-					$ch = curl_init(); //create curl resource
-					curl_setopt($ch, CURLOPT_URL, $url); //set url
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //return the transfer as a string
-					curl_setopt($ch, CURLOPT_HTTPGET, true);
-					if( ! $byond_curl = curl_exec($ch)) trigger_error(curl_error($ch));
-					curl_close($ch);
-					$joined_pos = strpos($byond_curl , "joined"); //10  //Parse for the joined date
-					$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
-					//Check yyyy-mm-dd format validity of joined
-					$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
-					if (preg_match($regex, $joined) == true){
-						$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
-						//Ban account if younger than 90 days
-						if($joined_time > $minimum_time){
-							$banlist[] = $ckey;
-							//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
-							//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
-							if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
-							else $message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)"); //DEBUG
+		$timerclass = get_class($GLOBALS['agetimer']);
+		if ($timerclass != "React\EventLoop\Timer\Timer"){
+			$message->react("⏰")->then(function($author_channel) use ($message, $author_guild){	//Promise
+				//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
+				$civ_staff_channel = $author_guild->channels->get("562715700360380434");
+				//Get list of players
+				include "../servers/getserverdata.php";
+				$playerlist = array();
+				foreach ($serverinfo[0] as $varname => $varvalue){
+					if ( (substr($varname, 0, 6) == "player") && $varname != "players")
+						$playerlist[] = urldecode($varvalue);
+				}
+				//Check Byond account age 
+				$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+				$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
+				$banlist = array();
+				$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
+				$civ13_checked = VarLoad(null, "civ13_checked.php");
+				$civ13_checked_clone = $civ13_checked;
+				foreach($playerlist as $ckey){
+					if (!in_array($ckey, $civ13_checked))
+					if (!in_array($ckey, $civ13_whitelist)){
+						echo "[CKEY] $ckey" . PHP_EOL;
+						$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
+						$ch = curl_init(); //create curl resource
+						curl_setopt($ch, CURLOPT_URL, $url); //set url
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //return the transfer as a string
+						curl_setopt($ch, CURLOPT_HTTPGET, true);
+						if( ! $byond_curl = curl_exec($ch)) trigger_error(curl_error($ch));
+						curl_close($ch);
+						$joined_pos = strpos($byond_curl , "joined"); //10  //Parse for the joined date
+						$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
+						//Check yyyy-mm-dd format validity of joined
+						$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
+						if (preg_match($regex, $joined) == true){
+							$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
+							//Ban account if younger than 90 days
+							if($joined_time > $minimum_time){
+								$banlist[] = $ckey;
+								//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+								//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
+								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+								else $message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)"); //DEBUG
+							}
 						}
-					}
-					$civ13_checked[] = $ckey;
-				}//else $message->reply("Byond account for $ckey is whitelisted!");
-			}
-			$message->react("👍");
-			if (!empty($banlist)){
-				$banlist = implode( ", ", $banlist );
-				$message->reply("Banned $banlist for 999 days because their Byond account was too new");
-			}
-			if ($civ13_checked_clone != $civ13_checked) //Reduce disk writes?
-				VarSave(null, "civ13_checked.php", $civ13_checked);
-			return true;
-		});
+						$civ13_checked[] = $ckey;
+					}//else $message->reply("Byond account for $ckey is whitelisted!");
+				}
+				$message->react("👍");
+				if (!empty($banlist)){
+					$banlist = implode( ", ", $banlist );
+					$message->reply("Banned $banlist for 999 days because their Byond account was too new");
+				}
+				if ($civ13_checked_clone != $civ13_checked) //Reduce disk writes?
+					VarSave(null, "civ13_checked.php", $civ13_checked);
+				return true;
+			});
+		}else $message->reply("Agecheck is already running on a timer!");
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'status' || $message_content_lower == '!s status'){ //;status
@@ -3399,6 +3402,73 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		}
 	}	
 	if ( $creator || $owner || $dev){
+		if ($message_content_lower == $command_symbol . 'agecheckloop start'){ //;agecheckloop
+			$GLOBALS['agetimer'] = $loop->addPeriodicTimer(60, function() use ($author_guild) {
+				echo "[AGECHECK LOOP]" . PHP_EOL;
+				include_once "custom_functions.php";
+				//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
+				$civ_staff_channel = $author_guild->channels->get("562715700360380434");
+				//Get list of players
+				include "../servers/getserverdata.php";
+				$playerlist = array();
+				foreach ($serverinfo[0] as $varname => $varvalue){
+					if ( (substr($varname, 0, 6) == "player") && $varname != "players")
+						$playerlist[] = urldecode($varvalue);
+				}
+				//Check Byond account age 
+				$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+				$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
+				$banlist = array();
+				$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
+				$civ13_checked = VarLoad(null, "civ13_checked.php");
+				$civ13_checked_clone = $civ13_checked;
+				foreach($playerlist as $ckey){
+					if (!in_array($ckey, $civ13_checked))
+					if (!in_array($ckey, $civ13_whitelist)){
+						echo "[CKEY] $ckey" . PHP_EOL;
+						$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
+						$ch = curl_init(); //create curl resource
+						curl_setopt($ch, CURLOPT_URL, $url); //set url
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //return the transfer as a string
+						curl_setopt($ch, CURLOPT_HTTPGET, true);
+						if( ! $byond_curl = curl_exec($ch)) trigger_error(curl_error($ch));
+						curl_close($ch);
+						$joined_pos = strpos($byond_curl , "joined"); //10  //Parse for the joined date
+						$joined = substr($byond_curl, ($joined_pos+10), 10); //Get the date in the YYYY-MM-DD format
+						//Check yyyy-mm-dd format validity of joined
+						$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
+						if (preg_match($regex, $joined) == true){
+							$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
+							//Ban account if younger than 90 days
+							if($joined_time > $minimum_time){
+								$banlist[] = $ckey;
+								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+							}
+						}
+						$civ13_checked[] = $ckey;
+					}//else $message->reply("Byond account for $ckey is whitelisted!");
+				}
+				if (!empty($banlist)){
+					$banlist = implode( ", ", $banlist );
+				}
+				if ($civ13_checked_clone != $civ13_checked) //Reduce disk writes?
+					VarSave(null, "civ13_checked.php", $civ13_checked);
+				return true;
+			});
+			$message->react("⏰");
+		}
+		if ($message_content_lower == $command_symbol . 'agecheckloop kill'){ //;agecheckloop
+			$loop->cancelTimer($GLOBALS['agetimer']);
+			$GLOBALS['agetimer'] = null;
+			$message->react("👍");
+		}
+		if ($message_content_lower == $command_symbol . 'agecheckloop status'){ //;agecheckloop
+			$timerclass = get_class($GLOBALS['agetimer']);
+			echo "timerclass: " . $timerclass . PHP_EOL;
+			if ($timerclass == "React\EventLoop\Timer\Timer"){
+				$message->reply("Timer is running");
+			}else $message->reply("Timer is disabled");
+		}
 		if ($message_content_lower == $command_symbol . '?status'){ //;serverstatus
 			include "../servers/getserverdata.php";
 			$debug = var_export($serverinfo, true);
