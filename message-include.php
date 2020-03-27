@@ -2820,9 +2820,11 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$banlist = array();
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			$civ13_checked = VarLoad(null, "civ13_checked.php");
+			$civ13_checked_clone = $civ13_checked;
 			foreach($playerlist as $ckey){
 				if (!in_array($ckey, $civ13_checked))
 				if (!in_array($ckey, $civ13_whitelist)){
+					echo "[CKEY] $ckey" . PHP_EOL;
 					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 					$ch = curl_init(); //create curl resource
 					curl_setopt($ch, CURLOPT_URL, $url); //set url
@@ -2851,9 +2853,10 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$message->react("👍");
 			if (!empty($banlist)){
 				$banlist = implode( ", ", $banlist );
-				$message->reply("$banlist was banned for 999 days because their Byond account was too new");
+				$message->reply("Banned $banlist for 999 days because their Byond account was too new");
 			}
-			VarSave(null, "civ13_checked.php", $civ13_checked);
+			if ($civ13_checked_clone != $civ13_checked) //Reduce disk writes?
+				VarSave(null, "civ13_checked.php", $civ13_checked);
 			return true;
 		});
 		return true;
