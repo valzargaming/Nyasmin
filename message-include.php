@@ -2717,7 +2717,7 @@ if ($creator){ //Mostly just debug commands
 		*/
 	}
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'timer '){ //;timer
-		echo "TIMER" . PHP_EOL;
+		echo "[TIMER]" . PHP_EOL;
 		$filter = "$command_symbol" . "timer ";
 		$value = str_replace($filter, "", $message_content_lower);
 		if(is_numeric($value)){
@@ -2865,13 +2865,13 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'status' || $message_content_lower == '!s status'){ //;status
-		//cURL
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
 		$message->reply(curl_exec($ch));
 	}
 	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
+		echo "[SERVER STATUS]" . PHP_EOL;
 		//VirtualBox state
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
@@ -3043,6 +3043,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'players' || $message_content_lower == '!s players'){ //;players
+		echo "[PLAYERS]" . PHP_EOL;
 		include "../servers/getserverdata.php";
 		
 		$playerlist = " ";
@@ -3284,6 +3285,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	}
 	if ($creator || $owner || $dev || $tech){
 		if ($message_content_lower == $command_symbol . 'load 1' || $message_content_lower == '!s load 1'){ //;load 1
+			echo "[LOAD SLOT 1]" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3297,6 +3299,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load 2' || $message_content_lower == '!s load 2'){ //;load 2 
+			echo "[LOAD SLOT 2]" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3310,6 +3313,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load 3' || $message_content_lower == '!s load 3'){ //;load 3
+			echo "[LOAD SLOT 3]" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3323,6 +3327,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load1h' || $message_content_lower == '!s load1h'){ //;load1h
+			echo "[LOAD 1H]" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3336,6 +3341,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load2h' || $message_content_lower == '!s load2h'){ //;load2h
+			echo "[LOAD 2H]" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3515,7 +3521,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	}
 }
 if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;remindme
-	echo "REMINDER TIMER" . PHP_EOL;
+	echo "[REMINDER]" . PHP_EOL;
 	$filter = "$command_symbol" . "remindme ";
 	$value = str_replace($filter, "", $message_content_lower);
 	if(is_numeric($value)){
