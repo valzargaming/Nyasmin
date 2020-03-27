@@ -15,6 +15,9 @@ namespace CharlotteDunois\Yasmin\Models;
 class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\ChannelStorageInterface {
     /**
      * Channel Types.
+	 *
+	 * @see https://discordapp.com/developers/docs/resources/channel#channel-object-channel-types
+	 *
      * @var array
      * @source
      */
@@ -171,6 +174,13 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
                 }
                 
                 $channel = new \CharlotteDunois\Yasmin\Models\CategoryChannel($this->client, $guild, $data);
+            break;
+			case 5:
+				if ($guild === null) {
+					throw new \CharlotteDunois\Yasmin\DiscordException('Unknown guild for guild channel');
+				}
+
+				$channel = new \CharlotteDunois\Yasmin\Models\NewsChannel($this->client, $guild, $data);
             break;
             case 6:
                 if($guild === null) {
