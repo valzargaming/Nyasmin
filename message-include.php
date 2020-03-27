@@ -2732,7 +2732,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	if (substr($message_content_lower, 0, 13) == '!s approveme '){
 		echo "[APPROVEME]" . PHP_EOL;
 		$filter = "!s approveme ";
-		$ckey = trim(str_replace($filter, "", $message_content_lower)); //echo "ckey: $ckey" . PHP_EOL;
+		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))) //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			//Load whitelist from file
@@ -2767,7 +2767,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	if (substr($message_content_lower, 0, 6) == $command_symbol . "ckey "){ //;ckey
 		echo "[CKEY]" . PHP_EOL;
 		$filter = $command_symbol . "ckey ";
-		$ckey = trim(str_replace($filter, "", $message_content_lower)); //echo "ckey: $ckey" . PHP_EOL;
+		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))) //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			if (!in_array($ckey, $civ13_whitelist)){
@@ -2814,7 +2814,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$playerlist = array();
 				foreach ($serverinfo[0] as $varname => $varvalue){
 					if ( (substr($varname, 0, 6) == "player") && $varname != "players")
-						$playerlist[] = trim(urldecode($varvalue));
+						$playerlist[] = trim(strtolower(urldecode($varvalue)));
 				}
 				//Check Byond account age 
 				$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
@@ -2824,8 +2824,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$civ13_checked = VarLoad(null, "civ13_checked.php");
 				$civ13_checked_clone = $civ13_checked;
 				foreach($playerlist as $ckey){
-					if (!in_array(trim($ckey), $civ13_checked))
-					if (!in_array(trim($ckey), $civ13_whitelist)){
+					if (!in_array($ckey), $civ13_checked))
+					if (!in_array($ckey), $civ13_whitelist)){
 						echo "[CKEY] $ckey" . PHP_EOL;
 						$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 						$ch = curl_init(); //create curl resource
@@ -3357,12 +3357,12 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		if (substr($message_content_lower, 0, 12) == '!s whitelist'){ //!s whitelist ckey
 			echo "[WHITELIST]" . PHP_EOL;
 			$filter = "!s whitelist";
-			$ckey = trim(str_replace($filter, "", $message_content_lower)); //echo "ckey: $ckey" . PHP_EOL;
+			$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))) //echo "ckey: $ckey" . PHP_EOL;
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			if ($ckey != ""){
 				//$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 				//Load whitelist from file
-				if (!in_array($ckey, $civ13_whitelist)){
+				if (!in_array($ckey), $civ13_whitelist)){
 					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 					$ch = curl_init(); //create curl resource
 					curl_setopt($ch, CURLOPT_URL, $url); //set url
@@ -3386,7 +3386,6 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					}else $message->reply("Byond account for $ckey does not exist!");
 				}else $message->reply("Byond account for $ckey is already whitelisted!");
 			}else{
-				//$message->reply("ckey cannot be blank!");
 				//Display the whitelist
 				$civ13_whitelist = implode(", ", $civ13_whitelist);
 				//$message->reply("The following accounts are whitelisted: $civ13_whitelist");
@@ -3421,7 +3420,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$playerlist = array();
 					foreach ($serverinfo[0] as $varname => $varvalue){
 						if ( (substr($varname, 0, 6) == "player") && $varname != "players")
-							$playerlist[] = trim(urldecode($varvalue));
+							$playerlist[] = trim(strtolower(urldecode($varvalue)));
 					}
 					//Check Byond account age 
 					$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
@@ -3431,8 +3430,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$civ13_checked = VarLoad(null, "civ13_checked.php");
 					$civ13_checked_clone = $civ13_checked;
 					foreach($playerlist as $ckey){
-						if (!in_array(trim($ckey), $civ13_checked))
-						if (!in_array(trim($ckey), $civ13_whitelist)){
+						if (!in_array($ckey), $civ13_checked))
+						if (!in_array($ckey), $civ13_whitelist)){
 							echo "[CKEY] $ckey" . PHP_EOL;
 							$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 							$ch = curl_init(); //create curl resource
