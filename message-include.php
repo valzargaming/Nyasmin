@@ -2751,10 +2751,17 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$regex = "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])^"; //echo "format match: " . preg_match($regex, $joined) . PHP_EOL;
 				$valid = preg_match($regex, $joined);
 				if ($valid == true){
-					$message->reply("$ckey joined byond on " . $joined);
+					//ban new accounts
+					if($joined_time > $minimum_time){
+						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+						//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
+						$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
+						$civ_staff_channel = $author_guild->channels->get("562715700360380434");
+						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
+					}else$message->reply("$ckey joined byond on " . $joined);
 				}else $message->reply("Byond account for $ckey does not exist!");
 			}else $message->reply("Byond account for $ckey is whitelisted!");
-		}else $message->reply("ckey cannot be  blank!");
+		}else $message->reply("ckey cannot be blank!");
 		return true;
 	}
 	if (substr($message_content_lower, 0, 6) == $command_symbol . "ckey "){ //;ckey
@@ -2784,11 +2791,11 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 					//Ban account if younger than 90 days
 					if($joined_time > $minimum_time){
-						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord.");
-						//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
-						$message->reply("$ckey joined byond on " . $joined . "\n $ckey was banned because their Byond account was too new");
+						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+						//if($civ_staff_channel) $civ_staff_channel ->send ($ckey joined byond on $joined\n $ckey was banned because their Byond account was too new");
+						$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
 						$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban at discord.gg\hBEtg4x ");
+						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
 					}else $author_channel->send("$ckey joined byond on " . $joined);
 				}else $message->reply("Byond account for $ckey does not exist!");
 			}else $message->reply("Byond account for $ckey is whitelisted!");
@@ -2812,7 +2819,9 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 			$banlist = array();
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
+			$civ13_checked = VarLoad(null, "civ13_checked.php");
 			foreach($playerlist as $ckey){
+				if (!in_array(strtolower($ckey), $civ13_checked))
 				if (!in_array(strtolower($ckey), $civ13_whitelist)){
 					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 					$ch = curl_init(); //create curl resource
@@ -2830,12 +2839,13 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 						//Ban account if younger than 90 days
 						if($joined_time > $minimum_time){
 							$banlist[] = $ckey;
-							//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord.");
+							//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
 							//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
-							if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord.");
+							if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
 							else $message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)"); //DEBUG
 						}
 					}
+					$civ13_checked[] = $ckey;
 				}//else $message->reply("Byond account for $ckey is whitelisted!");
 			}
 			$message->react("👍");
@@ -2843,6 +2853,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$banlist = implode( ", ", $banlist );
 				$message->reply("$banlist was banned for 999 days because their Byond account was too new");
 			}
+			VarSave(null, "civ13_checked.php", $civ13_checked);
 			return true;
 		});
 		return true;
@@ -2884,7 +2895,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$embed
 			//		->setTitle("$author_check")														// Set a title
 					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+					->setDescription("$alias"  . "\n" . $servers[0]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
 			//		->addField("⠀", "$documentation")														// New line after this
 					
 			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2937,7 +2948,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$embed
 			//		->setTitle("$author_check")														// Set a title
 					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+					->setDescription("$alias" . "\n" . $servers[1]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
 			//		->addField("⠀", "$documentation")														// New line after this
 					
 			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -2989,7 +3000,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$embed
 			//		->setTitle("$author_check")														// Set a title
 					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$alias" /* . "\n" . $servers[1]["servername"] . "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+					->setDescription("$alias"  . "\n" . $servers[2]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
 			//		->addField("⠀", "$documentation")														// New line after this
 					
 			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
