@@ -2732,7 +2732,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	if (substr($message_content_lower, 0, 13) == '!s approveme '){
 		echo "[APPROVEME]" . PHP_EOL;
 		$filter = "!s approveme ";
-		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))) //echo "ckey: $ckey" . PHP_EOL;
+		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			//Load whitelist from file
@@ -2767,7 +2767,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	if (substr($message_content_lower, 0, 6) == $command_symbol . "ckey "){ //;ckey
 		echo "[CKEY]" . PHP_EOL;
 		$filter = $command_symbol . "ckey ";
-		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))) //echo "ckey: $ckey" . PHP_EOL;
+		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			if (!in_array($ckey, $civ13_whitelist)){
@@ -3357,7 +3357,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		if (substr($message_content_lower, 0, 12) == '!s whitelist'){ //!s whitelist ckey
 			echo "[WHITELIST]" . PHP_EOL;
 			$filter = "!s whitelist";
-			$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))) //echo "ckey: $ckey" . PHP_EOL;
+			$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			if ($ckey != ""){
 				//$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
