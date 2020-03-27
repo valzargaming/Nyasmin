@@ -2736,7 +2736,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			//Load whitelist from file
-			if (!in_array(strtolower($ckey), $civ13_whitelist)){
+			if (!in_array($ckey, $civ13_whitelist)){
 				$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 				$ch = curl_init(); //create curl resource
 				curl_setopt($ch, CURLOPT_URL, $url); //set url
@@ -2770,7 +2770,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$ckey = str_replace($filter, "", $message_content_lower); //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
-			if (!in_array(strtolower($ckey), $civ13_whitelist)){
+			if (!in_array($ckey, $civ13_whitelist)){
 				$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 				$ch = curl_init(); //create curl resource
 				curl_setopt($ch, CURLOPT_URL, $url); //set url
@@ -2821,8 +2821,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			$civ13_checked = VarLoad(null, "civ13_checked.php");
 			foreach($playerlist as $ckey){
-				if (!in_array(strtolower($ckey), $civ13_checked))
-				if (!in_array(strtolower($ckey), $civ13_whitelist)){
+				if (!in_array($ckey, $civ13_checked))
+				if (!in_array($ckey, $civ13_whitelist)){
 					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 					$ch = curl_init(); //create curl resource
 					curl_setopt($ch, CURLOPT_URL, $url); //set url
@@ -3350,7 +3350,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			if ($ckey != ""){
 				//$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 				//Load whitelist from file
-				if (!in_array(strtolower($ckey), $civ13_whitelist)){
+				if (!in_array($ckey, $civ13_whitelist)){
 					$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
 					$ch = curl_init(); //create curl resource
 					curl_setopt($ch, CURLOPT_URL, $url); //set url
