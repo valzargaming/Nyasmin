@@ -2729,6 +2729,24 @@ if ($creator){ //Mostly just debug commands
 }
 
 if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands should only be relevant for use on this server
+	if ($message_content_lower == '!s minecrafter'){
+		//Give minecrafter role
+		$author_member->addRole("528292344403853344")->done(
+			function ($error) {
+				echo "[ERROR] $error".PHP_EOL;
+			}
+		); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
+		$message->react("👍");
+	}
+	if ($message_content_lower == '!s fortniter'){
+		//Give minecrafter role
+		$author_member->addRole("530447405267812364")->done(
+			function ($error) {
+				echo "[ERROR] $error".PHP_EOL;
+			}
+		); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
+		$message->react("👍");
+	}
 	if (substr($message_content_lower, 0, 13) == '!s approveme '){
 		echo "[APPROVEME]" . PHP_EOL;
 		$filter = "!s approveme ";
@@ -2787,7 +2805,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				if ($valid == true){
 					$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
 					//Check Byond account age 
-					$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+					
 					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 					//Ban account if younger than 90 days
 					if($joined_time > $minimum_time){
@@ -2817,7 +2835,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 						$playerlist[] = trim(strtolower(urldecode($varvalue)));
 				}
 				//Check Byond account age 
-				$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+				
 				$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 				$banlist = array();
 				$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
@@ -3423,7 +3441,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 							$playerlist[] = trim(strtolower(urldecode($varvalue)));
 					}
 					//Check Byond account age 
-					$now = strtotime("now"); //echo "now: $now" . PHP_EOL;
+					
 					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 					$banlist = array();
 					$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
@@ -3452,7 +3470,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 									if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
 								}
 							}
-							$civ13_checked[] = $ckey;
+							$civ13_checked[] = trim(strtolower($ckey));
 						}//else $message->reply("Byond account for $ckey is whitelisted!");
 					}
 					if (!empty($banlist)){
