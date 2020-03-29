@@ -2787,6 +2787,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$filter = $command_symbol . "ckey ";
 		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
+			$civ13_checked = VarLoad(null, "civ13_checked.php");
+			$civ13_checked_clone = $civ13_checked;
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			if (!in_array($ckey, $civ13_whitelist)){
 				$url = "http://www.byond.com/members/".urlencode($ckey)."?format=text";
@@ -2804,17 +2806,19 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				$valid = preg_match($regex, $joined);
 				if ($valid == true){
 					$joined_time = strtotime($joined); //echo "$ckey joined_time: $joined_time" . PHP_EOL;
-					//Check Byond account age 
-					
-					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
-					//Ban account if younger than 90 days
-					if($joined_time > $minimum_time){
-						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
-						//if($civ_staff_channel) $civ_staff_channel ->send ($ckey joined byond on $joined\n $ckey was banned because their Byond account was too new");
-						$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
-						$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
-					}else $author_channel->send("$ckey joined byond on " . $joined);
+					if (!in_array($ckey, $civ13_checked)){ //Don't issue multiple bans
+						//Check Byond account age 	
+						$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
+						if($joined_time > $minimum_time){ //Ban account if younger than 90 days
+							$civ13_checked[] = $ckey;
+							if ($civ13_checked_clone != $civ13_checked){ //Reduce disk writes?
+								VarSave(null, "civ13_checked.php", $civ13_checked);
+								$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
+								$civ_staff_channel = $author_guild->channels->get("562715700360380434");
+								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
+							}else $author_channel->send("$ckey joined byond on " . $joined . "within the last 90 days");
+						}else $author_channel->send("$ckey joined byond on " . $joined);
+					}$author_channel->send("$ckey joined byond on " . $joined);
 				}else $message->reply("Byond account for $ckey does not exist!");
 			}else $message->reply("Byond account for $ckey is whitelisted!");
 		}else $message->reply("ckey cannot be  blank!");
