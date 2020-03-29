@@ -2816,7 +2816,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 								$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
 								$civ_staff_channel = $author_guild->channels->get("562715700360380434");
 								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
-							}else $author_channel->send("$ckey joined byond on " . $joined . "within the last 90 days");
+							}else $author_channel->send("$ckey joined byond on " . $joined . " (<90 days)");
 						}else $author_channel->send("$ckey joined byond on " . $joined);
 					}else $author_channel->send("$ckey joined byond on " . $joined);
 				}else $message->reply("Byond account for $ckey does not exist!");
