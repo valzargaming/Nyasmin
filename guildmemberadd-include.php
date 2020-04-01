@@ -17,6 +17,27 @@ $guild_memberCount										= $guildmember->guild->memberCount;
 $author_guild_id										= $guildmember->guild->id;
 $author_guild_name										= $guildmember->guild->name;
 
+if($author_guild_id == "468979034571931648"){
+	$minimum_time = strtotime("-30 days");
+	if($user_createdTimestamp > $minimum_time){
+		//Alert staff
+		$civ_staff_channel = $author_guild->channels->get("562715700360380434");
+		if($civ_staff_channel) $civ_staff_channel->send("<@$user_id> was banned because their discord account newer than 30 days.");
+		//Ban the new account
+		$reason = "Discord account is too new";
+		$guildmember->ban("1", $reason)->done(null, function ($error){
+			echo "[ERROR] $error".PHP_EOL; //Echo any errors
+		});
+		
+	}else{ //Give Cadet roll
+		$guildmember->addRole("469312086766518272")->done(
+			function ($error) {
+				echo "[ERROR] $error".PHP_EOL;
+			}
+		);
+	}
+}
+
 if($welcome === true){
 	//Load config variables for the guild
 	$guild_folder = "\\guilds\\$author_guild_id";
