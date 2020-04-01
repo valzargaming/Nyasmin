@@ -2771,12 +2771,12 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				if ($valid == true){
 					//ban new accounts
 					if($joined_time > $minimum_time){
-						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+						//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord ($joined)");
 						//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
 						$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
 						$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
-					}else$message->reply("$ckey joined byond on " . $joined);
+						if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord ($joined)");
+					}else $message->reply("$ckey joined byond on " . $joined);
 				}else $message->reply("Byond account for $ckey does not exist!");
 			}else $message->reply("Byond account for $ckey is whitelisted!");
 		}else $message->reply("ckey cannot be blank!");
@@ -2815,7 +2815,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 								VarSave(null, "civ13_checked.php", $civ13_checked);
 								$message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)");
 								$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord");
+								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, please appeal your ban on our discord ($joined)");
 							}else $author_channel->send("$ckey joined byond on " . $joined . " (<90 days)");
 						}else $author_channel->send("$ckey joined byond on " . $joined);
 					}else $author_channel->send("$ckey joined byond on " . $joined);
@@ -2865,9 +2865,9 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 							//Ban account if younger than 90 days
 							if($joined_time > $minimum_time){
 								$banlist[] = $ckey;
-								//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+								//if($civpersistent_channel) $civpersistent_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord ($joined)");
 								//if($civ_staff_channel) $civ_staff_channel ->send ("$ckey was banned for 999 days because their Byond account was too new ($joined)");
-								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+								if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord ($joined)");
 								else $message->reply("$ckey was banned for 999 days because their Byond account was too new ($joined)"); //DEBUG
 							}
 						}
@@ -3471,7 +3471,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 								//Ban account if younger than 90 days
 								if($joined_time > $minimum_time){
 									$banlist[] = $ckey;
-									if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord");
+									if($civ_staff_channel) $civ_staff_channel->send("!s ban $ckey; 999 days; Byond account too new, appeal your ban on our discord ($joined)");
 								}
 							}
 							$civ13_checked[] = trim(strtolower($ckey));
@@ -3705,15 +3705,15 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 					//Count reacts
 					$count = ($yes_count - $no_count);
 					if ($count == 0){
-							$author_channel->send("**Vote tied!**");
+							$author_channel->send("**Vote tied! ($yes_count:$no_count)**");
 							return true;
 					}
 					if ($count > 0){
-							$author_channel->send("**Vote passed!**");
+							$author_channel->send("**Vote passed! ($yes_count:$no_count)**");
 							return true;
 					}
 					if ($count < 0){
-							$author_channel->send("**Vote failed!**");
+							$author_channel->send("**Vote failed! ($yes_count:$no_count)**");
 							return true;
 					}
 				});
