@@ -55,7 +55,7 @@ if ($is_dm === false){ //Guild message
 		});
 	}
 	if (in_array($author_id, $blacklisted_owners)){ //Ignore all commands from blacklisted guild owners
-		return;
+		return true;
 	}
 	//Leave the guild if blacklisted
 	GLOBAL $blacklisted_guilds;
