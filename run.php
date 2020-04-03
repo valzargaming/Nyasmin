@@ -23,6 +23,7 @@ include 'blacklisted_owners.php'; //Array of guild owner user IDs that are not a
 include 'blacklisted_guilds.php'; //Array of Guilds that are not allowed to use this bot
 include 'whitelisted_guilds.php'; //Only guilds in the $whitelisted_guilds array should be allowed to access the bot.
 
+require 'token.php';
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
 $discord = new \CharlotteDunois\Yasmin\Client(array(), $loop);
@@ -33,13 +34,13 @@ set_exception_handler(function (Throwable $e) {
 });
 */
  
-$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop){
+$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop, $token){
 	//Automatically restart the bot if it disconnects
 	//This is almost always going to be caused by error code 1006, meaning the bot did not get heartbeat from Discord
 	include "disconnect-include.php";
 });
 
-$discord->once('ready', function () use ($discord, $loop){	// Listen for events here
+$discord->once('ready', function () use ($discord, $loop, $token){	// Listen for events here
 	echo "[SETUP]" . PHP_EOL;
 	//$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF']))); //No longer relevant due to includes
 	$version = "RC V1.2.0";
@@ -48,7 +49,7 @@ $discord->once('ready', function () use ($discord, $loop){	// Listen for events 
 		array(
 			'since' => null, //unix time (in milliseconds) of when the client went idle, or null if the client is not idle
 			'game' => array(
-		'name' => "$line_count lines of code! $version",
+			'name' => "$line_count lines of code! $version",
 				'name' => $version,
 				'type' => 3, //0, 1, 2, 3, 4 | Game/Playing, Streaming, Listening, Watching, Custom Status
 				'url' => null //stream url, is validated when type is 1, only Youtube and Twitch allowed
@@ -66,7 +67,7 @@ $discord->once('ready', function () use ($discord, $loop){	// Listen for events 
 	$timestampSetup = time();
 	echo "[timestampSetup]: " . $timestampSetup . PHP_EOL;
 	
-	$discord->on('message', function ($message) use ($discord, $loop){ //Handling of a message
+	$discord->on('message', function ($message) use ($discord, $loop, $token){ //Handling of a message
 		include "message-include.php";
 	});
 		
@@ -84,7 +85,8 @@ $discord->once('ready', function () use ($discord, $loop){	// Listen for events 
 		
 	$discord->on('guildBanAdd', function ($guild, $user){ //Handling of a user getting banned
 		echo "[guildBanAdd]" . PHP_EOL;
-
+		//Load guild config
+		//Report ban in logs channel, if it exists
 	});
 	
 	$discord->on('guildBanRemove', function ($guild, $user){ //Handling of a user getting unbanned
@@ -176,8 +178,6 @@ $discord->once('ready', function () use ($discord, $loop){	// Listen for events 
 	*/
 	
 }); //end main function ready
-
-require 'token.php';
 
 $discord->login($token)->done();
 $loop->run();

@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>CharlotteDunois\Yasmin\ClientEvents | Yasmin</title>
+
+            <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../css/sami.css">
+        <link rel="stylesheet" type="text/css" href="../../css/prism.css">
+        <script src="../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/typeahead.min.js"></script>
+        <script src="../../sami.js"></script>
+        <script src="../../js/prism.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_ClientEvents" data-root-path="../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../v0.5.0/index.html" data-version="v0.5.0">v0.5.0</option>
+                                            <option value="../../../v0.5.1/index.html" data-version="v0.5.1">v0.5.1</option>
+                                            <option value="../../../v0.6.0/index.html" data-version="v0.6.0">v0.6.0</option>
+                                            <option value="../../../v0.6.1/index.html" data-version="v0.6.1">v0.6.1</option>
+                                            <option value="../../../v0.6.2/index.html" data-version="v0.6.2">v0.6.2</option>
+                                            <option value="../../../master/index.html" data-version="master">master</option>
+                                    </select>
+            </form>
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../index.html">Yasmin</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../classes.html">Classes</a></li>
+                                                                <li><a href="../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../traits.html">Traits</a></li>
+                    <li><a href="../../doc-index.html">Index</a></li>
+                    <li><a href="../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">interface</span></li>
+                        <li><a href="../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li>ClientEvents</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            ClientEvents
+                
+        </h1>
+    </div>
+
+    <p>    interface
+    <strong>ClientEvents</strong>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php" target="_blank">View source</a>)
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Documents all Client events. ($client->on('name here', callable))</p>            <p>The second parameter of *Update events is null, if cloning for that event is disabled.</p>                    </div>
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_channelCreate">channelCreate</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $channel)
+        
+                                            <p>Emitted when a channel gets created.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_channelDelete">channelDelete</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $channel)
+        
+                                            <p>Emitted when a channel gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_channelPinsUpdate">channelPinsUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $channel, <a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>|null $time)
+        
+                                            <p>Emitted when a channel's pins gets updated. Due to the nature of the event, it's not possible to do much.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_channelUpdate">channelUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a>|null $old)
+        
+                                            <p>Emitted when a channel gets updated.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_debug">debug</a>(string|mixed $message)
+        
+                                            <p>Debug messages.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_disconnect">disconnect</a>(<a href="../../CharlotteDunois/Yasmin/Models/Shard.html"><abbr title="CharlotteDunois\Yasmin\Models\Shard">Shard</abbr></a> $shard, int $code, string $reason)
+        
+                                            <p>Emitted when the shard gets disconnected from the gateway.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_error">error</a>(<a href="https://secure.php.net/Throwable" target="_blank">Throwable</a> $error)
+        
+                                            <p>Emitted when an error happens (inside the library or any listeners). You should always listen on this event.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildBanAdd">guildBanAdd</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Emitted when someone gets banned.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildBanRemove">guildBanRemove</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Emitted when someone gets unbanned.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildCreate">guildCreate</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild)
+        
+                                            <p>Emitted when a guild gets joined.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildDelete">guildDelete</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild)
+        
+                                            <p>Emitted when a guild gets left.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildMemberAdd">guildMemberAdd</a>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $member)
+        
+                                            <p>Emitted when an user joins a guild.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildMemberRemove">guildMemberRemove</a>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $member)
+        
+                                            <p>Emitted when an user leaves a guild.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildMemberUpdate">guildMemberUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null $old)
+        
+                                            <p>Emitted when a member gets updated.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildMembersChunk">guildMembersChunk</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild, <abbr title="CharlotteDunois\Collect\Collection">Collection</abbr> $members)
+        
+                                            <p>Emitted when the gateway sends requested members. The collection consists of GuildMember instances, mapped by their user ID.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildUnavailable">guildUnavailable</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild)
+        
+                                            <p>Emitted when a guild becomes (un)available.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_guildUpdate">guildUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|null $old)
+        
+                                            <p>Emitted when a guild gets updated.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_message">message</a>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $message)
+        
+                                            <p>Emitted when a message gets received.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageDelete">messageDelete</a>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $message)
+        
+                                            <p>Emitted when a (cached) message gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageDeleteBulk">messageDeleteBulk</a>(<abbr title="CharlotteDunois\Collect\Collection">Collection</abbr> $messages)
+        
+                                            <p>Emitted when multiple (cached) message gets deleted. The collection consists of Message instances, mapped by their ID.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageDeleteBulkRaw">messageDeleteBulkRaw</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, array $messageIDs)
+        
+                                            <p>Emitted when multple uncached messages gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageDeleteRaw">messageDeleteRaw</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, string $messageID)
+        
+                                            <p>Emitted when an uncached message gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageReactionAdd">messageReactionAdd</a>(<a href="../../CharlotteDunois/Yasmin/Models/MessageReaction.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction">MessageReaction</abbr></a> $reaction, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Emitted when someone reacts to a (cached) message.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageReactionRemove">messageReactionRemove</a>(<a href="../../CharlotteDunois/Yasmin/Models/MessageReaction.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction">MessageReaction</abbr></a> $reaction, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Emitted when a reaction from a (cached) message gets removed.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageReactionRemoveAll">messageReactionRemoveAll</a>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $message)
+        
+                                            <p>Emitted when all reactions from a (cached) message gets removed.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageUpdate">messageUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>|null $old)
+        
+                                            <p>Emitted when a (cached) message gets updated (does not mean the message got edited, check the edited timestamp for that).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_messageUpdateRaw">messageUpdateRaw</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, array $data)
+        
+                                            <p>Emitted when an uncached message gets updated (does not mean the message got edited, check the edited timestamp for that).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_presenceUpdate">presenceUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a>|null $old)
+        
+                                            <p>Emitted when a presence updates.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_ratelimit">ratelimit</a>(array $data)
+        
+                                            <p>Ratelimit information.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_raw">raw</a>(mixed $message)
+        
+                                            <p>Emitted when we receive a message from the gateway.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_ready">ready</a>()
+        
+                                            <p>Emitted each time the client turns ready.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_reconnect">reconnect</a>(<a href="../../CharlotteDunois/Yasmin/Models/Shard.html"><abbr title="CharlotteDunois\Yasmin\Models\Shard">Shard</abbr></a> $shard)
+        
+                                            <p>Emitted when the shard tries to reconnect.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_roleCreate">roleCreate</a>(<a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $role)
+        
+                                            <p>Emitted when a role gets created.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_roleDelete">roleDelete</a>(<a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $role)
+        
+                                            <p>Emitted when a role gets deleted.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_roleUpdate">roleUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|null $old)
+        
+                                            <p>Emitted when a role gets updated.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_typingStart">typingStart</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Emitted when someone starts typing in the channel.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_typingStop">typingStop</a>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        
+                                            <p>Emitted when someone stops typing in the channel.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_userUpdate">userUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null $old)
+        
+                                            <p>Emitted when someone updates their user account (username/avatar/etc.).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_voiceServerUpdate">voiceServerUpdate</a>(array|null $data)
+        
+                                            <p>Emitted when Discord responds to the user's Voice State Update event.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_voiceStateUpdate">voiceStateUpdate</a>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null $old)
+        
+                                            <p>Emitted when a member's voice state changes (leaves/joins/etc.).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_channelCreate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L99">line 99</a></div>
+        <code>                    void
+    <strong>channelCreate</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $channel)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a channel gets created.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_channelDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L111">line 111</a></div>
+        <code>                    void
+    <strong>channelDelete</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $channel)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a channel gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_channelPinsUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L117">line 117</a></div>
+        <code>                    void
+    <strong>channelPinsUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $channel, <a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>|null $time)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a channel's pins gets updated. Due to the nature of the event, it's not possible to do much.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>|null</td>
+                <td>$time</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_channelUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L105">line 105</a></div>
+        <code>                    void
+    <strong>channelUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a channel gets updated.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/ChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelInterface">ChannelInterface</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_debug">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L75">line 75</a></div>
+        <code>                    void
+    <strong>debug</strong>(string|mixed $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Debug messages.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|mixed</td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_disconnect">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L28">line 28</a></div>
+        <code>                    void
+    <strong>disconnect</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Shard.html"><abbr title="CharlotteDunois\Yasmin\Models\Shard">Shard</abbr></a> $shard, int $code, string $reason)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when the shard gets disconnected from the gateway.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Shard.html"><abbr title="CharlotteDunois\Yasmin\Models\Shard">Shard</abbr></a></td>
+                <td>$shard</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$code</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_error">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L68">line 68</a></div>
+        <code>                    void
+    <strong>error</strong>(<a href="https://secure.php.net/Throwable" target="_blank">Throwable</a> $error)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an error happens (inside the library or any listeners). You should always listen on this event.</p>                    <p>Failing to listen on this event will result in an exception when an error event gets emitted.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="https://secure.php.net/Throwable" target="_blank">Throwable</a></td>
+                <td>$error</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildBanAdd">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L147">line 147</a></div>
+        <code>                    void
+    <strong>guildBanAdd</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone gets banned.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildBanRemove">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L153">line 153</a></div>
+        <code>                    void
+    <strong>guildBanRemove</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone gets unbanned.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildCreate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L123">line 123</a></div>
+        <code>                    void
+    <strong>guildCreate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a guild gets joined.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L135">line 135</a></div>
+        <code>                    void
+    <strong>guildDelete</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a guild gets left.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildMemberAdd">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L159">line 159</a></div>
+        <code>                    void
+    <strong>guildMemberAdd</strong>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $member)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an user joins a guild.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a></td>
+                <td>$member</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildMemberRemove">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L171">line 171</a></div>
+        <code>                    void
+    <strong>guildMemberRemove</strong>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $member)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an user leaves a guild.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a></td>
+                <td>$member</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildMemberUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L165">line 165</a></div>
+        <code>                    void
+    <strong>guildMemberUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a member gets updated.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildMembersChunk">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L178">line 178</a></div>
+        <code>                    void
+    <strong>guildMembersChunk</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild, <abbr title="CharlotteDunois\Collect\Collection">Collection</abbr> $members)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when the gateway sends requested members. The collection consists of GuildMember instances, mapped by their user ID.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="CharlotteDunois\Collect\Collection">Collection</abbr></td>
+                <td>$members</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildUnavailable">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L141">line 141</a></div>
+        <code>                    void
+    <strong>guildUnavailable</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $guild)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a guild becomes (un)available.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$guild</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_guildUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L129">line 129</a></div>
+        <code>                    void
+    <strong>guildUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a guild gets updated.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Guild.html"><abbr title="CharlotteDunois\Yasmin\Models\Guild">Guild</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_message">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L202">line 202</a></div>
+        <code>                    void
+    <strong>message</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a message gets received.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L214">line 214</a></div>
+        <code>                    void
+    <strong>messageDelete</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a (cached) message gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDeleteBulk">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L221">line 221</a></div>
+        <code>                    void
+    <strong>messageDeleteBulk</strong>(<abbr title="CharlotteDunois\Collect\Collection">Collection</abbr> $messages)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when multiple (cached) message gets deleted. The collection consists of Message instances, mapped by their ID.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="CharlotteDunois\Collect\Collection">Collection</abbr></td>
+                <td>$messages</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDeleteBulkRaw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L53">line 53</a></div>
+        <code>                    void
+    <strong>messageDeleteBulkRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, array $messageIDs)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when multple uncached messages gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$messageIDs</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageDeleteRaw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L47">line 47</a></div>
+        <code>                    void
+    <strong>messageDeleteRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, string $messageID)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an uncached message gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$messageID</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageReactionAdd">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L227">line 227</a></div>
+        <code>                    void
+    <strong>messageReactionAdd</strong>(<a href="../../CharlotteDunois/Yasmin/Models/MessageReaction.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction">MessageReaction</abbr></a> $reaction, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone reacts to a (cached) message.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/MessageReaction.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction">MessageReaction</abbr></a></td>
+                <td>$reaction</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageReactionRemove">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L233">line 233</a></div>
+        <code>                    void
+    <strong>messageReactionRemove</strong>(<a href="../../CharlotteDunois/Yasmin/Models/MessageReaction.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction">MessageReaction</abbr></a> $reaction, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a reaction from a (cached) message gets removed.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/MessageReaction.html"><abbr title="CharlotteDunois\Yasmin\Models\MessageReaction">MessageReaction</abbr></a></td>
+                <td>$reaction</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageReactionRemoveAll">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L239">line 239</a></div>
+        <code>                    void
+    <strong>messageReactionRemoveAll</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when all reactions from a (cached) message gets removed.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L208">line 208</a></div>
+        <code>                    void
+    <strong>messageUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a (cached) message gets updated (does not mean the message got edited, check the edited timestamp for that).</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Message.html"><abbr title="CharlotteDunois\Yasmin\Models\Message">Message</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_messageUpdateRaw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L61">line 61</a></div>
+        <code>                    void
+    <strong>messageUpdateRaw</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, array $data)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when an uncached message gets updated (does not mean the message got edited, check the edited timestamp for that).</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="https://discordapp.com/developers/docs/topics/gateway#message-update" target="_blank">https://discordapp.com/developers/docs/topics/gateway#message-update</a>
+                                    </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>
+                                            <a href="https://discordapp.com/developers/docs/resources/channel#message-object" target="_blank">https://discordapp.com/developers/docs/resources/channel#message-object</a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_presenceUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L245">line 245</a></div>
+        <code>                    void
+    <strong>presenceUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a presence updates.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Presence.html"><abbr title="CharlotteDunois\Yasmin\Models\Presence">Presence</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_ratelimit">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L93">line 93</a></div>
+        <code>                    void
+    <strong>ratelimit</strong>(array $data)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Ratelimit information.</p>                    <p>The array has the following format:</p>
+
+<pre><code>array(
+    'endpoint' =&gt; string,
+    'global' =&gt; bool,
+    'limit' =&gt; int|float, (float = \INF)
+    'remaining =&gt; int,
+    'resetTime' =&gt; float|null
+)
+</code></pre>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_raw">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L41">line 41</a></div>
+        <code>                    void
+    <strong>raw</strong>(mixed $message)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when we receive a message from the gateway.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$message</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_ready">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L22">line 22</a></div>
+        <code>                    void
+    <strong>ready</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted each time the client turns ready.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_reconnect">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L34">line 34</a></div>
+        <code>                    void
+    <strong>reconnect</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Shard.html"><abbr title="CharlotteDunois\Yasmin\Models\Shard">Shard</abbr></a> $shard)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when the shard tries to reconnect.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Shard.html"><abbr title="CharlotteDunois\Yasmin\Models\Shard">Shard</abbr></a></td>
+                <td>$shard</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_roleCreate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L184">line 184</a></div>
+        <code>                    void
+    <strong>roleCreate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $role)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a role gets created.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a></td>
+                <td>$role</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_roleDelete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L196">line 196</a></div>
+        <code>                    void
+    <strong>roleDelete</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $role)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a role gets deleted.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a></td>
+                <td>$role</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_roleUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L190">line 190</a></div>
+        <code>                    void
+    <strong>roleUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a role gets updated.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_typingStart">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L251">line 251</a></div>
+        <code>                    void
+    <strong>typingStart</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone starts typing in the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_typingStop">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L257">line 257</a></div>
+        <code>                    void
+    <strong>typingStop</strong>(<a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a> $channel, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone stops typing in the channel.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Interfaces/TextChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\TextChannelInterface">TextChannelInterface</abbr></a></td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$user</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_userUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L263">line 263</a></div>
+        <code>                    void
+    <strong>userUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when someone updates their user account (username/avatar/etc.).</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_voiceServerUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L271">line 271</a></div>
+        <code>                    void
+    <strong>voiceServerUpdate</strong>(array|null $data)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when Discord responds to the user's Voice State Update event.</p>                    <p>If you get <code>null</code> for <code>$data</code>, then this means that there's no endpoint yet and need to await it = Awaiting Endpoint.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array|null</td>
+                <td>$data</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="https://discordapp.com/developers/docs/topics/gateway#voice-server-update" target="_blank">https://discordapp.com/developers/docs/topics/gateway#voice-server-update</a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_voiceStateUpdate">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.2/src/ClientEvents.php#L277">line 277</a></div>
+        <code>                    void
+    <strong>voiceStateUpdate</strong>(<a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $new, <a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null $old)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Emitted when a member's voice state changes (leaves/joins/etc.).</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a></td>
+                <td>$new</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|null</td>
+                <td>$old</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>CharlotteDunois\Yasmin\Models\Activity | Yasmin</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/prism.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <script src="../../../js/prism.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_Activity" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../../v0.5.0/index.html" data-version="v0.5.0">v0.5.0</option>
+                                            <option value="../../../../v0.5.1/index.html" data-version="v0.5.1">v0.5.1</option>
+                                            <option value="../../../../v0.6.0/index.html" data-version="v0.6.0">v0.6.0</option>
+                                            <option value="../../../../v0.6.1/index.html" data-version="v0.6.1">v0.6.1</option>
+                                            <option value="../../../../v0.6.2/index.html" data-version="v0.6.2">v0.6.2</option>
+                                            <option value="../../../../master/index.html" data-version="master">master</option>
+                                    </select>
+            </form>
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Yasmin</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                                                <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>Activity</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            Activity
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>Activity</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Activity.php" target="_blank">View source</a>)
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Something someone does.</p>                                </div>
+    
+    
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>FLAGS</td>
+                <td class="last">
+                    <p><em>The Activity flags.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const FLAGS = array(
+    &#039;INSTANCE&#039; =&gt; 1,
+    &#039;JOIN&#039; =&gt; 2,
+    &#039;SPECTATE&#039; =&gt; 4,
+    &#039;JOIN_REQUEST&#039; =&gt; 8,
+    &#039;SYNC&#039; =&gt; 16,
+    &#039;PLAY&#039; =&gt; 32
+);</code></pre>
+                                    </td>
+            </tr>
+                    <tr>
+                <td>TYPES</td>
+                <td class="last">
+                    <p><em>The Activity types.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const TYPES = array(
+    0 =&gt; &#039;playing&#039;,
+    1 =&gt; &#039;streaming&#039;,
+    2 =&gt; &#039;listening&#039;,
+    3 =&gt; &#039;watching&#039;
+);</code></pre>
+                                    </td>
+            </tr>
+            </table>
+
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_applicationID">
+                                                                                string|null
+                </td>
+                <td><a name="property_applicationID" href="#property_applicationID">$applicationID</a></td>
+                <td class="last">The application ID associated with the activity, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_assets">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/RichPresenceAssets.html"><abbr title="CharlotteDunois\Yasmin\Models\RichPresenceAssets">RichPresenceAssets</abbr></a>|null
+                </td>
+                <td><a name="property_assets" href="#property_assets">$assets</a></td>
+                <td class="last">Assets for rich presence, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td><a name="property_client" href="#property_client">$client</a></td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_details">
+                                                                                string|null
+                </td>
+                <td><a name="property_details" href="#property_details">$details</a></td>
+                <td class="last">Details about the activity, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_flags">
+                                                                                int|null
+                </td>
+                <td><a name="property_flags" href="#property_flags">$flags</a></td>
+                <td class="last">The activity flags (as bitfield), like if an activity is a spectate activity.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string
+                </td>
+                <td><a name="property_name" href="#property_name">$name</a></td>
+                <td class="last">The name of the activity.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_party">
+                                                                                array|null
+                </td>
+                <td><a name="property_party" href="#property_party">$party</a></td>
+                <td class="last">Party of the activity, an array in the format <code>[ 'id' =&gt; string, 'size' =&gt; [ size (int), max (int|null) ]|null ]</code>, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_sessionID">
+                                                                                string|null
+                </td>
+                <td><a name="property_sessionID" href="#property_sessionID">$sessionID</a></td>
+                <td class="last">The ID that links to the activity session.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_state">
+                                                                                string|null
+                </td>
+                <td><a name="property_state" href="#property_state">$state</a></td>
+                <td class="last">State of the activity, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_streaming">
+                                                                                bool
+                </td>
+                <td><a name="property_streaming" href="#property_streaming">$streaming</a></td>
+                <td class="last">Whether or not the activity is being streamed.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_syncID">
+                                                                                string|null
+                </td>
+                <td><a name="property_syncID" href="#property_syncID">$syncID</a></td>
+                <td class="last">The sync ID. For spotify, this is the spotify track ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_timestamps">
+                                                                                array|null
+                </td>
+                <td><a name="property_timestamps" href="#property_timestamps">$timestamps</a></td>
+                <td class="last">Timestamps for the activity, an array in the format <code>[ 'start' =&gt; \DateTime|null, 'end' =&gt; \DateTime|null ]</code>, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_type">
+                                                                                int
+                </td>
+                <td><a name="property_type" href="#property_type">$type</a></td>
+                <td class="last">The activity type.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_url">
+                                                                                string|null
+                </td>
+                <td><a name="property_url" href="#property_url">$url</a></td>
+                <td class="last">The stream url, if streaming.</td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $activity)
+        
+                                            <p>The manual creation of such a class is discouraged. There may be an easy and safe way to create such a class in the future.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isRichPresence">isRichPresence</a>()
+        
+                                            <p>Whether this activity is a rich presence.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Activity.php#L135">line 135</a></div>
+        <code>                    
+    <strong>__construct</strong>(<a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a> $client, array $activity)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>The manual creation of such a class is discouraged. There may be an easy and safe way to create such a class in the future.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a></td>
+                <td>$client</td>
+                <td>The client this instance is for.</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$activity</td>
+                <td>An array containing name, type (as int) and url (nullable).</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isRichPresence">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Activity.php#L190">line 190</a></div>
+        <code>                    bool
+    <strong>isRichPresence</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Whether this activity is a rich presence.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

@@ -1,0 +1,2698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>CharlotteDunois\Yasmin\Models\Guild | Yasmin</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/prism.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <script src="../../../js/prism.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:CharlotteDunois_Yasmin_Models_Guild" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../../v0.5.0/index.html" data-version="v0.5.0">v0.5.0</option>
+                                            <option value="../../../../v0.5.1/index.html" data-version="v0.5.1">v0.5.1</option>
+                                            <option value="../../../../v0.6.0/index.html" data-version="v0.6.0">v0.6.0</option>
+                                            <option value="../../../../v0.6.1/index.html" data-version="v0.6.1">v0.6.1</option>
+                                            <option value="../../../../v0.6.2/index.html" data-version="v0.6.2">v0.6.2</option>
+                                            <option value="../../../../master/index.html" data-version="master">master</option>
+                                    </select>
+            </form>
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Yasmin</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                                                <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../CharlotteDunois.html">CharlotteDunois</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin.html">Yasmin</a></li><li class="backslash">\</li><li><a href="../../../CharlotteDunois/Yasmin/Models.html">Models</a></li><li class="backslash">\</li><li>Guild</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            Guild
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>Guild</strong>        extends <a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a>        (<a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php" target="_blank">View source</a>)
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Represents a guild. It's recommended to see if a guild is available before performing operations or reading data from it.</p>                                </div>
+    
+    
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>DEFAULT_MESSAGE_NOTIFICATIONS</td>
+                <td class="last">
+                    <p><em>Guild default message notifications.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const DEFAULT_MESSAGE_NOTIFICATIONS = array(
+    0 =&gt; &#039;EVERYTHING&#039;,
+    1 =&gt; &#039;ONLY_MENTIONS&#039;
+);</code></pre>
+                                    </td>
+            </tr>
+                    <tr>
+                <td>EXPLICIT_CONTENT_FILTER</td>
+                <td class="last">
+                    <p><em>Guild explicit content filter.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const EXPLICIT_CONTENT_FILTER = array(
+    0 =&gt; &#039;DISABLED&#039;,
+    1 =&gt; &#039;MEMBERS_WITHOUT_ROLES&#039;,
+    2 =&gt; &#039;ALL_MEMBERS&#039;
+);</code></pre>
+                                    </td>
+            </tr>
+                    <tr>
+                <td>MFA_LEVEL</td>
+                <td class="last">
+                    <p><em>Guild MFA level.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const MFA_LEVEL = array(
+    0 =&gt; &#039;NONE&#039;,
+    1 =&gt; &#039;ELEVATED&#039;
+);</code></pre>
+                                    </td>
+            </tr>
+                    <tr>
+                <td>VERIFICATION_LEVEL</td>
+                <td class="last">
+                    <p><em>Guild verification level.</em></p>
+                    <p></p>
+                                            <pre><code class="language-php">const VERIFICATION_LEVEL = array(
+    0 =&gt; &#039;NONE&#039;,
+    1 =&gt; &#039;LOW&#039;,
+    2 =&gt; &#039;MEDIUM&#039;,
+    3 =&gt; &#039;HIGH&#039;,
+    4 =&gt; &#039;VERY_HIGH&#039;
+);</code></pre>
+                                    </td>
+            </tr>
+            </table>
+
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_afkChannel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null
+                </td>
+                <td><a name="property_afkChannel" href="#property_afkChannel">$afkChannel</a></td>
+                <td class="last">The guild's afk channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_afkChannelID">
+                                                                                string|null
+                </td>
+                <td><a name="property_afkChannelID" href="#property_afkChannelID">$afkChannelID</a></td>
+                <td class="last">The ID of the afk channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_afkTimeout">
+                                                                                int|null
+                </td>
+                <td><a name="property_afkTimeout" href="#property_afkTimeout">$afkTimeout</a></td>
+                <td class="last">The time in seconds before an user is counted as "away from keyboard".</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_applicationID">
+                                                                                string|null
+                </td>
+                <td><a name="property_applicationID" href="#property_applicationID">$applicationID</a></td>
+                <td class="last">Application ID of the guild creator, if it is bot-created.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_available">
+                                                                                bool
+                </td>
+                <td><a name="property_available" href="#property_available">$available</a></td>
+                <td class="last">Whether the guild is available.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_banner">
+                                                                                string|null
+                </td>
+                <td><a name="property_banner" href="#property_banner">$banner</a></td>
+                <td class="last">Guild banner hash used for Server Discovery, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_channels">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/ChannelStorageInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\ChannelStorageInterface">ChannelStorageInterface</abbr></a>
+                </td>
+                <td><a name="property_channels" href="#property_channels">$channels</a></td>
+                <td class="last">Holds a guild's channels, mapped by their ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_client">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Client.html"><abbr title="CharlotteDunois\Yasmin\Client">Client</abbr></a>
+                </td>
+                <td><a name="property_client" href="#property_client">$client</a></td>
+                <td class="last">The client which initiated the instance.</td>
+                <td><small>from&nbsp;<a href="../../../CharlotteDunois/Yasmin/Models/ClientBase.html#property_client"><abbr title="CharlotteDunois\Yasmin\Models\ClientBase">ClientBase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdAt">
+                                                                                <a href="https://secure.php.net/DateTime" target="_blank">DateTime</a>
+                </td>
+                <td><a name="property_createdAt" href="#property_createdAt">$createdAt</a></td>
+                <td class="last">The DateTime instance of createdTimestamp.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_createdTimestamp">
+                                                                                int
+                </td>
+                <td><a name="property_createdTimestamp" href="#property_createdTimestamp">$createdTimestamp</a></td>
+                <td class="last">The timestamp when this guild was created.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultMessageNotifications">
+                                                                                string
+                </td>
+                <td><a name="property_defaultMessageNotifications" href="#property_defaultMessageNotifications">$defaultMessageNotifications</a></td>
+                <td class="last">The type of message that should notify you. (see Guild::DEFAULT_MESSAGE_NOTIFICATIONS)</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultRole">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>
+                </td>
+                <td><a name="property_defaultRole" href="#property_defaultRole">$defaultRole</a></td>
+                <td class="last">The guild's default role.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_description">
+                                                                                string|null
+                </td>
+                <td><a name="property_description" href="#property_description">$description</a></td>
+                <td class="last">Guild description used for Server Discovery, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_embedChannel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>|null
+                </td>
+                <td><a name="property_embedChannel" href="#property_embedChannel">$embedChannel</a></td>
+                <td class="last">The guild's embed channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_embedChannelID">
+                                                                                string|null
+                </td>
+                <td><a name="property_embedChannelID" href="#property_embedChannelID">$embedChannelID</a></td>
+                <td class="last">The ID of the embed channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_embedEnabled">
+                                                                                bool
+                </td>
+                <td><a name="property_embedEnabled" href="#property_embedEnabled">$embedEnabled</a></td>
+                <td class="last">Whether the guild is embeddable or not (e.g. widget).</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_emojis">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/EmojiStorageInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\EmojiStorageInterface">EmojiStorageInterface</abbr></a>
+                </td>
+                <td><a name="property_emojis" href="#property_emojis">$emojis</a></td>
+                <td class="last">Holds a guild's emojis, mapped by their ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_explicitContentFilter">
+                                                                                string
+                </td>
+                <td><a name="property_explicitContentFilter" href="#property_explicitContentFilter">$explicitContentFilter</a></td>
+                <td class="last">The explicit content filter level of the guild. (see Guild::EXPLICIT_CONTENT_FILTER)</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_features">
+                                                                                string[]
+                </td>
+                <td><a name="property_features" href="#property_features">$features</a></td>
+                <td class="last">An array of guild features.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_icon">
+                                                                                string|null
+                </td>
+                <td><a name="property_icon" href="#property_icon">$icon</a></td>
+                <td class="last">The guild icon hash, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_id">
+                                                                                string
+                </td>
+                <td><a name="property_id" href="#property_id">$id</a></td>
+                <td class="last">The guild ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_large">
+                                                                                bool
+                </td>
+                <td><a name="property_large" href="#property_large">$large</a></td>
+                <td class="last">Whether the guild is considered large.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_lazy">
+                                                                                bool
+                </td>
+                <td><a name="property_lazy" href="#property_lazy">$lazy</a></td>
+                <td class="last">Whether this guild is run in lazy mode (on the Discord node).</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_maxMembers">
+                                                                                int|null
+                </td>
+                <td><a name="property_maxMembers" href="#property_maxMembers">$maxMembers</a></td>
+                <td class="last">The maximum amount of members the guild can have, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_maxPresences">
+                                                                                int|null
+                </td>
+                <td><a name="property_maxPresences" href="#property_maxPresences">$maxPresences</a></td>
+                <td class="last">The maximum amount of presences the guild can have, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_me">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>
+                </td>
+                <td><a name="property_me" href="#property_me">$me</a></td>
+                <td class="last">The guild member of the client user.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_memberCount">
+                                                                                int
+                </td>
+                <td><a name="property_memberCount" href="#property_memberCount">$memberCount</a></td>
+                <td class="last">How many members the guild has.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_members">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildMemberStorageInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildMemberStorageInterface">GuildMemberStorageInterface</abbr></a>
+                </td>
+                <td><a name="property_members" href="#property_members">$members</a></td>
+                <td class="last">Holds a guild's cached members, mapped by their ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_mfaLevel">
+                                                                                string
+                </td>
+                <td><a name="property_mfaLevel" href="#property_mfaLevel">$mfaLevel</a></td>
+                <td class="last">The required MFA level for the guild. (see Guild::MFA_LEVEL)</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_name">
+                                                                                string
+                </td>
+                <td><a name="property_name" href="#property_name">$name</a></td>
+                <td class="last">The guild name.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_ownerID">
+                                                                                string
+                </td>
+                <td><a name="property_ownerID" href="#property_ownerID">$ownerID</a></td>
+                <td class="last">The ID of the owner.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_presences">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/PresenceStorageInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\PresenceStorageInterface">PresenceStorageInterface</abbr></a>
+                </td>
+                <td><a name="property_presences" href="#property_presences">$presences</a></td>
+                <td class="last">Holds a guild's presences of members, mapped by user ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_region">
+                                                                                string
+                </td>
+                <td><a name="property_region" href="#property_region">$region</a></td>
+                <td class="last">The region the guild is located in.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_roles">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/RoleStorageInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\RoleStorageInterface">RoleStorageInterface</abbr></a>
+                </td>
+                <td><a name="property_roles" href="#property_roles">$roles</a></td>
+                <td class="last">Holds a guild's roles, mapped by their ID.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_shardID">
+                                                                                int
+                </td>
+                <td><a name="property_shardID" href="#property_shardID">$shardID</a></td>
+                <td class="last">On which shard this guild is.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_splash">
+                                                                                string|null
+                </td>
+                <td><a name="property_splash" href="#property_splash">$splash</a></td>
+                <td class="last">The guild splash hash, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_systemChannel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>|null
+                </td>
+                <td><a name="property_systemChannel" href="#property_systemChannel">$systemChannel</a></td>
+                <td class="last">The guild's system channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_systemChannelID">
+                                                                                string|null
+                </td>
+                <td><a name="property_systemChannelID" href="#property_systemChannelID">$systemChannelID</a></td>
+                <td class="last">The ID of the system channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_vanityInviteCode">
+                                                                                string|null
+                </td>
+                <td><a name="property_vanityInviteCode" href="#property_vanityInviteCode">$vanityInviteCode</a></td>
+                <td class="last">The vanity invite code, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_vanityURL">
+                                                                                bool
+                </td>
+                <td><a name="property_vanityURL" href="#property_vanityURL">$vanityURL</a></td>
+                <td class="last">Whether the guild has a vanity invite url.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_verificationLevel">
+                                                                                string
+                </td>
+                <td><a name="property_verificationLevel" href="#property_verificationLevel">$verificationLevel</a></td>
+                <td class="last">The verification level of the guild. (see Guild::VERIFICATION_LEVEL)</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_verified">
+                                                                                bool
+                </td>
+                <td><a name="property_verified" href="#property_verified">$verified</a></td>
+                <td class="last">Whether the guild is verified.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_widgetChannel">
+                                                                                <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>|null
+                </td>
+                <td><a name="property_widgetChannel" href="#property_widgetChannel">$widgetChannel</a></td>
+                <td class="last">The guild's widget channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_widgetChannelID">
+                                                                                string|null
+                </td>
+                <td><a name="property_widgetChannelID" href="#property_widgetChannelID">$widgetChannelID</a></td>
+                <td class="last">The ID of the widget channel, or null.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_widgetEnabled">
+                                                                                bool
+                </td>
+                <td><a name="property_widgetEnabled" href="#property_widgetEnabled">$widgetEnabled</a></td>
+                <td class="last">Whether the guild widget is enabled or not.</td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addMember">addMember</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, string $accessToken, array $options = array())
+        
+                                            <p>Adds the given user to the guild using the OAuth Access Token. Requires the CREATE_INSTANT_INVITE permission. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_ban">ban</a>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, int $days = 0, string $reason = &#039;&#039;)
+        
+                                            <p>Bans the given user. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createChannel">createChannel</a>(array $options, string $reason = &#039;&#039;)
+        
+                                            <p>Creates a new channel in the guild. Resolves with an instance of GuildChannelInterface.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createEmoji">createEmoji</a>(string $file, string $name, array|<abbr title="CharlotteDunois\Collect\Collection">Collection</abbr> $roles = array(), string $reason = &#039;&#039;)
+        
+                                            <p>Creates a new custom emoji in the guild. Resolves with an instance of Emoji.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_createRole">createRole</a>(array $options, string $reason = &#039;&#039;)
+        
+                                            <p>Creates a new role in the guild. Resolves with an instance of Role.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_delete">delete</a>()
+        
+                                            <p>Deletes the guild.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_edit">edit</a>(array $options, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchAuditLog">fetchAuditLog</a>(array $options = array())
+        
+                                            <p>Fetch audit log for the guild. Resolves with an instance of AuditLog.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchBan">fetchBan</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user)
+        
+                                            <p>Fetches a specific ban for a user. Resolves with an instance of GuildBan.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchBans">fetchBans</a>()
+        
+                                            <p>Fetch all bans of the guild. Resolves with a Collection of GuildBan instances, mapped by the user ID.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchInvites">fetchInvites</a>()
+        
+                                            <p>Fetches all invites of the guild. Resolves with a Collection of Invite instances, mapped by their code.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchMember">fetchMember</a>(string $userid)
+        
+                                            <p>Fetches a specific guild member. Resolves with an instance of GuildMember.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchMembers">fetchMembers</a>(string $query = &#039;&#039;, int $limit = 0)
+        
+                                            <p>Fetches all guild members. If <code>$query</code> is used, <code>$limit</code> must be set to a non-zero integer. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchPruneMembers">fetchPruneMembers</a>(int $days)
+        
+                                            <p>Fetches the amount of members from the guild based on how long they have been inactive which would be pruned. Resolves with an integer.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchVanityInvite">fetchVanityInvite</a>()
+        
+                                            <p>Returns the vanity invite. The guild must be partnered, i.e. have 'VANITY_URL' in guild features. Resolves with an instance of Invite.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchVoiceRegions">fetchVoiceRegions</a>()
+        
+                                            <p>Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fetchWebhooks">fetchWebhooks</a>()
+        
+                                            <p>Fetches the guild's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBannerURL">getBannerURL</a>(int|null $size = null, string $format = &#039;png&#039;)
+        
+                                            <p>Returns the guild's banner URL, or null.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIconURL">getIconURL</a>(int|null $size = null, string $format = &#039;png&#039;)
+        
+                                            <p>Returns the guild's icon URL, or null.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNameAcronym">getNameAcronym</a>()
+        
+                                            <p>Returns the guild's name acronym.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getSplashURL">getSplashURL</a>(int|null $size = null, string $format = &#039;png&#039;)
+        
+                                            <p>Returns the guild's splash URL, or null.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_leave">leave</a>()
+        
+                                            <p>Leaves the guild.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_pruneMembers">pruneMembers</a>(int $days, bool $withCount = false, string $reason = &#039;&#039;)
+        
+                                            <p>Prunes members from the guild based on how long they have been inactive. Resolves with an integer or null.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setAFKChannel">setAFKChannel</a>(string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null $channel, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the AFK channel of the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setAFKTimeout">setAFKTimeout</a>(int|null $timeout, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the AFK timeout of the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setChannelPositions">setChannelPositions</a>(array $channels, string $reason = &#039;&#039;)
+        
+                                            <p>Batch-updates the guild's channels positions. Channels is an array of <code>channel ID (string)|GuildChannelInterface =&gt; position (int)</code> pairs. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setExplicitContentFilter">setExplicitContentFilter</a>(int $filter, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the level of the explicit content filter. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setIcon">setIcon</a>(string $icon, string $reason = &#039;&#039;)
+        
+                                            <p>Updates the guild icon. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setName">setName</a>(string $name, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the name of the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setOwner">setOwner</a>(string|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $owner, string $reason = &#039;&#039;)
+        
+                                            <p>Sets a new owner for the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setRegion">setRegion</a>(string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceRegion.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceRegion">VoiceRegion</abbr></a> $region, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the region of the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setRolePositions">setRolePositions</a>(array $roles, string $reason = &#039;&#039;)
+        
+                                            <p>Batch-updates the guild's roles positions. Roles is an array of <code>role ID (string)|Role =&gt; position (int)</code> pairs. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setSplash">setSplash</a>(string $splash, string $reason = &#039;&#039;)
+        
+                                            <p>Updates the guild splash. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setSystemChannel">setSystemChannel</a>(string|<a href="../../../CharlotteDunois/Yasmin/Models/TextChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextChannel">TextChannel</abbr></a>|null $channel, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the system channel of the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setVerificationLevel">setVerificationLevel</a>(int $level, string $reason = &#039;&#039;)
+        
+                                            <p>Edits the verification level of the guild. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_unban">unban</a>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, string $reason = &#039;&#039;)
+        
+                                            <p>Unbans the given user. Resolves with $this.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_addMember">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L412">line 412</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>addMember</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, string $accessToken, array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Adds the given user to the guild using the OAuth Access Token. Requires the CREATE_INSTANT_INVITE permission. Resolves with $this.</p>                    <p>Options are as following (all fields are optional):</p>
+
+<pre><code>array(
+  'nick' =&gt; string, (the nickname for the user, requires MANAGE_NICKNAMES permissions)
+  'roles' =&gt; array|\CharlotteDunois\Collect\Collection, (array or Collection of Role instances or role IDs, requires MANAGE_ROLES permission)
+  'mute' =&gt; bool, (whether the user is muted, requires MUTE_MEMBERS permission)
+  'deaf' =&gt; bool, (whether the user is deafened, requires DEAFEN_MEMBERS permission)
+)
+</code></pre>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string</td>
+                <td>$user</td>
+                <td>A guild member or User instance, or the user ID.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$accessToken</td>
+                <td>The OAuth Access Token for the given user.</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>Any options.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_ban">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L461">line 461</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>ban</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, int $days = 0, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Bans the given user. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>|<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string</td>
+                <td>$user</td>
+                <td>A guild member or User instance, or the user ID.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$days</td>
+                <td>Number of days of messages to delete (0-7).</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createChannel">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L506">line 506</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>createChannel</strong>(array $options, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates a new channel in the guild. Resolves with an instance of GuildChannelInterface.</p>                    <p>Options are as following (all fields except name are optional):</p>
+
+<pre><code>array(
+  'name' =&gt; string,
+  'type' =&gt; 'category'|'text'|'voice', (defaults to 'text')
+  'topic' =&gt; string, (only for text channels)
+  'position' =&gt; int,
+  'bitrate' =&gt; int, (only for voice channels)
+  'userLimit' =&gt; int, (only for voice channels, 0 = unlimited)
+  'slowmode' =&gt; int, (only for text channels)
+  'permissionOverwrites' =&gt; \CharlotteDunois\Collect\Collection|array, (an array or Collection of PermissionOverwrite instances or permission overwrite arrays*)
+  'parent' =&gt; \CharlotteDunois\Yasmin\Models\CategoryChannel|string, (string = channel ID)
+  'nsfw' =&gt; bool (only for text channels)
+)
+
+  *  array(
+  *      'id' =&gt; string, (an user/member or role ID)
+  *      'type' =&gt; 'member'|'role',
+  *      'allow' =&gt; \CharlotteDunois\Yasmin\Models\Permissions|int,
+  *      'deny' =&gt; \CharlotteDunois\Yasmin\Models\Permissions|int
+  *  )
+</code></pre>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="https://secure.php.net/InvalidArgumentException" target="_blank">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Interfaces/GuildChannelInterface.html"><abbr title="CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface">GuildChannelInterface</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createEmoji">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L555">line 555</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>createEmoji</strong>(string $file, string $name, array|<abbr title="CharlotteDunois\Collect\Collection">Collection</abbr> $roles = array(), string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates a new custom emoji in the guild. Resolves with an instance of Emoji.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$file</td>
+                <td>Filepath or URL, or file data.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array|<abbr title="CharlotteDunois\Collect\Collection">Collection</abbr></td>
+                <td>$roles</td>
+                <td>An array or Collection of Role instances or role IDs.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/Emoji.html"><abbr title="CharlotteDunois\Yasmin\Models\Emoji">Emoji</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_createRole">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L605">line 605</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>createRole</strong>(array $options, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Creates a new role in the guild. Resolves with an instance of Role.</p>                    <p>Options are as following (all are optional):</p>
+
+<pre><code>array(
+  'name' =&gt; string,
+  'permissions' =&gt; int|\CharlotteDunois\Yasmin\Models\Permissions,
+  'color' =&gt; int|string,
+  'hoist' =&gt; bool,
+  'mentionable' =&gt; bool
+)
+</code></pre>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="https://secure.php.net/InvalidArgumentException" target="_blank">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/Role.html"><abbr title="CharlotteDunois\Yasmin\Models\Role">Role</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L622">line 622</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>delete</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Deletes the guild.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_edit">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L656">line 656</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>edit</strong>(array $options, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the guild. Resolves with $this.</p>                    <p>Options are as following (at least one is required):</p>
+
+<pre><code>array(
+  'name' =&gt; string,
+  'region' =&gt; string,
+  'verificationLevel' =&gt; int,
+  'explicitContentFilter' =&gt; int,
+  'defaultMessageNotifications' =&gt; int,
+  'afkChannel' =&gt; string|\CharlotteDunois\Yasmin\Models\VoiceChannel|null,
+  'afkTimeout' =&gt; int|null,
+  'systemChannel' =&gt; string|\CharlotteDunois\Yasmin\Models\TextChannel|null,
+  'owner' =&gt; string|\CharlotteDunois\Yasmin\Models\GuildMember,
+  'icon' =&gt; string, (file path or URL, or data)
+  'splash' =&gt; string, (file path or URL, or data)
+  'region' =&gt; string|\CharlotteDunois\Yasmin\Models\VoiceRegion
+)
+</code></pre>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchAuditLog">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L722">line 722</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchAuditLog</strong>(array $options = array())
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetch audit log for the guild. Resolves with an instance of AuditLog.</p>                    <p>Options are as following (all are optional):</p>
+
+<pre><code>array(
+  'before' =&gt; string|\CharlotteDunois\Yasmin\Models\AuditLogEntry, (string = Audit Log Entry ID)
+  'after' =&gt; string|\CharlotteDunois\Yasmin\Models\AuditLogEntry, (string = Audit Log Entry ID)
+  'limit' =&gt; int,
+  'user' =&gt; string|\CharlotteDunois\Yasmin\Models\User,
+  'type' =&gt; string|int
+)
+</code></pre>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/AuditLog.html"><abbr title="CharlotteDunois\Yasmin\Models\AuditLog">AuditLog</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchBan">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L741">line 741</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchBan</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches a specific ban for a user. Resolves with an instance of GuildBan.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string</td>
+                <td>$user</td>
+                <td>An User instance or the user ID.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/GuildBan.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildBan">GuildBan</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchBans">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L761">line 761</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchBans</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetch all bans of the guild. Resolves with a Collection of GuildBan instances, mapped by the user ID.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/GuildBan.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildBan">GuildBan</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchInvites">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L783">line 783</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchInvites</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches all invites of the guild. Resolves with a Collection of Invite instances, mapped by their code.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/Invite.html"><abbr title="CharlotteDunois\Yasmin\Models\Invite">Invite</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchMember">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L804">line 804</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchMember</strong>(string $userid)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches a specific guild member. Resolves with an instance of GuildMember.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$userid</td>
+                <td>The ID of the guild member.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchMembers">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L823">line 823</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchMembers</strong>(string $query = &#039;&#039;, int $limit = 0)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches all guild members. If <code>$query</code> is used, <code>$limit</code> must be set to a non-zero integer. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$query</td>
+                <td>Limit fetch to members with similar usernames.</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$limit</td>
+                <td>Maximum number of members to request.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="https://secure.php.net/InvalidArgumentException" target="_blank">InvalidArgumentException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchPruneMembers">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L899">line 899</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchPruneMembers</strong>(int $days)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches the amount of members from the guild based on how long they have been inactive which would be pruned. Resolves with an integer.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$days</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchVanityInvite">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L912">line 912</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchVanityInvite</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the vanity invite. The guild must be partnered, i.e. have 'VANITY_URL' in guild features. Resolves with an instance of Invite.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/Invite.html"><abbr title="CharlotteDunois\Yasmin\Models\Invite">Invite</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchVoiceRegions">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L935">line 935</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchVoiceRegions</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches the guild voice regions. Resolves with a Collection of Voice Region instances, mapped by their ID.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/VoiceRegion.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceRegion">VoiceRegion</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fetchWebhooks">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L955">line 955</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>fetchWebhooks</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fetches the guild's webhooks. Resolves with a Collection of Webhook instances, mapped by their ID.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+                                            <a href="../../../CharlotteDunois/Yasmin/Models/Webhook.html"><abbr title="CharlotteDunois\Yasmin\Models\Webhook">Webhook</abbr></a>
+                                    </td>
+                <td></td>
+            </tr>
+            </table>
+
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getBannerURL">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L976">line 976</a></div>
+        <code>                    string|null
+    <strong>getBannerURL</strong>(int|null $size = null, string $format = &#039;png&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the guild's banner URL, or null.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int|null</td>
+                <td>$size</td>
+                <td>One of 128, 256, 512, 1024 or 2048.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>One of png, jpg or webp.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIconURL">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L994">line 994</a></div>
+        <code>                    string|null
+    <strong>getIconURL</strong>(int|null $size = null, string $format = &#039;png&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the guild's icon URL, or null.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int|null</td>
+                <td>$size</td>
+                <td>One of 128, 256, 512, 1024 or 2048.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>One of png, jpg or webp.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNameAcronym">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1010">line 1010</a></div>
+        <code>                    string
+    <strong>getNameAcronym</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the guild's name acronym.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSplashURL">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1027">line 1027</a></div>
+        <code>                    string|null
+    <strong>getSplashURL</strong>(int|null $size = null, string $format = &#039;png&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the guild's splash URL, or null.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int|null</td>
+                <td>$size</td>
+                <td>One of 128, 256, 512, 1024 or 2048.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>One of png, jpg or webp.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_leave">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1043">line 1043</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>leave</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Leaves the guild.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_pruneMembers">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1058">line 1058</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>pruneMembers</strong>(int $days, bool $withCount = false, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Prunes members from the guild based on how long they have been inactive. Resolves with an integer or null.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$days</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$withCount</td>
+                <td>Whether the amount of pruned members is returned, discouraged for large guilds.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setAFKChannel">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1072">line 1072</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setAFKChannel</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null $channel, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the AFK channel of the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceChannel">VoiceChannel</abbr></a>|null</td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setAFKTimeout">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1082">line 1082</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setAFKTimeout</strong>(int|null $timeout, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the AFK timeout of the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int|null</td>
+                <td>$timeout</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setChannelPositions">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1092">line 1092</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setChannelPositions</strong>(array $channels, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Batch-updates the guild's channels positions. Channels is an array of <code>channel ID (string)|GuildChannelInterface =&gt; position (int)</code> pairs. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$channels</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setExplicitContentFilter">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1140">line 1140</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setExplicitContentFilter</strong>(int $filter, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the level of the explicit content filter. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$filter</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setIcon">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1150">line 1150</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setIcon</strong>(string $icon, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Updates the guild icon. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$icon</td>
+                <td>A filepath or URL, or data.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setName">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1160">line 1160</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setName</strong>(string $name, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the name of the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setOwner">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1170">line 1170</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setOwner</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a> $owner, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sets a new owner for the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|<a href="../../../CharlotteDunois/Yasmin/Models/GuildMember.html"><abbr title="CharlotteDunois\Yasmin\Models\GuildMember">GuildMember</abbr></a></td>
+                <td>$owner</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setRegion">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1180">line 1180</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setRegion</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceRegion.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceRegion">VoiceRegion</abbr></a> $region, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the region of the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|<a href="../../../CharlotteDunois/Yasmin/Models/VoiceRegion.html"><abbr title="CharlotteDunois\Yasmin\Models\VoiceRegion">VoiceRegion</abbr></a></td>
+                <td>$region</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setRolePositions">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1116">line 1116</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setRolePositions</strong>(array $roles, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Batch-updates the guild's roles positions. Roles is an array of <code>role ID (string)|Role =&gt; position (int)</code> pairs. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$roles</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setSplash">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1190">line 1190</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setSplash</strong>(string $splash, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Updates the guild splash. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$splash</td>
+                <td>A filepath or URL, or data.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setSystemChannel">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1200">line 1200</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setSystemChannel</strong>(string|<a href="../../../CharlotteDunois/Yasmin/Models/TextChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextChannel">TextChannel</abbr></a>|null $channel, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the system channel of the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|<a href="../../../CharlotteDunois/Yasmin/Models/TextChannel.html"><abbr title="CharlotteDunois\Yasmin\Models\TextChannel">TextChannel</abbr></a>|null</td>
+                <td>$channel</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setVerificationLevel">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1210">line 1210</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>setVerificationLevel</strong>(int $level, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Edits the verification level of the guild. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$level</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_unban">
+        <div class="location">at         <a href="https://github.com/CharlotteDunois/Yasmin/blob/v0.6.1/src/Models/Guild.php#L1220">line 1220</a></div>
+        <code>                    <abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr>
+    <strong>unban</strong>(<a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string $user, string $reason = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Unbans the given user. Resolves with $this.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../CharlotteDunois/Yasmin/Models/User.html"><abbr title="CharlotteDunois\Yasmin\Models\User">User</abbr></a>|string</td>
+                <td>$user</td>
+                <td>An User instance or the user ID.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$reason</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="React\Promise\ExtendedPromiseInterface">ExtendedPromiseInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                        
+                        
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
