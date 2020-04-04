@@ -85,8 +85,7 @@ $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for
 		
 	$discord->on('guildBanAdd', function ($guild, $user){ //Handling of a user getting banned
 		echo "[guildBanAdd]" . PHP_EOL;
-		//Load guild config
-		//Report ban in logs channel, if it exists
+		include "guildbanadd-include.php";
 	});
 	
 	$discord->on('guildBanRemove', function ($guild, $user){ //Handling of a user getting unbanned
