@@ -2735,6 +2735,7 @@ if ($creator){ //Mostly just debug commands
 
 if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands should only be relevant for use on this server
 	if ($message_content_lower == '!s minecrafter'){
+		echo "[MINECRAFTER] $author_check" . PHP_EOL;
 		//Give minecrafter role
 		$author_member->addRole("528292344403853344")->done(
 			function ($error) {
@@ -2744,6 +2745,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$message->react("👍");
 	}
 	if ($message_content_lower == '!s fortniter'){
+		echo "[FORTNITER] $author_check" . PHP_EOL;
 		//Give minecrafter role
 		$author_member->addRole("530447405267812364")->done(
 			function ($error) {
@@ -2753,7 +2755,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		$message->react("👍");
 	}
 	if (substr($message_content_lower, 0, 13) == '!s approveme '){
-		echo "[APPROVEME]" . PHP_EOL;
+		echo "[APPROVEME] $author_check" . PHP_EOL;
 		$filter = "!s approveme ";
 		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
@@ -2788,7 +2790,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if (substr($message_content_lower, 0, 6) == $command_symbol . "ckey "){ //;ckey
-		echo "[CKEY]" . PHP_EOL;
+		echo "[CKEY] $author_check" . PHP_EOL;
 		$filter = $command_symbol . "ckey ";
 		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 		if ($ckey != ""){
@@ -2830,7 +2832,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'agecheck'){ //;agecheck
-		echo "[AGECHECK]" . PHP_EOL;
+		echo "[AGECHECK] $author_check" . PHP_EOL;
 		$timerclass = get_class($GLOBALS['agetimer']);
 		if ($timerclass != "React\EventLoop\Timer\Timer"){
 			$message->react("⏰")->then(function($author_channel) use ($message, $author_guild){	//Promise
@@ -2892,13 +2894,14 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'status' || $message_content_lower == '!s status'){ //;status
+		echo "[STATUS] $author_check" . PHP_EOL;
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
 		$message->reply(curl_exec($ch));
 	}
 	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
-		echo "[SERVER STATUS]" . PHP_EOL;
+		echo "[SERVER STATUS] $author_check" . PHP_EOL;
 		//VirtualBox state
 		$ch = curl_init(); //create curl resource
 		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
@@ -3070,7 +3073,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'players' || $message_content_lower == '!s players'){ //;players
-		echo "[PLAYERS]" . PHP_EOL;
+		echo "[PLAYERS] $author_check" . PHP_EOL;
 		include "../servers/getserverdata.php";
 		
 		$playerlist = " ";
@@ -3187,6 +3190,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'admins' || $message_content_lower == '!s admins'){ //;admins
+		echo "[ADMINS] $author_check" . PHP_EOL;
 		include "../servers/getserverdata.php";
 		$admins = $serverinfo[0]["admins"];
 		$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
@@ -3215,6 +3219,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 
 	if ($creator || $owner || $dev || $tech || $assistant) {
 		if ($message_content_lower == $command_symbol . 'resume' || $message_content_lower == '!s resume'){ //;resume
+			echo "[RESUME] $author_check" .  PHP_EOL;
 			//Trigger the php script remotely
 			$ch = curl_init(); //create curl resource
 			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/resume.php"); // set url
@@ -3224,6 +3229,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'save 1' || $message_content_lower == '!s save 1'){ //;save 1
+			echo "[SAVE SLOT 1] $author_check" .  PHP_EOL;
 			$manual_saving = VarLoad(NULL, "manual_saving.php");
 			if ($manual_saving == true){
 				$message->react("👎");
@@ -3247,6 +3253,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'save 2' || $message_content_lower == '!s save 2'){ //;save 2
+			echo "[SAVE SLOT 2] $author_check" .  PHP_EOL;
 			$manual_saving = VarLoad(NULL, "manual_saving.php");
 			if ($manual_saving == true){
 				$message->react("👎");
@@ -3270,6 +3277,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'save 3' || $message_content_lower == '!s save 3'){ //;save 3
+			echo "[SAVE SLOT 3] $author_check" .  PHP_EOL;
 			$manual_saving = VarLoad(NULL, "manual_saving.php");
 			if ($manual_saving == true){
 				$message->react("👎");
@@ -3294,6 +3302,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		}
 		if ($creator || $owner || $dev){
 			if ($message_content_lower == $command_symbol . 'delete 1' || $message_content_lower == '!s save 1'){ //;save 3
+				echo "[DELETE SLOT 1] $author_check" . PHP_EOL;
 				$message->react("👍");
 				$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 					//Trigger the php script remotely
@@ -3312,7 +3321,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	}
 	if ($creator || $owner || $dev || $tech){
 		if ($message_content_lower == $command_symbol . 'load 1' || $message_content_lower == '!s load 1'){ //;load 1
-			echo "[LOAD SLOT 1]" . PHP_EOL;
+			echo "[LOAD SLOT 1] $author_check" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3326,7 +3335,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load 2' || $message_content_lower == '!s load 2'){ //;load 2 
-			echo "[LOAD SLOT 2]" . PHP_EOL;
+			echo "[LOAD SLOT 2] $author_check" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3340,7 +3349,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load 3' || $message_content_lower == '!s load 3'){ //;load 3
-			echo "[LOAD SLOT 3]" . PHP_EOL;
+			echo "[LOAD SLOT 3] $author_check" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3354,7 +3363,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load1h' || $message_content_lower == '!s load1h'){ //;load1h
-			echo "[LOAD 1H]" . PHP_EOL;
+			echo "[LOAD 1H] $author_check" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3368,7 +3377,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if ($message_content_lower == $command_symbol . 'load2h' || $message_content_lower == '!s load2h'){ //;load2h
-			echo "[LOAD 2H]" . PHP_EOL;
+			echo "[LOAD 2H] $author_check" . PHP_EOL;
 			$message->react("👍");
 			$message->react("⏰")->then(function($author_channel) use ($message){	//Promise
 				//Trigger the php script remotely
@@ -3382,7 +3391,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			return true;
 		}
 		if (substr($message_content_lower, 0, 12) == '!s whitelist'){ //!s whitelist ckey
-			echo "[WHITELIST]" . PHP_EOL;
+			echo "[WHITELIST] $author_check" . PHP_EOL;
 			$filter = "!s whitelist";
 			$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
@@ -3564,7 +3573,7 @@ if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;
 if ( ($role_verified_id != "") || ($role_verified_id != NULL) ) //This command only works if the Verified Role is setup
 if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr(($message_content), 0, 8) == $command_symbol . 'verify ') ){ //Verify ;v ;verify
-	echo "GIVING VERIFIED ROLE TO MENTIONED" . PHP_EOL;
+	echo "[GIVING VERIFIED ROLE TO MENTIONED] $author_check" . PHP_EOL;
 //	Get an array of people mentioned
 	$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
@@ -3665,7 +3674,7 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 if( ($getverified_channel_id != "") || ($getverified_channel_id != NULL)) //This command only works if the Get Verified Channel is setup
 if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
-	echo "CV" . PHP_EOL;
+	echo "[CV] $author_check" . PHP_EOL;
 	$getverified_channel->bulkDelete(100);
 	//Delete any messages that aren't cached
 	$getverified_channel->fetchMessages()->then(function($message_collection) use ($getverified_channel){
@@ -3683,7 +3692,7 @@ if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lo
 
 if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to use this
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'poll '){ //;poll
-		echo "poll" . PHP_EOL;
+		echo "[POLL] $author_check" . PHP_EOL;
 		$filter = "$command_symbol" . "poll ";
 		$poll = str_replace($filter, "", $message_content);
 		$arr = explode(' ',trim($poll));
@@ -3727,7 +3736,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}else return $message->reply("Invalid input!");
 	}
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'whois '){ //;whois
-		echo "WHOIS" . PHP_EOL;			
+		echo "[WHOIS] $author_check" . PHP_EOL;			
 		$filter = "$command_symbol" . "whois ";
 		$value = str_replace($filter, "", $message_content_lower);
 		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
@@ -3805,7 +3814,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'clearall'){ //;clearall Clear as many messages in the author's channel at once as possible
-		echo "[CLEARALL]" . PHP_EOL;
+		echo "[CLEARALL] $author_check" . PHP_EOL;
 		$author_channel->bulkDelete(100);
 		$author_channel->fetchMessages()->then(function($message_collection) use ($author_channel){
 			foreach ($message_collection as $message){
@@ -3848,7 +3857,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		return true;
 	};
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
-		echo "SETTING WATCH ON TARGETS MENTIONED" . PHP_EOL;
+		echo "[WATCH] $author_check" . PHP_EOL;
 	//			Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
@@ -3898,7 +3907,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 	//						
 	}
 	if (substr($message_content_lower, 0, 9) == $command_symbol . 'unwatch '){ //;unwatch @
-		echo "REMOVING WATCH ON TARGETS MENTIONED" . PHP_EOL;
+		echo "[UNWATCH] $author_check" . PHP_EOL;
 	//	Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		$mention_watch_name_queue_default							= "<@$author_id> is no longer watching the following users:" . PHP_EOL;
@@ -3938,7 +3947,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		return true;
 	}
 	if ( (substr($message_content_lower, 0, 8) == $command_symbol . 'vwatch ') || (substr($message_content_lower, 0, 4) == $command_symbol . 'vw ')){ //;vwatch @
-		echo "VERIFYING AND WATCHING TARGET MENTIONED" . PHP_EOL;
+		echo "[VWATCH] $author_check" . PHP_EOL;
 //		Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if ($watch_channel)	$mention_watch_name_mention_default		= "<@$author_id>";
@@ -4027,7 +4036,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}
 	}
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'warn '){ //;warn @
-		echo "WARN TARGETS MENTIONED" . PHP_EOL;
+		echo "[WARN] $author_check" . PHP_EOL;
 		//$message->reply("Not yet implemented!");
 	//			Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -4070,7 +4079,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}
 	}
 	if (substr($message_content_lower, 0, 13) == $command_symbol . 'infractions '){ //;infractions @
-		echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
+		echo "[INFRACTIONS] $author_check" . PHP_EOL;
 	//			Get an array of people mentioned
 		$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		
@@ -4153,7 +4162,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 
 if ($creator || $owner || $dev || $admin)
 if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction '){ //;removeinfractions @mention #
-	echo "GET INFRACTIONS FOR TARGET MENTIONED" . PHP_EOL;
+	echo "[REMOVE INFRACTION] $author_check" . PHP_EOL;
 //	Get an array of people mentioned
 	$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	
