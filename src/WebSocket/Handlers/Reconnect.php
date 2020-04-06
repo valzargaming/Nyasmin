@@ -21,7 +21,7 @@ class Reconnect implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void {
-		if ($packet['d'] === NULL) $packet['d'] = true; //Hotfix for random disconnects
+		if ($packet['d'] === NULL) $packet['d'] = false; //Hotfix for random disconnects
         $ws->reconnect($packet['d']);
     }
 }
