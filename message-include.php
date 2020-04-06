@@ -991,6 +991,8 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		if(!$getverified_channel) $documentation = $documentation . "~~";
 		//clearall
 		$documentation = $documentation . "`clearall` clears the current channel of up to 100 messages.\n";
+		//clear #
+		$documentation = $documentation . "`clear #` clears the current channel of # messages.\n";
 		//watch
 		$documentation = $documentation . "`watch` sends a direct message to the author whenever the mentioned sends a message.\n";
 		//unwatch
@@ -3435,7 +3437,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		if ($message_content_lower == $command_symbol . 'agecheckloop start'){ //;agecheckloop
 			$timerclass = get_class($GLOBALS['agetimer']);
 			if ($timerclass != "React\EventLoop\Timer\Timer"){
-				$GLOBALS['agetimer'] = $loop->addPeriodicTimer(60, function() use ($author_guild) {
+				$GLOBALS['agetimer'] = $loop->addPeriodicTimer(75, function() use ($author_guild) {
 					echo "[AGECHECK LOOP]" . PHP_EOL;
 					include_once "custom_functions.php";
 					//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
@@ -3803,13 +3805,46 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'clearall'){ //;clearall Clear as many messages in the author's channel at once as possible
-		echo "CLEARALL" . PHP_EOL;
+		echo "[CLEARALL]" . PHP_EOL;
 		$author_channel->bulkDelete(100);
 		$author_channel->fetchMessages()->then(function($message_collection) use ($author_channel){
 			foreach ($message_collection as $message){
 				$author_channel->message->delete();
 			}
 		});
+		return true;
+	};
+	if (substr($message_content_lower, 0, 7) == $command_symbol . 'clear '){ //;clear delete # of messages
+		echo "[CLEAR #] $author_check" . PHP_EOL;
+		$filter = "$command_symbol" . "clear ";
+		$value = str_replace($filter, "", $message_content_lower);
+		if(is_numeric($value)){
+			$author_channel->bulkDelete($value);
+			/*$author_channel->fetchMessages()->then(function($message_collection) use ($author_channel){
+				foreach ($message_collection as $message){
+					$author_channel->message->delete();
+				}
+			});
+*/		}
+		if($modlog_channel){
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+//				->setTitle("Commands")																	// Set a title
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
+//				->setDescription("Infractions for $mention_check")										// Set a description (below title, above fields)
+				->addField("Clear", "Deleted $value messages in <#$author_channel_id>")			// New line after this
+//				->addField("⠀", "Use '" . $command_symbol . "removeinfraction @mention #' to remove")	// New line after this
+				
+				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				->setAuthor("$author_check", "$author_avatar;clea")  									// Set an author with icon
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL(""); 
+			$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+				echo "[ERROR] $error".PHP_EOL; //Echo any errors
+			});
+		}
 		return true;
 	};
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
