@@ -21,6 +21,7 @@ if($modlog_channel_id){
 	$author_id = $user->id;												//echo "author_id: " . $author_id . PHP_EOL;
 	$author_check = "$author_username#$author_discriminator"; 
 	$author_avatar = $user->getAvatarURL();	
+	echo "[BAN] $author_check" . PHP_EOL;
 	//Build the embed
 	$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 	$embed
