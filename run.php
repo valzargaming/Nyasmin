@@ -90,6 +90,7 @@ $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for
 	
 	$discord->on('guildBanRemove', function ($guild, $user){ //Handling of a user getting unbanned
 		echo "[guildBanRemove]" . PHP_EOL;
+		include "guildbanremove-include.php";
 	});
 	
 	$discord->on('messageUpdate', function ($message_new, $message_old){ //Handling of a message being changed
