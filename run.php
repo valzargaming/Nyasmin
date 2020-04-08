@@ -63,7 +63,9 @@ $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for
 			'afk' => false
 		)
 	);
-	echo '[READY] Logged in as '.$discord->user->tag.' created on '.$discord->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
+	$GLOBALS['id'] = $discord->user->id;
+	$tag = $discord->user->tag;
+	echo "[READY] Logged in as $tag (".$GLOBALS['id'].") created on ".$discord->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
 	$timestampSetup = time();
 	echo "[timestampSetup]: " . $timestampSetup . PHP_EOL;
 	
