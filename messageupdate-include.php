@@ -17,7 +17,7 @@ if (($message_content_new == NULL) || ($message_content_new == "")) { //This sho
 	return true;
 }
 
-echo "messageUpdate" . PHP_EOL;
+echo "[messageUpdate]" . PHP_EOL;
 
 /*
 Debug output
