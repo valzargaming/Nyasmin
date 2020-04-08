@@ -20,6 +20,7 @@ if ($author_channel_class === "CharlotteDunois\Yasmin\Models\DMChannel"){ //True
 	$is_dm = true;
 	return true; //Don't process DMs
 }
+if ($GLOBALS['id'] == $author_user->id) return true; //Don't log messages that this bot deletes (This doesn't seem to work right now)
 
 $author_username 												= $author_user->username; 										//echo "author_username: " . $author_username . PHP_EOL;
 $author_discriminator 											= $author_user->discriminator;									//echo "author_discriminator: " . $author_discriminator . PHP_EOL;
