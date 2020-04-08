@@ -3856,7 +3856,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}
 		//Send message to channel confirming the message deletions
 		$duration = 3;
-		$author_channel->send("$author_check ($author_id) deleted $value messages!`")->then(function($message) use ($discord, $duration){
+		$author_channel->send("$author_check ($author_id) deleted $value messages!")->then(function($message) use ($discord, $duration){
 				$discord->addTimer($duration, function() use ($message) {
 					$message->delete();
 					return true;
