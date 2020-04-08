@@ -3823,7 +3823,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		});
 		return true;
 	};
-	if (substr($message_content_lower, 0, 7) == $command_symbol . 'clear '){ //;clear delete # of messages
+	if (substr($message_content_lower, 0, 7) == $command_symbol . 'clear '){ //;clear #
 		echo "[CLEAR #] $author_check" . PHP_EOL;
 		$filter = "$command_symbol" . "clear ";
 		$value = str_replace($filter, "", $message_content_lower);
@@ -3854,6 +3854,16 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 		}
+		//Send message to channel confirming the message deletions
+		$duration = 3;
+		$author_channel->send("$author_check ($author_id) deleted $value messages!`")->then(function($message) use ($discord, $duration){
+				$discord->addTimer($duration, function() use ($message) {
+					$message->delete();
+					return true;
+				});
+				//Delete message confirming the deletion of messages
+				return true;
+			});
 		return true;
 	};
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
