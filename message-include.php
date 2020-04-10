@@ -1,7 +1,7 @@
 <?php
 $message_content = $message->content;
-$message_id = $message->id;
 if ( ($message_content == NULL) || ($message_content == "") ) return true;
+$message_id = $message->id;
 $message_content_lower = strtolower($message_content);
 /*
 *********************
@@ -3447,7 +3447,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			$timerclass = get_class($GLOBALS['agetimer']);
 			if ($timerclass != "React\EventLoop\Timer\Timer"){
 				$GLOBALS['agetimer'] = $loop->addPeriodicTimer(75, function() use ($author_guild) {
-					echo "[AGECHECK LOOP]" . PHP_EOL;
+					echo "[AGECHECK LOOP START]" . PHP_EOL;
 					include_once "custom_functions.php";
 					//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
 					$civ_staff_channel = $author_guild->channels->get("562715700360380434");
@@ -3496,6 +3496,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					}
 					if ($civ13_checked_clone != $civ13_checked) //Reduce disk writes?
 						VarSave(null, "civ13_checked.php", $civ13_checked);
+					echo '[AGECHECK LOOP DONE]';
 					return true;
 				});
 				$message->react("⏰");
