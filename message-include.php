@@ -457,11 +457,11 @@ if ($creator || $owner || $dev){
 			return true;
 		}
 	}
-	if ($message_content_lower == $command_symbol . 'clearconfig'){ //;clearconfig		
+	if ($message_content_lower == $command_symbol . 'reloadconfig'){ //;clearconfig		
 		$file = 'guild_config_template.php';
 		if (!copy($file, $guild_config_path)){
 			$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
-		}else $author_channel->send("The server's configuration file was just deleted by <@$author_id>. Please use the ;setup commands!");
+		}else $author_channel->send("The server's configuration file was recently updated by <@$author_id>. Please check the ;currentsetup");
 	}
 	//Roles
 	if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup dev '){
