@@ -463,6 +463,15 @@ if ($creator || $owner || $dev){
 			$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
 		}else $author_channel->send("The server's configuration file was recently updated by <@$author_id>. Please check the ;currentsetup");
 	}
+	if ($message_content_lower == $command_symbol . 'clearconfig'){ //;clearconfig		
+		$files = glob(__DIR__  . "$guild_folder" . '/*');
+		// Deleting all the files in the list 
+		foreach($files as $file) { 
+			if(is_file($file))
+				unlink($file); //Delete the file
+		}
+		$author_channel->send("The server's configuration files were recently delete by <@$author_id>. Please run the ;setup commands again.");
+	}
 	//Roles
 	if (substr($message_content_lower, 0, 11) == $command_symbol . 'setup dev '){
 		$filter = "$command_symbol" . "setup dev ";
