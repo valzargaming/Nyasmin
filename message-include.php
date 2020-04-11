@@ -309,7 +309,9 @@ Owner setup command (NOTE: Changes made here will not affect servers using a man
 
 if ($creator || $owner || $dev){
 	if ($message_content_lower == $command_symbol . 'setup'){ //;setup	
-		$documentation = $documentation . "`currentsetup` send DM with current settings.\n";
+		$documentation = $documentation . "`currentsetup` send DM with current settings\n";
+		$documentation = $documentation . "`updateconfig` updates the configuration file (needed for updates)\n";
+		$documentation = $documentation . "`clearconfig` deletes all configuration information for the srver\n";
 		//Roles
 		$documentation = $documentation . "\n**Roles:**\n";
 		$documentation = $documentation . "`setup dev @role`\n";
@@ -457,7 +459,7 @@ if ($creator || $owner || $dev){
 			return true;
 		}
 	}
-	if ($message_content_lower == $command_symbol . 'reloadconfig'){ //;clearconfig		
+	if ($message_content_lower == $command_symbol . 'updateconfig'){ //;updateconfig
 		$file = 'guild_config_template.php';
 		if (!copy($file, $guild_config_path)){
 			$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
