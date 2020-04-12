@@ -49,14 +49,6 @@ if($author_guild_id == "116927365652807686"){
 			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
 		
-	}else{
-		if($author_guild_id == "468979034571931648"){ //Give Cadet roll
-			$guildmember->addRole("469312086766518272")->done(
-				function ($error) {
-					echo "[ERROR] $error".PHP_EOL;
-				}
-			);
-		}
 	}
 }
 
