@@ -67,7 +67,9 @@ $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for
 	$tag = $discord->user->tag;
 	echo "[READY] Logged in as $tag (".$GLOBALS['id'].") created on ".$discord->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
 	$timestampSetup = time();
-	echo "[timestampSetup]: " . $timestampSetup . PHP_EOL;
+	echo "[timestampSetup]: ";
+	$dt = new DateTime("now");  // convert UNIX timestamp to PHP DateTime
+	echo $dt->format('d-m-Y H:i:s') . PHP_EOL; // output = 2017-01-01 00:00:00
 	
 	$discord->on('message', function ($message) use ($discord, $loop, $token){ //Handling of a message
 		include "message-include.php";
