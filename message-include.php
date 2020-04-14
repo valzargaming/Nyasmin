@@ -1003,13 +1003,13 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		$documentation = $documentation . "`settings` sends a DM with current settings.\n";
 		
 		//v
-		if(!$role_verified_id) $documentation = $documentation . "~~";
+		if( ($role_verified_id === NULL) || ($role_verified_id == "") || ($role_verified_id == "0") ) $documentation = $documentation . "~~";
 		$documentation = $documentation . "`v` or `verify` gives the verified role.\n";
-		if(!$role_verified_id) $documentation = $documentation . "~~";
+		if( ($role_verified_id === NULL) || ($role_verified_id == "") || ($role_verified_id == "0") ) $documentation = $documentation . "~~";
 		//cv
-		if(!$getverified_channel) $documentation = $documentation . "~~";
+		if( ($getverified_channel === NULL) || ($getverified_channel == "") || ($getverified_channel == "0")  $documentation = $documentation . "~~";
 		$documentation = $documentation . "`cv` or `clearv` clears the verification channel and posts a short notice.\n";
-		if(!$getverified_channel) $documentation = $documentation . "~~";
+		if( ($getverified_channel === NULL) || ($getverified_channel == "") || ($getverified_channel == "0")  $documentation = $documentation . "~~";
 		//clearall
 		$documentation = $documentation . "`clearall` clears the current channel of up to 100 messages.\n";
 		//clear #
@@ -1019,9 +1019,9 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		//unwatch
 		$documentation = $documentation . "`unwatch` removes the effects of the watch command.\n";
 		//vwatch
-		if(!$role_verified_id) $documentation = $documentation . "~~";
+		if( ($role_verified_id === NULL) || ($role_verified_id == "") || ($role_verified_id == "0") ) $documentation = $documentation . "~~";
 		$documentation = $documentation . "`vw` or `vwatch` gives the verified role to the mentioned and watches them.\n";
-		if(!$role_verified_id) $documentation = $documentation . "~~";
+		if( ($role_verified_id === NULL) || ($role_verified_id == "") || ($role_verified_id == "0") ) $documentation = $documentation . "~~";
 		//warn
 		$documentation = $documentation . "`warn` logs an infraction.\n";
 		//infractions
@@ -1033,27 +1033,27 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		//ban
 		$documentation = $documentation . "`ban @mention reason`\n";
 		//Strikeout invalid options
-		if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+		if ( ($role_muted_id === NULL) || ($role_muted_id == "") || ($role_muted_id == "0") ) $documentation = $documentation . "~~"; //Strikeout invalid options
 		//unmute
 		$documentation = $documentation . "`unmute @mention reason`\n";
 		//Strikeout invalid options
-		if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+		if ( ($role_muted_id === NULL) || ($role_muted_id == "") || ($role_muted_id == "0") ) $documentation = $documentation . "~~"; //Strikeout invalid options
 		
-		if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+		if ( ($suggestion_pending_channel === NULL) || ($suggestion_pending_channel == "") || ($suggestion_pending_channel == "0") ) $documentation = $documentation . "~~";
 		//suggest approve
 		$documentation = $documentation . "`suggest approve #`\n";
 		//suggest deny
 		$documentation = $documentation . "`suggest deny #`\n";
-		if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+		if ( ($suggestion_pending_channel === NULL) || ($suggestion_pending_channel == "") || ($suggestion_pending_channel == "0") ) $documentation = $documentation . "~~";
 	}
 	if($creator || $owner || $dev || $admin || $mod){
 		$documentation = $documentation . "\n__**Moderators:**__\n";
 		//Strikeout invalid options
-		if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+		if ( ($role_muted_id === NULL) || ($role_muted_id == "") || ($role_muted_id == "0") ) $documentation = $documentation . "~~"; //Strikeout invalid options
 		//mute/m
 		$documentation = $documentation . "`mute @mention reason`\n";
 		//Strikeout invalid options
-		if ( ($role_muted_id != "") || ($role_muted_id != NULL) ) $documentation = $documentation . "~~"; //Strikeout invalid options
+		if ( ($role_muted_id === NULL) || ($role_muted_id == "") || ($role_muted_id == "0") ) $documentation = $documentation . "~~"; //Strikeout invalid options
 		//whois
 		$documentation = $documentation . "`whois @mention`\n";
 		
@@ -1092,9 +1092,9 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 	//remindme
 	$documentation = $documentation . "`remindme #` send a DM after # of seconds have passed.\n";
 	//suggest
-	if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+	if ( ($suggestion_pending_channel === NULL) || ($suggestion_pending_channel == "") || ($suggestion_pending_channel == "0") ) $documentation = $documentation . "~~";
 	$documentation = $documentation . "`suggest` posts a suggestion for staff to vote on.\n";
-	if (!$suggestion_pending_channel) $documentation = $documentation . "~~";
+	if ( ($suggestion_pending_channel === NULL) || ($suggestion_pending_channel == "") || ($suggestion_pending_channel == "0") ) $documentation = $documentation . "~~";
 
 	$documentation_sanitized = str_replace("\n","",$documentation_sanitized);
 	$doc_length = strlen($documentation_sanitized);
