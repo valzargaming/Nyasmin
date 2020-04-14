@@ -43,7 +43,7 @@ $discord->on('disconnect', function($erMsg, $code) use ($discord, $loop, $token)
 $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for events here
 	echo "[SETUP]" . PHP_EOL;
 	//$line_count = COUNT(FILE(basename($_SERVER['PHP_SELF']))); //No longer relevant due to includes
-	$version = "RC V1.4.0";
+	$version = "RC V1.3.0";
 	
 	$discord->user->setPresence( //Discord status
 		array(
