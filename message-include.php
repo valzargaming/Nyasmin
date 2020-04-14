@@ -1007,9 +1007,9 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		$documentation = $documentation . "`v` or `verify` gives the verified role.\n";
 		if( ($role_verified_id === NULL) || ($role_verified_id == "") || ($role_verified_id == "0") ) $documentation = $documentation . "~~";
 		//cv
-		if( ($getverified_channel === NULL) || ($getverified_channel == "") || ($getverified_channel == "0")  $documentation = $documentation . "~~";
+		if( ($getverified_channel === NULL) || ($getverified_channel == "") || ($getverified_channel == "0") )  $documentation = $documentation . "~~";
 		$documentation = $documentation . "`cv` or `clearv` clears the verification channel and posts a short notice.\n";
-		if( ($getverified_channel === NULL) || ($getverified_channel == "") || ($getverified_channel == "0")  $documentation = $documentation . "~~";
+		if( ($getverified_channel === NULL) || ($getverified_channel == "") || ($getverified_channel == "0") )  $documentation = $documentation . "~~";
 		//clearall
 		$documentation = $documentation . "`clearall` clears the current channel of up to 100 messages.\n";
 		//clear #
