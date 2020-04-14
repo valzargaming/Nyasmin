@@ -1241,6 +1241,22 @@ if ($message_content_lower == $command_symbol . 'ping'){
 	$message->reply("Pong!");
 	return true;
 }
+/*
+if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;remindme
+	echo "[REMINDER]" . PHP_EOL;
+	$filter = "$command_symbol" . "remindme ";
+	$value = str_replace($filter, "", $message_content_lower);
+	if(is_numeric($value)){
+		$discord->addTimer($value, function() use ($author_user) {
+			$author_user->createDM()->then(function($author_dmchannel) use ($message){	//Promise
+				if($author_dmchannel) $author_dmchannel->send("This is your requested reminder!");
+				return true;
+			});
+		});
+		if($react) $message->react("👍");
+	}else return $message->reply("Invalid input! Please use the format `;remindme #` where # is seconds.");
+}
+*/
 if ($message_content_lower == $command_symbol . 'roles'){ //;roles
 	echo "[GET AUTHOR ROLES]" . PHP_EOL;
 //	Build the string for the reply
@@ -3587,20 +3603,6 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 				return true;
 			}
 	}
-}
-if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;remindme
-	echo "[REMINDER]" . PHP_EOL;
-	$filter = "$command_symbol" . "remindme ";
-	$value = str_replace($filter, "", $message_content_lower);
-	if(is_numeric($value)){
-		$discord->addTimer($value, function() use ($author_user) {
-			$author_user->createDM()->then(function($author_dmchannel) use ($message){	//Promise
-				if($author_dmchannel) $author_dmchannel->send("This is your requested reminder!");
-				return true;
-			});
-		});
-		if($react) $message->react("👍");
-	}else return $message->reply("Invalid input! Please enter a valid number");
 }
 
 if ( ($role_verified_id != "") || ($role_verified_id != NULL) ) //This command only works if the Verified Role is setup
