@@ -3606,7 +3606,7 @@ if (substr($message_content_lower, 0, 10) == $command_symbol . 'remindme '){ //;
 if ( ($role_verified_id != "") || ($role_verified_id != NULL) ) //This command only works if the Verified Role is setup
 if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr(($message_content), 0, 8) == $command_symbol . 'verify ') ){ //Verify ;v ;verify
-	echo "[GIVING VERIFIED ROLE TO MENTIONED] $author_check" . PHP_EOL;
+	echo "[VERIFY] $author_check" . PHP_EOL;
 //	Get an array of people mentioned
 	$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
@@ -3703,18 +3703,20 @@ if( ($getverified_channel_id != "") || ($getverified_channel_id != NULL)) //This
 if ($creator || $owner || $dev || $admin || $mod) //Only allow these roles to use this
 if ( ($message_content_lower == $command_symbol . 'cv') || ( $message_content_lower == $command_symbol . 'clearv') ){ //;clearv ;cv Clear all messages in the get-verified channel
 	echo "[CV] $author_check" . PHP_EOL;
-	$getverified_channel->bulkDelete(100);
-	//Delete any messages that aren't cached
-	$getverified_channel->fetchMessages()->then(function($message_collection) use ($getverified_channel){
-		foreach ($message_collection as $message){
-			$getverified_channel->message->delete();
-		}
-	});
-	if($getverified_channel)$getverified_channel->send("Welcome to $author_guild_name discord! Please take a moment to read the rules and fill out the questions below:\n
-	1. How did you find the server?\n
-	2. How old are you?\n
-	3. Do you understand the rules?\n
-	4. Do you have any other questions?");
+	if($getverified_channel){
+		$getverified_channel->bulkDelete(100);
+		//Delete any messages that aren't cached
+		$getverified_channel->fetchMessages()->then(function($message_collection) use ($getverified_channel){
+			foreach ($message_collection as $message){
+				$getverified_channel->message->delete();
+			}
+		});
+		$getverified_channel->send("Welcome to $author_guild_name! Please take a moment to read the rules and fill out the questions below:
+		1. How did you find the server?
+		2. How old are you?
+		3. Do you understand the rules?
+		4. Do you have any other questions?");
+	}
 	return true;
 }
 
