@@ -145,7 +145,7 @@ if(!CheckFile($guild_folder, "nsfw_option.php"))
 else 													$nsfw 	= VarLoad($guild_folder, "nsfw_option.php");				//Load saved option file
 
 //Role picker options		
-GLOBAL $rolepicker_option, $species_option, $sexuality_option, $gender_option, $custom_option;		
+GLOBAL $rolepicker_option, $species_option, $gender_option, $sexuality_option, $custom_option;		
 if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
 	if(!CheckFile($guild_folder, "rolepicker_option.php")){
 														$rp0	= $rolepicker_option;							//Allow Rolepicker
@@ -155,16 +155,16 @@ if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
 														$rp1	= $species_option;								//Species role picker
 		}else 											$rp1	= VarLoad($guild_folder, "species_option.php");
 	} else												$rp1	= false;
-	if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
-		if(!CheckFile($guild_folder, "sexuality_option.php")){
-														$rp2	= $sexuality_option;							//Sexuality role picker
-		}else 											$rp2	= VarLoad($guild_folder, "sexuality_option.php");
-	} else												$rp2	= false;
 	if ( ($gender_message_id != "") || ($gender_message_id != NULL) ){
 		if(!CheckFile($guild_folder, "gender_option.php")){
-														$rp3	= $gender_option;								//Gender role picker
-		}else 											$rp3	= VarLoad($guild_folder, "gender_option.php");
-	} else $rp3 = false;
+														$rp2	= $gender_option;								//Gender role picker
+		}else 											$rp2	= VarLoad($guild_folder, "gender_option.php");
+	} else												$rp2 	= false;
+	if ( ($sexuality_message_id != "") || ($species_message_id != NULL) ){
+		if(!CheckFile($guild_folder, "sexuality_option.php")){
+														$rp3	= $sexuality_option;							//Sexuality role picker
+		}else 											$rp3	= VarLoad($guild_folder, "sexuality_option.php");
+	} else												$rp3	= false;
 	if ( ($customroles_message_id != "") || ($customroles_message_id != NULL) ){
 		if(!CheckFile($guild_folder, "customrole_option.php"))
 														$rp4	= $custom_option;								//Custom role picker
@@ -173,8 +173,8 @@ if ( ($rolepicker_id != "") || ($rolepicker_id != NULL) ){
 }else{ //All functions are disabled
 														$rp0 	= false;
 														$rp1 	= false;
-														$rp2 	= false;
 														$rp3 	= false;
+														$rp2 	= false;
 														$rp4 	= false;
 }
 
@@ -292,12 +292,13 @@ foreach ($author_member_roles as $role){
 if ($creator || $owner || $dev)	$bypass = true;
 else					$bypass = false;
 
-if( ($rolepicker_id != "") && ($rolepicker_id != NULL) ){ //Message rolepicker menus
-	GLOBAL $species, $species2, $species3, $species_message_text, $species2_message_text, $species3_message_text;
-	GLOBAL $sexualities, $sexuality_message_text;
-	GLOBAL $gender, $gender_message_text;
-	GLOBAL $customroles, $customroles_message_text;
+if( ($rolepicker_id == "") || ($rolepicker_id == "0") || ($rolepicker_id === NULL) ){ //Message rolepicker menus
+	$rolepicker_id = $GLOBALS['id']; //Default to Palace Bot
 }
+GLOBAL $species, $species2, $species3, $species_message_text, $species2_message_text, $species3_message_text;
+GLOBAL $gender, $gender_message_text;
+GLOBAL $sexualities, $sexuality_message_text;
+GLOBAL $customroles, $customroles_message_text;
 
 /*
 *********************
@@ -351,12 +352,11 @@ if ($creator || $owner || $dev){
 		$documentation = $documentation . "`setup gender messageid`\n";
 		$documentation = $documentation . "`setup customroles messageid`\n";
 		*/
-		$documentation = $documentation . "**Messages:**\n";
 		$documentation = $documentation . "`message species`\n";
 		$documentation = $documentation . "`message species2`\n";
 		$documentation = $documentation . "`message species3`\n";
-		$documentation = $documentation . "`message sexuality`\n";
 		$documentation = $documentation . "`message gender`\n";
+		$documentation = $documentation . "`message sexuality`\n";
 		$documentation = $documentation . "`message customroles`\n";
 		
 		$documentation_sanitized = str_replace("\n","",$documentation);
@@ -413,19 +413,29 @@ if ($creator || $owner || $dev){
 		$documentation = $documentation . "`welcomelog #channel` $welcome_log_channel_id\n";
 		$documentation = $documentation . "`log #channel` $modlog_channel_id\n";
 		$documentation = $documentation . "`verify channel #channel` $getverified_channel_id\n";
-		$documentation = $documentation . "`verifylog #channel` $verifylog_channel_id\n";
-		$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
+		if ($verifylog_channel_id)
+			$documentation = $documentation . "`verifylog #channel` $verifylog_channel_id\n";
+		else $documentation = $documentation . "`verifylog #channel` (defaulted to log channel)\n";
+		if ($watch_channel_id)
+			$documentation = $documentation . "`watch #channel` $watch_channel_id\n";
+		else $documentation = $documentation . "`watch #channel` (defaulted to direct message only)\n";
 		$documentation = $documentation . "`rolepicker channel #channel` $rolepicker_channel_id\n";
 		$documentation = $documentation . "`suggestion pending #channel` $suggestion_pending_channel_id\n";
 		$documentation = $documentation . "`suggestion approved #channel` $suggestion_approved_channel_id\n";
 		//Messages
 		$documentation = $documentation . "**Messages:**\n";
-		$documentation = $documentation . "`species messageid` $species_message_id\n";
-		$documentation = $documentation . "`species2 messageid` $species2_message_id\n";
-		$documentation = $documentation . "`species3 messageid` $species3_message_id\n";
-		$documentation = $documentation . "`sexuality messageid` $sexuality_message_id\n";
-		$documentation = $documentation . "`gender messageid` $gender_message_id\n";
-		$documentation = $documentation . "`customroles messageid` $customroles_message_id\n";
+		if ($species_message_id) $documentation = $documentation . "`species messageid` $species_message_id\n";
+		else $documentation = $documentation . "`species messageid` Message not yet sent!\n";
+		if ($species2_message_id) $documentation = $documentation . "`species2 messageid` $species2_message_id\n";
+		else $documentation = $documentation . "`species2 messageid` Message not yet sent!\n";
+		if ($species3_message_id) $documentation = $documentation . "`species3 messageid` $species3_message_id\n";
+		else $documentation = $documentation . "`species3 messageid` Message not yet sent!\n";
+		if ($gender_message_id) $documentation = $documentation . "`gender messageid` $gender_message_id\n";
+		else $documentation = $documentation . "`gender messageid` Message not yet sent!\n";
+		if ($sexuality_message_id) $documentation = $documentation . "`sexuality messageid` $sexuality_message_id\n";
+		else $documentation = $documentation . "`sexuality messageid` Message not yet sent!\n";
+		if ($customroles_message_id) $documentation = $documentation . "`customroles messageid` $customroles_message_id\n";
+		else $documentation = $documentation . "`customroles messageid` Message not yet sent!\n";
 		
 		$documentation_sanitized = str_replace("\n","",$documentation);
 		$doc_length = strlen($documentation_sanitized);
@@ -740,16 +750,6 @@ if ($creator || $owner || $dev){
 		}else $message->reply("Invalid input! Please enter a message ID");
 		return true;
 	}
-	if (substr($message_content_lower, 0, 17) == $command_symbol . 'setup sexuality '){
-		$filter = "$command_symbol" . "setup sexuality ";
-		$value = str_replace($filter, "", $message_content_lower);
-		$value = trim($value);
-		if(is_numeric($value)){
-			VarSave($guild_folder, "sexuality_message_id.php", $value);
-			$message->reply("Sexuality message ID saved!");
-		}else $message->reply("Invalid input! Please enter a message ID");
-		return true;
-	}
 	if (substr($message_content_lower, 0, 14) == $command_symbol . 'setup gender '){
 		$filter = "$command_symbol" . "setup gender ";
 		$value = str_replace($filter, "", $message_content_lower);
@@ -757,6 +757,16 @@ if ($creator || $owner || $dev){
 		if(is_numeric($value)){
 			VarSave($guild_folder, "gender_message_id.php", $value);
 			$message->reply("Gender message ID saved!");
+		}else $message->reply("Invalid input! Please enter a message ID");
+		return true;
+	}
+	if (substr($message_content_lower, 0, 17) == $command_symbol . 'setup sexuality '){
+		$filter = "$command_symbol" . "setup sexuality ";
+		$value = str_replace($filter, "", $message_content_lower);
+		$value = trim($value);
+		if(is_numeric($value)){
+			VarSave($guild_folder, "sexuality_message_id.php", $value);
+			$message->reply("Sexuality message ID saved!");
 		}else $message->reply("Invalid input! Please enter a message ID");
 		return true;
 	}
@@ -841,20 +851,6 @@ if ($creator || $owner || $dev){
 		else $message->reply("Species roles	disabled!");
 		return true;
 	}
-	if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
-		if(!CheckFile($guild_folder, "sexuality_option.php")){
-			VarSave($guild_folder, "sexuality_option.php", $nsfw);
-			echo "[NEW SEXUALITY FILE]" . PHP_EOL;
-		}
-		$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
-		$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
-		VarSave($guild_folder, "sexuality_option.php", $sexuality_flip);
-		if($react) $message->react("👍");
-		if ($sexuality_flip === true)
-			$message->reply("Sexuality roles enabled!");
-		else $message->reply("Sexuality roles disabled!");
-		return true;
-	}
 	if ($message_content_lower == $command_symbol . 'gender'){ //toggle gender ;gender
 		if(!CheckFile($guild_folder, "gender_option.php")){
 			VarSave($guild_folder, "gender_option.php", $nsfw);
@@ -867,6 +863,20 @@ if ($creator || $owner || $dev){
 		if ($gender_flip === true)
 			$message->reply("Gender roles enabled!");
 		else $message->reply("Gender roles disabled!");
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'sexuality'){ //toggle sexuality ;sexuality
+		if(!CheckFile($guild_folder, "sexuality_option.php")){
+			VarSave($guild_folder, "sexuality_option.php", $nsfw);
+			echo "[NEW SEXUALITY FILE]" . PHP_EOL;
+		}
+		$sexuality_var = VarLoad($guild_folder, "sexuality_option.php");															//echo "nsfw_var: $nsfw_var" . PHP_EOL;
+		$sexuality_flip = !$sexuality_var;																				//echo "nsfw_flip: $nsfw_flip" . PHP_EOL;
+		VarSave($guild_folder, "sexuality_option.php", $sexuality_flip);
+		if($react) $message->react("👍");
+		if ($sexuality_flip === true)
+			$message->reply("Sexuality roles enabled!");
+		else $message->reply("Sexuality roles disabled!");
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'customroles'){ //toggle custom roles ;customroles
@@ -886,66 +896,73 @@ if ($creator || $owner || $dev){
 	//Role Messages Setup
 	if ($message_content_lower == $command_symbol . 'message species'){ //;message species
 		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-		$author_channel->send($species_message_text)->then(function($message) use ($guild_folder, $species){
-			VarSave($guild_folder, "species_message_id.php", strval($message->id));
+		$author_channel->send($species_message_text)->then(function($new_message) use ($guild_folder, $species, $message){
+			VarSave($guild_folder, "species_message_id.php", strval($new_message->id));
 			foreach($species as $var_name => $value){
-				$message->react($value);
+				$new_message->react($value);
 			}
+			$message->delete();
 			return true;
 		});
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'message species2'){ //;message species2
 		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-		$author_channel->send($species2_message_text)->then(function($message) use ($guild_folder, $species2){;
-			VarSave($guild_folder, "species2_message_id.php", strval($message->id));
+		$author_channel->send($species2_message_text)->then(function($new_message) use ($guild_folder, $species2, $message){;
+			VarSave($guild_folder, "species2_message_id.php", strval($new_message->id));
 			foreach($species2 as $var_name => $value){
-				$message->react($value);
+				$new_message->react($value);
 			}
+			$message->delete();
 			return true;
 		});
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'message species3'){ //;message species3
 		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-		$author_channel->send($species3_message_text)->then(function($message) use ($guild_folder, $species3){;
-			VarSave($guild_folder, "species3_message_id.php", strval($message->id));
+		$author_channel->send($species3_message_text)->then(function($new_message) use ($guild_folder, $species3, $message){;
+			VarSave($guild_folder, "species3_message_id.php", strval($new_message->id));
 			foreach($species3 as $var_name => $value){
-				$message->react($value);
+				$new_message->react($value);
 			}
+			$message->delete();
+			return true;
+		});
+		return true;
+	}
+	if ($message_content_lower == $command_symbol . 'message gender'){ //;message gender
+		echo '[GENDER MESSAGE GEN]' . PHP_EOL;
+		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
+		$author_channel->send($gender_message_text)->then(function($new_message) use ($guild_folder, $gender, $message){;
+			VarSave($guild_folder, "gender_message_id.php", strval($new_message->id));
+			foreach($gender as $var_name => $value){
+				$new_message->react($value);
+			}
+			$message->delete();
 			return true;
 		});
 		return true;
 	}
 	if ( ($message_content_lower == $command_symbol . 'message sexuality') || ($message_content_lower == $command_symbol . 'message sexualities') ) { //;message sexual
 		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-		$author_channel->send($sexuality_message_text)->then(function($message) use ($guild_folder, $sexualities){;
-			VarSave($guild_folder, "sexuality_message_id.php", strval($message->id));
+		$author_channel->send($sexuality_message_text)->then(function($new_message) use ($guild_folder, $sexualities, $message){;
+			VarSave($guild_folder, "sexuality_message_id.php", strval($new_message->id));
 			foreach($sexualities as $var_name => $value){
-				$message->react($value);
+				$new_message->react($value);
 			}
-			return true;
-		});
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'message gender'){ //;message gender
-		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-		$author_channel->send($gender_message_text)->then(function($message) use ($guild_folder, $gender){;
-			VarSave($guild_folder, "gender_message_id.php", strval($message->id));
-			foreach($gender as $var_name => $value){
-				$message->react($value);
-			}
+			$message->delete();
 			return true;
 		});
 		return true;
 	}
 	if ($message_content_lower == $command_symbol . 'message customroles'){ //;message customroles
 		VarSave($guild_folder, "rolepicker_channel_id.php", strval($author_channel_id)); //Make this channel the rolepicker channel
-		$author_channel->send($customroles_message_text)->then(function($message) use ($guild_folder, $customroles){;
-			VarSave($guild_folder, "customroles_message_id.php", strval($message->id));
+		$author_channel->send($customroles_message_text)->then(function($new_message) use ($guild_folder, $customroles, $message){;
+			VarSave($guild_folder, "customroles_message_id.php", strval($new_message->id));
 			foreach($customroles as $var_name => $value){
-				$message->react($value);
+				$new_message->react($value);
 			}
+			$message->delete();
 			return true;
 		});
 		return true;
@@ -986,10 +1003,10 @@ if ($message_content_lower == $command_symbol . 'help'){ //;help
 		//species3
 		$documentation = $documentation . "`species3`\n";
 		*/
-		//sexuality
-		$documentation = $documentation . "`sexuality`\n";
 		//gender
 		$documentation = $documentation . "`gender`\n";
+		//sexuality
+		$documentation = $documentation . "`sexuality`\n";
 		//customrole
 		$documentation = $documentation . "`customrole`\n";
 		
@@ -1157,12 +1174,12 @@ if ($message_content_lower == $command_symbol . 'settings'){ //;settings
 	$documentation = $documentation . "`species:` ";
 	if ($rp1) $documentation = $documentation . "**Enabled**\n";
 	else $documentation = $documentation . "**Disabled**\n";
-	//sexuality
-	$documentation = $documentation . "`sexuality:` ";
-	if ($rp2) $documentation = $documentation . "**Enabled**\n";
-	else $documentation = $documentation . "**Disabled**\n";
 	//gender
 	$documentation = $documentation . "`gender:` ";
+	if ($rp2) $documentation = $documentation . "**Enabled**\n";
+	else $documentation = $documentation . "**Disabled**\n";
+	//sexuality
+	$documentation = $documentation . "`sexuality:` ";
 	if ($rp3) $documentation = $documentation . "**Enabled**\n";
 	else $documentation = $documentation . "**Disabled**\n";
 	//customrole
@@ -1289,7 +1306,7 @@ if ($message_content_lower == $command_symbol . 'roles'){ //;roles
 	$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 		echo "[ERROR] $error".PHP_EOL; //Echo any errors
 	});
-	return true; //No more processing, we only want to process the first person mentioned
+	return true;
 }
 if (substr($message_content_lower, 0, 7) == $command_symbol . 'roles '){//;roles @
 	echo "[GET MENTIONED ROLES]" . PHP_EOL;
