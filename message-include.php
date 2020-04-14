@@ -231,7 +231,7 @@ Guild-specific variables
 *********************
 */
 
-$creator_name									= "Valithor";;
+$creator_name									= "Valithor";
 $creator_discriminator							= "5947";
 $creator_id										= "116927250145869826";
 $creator_check									= "$creator_name#$creator_discriminator";
@@ -461,9 +461,13 @@ if ($creator || $owner || $dev){
 	}
 	if ($message_content_lower == $command_symbol . 'updateconfig'){ //;updateconfig
 		$file = 'guild_config_template.php';
-		if (!copy($file, $guild_config_path)){
-			$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
-		}else $author_channel->send("The server's configuration file was recently updated by <@$author_id>. Please check the ;currentsetup");
+		if (sha1_file($guild_config_path) == sha1_file('guild_config_template.php')) {
+			$message->reply("Guild configuration is already up to date!");
+		}else{
+			if (!copy($file, $guild_config_path)){
+				$message->reply("Failed to create guild_config file! Please contact <@116927250145869826> for assistance.");
+			}else $author_channel->send("The server's configuration file was recently updated by <@$author_id>. Please check the ;currentsetup");
+		}
 	}
 	if ($message_content_lower == $command_symbol . 'clearconfig'){ //;clearconfig		
 		$files = glob(__DIR__  . "$guild_folder" . '/*');
@@ -2661,6 +2665,18 @@ if($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to us
 */
 
 if ($creator){ //Mostly just debug commands
+	if($message_content_lower == $command_symbol . 'debug'){
+		echo '[DEBUG]' . PHP_EOL;
+		ob_start();
+		
+		//echo print_r(get_defined_vars(), true); //REALLY REALLY BAD IDEA
+		print_r(get_defined_constants(true));
+		
+		$debug_output = ob_get_contents();
+		ob_end_clean(); //here, output is cleaned. You may want to flush it with ob_end_flush()
+		file_put_contents('debug.txt', $debug_output);
+		ob_end_flush();
+	}
 	if ($message_content_lower == $command_symbol . 'genimage'){
 		include "imagecreate_include.php"; //Generates $img_output_path
 		$image_path = "http://www.valzargaming.com/discord%20-%20palace/" . $img_output_path;
@@ -3463,9 +3479,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		if ($message_content_lower == $command_symbol . 'agecheckloop start'){ //;agecheckloop
 			$timerclass = get_class($GLOBALS['agetimer']);
 			if ($timerclass != "React\EventLoop\Timer\Timer"){
-				$GLOBALS['agetimer'] = $loop->addPeriodicTimer(75, function() use ($author_guild) {
+				$GLOBALS['agetimer'] = $loop->addPeriodicTimer(90, function() use ($author_guild) {
 					echo "[AGECHECK LOOP START]";
-					include_once "custom_functions.php";
 					//$civ_persistent_channel = $author_guild->channels->get("643992764429631509");
 					$civ_staff_channel = $author_guild->channels->get("562715700360380434");
 					//Get list of players
@@ -3475,8 +3490,8 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 						if ( (substr($varname, 0, 6) == "player") && $varname != "players")
 							$playerlist[] = trim(strtolower(urldecode($varvalue)));
 					}
-					//Check Byond account age 
 					
+					//Check Byond account age 
 					$minimum_time = strtotime("-90 days"); //echo "minimum_time: $minimum_time" . PHP_EOL;
 					$banlist = array();
 					$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
