@@ -4078,14 +4078,14 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'warn '){ //;warn @
 		echo "[WARN] $author_check" . PHP_EOL;
 		//$message->reply("Not yet implemented!");
-	//			Get an array of people mentioned
+//		Get an array of people mentioned
 		$mentions_arr 												= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if ($modlog_channel)	$mention_warn_name_mention_default		= "<@$author_id>";
 		$mention_warn_queue_default									= $mention_warn_name_mention_default."warned the following users:" . PHP_EOL;
 		$mention_warn_queue_full 									= "";
 		
 		foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
-	//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//			id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -4093,23 +4093,23 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 			$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 			$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 			
-	//				Build the string to log
+//			Build the string to log
 			$filter = "$command_symbol" . "warn <@!$mention_id>";
 			$warndate = date("m/d/Y");
 			$mention_warn_queue 									= "**$mention_check warned $author_check on $warndate for reason: **" . str_replace($filter, "", $message_content);
 			
-	//				Place warn info in target's folder
+//			Place warn info in target's folder
 			$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
 			$infractions[] = $mention_warn_queue;
 			VarSave($guild_folder."/".$mention_id, "infractions.php", $infractions);
 			$mention_warn_queue_full 								= $mention_warn_queue_full . PHP_EOL . $mention_warn_queue;
 		}
-	//			Send a message
+//		Send a message
 		if ($mention_warn_queue != ""){
 			if ($watch_channel)$watch_channel->send($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
 			else $message->reply($mention_warn_queue_default . $mention_warn_queue_full . PHP_EOL);
-	//				React to the original message
-	//				if($react) $message->react("👀");
+//			React to the original message
+//			if($react) $message->react("👀");
 			if($react) $message->react("👁");		
 			return true;
 		}else{
@@ -4120,7 +4120,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 	}
 	if (substr($message_content_lower, 0, 13) == $command_symbol . 'infractions '){ //;infractions @
 		echo "[INFRACTIONS] $author_check" . PHP_EOL;
-	//			Get an array of people mentioned
+//		Get an array of people mentioned
 		$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
@@ -4139,7 +4139,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		$x = 0;
 		foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 			if ($x == 0){ //We only want the first person mentioned
-	//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//				id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 				$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 				$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 				$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -4147,7 +4147,7 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 				$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 				$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 				
-	//				Place infraction info in target's folder
+//				Place infraction info in target's folder
 				$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
 				$y = 0;
 				$mention_infraction_queue = "";
@@ -4161,34 +4161,34 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 			}
 			$x++;
 		}
-	//			Send a message
+//			Send a message
 		if ($mention_infraction_queue != ""){
 			$length = strlen($mention_infraction_queue_full);
 			if ($length < 1025){
 
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 			$embed
-	//					->setTitle("Commands")																	// Set a title
+//					->setTitle("Commands")																	// Set a title
 				->setColor("e1452d")																	// Set a color (the thing on the left side)
-	//					->setDescription("Infractions for $mention_check")										// Set a description (below title, above fields)
+//					->setDescription("Infractions for $mention_check")										// Set a description (below title, above fields)
 				->addField("Infractions for $mention_check", "$mention_infraction_queue_full")			// New line after this
-	//					->addField("⠀", "Use '" . $command_symbol . "removeinfraction @mention #' to remove")	// New line after this
+//					->addField("⠀", "Use '" . $command_symbol . "removeinfraction @mention #' to remove")	// New line after this
 				
-	//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-	//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-	//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-	//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+//					->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
 				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 				->setURL("");                             												// Set the URL
-	//					Send the embed to the author's channel
+//					Send the embed to the author's channel
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				return true;
 			}else{ //Too long, send reply instead of embed
 				$message->reply($mention_infraction_queue_full . PHP_EOL);
-	//					React to the original message
-	//					if($react) $message->react("👀");
+//				React to the original message
+//				if($react) $message->react("👀");
 				if($react) $message->react("🗒️");		
 				return true;
 			}
@@ -4206,23 +4206,23 @@ if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction
 //	Get an array of people mentioned
 	$mentions_arr 													= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 	
-	if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
-		$filter = "$command_symbol" . "removeinfraction ";
-		$value = str_replace($filter, "", $message_content_lower);
-		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
-		$value = str_replace(">", "", $value);
-		if(is_numeric($value)){
-			$mention_member				= $author_guild->members->get($value);
-			$mention_user				= $mention_member->user;
-			$mentions_arr				= array($mention_user);
-		}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
-		if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
-	}
+	
+	$filter = "$command_symbol" . "removeinfraction ";
+	$value = str_replace($filter, "", $message_content_lower);
+	$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); $value = str_replace(">", "", $value);
+	
+		
+	if(is_numeric($value)){
+		$mention_member				= $author_guild->members->get($value);
+		$mention_user				= $mention_member->user;
+		$mentions_arr				= array($mention_user);
+	}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
+	if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
 	
 	$x = 0;
 	foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 		if ($x == 0){ //We only want the first person mentioned
-//					id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
+//			id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
 			$mention_param_encode 									= json_encode($mention_param); 									//echo "mention_param_encode: " . $mention_param_encode . PHP_EOL;
 			$mention_json 											= json_decode($mention_param_encode, true); 					//echo "mention_json: " . PHP_EOL; var_dump($mention_json);
 			$mention_id 											= $mention_json['id']; 											//echo "mention_id: " . $mention_id . PHP_EOL; //Just the discord ID
@@ -4230,28 +4230,28 @@ if (substr($message_content_lower, 0, 18) == $command_symbol . 'removeinfraction
 			$mention_discriminator 									= $mention_json['discriminator']; 								//echo "mention_discriminator: " . $mention_discriminator . PHP_EOL; //Just the discord ID
 			$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 			
-//					Get infraction info in target's folder
+//			Get infraction info in target's folder
 			$infractions = VarLoad($guild_folder."/".$mention_id, "infractions.php");
 			$proper = $command_symbol."removeinfraction <@!$mention_id> ";
 			$strlen = strlen($command_symbol."removeinfraction <@!$mention_id> ");
 			$substr = substr($message_content_lower, $strlen);
 			
-//					Check that message is formatted properly
+//			Check that message is formatted properly
 			if ($proper != substr($message_content_lower, 0, $strlen)){
 				$message->reply("Please format your command properly: ;warn @mention number");
 				return true;
 			}
 			
-//					Check if $substr is a number
+//			Check if $substr is a number
 			if ( ($substr != "") && (is_numeric(intval($substr))) ){
-//						Remove array element and reindex
+//				Remove array element and reindex
 				//array_splice($infractions, $substr, 1);
 				if ($infractions[$substr] != NULL){
 					$infractions[$substr] = "Infraction removed by $author_check on " . date("m/d/Y"); // for arrays where key equals offset
-//							Save the new infraction log
+//					Save the new infraction log
 					VarSave($guild_folder."/".$mention_id, "infractions.php", $infractions);
 					
-//							Send a message
+//					Send a message
 					if($react) $message->react("👍");
 					$message->reply("Infraction $substr removed from $mention_check!");
 					return true;
