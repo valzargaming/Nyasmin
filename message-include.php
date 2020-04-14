@@ -3612,22 +3612,18 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 	$mention_role_name_queue_default							= "<@$author_id> verified the following users:" . PHP_EOL;
 	$mention_role_name_queue_full 								= $mention_role_name_queue_default;
 	
-	if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
-		$filter = "$command_symbol" . "v ";
-		$value = str_replace($filter, "", $message_content_lower);
-		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
-		$value = str_replace(">", "", $value);
-		$filter = "$command_symbol" . "verify ";
-		$value = str_replace($filter, "", $value);
-		$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); 
-		$value = str_replace(">", "", $value);
-		if(is_numeric($value)){
-			$mention_member				= $author_guild->members->get($value);
-			$mention_user				= $mention_member->user;
-			$mentions_arr				= array($mention_user);
-		}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user");
-		if ($mention_member == NULL) return $message->reply("Invalid input! Please enter an ID or @mention the user");
-	}
+	$filter = "$command_symbol" . "v ";
+	$value = str_replace($filter, "", $message_content_lower);
+	$filter = "$command_symbol" . "verify ";
+	$value = str_replace($filter, "", $value);
+	$value = str_replace("<@!", "", $value); $value = str_replace("<@", "", $value); $value = str_replace("<@", "", $value); $value = str_replace(">", "", $value);
+	
+	if(is_numeric($value)){
+		$mention_member				= $author_guild->members->get($value);
+		$mention_user				= $mention_member->user;
+		$mentions_arr				= array($mention_user);
+	}else return $message->reply("Invalid input! Please enter a valid ID or @mention the user.");
+	if ($mention_member == NULL) return $message->reply("Invalid ID or user not found! Are they in the server?"); //User not found
 	
 	foreach ( $mentions_arr as $mention_param ){																				//echo "mention_param: " . PHP_EOL; var_dump ($mention_param);
 //		id, username, discriminator, bot, avatar, email, mfaEnabled, verified, webhook, createdTimestamp
@@ -3639,7 +3635,6 @@ if ( (substr($message_content_lower, 0, 3) == $command_symbol . 'v ') || (substr
 //		$mention_check 											= $mention_username ."#".$mention_discriminator; 				//echo "mention_check: " . $mention_check . PHP_EOL; //Just the discord ID
 		
 //		Get the roles of the mentioned user
-		echo "mention_id: " . $mention_id . PHP_EOL;
 		$target_guildmember 									= $message->guild->members->get($mention_id);
 		$target_guildmember_role_collection 					= $target_guildmember->roles;									//echo "target_guildmember_role_collection: " . (count($author_guildmember_role_collection)-1);
 
