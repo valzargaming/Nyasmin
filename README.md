@@ -4,6 +4,8 @@ Invite link: https://discordapp.com/oauth2/authorize?client_id=66209388279575348
 
 Bot help: https://discord.gg/vNntRSe
 
+Discord template: https://discord.new/tE25rhUGsquD
+
 
 # Yasmin
 
