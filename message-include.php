@@ -2823,7 +2823,10 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 	if (substr($message_content_lower, 0, 13) == '!s approveme '){
 		echo "[APPROVEME] $author_check" . PHP_EOL;
 		$filter = "!s approveme ";
-		$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
+		$ckey = trim(str_replace($filter, "", $message_content_lower)); //echo "ckey: $ckey" . PHP_EOL;
+		$filter = ".";
+		$ckey = str_replace($filter, "", $ckey); //echo "ckey: $ckey" . PHP_EOL;
+		
 		if ($ckey != ""){
 			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 			//Load whitelist from file
