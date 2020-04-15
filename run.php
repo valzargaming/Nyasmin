@@ -33,11 +33,8 @@ set_exception_handler(function (Throwable $e) {
     // reconnect, log uncaught, etc etc
 });
 */
- 
-$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop, $token){
-	//Automatically restart the bot if it disconnects
-	//This is almost always going to be caused by error code 1006, meaning the bot did not get heartbeat from Discord
-	include "disconnect-include.php";
+$discord->on('error', function ($error){ //Handling of thrown errors
+	echo "[ERROR] $error" . PHP_EOL;
 });
 
 $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for events here
@@ -180,6 +177,12 @@ $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for
 	*/
 	
 }); //end main function ready
+
+$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop, $token){
+	//Restart the bot if it disconnects
+	//This is almost always going to be caused by error code 1006, meaning the bot did not get heartbeat from Discord
+	include "disconnect-include.php";
+});
 
 $discord->login($token)->done();
 $loop->run();
