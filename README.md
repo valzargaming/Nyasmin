@@ -1,4 +1,4 @@
-**This fork is dedicated to maintaining Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or pull requests committed. This bot is confirmed to be working with PHP 7.3. You can choose to self-host your own instance of this bot or invite my hosted instance to your server. If hosting your own instance, it is advisable to merge all -include.php files into run.php to remove the read overhead of loading a file every time it is needed.**
+**This fork is dedicated to maintaining Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or pull requests committed. This bot is confirmed to be working with PHP 7.3 and 7.4.3. You can choose to self-host your own instance of this bot or invite my hosted instance to your server. If hosting your own instance, it is advisable to merge all -include.php files into run.php to remove the read overhead of loading a file every time it is needed.**
 
 Invite link: https://discordapp.com/oauth2/authorize?client_id=662093882795753482&scope=bot&permissions=8
 
@@ -17,11 +17,9 @@ Before you start using this Library, you **need** to know how PHP works, you nee
 See https://github.com/elazar/asynchronous-php for resources.
 
 # Getting Started
-Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
+~~Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!~~
 
-```
-composer require valzargaming/yasmin
-```
+The Composer package is broken because the original repo for Yasmin was either deleted or made private. I have included my original /vendor/ files for reference, but they will not be updated as changes are made to this repo. You will need to copy the contents of \src\ to \vendor\charlottedunois\yasmin\src if you are self-hosting.
 
 <br>
 
