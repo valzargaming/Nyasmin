@@ -2801,26 +2801,6 @@ if ($creator){ //Mostly just debug commands
 }
 
 if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands should only be relevant for use on this server
-	if ($message_content_lower == '!s minecrafter'){
-		echo "[MINECRAFTER] $author_check" . PHP_EOL;
-		//Give minecrafter role
-		$author_member->addRole("528292344403853344")->done(
-			function ($error) {
-				echo "[ERROR] $error".PHP_EOL;
-			}
-		); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
-		$message->react("👍");
-	}
-	if ($message_content_lower == '!s fortniter'){
-		echo "[FORTNITER] $author_check" . PHP_EOL;
-		//Give minecrafter role
-		$author_member->addRole("530447405267812364")->done(
-			function ($error) {
-				echo "[ERROR] $error".PHP_EOL;
-			}
-		); //echo "Verify role added ($role_verified_id)" . PHP_EOL;
-		$message->react("👍");
-	}
 	if ($message_content_lower == $command_symbol . 'status' || $message_content_lower == '!s status'){ //;status
 		echo "[STATUS] $author_check" . PHP_EOL;
 		$ch = curl_init(); //create curl resource
@@ -3322,7 +3302,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 			echo "[WHITELIST] $author_check" . PHP_EOL;
 			$filter = "!s whitelist";
 			$ckey = trim(strtolower(str_replace($filter, "", $message_content_lower))); //echo "ckey: $ckey" . PHP_EOL;
-			$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
+			$civ13_whitelist = VarLoad(null, "../civ13_whitelist.php");
 			if ($ckey != ""){
 				//$civ13_whitelist = VarLoad(null, "civ13_whitelist.php");
 				//Load whitelist from file
@@ -3343,7 +3323,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 					if ($valid == true){
 						//Add ckey to whitelist array
 						$civ13_whitelist[] = $ckey;
-						VarSave(null, "civ13_whitelist.php", $civ13_whitelist);
+						VarSave(null, "../civ13_whitelist.php", $civ13_whitelist);
 						if($react) $message->react("👍");
 						$message->reply("$ckey has been whitelisted!");
 						//Save modified whitelist
