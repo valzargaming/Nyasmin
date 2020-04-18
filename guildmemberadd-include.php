@@ -18,25 +18,6 @@ $author_guild											= $guildmember->guild;
 $author_guild_id										= $guildmember->guild->id;
 $author_guild_name										= $guildmember->guild->name;
 
-if($author_guild_id == "468979034571931648"){
-	$minimum_time = strtotime("-30 days");
-	if($user_createdTimestamp > $minimum_time){
-		//Alert staff
-		$civ_staff_channel = $author_guild->channels->get("562715700360380434");
-		if($civ_staff_channel) $civ_staff_channel->send("<@$user_id> was banned because their discord account was newer than 30 days.");
-		//Ban the new account
-		$reason = "Discord account is too new";
-		$guildmember->ban("1", $reason)->done(null, function ($error){
-			echo "[ERROR] $error".PHP_EOL; //Echo any errors
-		});
-	}else{
-		$guildmember->addRole("469312086766518272")->done(
-			function ($error) {
-				echo "[ERROR] $error".PHP_EOL;
-			}
-		);
-	}
-}
 if($author_guild_id == "116927365652807686"){
 	$minimum_time = strtotime("-30 days");
 	if($user_createdTimestamp > $minimum_time){
@@ -46,9 +27,8 @@ if($author_guild_id == "116927365652807686"){
 		//Ban the new account
 		$reason = "Your discord account is too new. Please contact <@116927250145869826> if you believe this ban is an error.";
 		$guildmember->ban("1", $reason)->done(null, function ($error){
-			echo "[ERROR] $error".PHP_EOL; //Echo any errors
+			echo "[JOIN-BAN ERROR] $error".PHP_EOL; //Echo any errors
 		});
-		
 	}
 }
 
