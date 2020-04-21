@@ -41,26 +41,28 @@ $modlog_channel			= $guild->channels->get($modlog_channel_id);
 
 //Build the embed stuff
 $log_message = "Message $message_id deleted from <#$author_channel_id>\n**Content:** $message_content" . PHP_EOL;
-
+if (strlen($log_message) > 2048){
+	$log_message ="Message $message_id deleted from <#$author_channel_id>\nContent was too long to log!";
+}
 //		Build the embed
 $embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 $embed
-//			->setTitle("$user_check")																// Set a title
+//	->setTitle("$user_check")																// Set a title
 	->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//	->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 	->setDescription("$log_message")														// Set a description (below title, above fields)
 	//X days ago
 	->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
-//			->addField("Roles", 		"$author_role_name_queue_full")								// New line after this
+//	->addField("Roles", 		"$author_role_name_queue_full")								// New line after this
 	
 	->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//			->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//	->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 	->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 	
 	->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
 	->setURL("");
-//			Send the message
-//			We do not need another promise here, so we call done, because we want to consume the promise
+//	Send the message
+//	We do not need another promise here, so we call done, because we want to consume the promise
 if ($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
 	echo $error.PHP_EOL; //Echo any errors
 });
