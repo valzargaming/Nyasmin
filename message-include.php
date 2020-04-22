@@ -1608,7 +1608,14 @@ if ( (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion ') 
 		}else{
 			$message->reply("Please shorten your suggestion!");
 		}
-		$message->delete();
+		$message->reply("Your suggestion has been logged and is pending approval!")->then(function($new_message) use ($discord, $message){
+			$message->delete(); //Delete the original ;suggestion message
+			$discord->addTimer(10, function() use ($new_message) {
+				$new_message->delete(); //Delete message confirming the suggestion was logged
+				return true;
+			});
+			return true;
+		});
 		return true;
 		
 }
@@ -3809,14 +3816,14 @@ if ($creator || $owner || $dev || $admin || $mod){ //Only allow these roles to u
 		}
 		//Send message to channel confirming the message deletions
 		$duration = 3;
-		$author_channel->send("$author_check ($author_id) deleted $value messages!")->then(function($message) use ($discord, $duration){
-				$discord->addTimer($duration, function() use ($message) {
-					$message->delete();
-					return true;
-				});
-				//Delete message confirming the deletion of messages
+		$author_channel->send("$author_check ($author_id) deleted $value messages!")->then(function($new_message) use ($discord, $message, $duration){
+			$message->delete(); //Delete the original ;clear message
+			$discord->addTimer($duration, function() use ($new_message) {
+				$new_message->delete(); //Delete message confirming the deletion of messages
 				return true;
 			});
+			return true;
+		});
 		return true;
 	};
 	if (substr($message_content_lower, 0, 7) == $command_symbol . 'watch '){ //;watch @
