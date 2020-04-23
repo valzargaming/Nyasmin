@@ -1,5 +1,5 @@
 <?php
-echo "messageDelete" . PHP_EOL;
+echo "[messageDelete]" . PHP_EOL;
 //id, author, channel, guild, member
 //createdAt, editedAt, createdTimestamp, editedTimestamp, content, cleanContent, attachments, embeds, mentions, pinned, type, reactions, webhookID
 $message_content												= $message->content;
@@ -7,7 +7,7 @@ $message_id														= $message->id;
 if ( ($message_content == NULL) || ($message_content == "") ){
 	echo "BLANK MESSAGE DELETED" . PHP_EOL;
 	return true;
-}			//Don't process blank messages, bots, or webhooks
+} //Don't process blank messages, bots, or webhooks
 $message_content_lower											= strtolower($message_content);
 
 //Load author info
@@ -42,7 +42,8 @@ $modlog_channel			= $guild->channels->get($modlog_channel_id);
 //Build the embed stuff
 $log_message = "Message $message_id deleted from <#$author_channel_id>\n**Content:** $message_content" . PHP_EOL;
 if (strlen($log_message) > 2048){
-	$log_message ="Message $message_id deleted from <#$author_channel_id>\nContent was too long to log!";
+	$log_message ="Message $message_id deleted from <#$author_channel_id>";
+	$data_string = "$message_content";
 }
 //		Build the embed
 $embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -63,8 +64,16 @@ $embed
 	->setURL("");
 //	Send the message
 //	We do not need another promise here, so we call done, because we want to consume the promise
-if ($modlog_channel)$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
-	echo $error.PHP_EOL; //Echo any errors
-});
+if ($modlog_channel){
+	if ($data_string){ //Embed the changes as a text filew
+		$modlog_channel->send('', array('embed' => $embed, 'files' => [['name' => "message.txt", 'data' => $data_string]]))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+	}else{
+		$modlog_channel->send('', array('embed' => $embed))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
+	}
+}
 return true; //No more processing, we only want to process the first person mentioned
 ?>
