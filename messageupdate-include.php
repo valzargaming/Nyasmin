@@ -75,8 +75,8 @@ if ($message_content_new != $message_content_old){
 	$changes = $changes . "**Channel:** <#$author_channel_id>\n";
 	$changes = $changes . "**Message ID:**: $message_id_new\n";
 	
-	$changes = $changes . "**Before:** ```$message_content_old```\n";
-	$changes = $changes . "**After:** ```$message_content_new```\n";
+	$changes = $changes . "**Before:** ```⠀$message_content_old\n```\n";
+	$changes = $changes . "**After:**```⠀$message_content_new\n```\n";
 }
 
 if($modlog_channel)
@@ -84,16 +84,16 @@ if ($changes != ""){
 	//Build the embed
 	//$changes = "**Message edit**:\n" . $changes;
 	if (strlen($changes) <= 1024){
-//			Build the embed message
+//		Build the embed message
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
-//				->setTitle("Commands")																	// Set a title
+//			->setTitle("Commands")																	// Set a title
 			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
-//				->setDescription("Commands for $author_guild_name")									// Set a description (below title, above fields)
+//			->setDescription("Commands for $author_guild_name")										// Set a description (below title, above fields)
 			->addField("Message Update", "$changes")												// New line after this
 			
-//				->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+//			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
 			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
 			->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
 			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
@@ -105,9 +105,34 @@ if ($changes != ""){
 		});
 		return true;
 	}elseif (strlen($changes) <= 2000){
-		if($modlog_channel)$modlog_channel->send($changes);
-	}else{
-		if($modlog_channel)$modlog_channel->send("A message was updated but it was too long to log properly: <https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new>");
+		$modlog_channel->send($changes);
+	}else{ //Send changes as a file
+		//Rebuild the string so we can send some stuff as a message
+		$changes = "[Link](https://discordapp.com/channels/$author_guild_id/$author_channel_id/$message_id_new)\n";
+		$changes = $changes . "**Channel:** <#$author_channel_id>\n";
+		$changes = $changes . "**Message ID:**: $message_id_new\n";
+		
+		$changes_file = "**Before:** ```⠀$message_content_old\n```\n";
+		$changes_file = $changes_file . "**After:**```⠀$message_content_new\n```\n";
+		
+//		Rebuild the embed message
+		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+		$embed
+//			->setTitle("Commands")																	// Set a title
+			->setColor("a7c5fd")																	// Set a color (the thing on the left side)
+//			->setDescription("Commands for $author_guild_name")										// Set a description (below title, above fields)
+			->addField("Message Update", "$changes")												// New line after this
+			
+//			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+			->setURL("");                             												// Set the URL
+		
+		$modlog_channel->send("A message was updated but it was too long to log within an embed. Please see the attached file.", array('embed' => $embed, 'files' => [['name' => "changes.txt", 'data' => $changes_file]]))->done(null, function ($error){
+			echo $error.PHP_EOL; //Echo any errors
+		});
 	}
 }else{ //No info we want to check was changed
 	return true;
