@@ -8,6 +8,8 @@
 //If any of these methods resolve to a class of React\Promise\Promise you're probably passing an invalid parameter for the class
 //Always subtract 1 when counting roles because everyone has an @everyone role
 
+$vm = false; //Set this to true if using a VM that can be paused
+
 include __DIR__.'/vendor/autoload.php';
 define('MAIN_INCLUDED', 1); 	//Token and SQL credential files are protected, this must be defined to access
 ini_set('memory_limit', '-1'); 	//Unlimited memory usage
@@ -27,6 +29,7 @@ require 'token.php';
 use charlottedunois\yasmin;
 $loop = \React\EventLoop\Factory::create();
 $discord = new \CharlotteDunois\Yasmin\Client(array(), $loop);
+echo PHP_EOL;
 
 /*
 set_exception_handler(function (Throwable $e) {
@@ -178,7 +181,7 @@ $discord->once('ready', function () use ($discord, $loop, $token){	// Listen for
 	
 }); //end main function ready
 
-$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop, $token){
+$discord->on('disconnect', function($erMsg, $code) use ($discord, $loop, $token, $vm){
 	//Restart the bot if it disconnects
 	//This is almost always going to be caused by error code 1006, meaning the bot did not get heartbeat from Discord
 	include "disconnect-include.php";
