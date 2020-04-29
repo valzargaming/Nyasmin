@@ -7,7 +7,7 @@ if ($code == "4004"){
 }
 
 $discord->destroy();
-if ( ($vm == true) && ($code = "1000"){
+if ( ($vm == true) && ($code = "1000") ){
 	$loop = \React\EventLoop\Factory::create(); //Recreate loop if the cause of the disconnect was possibly related to a VM being paused
 }
 $discord = new \CharlotteDunois\Yasmin\Client(array(), $loop); //Create a new client using the same React loop
