@@ -3,11 +3,12 @@ echo "----- BOT DISCONNECTED FROM DISCORD WITH CODE $code FOR REASON: $erMsg ---
 
 if ($code == "4004"){
 	echo "[CRITICAL] TOKEN INVALIDATED BY DISCORD!" . PHP_EOL;
+	die();
 	return true;
 }
 
 $discord->destroy();
-if ( ($vm == true) && ($code = "1000") ){
+if ( ($vm == true) && ( ($code == "1000") || ($code == "4000") || ($code == "4003") ) ){
 	$loop = \React\EventLoop\Factory::create(); //Recreate loop if the cause of the disconnect was possibly related to a VM being paused
 }
 $discord = new \CharlotteDunois\Yasmin\Client(array(), $loop); //Create a new client using the same React loop
