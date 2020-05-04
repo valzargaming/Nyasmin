@@ -1418,14 +1418,15 @@ $avatar_limit['sec']	= 0;
 $avatar_limit_seconds = TimeArrayToSeconds($avatar_limit);																		//echo "TimeArrayToSeconds: " . $avatar_limit_seconds . PHP_EOL;
 if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 	echo "[GET AUTHOR AVATAR]" . PHP_EOL;
-	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //	Check Cooldown Timer
+	//$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //	Check Cooldown Timer
+	$cooldown = CheckCooldownMem($author_id, "avatar", $avatar_limit);
 	if ( ($cooldown[0] == true) || ($bypass) ){
 //		Build the embed
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 //			->setTitle("Avatar")																	// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
-//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//			->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 //			->addField("Total Given", 		"$vanity_give_count")									// New line after this
 			
 //			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1440,7 +1441,8 @@ if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 		$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
-		SetCooldown($author_folder, "avatar_time.php");
+		//SetCooldown($author_folder, "avatar_time.php");
+		SetCooldownMem($author_id, "avatar");
 		return true;
 	}else{
 //		Reply with remaining time
@@ -1452,7 +1454,8 @@ if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 }
 if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avatar @
 	echo "GETTING AVATAR FOR MENTIONED" . PHP_EOL;
-	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //Check Cooldown Timer
+	//$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //Check Cooldown Timer
+	$cooldown = CheckCooldownMem($author_id, "avatar", $avatar_limit);
 	if ( ($cooldown[0] == true) || ($bypass) ){
 		$mentions_arr = $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
@@ -1487,7 +1490,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 			$embed
 //			->setTitle("Avatar")																	// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
-//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//			->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 //			->addField("Total Given", 		"$vanity_give_count")									// New line after this
 				
 //			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1503,7 +1506,8 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 //			Set Cooldown
-			SetCooldown($author_folder, "avatar_time.php");
+			//SetCooldown($author_folder, "avatar_time.php");
+			SetCooldownMem($author_id, "avatar");
 			return true;					
 		}
 		//Foreach method didn't return, so nobody was mentioned
@@ -2091,7 +2095,8 @@ if ($vanity){
 	if ( ($message_content_lower == $command_symbol . 'cooldown') || ($message_content_lower == $command_symbol . 'cd') ){//;cooldown ;cd
 		echo "[COOLDOWN CHECK]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $avatar_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 			return $message->reply("No cooldown.");
 		}else{
@@ -2104,7 +2109,8 @@ if ($vanity){
 	if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 		echo "[HUG/SNUGGLE]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2138,7 +2144,8 @@ if ($vanity){
 					$hugged_count++;
 					VarSave($guild_folder."/".$mention_id, "hugged_count.php", $hugged_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_hug_messages							= array();
@@ -2157,7 +2164,8 @@ if ($vanity){
 					$hugged_count++;
 					VarSave($author_folder, "hugged_count.php", $hugged_count);
 					//Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}
 			}
@@ -2175,7 +2183,8 @@ if ($vanity){
 	if ( (substr($message_content_lower, 0, 6) == $command_symbol . 'kiss ') || (substr($message_content_lower, 0, 8)) == $command_symbol . 'smooch '){ //;kiss ;smooch
 		echo "[KISS]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2210,7 +2219,8 @@ if ($vanity){
 					$kissed_count++;
 					VarSave($guild_folder."/".$mention_id, "kissed_count.php", $kissed_count);\
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_kiss_messages							= array();
@@ -2229,7 +2239,8 @@ if ($vanity){
 					$kissed_count++;
 					VarSave($author_folder, "kissed_count.php", $kissed_count);
 //							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}
 			}
@@ -2247,7 +2258,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 8) == $command_symbol . 'nuzzle '){ //;nuzzle @
 		echo "[NUZZLE]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2283,7 +2295,8 @@ if ($vanity){
 					$nuzzled_count++;
 					VarSave($guild_folder."/".$mention_id, "nuzzled_count.php", $nuzzled_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_nuzzle_messages						= array();
@@ -2301,8 +2314,9 @@ if ($vanity){
 					VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 					$nuzzled_count++;
 					VarSave($author_folder, "nuzzled_count.php", $nuzzled_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}
 			}
@@ -2320,7 +2334,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'boop '){ //;boop @
 		echo "[BOOP]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2353,7 +2368,8 @@ if ($vanity){
 					$booped_count++;
 					VarSave($guild_folder."/".$mention_id, "booped_count.php", $booped_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_boop_messages							= array();
@@ -2372,7 +2388,8 @@ if ($vanity){
 					$booped_count++;
 					VarSave($author_folder, "booped_count.php", $booped_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing
 				}
 			}
@@ -2390,7 +2407,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 5) == $command_symbol . 'bap '){ //;bap @
 		echo "[BAP]" . PHP_EOL;
 //				Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2406,7 +2424,7 @@ if ($vanity){
 					$bap_messages[]								= "Snoot of <@$mention_id> was attacked by <@$author_id>!";
 					$index_selection							= GetRandomArrayIndex($bap_messages);
 //							echo "random bap_messages: " . $bap_messages[$index_selection];
-//							Send the message
+//					Send the message
 					$author_channel->send($bap_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2423,14 +2441,15 @@ if ($vanity){
 					VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 					$baped_count++;
 					VarSave($guild_folder."/".$mention_id, "baped_count.php", $baped_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_bap_messages							= array();
 					$self_bap_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
 					$index_selection							= GetRandomArrayIndex($self_bap_messages);
-//							Send the mssage
+//					Send the mssage
 					$author_channel->send($self_bap_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2442,8 +2461,9 @@ if ($vanity){
 					VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 					$baped_count++;
 					VarSave($author_folder, "baped_count.php", $baped_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing
 				}
 			}
@@ -2461,7 +2481,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 5) == $command_symbol . 'pet '){ //;pet @
 		echo "[PET]" . PHP_EOL;
 //				Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2475,7 +2496,7 @@ if ($vanity){
 					$pet_messages[]								= "<@$author_id> pets <@$mention_id>";
 					$index_selection							= GetRandomArrayIndex($pet_messages);
 //							echo "random pet_messages: " . $pet_messages[$index_selection];
-//							Send the message
+//					Send the message
 					$author_channel->send($pet_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2492,14 +2513,15 @@ if ($vanity){
 					VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 					$peted_count++;
 					VarSave($guild_folder."/".$mention_id, "peted_count.php", $peted_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_pet_messages							= array();
 					$self_pet_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
 					$index_selection							= GetRandomArrayIndex($self_pet_messages);
-//							Send the mssage
+//					Send the mssage
 					$author_channel->send($self_pet_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2511,8 +2533,9 @@ if ($vanity){
 					VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 					$peted_count++;
 					VarSave($author_folder, "peted_count.php", $peted_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing
 				}
 			}
@@ -2539,7 +2562,8 @@ if ($vanity){
 	
 	if ($message_content_lower == $command_symbol . 'vstats'){ //;vstats //Give the author their vanity stats as an embedded message
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		//$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		$cooldown = CheckCooldownMem($author_id, "vstats", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -2577,7 +2601,8 @@ if ($vanity){
 				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 //			Set Cooldown
-			SetCooldown($author_folder, "vstats_limit.php");
+			//SetCooldown($author_folder, "vstats_limit.php");
+			SetCooldownMem($author_id, "vstats");
 			return true;
 		}else{
 //			Reply with remaining time
@@ -2592,7 +2617,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 8) == $command_symbol . 'vstats '){ //;vstats @
 		echo "[GET MENTIONED VANITY STATS]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		//$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		$cooldown = CheckCooldownMem($author_id, "vstats", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object			
@@ -2665,7 +2691,8 @@ if ($vanity){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 //				Set Cooldown
-				SetCooldown($author_folder, "vstats_limit.php");
+				//SetCooldown($author_folder, "vstats_limit.php");
+				SetCooldownMem($author_id, "vstats");
 				return true; //No more processing, we only want to process the first person mentioned
 			}
 			//Foreach method didn't return, so nobody was mentioned
