@@ -70,3 +70,6 @@ As such users of this library need to download a [Certificate Authority extract]
 The path to the caextract must be set in the [`php.ini`](https://secure.php.net/manual/en/openssl.configuration.php) for `openssl.cafile`.
 
 **I cannot provide support** with most issues that occur due to outdated prerequisites or implementing SSL. If you are hosting on Windows and needing a cacert.pem file but don't feel comfortable generating yourself then I personally recommend WinNMP as it generates one in its /data/ directory that you can point your PHP.ini at. All required prerequisites can be found in the /vendor/ directory.
+
+# Linux and SSL
+You may need to aptget install the openssl and php-bcmath packages.
