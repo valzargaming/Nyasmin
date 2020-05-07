@@ -71,5 +71,15 @@ The path to the caextract must be set in the [`php.ini`](https://secure.php.net/
 
 **I cannot provide support** with most issues that occur due to outdated prerequisites or implementing SSL. If you are hosting on Windows and needing a cacert.pem file but don't feel comfortable generating yourself then I personally recommend WinNMP as it generates one in its /data/ directory that you can point your PHP.ini at. All required prerequisites can be found in the /vendor/ directory.
 
-# Linux and SSL
-You may need to aptget install the openssl and php-bcmath packages.
+# Linux Support
+
+## Ubuntu
+Use git to clone this repository.
+
+Yasmin requires PHP 7.1+ to run, as well as the following packages. It's recommended to use the latest version of php available in your repository. In the example provided, 7.1 will be used. Replace 7.1 with the version you're currently using.
+```
+sudo apt install openssl php7.1 php7.1-bcmath
+```
+
+## Other distros
+Please refer to your distros repository to find the packages above.
