@@ -43,11 +43,10 @@ function CheckFile($foldername, $filename){
 	//echo "CheckDir" . PHP_EOL;
 	include("constants.php");
 	$path = $DIR.$foldername.$folder_symbol.$filename;
-	$exist = false;
 	//Create folder if it doesn't already exist
-	if (!file_exists($path)) {
-		//echo "FILE NOT FOUND: $path" . PHP_EOL;
-	}else $exist = true;
+	if (file_exists($path)) {
+		$exist = true;
+	}else $exist = false;
 	return $exist;
 }
 
