@@ -1,3 +1,0 @@
-<?php
-//$blacklisted_owners[] = "";
-?>

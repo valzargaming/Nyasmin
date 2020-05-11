@@ -4,10 +4,8 @@ cache
 cache/*
 sami/*
 sami.*
+vendor
+vendor/*
 *.token
 composer.lock
 index.php
-token.php
-connect.php
-palace_connect.php
-guild_config.php
