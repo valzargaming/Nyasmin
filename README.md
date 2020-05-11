@@ -19,9 +19,11 @@ Before you start using this Library, you **need** to know how PHP works, you nee
 See https://github.com/elazar/asynchronous-php for resources.
 
 # Getting Started
-~~Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!~~
+Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
 
-The Composer package is broken because the original repo for Yasmin was either deleted or made private. I have included my original /vendor/ files for reference, but they will not be updated as changes are made to this repo. You will need to copy the contents of \src\ to \vendor\charlottedunois\yasmin\src if you are self-hosting.
+```
+composer require valzargaming/yasmin
+```
 
 <br>
 
@@ -69,8 +71,6 @@ You will notice this issue by your script exiting immediately after one loop tur
 As such users of this library need to download a [Certificate Authority extract](https://curl.haxx.se/docs/caextract.html) from the cURL website.<br>
 The path to the caextract must be set in the [`php.ini`](https://secure.php.net/manual/en/openssl.configuration.php) for `openssl.cafile`.
 
-**I cannot provide support** with most issues that occur due to outdated prerequisites or implementing SSL. If you are hosting on Windows and needing a cacert.pem file but don't feel comfortable generating yourself then I personally recommend WinNMP as it generates one in its /data/ directory that you can point your PHP.ini at. All required prerequisites can be found in the /vendor/ directory.
-
 # Linux Support
 
 ## Ubuntu
@@ -80,6 +80,9 @@ Yasmin requires PHP 7.1+ to run, as well as the following packages. It's recomme
 ```
 sudo apt install openssl php7.1 php7.1-bcmath
 ```
+
+# Notice of limited support
+I cannot provide support with most issues that occur due to outdated prerequisites or implementing SSL. If you are hosting on Windows and needing a cacert.pem file but don't feel comfortable generating yourself then I personally recommend WinNMP as it generates one in its /data/ directory that you can point your PHP.ini at.
 
 ## Other distros
 Please refer to your distros repository to find the packages above.
