@@ -55,8 +55,8 @@ interface ClientEvents {
     /**
      * Emitted when an uncached message gets updated (does not mean the message got edited, check the edited timestamp for that).
      * @return void
-     * @see https://discordapp.com/developers/docs/topics/gateway#message-update
-     * @see https://discordapp.com/developers/docs/resources/channel#message-object
+     * @see https://discord.com/developers/docs/topics/gateway#message-update
+     * @see https://discord.com/developers/docs/resources/channel#message-object
      */
     function messageUpdateRaw(\CharlotteDunois\Yasmin\Interfaces\TextChannelInterface $channel, array $data);
     
@@ -266,7 +266,7 @@ interface ClientEvents {
      * Emitted when Discord responds to the user's Voice State Update event.
      * If you get `null` for `$data`, then this means that there's no endpoint yet and need to await it = Awaiting Endpoint.
      * @return void
-     * @see https://discordapp.com/developers/docs/topics/gateway#voice-server-update
+     * @see https://discord.com/developers/docs/topics/gateway#voice-server-update
      */
     function voiceServerUpdate(?array $data);
     

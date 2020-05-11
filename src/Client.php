@@ -230,7 +230,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @see \CharlotteDunois\Yasmin\ClientEvents
-     * @see https://discordapp.com/developers/docs/topics/gateway#update-status
+     * @see https://discord.com/developers/docs/topics/gateway#update-status
      */
     function __construct(array $options = array(), ?\React\EventLoop\LoopInterface $loop = null) {
         if(\PHP_SAPI !== 'cli') {
@@ -792,7 +792,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         return $this->fetchApplication()->then(function ($app) use ($perm) {
-            return 'https://discordapp.com/oauth2/authorize?client_id='.$app->id.'&permissions='.$perm->bitfield.'&scope=bot';
+            return 'https://discord.com/oauth2/authorize?client_id='.$app->id.'&permissions='.$perm->bitfield.'&scope=bot';
         });
     }
     

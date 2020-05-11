@@ -189,7 +189,7 @@ class Webhook extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      * @throws \BadMethodCallException
      * @see \CharlotteDunois\Yasmin\Models\Message
-     * @see https://discordapp.com/developers/docs/resources/channel#message-object
+     * @see https://discord.com/developers/docs/resources/channel#message-object
      */
     function send(string $content, array $options = array()) {
         if(empty($this->token)) {

@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#typing-start
+ * @see https://discord.com/developers/docs/topics/gateway#typing-start
  * @internal
  */
 class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

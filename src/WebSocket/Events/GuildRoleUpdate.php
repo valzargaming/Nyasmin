@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#guild-role-update
+ * @see https://discord.com/developers/docs/topics/gateway#guild-role-update
  * @internal
  */
 class GuildRoleUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

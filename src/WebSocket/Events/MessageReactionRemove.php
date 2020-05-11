@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#message-reaction-remove
+ * @see https://discord.com/developers/docs/topics/gateway#message-reaction-remove
  * @internal
  */
 class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

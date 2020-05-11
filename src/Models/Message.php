@@ -379,7 +379,7 @@ class Message extends ClientBase {
      */
     function getJumpURL() {
         $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $this->guild->id : '@me');
-        return 'https://canary.discordapp.com/channels/'.$guild.'/'.$this->channel->getId().'/'.$this->id;
+        return 'https://canary.discord.com/channels/'.$guild.'/'.$this->channel->getId().'/'.$this->id;
     }
     
     /**

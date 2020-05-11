@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#user-update
+ * @see https://discord.com/developers/docs/topics/gateway#user-update
  * @internal
  */
 class UserUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

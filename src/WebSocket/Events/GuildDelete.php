@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#guild-delete
+ * @see https://discord.com/developers/docs/topics/gateway#guild-delete
  * @internal
  */
 class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

@@ -16,7 +16,7 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
     /**
      * Channel Types.
 	 *
-	 * @see https://discordapp.com/developers/docs/resources/channel#channel-object-channel-types
+	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 	 *
      * @var array
      * @source

@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#guild-emojis-update
+ * @see https://discord.com/developers/docs/topics/gateway#guild-emojis-update
  * @internal
  */
 class GuildEmojisUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

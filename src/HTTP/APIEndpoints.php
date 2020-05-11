@@ -20,7 +20,7 @@ class APIEndpoints {
      * @internal
      */
     const CDN = array(
-        'url' => 'https://cdn.discordapp.com/',
+        'url' => 'https://cdn.discord.com/',
         'emojis' => 'emojis/%s.%s',
         'icons' => 'icons/%s/%s.%s',
         'splashes' => 'splashes/%s/%s.%s',
@@ -38,7 +38,7 @@ class APIEndpoints {
      * @internal
      */
     const HTTP = array(
-        'url' => 'https://discordapp.com/api/',
+        'url' => 'https://discord.com/api/',
         'version' => 7,
         'invite' => 'https://discord.gg/'
     );

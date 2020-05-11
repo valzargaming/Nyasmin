@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#message-create
+ * @see https://discord.com/developers/docs/topics/gateway#message-create
  * @internal
  */
 class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

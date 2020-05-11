@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#resumed
+ * @see https://discord.com/developers/docs/topics/gateway#resumed
  * @internal
  */
 class Resumed implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

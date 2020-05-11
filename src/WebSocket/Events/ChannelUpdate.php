@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#channel-update
+ * @see https://discord.com/developers/docs/topics/gateway#channel-update
  * @internal
  */
 class ChannelUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

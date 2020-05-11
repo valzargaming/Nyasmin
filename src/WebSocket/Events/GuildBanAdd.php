@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#guild-ban-add
+ * @see https://discord.com/developers/docs/topics/gateway#guild-ban-add
  * @internal
  */
 class GuildBanAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

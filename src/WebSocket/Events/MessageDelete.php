@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#message-delete
+ * @see https://discord.com/developers/docs/topics/gateway#message-delete
  * @internal
  */
 class MessageDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {

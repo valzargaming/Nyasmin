@@ -208,7 +208,7 @@ trait GuildChannelTrait {
      * @param \CharlotteDunois\Yasmin\Models\GuildMember|string  $member
      * @return \CharlotteDunois\Yasmin\Models\Permissions
      * @throws \InvalidArgumentException
-     * @see https://discordapp.com/developers/docs/topics/permissions#permission-overwrites
+     * @see https://discord.com/developers/docs/topics/permissions#permission-overwrites
      */
     function permissionsFor($member) {
         $member = $this->guild->members->resolve($member);

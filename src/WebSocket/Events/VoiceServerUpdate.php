@@ -11,7 +11,7 @@ namespace CharlotteDunois\Yasmin\WebSocket\Events;
 
 /**
  * WS Event
- * @see https://discordapp.com/developers/docs/topics/gateway#voice-server-update
+ * @see https://discord.com/developers/docs/topics/gateway#voice-server-update
  * @internal
  */
 class VoiceServerUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
