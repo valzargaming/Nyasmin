@@ -1,12 +1,8 @@
-**This fork is dedicated to maintaining the Yasmin core as used by Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019 and later removed. This bot is confirmed to be working with PHP 7.3 and 7.4.3. You can choose to self-host your own instance of this bot or invite my hosted instance to your server. If hosting your own instance, it is advisable to merge all -include.php files into run.php to remove the read overhead of loading a file every time it is needed.**
+**This fork is dedicated to maintaining the Yasmin core as used by Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019 and later removed. This bot is confirmed to be working with PHP 7.3 and 7.4.3.**
 
-Invite link: https://discord.com/oauth2/authorize?client_id=662093882795753482&scope=bot&permissions=8
+Palace Bot Github: https://github.com/valzargaming/Palace
 
-Bot Github: https://github.com/valzargaming/Palace
-
-Bot help: https://discord.gg/vNntRSe
-
-Discord template: https://discord.new/tE25rhUGsquD
+Discord Server: https://discord.gg/vNntRSe
 
 
 # Yasmin
