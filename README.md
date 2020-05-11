@@ -1,6 +1,8 @@
-**This fork is dedicated to maintaining Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019, and as such can no longer be commented on or pull requests committed. This bot is confirmed to be working with PHP 7.3 and 7.4.3. You can choose to self-host your own instance of this bot or invite my hosted instance to your server. If hosting your own instance, it is advisable to merge all -include.php files into run.php to remove the read overhead of loading a file every time it is needed.**
+**This fork is dedicated to maintaining the Yasmin core as used by Palace Bot#9203. The original codebase carchive/Yasmin was archived in December 2019 and later removed. This bot is confirmed to be working with PHP 7.3 and 7.4.3. You can choose to self-host your own instance of this bot or invite my hosted instance to your server. If hosting your own instance, it is advisable to merge all -include.php files into run.php to remove the read overhead of loading a file every time it is needed.**
 
 Invite link: https://discord.com/oauth2/authorize?client_id=662093882795753482&scope=bot&permissions=8
+
+Bot Github: https://github.com/valzargaming/Palace
 
 Bot help: https://discord.gg/vNntRSe
 
@@ -19,9 +21,11 @@ Before you start using this Library, you **need** to know how PHP works, you nee
 See https://github.com/elazar/asynchronous-php for resources.
 
 # Getting Started
-~~Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!~~
+Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
 
-The Composer package is broken because the original repo for Yasmin was either deleted or made private. I have included my original /vendor/ files for reference, but they will not be updated as changes are made to this repo. You will need to copy the contents of \src\ to \vendor\charlottedunois\yasmin\src if you are self-hosting.
+```
+composer require valzargaming/yasmin
+```
 
 <br>
 
@@ -69,8 +73,6 @@ You will notice this issue by your script exiting immediately after one loop tur
 As such users of this library need to download a [Certificate Authority extract](https://curl.haxx.se/docs/caextract.html) from the cURL website.<br>
 The path to the caextract must be set in the [`php.ini`](https://secure.php.net/manual/en/openssl.configuration.php) for `openssl.cafile`.
 
-**I cannot provide support** with most issues that occur due to outdated prerequisites or implementing SSL. If you are hosting on Windows and needing a cacert.pem file but don't feel comfortable generating yourself then I personally recommend WinNMP as it generates one in its /data/ directory that you can point your PHP.ini at. All required prerequisites can be found in the /vendor/ directory.
-
 # Linux Support
 
 ## Ubuntu
@@ -80,6 +82,9 @@ Yasmin requires PHP 7.1+ to run, as well as the following packages. It's recomme
 ```
 sudo apt install openssl php7.1 php7.1-bcmath
 ```
+
+# Notice of limited support
+I cannot provide support with most issues that occur due to outdated prerequisites or implementing SSL. If you are hosting on Windows and needing a cacert.pem file but don't feel comfortable generating yourself then I personally recommend WinNMP as it generates one in its /data/ directory that you can point your PHP.ini at.
 
 ## Other distros
 Please refer to your distros repository to find the packages above.
