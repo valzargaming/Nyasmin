@@ -28,7 +28,6 @@
         "ext-openssl": "*",
         "ext-pcre": "*",
         "ext-zlib": "*",
-		"valzargaming/collection": "*",
         "valzargaming/collection": "^0.2.0",
         "valzargaming/eventemitter": "^0.1.5",
         "valzargaming/validator": "^0.3.0",
