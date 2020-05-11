@@ -43,11 +43,10 @@ function CheckFile($foldername, $filename){
 	//echo "CheckDir" . PHP_EOL;
 	include("constants.php");
 	$path = $DIR.$foldername.$folder_symbol.$filename;
-	$exist = false;
 	//Create folder if it doesn't already exist
-	if (!file_exists($path)) {
-		//echo "FILE NOT FOUND: $path" . PHP_EOL;
-	}else $exist = true;
+	if (file_exists($path)) {
+		$exist = true;
+	}else $exist = false;
 	return $exist;
 }
 
@@ -108,6 +107,40 @@ Timers and Cooldowns
 function TimeCompare($foldername, $filename){ //echo "foldername, filename: $foldername, $filename" . PHP_EOL;
 	include("constants.php");
 	$then = VarLoad($foldername, $filename); //instance of now;
+	//echo "then: " . PHP_EOL; var_dump ($then) . PHP_EOL;
+	//check if file exists
+	if ($then){
+		$sincetime = date_diff($now, $then);
+		$timecompare['y'] = $sinceYear 		= $sincetime->y;
+		$timecompare['m'] = $sinceMonth 	= $sincetime->m;
+		$timecompare['d'] = $sinceDay 		= $sincetime->d;
+		$timecompare['h'] = $sinceHour 		= $sincetime->h;
+		$timecompare['i'] = $sinceMinute 	= $sincetime->i;
+		$timecompare['s'] = $sinceSecond 	= $sincetime->s;
+		echo 'Timer found to compare!' . PHP_EOL;
+		return $timecompare;
+	}else{
+		//File not found, so return 0's
+		$sincetime = date_diff($now, $now);
+		$timecompare['y'] = $sinceYear 		= ($sincetime->y)+1; //Assume one year has passed, enough time to avoid any cooldown
+		$timecompare['m'] = $sinceMonth 	= $sincetime->m;
+		$timecompare['d'] = $sinceDay 		= $sincetime->d;
+		$timecompare['h'] = $sinceHour 		= $sincetime->h;
+		$timecompare['i'] = $sinceMinute 	= $sincetime->i;
+		$timecompare['s'] = $sinceSecond 	= $sincetime->s;
+		echo 'Timer not found to compare!' . PHP_EOL;
+		//echo "timecompare: " . PHP_EOL; var_dump($timecompare) . PHP_EOL;
+		return $timecompare;
+	}
+	//echo 'Timer not found to compare!' . PHP_EOL;
+}
+
+
+function TimeCompareMem($author_id, $variable){ //echo "foldername, filename: $foldername, $filename" . PHP_EOL;
+	include("constants.php");
+	//$then = VarLoad($foldername, $filename); //instance of now;
+	$varname = $author_id . $variable . "_cooldown"; //Check this
+	$then = $GLOBALS["$varname"];
 	//echo "then: " . PHP_EOL; var_dump ($then) . PHP_EOL;
 	//check if file exists
 	if ($then){
@@ -217,6 +250,25 @@ function CheckCooldown($foldername, $filename, $limit_array){
 	}
 }
 
+function CheckCooldownMem($author_id, $variable, $limit_array){
+	echo "[CHECK COOLDOWN]" . PHP_EOL;
+	//echo "limit_array: " . PHP_EOL; var_dump ($limit_array) . PHP_EOL;
+	$TimeCompare = TimeCompareMem($author_id, $variable);
+	//echo "TimeCompare: " . PHP_EOL; var_dump ($TimeCompare) . PHP_EOL;
+	//$timetopass = $timelimitcheck[0]; //True/False, whether enough time has passed
+	//$timetopass = $timelimitcheck[1]; //total # of seconds
+	if ($TimeCompare){
+		$TimeLimitCheck = TimeLimitCheck($TimeCompare, $limit_array['year'], $limit_array['month'], $limit_array['day'], $limit_array['hour'], $limit_array['min'], $limit_array['sec']);
+		//echo "TimeLimitCheck: " . PHP_EOL; var_dump ($TimeLimitCheck) . PHP_EOL;
+		return $TimeLimitCheck;
+	}else{ //File was not found, so assume the check passes because they haven't used it before
+		$TimeLimitCheck = array();
+		$TimeLimitCheck[] = true;
+		$TimeLimitCheck[] = 0;
+		return $TimeLimitCheck;
+	}
+}
+
 function SetCooldown($foldername, $filename){
 	echo "SET COOLDOWN" . PHP_EOL;
 	if ($foldername !== NULL) $folder_symbol = "/";
@@ -224,6 +276,13 @@ function SetCooldown($foldername, $filename){
 	$path = $DIR.$foldername.$folder_symbol; //echo "PATH: $path" . PHP_EOL;
 	$now = new DateTime();
 	VarSave($foldername, $filename, $now);
+}
+
+function SetCooldownMem($author_id, $variable){
+	echo "[SET COOLDOWN]" . PHP_EOL;
+	$now = new DateTime();
+	$varname = $author_id . $variable . "_cooldown";
+	$GLOBALS["$varname"] = $now;
 }
 
 function FormatTime($seconds){

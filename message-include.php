@@ -1418,14 +1418,15 @@ $avatar_limit['sec']	= 0;
 $avatar_limit_seconds = TimeArrayToSeconds($avatar_limit);																		//echo "TimeArrayToSeconds: " . $avatar_limit_seconds . PHP_EOL;
 if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 	echo "[GET AUTHOR AVATAR]" . PHP_EOL;
-	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //	Check Cooldown Timer
+	//$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //	Check Cooldown Timer
+	$cooldown = CheckCooldownMem($author_id, "avatar", $avatar_limit);
 	if ( ($cooldown[0] == true) || ($bypass) ){
 //		Build the embed
 		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
 		$embed
 //			->setTitle("Avatar")																	// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
-//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//			->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 //			->addField("Total Given", 		"$vanity_give_count")									// New line after this
 			
 //			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1440,7 +1441,8 @@ if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 		$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 			echo "[ERROR] $error".PHP_EOL; //Echo any errors
 		});
-		SetCooldown($author_folder, "avatar_time.php");
+		//SetCooldown($author_folder, "avatar_time.php");
+		SetCooldownMem($author_id, "avatar");
 		return true;
 	}else{
 //		Reply with remaining time
@@ -1452,7 +1454,8 @@ if ($message_content_lower == $command_symbol . 'avatar'){ //;avatar
 }
 if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avatar @
 	echo "GETTING AVATAR FOR MENTIONED" . PHP_EOL;
-	$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //Check Cooldown Timer
+	//$cooldown = CheckCooldown($author_folder, "avatar_time.php", $avatar_limit); //Check Cooldown Timer
+	$cooldown = CheckCooldownMem($author_id, "avatar", $avatar_limit);
 	if ( ($cooldown[0] == true) || ($bypass) ){
 		$mentions_arr = $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
 		if (!strpos($message_content_lower, "<")){ //String doesn't contain a mention
@@ -1487,7 +1490,7 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 			$embed
 //			->setTitle("Avatar")																	// Set a title
 			->setColor("e1452d")																	// Set a color (the thing on the left side)
-//			->setDescription("$author_guild_name")												// Set a description (below title, above fields)
+//			->setDescription("$author_guild_name")													// Set a description (below title, above fields)
 //			->addField("Total Given", 		"$vanity_give_count")									// New line after this
 				
 //			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
@@ -1503,7 +1506,8 @@ if (substr($message_content_lower, 0, 8) == $command_symbol . 'avatar '){//;avat
 				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 //			Set Cooldown
-			SetCooldown($author_folder, "avatar_time.php");
+			//SetCooldown($author_folder, "avatar_time.php");
+			SetCooldownMem($author_id, "avatar");
 			return true;					
 		}
 		//Foreach method didn't return, so nobody was mentioned
@@ -1531,14 +1535,15 @@ if ($creator || $owner || $dev || $admin || $mod){
 			$array = VarLoad($guild_folder, "guild_suggestions.php");
 			if( ($array[$value]) && ($array[$value] != "Approved" ) && ($array[$value] != "Denied" ) ){
 				$embed = $array[$value];
+			$suggestion_approved_channel->send("{$embed->title}", array('embed' => $embed))->then(function($message) use ($guild_folder, $embed){
 				//Repost the suggestion
-				$suggestion_approved_channel->send('', array('embed' => $embed))->then(function($message) use ($guild_folder, $embed){
 					$message->react("👍");
 					$message->react("👎");
 				});
 				//Clear the value stored in the array
 				$array[$value] = "Approved";
 				if($react) $message->react("👍");
+				//Send a DM to the person who made the suggestion to let them know that it has been approved.
 				return true;
 			}else return $message->reply("Suggestion not found or already processed!");
 		}else return $message->reply("Invalid input! Please enter an integer number");
@@ -1572,52 +1577,53 @@ if ( (substr($message_content_lower, 0, 12) == $command_symbol . 'suggestion ') 
 	$filter = "$command_symbol" . "suggest ";
 	$value = str_replace($filter, "", $value);
 	if ( ($value == "") || ($value == NULL) ) return $message->reply("Invalid input! Please enter text for your suggestion");
-		//Build the embed message
-		$message_sanitized = str_replace("*","",$message_content_lower);
-		$message_sanitized = str_replace("_","",$message_sanitized);
-		$message_sanitized = str_replace("`","",$message_sanitized);
-		$message_sanitized = str_replace("\n","",$message_sanitized);
-		$doc_length = strlen($message_sanitized);
-		if ($doc_length < 1025){
-			//Find the size of $suggestions and get what will be the next number
-			$array = VarLoad($guild_folder, "guild_suggestions.php");
-			$array_count = sizeof($array);
-			//Build the embed
-			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-			$embed
-				->setTitle("#$array_count")																	// Set a title
-				->setColor("e1452d")																	// Set a color (the thing on the left side)
-				->setDescription("$value")																// Set a description (below title, above fields)
-//					->addField("⠀", "$reason")																// New line after this
-				
-//					->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-//					->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-				->setAuthor("$author_check ($author_id)", "$author_avatar")  									// Set an author with icon
-				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-				->setURL("");                             												// Set the URL
+	//Build the embed message
+	$message_sanitized = str_replace("*","",$value);
+	$message_sanitized = str_replace("@","",$message_sanitized);
+	$message_sanitized = str_replace("_","",$message_sanitized);
+	$message_sanitized = str_replace("`","",$message_sanitized);
+	$message_sanitized = str_replace("\n","",$message_sanitized);
+	$doc_length = strlen($message_sanitized);
+	if ($doc_length <= 2048){
+
+		//Find the size of $suggestions and get what will be the next number
+		$array = VarLoad($guild_folder, "guild_suggestions.php");
+		$array_count = sizeof($array);
+		//Build the embed
+		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+		$embed
+			->setTitle("#$array_count")																// Set a title
+			->setColor("e1452d")																	// Set a color (the thing on the left side)
+			->setDescription("$message_sanitized")													// Set a description (below title, above fields)
+//			->addField("⠀", "$reason")																// New line after this
+			
+//			->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+//			->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+			->setAuthor("$author_check ($author_id)", "$author_avatar")  							// Set an author with icon
+			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+			->setURL("");                             												// Set the URL
 //				Post embedded suggestion to suggestion_pending_channel
-			$suggestion_pending_channel->send('', array('embed' => $embed))->then(function($message) use ($guild_folder, $embed){
-				$message->react("👍");
-				$message->react("👎");
-				//Save the suggestion somewhere
-				$array = VarLoad($guild_folder, "guild_suggestions.php");
-				$array[] = $embed;
-				VarSave($guild_folder, "guild_suggestions.php", $array);
-			});
-		}else{
-			$message->reply("Please shorten your suggestion!");
-		}
-		$message->reply("Your suggestion has been logged and is pending approval!")->then(function($new_message) use ($discord, $message){
-			$message->delete(); //Delete the original ;suggestion message
-			$discord->addTimer(10, function() use ($new_message) {
-				$new_message->delete(); //Delete message confirming the suggestion was logged
-				return true;
-			});
+		$suggestion_pending_channel->send("#$array_count", array('embed' => $embed))->then(function($new_message) use ($guild_folder, $embed){
+			$new_message->react("👍");
+			$new_message->react("👎");
+			//Save the suggestion somewhere
+			$array = VarLoad($guild_folder, "guild_suggestions.php");
+			$array[] = $embed;
+			VarSave($guild_folder, "guild_suggestions.php", $array);
+		});
+	}else{
+		$message->reply("Please shorten your suggestion!");
+	}
+	$message->reply("Your suggestion has been logged and is pending approval!")->then(function($new_message) use ($discord, $message){
+		$message->delete(); //Delete the original ;suggestion message
+		$discord->addTimer(10, function() use ($new_message) {
+			$new_message->delete(); //Delete message confirming the suggestion was logged
 			return true;
 		});
 		return true;
-		
+	});
+	return true;		
 }
 
 /*
@@ -2089,7 +2095,8 @@ if ($vanity){
 	if ( ($message_content_lower == $command_symbol . 'cooldown') || ($message_content_lower == $command_symbol . 'cd') ){//;cooldown ;cd
 		echo "[COOLDOWN CHECK]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $avatar_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 			return $message->reply("No cooldown.");
 		}else{
@@ -2102,7 +2109,8 @@ if ($vanity){
 	if ( (substr($message_content_lower, 0, 5) == $command_symbol . 'hug ') || (substr($message_content_lower, 0, 9) == $command_symbol . 'snuggle ') ){ //;hug ;snuggle
 		echo "[HUG/SNUGGLE]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2136,7 +2144,8 @@ if ($vanity){
 					$hugged_count++;
 					VarSave($guild_folder."/".$mention_id, "hugged_count.php", $hugged_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_hug_messages							= array();
@@ -2155,7 +2164,8 @@ if ($vanity){
 					$hugged_count++;
 					VarSave($author_folder, "hugged_count.php", $hugged_count);
 					//Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}
 			}
@@ -2173,7 +2183,8 @@ if ($vanity){
 	if ( (substr($message_content_lower, 0, 6) == $command_symbol . 'kiss ') || (substr($message_content_lower, 0, 8)) == $command_symbol . 'smooch '){ //;kiss ;smooch
 		echo "[KISS]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2208,7 +2219,8 @@ if ($vanity){
 					$kissed_count++;
 					VarSave($guild_folder."/".$mention_id, "kissed_count.php", $kissed_count);\
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_kiss_messages							= array();
@@ -2227,7 +2239,8 @@ if ($vanity){
 					$kissed_count++;
 					VarSave($author_folder, "kissed_count.php", $kissed_count);
 //							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}
 			}
@@ -2245,7 +2258,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 8) == $command_symbol . 'nuzzle '){ //;nuzzle @
 		echo "[NUZZLE]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2281,7 +2295,8 @@ if ($vanity){
 					$nuzzled_count++;
 					VarSave($guild_folder."/".$mention_id, "nuzzled_count.php", $nuzzled_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_nuzzle_messages						= array();
@@ -2299,8 +2314,9 @@ if ($vanity){
 					VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 					$nuzzled_count++;
 					VarSave($author_folder, "nuzzled_count.php", $nuzzled_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}
 			}
@@ -2318,7 +2334,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 6) == $command_symbol . 'boop '){ //;boop @
 		echo "[BOOP]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2351,7 +2368,8 @@ if ($vanity){
 					$booped_count++;
 					VarSave($guild_folder."/".$mention_id, "booped_count.php", $booped_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_boop_messages							= array();
@@ -2370,7 +2388,8 @@ if ($vanity){
 					$booped_count++;
 					VarSave($author_folder, "booped_count.php", $booped_count);
 //					Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing
 				}
 			}
@@ -2388,7 +2407,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 5) == $command_symbol . 'bap '){ //;bap @
 		echo "[BAP]" . PHP_EOL;
 //				Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2404,7 +2424,7 @@ if ($vanity){
 					$bap_messages[]								= "Snoot of <@$mention_id> was attacked by <@$author_id>!";
 					$index_selection							= GetRandomArrayIndex($bap_messages);
 //							echo "random bap_messages: " . $bap_messages[$index_selection];
-//							Send the message
+//					Send the message
 					$author_channel->send($bap_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2421,14 +2441,15 @@ if ($vanity){
 					VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 					$baped_count++;
 					VarSave($guild_folder."/".$mention_id, "baped_count.php", $baped_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_bap_messages							= array();
 					$self_bap_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
 					$index_selection							= GetRandomArrayIndex($self_bap_messages);
-//							Send the mssage
+//					Send the mssage
 					$author_channel->send($self_bap_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2440,8 +2461,9 @@ if ($vanity){
 					VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 					$baped_count++;
 					VarSave($author_folder, "baped_count.php", $baped_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing
 				}
 			}
@@ -2459,7 +2481,8 @@ if ($vanity){
 	if (substr($message_content_lower, 0, 5) == $command_symbol . 'pet '){ //;pet @
 		echo "[PET]" . PHP_EOL;
 //				Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		//$cooldown = CheckCooldown($author_folder, "vanity_time.php", $vanity_limit);
+		$cooldown = CheckCooldownMem($author_id, "vanity", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //					Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object
@@ -2473,7 +2496,7 @@ if ($vanity){
 					$pet_messages[]								= "<@$author_id> pets <@$mention_id>";
 					$index_selection							= GetRandomArrayIndex($pet_messages);
 //							echo "random pet_messages: " . $pet_messages[$index_selection];
-//							Send the message
+//					Send the message
 					$author_channel->send($pet_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2490,14 +2513,15 @@ if ($vanity){
 					VarSave($guild_folder."/".$mention_id, "vanity_get_count.php", $vanity_get_count);
 					$peted_count++;
 					VarSave($guild_folder."/".$mention_id, "peted_count.php", $peted_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing, we only want to process the first person mentioned
 				}else{
 					$self_pet_messages							= array();
 					$self_pet_messages[]						= "<@$author_id> placed a paw on their own nose. How silly!";
 					$index_selection							= GetRandomArrayIndex($self_pet_messages);
-//							Send the mssage
+//					Send the mssage
 					$author_channel->send($self_pet_messages[$index_selection]);
 					//Increment give stat counter of author
 					$vanity_give_count++;
@@ -2509,8 +2533,9 @@ if ($vanity){
 					VarSave($author_folder, "vanity_get_count.php", $vanity_get_count);
 					$peted_count++;
 					VarSave($author_folder, "peted_count.php", $peted_count);
-//							Set Cooldown
-					SetCooldown($author_folder, "vanity_time.php");
+//					Set Cooldown
+					//SetCooldown($author_folder, "vanity_time.php");
+					SetCooldownMem($author_id, "vanity");
 					return true; //No more processing
 				}
 			}
@@ -2535,9 +2560,10 @@ if ($vanity){
 	$vstats_limit['sec'] = 0;
 	$vstats_limit_seconds = TimeArrayToSeconds($vstats_limit);
 	
-	if ($message_content_lower == $command_symbol . 'vstats' ){ //;vstats //Give the author their vanity stats as an embedded message
+	if ($message_content_lower == $command_symbol . 'vstats'){ //;vstats //Give the author their vanity stats as an embedded message
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		//$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		$cooldown = CheckCooldownMem($author_id, "vstats", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Build the embed
 			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
@@ -2575,7 +2601,8 @@ if ($vanity){
 				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
 //			Set Cooldown
-			SetCooldown($author_folder, "vstats_limit.php");
+			//SetCooldown($author_folder, "vstats_limit.php");
+			SetCooldownMem($author_id, "vstats");
 			return true;
 		}else{
 //			Reply with remaining time
@@ -2587,10 +2614,11 @@ if ($vanity){
 		}
 	}
 	
-	if (substr($message_content_lower, 0, 8) == $command_symbol . 'vstats ' ){ //;vstats @
+	if (substr($message_content_lower, 0, 8) == $command_symbol . 'vstats '){ //;vstats @
 		echo "[GET MENTIONED VANITY STATS]" . PHP_EOL;
 //		Check Cooldown Timer
-		$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		//$cooldown = CheckCooldown($author_folder, "vstats_limit.php", $vstats_limit);
+		$cooldown = CheckCooldownMem($author_id, "vstats", $vanity_limit);
 		if ( ($cooldown[0] == true) || ($bypass) ){
 //			Get an array of people mentioned
 			$mentions_arr 										= $message->mentions->users; 									//echo "mentions_arr: " . PHP_EOL; var_dump ($mentions_arr); //Shows the collection object			
@@ -2663,7 +2691,8 @@ if ($vanity){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 //				Set Cooldown
-				SetCooldown($author_folder, "vstats_limit.php");
+				//SetCooldown($author_folder, "vstats_limit.php");
+				SetCooldownMem($author_id, "vstats");
 				return true; //No more processing, we only want to process the first person mentioned
 			}
 			//Foreach method didn't return, so nobody was mentioned
@@ -2815,323 +2844,325 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
 		$message->reply(curl_exec($ch));
 	}
-	if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
-		echo "[SERVER STATUS] $author_check" . PHP_EOL;
-		//VirtualBox state
-		$ch = curl_init(); //create curl resource
-		curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
-		if (curl_exec($ch) != "playing"){ //Don't even try to process anything (including webhooks) if the persistence server is saving.
-			$author_channel->send("Persistence server is saving!");
+	if ($author_channel_id != "468979034571931650"){ //Don't let people use these in #general
+		if ($message_content_lower == $command_symbol . 'serverstatus' || $message_content_lower == '!s serverstatus'){ //;serverstatus
+			
+			echo "[SERVER STATUS] $author_check" . PHP_EOL;
+			//VirtualBox state
+			$ch = curl_init(); //create curl resource
+			curl_setopt($ch, CURLOPT_URL, "http://10.0.0.18:81/civ13/serverstate.txt"); // set url
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+			if (curl_exec($ch) != "playing"){ //Don't even try to process anything (including webhooks) if the persistence server is saving.
+				$author_channel->send("Persistence server is saving!");
+				return true;
+			}
+			include "../servers/getserverdata.php"; //Do this async?
+			$sent = false; //No message has been sent yet.		
+			
+			if ($serverinfo[0]["age"]){ //We got data back for this server, so it must be online, right??
+				//Round duration info
+				$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
+				$remainder = ($rd[0] % 24);
+				$rd[0] = floor($rd[0] / 24);
+				if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+					$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+				}else{
+					$rt = "STARTING";
+				}
+					$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
+					$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
+					//echo "image_path: " . $image_path . PHP_EOL;
+				//	Build the embed message
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+				//		->setTitle("$author_check")														// Set a title
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+						->setDescription("$alias"  . "\n" . $servers[0]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+				//		->addField("⠀", "$documentation")														// New line after this
+						
+				//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+				//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
+						->setImage("$image_path")             													// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+				//				Open a DM channel then send the rich embed message
+					/*
+					$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+						echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+						$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+							echo "[ERROR] $error".PHP_EOL; //Echo any errors
+						});
+					});
+					*/
+					if($rt) $embed->addField("Round Time", $rt, true);
+					if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != NULL) ){
+						$embed->addField("Epoch", urldecode($serverinfo[0]["age"]), true);
+					}
+					if ( ($serverinfo[0]["season"] != "unknown") && ($serverinfo[0]["season"] != NULL) ){
+						$embed->addField("Season", urldecode($serverinfo[0]["season"]), true);
+					}
+					if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
+						$embed->addField("Map", urldecode($serverinfo[0]["map"]), true);
+					}
+					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
+					});
+					$sent = true;
+			}
+			
+			if ($serverinfo[1]["age"]){ //We got data back for this server, so it must be online, right??
+				//Round duration info
+				$rd = explode (":",  urldecode($serverinfo[1]["roundduration"]) );
+				$remainder = ($rd[0] % 24);
+				$rd[0] = floor($rd[0] / 24);
+				if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+					$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+				}else{
+					$rt = "STARTING";
+				}
+					$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
+					$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
+					//echo "image_path: " . $image_path . PHP_EOL;
+				//	Build the embed message
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+				//		->setTitle("$author_check")														// Set a title
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+						->setDescription("$alias" . "\n" . $servers[1]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+				//		->addField("⠀", "$documentation")														// New line after this
+						
+				//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+				//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
+						->setImage("$image_path")             													// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+				//				Open a DM channel then send the rich embed message
+					/*
+					$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+						echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+						$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+							echo "[ERROR] $error".PHP_EOL; //Echo any errors
+						});
+					});
+					*/
+					if($rt) $embed->addField("Round Time", $rt, true);
+					if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[1]["age"] != NULL) ){
+						$embed->addField("Epoch", urldecode($serverinfo[1]["age"]), true);
+					}
+					if ( ($serverinfo[1]["season"] != "unknown") && ($serverinfo[1]["season"] != NULL) ){
+						$embed->addField("Season", urldecode($serverinfo[1]["season"]), true);
+					}
+					if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[1]["map"] != NULL) ){
+						$embed->addField("Map", urldecode($serverinfo[1]["map"]), true);
+					}
+					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
+					});
+					$sent = true;
+			}
+			if ($serverinfo[2]["age"]){ //We got data back for this server, so it must be online, right??
+				//Round duration info
+				$rd = explode (":",  urldecode($serverinfo[2]["roundduration"]) );
+				$remainder = ($rd[0] % 24);
+				$rd[0] = floor($rd[0] / 24);
+				if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
+					$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
+				}else{
+					$rt = "STARTING";
+				}
+					$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
+					$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=2&rand=" . rand(0,999999999);
+					//echo "image_path: " . $image_path . PHP_EOL;
+				//	Build the embed message
+					$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+					$embed
+				//		->setTitle("$author_check")														// Set a title
+						->setColor("e1452d")																	// Set a color (the thing on the left side)
+						->setDescription("$alias"  . "\n" . $servers[2]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
+				//		->addField("⠀", "$documentation")														// New line after this
+						
+				//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+				//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
+						->setImage("$image_path")             													// Set an image (below everything except footer)
+						->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+				//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+						->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+						->setURL("");                             												// Set the URL
+				//				Open a DM channel then send the rich embed message
+					/*
+					$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
+						echo 'SEND GENIMAGE EMBED' . PHP_EOL;
+						$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
+							echo "[ERROR] $error".PHP_EOL; //Echo any errors
+						});
+					});
+					*/
+					if($rt) $embed->addField("Round Time", $rt, true);
+					if ( ($serverinfo[2]["age"] != "unknown") && ($serverinfo[2]["age"] != NULL) ){
+						$embed->addField("Epoch", urldecode($serverinfo[2]["age"]), true);
+					}
+					if ( ($serverinfo[2]["season"] != "unknown") && ($serverinfo[2]["season"] != NULL) ){
+						$embed->addField("Season", urldecode($serverinfo[2]["season"]), true);
+					}
+					if ( ($serverinfo[2]["map"] != "unknown") && ($serverinfo[2]["map"] != NULL) ){
+						$embed->addField("Map", urldecode($serverinfo[2]["map"]), true);
+					}
+					$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
+						echo "[ERROR] $error".PHP_EOL; //Echo any errors
+					});
+					$sent = true;
+			}
 			return true;
 		}
-		include "../servers/getserverdata.php"; //Do this async?
-		$sent = false; //No message has been sent yet.		
-		
-		if ($serverinfo[0]["age"]){ //We got data back for this server, so it must be online, right??
-			//Round duration info
-			$rd = explode (":",  urldecode($serverinfo[0]["roundduration"]) );
-			$remainder = ($rd[0] % 24);
-			$rd[0] = floor($rd[0] / 24);
-			if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
-				$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
-			}else{
-				$rt = "STARTING";
+		if ($message_content_lower == $command_symbol . 'players' || $message_content_lower == '!s players'){ //;players
+			echo "[PLAYERS] $author_check" . PHP_EOL;
+			include "../servers/getserverdata.php";
+			
+			$playerlist = " ";
+			$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
+			$serverinfo0 = print_r($serverinfo[0], true); //json array
+			foreach ($serverinfo[0] as $varname => $varvalue){
+				if ( (substr($varname, 0, 6) == "player") && $varname != "players")
+				$playerlist = $playerlist . "$varvalue, ";
 			}
-				$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
-				$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0&rand=" . rand(0,999999999);
-				//echo "image_path: " . $image_path . PHP_EOL;
-			//	Build the embed message
-				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-				$embed
-			//		->setTitle("$author_check")														// Set a title
-					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$alias"  . "\n" . $servers[0]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
-			//		->addField("⠀", "$documentation")														// New line after this
-					
-			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-			//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
-					->setImage("$image_path")             													// Set an image (below everything except footer)
-					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-			//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-					->setURL("");                             												// Set the URL
-			//				Open a DM channel then send the rich embed message
-				/*
-				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-					echo 'SEND GENIMAGE EMBED' . PHP_EOL;
-					$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo "[ERROR] $error".PHP_EOL; //Echo any errors
-					});
-				});
-				*/
-				if($rt) $embed->addField("Round Time", $rt, true);
-				if ( ($serverinfo[0]["age"] != "unknown") && ($serverinfo[0]["age"] != NULL) ){
-					$embed->addField("Epoch", urldecode($serverinfo[0]["age"]), true);
-				}
-				if ( ($serverinfo[0]["season"] != "unknown") && ($serverinfo[0]["season"] != NULL) ){
-					$embed->addField("Season", urldecode($serverinfo[0]["season"]), true);
-				}
-				if ( ($serverinfo[0]["map"] != "unknown") && ($serverinfo[0]["map"] != NULL) ){
-					$embed->addField("Map", urldecode($serverinfo[0]["map"]), true);
-				}
+			if (trim(substr($playerlist, 0, -2)) == ""){
+				$playerlist = "None";
+			}else{
+				$playerlist = trim(substr($playerlist, 0, -2));
+			}
+			//echo "image_path: " . $image_path . PHP_EOL;
+			//$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0";
+		//	Build the embed message
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+		//				->setTitle("$author_check")																// Set a title
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
+				->setDescription("$alias\n" . $servers[0]["servername"])																// Set a description (below title, above fields)
+				->addField("Players (" . $serverinfo[0]["players"].")", urldecode($playerlist))												// New line after this
+				
+		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+		//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+		//		->setImage("$image_path")             													// Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");                             												// Set the URL
+			
+			if ($playerlist != "None"){
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				$sent = true;
-		}
-		
-		if ($serverinfo[1]["age"]){ //We got data back for this server, so it must be online, right??
-			//Round duration info
-			$rd = explode (":",  urldecode($serverinfo[1]["roundduration"]) );
-			$remainder = ($rd[0] % 24);
-			$rd[0] = floor($rd[0] / 24);
-			if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
-				$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
-			}else{
-				$rt = "STARTING";
 			}
-				$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
-				$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=1&rand=" . rand(0,999999999);
-				//echo "image_path: " . $image_path . PHP_EOL;
-			//	Build the embed message
-				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-				$embed
-			//		->setTitle("$author_check")														// Set a title
-					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$alias" . "\n" . $servers[1]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
-			//		->addField("⠀", "$documentation")														// New line after this
-					
-			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-			//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
-					->setImage("$image_path")             													// Set an image (below everything except footer)
-					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-			//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-					->setURL("");                             												// Set the URL
-			//				Open a DM channel then send the rich embed message
-				/*
-				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-					echo 'SEND GENIMAGE EMBED' . PHP_EOL;
-					$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo "[ERROR] $error".PHP_EOL; //Echo any errors
-					});
-				});
-				*/
-				if($rt) $embed->addField("Round Time", $rt, true);
-				if ( ($serverinfo[1]["age"] != "unknown") && ($serverinfo[1]["age"] != NULL) ){
-					$embed->addField("Epoch", urldecode($serverinfo[1]["age"]), true);
-				}
-				if ( ($serverinfo[1]["season"] != "unknown") && ($serverinfo[1]["season"] != NULL) ){
-					$embed->addField("Season", urldecode($serverinfo[1]["season"]), true);
-				}
-				if ( ($serverinfo[1]["map"] != "unknown") && ($serverinfo[1]["map"] != NULL) ){
-					$embed->addField("Map", urldecode($serverinfo[1]["map"]), true);
-				}
+			
+			$playerlist = " ";
+			$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
+			$serverinfo1 = print_r($serverinfo[1], true); //json array
+			foreach ($serverinfo[1] as $varname => $varvalue){
+				if ( (substr($varname, 0, 6) == "player") && $varname != "players")
+				$playerlist = $playerlist . "$varvalue, ";
+			}
+			if (trim(substr($playerlist, 0, -2)) == ""){
+				$playerlist = "None";
+			}else{
+				$playerlist = trim(substr($playerlist, 0, -2));
+			}
+			//echo "image_path: " . $image_path . PHP_EOL;
+		//	Build the embed message
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+		//				->setTitle("$author_check")																// Set a title
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
+				->setDescription("$alias\n" . $servers[1]["servername"])																// Set a description (below title, above fields)
+				->addField("Players (" . $serverinfo[1]["players"].")", urldecode($playerlist))												// New line after this
+				
+		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+		//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+		//		->setImage("$image_path")             													// Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");                             												// Set the URL
+			
+			if ($playerlist != "None"){
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				$sent = true;
-		}
-		if ($serverinfo[2]["age"]){ //We got data back for this server, so it must be online, right??
-			//Round duration info
-			$rd = explode (":",  urldecode($serverinfo[2]["roundduration"]) );
-			$remainder = ($rd[0] % 24);
-			$rd[0] = floor($rd[0] / 24);
-			if( ($rd[0] != 0) || ($remainder != 0) || ($rd[1] != 0) ){ //Round is starting
-				$rt = $rd[0] . "d " . $remainder . "h " . $rd[1] . "m";
-			}else{
-				$rt = "STARTING";
 			}
-				$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
-				$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=2&rand=" . rand(0,999999999);
-				//echo "image_path: " . $image_path . PHP_EOL;
-			//	Build the embed message
-				$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-				$embed
-			//		->setTitle("$author_check")														// Set a title
-					->setColor("e1452d")																	// Set a color (the thing on the left side)
-					->setDescription("$alias"  . "\n" . $servers[2]["servername"] /*. "\nRound time: " . $rd[1] . "d " . $remainder . "h " . $rd[1] . "m" . "\n Host: ". $serverinfo[1]["host"] ." \nPlayers: " . $serverinfo[1]["players"]*/)									// Set a description (below title, above fields)
-			//		->addField("⠀", "$documentation")														// New line after this
-					
-			//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-			//				->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')        // Set an image (below everything except footer)
-					->setImage("$image_path")             													// Set an image (below everything except footer)
-					->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-			//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-					->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-					->setURL("");                             												// Set the URL
-			//				Open a DM channel then send the rich embed message
-				/*
-				$author_user->createDM()->then(function($author_dmchannel) use ($message, $embed){	//Promise
-					echo 'SEND GENIMAGE EMBED' . PHP_EOL;
-					$author_dmchannel->send('', array('embed' => $embed))->done(null, function ($error){
-						echo "[ERROR] $error".PHP_EOL; //Echo any errors
-					});
-				});
-				*/
-				if($rt) $embed->addField("Round Time", $rt, true);
-				if ( ($serverinfo[2]["age"] != "unknown") && ($serverinfo[2]["age"] != NULL) ){
-					$embed->addField("Epoch", urldecode($serverinfo[2]["age"]), true);
-				}
-				if ( ($serverinfo[2]["season"] != "unknown") && ($serverinfo[2]["season"] != NULL) ){
-					$embed->addField("Season", urldecode($serverinfo[2]["season"]), true);
-				}
-				if ( ($serverinfo[2]["map"] != "unknown") && ($serverinfo[2]["map"] != NULL) ){
-					$embed->addField("Map", urldecode($serverinfo[2]["map"]), true);
-				}
+			
+			$playerlist = " ";
+			$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
+			$serverinfo2 = print_r($serverinfo[2], true); //json array
+			foreach ($serverinfo[2] as $varname => $varvalue){
+				if ( (substr($varname, 0, 6) == "player") && $varname != "players")
+				$playerlist = $playerlist . "$varvalue, ";
+			}
+			if (trim(substr($playerlist, 0, -2)) == ""){
+				$playerlist = "None";
+			}else{
+				$playerlist = trim(substr($playerlist, 0, -2));
+			}
+			//echo "image_path: " . $image_path . PHP_EOL;
+		//	Build the embed message
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+		//				->setTitle("$author_check")																// Set a title
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
+				->setDescription("$alias\n" . $servers[2]["servername"])																// Set a description (below title, above fields)
+				->addField("Players (" . $serverinfo[2]["players"].")", urldecode($playerlist))												// New line after this
+				
+		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+		//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+		//		->setImage("$image_path")             													// Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");                             												// Set the URL
+			
+			if ($playerlist != "None"){
 				$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 					echo "[ERROR] $error".PHP_EOL; //Echo any errors
 				});
 				$sent = true;
+			}
+			if ($sent == false){
+				$author_channel->send("No servers have any players!");
+			}
+			return true;
 		}
-		return true;
-	}
-	if ($message_content_lower == $command_symbol . 'players' || $message_content_lower == '!s players'){ //;players
-		echo "[PLAYERS] $author_check" . PHP_EOL;
-		include "../servers/getserverdata.php";
-		
-		$playerlist = " ";
-		$alias = "<byond://" . $servers[0]["alias"] . ":" . $servers[0]["port"] . ">";
-		$serverinfo0 = print_r($serverinfo[0], true); //json array
-		foreach ($serverinfo[0] as $varname => $varvalue){
-			if ( (substr($varname, 0, 6) == "player") && $varname != "players")
-			$playerlist = $playerlist . "$varvalue, ";
-		}
-		if (trim(substr($playerlist, 0, -2)) == ""){
-			$playerlist = "None";
-		}else{
-			$playerlist = trim(substr($playerlist, 0, -2));
-		}
-		//echo "image_path: " . $image_path . PHP_EOL;
-		//$image_path = "http://www.valzargaming.com/servers/gamebanner.php?servernum=0";
-	//	Build the embed message
-		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-		$embed
-	//				->setTitle("$author_check")																// Set a title
-			->setColor("e1452d")																	// Set a color (the thing on the left side)
-			->setDescription("$alias\n" . $servers[0]["servername"])																// Set a description (below title, above fields)
-			->addField("Players (" . $serverinfo[0]["players"].")", urldecode($playerlist))												// New line after this
+		if ($message_content_lower == $command_symbol . 'admins' || $message_content_lower == '!s admins'){ //;admins
+			echo "[ADMINS] $author_check" . PHP_EOL;
+			include "../servers/getserverdata.php";
+			$admins = $serverinfo[0]["admins"];
+			$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
+			//echo "image_path: " . $image_path . PHP_EOL;
+		//	Build the embed message
+			$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
+			$embed
+		//		->setTitle("$author_check")																// Set a title
+				->setColor("e1452d")																	// Set a color (the thing on the left side)
+				->setDescription("$alias\n" . $servers[0]["servername"])								// Set a description (below title, above fields)
+				->addField("Admins", $admins)															// New line after this
+				
+		//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
+		//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
+		//		->setImage("$image_path")             													// Set an image (below everything except footer)
+				->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
+		//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
+				->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
+				->setURL("");                             												// Set the URL
 			
-	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-	//		->setImage("$image_path")             													// Set an image (below everything except footer)
-			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-	//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-			->setURL("");                             												// Set the URL
-		
-		if ($playerlist != "None"){
 			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
 				echo "[ERROR] $error".PHP_EOL; //Echo any errors
 			});
-			$sent = true;
+			return true;
 		}
-		
-		$playerlist = " ";
-		$alias = "<byond://" . $servers[1]["alias"] . ":" . $servers[1]["port"] . ">";
-		$serverinfo1 = print_r($serverinfo[1], true); //json array
-		foreach ($serverinfo[1] as $varname => $varvalue){
-			if ( (substr($varname, 0, 6) == "player") && $varname != "players")
-			$playerlist = $playerlist . "$varvalue, ";
-		}
-		if (trim(substr($playerlist, 0, -2)) == ""){
-			$playerlist = "None";
-		}else{
-			$playerlist = trim(substr($playerlist, 0, -2));
-		}
-		//echo "image_path: " . $image_path . PHP_EOL;
-	//	Build the embed message
-		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-		$embed
-	//				->setTitle("$author_check")																// Set a title
-			->setColor("e1452d")																	// Set a color (the thing on the left side)
-			->setDescription("$alias\n" . $servers[1]["servername"])																// Set a description (below title, above fields)
-			->addField("Players (" . $serverinfo[1]["players"].")", urldecode($playerlist))												// New line after this
-			
-	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-	//		->setImage("$image_path")             													// Set an image (below everything except footer)
-			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-	//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-			->setURL("");                             												// Set the URL
-		
-		if ($playerlist != "None"){
-			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo "[ERROR] $error".PHP_EOL; //Echo any errors
-			});
-			$sent = true;
-		}
-		
-		$playerlist = " ";
-		$alias = "<byond://" . $servers[2]["alias"] . ":" . $servers[2]["port"] . ">";
-		$serverinfo2 = print_r($serverinfo[2], true); //json array
-		foreach ($serverinfo[2] as $varname => $varvalue){
-			if ( (substr($varname, 0, 6) == "player") && $varname != "players")
-			$playerlist = $playerlist . "$varvalue, ";
-		}
-		if (trim(substr($playerlist, 0, -2)) == ""){
-			$playerlist = "None";
-		}else{
-			$playerlist = trim(substr($playerlist, 0, -2));
-		}
-		//echo "image_path: " . $image_path . PHP_EOL;
-	//	Build the embed message
-		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-		$embed
-	//				->setTitle("$author_check")																// Set a title
-			->setColor("e1452d")																	// Set a color (the thing on the left side)
-			->setDescription("$alias\n" . $servers[2]["servername"])																// Set a description (below title, above fields)
-			->addField("Players (" . $serverinfo[2]["players"].")", urldecode($playerlist))												// New line after this
-			
-	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-	//		->setImage("$image_path")             													// Set an image (below everything except footer)
-			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-	//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-			->setURL("");                             												// Set the URL
-		
-		if ($playerlist != "None"){
-			$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-				echo "[ERROR] $error".PHP_EOL; //Echo any errors
-			});
-			$sent = true;
-		}
-		if ($sent == false){
-			$author_channel->send("No servers have any players!");
-		}
-		return true;
 	}
-	if ($message_content_lower == $command_symbol . 'admins' || $message_content_lower == '!s admins'){ //;admins
-		echo "[ADMINS] $author_check" . PHP_EOL;
-		include "../servers/getserverdata.php";
-		$admins = $serverinfo[0]["admins"];
-		$alias = "<byond://" . $servers[0]["alias"] . ":$port>";
-		//echo "image_path: " . $image_path . PHP_EOL;
-	//	Build the embed message
-		$embed = new \CharlotteDunois\Yasmin\Models\MessageEmbed();
-		$embed
-	//		->setTitle("$author_check")																// Set a title
-			->setColor("e1452d")																	// Set a color (the thing on the left side)
-			->setDescription("$alias\n" . $servers[0]["servername"])								// Set a description (below title, above fields)
-			->addField("Admins", $admins)															// New line after this
-			
-	//		->setThumbnail("$author_avatar")														// Set a thumbnail (the image in the top right corner)
-	//		->setImage('https://avatars1.githubusercontent.com/u/4529744?s=460&v=4')             	// Set an image (below everything except footer)
-	//		->setImage("$image_path")             													// Set an image (below everything except footer)
-			->setTimestamp()                                                                     	// Set a timestamp (gets shown next to footer)
-	//		->setAuthor("$author_check", "$author_guild_avatar")  									// Set an author with icon
-			->setFooter("Palace Bot by Valithor#5947")                             					// Set a footer without icon
-			->setURL("");                             												// Set the URL
-		
-		$author_channel->send('', array('embed' => $embed))->done(null, function ($error){
-			echo "[ERROR] $error".PHP_EOL; //Echo any errors
-		});
-		return true;
-	}
-
 	if ($creator || $owner || $dev || $tech || $assistant) {
 		if ($message_content_lower == $command_symbol . 'resume' || $message_content_lower == '!s resume'){ //;resume
 			echo "[RESUME] $author_check" .  PHP_EOL;
@@ -3495,7 +3526,7 @@ if ($creator || ($author_guild_id == "468979034571931648") ){ //These commands s
 		}
 	}	
 	if ($creator || $owner || $dev){
-		if ($message_content_lower == $command_symbol . '?status'){ //;serverstatus
+		if ($message_content_lower == $command_symbol . '?status'){ //;?status
 			include "../servers/getserverdata.php";
 			$debug = var_export($serverinfo, true);
 			if ($debug) $author_channel->send(urldecode($debug));
