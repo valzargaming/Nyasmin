@@ -168,7 +168,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->shardID = $shardID;
         $this->compressContext = new $compression();
         
-        $this->on('self.ws.ready', function () {
+        $this->on('self.ws.ready', function() {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
         });
     }
@@ -183,7 +183,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         try {
             return $this->$name !== null;
         } catch (\RuntimeException $e) {
-            if($e->getTrace()[0]['function'] === '__get') {
+            if ($e->getTrace()[0]['function'] === '__get') {
                 return false;
             }
             
@@ -197,7 +197,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -218,17 +218,17 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      */
     function connect(bool $reconnect = false) {
-        if($this->ws) {
+        if ($this->ws) {
             return \React\Promise\resolve();
         }
         
-        if(!$this->wsmanager->gateway) {
+        if (!$this->wsmanager->gateway) {
             throw new \RuntimeException('Unable to connect to unknown gateway');
         }
         
-        if(($this->wsmanager->lastIdentify ?? 0) > (\time() - 5)) {
-            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-                $this->wsmanager->client->addTimer((5 - (\time() - $this->wsmanager->lastIdentify)), function () use ($resolve, $reject) {
+        if (($this->wsmanager->lastIdentify ?? 0) > (\time() - 5)) {
+            return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+                $this->wsmanager->client->addTimer((5 - (\time() - $this->wsmanager->lastIdentify)), function() use ($resolve, $reject) {
                     $this->connect()->done($resolve, $reject);
                 });
             }));
@@ -245,26 +245,26 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         
         $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' connecting to WS '.$this->wsmanager->gateway);
         
-        if($this->status < \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING || $this->status > \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING) {
+        if ($this->status < \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING || $this->status > \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING) {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING;
         }
         
         $deferred = new \React\Promise\Deferred();
         
         $connector = $this->wsmanager->connector;
-        $connector($this->wsmanager->gateway)->done(function (\Ratchet\Client\WebSocket $conn) use (&$ready, $deferred, $reconnect) {
+        $connector($this->wsmanager->gateway)->done(function(\Ratchet\Client\WebSocket $conn) use (&$ready, $deferred, $reconnect) {
             $this->initWS($conn, $ready, $reconnect, $deferred);
-        }, function (\Throwable $error) use ($deferred) {
+        }, function(\Throwable $error) use ($deferred) {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
             $this->wsmanager->client->emit('error', $error);
             
-            if($this->ws) {
+            if ($this->ws) {
                 $this->ws->close(1006);
             }
             
-            $this->renewConnection(true)->done(function () use ($deferred) {
+            $this->renewConnection(true)->done(function() use ($deferred) {
                 $deferred->resolve($this);
-            }, function (\Throwable $e) use ($deferred) {
+            }, function(\Throwable $e) use ($deferred) {
                 $deferred->reject($e);
             });
         });
@@ -277,7 +277,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function disconnect(int $code = 1000, string $reason = '') {
-        if(!$this->ws) {
+        if (!$this->ws) {
             return;
         }
         
@@ -294,11 +294,11 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function reconnect(bool $resumable = true) {
-        if(!$this->ws) {
+        if (!$this->ws) {
             return;
         }
         
-        if(!$resumable) {
+        if (!$resumable) {
             $this->wsSessionID = null;
         }
         
@@ -311,10 +311,10 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     protected function renewConnection(bool $forceNewGateway = true) {
-        if($forceNewGateway) {
+        if ($forceNewGateway) {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTING; // distinguish between HTTP call and WS reconnect
             
-            $prom = $this->wsmanager->client->apimanager()->getGateway()->then(function ($url) {
+            $prom = $this->wsmanager->client->apimanager()->getGateway()->then(function($url) {
                 $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_RECONNECTING;
                 return $this->wsmanager->connectShard($this->shardID, $url['url'], $this->wsmanager->gatewayQS);
             });
@@ -323,17 +323,17 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             $prom = $this->wsmanager->connectShard($this->shardID);
         }
         
-        return $prom->then(null, function ($error) use ($forceNewGateway) {
+        return $prom->then(null, function($error) use ($forceNewGateway) {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
             
-            if($error instanceof \Throwable) {
+            if ($error instanceof \Throwable) {
                 $error = \str_replace(array("\r", "\n"), '', $error->getMessage());
             }
             
             $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' errored ('.$error.') on making new login after failed connection attempt... retrying in 30 seconds');
             
-            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($forceNewGateway) {
-                $this->wsmanager->client->addTimer(30, function () use ($forceNewGateway, $resolve, $reject) {
+            return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($forceNewGateway) {
+                $this->wsmanager->client->addTimer(30, function() use ($forceNewGateway, $resolve, $reject) {
                     $this->renewConnection($forceNewGateway)->done($resolve, $reject);
                 });
             }));
@@ -346,14 +346,14 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      */
     function send(array $packet) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($packet) {
-            if($this->status !== \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY && $this->status !== \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($packet) {
+            if ($this->status !== \CharlotteDunois\Yasmin\Client::WS_STATUS_NEARLY && $this->status !== \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
                 return $reject(new \RuntimeException('Unable to send WS message before a WS connection is established'));
             }
             
             $this->queue[] = array('packet' => $packet, 'resolve' => $resolve, 'reject' => $reject);
             
-            if(!$this->running) {
+            if (!$this->running) {
                 $this->processQueue();
             }
         }));
@@ -364,30 +364,30 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function processQueue() {
-         if($this->running) {
-             return;
-         } elseif($this->ratelimits['remaining'] === 0) {
-             return;
-         } elseif(\count($this->queue) === 0) {
-             return;
-         }
+            if($this->running) {
+                return;
+            } elseif($this->ratelimits['remaining'] === 0) {
+                return;
+            } elseif(\count($this->queue) === 0) {
+                return;
+            }
          
-         $this->running = true;
+            $this->running = true;
          
-         while($this->ratelimits['remaining'] > 0 && \count($this->queue) > 0) {
-             $element = \array_shift($this->queue);
-             $this->ratelimits['remaining']--;
+            while($this->ratelimits['remaining'] > 0 && \count($this->queue) > 0) {
+                $element = \array_shift($this->queue);
+                $this->ratelimits['remaining']--;
              
-             if(!$this->ws) {
-                 $element['reject'](new \RuntimeException('No WS connection'));
-                 break;
-             }
+                if(!$this->ws) {
+                    $element['reject'](new \RuntimeException('No WS connection'));
+                    break;
+                }
              
-             $this->_send($element['packet']);
-             $element['resolve']();
-         }
+                $this->_send($element['packet']);
+                $element['resolve']();
+            }
          
-         $this->running = false;
+            $this->running = false;
     }
     
     /**
@@ -431,7 +431,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->authenticated = false;
         
         $op = \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['IDENTIFY'];
-        if(empty($this->wsSessionID)) {
+        if (empty($this->wsSessionID)) {
             $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' sending IDENTIFY packet to WS');
         } else {
             $op = \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['RESUME'];
@@ -457,11 +457,11 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         );
         
         $presence = (array) $this->wsmanager->client->getOption('ws.presence', array());
-        if(\is_array($presence) && !empty($presence)) {
+        if (\is_array($presence) && !empty($presence)) {
             $packet['d']['presence'] = $presence;
         }
         
-        if($op === \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['RESUME']) {
+        if ($op === \CharlotteDunois\Yasmin\WebSocket\WSManager::OPCODES['RESUME']) {
             $packet['d']['session_id'] = $this->wsSessionID;
             $packet['d']['seq'] = ($this->previous && $this->previousSequence !== null ? $this->previousSequence : $this->sequence);
         }
@@ -474,11 +474,11 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function heartbeat() {
-        if(!$this->wsHeartbeat['ack']) {
+        if (!$this->wsHeartbeat['ack']) {
             return $this->heartFailure();
         }
         
-        if(!$this->authenticated) {
+        if (!$this->authenticated) {
             return; // Do not heartbeat if unauthenticated
         }
         
@@ -511,7 +511,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->pings[] = (int) $time;
         
         $pings = \count($this->pings);
-        if($pings > 3) {
+        if ($pings > 3) {
             $this->pings = \array_slice($this->pings, ($pings - 3));
         }
         
@@ -526,7 +526,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function _send(array $packet) {
-        if(!$this->ws) {
+        if (!$this->ws) {
             $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' tried sending a WS packet with no WS connection');
             return;
         }
@@ -554,7 +554,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->wsmanager->client->emit('debug', 'Shard '.$this->shardID.' connected to WS');
         
         $ratelimits = &$this->ratelimits;
-        $ratelimits['timer'] = $this->wsmanager->client->loop->addPeriodicTimer($ratelimits['time'], function () use ($ratelimits) {
+        $ratelimits['timer'] = $this->wsmanager->client->loop->addPeriodicTimer($ratelimits['time'], function() use ($ratelimits) {
             $ratelimits['remaining'] = $ratelimits['total'] - $ratelimits['heartbeatRoom']; // Let room in WS ratelimit for X heartbeats per X seconds.
         });
         
@@ -574,10 +574,10 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \Closure
      */
     protected function initWSSelfReady(bool &$ready, bool $reconnect, \React\Promise\Deferred &$deferred) {
-        return (function () use (&$ready, $reconnect, $deferred) {
+        return (function() use (&$ready, $reconnect, $deferred) {
             $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED;
             
-            if($reconnect && $this->wsmanager->client->user !== null) {
+            if ($reconnect && $this->wsmanager->client->user !== null) {
                 $this->wsmanager->client->user->setPresence($this->wsmanager->client->user->clientPresence);
             }
             
@@ -595,8 +595,8 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \Closure
      */
     protected function initWSSelfError(bool &$ready, \React\Promise\Deferred &$deferred) {
-        return (function ($error) use (&$ready, $deferred) {
-            if(!$ready) {
+        return (function($error) use (&$ready, $deferred) {
+            if (!$ready) {
                 $this->disconnect();
                 $deferred->reject(new \Exception($error));
             }
@@ -610,23 +610,23 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \Closure
      */
     protected function initWSMessage(bool &$ready, \React\Promise\Deferred &$deferred) {
-        return (function (\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $deferred) {
+        return (function(\Ratchet\RFC6455\Messaging\Message $message) use (&$ready, $deferred) {
             $message = $message->getPayload();
-            if(!$message) {
+            if (!$message) {
                 return;
             }
             
             try {
                 $message = $this->compressContext->decompress($message);
                 
-                if($this->previous) {
+                if ($this->previous) {
                     $this->previous = false;
                 }
             } catch (\CharlotteDunois\Yasmin\DiscordException $e) {
                 $this->previous = true;
                 $this->wsmanager->client->emit('error', $e);
                 
-                if(!$ready) {
+                if (!$ready) {
                     return $deferred->reject($e);
                 }
                 
@@ -651,8 +651,8 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \Closure
      */
     protected function initWSError(bool &$ready, \React\Promise\Deferred &$deferred) {
-        return (function (\Throwable $error) use (&$ready, $deferred) {
-            if(!$ready) {
+        return (function(\Throwable $error) use (&$ready, $deferred) {
+            if (!$ready) {
                 return $deferred->reject($error);
             }
             
@@ -666,16 +666,16 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \Closure
      */
     protected function initWSClose(\React\Promise\Deferred &$deferred) {
-        return (function (int $code, string $reason) use ($deferred) {
-            if($this->ws !== null) {
+        return (function(int $code, string $reason) use ($deferred) {
+            if ($this->ws !== null) {
                 $this->ws->removeAllListeners();
             }
             
-            if($this->ratelimits['timer']) {
+            if ($this->ratelimits['timer']) {
                 $this->wsmanager->client->loop->cancelTimer($this->ratelimits['timer']);
             }
             
-            if($this->heartbeat) {
+            if ($this->heartbeat) {
                 $this->wsmanager->client->loop->cancelTimer($this->heartbeat);
                 $this->heartbeat = null;
             }
@@ -691,17 +691,17 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
             
             $this->ws = null;
             
-            if($this->status <= \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
+            if ($this->status <= \CharlotteDunois\Yasmin\Client::WS_STATUS_CONNECTED) {
                 $this->status = \CharlotteDunois\Yasmin\Client::WS_STATUS_DISCONNECTED;
             }
             
             $this->emit('close', $code, $reason);
             
-            if(\in_array($code, $this->wsCloseCodes['end'])) {
+            if (\in_array($code, $this->wsCloseCodes['end'])) {
                 return $deferred->reject(new \RuntimeException(\CharlotteDunois\Yasmin\WebSocket\WSManager::WS_CLOSE_CODES[$code]));
             }
             
-            if($code === 1000 && $this->expectedClose) {
+            if ($code === 1000 && $this->expectedClose) {
                 $this->queue = array();
                 
                 $this->wsSessionID = null;
@@ -710,7 +710,7 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
                 return;
             }
             
-            if($code === 1000 || ($code >= 4000 && !\in_array($code, $this->wsCloseCodes['resumable']))) {
+            if ($code === 1000 || ($code >= 4000 && !\in_array($code, $this->wsCloseCodes['resumable']))) {
                 $this->wsSessionID = null;
             }
             

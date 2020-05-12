@@ -17,26 +17,26 @@ require_once(__DIR__.'/vendor/autoload.php');
 $loop = \React\EventLoop\Factory::create();
 $client = new \CharlotteDunois\Yasmin\Client(array(), $loop);
 
-$client->on('guildMemberAdd', function ($member) {
+$client->on('guildMemberAdd', function($member) {
     try {
         // Find the first channel matching the name member-log in the guild
-        $channel = $member->guild->channels->first(function ($channel) {
+        $channel = $member->guild->channels->first(function($channel) {
             return ($channel->name === 'member-log');
         });
         
         // Making sure the channel exists
-        if($channel) {
+        if ($channel) {
             // Send the message, welcoming & mentioning the member
             
             // We do not need another promise here, so
             // we call done, because we want to consume the promise
             $channel->send('Welcome to the guild '.$member->guild->name.', '.$member.'!')
-                    ->done(null, function ($error) {
+                    ->done(null, function($error) {
                         // We will just echo any errors for this example
                         echo $error.PHP_EOL;
                     });
         }
-    } catch(\Exception $error) {
+    } catch (\Exception $error) {
         // Handle exception
     }
 });

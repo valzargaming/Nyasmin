@@ -112,33 +112,33 @@ class Collector {
      * @throws \OutOfBoundsException    The exception the promise gets rejected with, if the promise gets cancelled.
      */
     function collect() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
             $this->resolve = $resolve;
             $this->reject = $reject;
             
             $filter = $this->filter;
             $handler = $this->handler;
             
-            $this->listener = function (...$item) use (&$filter, &$handler) {
-                if($filter === null || $filter(...$item)) {
+            $this->listener = function(...$item) use (&$filter, &$handler) {
+                if ($filter === null || $filter(...$item)) {
                     list($key, $value) = $handler(...$item);
                     $this->bucket->set($key, $value);
                     
-                    if(($this->options['max'] ?? \INF) <= $this->bucket->count()) {
+                    if (($this->options['max'] ?? \INF) <= $this->bucket->count()) {
                         $this->stop();
                     }
                 }
             };
             
-            if(($this->options['time'] ?? 30) > 0) {
-                $this->timer = self::$loop->addTimer(($this->options['time'] ?? 30), function () {
+            if (($this->options['time'] ?? 30) > 0) {
+                $this->timer = self::$loop->addTimer(($this->options['time'] ?? 30), function() {
                     $this->stop();
                 });
             }
             
             $this->emitter->on($this->event, $this->listener);
-        }, function (callable $resolve, callable $reject) {
-            if($this->timer) {
+        }, function(callable $resolve, callable $reject) {
+            if ($this->timer) {
                 self::$loop->cancelTimer($this->timer);
                 $this->timer = null;
             }
@@ -153,7 +153,7 @@ class Collector {
      * @return void
      */
     function stop() {
-        if($this->timer) {
+        if ($this->timer) {
             self::$loop->cancelTimer($this->timer);
             $this->timer = null;
         }
@@ -161,7 +161,7 @@ class Collector {
         $this->emitter->removeListener($this->event, $this->listener);
         
         $errors = (array) ($this->options['errors'] ?? array());
-        if(\in_array('max', $errors, true) && ($this->options['max'] ?? 0) > 0 && $this->bucket->count() < $this->options['max']) {
+        if (\in_array('max', $errors, true) && ($this->options['max'] ?? 0) > 0 && $this->bucket->count() < $this->options['max']) {
             $reject = $this->reject;
             $reject(new \RangeException('Collecting timed out (max not reached in time)'));
             return;

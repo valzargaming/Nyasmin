@@ -40,7 +40,7 @@ abstract class ClientBase extends Base {
      * @internal
      */
     function __get($name) {
-        switch($name) {
+        switch ($name) {
             case 'client':
                 return $this->client;
             break;
@@ -87,7 +87,7 @@ abstract class ClientBase extends Base {
      * @internal
      */
     function unserialize($data) {
-        if(self::$serializeClient === null) {
+        if (self::$serializeClient === null) {
             throw new \Exception('Unable to unserialize a class without ClientBase::$serializeClient being set');
         }
         

@@ -58,7 +58,7 @@ class MessageActivity extends ClientBase {
         $this->partyID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($activity['party_id'] ?? null), 'string');
         $this->type = (int) $activity['type'];
         
-        if($activity['party_id'] !== null) {
+        if ($activity['party_id'] !== null) {
             $name = \explode(':', $activity['party_id']);
             $uid = (string) ($name[1] ?? $name[0]);
             $this->user = $this->client->users->get($uid);
@@ -72,15 +72,15 @@ class MessageActivity extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'activity':
-                if($this->user) {
+                if ($this->user) {
                     $presence = $this->user->getPresence();
-                    if($presence !== null && $presence->activity !== null) {
+                    if ($presence !== null && $presence->activity !== null) {
                         return $presence->activity;
                     }
                 }

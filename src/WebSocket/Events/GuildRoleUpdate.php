@@ -36,11 +36,11 @@ class GuildRoleUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInter
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
-        if($guild) {
+        if ($guild) {
             $role = $guild->roles->get($data['role']['id']);
-            if($role) {
+            if ($role) {
                 $oldRole = null;
-                if($this->clones) {
+                if ($this->clones) {
                     $oldRole = clone $role;
                 }
                 

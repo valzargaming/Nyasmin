@@ -30,33 +30,33 @@ class TypingStart implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
-        $this->client->once('ready', function () {
+        $this->client->once('ready', function() {
             $this->ready = true;
         });
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
-        if(!$this->ready) {
+        if (!$this->ready) {
             return;
         }
         
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $user = $this->client->users->get($data['user_id']);
-            if(!$user) {
+            if (!$user) {
                 $user = $this->client->fetchUser($data['user_id']);
             } else {
                 $user = \React\Promise\resolve($user);
             }
             
-            $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($channel, $data) {
-                if(!empty($data['member']) && $channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !$channel->getGuild()->members->has($user->id)) {
+            $user->done(function(\CharlotteDunois\Yasmin\Models\User $user) use ($channel, $data) {
+                if (!empty($data['member']) && $channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !$channel->getGuild()->members->has($user->id)) {
                     $member = $data['member'];
                     $member['user'] = array('id' => $user->id);
                     $channel->getGuild()->_addMember($member, true);
                 }
                 
-                if($channel->_updateTyping($user, $data['timestamp'])) {
+                if ($channel->_updateTyping($user, $data['timestamp'])) {
                     $this->client->queuedEmit('typingStart', $channel, $user);
                 }
             }, array($this->client, 'handlePromiseRejection'));

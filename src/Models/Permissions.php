@@ -89,7 +89,7 @@ class Permissions extends Base {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -112,17 +112,17 @@ class Permissions extends Base {
      * @throws \InvalidArgumentException
      */
     function has($permissions, bool $checkAdmin = true) {
-        if(!\is_array($permissions)) {
+        if (!\is_array($permissions)) {
             $permissions = array($permissions);
         }
         
-        if($checkAdmin && ($this->bitfield & self::PERMISSIONS['ADMINISTRATOR']) > 0) {
+        if ($checkAdmin && ($this->bitfield & self::PERMISSIONS['ADMINISTRATOR']) > 0) {
             return true;
         }
         
-        foreach($permissions as $perm) {
+        foreach ($permissions as $perm) {
             $perm = self::resolve($perm);
-            if(($this->bitfield & $perm) !== $perm) {
+            if (($this->bitfield & $perm) !== $perm) {
                 return false;
             }
         }
@@ -149,7 +149,7 @@ class Permissions extends Base {
      */
     function add(...$permissions) {
         $total = 0;
-        foreach($permissions as $perm) {
+        foreach ($permissions as $perm) {
             $perm = self::resolve($perm);
             $total |= $perm;
         }
@@ -166,7 +166,7 @@ class Permissions extends Base {
      */
     function remove(...$permissions) {
         $total = 0;
-        foreach($permissions as $perm) {
+        foreach ($permissions as $perm) {
             $perm = self::resolve($perm);
             $total |= $perm;
         }
@@ -182,9 +182,9 @@ class Permissions extends Base {
      * @throws \InvalidArgumentException
      */
     static function resolve($permission) {
-        if(\is_int($permission)) {
+        if (\is_int($permission)) {
             return $permission;
-        } elseif(\is_string($permission) && isset(self::PERMISSIONS[$permission])) {
+        } elseif (\is_string($permission) && isset(self::PERMISSIONS[$permission])) {
             return self::PERMISSIONS[$permission];
         }
         
@@ -198,12 +198,12 @@ class Permissions extends Base {
      * @throws \InvalidArgumentException
      */
     static function resolveToName($permission) {
-        if(\is_int($permission)) {
+        if (\is_int($permission)) {
             $index = \array_search($permission, self::PERMISSIONS, true);
-            if($index) {
+            if ($index) {
                 return $index;
             }
-        } elseif(\is_string($permission) && isset(self::PERMISSIONS[$permission])) {
+        } elseif (\is_string($permission) && isset(self::PERMISSIONS[$permission])) {
             return $permission;
         }
         

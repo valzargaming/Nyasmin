@@ -73,7 +73,7 @@ class RichPresenceAssets extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -86,12 +86,12 @@ class RichPresenceAssets extends ClientBase {
      * @return string|null
      */
     function getLargeImageURL(?int $size = null) {
-        if($this->largeImage !== null) {
-            if($size & ($size - 1)) {
+        if ($this->largeImage !== null) {
+            if ($size & ($size - 1)) {
                 throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
             }
             
-            if(\strpos($this->largeImage, 'spotify:') === 0) {
+            if (\strpos($this->largeImage, 'spotify:') === 0) {
                 return 'https://i.scdn.co/image/'.\substr($this->largeImage, 8);
             }
             
@@ -107,12 +107,12 @@ class RichPresenceAssets extends ClientBase {
      * @return string|null
      */
     function getSmallImageURL(?int $size = null) {
-        if($this->smallImage !== null) {
-            if($size & ($size - 1)) {
+        if ($this->smallImage !== null) {
+            if ($size & ($size - 1)) {
                 throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
             }
             
-            if(\strpos($this->smallImage, 'spotify:') === 0) {
+            if (\strpos($this->smallImage, 'spotify:') === 0) {
                 return 'https://i.scdn.co/image/'.\substr($this->smallImage, 8);
             }
             

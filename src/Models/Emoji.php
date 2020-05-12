@@ -97,20 +97,20 @@ class Emoji extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
-                if($this->id !== null && $this->createdTimestamp !== null) {
+                if ($this->id !== null && $this->createdTimestamp !== null) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
                 }
                 
                 return null;
             break;
             case 'identifier':
-                if($this->id !== null) {
+                if ($this->id !== null) {
                     return $this->name.':'.$this->id;
                 }
                 
@@ -131,7 +131,7 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function addRestrictedRole($role) {
-        $roles = $this->roles->map(function ($role) {
+        $roles = $this->roles->map(function($role) {
             return $role->id;
         })->all();
         $roles[] = $role;
@@ -146,11 +146,11 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function addRestrictedRoles(...$role) {
-        $roles = $this->roles->map(function ($role) {
+        $roles = $this->roles->map(function($role) {
             return $role->id;
         })->all();
         
-        foreach($role as $r) {
+        foreach ($role as $r) {
             $roles[] = ($r instanceof \CharlotteDunois\Yasmin\Models\Role ? $r->id : $r);
         }
         
@@ -175,18 +175,18 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function edit(array $options, string $reason = '') {
-        if($this->id === null) {
+        if ($this->id === null) {
             throw new \BadMethodCallException('Unable to edit an unicode emoji');
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            if(!empty($options['roles'])) {
-                if($options['roles'] instanceof \CharlotteDunois\Collect\Collection) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($options, $reason) {
+            if (!empty($options['roles'])) {
+                if ($options['roles'] instanceof \CharlotteDunois\Collect\Collection) {
                     $options['roles'] = $options['roles']->all();
                 }
                 
-                $options['roles'] = \array_map(function ($role) {
-                    if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+                $options['roles'] = \array_map(function($role) {
+                    if ($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
                         return $role->id;
                     }
                     
@@ -194,7 +194,7 @@ class Emoji extends ClientBase {
                 }, $options['roles']);
             }
             
-            $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->emoji->modifyGuildEmoji($this->guild->id, $this->id, $options, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -207,12 +207,12 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function delete(string $reason = '') {
-        if($this->id === null) {
+        if ($this->id === null) {
             throw new \BadMethodCallException('Unable to delete a non-guild emoji');
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->emoji->deleteGuildEmoji($this->guild->id, $this->id, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->emoji->deleteGuildEmoji($this->guild->id, $this->id, $reason)->done(function() use ($resolve) {
                 $resolve();
             }, $reject);
         }));
@@ -224,7 +224,7 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function getImageURL() {
-        if($this->id === null) {
+        if ($this->id === null) {
             throw new \BadMethodCallException('Unable to get image url of a non-guild emoji');
         }
         
@@ -238,16 +238,16 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function removeRestrictedRole($role) {
-        if($this->roles->count() === 0) {
+        if ($this->roles->count() === 0) {
             return \React\Promise\resolve($this);
         }
         
-        $roles = $this->roles->map(function ($role) {
+        $roles = $this->roles->map(function($role) {
             return $role->id;
         })->all();
         
         $key = \array_search(($role instanceof \CharlotteDunois\Yasmin\Models\Role ? $role->id : $role), $roles, true);
-        if($key !== false) {
+        if ($key !== false) {
             unset($roles[$key]);
         }
         
@@ -261,18 +261,18 @@ class Emoji extends ClientBase {
      * @throws \BadMethodCallException  Throws on unicode emojis.
      */
     function removeRestrictedRoles(...$role) {
-        if($this->roles->count() === 0) {
+        if ($this->roles->count() === 0) {
             return \React\Promise\resolve($this);
         }
         
-        $roles = $this->roles->map(function ($role) {
+        $roles = $this->roles->map(function($role) {
             return $role->id;
         })->all();
         
-        foreach($role as $r) {
+        foreach ($role as $r) {
             $id = ($r instanceof \CharlotteDunois\Yasmin\Models\Role ? $r->id : $r);
             $key = \array_search($id, $roles, true);
-            if($key !== false) {
+            if ($key !== false) {
                 unset($roles[$key]);
             }
         }
@@ -296,7 +296,7 @@ class Emoji extends ClientBase {
      * @return string
      */
     function __toString() {
-        if(!$this->requireColons) {
+        if (!$this->requireColons) {
             return $this->name;
         }
         
@@ -314,18 +314,18 @@ class Emoji extends ClientBase {
         $this->managed = (bool) ($emoji['managed'] ?? false);
         $this->requireColons = (($emoji['require_colons'] ?? true) && $this->id !== null);
         
-        if(isset($emoji['roles'])) {
+        if (isset($emoji['roles'])) {
             $this->roles->clear();
             
-            foreach($emoji['roles'] as $role) {
-                if($this->guild->roles->has($role)) {
+            foreach ($emoji['roles'] as $role) {
+                if ($this->guild->roles->has($role)) {
                     $r = $this->guild->roles->get($role);
                     $this->roles->set($r->id, $r);
                 }
             }
         }
         
-        if($this->id !== null) {
+        if ($this->id !== null) {
             $this->client->emojis->set($this->id, $this);
         }
     }

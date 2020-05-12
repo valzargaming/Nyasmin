@@ -41,7 +41,7 @@ class Invite {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['get'], $code);
         
         $opts = array();
-        if($withCounts) {
+        if ($withCounts) {
             $opts['querystring'] = array('with_counts' => 'true');
         }
         

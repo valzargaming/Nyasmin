@@ -128,11 +128,11 @@ class GuildMember extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'displayName':
                 return ($this->nickname ?? $this->user->username);
             break;
@@ -140,12 +140,12 @@ class GuildMember extends ClientBase {
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->joinedTimestamp);
             break;
             case 'permissions':
-                if($this->id === $this->guild->ownerID) {
+                if ($this->id === $this->guild->ownerID) {
                     return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
                 }
                 
                 $permissions = 0;
-                foreach($this->roles as $role) {
+                foreach ($this->roles as $role) {
                     $permissions |= $role->permissions->bitfield;
                 }
                 
@@ -172,12 +172,12 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function addRole($role, string $reason = '') {
-        if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+        if ($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
             $role = $role->id;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($role, $reason) {
-            $this->client->apimanager()->endpoints->guild->addGuildMemberRole($this->guild->id, $this->id, $role, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($role, $reason) {
+            $this->client->apimanager()->endpoints->guild->addGuildMemberRole($this->guild->id, $this->id, $role, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -190,7 +190,7 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function addRoles($roles, string $reason = '') {
-        if($roles instanceof \CharlotteDunois\Collect\Collection) {
+        if ($roles instanceof \CharlotteDunois\Collect\Collection) {
             $roles = $roles->all();
         }
         
@@ -231,13 +231,13 @@ class GuildMember extends ClientBase {
     function edit(array $options, string $reason = '') {
         $data = \CharlotteDunois\Yasmin\Utils\DataHelpers::applyOptions($options, array(
             'nick' => array('type' => 'string'),
-            'roles' => array('parse' => function ($val) {
-                if($val instanceof \CharlotteDunois\Collect\Collection) {
+            'roles' => array('parse' => function($val) {
+                if ($val instanceof \CharlotteDunois\Collect\Collection) {
                     $val = $val->all();
                 }
                 
-                return \array_unique(\array_map(function ($role) {
-                    if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+                return \array_unique(\array_map(function($role) {
+                    if ($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
                         return $role->id;
                     }
                     
@@ -246,13 +246,13 @@ class GuildMember extends ClientBase {
             }),
             'deaf' => array('type' => 'bool'),
             'mute' => array('type' => 'bool'),
-            'channel_id' => array('parse' => function ($val) {
+            'channel_id' => array('parse' => function($val) {
                 return ($val !== null ? $this->guild->channels->resolve($val)->getId() : null);
             })
         ));
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->guild->modifyGuildMember($this->guild->id, $this->id, $data, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($data, $reason) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildMember($this->guild->id, $this->id, $data, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -263,16 +263,16 @@ class GuildMember extends ClientBase {
      * @return \CharlotteDunois\Yasmin\Models\Role
      */
     function getColorRole() {
-        $roles = $this->roles->filter(function ($role) {
+        $roles = $this->roles->filter(function($role) {
             return $role->color;
         });
         
-        if($roles->count() === 0) {
+        if ($roles->count() === 0) {
             return null;
         }
         
-        return $roles->reduce(function ($prev, $role) {
-            if($prev === null) {
+        return $roles->reduce(function($prev, $role) {
+            if ($prev === null) {
                 return $role;
             }
             
@@ -286,7 +286,7 @@ class GuildMember extends ClientBase {
      */
     function getDisplayColor() {
         $colorRole = $this->getColorRole();
-        if($colorRole !== null && $colorRole->color > 0) {
+        if ($colorRole !== null && $colorRole->color > 0) {
             return $colorRole->color;
         }
         
@@ -299,7 +299,7 @@ class GuildMember extends ClientBase {
      */
     function getDisplayHexColor() {
         $colorRole = $this->getColorRole();
-        if($colorRole !== null && $colorRole->color > 0) {
+        if ($colorRole !== null && $colorRole->color > 0) {
             return $colorRole->hexColor;
         }
         
@@ -311,8 +311,8 @@ class GuildMember extends ClientBase {
      * @return \CharlotteDunois\Yasmin\Models\Role
      */
     function getHighestRole() {
-        return $this->roles->reduce(function ($prev, $role) {
-            if($prev === null) {
+        return $this->roles->reduce(function($prev, $role) {
+            if ($prev === null) {
                 return $role;
             }
             
@@ -325,16 +325,16 @@ class GuildMember extends ClientBase {
      * @return \CharlotteDunois\Yasmin\Models\Role|null
      */
     function getHoistRole() {
-        $roles = $this->roles->filter(function ($role) {
+        $roles = $this->roles->filter(function($role) {
             return $role->hoist;
         });
         
-        if($roles->count() === 0) {
+        if ($roles->count() === 0) {
             return null;
         }
         
-        return $roles->reduce(function ($prev, $role) {
-            if($prev === null) {
+        return $roles->reduce(function($prev, $role) {
+            if ($prev === null) {
                 return $role;
             }
             
@@ -347,12 +347,12 @@ class GuildMember extends ClientBase {
      * @return bool
      */
     function isBannable() {
-        if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
+        if ($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
             return false;
         }
         
         $member = $this->guild->me;
-        if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['BAN_MEMBERS'])) {
+        if (!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['BAN_MEMBERS'])) {
             return false;
         }
         
@@ -364,12 +364,12 @@ class GuildMember extends ClientBase {
      * @return bool
      */
     function isKickable() {
-        if($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
+        if ($this->id === $this->guild->ownerID || $this->id === $this->client->user->id) {
             return false;
         }
         
         $member = $this->guild->me;
-        if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['KICK_MEMBERS'])) {
+        if (!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['KICK_MEMBERS'])) {
             return false;
         }
         
@@ -382,8 +382,8 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function kick(string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->guild->removeGuildMember($this->guild->id, $this->id, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->guild->removeGuildMember($this->guild->id, $this->id, $reason)->done(function() use ($resolve) {
                 $resolve();
             }, $reject);
         }));
@@ -397,7 +397,7 @@ class GuildMember extends ClientBase {
      */
     function permissionsIn($channel) {
         $channel = $this->guild->channels->resolve($channel);
-        if(!($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface)) {
+        if (!($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface)) {
             throw new \InvalidArgumentException('Given channel is not a guild channel');
         }
         
@@ -411,12 +411,12 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function removeRole($role, string $reason = '') {
-        if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+        if ($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
             $role = $role->id;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($role, $reason) {
-            $this->client->apimanager()->endpoints->guild->removeGuildMemberRole($this->guild->id, $this->id, $role, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($role, $reason) {
+            $this->client->apimanager()->endpoints->guild->removeGuildMemberRole($this->guild->id, $this->id, $role, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -429,11 +429,11 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function removeRoles($roles, string $reason = '') {
-        if($roles instanceof \CharlotteDunois\Collect\Collection) {
+        if ($roles instanceof \CharlotteDunois\Collect\Collection) {
             $roles = $roles->all();
         }
         
-        $roles = \array_filter($this->roles->all(), function ($role) use ($roles) {
+        $roles = \array_filter($this->roles->all(), function($role) use ($roles) {
             return (!\in_array($role, $roles, true) && !\in_array(((string) $role->id), $roles, true));
         });
         
@@ -467,9 +467,9 @@ class GuildMember extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function setNickname(string $nickname, string $reason = '') {
-        if($this->id === $this->client->user->id) {
-            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($nickname) {
-                $this->client->apimanager()->endpoints->guild->modifyCurrentNick($this->guild->id, $this->id, $nickname)->done(function () use ($resolve) {
+        if ($this->id === $this->client->user->id) {
+            return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($nickname) {
+                $this->client->apimanager()->endpoints->guild->modifyCurrentNick($this->guild->id, $this->id, $nickname)->done(function() use ($resolve) {
                     $resolve($this);
                 }, $reject);
             }));
@@ -537,21 +537,21 @@ class GuildMember extends ClientBase {
      * @internal
      */
     function _patch(array $data) {
-        if(empty($data['nick'])) {
+        if (empty($data['nick'])) {
             $this->nickname = null;
-        } elseif($data['nick'] !== $this->nickname) {
+        } elseif ($data['nick'] !== $this->nickname) {
             $this->nickname = $data['nick'];
         }
         
         $this->deaf = (bool) ($data['deaf'] ?? false);
         $this->mute = (bool) ($data['mute'] ?? false);
         
-        if(isset($data['roles'])) {
+        if (isset($data['roles'])) {
             $this->roles->clear();
             $this->roles->set($this->guild->id, $this->guild->roles->get($this->guild->id));
             
-            foreach($data['roles'] as $role) {
-                if($this->guild->roles->has($role)) {
+            foreach ($data['roles'] as $role) {
+                if ($this->guild->roles->has($role)) {
                     $grole = $this->guild->roles->get($role);
                     $this->roles->set($grole->id, $grole);
                 }

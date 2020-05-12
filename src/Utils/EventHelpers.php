@@ -36,11 +36,11 @@ class EventHelpers {
         $options['time'] = $options['time'] ?? 0;
         $options['errors'] = array('max');
         
-        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($emitter, $event, function (...$a) {
-            return [ 0, $a ];
+        $collector = new \CharlotteDunois\Yasmin\Utils\Collector($emitter, $event, function(...$a) {
+            return [0, $a];
         }, $filter, $options);
         
-        return $collector->collect()->then(function (\CharlotteDunois\Collect\Collection $bucket) {
+        return $collector->collect()->then(function(\CharlotteDunois\Collect\Collection $bucket) {
             return $bucket->first();
         });
     }

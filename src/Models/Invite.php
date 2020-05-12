@@ -122,13 +122,13 @@ class Invite extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
-                if($this->createdTimestamp !== null) {
+                if ($this->createdTimestamp !== null) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
                 }
                 
@@ -148,8 +148,8 @@ class Invite extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->invite->deleteInvite($this->code, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->invite->deleteInvite($this->code, $reason)->done(function() use ($resolve) {
                 $resolve();
             }, $reject);
         }));

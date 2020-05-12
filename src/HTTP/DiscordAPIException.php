@@ -41,27 +41,27 @@ class DiscordAPIException extends \CharlotteDunois\Yasmin\DiscordException {
     static function flattenErrors($obj, $key = '') {
         $messages = array();
         
-        foreach($obj as $k => $val) {
-            if($k === 'message') {
+        foreach ($obj as $k => $val) {
+            if ($k === 'message') {
                 continue;
             }
             
             $newKey = $k;
-            if($key) {
-                if(\is_numeric($k)) {
+            if ($key) {
+                if (\is_numeric($k)) {
                     $newKey = $key.'.'.$k;
                 } else {
                     $newKey = $key.'['.$k.']';
                 }
             }
             
-            if(isset($val['_errors'])) {
-                $messages[] = $newKey.': '.\implode(' ', \array_map(function ($element) {
+            if (isset($val['_errors'])) {
+                $messages[] = $newKey.': '.\implode(' ', \array_map(function($element) {
                     return $element['message'];
                 }, $val['_errors']));
-            } else if(isset($val['code']) || isset($val['message'])) {
+            } else if (isset($val['code']) || isset($val['message'])) {
                 $messages[] = \trim(($val['code'] ?? '').': '.($val['message'] ?? ''));
-            } else if(\is_array($val)) {
+            } else if (\is_array($val)) {
                 $messages = \array_merge($messages, self::flattenErrors($val, $newKey));
             } else {
                 $messages[] = $val;

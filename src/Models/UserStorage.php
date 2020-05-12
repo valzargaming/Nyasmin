@@ -26,8 +26,8 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
         parent::__construct($client, $data);
         
         $inv = (int) $this->client->getOption('userSweepInterval', 600);
-        if($inv > 0) {
-            $this->timer = $this->client->addPeriodicTimer($inv, function () {
+        if ($inv > 0) {
+            $this->timer = $this->client->addPeriodicTimer($inv, function() {
                 $this->sweep();
             });
         }
@@ -40,19 +40,19 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @throws \InvalidArgumentException
      */
     function resolve($user) {
-        if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+        if ($user instanceof \CharlotteDunois\Yasmin\Models\User) {
             return $user;
         }
         
-        if($user instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+        if ($user instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
             return $user->user;
         }
         
-        if(\is_int($user)) {
+        if (\is_int($user)) {
             $user = (string) $user;
         }
         
-        if(\is_string($user) && parent::has($user)) {
+        if (\is_string($user) && parent::has($user)) {
             return parent::get($user);
         }
         
@@ -65,11 +65,11 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @return \CharlotteDunois\Yasmin\Models\User|null
      */
     function patch(array $user) {
-        if(parent::has($user['id'])) {
+        if (parent::has($user['id'])) {
             return parent::get($user['id']);
         }
         
-        if(count($user) === 1) {
+        if (count($user) === 1) {
             return null;
         }
         
@@ -102,7 +102,7 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      */
     function set($key, $value) {
         parent::set($key, $value);
-        if($this !== $this->client->users) {
+        if ($this !== $this->client->users) {
             $this->client->users->set($key, $value);
         }
         
@@ -116,7 +116,7 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      */
     function delete($key) {
         parent::delete($key);
-        if($this !== $this->client->users) {
+        if ($this !== $this->client->users) {
             $this->client->users->delete($key);
         }
         
@@ -131,7 +131,7 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @internal
      */
     function factory(array $data, bool $userFetched = false) {
-        if(parent::has($data['id'])) {
+        if (parent::has($data['id'])) {
             $user = parent::get($data['id']);
             $user->_patch($data);
             return $user;
@@ -148,13 +148,13 @@ class UserStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @return int
      */
     function sweep() {
-        $members = \array_unique($this->client->guilds->reduce(function ($carry, $g) {
+        $members = \array_unique($this->client->guilds->reduce(function($carry, $g) {
             return \array_merge($carry, \array_keys($g->members->all()));
         }, array()));
         
         $amount = 0;
-        foreach($this->data as $key => $val) {
-            if($val->id !== $this->client->user->id && !$val->userFetched && !\in_array($key, $members, true)) {
+        foreach ($this->data as $key => $val) {
+            if ($val->id !== $this->client->user->id && !$val->userFetched && !\in_array($key, $members, true)) {
                 $this->client->presences->delete($key);
                 $this->delete($key);
                 

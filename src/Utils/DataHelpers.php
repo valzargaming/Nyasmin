@@ -20,15 +20,15 @@ class DataHelpers {
      * @throws \InvalidArgumentException
      */
     static function resolveColor($color) {
-        if(\is_int($color)) {
+        if (\is_int($color)) {
             return $color;
         }
         
-        if(!\is_array($color)) {
+        if (!\is_array($color)) {
             return \hexdec(((string) $color));
         }
         
-        if(\count($color) < 1) {
+        if (\count($color) < 1) {
             throw new \InvalidArgumentException('Color "'.\var_export($color, true).'" is not resolvable');
         }
         
@@ -53,7 +53,7 @@ class DataHelpers {
      */
     static function makeBase64URI(string $data) {
         $img = \getimagesizefromstring($data);
-        if(!$img) {
+        if (!$img) {
             throw new \InvalidArgumentException('Bad input data');
         }
         
@@ -68,11 +68,11 @@ class DataHelpers {
      * @throws \InvalidArgumentException
      */
     static function typecastVariable($variable, string $type) {
-        if($variable === null) {
+        if ($variable === null) {
             return null;
         }
         
-        switch($type) {
+        switch ($type) {
             case 'array':
                 $variable = (array) $variable;
             break;
@@ -112,23 +112,23 @@ class DataHelpers {
     static function applyOptions(array $input, array $options) {
         $data = array();
         
-        foreach($input as $key => $val) {
-            if(!isset($options[$key])) {
+        foreach ($input as $key => $val) {
+            if (!isset($options[$key])) {
                 continue;
             }
             
-            if(\is_array($options[$key])) {
-                if(!empty($options[$key]['parse'])) {
+            if (\is_array($options[$key])) {
+                if (!empty($options[$key]['parse'])) {
                     $call = $options[$key]['parse'];
                     $val = $call($val);
                 }
                 
-                if(!empty($options[$key]['type'])) {
+                if (!empty($options[$key]['type'])) {
                     $val = self::typecastVariable($val, $options[$key]['type']);
                 }
                 
                 $key = $options[$key]['key'] ?? $key;
-            } elseif(!empty($options[$key])) {
+            } elseif (!empty($options[$key])) {
                 $key = $options[$key];
             }
             

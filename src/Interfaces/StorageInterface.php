@@ -52,7 +52,7 @@ interface StorageInterface extends \Countable, \Iterator {
     /**
      * Returns the total number of items. From Countable interface.
      * @return int
-    */
+     */
     function count();
     
     /**
@@ -66,7 +66,7 @@ interface StorageInterface extends \Countable, \Iterator {
      * @param mixed  $key
      * @return bool
      * @throws \InvalidArgumentException
-    */
+     */
     function has($key);
     
     /**
@@ -74,7 +74,7 @@ interface StorageInterface extends \Countable, \Iterator {
      * @param mixed  $key
      * @return mixed|null
      * @throws \InvalidArgumentException
-    */
+     */
     function get($key);
     
     /**
@@ -90,7 +90,7 @@ interface StorageInterface extends \Countable, \Iterator {
      * Removes an item.
      * @param mixed  $key
      * @return $this
-    */
+     */
     function delete($key);
     
     /**
@@ -110,21 +110,21 @@ interface StorageInterface extends \Countable, \Iterator {
      * Filters the storage by a given callback, keeping only those items that pass a given truth test. Returns a new Storage instance.
      * @param callable  $closure
      * @return StorageInterface
-    */
+     */
     function filter(callable $closure);
     
     /**
      * Returns the first element that passes a given truth test.
      * @param callable|null  $closure
      * @return mixed|null
-    */
+     */
     function first(?callable $closure = null);
     
     /**
      * Returns the last element that passes a given truth test.
      * @param callable|null  $closure
      * @return mixed|null
-    */
+     */
     function last(?callable $closure = null);
     
     /**
@@ -132,14 +132,14 @@ interface StorageInterface extends \Countable, \Iterator {
      * @param callable   $closure
      * @param mixed|null $carry
      * @return mixed|null|void
-    */
+     */
     function reduce(callable $closure, $carry = null);
     
     /**
      * Sorts the collection. Returns a new Storage instance.
      * @param callable  $closure  Callback specification: `function ($a, $b): int`
      * @return StorageInterface
-    */
+     */
     function sort(bool $descending = false, int $options = \SORT_REGULAR);
     
     /**
@@ -168,13 +168,13 @@ interface StorageInterface extends \Countable, \Iterator {
      * Return the maximum value of a given key.
      * @param mixed  $key
      * @return int
-    */
+     */
     function max($key = '');
     
     /**
      * Return the minimum value of a given key.
      * @param mixed|null  $key
      * @return int
-    */
+     */
     function min($key = null);
 }

@@ -21,11 +21,11 @@ class InvalidSession implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInte
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
-        if(!$data['d']) {
+        if (!$data['d']) {
             $ws->setSessionID(null);
         }
         
-        $this->wshandler->wsmanager->client->addTimer(\mt_rand(1, 5), function () use (&$ws) {
+        $this->wshandler->wsmanager->client->addTimer(\mt_rand(1, 5), function() use (&$ws) {
             $ws->sendIdentify();
         });
     }

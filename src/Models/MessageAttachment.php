@@ -77,7 +77,7 @@ class MessageAttachment extends Base {
      * @param array  $attachment  This parameter is used internally and should not be used.
      */
     function __construct(array $attachment = array()) {
-        if(!empty($attachment)) {
+        if (!empty($attachment)) {
             $this->id = (string) $attachment['id'];
             $this->filename = (string) $attachment['filename'];
             $this->size = (int) $attachment['size'];
@@ -96,11 +96,11 @@ class MessageAttachment extends Base {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -132,16 +132,16 @@ class MessageAttachment extends Base {
         );
         
         $file = @\realpath($this->attachment);
-        if($file) {
+        if ($file) {
             $props['path'] = $file;
-        } elseif(\filter_var($this->attachment, \FILTER_VALIDATE_URL)) {
+        } elseif (\filter_var($this->attachment, \FILTER_VALIDATE_URL)) {
             $props['path'] = $this->attachment;
         } else {
             $props['data'] = $this->attachment;
         }
         
-        if(empty($props['name'])) {
-            if(!empty($props['path'])) {
+        if (empty($props['name'])) {
+            if (!empty($props['path'])) {
                 $props['name'] = \basename($props['path']);
             } else {
                 $props['name'] = 'file-'.\bin2hex(\random_bytes(3)).'.jpg';

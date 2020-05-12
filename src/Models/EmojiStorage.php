@@ -36,19 +36,19 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      * @throws \InvalidArgumentException
      */
     function resolve($emoji) {
-        if($emoji instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
+        if ($emoji instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
             return $emoji;
         }
         
-        if($emoji instanceof \CharlotteDunois\Yasmin\Models\MessageReaction) {
+        if ($emoji instanceof \CharlotteDunois\Yasmin\Models\MessageReaction) {
             return $emoji->emoji;
         }
         
-        if(\is_int($emoji)) {
+        if (\is_int($emoji)) {
             $emoji = (string) $emoji;
         }
         
-        if(\is_string($emoji) && parent::has($emoji)) {
+        if (\is_string($emoji) && parent::has($emoji)) {
             return parent::get($emoji);
         }
         
@@ -81,7 +81,7 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      */
     function set($key, $value) {
         parent::set($key, $value);
-        if($this !== $this->client->emojis) {
+        if ($this !== $this->client->emojis) {
             $this->client->emojis->set($key, $value);
         }
         
@@ -95,7 +95,7 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      */
     function delete($key) {
         parent::delete($key);
-        if($this !== $this->client->emojis) {
+        if ($this !== $this->client->emojis) {
             $this->client->emojis->delete($key);
         }
         
@@ -109,7 +109,7 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      * @internal
      */
     function factory(array $data) {
-        if(parent::has($data['id'])) {
+        if (parent::has($data['id'])) {
             $emoji = parent::get($data['id']);
             $emoji->_patch($data);
             return $emoji;
@@ -117,7 +117,7 @@ class EmojiStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
         
         $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $this->guild, $data);
         
-        if($emoji->id !== null) {
+        if ($emoji->id !== null) {
             $this->set($emoji->id, $emoji);
             $this->client->emojis->set($emoji->id, $emoji);
         }

@@ -98,7 +98,7 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      * @return \React\Promise\ExtendedPromiseInterface|void
      */
     function handleRatelimit(?int $limit, ?int $remaining, ?float $resetTime) {
-        if($limit === null && $remaining === null && $resetTime === null) {
+        if ($limit === null && $remaining === null && $resetTime === null) {
             $this->remaining++; // there is no ratelimit...
             return;
         }
@@ -107,7 +107,7 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
         $this->remaining = $remaining ?? $this->remaining;
         $this->resetTime = $resetTime ?? $this->resetTime;
         
-        if($this->remaining === 0 && $this->resetTime > \microtime(true)) {
+        if ($this->remaining === 0 && $this->resetTime > \microtime(true)) {
             $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($this->resetTime - \microtime(true)).' seconds');
         }
     }
@@ -163,7 +163,7 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      * @return \React\Promise\ExtendedPromiseInterface|array
      */
     function getMeta() {
-        if($this->resetTime && \microtime(true) > $this->resetTime) {
+        if ($this->resetTime && \microtime(true) > $this->resetTime) {
             $this->resetTime = null;
             $this->remaining = ($this->limit ? $this->limit : \INF);
             
@@ -180,7 +180,7 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      * @return \CharlotteDunois\Yasmin\HTTP\APIRequest|false
      */
     function shift() {
-        if(\count($this->queue) === 0) {
+        if (\count($this->queue) === 0) {
             return false;
         }
         
@@ -196,7 +196,7 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      */
     function clear(): void {
         $this->remaining = 0;
-        while($item = \array_shift($this->queue)) {
+        while ($item = \array_shift($this->queue)) {
             unset($item);
         }
     }

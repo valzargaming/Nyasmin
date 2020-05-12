@@ -27,22 +27,22 @@ class GuildDelete implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['id']);
-        if($guild) {
-            foreach($guild->channels as $channel) {
-                if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($guild) {
+            foreach ($guild->channels as $channel) {
+                if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
                     $channel->stopTyping(true);
                 }
             }
             
-            if(!empty($data['unavailable'])) {
+            if (!empty($data['unavailable'])) {
                 $guild->_patch(array('unavailable' => true));
                 $this->client->queuedEmit('guildUnavailable', $guild);
             } else {
-                foreach($guild->channels as $channel) {
+                foreach ($guild->channels as $channel) {
                     $this->client->channels->delete($channel->getId());
                 }
                 
-                foreach($guild->emojis as $emoji) {
+                foreach ($guild->emojis as $emoji) {
                     $this->client->emojis->delete($emoji->id);
                 }
                 

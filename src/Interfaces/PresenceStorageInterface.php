@@ -62,7 +62,7 @@ interface PresenceStorageInterface extends StorageInterface {
      * @param string  $key
      * @return bool
      * @throws \InvalidArgumentException
-    */
+     */
     function has($key);
     
     /**
@@ -70,7 +70,7 @@ interface PresenceStorageInterface extends StorageInterface {
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Presence|null
      * @throws \InvalidArgumentException
-    */
+     */
     function get($key);
     
     /**

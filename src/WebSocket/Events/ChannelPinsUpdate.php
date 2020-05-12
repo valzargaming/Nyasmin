@@ -27,7 +27,7 @@ class ChannelPinsUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel) {
+        if ($channel) {
             $time = (!empty($data['last_pin_timestamp']) ? \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime((int) $data['last_pin_timestamp']) : null);
             $this->client->queuedEmit('channelPinsUpdate', $channel, $time);
         }

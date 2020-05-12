@@ -64,10 +64,10 @@ class Message extends ClientBase {
         6 => 'CHANNEL_PINNED_MESSAGE',
         7 => 'GUILD_MEMBER_JOIN',
         8 => 'USER_PREMIUM_GUILD_SUBSCRIPTION',
-		9 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1',
-		10 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2',
-		11 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3',
-		12 => 'CHANNEL_FOLLOW_ADD'
+        9 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1',
+        10 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2',
+        11 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3',
+        12 => 'CHANNEL_FOLLOW_ADD'
     );
     
     /**
@@ -204,14 +204,14 @@ class Message extends ClientBase {
         $this->createdTimestamp = (int) \CharlotteDunois\Yasmin\Utils\Snowflake::deconstruct($this->id)->timestamp;
         
         $this->attachments = new \CharlotteDunois\Collect\Collection();
-        foreach($message['attachments'] as $attachment) {
+        foreach ($message['attachments'] as $attachment) {
             $atm = new \CharlotteDunois\Yasmin\Models\MessageAttachment($attachment);
             $this->attachments->set($atm->id, $atm);
         }
         
         $this->reactions = new \CharlotteDunois\Collect\Collection();
-        if(!empty($message['reactions'])) {
-            foreach($message['reactions'] as $reaction) {
+        if (!empty($message['reactions'])) {
+            foreach ($message['reactions'] as $reaction) {
                 $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel ? $this->channel->getGuild() : null);
                 
                 $emoji = ($this->client->emojis->get($reaction['emoji']['id'] ?? $reaction['emoji']['name']) ?? (new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $reaction['emoji'])));
@@ -229,30 +229,30 @@ class Message extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
             case 'editedAt':
-                if($this->editedTimestamp !== null) {
+                if ($this->editedTimestamp !== null) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->editedTimestamp);
                 }
                 
                 return null;
             break;
             case 'guild':
-                if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                if ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                     return $this->channel->getGuild();
                 }
                 
                 return null;
             break;
             case 'member':
-                if($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                if ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                     return $this->channel->getGuild()->members->get($this->author->id);
                 }
                 
@@ -268,8 +268,8 @@ class Message extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function clearReactions() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->deleteMessageReactions($this->channel->getId(), $this->id)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->channel->deleteMessageReactions($this->channel->getId(), $this->id)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -298,10 +298,10 @@ class Message extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Utils\Collector
      */
     function collectReactions(callable $filter, array $options = array()) {
-        $rhandler = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) {
+        $rhandler = function(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) {
             return array(($reaction->emoji->id ?? $reaction->emoji->name), array($reaction, $user));
         };
-        $rfilter = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) use ($filter) {
+        $rfilter = function(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) use ($filter) {
             return ($this->id === $reaction->message->id && $filter($reaction, $user));
         };
         
@@ -317,18 +317,18 @@ class Message extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Traits\TextChannelTrait::send()
      */
     function edit(?string $content, array $options = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($content, $options) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($content, $options) {
             $msg = array();
             
-            if($content !== null) {
+            if ($content !== null) {
                 $msg['content'] = $content;
             }
             
-            if(\array_key_exists('embed', $options)) {
+            if (\array_key_exists('embed', $options)) {
                 $msg['embed'] = $options['embed'];
             }
             
-            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->getId(), $this->id, $msg)->done(function () use ($resolve) {
+            $this->client->apimanager()->endpoints->channel->editMessage($this->channel->getId(), $this->id, $msg)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -341,13 +341,13 @@ class Message extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete($timeout = 0, string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($timeout, $reason) {
-            if($timeout > 0) {
-                $this->client->addTimer($timeout, function () use ($reason, $resolve, $reject) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($timeout, $reason) {
+            if ($timeout > 0) {
+                $this->client->addTimer($timeout, function() use ($reason, $resolve, $reject) {
                     $this->delete(0, $reason)->done($resolve, $reject);
                 });
             } else {
-                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->getId(), $this->id, $reason)->done(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->channel->deleteMessage($this->channel->getId(), $this->id, $reason)->done(function() use ($resolve) {
                     $resolve();
                 }, $reject);
             }
@@ -361,12 +361,12 @@ class Message extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function fetchWebhook() {
-        if($this->webhookID === null) {
+        if ($this->webhookID === null) {
             throw new \BadMethodCallException('Unable to fetch webhook from a message that was not posted by a webhook');
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->webhook->getWebhook($this->webhookID)->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->webhook->getWebhook($this->webhookID)->done(function($data) use ($resolve) {
                 $webhook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $data);
                 $resolve($webhook);
             }, $reject);
@@ -387,8 +387,8 @@ class Message extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function pin() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->pinChannelMessage($this->channel->getId(), $this->id)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->channel->pinChannelMessage($this->channel->getId(), $this->id)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -405,38 +405,38 @@ class Message extends ClientBase {
         try {
             $emoji = $this->client->emojis->resolve($emoji);
         } catch (\InvalidArgumentException $e) {
-            if(\is_numeric($emoji)) {
+            if (\is_numeric($emoji)) {
                 throw $e;
             }
             
             $match = (bool) \preg_match('/(?:<a?:)?(.+):(\d+)/', $emoji, $matches);
-            if($match) {
+            if ($match) {
                 $emoji = $matches[1].':'.$matches[2];
             } else {
                 $emoji = \rawurlencode($emoji);
             }
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($emoji) {
-            if($emoji instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($emoji) {
+            if ($emoji instanceof \CharlotteDunois\Yasmin\Models\Emoji) {
                 $emoji = $emoji->identifier;
             }
             
-            $filter = function (\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) use ($emoji) {
+            $filter = function(\CharlotteDunois\Yasmin\Models\MessageReaction $reaction, \CharlotteDunois\Yasmin\Models\User $user) use ($emoji) {
                 return ($user->id === $this->client->user->id && $reaction->message->id === $this->id && $reaction->emoji->identifier === $emoji);
             };
             
-            $prom = \CharlotteDunois\Yasmin\Utils\EventHelpers::waitForEvent($this->client, 'messageReactionAdd', $filter, array('time' => 30))->then(function ($args) use ($resolve) {
+            $prom = \CharlotteDunois\Yasmin\Utils\EventHelpers::waitForEvent($this->client, 'messageReactionAdd', $filter, array('time' => 30))->then(function($args) use ($resolve) {
                 $resolve($args[0]);
-            }, function ($error) use ($reject) {
-                if($error instanceof \RangeException) {
+            }, function($error) use ($reject) {
+                if ($error instanceof \RangeException) {
                     $reject(new \RangeException('Message Reaction did not arrive in time'));
-                } elseif(!($error instanceof \OutOfBoundsException)) {
+                } elseif (!($error instanceof \OutOfBoundsException)) {
                     $reject($error);
                 }
             });
             
-            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->getId(), $this->id, $emoji)->done(null, function ($error) use ($prom, $reject) {
+            $this->client->apimanager()->endpoints->channel->createMessageReaction($this->channel->getId(), $this->id, $emoji)->done(null, function($error) use ($prom, $reject) {
                 $prom->cancel();
                 $reject($error);
             });
@@ -459,8 +459,8 @@ class Message extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function unpin() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->unpinChannelMessage($this->channel->getId(), $this->id)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->channel->unpinChannelMessage($this->channel->getId(), $this->id)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -482,13 +482,13 @@ class Message extends ClientBase {
         $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
         
         $reaction = $this->reactions->get($id);
-        if(!$reaction) {
+        if (!$reaction) {
             $emoji = $this->client->emojis->get($id);
-            if(!$emoji) {
+            if (!$emoji) {
                 $guild = ($this->channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $this->channel->getGuild() : null);
                 
                 $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $data['emoji']);
-                if($guild) {
+                if ($guild) {
                     $guild->emojis->set($id, $emoji);
                 }
             }
@@ -502,7 +502,7 @@ class Message extends ClientBase {
             $this->reactions->set($id, $reaction);
         } else {
             $botReacted = (bool) ($this->client->user->id === $data['user_id']);
-            if($botReacted && !$reaction->me) {
+            if ($botReacted && !$reaction->me) {
                 $reaction->_patch(array('me' => true));
             }
         }
@@ -528,9 +528,9 @@ class Message extends ClientBase {
         $this->activity = (!empty($message['activity']) ? (new \CharlotteDunois\Yasmin\Models\MessageActivity($this->client, $message['activity'])) : $this->activity);
         $this->application = (!empty($message['application']) ? (new \CharlotteDunois\Yasmin\Models\MessageApplication($this->client, $message['application'])) : $this->application);
         
-        if(isset($message['embeds'])) {
+        if (isset($message['embeds'])) {
             $this->embeds = array();
-            foreach($message['embeds'] as $embed) {
+            foreach ($message['embeds'] as $embed) {
                 $this->embeds[] = new \CharlotteDunois\Yasmin\Models\MessageEmbed($embed);
             }
         }
@@ -538,7 +538,7 @@ class Message extends ClientBase {
         $this->mentions = new \CharlotteDunois\Yasmin\Models\MessageMentions($this->client, $this, $message);
         $this->cleanContent = \CharlotteDunois\Yasmin\Utils\MessageHelpers::cleanContent($this, $this->content);
         
-        if(!empty($message['member']) && $this->guild !== null && !$this->guild->members->has($this->author->id)) {
+        if (!empty($message['member']) && $this->guild !== null && !$this->guild->members->has($this->author->id)) {
             $member = $message['member'];
             $member['user'] = $message['author'];
             $this->guild->_addMember($member, true);

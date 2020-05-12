@@ -27,18 +27,18 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
             
             $message = $channel->getMessages()->get($data['message_id']);
             $reaction = null;
             
-            if($message) {
+            if ($message) {
                 $reaction = $message->reactions->get($id);
-                if($reaction !== null) {
+                if ($reaction !== null) {
                     $reaction->_decrementCount();
                     
-                    if($reaction->users->has($data['user_id'])) {
+                    if ($reaction->users->has($data['user_id'])) {
                         $reaction->_patch(array('me' => false));
                     }
                 }
@@ -48,16 +48,16 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $channel, $id, $reaction) {
-                if(!$reaction) {
+            $message->done(function(\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $channel, $id, $reaction) {
+                if (!$reaction) {
                     $reaction = $message->reactions->get($id);
-                    if(!$reaction) {
+                    if (!$reaction) {
                         $emoji = $this->client->emojis->get($id);
-                        if(!$emoji) {
+                        if (!$emoji) {
                             $guild = ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface ? $channel->getGuild() : null);
                             
                             $emoji = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $data['emoji']);
-                            if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
+                            if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GuildChannelInterface) {
                                 $channel->guild->emojis->set($id, $emoji);
                             }
                             
@@ -72,15 +72,15 @@ class MessageReactionRemove implements \CharlotteDunois\Yasmin\Interfaces\WSEven
                     }
                 }
                 
-                $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($id, $message, $reaction) {
+                $this->client->fetchUser($data['user_id'])->done(function(\CharlotteDunois\Yasmin\Models\User $user) use ($id, $message, $reaction) {
                     $reaction->users->delete($user->id);
-                    if($reaction->count === 0) {
+                    if ($reaction->count === 0) {
                         $message->reactions->delete($id);
                     }
                     
                     $this->client->queuedEmit('messageReactionRemove', $reaction, $user);
                 }, array($this->client, 'handlePromiseRejection'));
-            }, function () {
+            }, function() {
                 // Don't handle it
             });
         }

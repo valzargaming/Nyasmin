@@ -44,20 +44,20 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $user = $this->client->users->get($data['user']['id']);
         
-        if(($data['status'] ?? null) === 'offline' && $user === null) {
+        if (($data['status'] ?? null) === 'offline' && $user === null) {
             return;
         }
         
-        if($user === null) {
-            if($this->ignoreUnknown) {
+        if ($user === null) {
+            if ($this->ignoreUnknown) {
                 return;
             }
             
             $user = $this->client->fetchUser($data['user']['id']);
         } else {
-            if(\count($data['user']) > 1 && $user->_shouldUpdate($data['user'])) {
+            if (\count($data['user']) > 1 && $user->_shouldUpdate($data['user'])) {
                 $oldUser = null;
-                if($this->clones) {
+                if ($this->clones) {
                     $oldUser = clone $user;
                 }
                 
@@ -70,18 +70,18 @@ class PresenceUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterf
             $user = \React\Promise\resolve($user);
         }
         
-        $user->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($data) {
+        $user->done(function(\CharlotteDunois\Yasmin\Models\User $user) use ($data) {
             $guild = $this->client->guilds->get($data['guild_id']);
-            if($guild) {
+            if ($guild) {
                 $presence = $guild->presences->get($user->id);
                 $oldPresence = null;
                 
-                if($presence) {
-                    if($data['status'] === 'offline' && $presence->status === 'offline') {
+                if ($presence) {
+                    if ($data['status'] === 'offline' && $presence->status === 'offline') {
                         return;
                     }
                     
-                    if($this->clones) {
+                    if ($this->clones) {
                         $oldPresence = clone $presence;
                     }
                     

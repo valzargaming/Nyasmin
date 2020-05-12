@@ -53,17 +53,17 @@ class AuditLog extends ClientBase {
         $this->users = new \CharlotteDunois\Collect\Collection();
         $this->webhooks = new \CharlotteDunois\Collect\Collection();
         
-        foreach($audit['users'] as $user) {
+        foreach ($audit['users'] as $user) {
             $usr = $this->client->users->patch($user);
             $this->users->set($usr->id, $usr);
         }
         
-        foreach($audit['webhooks'] as $webhook) {
+        foreach ($audit['webhooks'] as $webhook) {
             $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $webhook);
             $this->webhooks->set($hook->id, $hook);
         }
         
-        foreach($audit['audit_log_entries'] as $entry) {
+        foreach ($audit['audit_log_entries'] as $entry) {
             $log = new \CharlotteDunois\Yasmin\Models\AuditLogEntry($this->client, $this, $entry);
             $this->entries->set($log->id, $log);
         }
@@ -75,7 +75,7 @@ class AuditLog extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         

@@ -70,7 +70,7 @@ class MessageApplication extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -83,11 +83,11 @@ class MessageApplication extends ClientBase {
      * @return string|null
      */
     function getCoverImageURL(?int $size = null) {
-        if($size & ($size - 1)) {
+        if ($size & ($size - 1)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
-        if($this->coverImage !== null) {
+        if ($this->coverImage !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appicons'], $this->id, $this->coverImage).(!empty($size) ? '?size='.$size : '');
         }
         

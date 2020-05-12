@@ -44,7 +44,7 @@ class ClientUser extends User {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -68,17 +68,17 @@ class ClientUser extends User {
      * @example ../../examples/docs-examples.php 15 4
      */
     function setAvatar(?string $avatar) {
-        if($avatar === null) {
-            return $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => null))->then(function () {
+        if ($avatar === null) {
+            return $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => null))->then(function() {
                 return $this;
             });
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($avatar) {
-            \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($avatar)->done(function ($data) use ($resolve, $reject) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($avatar) {
+            \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($avatar)->done(function($data) use ($resolve, $reject) {
                 $image = \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($data);
                 
-                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->done(function () use ($resolve) {
+                $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('avatar' => $image))->done(function() use ($resolve) {
                     $resolve($this);
                 }, $reject);
             }, $reject);
@@ -107,11 +107,11 @@ class ClientUser extends User {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function setActivity($name, int $type = 0, ?int $shardID = null) {
-        if($name === null) {
+        if ($name === null) {
             return $this->setPresence(array(
                 'game' => null
             ), $shardID);
-        } elseif($name instanceof \CharlotteDunois\Yasmin\Models\Activity) {
+        } elseif ($name instanceof \CharlotteDunois\Yasmin\Models\Activity) {
             return $this->setPresence(array(
                 'game' => $name->jsonSerialize()
             ), $shardID);
@@ -137,7 +137,7 @@ class ClientUser extends User {
      * @example ../../examples/docs-examples.php 21 2
      */
     function setGame(?string $name, string $url = '', ?int $shardID = null) {
-        if($name === null) {
+        if ($name === null) {
             return $this->setPresence(array(
                 'game' => null
             ), $shardID);
@@ -151,7 +151,7 @@ class ClientUser extends User {
             )
         );
         
-        if(!empty($url)) {
+        if (!empty($url)) {
             $presence['game']['type'] = 1;
             $presence['game']['url'] = $url;
         }
@@ -183,7 +183,7 @@ class ClientUser extends User {
      * @example ../../examples/docs-examples.php 29 10
      */
     function setPresence(array $presence, ?int $shardID = null) {
-        if(empty($presence)) {
+        if (empty($presence)) {
             return \React\Promise\reject(new \InvalidArgumentException('Presence argument can not be empty'));
         }
         
@@ -200,22 +200,22 @@ class ClientUser extends User {
         $this->clientPresence = $packet['d'];
         
         $presence = $this->getPresence();
-        if($presence) {
+        if ($presence) {
             $presence->_patch($this->clientPresence);
         }
         
-        if($shardID === null) {
+        if ($shardID === null) {
             $prms = array();
-            foreach($this->client->shards as $shard) {
+            foreach ($this->client->shards as $shard) {
                 $prms[] = $shard->ws->send($packet);
             }
             
-            return \React\Promise\all($prms)->then(function () {
+            return \React\Promise\all($prms)->then(function() {
                 return $this;
             });
         }
         
-        return $this->client->shards->get($shardID)->ws->send($packet)->then(function () {
+        return $this->client->shards->get($shardID)->ws->send($packet)->then(function() {
             return $this;
         });
     }
@@ -227,8 +227,8 @@ class ClientUser extends User {
      * @example ../../examples/docs-examples.php 41 2
      */
     function setUsername(string $username) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($username) {
-            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($username) {
+            $this->client->apimanager()->endpoints->user->modifyCurrentUser(array('username' => $username))->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -251,18 +251,18 @@ class ClientUser extends User {
      * @see \CharlotteDunois\Yasmin\Models\GroupDMChannel
      */
     function createGroupDM(array $userWithAccessTokens, array $nicks = array()) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($nicks, $userWithAccessTokens) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($nicks, $userWithAccessTokens) {
             $tokens = array();
             $users = array();
             
-            foreach($userWithAccessTokens as $token => $user) {
+            foreach ($userWithAccessTokens as $token => $user) {
                 $user = $this->client->users->resolve($user);
                 
                 $tokens[] = $token;
                 $users[$user->id] = (!empty($nicks[$user->id]) ? $nicks[$user->id] : $user->username);
             }
             
-            $this->client->apimanager()->endpoints->user->createGroupDM($tokens, $users)->done(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->createGroupDM($tokens, $users)->done(function($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
             }, $reject);
@@ -271,7 +271,7 @@ class ClientUser extends User {
     
     /**
      * Making these methods throw if someone tries to use them. They also get hidden due to the Sami Renderer removing them.
-    */
+     */
     
     /**
      * @return void

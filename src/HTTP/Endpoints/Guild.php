@@ -178,7 +178,7 @@ class Guild {
         $url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(self::ENDPOINTS['bans']['create'], $guildid, $userid);
         
         $qs = array('delete-message-days' => $daysDeleteMessages);
-        if(!empty($reason)) {
+        if (!empty($reason)) {
             $qs['reason'] = $reason;
         }
         

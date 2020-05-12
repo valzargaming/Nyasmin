@@ -142,37 +142,37 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         $compression = $this->client->getOption('ws.compression', \CharlotteDunois\Yasmin\Client::WS_DEFAULT_COMPRESSION);
         
         $name = \str_replace('-', '', \ucwords($compression, '-'));
-        if(\strpos($name, '\\') === false) {
+        if (\strpos($name, '\\') === false) {
             $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Compression\\'.$name;
         }
         
-        if(!\class_exists($name, true)) {
+        if (!\class_exists($name, true)) {
             throw new \RuntimeException('Specified WS compression class does not exist');
         }
         
         $name::supported();
         
         $interfaces = \class_implements($name);
-        if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
+        if (!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSCompressionInterface', $interfaces)) {
             throw new \RuntimeException('Specified WS compression class does not implement necessary interface');
         }
         
         $this->compression = $name;
         
-        if(!$this->connector) {
+        if (!$this->connector) {
             $this->connector = new \Ratchet\Client\Connector($this->client->loop);
         }
         
-        $listener = function () {
+        $listener = function() {
             $this->readyConns++;
             
-            if($this->readyConns >= $this->client->getOption('numShards')) {
+            if ($this->readyConns >= $this->client->getOption('numShards')) {
                 $this->emit('ready');
             }
         };
         
         $this->on('self.ws.ready', $listener);
-        $this->once('ready', function () use (&$listener) {
+        $this->once('ready', function() use (&$listener) {
             $this->removeListener('self.ws.ready', $listener);
         });
     }
@@ -186,7 +186,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
         try {
             return $this->$name !== null;
         } catch (\RuntimeException $e) {
-            if($e->getTrace()[0]['function'] === '__get') {
+            if ($e->getTrace()[0]['function'] === '__get') {
                 return false;
             }
             
@@ -199,7 +199,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      */
     function __get($name) {
-        switch($name) {
+        switch ($name) {
             case 'client':
                 return $this->client;
             break;
@@ -231,7 +231,7 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function destroy() {
-        foreach($this->connections as $ws) {
+        foreach ($this->connections as $ws) {
             $ws->disconnect();
         }
     }
@@ -244,41 +244,41 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\WebSocket\WSConnection
      */
     function connectShard(int $shardID, ?string $gateway = null, array $querystring = array()) {
-        if(!$gateway && !$this->gateway) {
+        if (!$gateway && !$this->gateway) {
             throw new \RuntimeException('Unable to connect to unknown gateway for shard '.$shardID);
         }
         
-        if(empty($this->client->token)) {
+        if (empty($this->client->token)) {
             throw new \LogicException('No client token to start with');
         }
         
-        if(($this->lastIdentify ?? 0) > (\time() - 5)) {
-            return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($shardID, $gateway, $querystring) {
-                $this->client->addTimer((5 - (\time() - $this->lastIdentify)), function () use ($shardID, $gateway, $querystring, $resolve, $reject) {
+        if (($this->lastIdentify ?? 0) > (\time() - 5)) {
+            return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($shardID, $gateway, $querystring) {
+                $this->client->addTimer((5 - (\time() - $this->lastIdentify)), function() use ($shardID, $gateway, $querystring, $resolve, $reject) {
                     $this->connectShard($shardID, $gateway, $querystring)->done($resolve, $reject);
                 });
             }));
         }
         
         $reconnect = false;
-        if($this->gateway && (!$gateway || $this->gateway === $gateway)) {
-            if(!$gateway) {
+        if ($this->gateway && (!$gateway || $this->gateway === $gateway)) {
+            if (!$gateway) {
                 $gateway = $this->gateway;
             }
             
-            if(($this->lastIdentify ?? 0) > (\time() - 30)) { // Make sure we reconnect after at least 30 seconds, if there was like an outage, to prevent spamming
-                return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($shardID, $gateway, $querystring) {
+            if (($this->lastIdentify ?? 0) > (\time() - 30)) { // Make sure we reconnect after at least 30 seconds, if there was like an outage, to prevent spamming
+                return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($shardID, $gateway, $querystring) {
                     $time = (30 - (\time() - $this->lastIdentify));
                     $this->client->emit('debug', 'Reconnect for shard '.$shardID.' will be attempted in '.$time.' seconds');
                     
-                    $this->client->addTimer($time, function () use ($shardID, $gateway, $querystring, $resolve, $reject) {
+                    $this->client->addTimer($time, function() use ($shardID, $gateway, $querystring, $resolve, $reject) {
                         $this->connectShard($shardID, $gateway, $querystring)->done($resolve, $reject);
                     });
                 }));
             }
             
             $shard = $this->client->shards->get($shardID);
-            if($shard !== null) {
+            if ($shard !== null) {
                 $this->client->emit('reconnect', $shard);
             }
             
@@ -307,14 +307,14 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     protected function createConnection(int $shardID) {
-        if(empty($this->connections[$shardID])) {
+        if (empty($this->connections[$shardID])) {
             $this->connections[$shardID] = new \CharlotteDunois\Yasmin\WebSocket\WSConnection($this, $shardID, $this->compression);
             
-            $this->connections[$shardID]->on('close', function (int $code, string $reason) use ($shardID) {
+            $this->connections[$shardID]->on('close', function(int $code, string $reason) use ($shardID) {
                 $this->client->emit('debug', 'Shard '.$shardID.' disconnected with code '.$code.' and reason "'.$reason.'"');
                 
                 $shard = $this->client->shards->get($shardID);
-                if($shard !== null) {
+                if ($shard !== null) {
                     $this->client->emit('disconnect', $shard, $code, $reason);
                 }
             });
@@ -328,18 +328,18 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      */
     protected function handleConnectEncoding(array &$querystring) {
-        if($this->encoding === null) {
+        if ($this->encoding === null) {
             $encoding = $querystring['encoding'] ?? self::WS['encoding'];
             
             $name = \str_replace('-', '', \ucwords($encoding, '-'));
-            if(\strpos($name, '\\') === false) {
+            if (\strpos($name, '\\') === false) {
                 $name = '\\CharlotteDunois\\Yasmin\\WebSocket\\Encoding\\'.$name;
             }
             
             $name::supported();
             
             $interfaces = \class_implements($name);
-            if(!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSEncodingInterface', $interfaces)) {
+            if (!\in_array('CharlotteDunois\\Yasmin\\Interfaces\\WSEncodingInterface', $interfaces)) {
                 throw new \RuntimeException('Specified WS encoding class does not implement necessary interface');
             }
             
@@ -356,8 +356,8 @@ class WSManager implements \CharlotteDunois\Events\EventEmitterInterface {
      * @throws \RuntimeException
      */
     protected function handleConnectGateway(string $gateway, array &$querystring) {
-        if(!empty($querystring)) {
-            if($this->compression !== '') {
+        if (!empty($querystring)) {
+            if ($this->compression !== '') {
                 $compression = $this->compression;
                 $querystring['compress'] = $compression::getName();
             }

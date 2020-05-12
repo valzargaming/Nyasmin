@@ -38,12 +38,12 @@ trait GuildChannelTrait {
             'unique' => ($options['unique'] ?? false)
         );
         
-        if(isset($options['maxAge'])) {
+        if (isset($options['maxAge'])) {
             $data['max_age'] = $options['maxAge'];
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data) {
-            $this->client->apimanager()->endpoints->channel->createChannelInvite($this->id, $data)->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($data) {
+            $this->client->apimanager()->endpoints->channel->createChannelInvite($this->id, $data)->done(function($data) use ($resolve) {
                 $invite = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $data);
                 $resolve($invite);
             }, $reject);
@@ -65,27 +65,27 @@ trait GuildChannelTrait {
             'type' => \CharlotteDunois\Yasmin\Models\ChannelStorage::getTypeForChannel($this)
         );
         
-        if($withPermissions) {
+        if ($withPermissions) {
             $data['permission_overwrites'] = \array_values($this->permissionOverwrites->all());
         }
         
-        if($withTopic) {
+        if ($withTopic) {
             $data['topic'] = $this->topic;
         }
         
-        if($this->parentID) {
+        if ($this->parentID) {
             $data['parent_id'] = $this->parentID;
         }
         
-        if($this instanceof \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface) {
+        if ($this instanceof \CharlotteDunois\Yasmin\Interfaces\VoiceChannelInterface) {
             $data['bitrate'] = $this->bitrate;
             $data['user_limit'] = $this->userLimit;
         } else {
             $data['nsfw'] = $this->nsfw;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->guild->id, $data, $reason)->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($data, $reason) {
+            $this->client->apimanager()->endpoints->guild->createGuildChannel($this->guild->id, $data, $reason)->done(function($data) use ($resolve) {
                 $channel = $this->guild->channels->factory($data, $this->guild);
                 $resolve($channel);
             }, $reject);
@@ -117,7 +117,7 @@ trait GuildChannelTrait {
      * @throws \InvalidArgumentException
      */
     function edit(array $options, string $reason = '') {
-        if(empty($options)) {
+        if (empty($options)) {
             throw new \InvalidArgumentException('Unable to edit channel with zero information');
         }
         
@@ -129,11 +129,11 @@ trait GuildChannelTrait {
             'bitrate' => array('type' => 'int'),
             'userLimit' => array('key' => 'user_limit', 'type' => 'int'),
             'slowmode' => array('key' => 'rate_limit_per_user', 'type' => 'int'),
-            'parent' => array('key' => 'parent_id', 'parse' => function ($val) {
+            'parent' => array('key' => 'parent_id', 'parse' => function($val) {
                 return ($val instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $val->id : $val);
             }),
-            'permissionOverwrites' => array('key' => 'permission_overwrites', 'parse' => function ($val) {
-                if($val instanceof \CharlotteDunois\Collect\Collection) {
+            'permissionOverwrites' => array('key' => 'permission_overwrites', 'parse' => function($val) {
+                if ($val instanceof \CharlotteDunois\Collect\Collection) {
                     $val = $val->all();
                 }
                 
@@ -141,8 +141,8 @@ trait GuildChannelTrait {
             })
         ));
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($data, $reason) {
+            $this->client->apimanager()->endpoints->channel->modifyChannel($this->id, $data, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -154,8 +154,8 @@ trait GuildChannelTrait {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->channel->deleteChannel($this->id, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->channel->deleteChannel($this->id, $reason)->done(function() use ($resolve) {
                 $resolve();
             }, $reject);
         }));
@@ -167,11 +167,11 @@ trait GuildChannelTrait {
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function fetchInvites() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->channel->getChannelInvites($this->id)->done(function($data) use ($resolve) {
                 $collection = new \CharlotteDunois\Collect\Collection();
                 
-                foreach($data as $invite) {
+                foreach ($data as $invite) {
                     $inv = new \CharlotteDunois\Yasmin\Models\Invite($this->client, $invite);
                     $collection->set($inv->code, $inv);
                 }
@@ -187,17 +187,17 @@ trait GuildChannelTrait {
      * @throws \BadMethodCallException
      */
     function isPermissionsLocked() {
-        if($this->parentID === null) {
+        if ($this->parentID === null) {
             throw new \BadMethodCallException('This channel does not have a parent');
         }
         
         $parent = $this->parent;
         
-        if($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
+        if ($parent->permissionOverwrites->count() !== $this->permissionOverwrites->count()) {
             return false;
         }
         
-        return !((bool) $this->permissionOverwrites->first(function ($perm) use ($parent) {
+        return !((bool) $this->permissionOverwrites->first(function($perm) use ($parent) {
             $permp = $parent->permissionOverwrites->get($perm->id);
             return (!$permp || $perm->allowed->bitfield !== $permp->allowed->bitfield || $perm->denied->bitfield !== $permp->denied->bitfield);
         }));
@@ -213,29 +213,29 @@ trait GuildChannelTrait {
     function permissionsFor($member) {
         $member = $this->guild->members->resolve($member);
         
-        if($member->id === $this->guild->ownerID) {
+        if ($member->id === $this->guild->ownerID) {
             return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
         }
         
         $permissions = $member->permissions;
         
-        if($permissions->has('ADMINISTRATOR')) {
+        if ($permissions->has('ADMINISTRATOR')) {
             return (new \CharlotteDunois\Yasmin\Models\Permissions(\CharlotteDunois\Yasmin\Models\Permissions::ALL));
         }
         
         $overwrites = $this->overwritesFor($member);
         
-        if($overwrites['everyone']) {
+        if ($overwrites['everyone']) {
             $permissions->remove(($overwrites['everyone']->deny->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
             $permissions->add(($overwrites['everyone']->allow->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
         }
         
-        foreach($overwrites['roles'] as $role) {
+        foreach ($overwrites['roles'] as $role) {
             $permissions->remove(($role->deny->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
             $permissions->add(($role->allow->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
         }
         
-        if($overwrites['member']) {
+        if ($overwrites['member']) {
             $permissions->remove(($overwrites['member']->deny->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
             $permissions->add(($overwrites['member']->allow->bitfield & ~\CharlotteDunois\Yasmin\Models\Permissions::CHANNEL_UNACCESSIBLE_PERMISSIONS));
         }
@@ -265,12 +265,12 @@ trait GuildChannelTrait {
         $memberOverwrites = null;
         $rolesOverwrites = array();
         
-        foreach($this->permissionOverwrites as $overwrite) {
-            if($overwrite->id === $this->guild->id) {
+        foreach ($this->permissionOverwrites as $overwrite) {
+            if ($overwrite->id === $this->guild->id) {
                 $everyoneOverwrites = $overwrite;
-            } elseif($overwrite->id === $member->id) {
+            } elseif ($overwrite->id === $member->id) {
                 $memberOverwrites = $overwrite;
-            } elseif($member->roles->has($overwrite->id)) {
+            } elseif ($member->roles->has($overwrite->id)) {
                 $rolesOverwrites[] = $overwrite;
             }
         }
@@ -293,24 +293,24 @@ trait GuildChannelTrait {
      * @see \CharlotteDunois\Yasmin\Models\PermissionOverwrite
      */
     function overwritePermissions($memberOrRole, $allow, $deny = 0, string $reason = '') {
-        [ $memberOrRole, $options ] = $this->validateOverwritePermissions($memberOrRole, $allow, $deny);
+        [$memberOrRole, $options] = $this->validateOverwritePermissions($memberOrRole, $allow, $deny);
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole, $options, $reason)->done(function () use ($memberOrRole, $options, $resolve, $reject) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($memberOrRole, $options, $reason) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $memberOrRole, $options, $reason)->done(function() use ($memberOrRole, $options, $resolve, $reject) {
                 $options['id'] = $memberOrRole;
                 
-                if($options['type'] === 'member') {
+                if ($options['type'] === 'member') {
                     $fetch = $this->guild->fetchMember($options['id']);
                 } else {
                     $fetch = \React\Promise\resolve();
                 }
                 
-                $fetch->done(function () use ($options, $resolve) {
-                    if($options['allow'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+                $fetch->done(function() use ($options, $resolve) {
+                    if ($options['allow'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
                         $options['allow'] = $options['allow']->bitfield;
                     }
                     
-                    if($options['deny'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+                    if ($options['deny'] instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
                         $options['deny'] = $options['deny']->bitfield;
                     }
                     
@@ -330,11 +330,11 @@ trait GuildChannelTrait {
      * @throws \BadMethodCallException
      */
     function lockPermissions(string $reason = '') {
-        if(!$this->parent) {
+        if (!$this->parent) {
             throw new \BadMethodCallException('This channel does not have a parent');
         }
         
-        $overwrites = \array_values($this->parent->permissionOverwrites->map(function ($overwrite) {
+        $overwrites = \array_values($this->parent->permissionOverwrites->map(function($overwrite) {
             return array(
                 'id' => $overwrite->id,
                 'type' => $overwrite->type,
@@ -343,21 +343,21 @@ trait GuildChannelTrait {
             );
         })->all());
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($overwrites, $reason) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($overwrites, $reason) {
             $promises = array();
             
             $overwritesID = \array_column($overwrites, 'id');
-            foreach($this->permissionOverwrites as $perm) {
-                if(!\in_array($perm->id, $overwritesID)) {
+            foreach ($this->permissionOverwrites as $perm) {
+                if (!\in_array($perm->id, $overwritesID)) {
                     $promises[] = $perm->delete($reason);
                 }
             }
             
-            foreach($overwrites as $overwrite) {
+            foreach ($overwrites as $overwrite) {
                 $promises[] = $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->id, $overwrite['id'], $overwrite, $reason);
             }
             
-            \React\Promise\all($promises)->done(function () use ($resolve) {
+            \React\Promise\all($promises)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -415,7 +415,7 @@ trait GuildChannelTrait {
      * @throws \InvalidArgumentException
      */
     function setPosition(int $position, string $reason = '') {
-        if($position < 0) {
+        if ($position < 0) {
             throw new \InvalidArgumentException('Position can not be below 0');
         }
         
@@ -423,8 +423,8 @@ trait GuildChannelTrait {
         $newPositions[] = array('id' => $this->id, 'position' => $position);
         
         $count = $this->guild->channels->count();
-        $channels = $this->guild->channels->sortCustom(function ($a, $b) {
-            if($a->position === $b->position) {
+        $channels = $this->guild->channels->sortCustom(function($a, $b) {
+            if ($a->position === $b->position) {
                 return $a->id <=> $b->id;
             }
             
@@ -432,14 +432,14 @@ trait GuildChannelTrait {
         })->values()->all();
         
         $pos = 0;
-        for($i = 0; $i < $count; $i++) {
-            if($pos === $position) {
+        for ($i = 0; $i < $count; $i++) {
+            if ($pos === $position) {
                 $pos++;
             }
             
             $channel = $channels[$i];
             
-            if($pos === $channel->position) {
+            if ($pos === $channel->position) {
                 continue;
             }
             
@@ -447,8 +447,8 @@ trait GuildChannelTrait {
             $pos++;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($newPositions, $reason) {
-            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->guild->id, $newPositions, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($newPositions, $reason) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildChannelPositions($this->guild->id, $newPositions, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -476,10 +476,10 @@ trait GuildChannelTrait {
     protected function validateOverwritePermissions($memberOrRole, $allow, $deny = 0) {
         $options = array();
         
-        if($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+        if ($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
             $memberOrRole = $memberOrRole->id;
             $options['type'] = 'member';
-        } elseif($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\Role) {
+        } elseif ($memberOrRole instanceof \CharlotteDunois\Yasmin\Models\Role) {
             $memberOrRole = $memberOrRole->id;
             $options['type'] = 'role';
         } else {
@@ -491,15 +491,15 @@ trait GuildChannelTrait {
             }
         }
         
-        if(!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
+        if (!\is_int($allow) && !($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
             throw new \InvalidArgumentException('Allow has to be an int or an instance of Permissions');
         }
         
-        if(!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
+        if (!\is_int($deny) && !($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions)) {
             throw new \InvalidArgumentException('Deny has to be an int or an instance of Permissions');
         }
         
-        if(\json_encode($allow) === \json_encode($deny)) {
+        if (\json_encode($allow) === \json_encode($deny)) {
             throw new \InvalidArgumentException('Allow and deny must have different permissions');
         }
         

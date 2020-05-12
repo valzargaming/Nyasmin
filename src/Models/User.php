@@ -114,11 +114,11 @@ class User extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -146,8 +146,8 @@ class User extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Models\DMChannel
      */
     function createDM() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $channel = $this->client->channels->first(function ($channel) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $channel = $this->client->channels->first(function($channel) {
                 return (
                     $channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface &&
                     !($channel instanceof \CharlotteDunois\Yasmin\Interfaces\GroupDMChannelInterface) &&
@@ -155,11 +155,11 @@ class User extends ClientBase {
                 );
             });
             
-            if($channel) {
+            if ($channel) {
                 return $resolve($channel);
             }
             
-            $this->client->apimanager()->endpoints->user->createUserDM($this->id)->done(function ($data) use ($resolve) {
+            $this->client->apimanager()->endpoints->user->createUserDM($this->id)->done(function($data) use ($resolve) {
                 $channel = $this->client->channels->factory($data);
                 $resolve($channel);
             }, $reject);
@@ -171,16 +171,16 @@ class User extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function deleteDM() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $channel = $this->client->channels->first(function ($channel) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $channel = $this->client->channels->first(function($channel) {
                 return ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\DMChannelInterface && $channel->isRecipient($this));
             });
             
-            if(!$channel) {
+            if (!$channel) {
                 return $resolve($this);
             }
             
-            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->done(function () use ($channel, $resolve) {
+            $this->client->apimanager()->endpoints->channel->deleteChannel($channel->id)->done(function() use ($channel, $resolve) {
                 $this->client->channels->delete($channel->id);
                 $resolve($this);
             }, $reject);
@@ -194,7 +194,7 @@ class User extends ClientBase {
      * @throws \InvalidArgumentException Thrown if $size is not a power of 2
      */
     function getDefaultAvatarURL(?int $size = 1024) {
-        if(!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
+        if (!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
@@ -209,15 +209,15 @@ class User extends ClientBase {
      * @throws \InvalidArgumentException Thrown if $size is not a power of 2
      */
     function getAvatarURL(?int $size = 1024, string $format = '') {
-        if(!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
+        if (!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
-        if($this->avatar === null) {
+        if ($this->avatar === null) {
             return null;
         }
         
-        if(empty($format)) {
+        if (empty($format)) {
             $format = \CharlotteDunois\Yasmin\Utils\ImageHelpers::getImageExtension($this->avatar);
         }
         
@@ -240,12 +240,12 @@ class User extends ClientBase {
      * @return \CharlotteDunois\Yasmin\Models\Presence|null
      */
     function getPresence() {
-        if($this->client->presences->has($this->id)) {
+        if ($this->client->presences->has($this->id)) {
             return $this->client->presences->get($this->id);
         }
         
-        foreach($this->client->guilds as $guild) {
-            if($guild->presences->has($this->id)) {
+        foreach ($this->client->guilds as $guild) {
+            if ($guild->presences->has($this->id)) {
                 $presence = $guild->presences->get($this->id);
                 $this->client->presences->set($this->id, $presence);
                 
@@ -263,10 +263,10 @@ class User extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Models\UserConnection
      */
     function fetchUserConnections(string $accessToken) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($accessToken) {
-            $this->client->apimanager()->endpoints->user->getUserConnections($accessToken)->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($accessToken) {
+            $this->client->apimanager()->endpoints->user->getUserConnections($accessToken)->done(function($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Collect\Collection();
-                foreach($data as $conn) {
+                foreach ($data as $conn) {
                     $connection = new \CharlotteDunois\Yasmin\Models\UserConnection($this->client, $this, $conn);
                     $collect->set($connection->id, $connection);
                 }

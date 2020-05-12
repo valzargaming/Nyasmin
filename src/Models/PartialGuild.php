@@ -72,11 +72,11 @@ class PartialGuild extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -93,15 +93,15 @@ class PartialGuild extends ClientBase {
      * @throws \InvalidArgumentException Thrown if $size is not a power of 2
      */
     function getIconURL(?int $size = null, string $format = '') {
-        if(!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
+        if (!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
-        if($this->icon === null) {
+        if ($this->icon === null) {
             return null;
         }
         
-        if(empty($format)) {
+        if (empty($format)) {
             $format = \CharlotteDunois\Yasmin\Utils\ImageHelpers::getImageExtension($this->icon);
         }
         
@@ -115,11 +115,11 @@ class PartialGuild extends ClientBase {
      * @return string|null
      */
     function getSplashURL(?int $size = null, string $format = 'png') {
-        if(!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
+        if (!\CharlotteDunois\Yasmin\Utils\ImageHelpers::isPowerOfTwo($size)) {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
-        if($this->splash !== null) {
+        if ($this->splash !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
         }
         

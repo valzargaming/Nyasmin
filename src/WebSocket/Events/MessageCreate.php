@@ -27,10 +27,10 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $user = $this->client->users->patch($data['author']);
             
-            if(!empty($data['member']) && $channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !$channel->getGuild()->members->has($user->id)) {
+            if (!empty($data['member']) && $channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !$channel->getGuild()->members->has($user->id)) {
                 $member = $data['member'];
                 $member['user'] = array('id' => $user->id);
                 $channel->getGuild()->_addMember($member, true);
@@ -38,13 +38,13 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
             
             $message = $channel->_createMessage($data);
             
-            if($message->guild && $message->mentions->users->count() > 0 && $message->mentions->users->count() > $message->mentions->members->count()) {
+            if ($message->guild && $message->mentions->users->count() > 0 && $message->mentions->users->count() > $message->mentions->members->count()) {
                 $promise = array();
                 
-                foreach($message->mentions->users as $user) {
-                    $promise[] = $message->guild->fetchMember($user->id)->then(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($message) {
+                foreach ($message->mentions->users as $user) {
+                    $promise[] = $message->guild->fetchMember($user->id)->then(function(\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($message) {
                         $message->mentions->members->set($member->id, $member);
-                    }, function () {
+                    }, function() {
                         // Ignore failure
                     });
                 }
@@ -54,9 +54,9 @@ class MessageCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
                 $prm = \React\Promise\resolve();
             }
             
-            $prm->done(function () use ($message) {
-                if($message->guild && !($message->member instanceof \CharlotteDunois\Yasmin\Models\GuildMember) && !$message->author->webhook) {
-                    return $message->guild->fetchMember($message->author->id)->then(null, function () {
+            $prm->done(function() use ($message) {
+                if ($message->guild && !($message->member instanceof \CharlotteDunois\Yasmin\Models\GuildMember) && !$message->author->webhook) {
+                    return $message->guild->fetchMember($message->author->id)->then(null, function() {
                         // Ignore failure
                     });
                 }

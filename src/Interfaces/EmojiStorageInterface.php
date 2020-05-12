@@ -62,7 +62,7 @@ interface EmojiStorageInterface extends StorageInterface {
      * @param string  $key
      * @return bool
      * @throws \InvalidArgumentException
-    */
+     */
     function has($key);
     
     /**
@@ -70,7 +70,7 @@ interface EmojiStorageInterface extends StorageInterface {
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Emoji|null
      * @throws \InvalidArgumentException
-    */
+     */
     function get($key);
     
     /**

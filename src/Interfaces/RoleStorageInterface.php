@@ -62,7 +62,7 @@ interface RoleStorageInterface extends StorageInterface {
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Role|null
      * @throws \InvalidArgumentException
-    */
+     */
     function get($key);
     
     /**

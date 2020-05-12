@@ -96,9 +96,9 @@ class NewsChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
         }
 
         switch ($name) {
-        case 'createdAt':
-            return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
-            break;
+            case 'createdAt':
+                return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
+                break;
         }
 
         return parent::__get($name);
@@ -112,7 +112,7 @@ class NewsChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
     function getChildren()
     {
         return $this->guild->channels->filter(
-            function ($channel) {
+            function($channel) {
                 return ($channel->parentID === $this->id);
             }
         );

@@ -39,7 +39,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      */
     function decode(string $data) {
         $msg = \json_decode($data, true);
-        if($msg === null && \json_last_error() !== \JSON_ERROR_NONE) {
+        if ($msg === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The JSON decoder was unable to decode the data. Error: '.\json_last_error_msg());
         }
         
@@ -54,7 +54,7 @@ class Json implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      */
     function encode($data): string {
         $msg = \json_encode($data);
-        if($msg === false && \json_last_error() !== \JSON_ERROR_NONE) {
+        if ($msg === false && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The JSON encoder was unable to encode the data. Error: '.\json_last_error_msg());
         }
         

@@ -233,24 +233,24 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see https://discord.com/developers/docs/topics/gateway#update-status
      */
     function __construct(array $options = array(), ?\React\EventLoop\LoopInterface $loop = null) {
-        if(\PHP_SAPI !== 'cli') {
+        if (\PHP_SAPI !== 'cli') {
             throw new \Exception('Yasmin can only be used in the CLI SAPI. Please use PHP CLI to run Yasmin.');
         }
         
-        if(!empty($options)) {
+        if (!empty($options)) {
             $this->validateClientOptions($options);
             $this->options = \array_merge($this->options, $options);
         }
         
-        if(!$loop) {
+        if (!$loop) {
             $loop = \React\EventLoop\Factory::create();
         }
         
         $this->loop = $loop;
         
         // ONLY use this if you know to 100% the consequences and know what you are doing
-        if(!empty($options['internal.api.instance'])) {
-            if(\is_string($options['internal.api.instance'])) {
+        if (!empty($options['internal.api.instance'])) {
+            if (\is_string($options['internal.api.instance'])) {
                 $api = $options['internal.api.instance'];
                 $this->api = new $api($this);
             } else {
@@ -261,10 +261,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         }
         
         // ONLY use this if you know to 100% the consequences and know what you are doing
-        if(($options['internal.ws.disable'] ?? false) !== true) {
+        if (($options['internal.ws.disable'] ?? false) !== true) {
             // ONLY use this if you know to 100% the consequences and know what you are doing
-            if(!empty($options['internal.ws.instance'])) {
-                if(\is_string($options['internal.ws.instance'])) {
+            if (!empty($options['internal.ws.instance'])) {
+                if (\is_string($options['internal.ws.instance'])) {
                     $ws = $options['internal.ws.instance'];
                     $this->ws = new $ws($this);
                 } else {
@@ -274,13 +274,13 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 $this->ws = new \CharlotteDunois\Yasmin\WebSocket\WSManager($this);
             }
             
-            $this->ws->on('ready', function () {
+            $this->ws->on('ready', function() {
                 $this->readyTimestamp = \time();
                 $this->emit('ready');
             });
             
-            $this->ws->once('ready', function () {
-                while([ $event, $args ] = \array_shift($this->eventsQueue)) {
+            $this->ws->once('ready', function() {
+                while ([$event, $args] = \array_shift($this->eventsQueue)) {
                     $this->emit($event, ...$args);
                 }
             });
@@ -309,7 +309,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         try {
             return $this->$name !== null;
         } catch (\RuntimeException $e) {
-            if($e->getTrace()[0]['function'] === '__get') {
+            if ($e->getTrace()[0]['function'] === '__get') {
                 return false;
             }
             
@@ -326,15 +326,15 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     function __get($name) {
         $props = array('loop', 'channels', 'emojis', 'guilds', 'presences', 'users', 'shards', 'user');
         
-        if(\in_array($name, $props)) {
+        if (\in_array($name, $props)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'pings':
                 $pings = array();
                 
-                foreach($this->shards as $shard) {
+                foreach ($this->shards as $shard) {
                     $pings = \array_merge($pings, $shard->ws->pings);
                 }
                 
@@ -378,7 +378,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return mixed
      */
     function getOption($name, $default = null) {
-        if(isset($this->options[$name])) {
+        if (isset($this->options[$name])) {
             return $this->options[$name];
         }
         
@@ -393,7 +393,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         $pings = $this->pings;
         $cpings = \count($pings);
         
-        if($cpings === 0) {
+        if ($cpings === 0) {
             return \NAN;
         }
         
@@ -407,10 +407,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     function getWSstatus() {
         $largest = 0;
         
-        foreach($this->shards as $shard) {
+        foreach ($this->shards as $shard) {
             $largest = ($shard->ws->status > $largest ? $shard->ws->status : $largest);
             
-            if($shard->ws->status === self::WS_STATUS_CONNECTED) {
+            if ($shard->ws->status === self::WS_STATUS_CONNECTED) {
                 return self::WS_STATUS_CONNECTED;
             }
         }
@@ -428,37 +428,37 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
     function login(string $token, bool $force = false) {
         $token = \trim($token);
         
-        if(empty($token)) {
+        if (empty($token)) {
             throw new \RuntimeException('Token can not be empty');
         }
         
         $this->token = $token;
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($force) {
-            if($this->ws === null) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($force) {
+            if ($this->ws === null) {
                 return $resolve();
             }
             
-            if(!empty($this->gateway) && !$force) {
+            if (!empty($this->gateway) && !$force) {
                 $gateway = \React\Promise\resolve($this->gateway);
             } else {
                 $gateway = $this->api->getGateway(true);
             }
             
-            $gateway->then(function (array $url) {
+            $gateway->then(function(array $url) {
                 $this->gateway = $url;
                 
                 $wsquery = \CharlotteDunois\Yasmin\WebSocket\WSManager::WS;
                 $encoding = $this->getOption('ws.encoding');
                 
-                if(!empty($encoding) && \is_string($encoding)) {
+                if (!empty($encoding) && \is_string($encoding)) {
                     $wsquery['encoding'] = $encoding;
                 }
                 
                 $minShard = $this->getOption('minShardID');
                 $maxShard = $this->getOption('maxShardID');
                 
-                if($minShard === null || $maxShard === null || $this->getOption('shardCount') === null) {
+                if ($minShard === null || $maxShard === null || $this->getOption('shardCount') === null) {
                     $minShard = 0;
                     $maxShard = $url['shards'] - 1;
                     $this->options['shardCount'] = (int) $url['shards'];
@@ -467,18 +467,18 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 $this->options['numShards'] = $maxShard - $minShard + 1;
                 
                 $remlogin = ($url['remaining'] ?? \INF);
-                if($remlogin < $this->options['numShards']) {
+                if ($remlogin < $this->options['numShards']) {
                     throw new \RangeException('Remaining gateway identify limit is not sufficient ('.$remlogin.' - '.$this->options['numShards'].' shards)');
                 }
                 
                 $prom = \React\Promise\resolve();
                 
-                for($shard = $minShard; $shard <= $maxShard; $shard++) {
-                    $prom = $prom->then(function () use ($shard, $url, $wsquery) {
+                for ($shard = $minShard; $shard <= $maxShard; $shard++) {
+                    $prom = $prom->then(function() use ($shard, $url, $wsquery) {
                         $prom = $this->ws->connectShard($shard, $url['url'], $wsquery);
                         
-                        if(!$this->shards->has($shard)) {
-                            $prom = $prom->then(function (\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws) use ($shard) {
+                        if (!$this->shards->has($shard)) {
+                            $prom = $prom->then(function(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws) use ($shard) {
                                 $shard = new \CharlotteDunois\Yasmin\Models\Shard($this, $shard, $ws);
                                 $this->shards->set($shard->id, $shard);
                             });
@@ -488,10 +488,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                     });
                 }
                 
-                return $prom->then(function () {
+                return $prom->then(function() {
                     return null;
                 });
-            })->done($resolve, function ($error) use ($reject) {
+            })->done($resolve, function($error) use ($reject) {
                 $this->api->clear();
                 $this->ws->destroy();
                 
@@ -510,18 +510,18 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function destroy(bool $destroyUtils = true) {
-        return (new \React\Promise\Promise(function (callable $resolve) use ($destroyUtils) {
-            if($this->api !== null) {
+        return (new \React\Promise\Promise(function(callable $resolve) use ($destroyUtils) {
+            if ($this->api !== null) {
                 $this->api->clear();
             }
             
-            if($this->ws !== null) {
+            if ($this->ws !== null) {
                 $this->ws->destroy();
             }
             
             $this->cancelTimers();
             
-            if($destroyUtils) {
+            if ($destroyUtils) {
                 $this->destroyUtils();
             }
             
@@ -574,15 +574,15 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\Models\Guild
      */
     function createGuild(array $options) {
-        if(empty($options['name'])) {
+        if (empty($options['name'])) {
             throw new \InvalidArgumentException('Guild name can not be empty');
         }
         
-        if(empty($options['region'])) {
+        if (empty($options['region'])) {
             throw new \InvalidArgumentException('Guild region can not be empty');
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($options) {
             $data = array(
                 'name' => $options['name'],
                 'region' => ($options['region'] instanceof \CharlotteDunois\Yasmin\Models\VoiceRegion ? $options['region']->id : $options['region']),
@@ -607,8 +607,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             );
             $roleint = 1;
             
-            if(!empty($options['roles'])) {
-                foreach($options['roles'] as $role) {
+            if (!empty($options['roles'])) {
+                foreach ($options['roles'] as $role) {
                     $role = array(
                         'id' => $roleint,
                         'name' => ((string) $role['name']),
@@ -618,7 +618,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                         'mentionable' => ((bool) ($role['mentionable'] ?? false))
                     );
                     
-                    if($role['name'] === '@everyone') {
+                    if ($role['name'] === '@everyone') {
                         $data['roles'][0] = $role;
                     } else {
                         $data['roles'][] = $role;
@@ -627,25 +627,25 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 }
             }
             
-            if(!empty($options['channels'])) {
-                foreach($options['channels'] as $channel) {
+            if (!empty($options['channels'])) {
+                foreach ($options['channels'] as $channel) {
                     $cdata = array(
                         'name' => ((string) $channel['name']),
                         'type' => (\CharlotteDunois\Yasmin\Models\ChannelStorage::CHANNEL_TYPES[($channel['type'] ?? 'text')] ?? 0),
                     );
                     
-                    if(isset($channel['bitrate'])) {
+                    if (isset($channel['bitrate'])) {
                         $cdata['bitrate'] = (int) $channel['bitrate'];
                     }
                     
-                    if(isset($channel['userLimit'])) {
+                    if (isset($channel['userLimit'])) {
                         $cdata['user_limit'] = $channel['userLimit'];
                     }
                     
-                    if(isset($channel['permissionOverwrites'])) {
+                    if (isset($channel['permissionOverwrites'])) {
                         $overwrites = array();
                         
-                        foreach($channel['permissionOverwrites'] as $overwrite) {
+                        foreach ($channel['permissionOverwrites'] as $overwrite) {
                             $id = ($overwrite['id'] instanceof \CharlotteDunois\Yasmin\Models\User ? $overwrite['id']->id : ($rolemap[$overwrite['id']] ?? $overwrite['id']));
                             
                             $overwrites[] = array(
@@ -659,11 +659,11 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                         $cdata['permission_overwrites'] = $overwrites;
                     }
                     
-                    if(isset($channel['parent'])) {
+                    if (isset($channel['parent'])) {
                         $cdata['parent_id'] = ($channel['parent'] instanceof \CharlotteDunois\Yasmin\Models\CategoryChannel ? $channel['parent']->id : $channel['parent']);
                     }
                     
-                    if(isset($channel['nsfw'])) {
+                    if (isset($channel['nsfw'])) {
                         $cdata['nsfw'] = $channel['nsfw'];
                     }
                     
@@ -671,16 +671,16 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
                 }
             }
             
-            if(!empty($options['icon'])) {
-                $pr = \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($options['icon'])->then(function ($icon) use (&$data) {
+            if (!empty($options['icon'])) {
+                $pr = \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($options['icon'])->then(function($icon) use (&$data) {
                     $data['icon'] = $icon;
                 });
             } else {
                 $pr = \React\Promise\resolve(null);
             }
             
-            $pr->then(function () use (&$data) {
-                return $this->api->endpoints->guild->createGuild($data)->then(function ($gdata) {
+            $pr->then(function() use (&$data) {
+                return $this->api->endpoints->guild->createGuild($data)->then(function($gdata) {
                     return $this->guilds->factory($gdata);
                 });
             })->done($resolve, $reject);
@@ -693,8 +693,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\Models\OAuthApplication
      */
     function fetchApplication() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->api->endpoints->getCurrentApplication()->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->api->endpoints->getCurrentApplication()->done(function($data) use ($resolve) {
                 $app = new \CharlotteDunois\Yasmin\Models\OAuthApplication($this, $data);
                 $resolve($app);
             }, $reject);
@@ -709,13 +709,13 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\Models\Invite
      */
     function fetchInvite(string $invite, bool $withCounts = false) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($invite, $withCounts) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($invite, $withCounts) {
             \preg_match('/discord(?:app\.com\/invite|\.gg)\/([\w-]{2,255})/i', $invite, $matches);
-            if(!empty($matches[1])) {
+            if (!empty($matches[1])) {
                 $invite = $matches[1];
             }
             
-            $this->api->endpoints->invite->getInvite($invite, $withCounts)->done(function ($data) use ($resolve) {
+            $this->api->endpoints->invite->getInvite($invite, $withCounts)->done(function($data) use ($resolve) {
                 $invite = new \CharlotteDunois\Yasmin\Models\Invite($this, $data);
                 $resolve($invite);
             }, $reject);
@@ -729,12 +729,12 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\Models\User
      */
     function fetchUser(string $userid) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($userid) {
-            if($this->users->has($userid)) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($userid) {
+            if ($this->users->has($userid)) {
                 return $resolve($this->users->get($userid));
             }
             
-            $this->api->endpoints->user->getUser($userid)->then(function ($user) use ($resolve) {
+            $this->api->endpoints->user->getUser($userid)->then(function($user) use ($resolve) {
                 $user = $this->users->factory($user, true);
                 $resolve($user);
             }, $reject);
@@ -747,11 +747,11 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\Models\VoiceRegion
      */
     function fetchVoiceRegions() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->api->endpoints->voice->listVoiceRegions()->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->api->endpoints->voice->listVoiceRegions()->done(function($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Collect\Collection();
                 
-                foreach($data as $region) {
+                foreach ($data as $region) {
                     $voice = new \CharlotteDunois\Yasmin\Models\VoiceRegion($this, $region);
                     $collect->set($voice->id, $voice);
                 }
@@ -769,10 +769,10 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function fetchWebhook(string $id, ?string $token = null) {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($id, $token) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($id, $token) {
             $method = (!empty($token) ? 'getWebhookToken' : 'getWebhook');
             
-            $this->api->endpoints->webhook->$method($id, $token)->done(function ($data) use ($resolve) {
+            $this->api->endpoints->webhook->$method($id, $token)->done(function($data) use ($resolve) {
                 $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this, $data);
                 $resolve($hook);
             }, $reject);
@@ -787,11 +787,11 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function generateOAuthInvite(...$permissions) {
         $perm = new \CharlotteDunois\Yasmin\Models\Permissions();
-        if(!empty($permissions)) {
+        if (!empty($permissions)) {
             $perm->add(...$permissions);
         }
         
-        return $this->fetchApplication()->then(function ($app) use ($perm) {
+        return $this->fetchApplication()->then(function($app) use ($perm) {
             return 'https://discord.com/oauth2/authorize?client_id='.$app->id.'&permissions='.$perm->bitfield.'&scope=bot';
         });
     }
@@ -803,7 +803,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \React\EventLoop\Timer\Timer
      */
     function addTimer($timeout, callable $callback) {
-        $timer = $this->loop->addTimer($timeout, function () use ($callback, &$timer) {
+        $timer = $this->loop->addTimer($timeout, function() use ($callback, &$timer) {
             $callback($this);
             $this->cancelTimer($timer);
         });
@@ -819,7 +819,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return \React\EventLoop\Timer\Timer
      */
     function addPeriodicTimer($interval, callable $callback) {
-        $timer = $this->loop->addPeriodicTimer($interval, function () use ($callback) {
+        $timer = $this->loop->addPeriodicTimer($interval, function() use ($callback) {
             $callback($this);
         });
         
@@ -836,7 +836,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->loop->cancelTimer($timer);
         
         $key = \array_search($timer, $this->timers, true);
-        if($key !== false) {
+        if ($key !== false) {
             unset($this->timers[$key]);
         }
         
@@ -848,7 +848,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function cancelTimers() {
-        foreach($this->timers as $key => $timer) {
+        foreach ($this->timers as $key => $timer) {
             $this->loop->cancelTimer($timer);
             unset($this->timers[$key]);
         }
@@ -879,7 +879,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function registerUtil(string $name) {
-        if(\method_exists($name, 'setLoop')) {
+        if (\method_exists($name, 'setLoop')) {
             $name::setLoop($this->loop);
             $this->utils[] = $name;
         }
@@ -892,8 +892,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function destroyUtil(string $name) {
         $pos = \array_search($name, $this->utils, true);
-        if($pos !== false) {
-            if(\method_exists($name, 'destroy')) {
+        if ($pos !== false) {
+            if (\method_exists($name, 'destroy')) {
                 $name::destroy();
             }
             
@@ -908,12 +908,12 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      */
     function registerUtils() {
         $utils = \glob(__DIR__.'/Utils/*.php');
-        foreach($utils as $util) {
+        foreach ($utils as $util) {
             $parts = \explode('/', \str_replace('\\', '/', $util));
             $name = \substr(\array_pop($parts), 0, -4);
             $fqn = '\\CharlotteDunois\\Yasmin\\Utils\\'.$name;
             
-            if(\method_exists($fqn, 'setLoop')) {
+            if (\method_exists($fqn, 'setLoop')) {
                 $fqn::setLoop($this->loop);
                 $this->utils[] = $fqn;
             }
@@ -926,8 +926,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @internal
      */
     function destroyUtils() {
-        foreach($this->utils as $util) {
-            if(\method_exists($util, 'destroy')) {
+        foreach ($this->utils as $util) {
+            if (\method_exists($util, 'destroy')) {
                 $util::destroy();
             }
         }
@@ -1002,8 +1002,8 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
             'users' => \CharlotteDunois\Yasmin\Models\UserStorage::class
         );
         
-        foreach($storages as $name => $base) {
-            if(empty($this->options['internal.storages.'.$name])) {
+        foreach ($storages as $name => $base) {
+            if (empty($this->options['internal.storages.'.$name])) {
                 $this->options['internal.storages.'.$name] = $base;
             }
         }
@@ -1015,7 +1015,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @internal
      */
     function queuedEmit(string $event, ...$args) {
-        if($this->readyTimestamp === null) {
+        if ($this->readyTimestamp === null) {
             $this->eventsQueue[] = array($event, $args);
             return;
         }

@@ -36,19 +36,19 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
      * @throws \InvalidArgumentException
      */
     function resolve($guildmember) {
-        if($guildmember instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
+        if ($guildmember instanceof \CharlotteDunois\Yasmin\Models\GuildMember) {
             return $guildmember;
         }
         
-        if($guildmember instanceof \CharlotteDunois\Yasmin\Models\User) {
+        if ($guildmember instanceof \CharlotteDunois\Yasmin\Models\User) {
             $guildmember = $guildmember->id;
         }
         
-        if(\is_int($guildmember)) {
+        if (\is_int($guildmember)) {
             $guildmember = (string) $guildmember;
         }
         
-        if(\is_string($guildmember) && parent::has($guildmember)) {
+        if (\is_string($guildmember) && parent::has($guildmember)) {
             return parent::get($guildmember);
         }
         
@@ -101,7 +101,7 @@ class GuildMemberStorage extends Storage implements \CharlotteDunois\Yasmin\Inte
      * @internal
      */
     function factory(array $data) {
-        if(parent::has($data['user']['id'])) {
+        if (parent::has($data['user']['id'])) {
             $member = parent::get($data['user']['id']);
             $member->_patch($data);
             return $member;

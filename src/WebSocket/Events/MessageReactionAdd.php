@@ -27,28 +27,28 @@ class MessageReactionAdd implements \CharlotteDunois\Yasmin\Interfaces\WSEventIn
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $message = $channel->getMessages()->get($data['message_id']);
             $reaction = null;
             
-            if($message) {
+            if ($message) {
                 $reaction = $message->_addReaction($data);
                 $message = \React\Promise\resolve($message);
             } else {
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $reaction) {
-                if($reaction === null) {
+            $message->done(function(\CharlotteDunois\Yasmin\Models\Message $message) use ($data, $reaction) {
+                if ($reaction === null) {
                     $id = (!empty($data['emoji']['id']) ? ((string) $data['emoji']['id']) : $data['emoji']['name']);
                     $reaction = $message->reactions->get($id);
                 }
                 
-                $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($reaction) {
+                $this->client->fetchUser($data['user_id'])->done(function(\CharlotteDunois\Yasmin\Models\User $user) use ($reaction) {
                     $reaction->users->set($user->id, $user);
                     $this->client->queuedEmit('messageReactionAdd', $reaction, $user);
                 }, array($this->client, 'handlePromiseRejection'));
-            }, function () {
+            }, function() {
                 // Don't handle it
             });
         }

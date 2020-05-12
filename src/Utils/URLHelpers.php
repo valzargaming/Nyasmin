@@ -39,7 +39,7 @@ class URLHelpers {
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
         static::$loop = $loop;
         
-        if(static::$http === null) {
+        if (static::$http === null) {
             static::internalSetClient();
         }
     }
@@ -56,7 +56,7 @@ class URLHelpers {
      * @throws \LogicException
      */
     static function setHTTPClient(\Clue\React\Buzz\Browser $client) {
-        if(static::$http !== null) {
+        if (static::$http !== null) {
             throw new \LogicException('Client has already been set');
         }
         
@@ -76,7 +76,7 @@ class URLHelpers {
      * @return \Clue\React\Buzz\Browser
      */
     static function getHTTPClient() {
-        if(!static::$http) {
+        if (!static::$http) {
             static::internalSetClient();
         }
         
@@ -106,14 +106,14 @@ class URLHelpers {
     static function makeRequest(\Psr\Http\Message\RequestInterface $request, ?array $requestOptions = null) {
         $client = static::getHTTPClient();
         
-        if(!empty($requestOptions)) {
-            if(isset($requestOptions['http_errors'])) {
+        if (!empty($requestOptions)) {
+            if (isset($requestOptions['http_errors'])) {
                 $client = $client->withOptions(array(
                     'obeySuccessCode' => !empty($requestOptions['http_errors'])
                 ));
             }
             
-            if(isset($requestOptions['timeout'])) {
+            if (isset($requestOptions['timeout'])) {
                 $client = $client->withOptions(array(
                     'timeout' => ((float) $requestOptions['timeout'])
                 ));
@@ -136,23 +136,23 @@ class URLHelpers {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     static function resolveURLToData(string $url, ?array $requestHeaders = null) {
-        if($requestHeaders === null) {
+        if ($requestHeaders === null) {
             $requestHeaders = array();
         }
         
-        foreach($requestHeaders as $key => $val) {
+        foreach ($requestHeaders as $key => $val) {
             unset($requestHeaders[$key]);
             $nkey = \ucwords($key, '-');
             $requestHeaders[$nkey] = $val;
         }
         
-        if(empty($requestHeaders['User-Agent'])) {
+        if (empty($requestHeaders['User-Agent'])) {
             $requestHeaders['User-Agent'] = static::DEFAULT_USER_AGENT;
         }
         
         $request = new \RingCentral\Psr7\Request('GET', $url, $requestHeaders);
         
-        return static::makeRequest($request)->then(function ($response) {
+        return static::makeRequest($request)->then(function($response) {
             $body = (string) $response->getBody();
             return $body;
         });
@@ -177,21 +177,21 @@ class URLHelpers {
      * @throws \RuntimeException
      */
     static function applyRequestOptions(\Psr\Http\Message\RequestInterface $request, array $requestOptions) {
-        if(isset($requestOptions['multipart'])) {
+        if (isset($requestOptions['multipart'])) {
             $multipart = new \RingCentral\Psr7\MultipartStream($requestOptions['multipart']);
             
             $request = $request->withBody($multipart)
                             ->withHeader('Content-Type', 'multipart/form-data; boundary="'.$multipart->getBoundary().'"');
         }
         
-        if(isset($requestOptions['json'])) {
+        if (isset($requestOptions['json'])) {
             $resource = \fopen('php://temp', 'r+');
-            if($resource === false) {
+            if ($resource === false) {
                 throw new \RuntimeException('Unable to create stream for JSON data');
             }
             
             $json = \json_encode($requestOptions['json']);
-            if($json === false) {
+            if ($json === false) {
                 throw new \RuntimeException('Unable to encode json. Error: '.\json_last_error_msg());
             }
             
@@ -205,13 +205,13 @@ class URLHelpers {
                             ->withHeader('Content-Length', \strlen($json));
         }
         
-        if(isset($requestOptions['query'])) {
+        if (isset($requestOptions['query'])) {
             $uri = $request->getUri()->withQuery($requestOptions['query']);
             $request = $request->withUri($uri);
         }
         
-        if(isset($requestOptions['headers'])) {
-            foreach($requestOptions['headers'] as $key => $val) {
+        if (isset($requestOptions['headers'])) {
+            foreach ($requestOptions['headers'] as $key => $val) {
                 $request = $request->withHeader($key, $val);
             }
         }

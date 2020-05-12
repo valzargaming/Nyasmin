@@ -27,7 +27,7 @@ class GuildRoleCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInter
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
-        if($guild) {
+        if ($guild) {
             $role = $guild->roles->factory($data['role']);
             $this->client->queuedEmit('roleCreate', $role);
         }

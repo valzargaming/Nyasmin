@@ -69,7 +69,7 @@ class MessageReaction extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -85,21 +85,21 @@ class MessageReaction extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Models\User
      */
     function fetchUsers(int $limit = 100, string $before = '', string $after = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($limit, $before, $after) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($limit, $before, $after) {
             $query = array('limit' => $limit);
             
-            if(!empty($before)) {
+            if (!empty($before)) {
                 $query['before'] = $before;
             }
             
-            if(!empty($after)) {
+            if (!empty($after)) {
                 $query['after'] = $after;
             }
             
             $this->client->apimanager()->endpoints->channel
                 ->getMessageReactions($this->message->channel->getId(), $this->message->id, $this->emoji->identifier, $query)
-                ->done(function ($data) use ($resolve) {
-                    foreach($data as $react) {
+                ->done(function($data) use ($resolve) {
+                    foreach ($data as $react) {
                         $user = $this->client->users->patch($react);
                         $this->users->set($user->id, $user);
                     }
@@ -116,14 +116,14 @@ class MessageReaction extends ClientBase {
      * @throws \InvalidArgumentException
      */
     function remove($user = null) {
-        if($user !== null) {
+        if ($user !== null) {
             $user = $this->client->users->resolve($user);
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($user) {
             $this->client->apimanager()->endpoints->channel
                 ->deleteMessageUserReaction($this->message->channel->getId(), $this->message->id, $this->emoji->identifier, ($user !== null ? $user->id : '@me'))
-                ->done(function () use ($resolve) {
+                ->done(function() use ($resolve) {
                     $resolve($this);
                 }, $reject);
         }));
