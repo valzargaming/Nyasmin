@@ -364,21 +364,21 @@ class WSConnection implements \CharlotteDunois\Events\EventEmitterInterface {
      * @return void
      */
     function processQueue() {
-            if($this->running) {
+            if ($this->running) {
                 return;
-            } elseif($this->ratelimits['remaining'] === 0) {
+            } elseif ($this->ratelimits['remaining'] === 0) {
                 return;
-            } elseif(\count($this->queue) === 0) {
+            } elseif (\count($this->queue) === 0) {
                 return;
             }
          
             $this->running = true;
          
-            while($this->ratelimits['remaining'] > 0 && \count($this->queue) > 0) {
+            while ($this->ratelimits['remaining'] > 0 && \count($this->queue) > 0) {
                 $element = \array_shift($this->queue);
                 $this->ratelimits['remaining']--;
              
-                if(!$this->ws) {
+                if (!$this->ws) {
                     $element['reject'](new \RuntimeException('No WS connection'));
                     break;
                 }
