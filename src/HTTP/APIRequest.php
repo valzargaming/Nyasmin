@@ -78,7 +78,7 @@ class APIRequest {
         $this->endpoint = \ltrim($endpoint, '/');
         $this->options = $options;
         
-        if(self::$jsonOptions === null) {
+        if (self::$jsonOptions === null) {
             self::$jsonOptions = (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0);
         }
     }
@@ -123,17 +123,17 @@ class APIRequest {
             )
         );
         
-        if(!empty($this->options['auth'])) {
+        if (!empty($this->options['auth'])) {
             $options['headers']['Authorization'] = $this->options['auth'];
-        } elseif(empty($this->options['noAuth']) && !empty($this->api->client->token)) {
+        } elseif (empty($this->options['noAuth']) && !empty($this->api->client->token)) {
             $options['headers']['Authorization'] = 'Bot '.$this->api->client->token;
         }
         
-        if(!empty($this->options['files']) && \is_array($this->options['files'])) {
+        if (!empty($this->options['files']) && \is_array($this->options['files'])) {
             $options['multipart'] = array();
             
-            foreach($this->options['files'] as $file) {
-                if(!isset($file['data']) && !isset($file['path'])) {
+            foreach ($this->options['files'] as $file) {
+                if (!isset($file['data']) && !isset($file['path'])) {
                     continue;
                 }
                 
@@ -145,21 +145,21 @@ class APIRequest {
                 );
             }
             
-            if(!empty($this->options['data'])) {
+            if (!empty($this->options['data'])) {
                 $options['multipart'][] = array(
                     'name' => 'payload_json',
                     'contents' => \json_encode($this->options['data'], self::$jsonOptions)
                 );
             }
-        } elseif(!empty($this->options['data'])) {
+        } elseif (!empty($this->options['data'])) {
             $options['json'] = $this->options['data'];
         }
         
-        if(!empty($this->options['querystring'])) {
+        if (!empty($this->options['querystring'])) {
             $options['query'] = \http_build_query($this->options['querystring'], '', '&', \PHP_QUERY_RFC3986);
         }
         
-        if(!empty($this->options['auditLogReason'])) {
+        if (!empty($this->options['auditLogReason'])) {
             $options['headers']['X-Audit-Log-Reason'] = \rawurlencode(\trim($this->options['auditLogReason']));
         }
         
@@ -179,8 +179,8 @@ class APIRequest {
         
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)
-            ->then(function (?\Psr\Http\Message\ResponseInterface $response) use ($ratelimit) {
-                if(!$response) {
+            ->then(function(?\Psr\Http\Message\ResponseInterface $response) use ($ratelimit) {
+                if (!$response) {
                     return -1;
                 }
                 
@@ -189,15 +189,15 @@ class APIRequest {
                 
                 $this->api->handleRatelimit($response, $ratelimit, $this->isReactionEndpoint());
                 
-                if($status === 204) {
+                if ($status === 204) {
                     return 0;
                 }
                 
                 $body = self::decodeBody($response);
                 
-                if($status >= 400) {
+                if ($status >= 400) {
                     $error = $this->handleAPIError($response, $body, $ratelimit);
-                    if($error === null) {
+                    if ($error === null) {
                         return -1;
                     }
                     
@@ -219,12 +219,12 @@ class APIRequest {
         $body = (string) $response->getBody();
         
         $type = $response->getHeader('Content-Type')[0];
-        if(\stripos($type, 'text/html') !== false) {
+        if (\stripos($type, 'text/html') !== false) {
             throw new \RuntimeException('Invalid API response: HTML response body received');
         }
         
         $json = \json_decode($body, true, 512, self::$jsonOptions);
-        if($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
+        if ($json === null && \json_last_error() !== \JSON_ERROR_NONE) {
             throw new \RuntimeException('Invalid API response: '.\json_last_error_msg());
         }
         
@@ -241,11 +241,11 @@ class APIRequest {
     protected function handleAPIError(\Psr\Http\Message\ResponseInterface $response, $body, ?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $status = $response->getStatusCode();
         
-        if($status >= 500) {
+        if ($status >= 500) {
             $this->retries++;
             $maxRetries = (int) $this->api->client->getOption('http.requestMaxRetries', 0);
             
-            if($maxRetries > 0 && $this->retries > $maxRetries) {
+            if ($maxRetries > 0 && $this->retries > $maxRetries) {
                 $this->api->client->emit('debug', 'Giving up on item "'.$this->endpoint.'" after '.$maxRetries.' retries due to HTTP '.$status);
                 
                 return (new \RuntimeException('Maximum retry of '.$maxRetries.' reached - giving up'));
@@ -254,12 +254,12 @@ class APIRequest {
             $this->api->client->emit('debug', 'Delaying unshifting item "'.$this->endpoint.'" due to HTTP '.$status);
             
             $delay = (int) $this->api->client->getOption('http.requestErrorDelay', 30);
-            if($this->retries > 2) {
+            if ($this->retries > 2) {
                 $delay *= 2;
             }
             
-            $this->api->client->addTimer($delay, function () use (&$ratelimit) {
-                if($ratelimit !== null) {
+            $this->api->client->addTimer($delay, function() use (&$ratelimit) {
+                if ($ratelimit !== null) {
                     $this->api->unshiftQueue($ratelimit->unshift($this));
                 } else {
                     $this->api->unshiftQueue($this);
@@ -267,10 +267,10 @@ class APIRequest {
             });
             
             return null;
-        } elseif($status === 429) {
+        } elseif ($status === 429) {
             $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP 429');
             
-            if($ratelimit !== null) {
+            if ($ratelimit !== null) {
                 $this->api->unshiftQueue($ratelimit->unshift($this));
             } else {
                 $this->api->unshiftQueue($this);
@@ -279,7 +279,7 @@ class APIRequest {
             return null;
         }
         
-        if($status >= 400 && $status < 500) {
+        if ($status >= 400 && $status < 500) {
             $error = new \CharlotteDunois\Yasmin\HTTP\DiscordAPIException($this->endpoint, $body);
         } else {
             $error = new \RuntimeException($response->getReasonPhrase());

@@ -124,11 +124,11 @@ class TextChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -149,17 +149,17 @@ class TextChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function createWebhook(string $name, ?string $avatar = null, string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($name, $avatar, $reason) {
-            if(!empty($avatar)) {
-                $file = \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($avatar)->then(function ($avatar) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($name, $avatar, $reason) {
+            if (!empty($avatar)) {
+                $file = \CharlotteDunois\Yasmin\Utils\FileHelpers::resolveFileResolvable($avatar)->then(function($avatar) {
                     return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeBase64URI($avatar);
                 });
             } else {
                 $file = \React\Promise\resolve(null);
             }
             
-            $file->done(function ($avatar = null) use ($name, $reason, $resolve, $reject) {
-                $this->client->apimanager()->endpoints->webhook->createWebhook($this->id, $name, $avatar, $reason)->done(function ($data) use ($resolve) {
+            $file->done(function($avatar = null) use ($name, $reason, $resolve, $reject) {
+                $this->client->apimanager()->endpoints->webhook->createWebhook($this->id, $name, $avatar, $reason)->done(function($data) use ($resolve) {
                     $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $data);
                     $resolve($hook);
                 }, $reject);
@@ -173,11 +173,11 @@ class TextChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
      * @see \CharlotteDunois\Yasmin\Models\Webhook
      */
     function fetchWebhooks() {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) {
-            $this->client->apimanager()->endpoints->webhook->getChannelWebhooks($this->id)->done(function ($data) use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) {
+            $this->client->apimanager()->endpoints->webhook->getChannelWebhooks($this->id)->done(function($data) use ($resolve) {
                 $collect = new \CharlotteDunois\Collect\Collection();
                 
-                foreach($data as $web) {
+                foreach ($data as $web) {
                     $hook = new \CharlotteDunois\Yasmin\Models\Webhook($this->client, $web);
                     $collect->set($hook->id, $hook);
                 }
@@ -217,10 +217,10 @@ class TextChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfac
         $this->position = (int) ($channel['position'] ?? $this->position ?? 0);
         $this->slowmode = (int) ($channel['rate_limit_per_user'] ?? $this->slowmode ?? 0);
         
-        if(isset($channel['permission_overwrites'])) {
+        if (isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
-            foreach($channel['permission_overwrites'] as $permission) {
+            foreach ($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission);
                 $this->permissionOverwrites->set($overwrite->id, $overwrite);
             }

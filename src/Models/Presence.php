@@ -72,11 +72,11 @@ class Presence extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'user':
                 return $this->client->users->get($this->userID);
             break;
@@ -89,24 +89,24 @@ class Presence extends ClientBase {
      * @return mixed
      * @internal
      */
-     function jsonSerialize() {
-         return array(
-             'status' => $this->status,
-             'clientStatus' => $this->clientStatus,
-             'game' => $this->activity
-         );
-     }
+        function jsonSerialize() {
+            return array(
+                'status' => $this->status,
+                'clientStatus' => $this->clientStatus,
+                'game' => $this->activity
+            );
+        }
      
-     /**
-      * @return void
-      * @internal
-      */
-     function _patch(array $presence) {
-         $this->activity = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $presence['game'])) : null);
-         $this->status = $presence['status'];
-         $this->clientStatus = (!empty($presence['client_status']) ? (new \CharlotteDunois\Yasmin\Models\ClientStatus($presence['client_status'])) : null);
-         $this->activities = (!empty($presence['activities']) ? \array_map(function (array $activitiy) {
-             return (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $activitiy));
-         }, $presence['activities']) : array());
-     }
+        /**
+         * @return void
+         * @internal
+         */
+        function _patch(array $presence) {
+            $this->activity = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $presence['game'])) : null);
+            $this->status = $presence['status'];
+            $this->clientStatus = (!empty($presence['client_status']) ? (new \CharlotteDunois\Yasmin\Models\ClientStatus($presence['client_status'])) : null);
+            $this->activities = (!empty($presence['activities']) ? \array_map(function (array $activitiy) {
+                return (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $activitiy));
+            }, $presence['activities']) : array());
+        }
 }

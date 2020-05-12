@@ -73,10 +73,10 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
         $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? null), 'string');
         $this->recipients = new \CharlotteDunois\Collect\Collection();
         
-        if(!empty($channel['recipients'])) {
-            foreach($channel['recipients'] as $rec) {
+        if (!empty($channel['recipients'])) {
+            foreach ($channel['recipients'] as $rec) {
                 $user = $this->client->users->patch($rec);
-                if($user) {
+                if ($user) {
                     $this->recipients->set($user->id, $user);
                 }
             }
@@ -90,11 +90,11 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -125,12 +125,12 @@ class DMChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfaces
         $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? $this->ownerID ?? null), 'string');
         $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? $this->lastMessageID ?? null), 'string');
         
-        if(isset($channel['recipients'])) {
+        if (isset($channel['recipients'])) {
             $this->recipients->clear();
             
-            foreach($channel['recipients'] as $rec) {
+            foreach ($channel['recipients'] as $rec) {
                 $user = $this->client->users->patch($rec);
-                if($user) {
+                if ($user) {
                     $this->recipients->set($user->id, $user);
                 }
             }

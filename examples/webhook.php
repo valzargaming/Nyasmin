@@ -20,10 +20,10 @@ $webhook = new \CharlotteDunois\Yasmin\WebhookClient('WEBHOOK_ID', 'WEBHOOK_TOKE
 
 // We do not need another promise here, so
 // we call done, because we want to consume the promise
-$webhook->send('Hallo')->done(function () use ($loop) {
+$webhook->send('Hallo')->done(function() use ($loop) {
     echo 'Message sent!'.PHP_EOL;
     $loop->stop();
-}, function ($error) {
+}, function($error) {
     // We will just echo any errors for this example
     echo $error.PHP_EOL;
 });

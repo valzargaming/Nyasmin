@@ -40,11 +40,11 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
      * @throws \RuntimeException
      */
     static function supported(): void {
-        if(!\class_exists('\\CharlotteDunois\\Kimberly\\Kimberly')) {
+        if (!\class_exists('\\CharlotteDunois\\Kimberly\\Kimberly')) {
             throw new \RuntimeException('Unable to use ETF as WS encoding due to missing dependencies');
         }
         
-        if(\PHP_INT_SIZE < 8) {
+        if (\PHP_INT_SIZE < 8) {
             throw new \RuntimeException('ETF can not be used on with 32 bit PHP');
         }
     }
@@ -58,7 +58,7 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     function decode(string $data) {
         try {
             $msg = $this->etf->decode($data);
-            if($msg === '' || $msg === null) {
+            if ($msg === '' || $msg === null) {
                 throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The ETF decoder was unable to decode the data');
             }
         } catch (\CharlotteDunois\Kimberly\Exception $e) {
@@ -105,19 +105,19 @@ class Etf implements \CharlotteDunois\Yasmin\Interfaces\WSEncodingInterface {
     protected function convertIDs($data) {
         $arr = array();
         
-        foreach($data as $key => $val) {
-            if(\is_string($key) && $key[0] === ':') {
+        foreach ($data as $key => $val) {
+            if (\is_string($key) && $key[0] === ':') {
                 $key = \mb_substr($key, 1);
             }
             
-            if($val instanceof \CharlotteDunois\Kimberly\Atom) {
+            if ($val instanceof \CharlotteDunois\Kimberly\Atom) {
                 $arr[$key] = (string) $val->atom;
-            } elseif($val instanceof \CharlotteDunois\Kimberly\BaseObject) {
+            } elseif ($val instanceof \CharlotteDunois\Kimberly\BaseObject) {
                 $arr[$key] = $val->toArray();
-            } elseif(\is_array($val) || \is_object($val)) {
+            } elseif (\is_array($val) || \is_object($val)) {
                 $arr[$key] = $this->convertIDs($val);
             } else {
-                if(\is_int($val) && ($key === 'id' || \mb_substr($key, -3) === '_id')) {
+                if (\is_int($val) && ($key === 'id' || \mb_substr($key, -3) === '_id')) {
                     $val = (string) $val;
                 }
                 

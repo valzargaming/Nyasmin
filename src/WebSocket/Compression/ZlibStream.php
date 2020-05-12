@@ -25,7 +25,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * @throws \Exception
      */
     static function supported(): void {
-        if(!\function_exists('\inflate_init')) {
+        if (!\function_exists('\inflate_init')) {
             throw new \RuntimeException('Zlib is not supported by this PHP installation');
         }
     }
@@ -53,7 +53,7 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      */
     function init(): void {
         $this->context = \inflate_init(\ZLIB_ENCODING_DEFLATE);
-        if(!$this->context) {
+        if (!$this->context) {
             throw new \RuntimeException('Unable to initialize Zlib Inflate');
         }
     }
@@ -73,12 +73,12 @@ class ZlibStream implements \CharlotteDunois\Yasmin\Interfaces\WSCompressionInte
      * @throws \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException
      */
     function decompress(string $data): string {
-        if(!$this->context) {
+        if (!$this->context) {
             throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('No inflate context initialized');
         }
         
         $uncompressed = \inflate_add($this->context, $data);
-        if($uncompressed === false) {
+        if ($uncompressed === false) {
             throw new \CharlotteDunois\Yasmin\WebSocket\DiscordGatewayException('The inflate context was unable to decompress the data');
         }
         

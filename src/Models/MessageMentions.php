@@ -25,7 +25,7 @@ class MessageMentions extends ClientBase {
      * @var string
      * @source
      */
-     const PATTERN_CHANNELS = '/<#(\d+)>/';
+        const PATTERN_CHANNELS = '/<#(\d+)>/';
      
     /**
      * RegEx pattern to match custom emoji mentions.
@@ -99,25 +99,25 @@ class MessageMentions extends ClientBase {
         $this->everyone = !empty($msg['mention_everyone']);
         
         \preg_match_all(self::PATTERN_CHANNELS, $message->content, $matches);
-        if(!empty($matches[1])) {
-            foreach($matches[1] as $match) {
+        if (!empty($matches[1])) {
+            foreach ($matches[1] as $match) {
                 $channel = $this->client->channels->get($match);
-                if($channel) {
+                if ($channel) {
                     $this->channels->set($channel->getId(), $channel);
                 }
             }
         }
         
-        if(!empty($msg['mentions'])) {
-            foreach($msg['mentions'] as $mention) {
+        if (!empty($msg['mentions'])) {
+            foreach ($msg['mentions'] as $mention) {
                 $user = $this->client->users->patch($mention);
-                if($user) {
+                if ($user) {
                     $member = null;
                     
                     $this->users->set($user->id, $user);
-                    if($message->guild) {
+                    if ($message->guild) {
                         $member = $message->guild->members->get($user->id);
-                        if($member) {
+                        if ($member) {
                             $this->members->set($member->id, $member);
                         }
                     }
@@ -125,10 +125,10 @@ class MessageMentions extends ClientBase {
             }
         }
         
-        if($message->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !empty($msg['mention_roles'])) {
-            foreach($msg['mention_roles'] as $id) {
+        if ($message->channel instanceof \CharlotteDunois\Yasmin\Models\TextChannel && !empty($msg['mention_roles'])) {
+            foreach ($msg['mention_roles'] as $id) {
                 $role = $message->channel->guild->roles->get($id);
-                if($role) {
+                if ($role) {
                     $this->roles->set($role->id, $role);
                 }
             }
@@ -142,7 +142,7 @@ class MessageMentions extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         

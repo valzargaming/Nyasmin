@@ -93,7 +93,7 @@ class OAuthApplication extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -107,7 +107,7 @@ class OAuthApplication extends ClientBase {
      * @return string|null
      */
     function getIconURL(?int $size = null, string $format = 'png') {
-        if($this->icon !== null) {
+        if ($this->icon !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['appicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }
         

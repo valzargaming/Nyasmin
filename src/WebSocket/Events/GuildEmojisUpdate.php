@@ -27,12 +27,12 @@ class GuildEmojisUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['guild_id']);
-        if($guild) {
+        if ($guild) {
             $ids = array();
-            foreach($data['emojis'] as $emoji) {
+            foreach ($data['emojis'] as $emoji) {
                 $ids[] = $emoji['id'];
                 
-                if($guild->emojis->has($emoji['id'])) {
+                if ($guild->emojis->has($emoji['id'])) {
                     $guild->emojis->get($emoji['id'])->_patch($emoji);
                 } else {
                     $em = new \CharlotteDunois\Yasmin\Models\Emoji($this->client, $guild, $emoji);
@@ -40,8 +40,8 @@ class GuildEmojisUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInt
                 }
             }
             
-            foreach($guild->emojis as $emoji) {
-                if(!in_array($emoji->id, $ids)) {
+            foreach ($guild->emojis as $emoji) {
+                if (!in_array($emoji->id, $ids)) {
                     $this->client->emojis->delete($emoji->id);
                     $guild->emojis->delete($emoji->id);
                 }

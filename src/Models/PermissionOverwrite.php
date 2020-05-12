@@ -72,11 +72,11 @@ class PermissionOverwrite extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'guild':
                 return $this->channel->getGuild();
             break;
@@ -89,12 +89,12 @@ class PermissionOverwrite extends ClientBase {
     }
     
     /**
-    * Edits the permission overwrite. Resolves with $this.
-    * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $allow         Which permissions should be allowed?
-    * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $deny          Which permissions should be denied?
-    * @param string                                                                                 $reason        The reason for this.
-    * @return \React\Promise\ExtendedPromiseInterface
-    * @throws \InvalidArgumentException
+     * Edits the permission overwrite. Resolves with $this.
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $allow         Which permissions should be allowed?
+     * @param \CharlotteDunois\Yasmin\Models\Permissions|int|null                                    $deny          Which permissions should be denied?
+     * @param string                                                                                 $reason        The reason for this.
+     * @return \React\Promise\ExtendedPromiseInterface
+     * @throws \InvalidArgumentException
      */
     function edit($allow, $deny = null, string $reason = '') {
         $options = array(
@@ -104,27 +104,27 @@ class PermissionOverwrite extends ClientBase {
         $allow = ($allow !== null ? $allow : $this->allow);
         $deny = ($deny !== null ? $deny : $this->deny);
         
-        if($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+        if ($allow instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
             $allow = $allow->bitfield;
         }
         
-        if($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
+        if ($deny instanceof \CharlotteDunois\Yasmin\Models\Permissions) {
             $deny = $deny->bitfield;
         }
         
-        if($allow === $this->allow->bitfield && $deny === $this->deny->bitfield) {
+        if ($allow === $this->allow->bitfield && $deny === $this->deny->bitfield) {
             throw new \InvalidArgumentException('One of allow or deny has to be changed');
         }
         
-        if(\json_encode($allow) === \json_encode($deny)) {
+        if (\json_encode($allow) === \json_encode($deny)) {
             throw new \InvalidArgumentException('Allow and deny must have different permissions');
         }
         
         $options['allow'] = $allow;
         $options['deny'] = $deny;
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($options, $reason) {
-            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->getId(), $this->id, $options, $reason)->done(function () use ($options, $resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($options, $reason) {
+            $this->client->apimanager()->endpoints->channel->editChannelPermissions($this->channel->getId(), $this->id, $options, $reason)->done(function() use ($options, $resolve) {
                 $this->allow = new \CharlotteDunois\Yasmin\Models\Permissions(($options['allow'] ?? 0));
                 $this->deny = new \CharlotteDunois\Yasmin\Models\Permissions(($options['deny'] ?? 0));
                 $resolve($this);
@@ -138,8 +138,8 @@ class PermissionOverwrite extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->channel->deleteChannelPermission($this->channel->getId(), $this->id, $reason)->then(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->channel->deleteChannelPermission($this->channel->getId(), $this->id, $reason)->then(function() use ($resolve) {
                 $resolve();
             }, $reject);
         }));

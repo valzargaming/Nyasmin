@@ -81,11 +81,11 @@ class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Inte
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -99,7 +99,7 @@ class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Inte
      * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
      */
     function getChildren() {
-        return $this->guild->channels->filter(function ($channel) {
+        return $this->guild->channels->filter(function($channel) {
             return ($channel->parentID === $this->id);
         });
     }
@@ -112,10 +112,10 @@ class CategoryChannel extends ClientBase implements \CharlotteDunois\Yasmin\Inte
         $this->name = (string) ($channel['name'] ?? $this->name ?? '');
         $this->position = (int) ($channel['position'] ?? $this->position ?? 0);
         
-        if(isset($channel['permission_overwrites'])) {
+        if (isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
-            foreach($channel['permission_overwrites'] as $permission) {
+            foreach ($channel['permission_overwrites'] as $permission) {
                 $this->permissionOverwrites->set($permission['id'], new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission));
             }
         }

@@ -36,9 +36,9 @@ class UserUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface 
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $user = $this->client->users->get($data['id']);
-        if($user) {
+        if ($user) {
             $oldUser = null;
-            if($this->clones) {
+            if ($this->clones) {
                 $oldUser = clone $user;
             }
             

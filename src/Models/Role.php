@@ -136,11 +136,11 @@ class Role extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -148,11 +148,11 @@ class Role extends ClientBase {
                 return '#'.\dechex($this->color);
             break;
             case 'members':
-                if($this->id === $this->guild->id) {
+                if ($this->id === $this->guild->id) {
                     return $this->guild->members->copy();
                 }
                 
-                return $this->guild->members->filter(function ($member) {
+                return $this->guild->members->filter(function($member) {
                     return $member->roles->has($this->id);
                 });
             break;
@@ -167,7 +167,7 @@ class Role extends ClientBase {
      * @return int
      */
     function comparePositionTo(\CharlotteDunois\Yasmin\Models\Role $role) {
-        if($this->position === $role->position) {
+        if ($this->position === $role->position) {
             return $role->id <=> $this->id;
         }
         
@@ -197,7 +197,7 @@ class Role extends ClientBase {
      * @see \CharlotteDunois\Yasmin\Utils\DataHelpers::resolveColor()
      */
     function edit(array $options, string $reason = '') {
-        if(empty($options)) {
+        if (empty($options)) {
             throw new \InvalidArgumentException('Unable to edit role with zero information');
         }
         
@@ -210,8 +210,8 @@ class Role extends ClientBase {
             'mentionable' => array('type' => 'bool')
         ));
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($data, $reason) {
-            $this->client->apimanager()->endpoints->guild->modifyGuildRole($this->guild->id, $this->id, $data, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($data, $reason) {
+            $this->client->apimanager()->endpoints->guild->modifyGuildRole($this->guild->id, $this->id, $data, $reason)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -223,8 +223,8 @@ class Role extends ClientBase {
      * @return \React\Promise\ExtendedPromiseInterface
      */
     function delete(string $reason = '') {
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($reason) {
-            $this->client->apimanager()->endpoints->guild->deleteGuildRole($this->guild->id, $this->id, $reason)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($reason) {
+            $this->client->apimanager()->endpoints->guild->deleteGuildRole($this->guild->id, $this->id, $reason)->done(function() use ($resolve) {
                 $resolve();
             }, $reject);
         }));
@@ -235,7 +235,7 @@ class Role extends ClientBase {
      * @return int
      */
     function getCalculatedPosition() {
-        $sorted = $this->guild->roles->sortCustom(function (\CharlotteDunois\Yasmin\Models\Role $a, \CharlotteDunois\Yasmin\Models\Role $b) {
+        $sorted = $this->guild->roles->sortCustom(function(\CharlotteDunois\Yasmin\Models\Role $a, \CharlotteDunois\Yasmin\Models\Role $b) {
             return $b->comparePositionTo($a);
         });
         
@@ -247,12 +247,12 @@ class Role extends ClientBase {
      * @return bool
      */
     function isEditable() {
-        if($this->managed) {
+        if ($this->managed) {
             return false;
         }
         
         $member = $this->guild->me;
-        if(!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_ROLES'])) {
+        if (!$member->permissions->has(\CharlotteDunois\Yasmin\Models\Permissions::PERMISSIONS['MANAGE_ROLES'])) {
             return false;
         }
         

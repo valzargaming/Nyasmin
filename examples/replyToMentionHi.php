@@ -25,7 +25,7 @@ $client = new \CharlotteDunois\Yasmin\Client(array(
 // Precompute mention format
 $mentions = array();
 
-$client->once('ready', function () use ($client, &$mentions) {
+$client->once('ready', function() use ($client, &$mentions) {
     $format1 = '<@'.$client->user->id.'>';
     $format2 = '<@!'.$client->user->id.'>';
     
@@ -37,7 +37,7 @@ $client->once('ready', function () use ($client, &$mentions) {
     );
 });
 
-$client->on('message', function ($message) use ($client, &$mentions) {
+$client->on('message', function($message) use ($client, &$mentions) {
     try {
         // Get the start of message content to compare with our mention formats
         // We use the longest mention format
@@ -46,15 +46,15 @@ $client->on('message', function ($message) use ($client, &$mentions) {
         
         // Now we compare it, we only want the bot to respond
         // when the mention is at the start of the content
-        if($start === $mentions[0] || $start === $mentions[1]) {
+        if ($start === $mentions[0] || $start === $mentions[1]) {
             // We do not need another promise here, so
             // we call done, because we want to consume the promise
-            $message->reply('Hi!')->done(null, function ($error) {
+            $message->reply('Hi!')->done(null, function($error) {
                 // We will just echo any errors for this example
                 echo $error.PHP_EOL;
             });
         }
-    } catch(\Exception $error) {
+    } catch (\Exception $error) {
         // Handle exception
     }
 });

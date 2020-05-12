@@ -35,17 +35,17 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
-        $this->client->fetchUser($data['user_id'])->done(function (\CharlotteDunois\Yasmin\Models\User $user) use ($data) {
-            if(empty($data['channel_id'])) {
-                if(empty($data['guild_id'])) {
+        $this->client->fetchUser($data['user_id'])->done(function(\CharlotteDunois\Yasmin\Models\User $user) use ($data) {
+            if (empty($data['channel_id'])) {
+                if (empty($data['guild_id'])) {
                     return;
                 }
                 
                 $guild = $this->client->guilds->get($data['guild_id']);
-                if($guild) {
-                    if($guild->members->has($data['user_id'])) {
+                if ($guild) {
+                    if ($guild->members->has($data['user_id'])) {
                         $member = \React\Promise\resolve($guild->members->get($data['user_id']));
-                    } elseif(!empty($data['member'])) {
+                    } elseif (!empty($data['member'])) {
                         $member = $data['member'];
                         $member['user'] = array('id' => $user->id);
                         
@@ -54,21 +54,21 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         $member = $guild->fetchMember($user->id);
                     }
                     
-                    $member->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
+                    $member->done(function(\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data) {
                         $oldMember = null;
-                        if($this->clones) {
+                        if ($this->clones) {
                             $oldMember = clone $member;
                         }
                         
-                        if($member->voiceChannel) {
+                        if ($member->voiceChannel) {
                             $member->voiceChannel->members->delete($member->id);
                         }
                         
                         $member->_setVoiceState($data);
                         $this->client->queuedEmit('voiceStateUpdate', $member, $oldMember);
-                    }, function () use ($guild, $user) {
-                        foreach($guild->channels as $channel) {
-                            if($channel instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
+                    }, function() use ($guild, $user) {
+                        foreach ($guild->channels as $channel) {
+                            if ($channel instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
                                 $channel->members->delete($user->id);
                             }
                         }
@@ -76,14 +76,14 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                 }
             } else {
                 $channel = $this->client->channels->get($data['channel_id']);
-                if($channel instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
-                    if($channel->getGuild() === null) {
+                if ($channel instanceof \CharlotteDunois\Yasmin\Models\VoiceChannel) {
+                    if ($channel->getGuild() === null) {
                         return;
                     }
                     
-                    if($channel->guild->members->has($data['user_id'])) {
+                    if ($channel->guild->members->has($data['user_id'])) {
                         $member = \React\Promise\resolve($channel->guild->members->get($data['user_id']));
-                    } elseif(!empty($data['member'])) {
+                    } elseif (!empty($data['member'])) {
                         $member = $data['member'];
                         $member['user'] = array('id' => $user->id);
                         
@@ -92,13 +92,13 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         $member = $channel->guild->fetchMember($user->id);
                     }
                     
-                    $member->done(function (\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
+                    $member->done(function(\CharlotteDunois\Yasmin\Models\GuildMember $member) use ($data, $channel) {
                         $oldMember = null;
-                        if($this->clones) {
+                        if ($this->clones) {
                             $oldMember = clone $member;
                         }
                         
-                        if($member->voiceChannel) {
+                        if ($member->voiceChannel) {
                             $member->voiceChannel->members->delete($member->id);
                         }
                         
@@ -106,7 +106,7 @@ class VoiceStateUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInte
                         $channel->members->set($member->id, $member);
                         
                         $this->client->queuedEmit('voiceStateUpdate', $member, $oldMember);
-                    }, function () use ($channel, $user) {
+                    }, function() use ($channel, $user) {
                         $channel->members->delete($user->id);
                     });
                 }

@@ -30,19 +30,19 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
-        $this->client->once('ready', function () {
+        $this->client->once('ready', function() {
             $this->ready = true;
         });
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $guild = $this->client->guilds->get($data['id']);
-        if($guild) {
-            if(empty($data['unavailable'])) {
+        if ($guild) {
+            if (empty($data['unavailable'])) {
                 $guild->_patch($data);
             }
             
-            if($this->ready) {
+            if ($this->ready) {
                 $this->client->queuedEmit('guildUnavailable', $guild);
             } else {
                 $ws->emit('guildCreate');
@@ -50,16 +50,16 @@ class GuildCreate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
         } else {
             $guild = $this->client->guilds->factory($data, $ws->shardID);
             
-            if(((bool) $this->client->getOption('fetchAllMembers', false)) && $guild->members->count() < $guild->memberCount) {
+            if (((bool) $this->client->getOption('fetchAllMembers', false)) && $guild->members->count() < $guild->memberCount) {
                 $fetchAll = $guild->fetchMembers();
-            } elseif($guild->me === null) {
+            } elseif ($guild->me === null) {
                 $fetchAll = $guild->fetchMember($this->client->user->id);
             } else {
                 $fetchAll = \React\Promise\resolve();
             }
             
-            $fetchAll->done(function () use ($guild, $ws) {
-                if($this->ready) {
+            $fetchAll->done(function() use ($guild, $ws) {
+                if ($this->ready) {
                     $this->client->queuedEmit('guildCreate', $guild);
                 } else {
                     $ws->emit('guildCreate');

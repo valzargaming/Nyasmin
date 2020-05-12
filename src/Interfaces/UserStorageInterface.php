@@ -69,7 +69,7 @@ interface UserStorageInterface extends StorageInterface {
      * @param string  $key
      * @return bool
      * @throws \InvalidArgumentException
-    */
+     */
     function has($key);
     
     /**
@@ -77,7 +77,7 @@ interface UserStorageInterface extends StorageInterface {
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\User|null
      * @throws \InvalidArgumentException
-    */
+     */
     function get($key);
     
     /**

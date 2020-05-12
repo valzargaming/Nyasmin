@@ -36,15 +36,15 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @throws \InvalidArgumentException
      */
     function resolve($role) {
-        if($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
+        if ($role instanceof \CharlotteDunois\Yasmin\Models\Role) {
             return $role;
         }
         
-        if(\is_int($role)) {
+        if (\is_int($role)) {
             $role = (string) $role;
         }
         
-        if(\is_string($role) && parent::has($role)) {
+        if (\is_string($role) && parent::has($role)) {
             return parent::get($role);
         }
         
@@ -97,7 +97,7 @@ class RoleStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces\
      * @internal
      */
     function factory(array $data) {
-        if(parent::has($data['id'])) {
+        if (parent::has($data['id'])) {
             $role = parent::get($data['id']);
             $role->_patch($data);
             return $role;

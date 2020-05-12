@@ -97,11 +97,11 @@ class GuildStoreChannel extends ClientBase implements \CharlotteDunois\Yasmin\In
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'createdAt':
                 return \CharlotteDunois\Yasmin\Utils\DataHelpers::makeDateTime($this->createdTimestamp);
             break;
@@ -131,10 +131,10 @@ class GuildStoreChannel extends ClientBase implements \CharlotteDunois\Yasmin\In
         $this->parentID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['parent_id'] ?? $this->parentID ?? null), 'string');
         $this->position = (int) ($channel['position'] ?? $this->position ?? 0);
         
-        if(isset($channel['permission_overwrites'])) {
+        if (isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
-            foreach($channel['permission_overwrites'] as $permission) {
+            foreach ($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission);
                 $this->permissionOverwrites->set($overwrite->id, $overwrite);
             }

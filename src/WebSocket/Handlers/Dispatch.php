@@ -56,7 +56,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
         );
         
         $events = \array_diff_key($allEvents, \array_flip((array) $this->wshandler->wsmanager->client->getOption('ws.disabledEvents', array())));
-        foreach($events as $name => $class) {
+        foreach ($events as $name => $class) {
             $this->register($name, $class);
         }
     }
@@ -66,7 +66,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
      * @return \CharlotteDunois\Yasmin\Interfaces\WSEventInterface
      */
     function getEvent(string $name) {
-        if(isset($this->wsevents[$name])) {
+        if (isset($this->wsevents[$name])) {
             return $this->wsevents[$name];
         }
         
@@ -74,7 +74,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $packet): void {
-        if(isset($this->wsevents[$packet['t']])) {
+        if (isset($this->wsevents[$packet['t']])) {
             $this->wshandler->wsmanager->emit('debug', 'Shard '.$ws->shardID.' handling WS event '.$packet['t']);
             $this->wsevents[$packet['t']]->handle($ws, $packet['d']);
         } else {
@@ -88,7 +88,7 @@ class Dispatch implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface 
      * @throws \RuntimeException
      */
     function register(string $name, string $class) {
-        if(!\in_array('CharlotteDunois\Yasmin\Interfaces\WSEventInterface', \class_implements($class))) {
+        if (!\in_array('CharlotteDunois\Yasmin\Interfaces\WSEventInterface', \class_implements($class))) {
             throw new \RuntimeException('Specified event class does not implement interface');
         }
         

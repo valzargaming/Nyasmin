@@ -34,19 +34,19 @@ class PresenceStorage extends Storage implements \CharlotteDunois\Yasmin\Interfa
      * @throws \InvalidArgumentException
      */
     function resolve($presence) {
-        if($presence instanceof \CharlotteDunois\Yasmin\Models\Presence) {
+        if ($presence instanceof \CharlotteDunois\Yasmin\Models\Presence) {
             return $presence;
         }
         
-        if($presence instanceof \CharlotteDunois\Yasmin\Models\User) {
+        if ($presence instanceof \CharlotteDunois\Yasmin\Models\User) {
             $presence = $presence->id;
         }
         
-        if(\is_int($presence)) {
+        if (\is_int($presence)) {
             $presence = (string) $presence;
         }
         
-        if(\is_string($presence) && parent::has($presence)) {
+        if (\is_string($presence) && parent::has($presence)) {
             return parent::get($presence);
         }
         
@@ -78,12 +78,12 @@ class PresenceStorage extends Storage implements \CharlotteDunois\Yasmin\Interfa
      * @return $this
      */
     function set($key, $value) {
-        if(!$this->enabled) {
+        if (!$this->enabled) {
             return $this;
         }
         
         parent::set($key, $value);
-        if($this !== $this->client->presences) {
+        if ($this !== $this->client->presences) {
             $this->client->presences->set($key, $value);
         }
         
@@ -96,12 +96,12 @@ class PresenceStorage extends Storage implements \CharlotteDunois\Yasmin\Interfa
      * @return $this
      */
     function delete($key) {
-        if(!$this->enabled) {
+        if (!$this->enabled) {
             return $this;
         }
         
         parent::delete($key);
-        if($this !== $this->client->presences) {
+        if ($this !== $this->client->presences) {
             $this->client->presences->delete($key);
         }
         

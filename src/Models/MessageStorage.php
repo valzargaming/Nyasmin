@@ -41,12 +41,12 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
         $this->baseStorageArgs[] = $this->channel;
         
         $this->enabled = (bool) $this->client->getOption('messageCache', true);
-        if($this->enabled) {
+        if ($this->enabled) {
             $time = (int) $this->client->getOption('messageCacheLifetime', 0);
             $inv = (int) $this->client->getOption('messageSweepInterval', $time);
             
-            if($inv > 0) {
-                $this->timer = $this->client->addPeriodicTimer($inv, function () use ($time) {
+            if ($inv > 0) {
+                $this->timer = $this->client->addPeriodicTimer($inv, function() use ($time) {
                     $this->sweep($time);
                 });
             }
@@ -57,7 +57,7 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
      * @internal
      */
     function __destruct() {
-        if($this->timer) {
+        if ($this->timer) {
             $this->client->cancelTimer($this->timer);
         }
     }
@@ -87,7 +87,7 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
      * @return $this
      */
     function set($key, $value) {
-        if(!$this->enabled) {
+        if (!$this->enabled) {
             return $this;
         }
         
@@ -111,14 +111,14 @@ class MessageStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
      * @return int
      */
     function sweep(int $time) {
-        if($time <= 0) {
+        if ($time <= 0) {
             $this->clear();
             return;
         }
         
         $amount = 0;
-        foreach($this->data as $key => $msg) {
-            if($msg->createdTimestamp > (\time() - $time)) {
+        foreach ($this->data as $key => $msg) {
+            if ($msg->createdTimestamp > (\time() - $time)) {
                 $this->delete($msg->id);
                 unset($msg);
                 

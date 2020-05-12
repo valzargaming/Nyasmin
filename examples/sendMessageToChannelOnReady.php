@@ -17,7 +17,7 @@ require_once(__DIR__.'/vendor/autoload.php');
 $loop = \React\EventLoop\Factory::create();
 $client = new \CharlotteDunois\Yasmin\Client(array(), $loop);
 
-$client->once('ready', function () use ($client) {
+$client->once('ready', function() use ($client) {
     try {
         $channel = $client->channels->get('CHANNEL_ID');
         /*
@@ -28,18 +28,18 @@ $client->once('ready', function () use ($client) {
         */
         
         // Making sure the channel exists
-        if($channel) {
+        if ($channel) {
             // Send the message
             
             // We do not need another promise here, so
             // we call done, because we want to consume the promise
             $channel->send('Hello, I am a Discord Bot written in PHP using Yasmin.')
-                    ->done(null, function ($error) {
+                    ->done(null, function($error) {
                         // We will just echo any errors for this example
                         echo $error.PHP_EOL;
                     });
         }
-    } catch(\Exception $error) {
+    } catch (\Exception $error) {
         // Handle exception
     }
 });

@@ -32,9 +32,9 @@ class FileHelpers {
     static function setLoop(\React\EventLoop\LoopInterface $loop) {
         self::$loop = $loop;
         
-        if(self::$filesystem === null) {
+        if (self::$filesystem === null) {
             $adapters = \React\Filesystem\Filesystem::getSupportedAdapters();
-            if(!empty($adapters)) {
+            if (!empty($adapters)) {
                 self::$filesystem = \React\Filesystem\Filesystem::create($loop);
             }
         }
@@ -54,7 +54,7 @@ class FileHelpers {
      * @return void
      */
     static function setFilesystem(?\React\Filesystem\FilesystemInterface $filesystem) {
-        if($filesystem === null) {
+        if ($filesystem === null) {
             $filesystem = false;
         }
         
@@ -68,13 +68,13 @@ class FileHelpers {
      */
     static function resolveFileResolvable(string $file) {
         $rfile = @\realpath($file);
-        if($rfile) {
-            if(self::$filesystem) {
+        if ($rfile) {
+            if (self::$filesystem) {
                 return self::$filesystem->getContents($file);
             }
             
             return \React\Promise\resolve(\file_get_contents($rfile));
-        } elseif(\filter_var($file, FILTER_VALIDATE_URL)) {
+        } elseif (\filter_var($file, FILTER_VALIDATE_URL)) {
             return \CharlotteDunois\Yasmin\Utils\URLHelpers::resolveURLToData($file);
         }
         

@@ -32,7 +32,7 @@ class Hello implements \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface {
         $interval = $packet['d']['heartbeat_interval'] / 1000;
         $ws->ratelimits['heartbeatRoom'] = (int) \ceil($ws->ratelimits['total'] / $interval);
         
-        $ws->heartbeat = $this->wshandler->wsmanager->client->loop->addPeriodicTimer($interval, function () use (&$ws) {
+        $ws->heartbeat = $this->wshandler->wsmanager->client->loop->addPeriodicTimer($interval, function() use (&$ws) {
             $ws->heartbeat();
         });
     }

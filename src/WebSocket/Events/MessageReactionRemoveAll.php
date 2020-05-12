@@ -27,18 +27,18 @@ class MessageReactionRemoveAll implements \CharlotteDunois\Yasmin\Interfaces\WSE
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $message = $channel->getMessages()->get($data['message_id']);
-            if($message) {
+            if ($message) {
                 $message = \React\Promise\resolve($message);
             } else {
                 $message = $channel->fetchMessage($data['message_id']);
             }
             
-            $message->done(function (\CharlotteDunois\Yasmin\Models\Message $message) {
+            $message->done(function(\CharlotteDunois\Yasmin\Models\Message $message) {
                 $message->reactions->clear();
                 $this->client->queuedEmit('messageReactionRemoveAll', $message);
-            }, function () {
+            }, function() {
                 // Don't handle it
             });
         }

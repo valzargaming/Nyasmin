@@ -42,7 +42,7 @@ class Snowflake {
      * @throws \InvalidArgumentException
      */
     function __construct($snowflake) {
-        if(\PHP_INT_SIZE === 4) {
+        if (\PHP_INT_SIZE === 4) {
             $this->value = $snowflake;
             $this->binary = \str_pad(\base_convert($snowflake, 10, 2), 64, 0, \STR_PAD_LEFT);
             
@@ -66,7 +66,7 @@ class Snowflake {
             $this->increment = ($snowflake & 0xFFF);
         }
         
-        if($this->timestamp < static::EPOCH || $this->workerID < 0 || $this->workerID >= 32 || $this->processID < 0 || $this->processID >= 32 || $this->increment < 0 || $this->increment >= 4096) {
+        if ($this->timestamp < static::EPOCH || $this->workerID < 0 || $this->workerID >= 32 || $this->processID < 0 || $this->processID >= 32 || $this->increment < 0 || $this->increment >= 4096) {
             throw new \InvalidArgumentException('Invalid snow in snowflake');
         }
     }
@@ -77,7 +77,7 @@ class Snowflake {
      * @internal
      */
     function __get($name) {
-        switch($name) {
+        switch ($name) {
             case 'timestamp':
             case 'workerID':
             case 'processID':
@@ -109,20 +109,20 @@ class Snowflake {
      * @return string
      */
     static function generate(int $workerID = 1, int $processID = 0) {
-        if($workerID > 31 || $workerID < 0) {
+        if ($workerID > 31 || $workerID < 0) {
             throw new \InvalidArgumentException('Worker ID is out of range');
         }
         
-        if($processID > 31 || $processID < 0) {
+        if ($processID > 31 || $processID < 0) {
             throw new \InvalidArgumentException('Process ID is out of range');
         }
         
         $time = \microtime(true);
         
-        if($time === static::$incrementTime) {
+        if ($time === static::$incrementTime) {
             static::$incrementIndex++;
             
-            if(static::$incrementIndex >= 4095) {
+            if (static::$incrementIndex >= 4095) {
                 \usleep(1000);
                 
                 $time = \microtime(true);
@@ -137,13 +137,13 @@ class Snowflake {
         $processID = \str_pad(\decbin($processID), 5, 0, \STR_PAD_LEFT);
         
         $mtime = \explode('.', ((string) $time));
-        if(\count($mtime) < 2) {
+        if (\count($mtime) < 2) {
             $mtime[1] = '000';
         }
         
         $time = ((string) (((int) $mtime[0]) - static::EPOCH)).\substr($mtime[1], 0, 3);
         
-        if(\PHP_INT_SIZE === 4) {
+        if (\PHP_INT_SIZE === 4) {
             $binary = \str_pad(\base_convert($time, 10, 2), 42, 0, \STR_PAD_LEFT).$workerID.$processID.\str_pad(\decbin(static::$incrementIndex), 12, 0, \STR_PAD_LEFT);
             return \base_convert($binary, 2, 10);
         } else {
@@ -158,7 +158,7 @@ class Snowflake {
      * @return int
      */
     function getShardID(int $shardCount) {
-        if(\PHP_INT_SIZE === 4) {
+        if (\PHP_INT_SIZE === 4) {
             $time = \base_convert(\substr($this->binary, 0, 42), 2, 10);
             $shard = (int) \bcmod($time, ((string) $shardCount));
             

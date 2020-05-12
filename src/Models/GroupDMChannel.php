@@ -41,12 +41,12 @@ class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interf
      * @throws \InvalidArgumentException
      */
     function addRecipient($user, string $accessToken, string $nick = '') {
-        if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+        if ($user instanceof \CharlotteDunois\Yasmin\Models\User) {
             $user = $user->id;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user, $accessToken, $nick) {
-            $this->client->apimanager()->endpoints->channel->groupDMAddRecipient($this->id, $user, $accessToken, $nick)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($user, $accessToken, $nick) {
+            $this->client->apimanager()->endpoints->channel->groupDMAddRecipient($this->id, $user, $accessToken, $nick)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -59,7 +59,7 @@ class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interf
      * @return string|null
      */
     function getIconURL(?int $size = null, string $format = 'png') {
-        if($this->icon !== null) {
+        if ($this->icon !== null) {
             return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['channelicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
         }
         
@@ -73,12 +73,12 @@ class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interf
      * @throws \InvalidArgumentException
      */
     function removeRecipient($user) {
-        if($user instanceof \CharlotteDunois\Yasmin\Models\User) {
+        if ($user instanceof \CharlotteDunois\Yasmin\Models\User) {
             $user = $user->id;
         }
         
-        return (new \React\Promise\Promise(function (callable $resolve, callable $reject) use ($user) {
-            $this->client->apimanager()->endpoints->channel->groupDMRemoveRecipient($this->id, $user)->done(function () use ($resolve) {
+        return (new \React\Promise\Promise(function(callable $resolve, callable $reject) use ($user) {
+            $this->client->apimanager()->endpoints->channel->groupDMRemoveRecipient($this->id, $user)->done(function() use ($resolve) {
                 $resolve($this);
             }, $reject);
         }));
@@ -91,7 +91,7 @@ class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interf
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -109,12 +109,12 @@ class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interf
         $this->ownerID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['owner_id'] ?? $this->ownerID ?? null), 'string');
         $this->lastMessageID = \CharlotteDunois\Yasmin\Utils\DataHelpers::typecastVariable(($channel['last_message_id'] ?? $this->lastMessageID ?? null), 'string');
         
-        if(isset($channel['recipients'])) {
+        if (isset($channel['recipients'])) {
             $this->recipients->clear();
             
-            foreach($channel['recipients'] as $rec) {
+            foreach ($channel['recipients'] as $rec) {
                 $user = $this->client->users->patch($rec);
-                if($user) {
+                if ($user) {
                     $this->recipients->set($user->id, $user);
                 }
             }

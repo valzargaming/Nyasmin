@@ -54,7 +54,7 @@ interface MessageStorageInterface extends StorageInterface {
      * @param string  $key
      * @return bool
      * @throws \InvalidArgumentException
-    */
+     */
     function has($key);
     
     /**
@@ -62,7 +62,7 @@ interface MessageStorageInterface extends StorageInterface {
      * @param string  $key
      * @return \CharlotteDunois\Yasmin\Models\Message|null
      * @throws \InvalidArgumentException
-    */
+     */
     function get($key);
     
     /**

@@ -112,11 +112,11 @@ class VoiceChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfa
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'full':
                 return ($this->userLimit > 0 && $this->userLimit <= $this->members->count());
             break;
@@ -177,10 +177,10 @@ class VoiceChannel extends ClientBase implements \CharlotteDunois\Yasmin\Interfa
         $this->position = (int) ($channel['position'] ?? $this->position ?? 0);
         $this->userLimit = (int) ($channel['user_limit'] ?? $this->userLimit ?? 0);
         
-        if(isset($channel['permission_overwrites'])) {
+        if (isset($channel['permission_overwrites'])) {
             $this->permissionOverwrites->clear();
             
-            foreach($channel['permission_overwrites'] as $permission) {
+            foreach ($channel['permission_overwrites'] as $permission) {
                 $overwrite = new \CharlotteDunois\Yasmin\Models\PermissionOverwrite($this->client, $this, $permission);
                 $this->permissionOverwrites->set($overwrite->id, $overwrite);
             }

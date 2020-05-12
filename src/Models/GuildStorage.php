@@ -20,15 +20,15 @@ class GuildStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      * @throws \InvalidArgumentException
      */
     function resolve($guild) {
-        if($guild instanceof \CharlotteDunois\Yasmin\Models\Guild) {
+        if ($guild instanceof \CharlotteDunois\Yasmin\Models\Guild) {
             return $guild;
         }
         
-        if(\is_int($guild)) {
+        if (\is_int($guild)) {
             $guild = (string) $guild;
         }
         
-        if(\is_string($guild) && parent::has($guild)) {
+        if (\is_string($guild) && parent::has($guild)) {
             return parent::get($guild);
         }
         
@@ -71,7 +71,7 @@ class GuildStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      */
     function delete($key) {
         parent::delete($key);
-        if($this !== $this->client->guilds) {
+        if ($this !== $this->client->guilds) {
             $this->client->guilds->delete($key);
         }
         
@@ -86,7 +86,7 @@ class GuildStorage extends Storage implements \CharlotteDunois\Yasmin\Interfaces
      * @internal
      */
     function factory(array $data, ?int $shardID = null) {
-        if(parent::has($data['id'])) {
+        if (parent::has($data['id'])) {
             $guild = parent::get($data['id']);
             $guild->_patch($data);
             return $guild;

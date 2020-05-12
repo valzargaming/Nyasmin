@@ -47,7 +47,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
         try {
             return $this->$name !== null;
         } catch (\RuntimeException $e) {
-            if($e->getTrace()[0]['function'] === '__get') {
+            if ($e->getTrace()[0]['function'] === '__get') {
                 return false;
             }
             
@@ -62,7 +62,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -75,7 +75,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
      * @throws \InvalidArgumentException
      */
     function has($key) {
-        if(\is_array($key) || \is_object($key)) {
+        if (\is_array($key) || \is_object($key)) {
             throw new \InvalidArgumentException('Key can not be an array or object');
         }
         
@@ -89,7 +89,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
      * @throws \InvalidArgumentException
      */
     function get($key) {
-        if(\is_array($key) || \is_object($key)) {
+        if (\is_array($key) || \is_object($key)) {
             throw new \InvalidArgumentException('Key can not be an array or object');
         }
         
@@ -103,7 +103,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
      * @throws \InvalidArgumentException
      */
     function set($key, $value) {
-        if(\is_array($key) || \is_object($key)) {
+        if (\is_array($key) || \is_object($key)) {
             throw new \InvalidArgumentException('Key can not be an array or object');
         }
         
@@ -117,7 +117,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
      * @throws \InvalidArgumentException
      */
     function delete($key) {
-        if(\is_array($key) || \is_object($key)) {
+        if (\is_array($key) || \is_object($key)) {
             throw new \InvalidArgumentException('Key can not be an array or object');
         }
         
@@ -140,7 +140,7 @@ class Storage extends \CharlotteDunois\Collect\Collection
      * {@inheritdoc}
      * @param callable  $closure
      * @return \CharlotteDunois\Yasmin\Interfaces\StorageInterface
-    */
+     */
     function filter(callable $closure) {
         $args = $this->baseStorageArgs;
         $args[] = parent::filter($closure)->all();

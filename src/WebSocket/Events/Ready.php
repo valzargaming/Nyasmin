@@ -30,13 +30,13 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
     function __construct(\CharlotteDunois\Yasmin\Client $client, \CharlotteDunois\Yasmin\WebSocket\WSManager $wsmanager) {
         $this->client = $client;
         
-        $this->client->once('ready', function () {
+        $this->client->once('ready', function() {
             $this->ready = true;
         });
     }
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
-        if(empty($data['user']['bot'])) {
+        if (empty($data['user']['bot'])) {
             $ws->emit('self.error', 'User accounts are not supported');
             return;
         }
@@ -46,20 +46,20 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         
         $ws->emit('self.ready');
         
-        if($this->ready && $this->client->user !== null) {
+        if ($this->ready && $this->client->user !== null) {
             $this->client->user->_patch($data['user']);
             $this->client->wsmanager()->emit('ready');
             return;
         }
         
-        if($this->client->user === null) {
+        if ($this->client->user === null) {
             $this->client->setClientUser($data['user']);
         }
         
         $unavailableGuilds = 0;
         
-        foreach($data['guilds'] as $guild) {
-            if(!$this->client->guilds->has($guild['id'])) {
+        foreach ($data['guilds'] as $guild) {
+            if (!$this->client->guilds->has($guild['id'])) {
                 $guild = new \CharlotteDunois\Yasmin\Models\Guild($this->client, $guild);
                 $this->client->guilds->set($guild->id, $guild);
             }
@@ -68,23 +68,23 @@ class Ready implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterface {
         }
         
         // Already ready
-        if($unavailableGuilds === 0) {
+        if ($unavailableGuilds === 0) {
             $this->client->wsmanager()->emit('self.ws.ready');
             return;
         }
         
         // Emit ready after waiting N guilds * 1.2 seconds - we waited long enough for Discord to get the guilds to us
         $gtime = \ceil(($unavailableGuilds * 1.2));
-        $timer = $this->client->addTimer(\max(5, $gtime), function () use (&$unavailableGuilds) {
-            if($unavailableGuilds > 0) {
+        $timer = $this->client->addTimer(\max(5, $gtime), function() use (&$unavailableGuilds) {
+            if ($unavailableGuilds > 0) {
                 $this->client->wsmanager()->emit('self.ws.ready');
             }
         });
         
-        $listener = function () use ($timer, $ws, &$listener, &$unavailableGuilds) {
+        $listener = function() use ($timer, $ws, &$listener, &$unavailableGuilds) {
             $unavailableGuilds--;
             
-            if($unavailableGuilds <= 0) {
+            if ($unavailableGuilds <= 0) {
                 $this->client->cancelTimer($timer);
                 $ws->removeListener('guildCreate', $listener);
                 

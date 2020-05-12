@@ -170,11 +170,11 @@ class Activity extends ClientBase {
      * @internal
      */
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
-        switch($name) {
+        switch ($name) {
             case 'streaming':
                 return ($this->type === 1);
             break;

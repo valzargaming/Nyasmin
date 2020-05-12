@@ -36,11 +36,11 @@ class MessageUpdate implements \CharlotteDunois\Yasmin\Interfaces\WSEventInterfa
     
     function handle(\CharlotteDunois\Yasmin\WebSocket\WSConnection $ws, $data): void {
         $channel = $this->client->channels->get($data['channel_id']);
-        if($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
+        if ($channel instanceof \CharlotteDunois\Yasmin\Interfaces\TextChannelInterface) {
             $message = $channel->getMessages()->get($data['id']);
-            if($message instanceof \CharlotteDunois\Yasmin\Models\Message) {
+            if ($message instanceof \CharlotteDunois\Yasmin\Models\Message) {
                 $oldMessage = null;
-                if($this->clones) {
+                if ($this->clones) {
                     $oldMessage = clone $message;
                 }
                 

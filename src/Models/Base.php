@@ -39,7 +39,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
         try {
             return ($this->$name !== null);
         } catch (\RuntimeException $e) {
-            if($e->getTrace()[0]['function'] === '__get') {
+            if ($e->getTrace()[0]['function'] === '__get') {
                 return false;
             }
             
@@ -65,11 +65,11 @@ abstract class Base implements \JsonSerializable, \Serializable {
      * @internal
      */
     function __call($name, $args) {
-        if(\substr($name, 0, 3) === 'get') {
+        if (\substr($name, 0, 3) === 'get') {
             $sname = \substr($name, 3);
             $prop = \lcfirst($sname);
             
-            if($sname !== $prop && \property_exists($this, $prop)) {
+            if ($sname !== $prop && \property_exists($this, $prop)) {
                 return $this->$prop;
             }
         }
@@ -100,7 +100,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
      */
     function unserialize($data) {
         $data = \unserialize($data);
-        foreach($data as $name => $val) {
+        foreach ($data as $name => $val) {
             $this->$name = $val;
         }
     }
@@ -110,30 +110,30 @@ abstract class Base implements \JsonSerializable, \Serializable {
      * @internal
      */
     function _patch(array $data) {
-        foreach($data as $key => $val) {
-            if(\strpos($key, '_') !== false) {
+        foreach ($data as $key => $val) {
+            if (\strpos($key, '_') !== false) {
                 $key = \lcfirst(\str_replace('_', '', \ucwords($key, '_')));
             }
             
-            if(\property_exists($this, $key)) {
-                if($this->$key instanceof \CharlotteDunois\Collect\Collection) {
-                    if(!\is_array($val)) {
+            if (\property_exists($this, $key)) {
+                if ($this->$key instanceof \CharlotteDunois\Collect\Collection) {
+                    if (!\is_array($val)) {
                         $val = array($val);
                     }
                     
-                    foreach($val as $element) {
+                    foreach ($val as $element) {
                         $instance = $this->$key->get($element['id']);
-                        if($instance) {
+                        if ($instance) {
                             $instance->_patch($element);
                         }
                     }
                 } else {
-                    if(\is_object($this->$key)) {
-                        if(\is_array($val)) {
+                    if (\is_object($this->$key)) {
+                        if (\is_array($val)) {
                             $this->$key = clone $this->$key;
                             $this->$key->_patch($val);
                         } else {
-                            if($val === null) {
+                            if ($val === null) {
                                 $this->$key = null;
                             } else {
                                 $class = '\\'.\get_class($this->$key);
@@ -144,11 +144,11 @@ abstract class Base implements \JsonSerializable, \Serializable {
                                 \preg_match('/Parameters \[(\d+)\]/', $exp, $count);
                                 $count = (int) $count[1];
                                 
-                                if($count === 1) {
+                                if ($count === 1) {
                                     $this->$key = new $class($val);
-                                } elseif($count === 2) {
+                                } elseif ($count === 2) {
                                     $this->$key = new $class($this->client, $val);
-                                } elseif($count === 3) {
+                                } elseif ($count === 3) {
                                     $this->$key = new $class($this->client, (\property_exists($this, 'guild') ? $this->guild : (\property_exists($this, 'channel') ? $this->channel : null)), $val);
                                 } else {
                                     $this->client->emit('debug', 'Manual update of '.$key.' in '.\get_class($this).' ('.$count.') required');
@@ -156,7 +156,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
                             }
                         }
                     } else {
-                        if($this->$key !== $val) {
+                        if ($this->$key !== $val) {
                             $this->$key = $val;
                         }
                     }
@@ -172,12 +172,12 @@ abstract class Base implements \JsonSerializable, \Serializable {
     function _shouldUpdate(array $data) {
         $oldData = \json_decode(\json_encode($this), true);
         
-        foreach($data as $key => $val) {
-            if(\strpos($key, '_') !== false) {
+        foreach ($data as $key => $val) {
+            if (\strpos($key, '_') !== false) {
                 $key = \lcfirst(\str_replace('_', '', \ucwords($key, '_')));
             }
             
-            if(\array_key_exists($key, $oldData) && $oldData[$key] !== $val) {
+            if (\array_key_exists($key, $oldData) && $oldData[$key] !== $val) {
                 return true;
             }
         }
@@ -190,7 +190,7 @@ abstract class Base implements \JsonSerializable, \Serializable {
      * @internal
      */
     function _markForDelete() {
-        foreach($this as $key => $val) {
+        foreach ($this as $key => $val) {
             $this->$key = null;
             unset($val);
         }

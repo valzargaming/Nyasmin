@@ -44,7 +44,7 @@ class WSHandler {
     }
     
     function __get($name) {
-        if(\property_exists($this, $name)) {
+        if (\property_exists($this, $name)) {
             return $this->$name;
         }
         
@@ -56,7 +56,7 @@ class WSHandler {
      * @return \CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface
      */
     function getHandler(int $name) {
-        if(isset($this->handlers[$name])) {
+        if (isset($this->handlers[$name])) {
             return $this->handlers[$name];
         }
         
@@ -71,13 +71,13 @@ class WSHandler {
         $packet = $this->wsmanager->encoding->decode($message);
         $this->wsmanager->client->emit('raw', $packet);
         
-        if(isset($packet['s'])) {
+        if (isset($packet['s'])) {
             $ws->setSequence($packet['s']);
         }
         
         $this->wsmanager->emit('debug', 'Shard '.$ws->shardID.' received WS packet with OP code '.$packet['op']);
         
-        if(isset($this->handlers[$packet['op']])) {
+        if (isset($this->handlers[$packet['op']])) {
             $this->handlers[$packet['op']]->handle($ws, $packet);
         }
     }
@@ -88,7 +88,7 @@ class WSHandler {
      * @throws \RuntimeException
      */
     function register(int $op, string $class) {
-        if(!\in_array('CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface', \class_implements($class))) {
+        if (!\in_array('CharlotteDunois\Yasmin\Interfaces\WSHandlerInterface', \class_implements($class))) {
             throw new \RuntimeException('Specified handler class does not implement interface');
         }
         
