@@ -133,23 +133,23 @@ class ChannelStorage extends Storage implements \CharlotteDunois\Yasmin\Interfac
      * @internal
      */
     function factory(array $data, ?\CharlotteDunois\Yasmin\Models\Guild $guild = null) {
-        if($guild === null) {
+        if ($guild === null) {
             $guild = (!empty($data['guild_id']) ? $this->client->guilds->get($data['guild_id']) : null);
         }
         
-        if(parent::has($data['id'])) {
+        if (parent::has($data['id'])) {
             $channel = parent::get($data['id']);
             $channel->_patch($data);
             return $channel;
         }
         
-        switch($data['type']) {
+        switch ($data['type']) {
             default:
                 throw new \CharlotteDunois\Yasmin\DiscordException('Unknown channel type');
             break;
             case 0:
             case 5:
-                if($guild === null) {
+                if ($guild === null) {
                     throw new \CharlotteDunois\Yasmin\DiscordException('Unknown guild for guild channel');
                 }
                 

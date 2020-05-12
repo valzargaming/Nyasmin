@@ -105,7 +105,7 @@ class Presence extends ClientBase {
             $this->activity = (!empty($presence['game']) ? (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $presence['game'])) : null);
             $this->status = $presence['status'];
             $this->clientStatus = (!empty($presence['client_status']) ? (new \CharlotteDunois\Yasmin\Models\ClientStatus($presence['client_status'])) : null);
-            $this->activities = (!empty($presence['activities']) ? \array_map(function (array $activitiy) {
+            $this->activities = (!empty($presence['activities']) ? \array_map(function(array $activitiy) {
                 return (new \CharlotteDunois\Yasmin\Models\Activity($this->client, $activitiy));
             }, $presence['activities']) : array());
         }
