@@ -17,7 +17,8 @@
             "role": "Maintainer"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+	"prefer-stable": true,
     "require": {
         "php": ">=7.1",
         "ext-bcmath": "*",
