@@ -60,7 +60,8 @@ class GroupDMChannel extends DMChannel implements \CharlotteDunois\Yasmin\Interf
      */
     function getIconURL(?int $size = null, string $format = 'png') {
         if ($this->icon !== null) {
-            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['channelicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+            $iconurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['channelicons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+            return str_replace("cdn.discord.com", "cdn.discordapp.com", $iconurl);
         }
         
         return null;
