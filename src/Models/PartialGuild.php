@@ -105,7 +105,8 @@ class PartialGuild extends ClientBase {
             $format = \CharlotteDunois\Yasmin\Utils\ImageHelpers::getImageExtension($this->icon);
         }
         
-        return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        $iconurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        return str_replace("cdn.discord.com", "cdn.discordapp.com", $iconurl);
     }
     
     /**
@@ -120,7 +121,8 @@ class PartialGuild extends ClientBase {
         }
         
         if ($this->splash !== null) {
-            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
+            $splashurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['splashes'], $this->id, $this->splash, $format).(!empty($size) ? '?size='.$size : '');
+            return str_replace("cdn.discord.com", "cdn.discordapp.com", $splashurl);
         }
         
         return null;
