@@ -980,7 +980,8 @@ class Guild extends ClientBase {
         }
         
         if ($this->banner !== null) {
-            return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['guildbanners'], $this->id, $this->banner, $format).(!empty($size) ? '?size='.$size : '');
+            $bannerurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['guildbanners'], $this->id, $this->banner, $format).(!empty($size) ? '?size='.$size : '');
+            return str_replace("cdn.discord.com", "cdn.discordapp.com", $bannerurl);
         }
         
         return null;
@@ -1006,7 +1007,8 @@ class Guild extends ClientBase {
             $format = \CharlotteDunois\Yasmin\Utils\ImageHelpers::getImageExtension($this->icon);
         }
         
-        return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        $iconurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['icons'], $this->id, $this->icon, $format).(!empty($size) ? '?size='.$size : '');
+        return str_replace("cdn.discord.com", "cdn.discordapp.com", $iconurl);
     }
     
     /**
