@@ -76,7 +76,7 @@ Use git to clone this repository.
 
 Yasmin requires PHP 7.1+ to run, as well as the following packages. It's recommended to use the latest version of php available in your repository. In the example provided, 7.1 will be used. Replace 7.1 with the version you're currently using.
 ```
-sudo apt install openssl php7.1 php7.1-bcmath
+sudo apt install openssl php7.1 php7.1-bcmath php7.1-mbstring
 ```
 
 # Notice of limited support
