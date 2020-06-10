@@ -22,6 +22,7 @@ Getting started with Yasmin is pretty straight forward. All you need to do is to
 ```
 composer require valzargaming/yasmin
 ```
+If you receive an error about minimum-stability, replace your composers.json file with the one located in our repo.
 
 <br>
 
@@ -70,11 +71,11 @@ As such users of this library need to download a [Certificate Authority extract]
 The path to the caextract must be set in the [`php.ini`](https://secure.php.net/manual/en/openssl.configuration.php) for `openssl.cafile`.
 
 # Linux Support
-
-## Ubuntu
 Use git to clone this repository.
 
 Yasmin requires PHP 7.1+ to run, as well as the following packages. It's recommended to use the latest version of php available in your repository. In the example provided, 7.1 will be used. Replace 7.1 with the version you're currently using.
+
+## Ubuntu
 ```
 sudo apt install openssl php7.1 php7.1-bcmath php7.1-mbstring
 ```
