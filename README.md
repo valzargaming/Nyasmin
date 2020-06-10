@@ -22,7 +22,7 @@ Getting started with Yasmin is pretty straight forward. All you need to do is to
 ```
 composer require valzargaming/yasmin
 ```
-If you receive an error about minimum-stability, replace your composers.json file with the one located in our repo.
+If you receive an error about minimum-stability, replace your composers.json file with the one located in our repo. You might also want to consider using the [composer.json](https://github.com/valzargaming/Palace/blob/master/composer.json) file I personally use for Palace Bot.
 
 <br>
 
