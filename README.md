@@ -20,9 +20,8 @@ See https://github.com/elazar/asynchronous-php for resources.
 Getting started with Yasmin is pretty straight forward. All you need to do is to use [composer](https://packagist.org/packages/valzargaming/yasmin) to install Yasmin and its dependencies. After that, you can include composer's autoloader into your file and start interacting with Discord and Yasmin!
 
 ```
-composer require valzargaming/yasmin
+composer require valzargaming/yasmin:"dev-master as 1.0.x-dev"
 ```
-If you receive an error about minimum-stability, replace your composers.json file with the one located in our repo. You might also want to consider using the [composer.json](https://github.com/valzargaming/Palace/blob/master/composer.json) file I personally use for Palace Bot.
 
 <br>
 
