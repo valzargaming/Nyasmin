@@ -198,8 +198,7 @@ class User extends ClientBase {
             throw new \InvalidArgumentException('Invalid size "'.$size.'", expected any powers of 2');
         }
         
-		$avatarurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['defaultavatars'], ($this->discriminator % 5), 'png').(!empty($size) ? '?size='.$size : '');
-		return str_replace("cdn.discord.com", "cdn.discordapp.com", $avatarurl);
+		return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['defaultavatars'], ($this->discriminator % 5), 'png').(!empty($size) ? '?size='.$size : '');
     }
     
     /**
@@ -222,8 +221,7 @@ class User extends ClientBase {
             $format = \CharlotteDunois\Yasmin\Utils\ImageHelpers::getImageExtension($this->avatar);
         }
         
-		$avatarurl = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['avatars'], $this->id, $this->avatar, $format).(!empty($size) ? '?size='.$size : '');
-		return str_replace("cdn.discord.com", "cdn.discordapp.com", $avatarurl);
+		return \CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['url'].\CharlotteDunois\Yasmin\HTTP\APIEndpoints::format(\CharlotteDunois\Yasmin\HTTP\APIEndpoints::CDN['avatars'], $this->id, $this->avatar, $format).(!empty($size) ? '?size='.$size : '');
     }
     
     /**
@@ -234,8 +232,7 @@ class User extends ClientBase {
      * @throws \InvalidArgumentException Thrown if $size is not a power of 2
      */
     function getDisplayAvatarURL(?int $size = 1024, string $format = '') {
-        $avatarurl = ($this->avatar ? $this->getAvatarURL($size, $format) : $this->getDefaultAvatarURL($size));
-		return str_replace("cdn.discord.com", "cdn.discordapp.com", $avatarurl);
+        return ($this->avatar ? $this->getAvatarURL($size, $format) : $this->getDefaultAvatarURL($size));
     }
     
     /**

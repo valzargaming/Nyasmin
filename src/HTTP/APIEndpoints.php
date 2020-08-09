@@ -20,7 +20,7 @@ class APIEndpoints {
      * @internal
      */
     const CDN = array(
-        'url' => 'https://cdn.discord.com/',
+        'url' => 'https://cdn.discordapp.com/',
         'emojis' => 'emojis/%s.%s',
         'icons' => 'icons/%s/%s.%s',
         'splashes' => 'splashes/%s/%s.%s',
