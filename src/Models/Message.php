@@ -52,7 +52,7 @@ class Message extends ClientBase {
     /**
      * Messages Types.
      * @var array
-     * @source
+     * @source https://discord.com/developers/docs/resources/channel#message-object-message-types
      */
     const MESSAGE_TYPES = array(
         0 => 'DEFAULT',
@@ -67,7 +67,9 @@ class Message extends ClientBase {
         9 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1',
         10 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2',
         11 => 'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3',
-        12 => 'CHANNEL_FOLLOW_ADD'
+        12 => 'CHANNEL_FOLLOW_ADD',
+        14 => 'GUILD_DISCOVERY_DISQUALIFIED',
+        15 => 'GUILD_DISCOVERY_REQUALIFIED'
     );
     
     /**
