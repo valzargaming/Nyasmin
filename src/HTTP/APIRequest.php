@@ -255,7 +255,7 @@ class APIRequest {
             
             $delay = (int) $this->api->client->getOption('http.requestErrorDelay', 30);
             if ($this->retries > 2) {
-                $delay *= 2;
+                //$delay *= 2; /* https://github.com/valzargaming/Yasmin/issues/7# */
             }
             
             $this->api->client->addTimer($delay, function() use (&$ratelimit) {
@@ -269,13 +269,12 @@ class APIRequest {
             return null;
         } elseif ($status === 429) {
             $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP 429');
-            
+			$this->api->slowDown(); /* https://github.com/valzargaming/Yasmin/issues/7# */			
             if ($ratelimit !== null) {
                 $this->api->unshiftQueue($ratelimit->unshift($this));
             } else {
                 $this->api->unshiftQueue($this);
             }
-            
             return null;
         }
         
