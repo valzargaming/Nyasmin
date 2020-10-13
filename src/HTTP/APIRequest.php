@@ -269,13 +269,12 @@ class APIRequest {
             return null;
         } elseif ($status === 429) {
             $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP 429');
-            
+			$this->api->slowDown(); /* https://github.com/valzargaming/Yasmin/issues/7# */			
             if ($ratelimit !== null) {
                 $this->api->unshiftQueue($ratelimit->unshift($this));
             } else {
                 $this->api->unshiftQueue($this);
             }
-            
             return null;
         }
         
