@@ -78,6 +78,13 @@ class APIManager {
      * @var array
      */
     protected $bucketRatelimitPromises = array();
+	
+	/* https://github.com/valzargaming/Yasmin/issues/7# */
+	protected $lastCall;
+	protected $slowMode;
+	protected $lastSlow;
+	protected $lastBucketCall = array();
+	/* https://github.com/valzargaming/Yasmin/issues/7# */
     
     /**
      * DO NOT initialize this class yourself.
@@ -245,6 +252,10 @@ class APIManager {
      * @return void
      */
     protected function process() {
+		/* https://github.com/valzargaming/Yasmin/issues/7# */ 
+		$this->lastCall = microtime(true);
+		/* https://github.com/valzargaming/Yasmin/issues/7# */
+		
         if ($this->limited) {
             if (\microtime(true) < $this->resetTime) {
                 $this->client->addTimer(($this->resetTime - \microtime(true)), function() {
@@ -370,7 +381,34 @@ class APIManager {
             $ratelimit = $this->getRatelimitBucket($endpoint);
             $ratelimit->setBusy(true);
         }
-        
+		
+		/* https://github.com/valzargaming/Yasmin/issues/7# */
+		$slowMode = $this->slowMode;
+		if($slowMode === true){
+			$slowpassed = ($this->lastSlow ?? strtotime('January 1 2020')) - microtime(true);
+			if ($slowpassed > 300)
+				$this->slowmode = false;
+		}
+		//Check for when the last call was made to this bucket and delay if it would happen too soon after the last	
+		$lastcall = $this->lastCall ?? strtotime('January 1 2020');
+		if (array_key_exists(($item->getEndpoint()), $this->lastBucketCall))
+			$lastcall = $this->lastBucketCall[$item->getEndpoint()];
+		$lastpassed = microtime(true) - $lastcall;
+		$minpassed = 0.5;
+		$slowmode = $this->slowMode ?? false;
+		if ($slowmode === true)
+			$minpassed = 1;
+		if ( $lastpassed < $minpassed ){
+			$that = $this;
+			$this->client->addTimer((0.05), function() use ($that, $item) {
+				$that->execute($item);
+			});
+			return;
+		}else{
+			$this->lastBucketCall[$item->getEndpoint()] = microtime(true);
+		}
+		/* https://github.com/valzargaming/Yasmin/issues/7# */
+		
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().'"');
         
         $item->execute($ratelimit)->then(function($data) use ($item) {
@@ -473,7 +511,7 @@ class APIManager {
         ['limit' => $limit, 'remaining' => $remaining, 'resetTime' => $resetTime] = $this->extractRatelimit($response);
         
         if ($isReactionEndpoint && !empty($resetTime)) {
-            $resetTime = (float) \bcadd($ctime, '0.25', 3);
+            $resetTime = (float) \bcadd($ctime, '0.60', 3);
         }
         
         $global = false;
@@ -496,7 +534,6 @@ class APIManager {
                 $this->bucketRatelimitPromises[$ratelimit->getEndpoint()] = $set;
             }
         }
-        
         $this->loop->futureTick(function() use ($ratelimit, $global, $limit, $remaining, $resetTime) {
             $this->client->emit('ratelimit', array(
                 'endpoint' => ($ratelimit !== null ? $ratelimit->getEndpoint() : 'global'),
@@ -507,6 +544,12 @@ class APIManager {
             ));
         });
     }
+	
+	function slowDown(){
+		$this->slowMode = true;
+		$this->lastSlow = microtime(true);
+		$this->client->emit('debug', 'Slowdown mode enabled');
+	}
     
     /**
      * Returns the ratelimit reset time.
