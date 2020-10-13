@@ -81,8 +81,10 @@ class APIManager {
 	
 	/* https://github.com/valzargaming/Yasmin/issues/7# */
 	protected $lastCall;
-	protected $slowMode;
+	
 	protected $lastSlow;
+	protected $slowMode = false;
+	protected $bypassSlow = false;
 	protected $lastBucketCall = array();
 	/* https://github.com/valzargaming/Yasmin/issues/7# */
     
@@ -383,29 +385,30 @@ class APIManager {
         }
 		
 		/* https://github.com/valzargaming/Yasmin/issues/7# */
-		$slowMode = $this->slowMode;
-		if($slowMode === true){
-			$slowpassed = ($this->lastSlow ?? strtotime('January 1 2020')) - microtime(true);
-			if ($slowpassed > 300)
-				$this->slowmode = false;
-		}
-		//Check for when the last call was made to this bucket and delay if it would happen too soon after the last	
-		$lastcall = $this->lastCall ?? strtotime('January 1 2020');
-		if (array_key_exists(($item->getEndpoint()), $this->lastBucketCall))
-			$lastcall = $this->lastBucketCall[$item->getEndpoint()];
-		$lastpassed = microtime(true) - $lastcall;
-		$minpassed = 0.5;
-		$slowmode = $this->slowMode ?? false;
-		if ($slowmode === true)
-			$minpassed = 1;
-		if ( $lastpassed < $minpassed ){
-			$that = $this;
-			$this->client->addTimer((0.05), function() use ($that, $item) {
-				$that->execute($item);
-			});
-			return;
-		}else{
-			$this->lastBucketCall[$item->getEndpoint()] = microtime(true);
+		$bypassslow = $this->bypassSlow;
+		if(!$bypassslow){ //Check for when the last call was made to this bucket and delay if it would happen too soon after the last	
+			$slowmode = $this->slowMode;
+			$lastcall = $this->lastCall ?? strtotime('January 1 2020');
+			if (array_key_exists(($item->getEndpoint()), $this->lastBucketCall))
+				$lastcall = $this->lastBucketCall[$item->getEndpoint()];
+			$lastpassed = microtime(true) - $lastcall;
+			
+			$minpassed = 0.5;
+			if($slowmode){
+				$minpassed = 1;
+				$slowpassed = ($this->lastSlow ?? strtotime('January 1 2020')) - microtime(true);
+				if ($slowpassed > 300)
+					$this->slowMode = false;
+			}
+			if ( $lastpassed < $minpassed ){
+				$that = $this;
+				$this->client->addTimer((0.05), function() use ($that, $item) {
+					$that->execute($item); //This may be worthwhile reworking into a queue system similar to processFuture
+				});
+				return;
+			}else{
+				$this->lastBucketCall[$item->getEndpoint()] = microtime(true);
+			}
 		}
 		/* https://github.com/valzargaming/Yasmin/issues/7# */
 		
