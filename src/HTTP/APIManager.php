@@ -402,7 +402,7 @@ class APIManager {
 			}
 			if ( $lastpassed < $minpassed ){
 				$that = $this;
-				$this->client->addTimer((0.05), function() use ($that, $item) {
+				$this->client->addTimer((0.50), function() use ($that, $item) {
 					$that->execute($item); //This may be worthwhile reworking into a queue system similar to processFuture
 				});
 				return;
