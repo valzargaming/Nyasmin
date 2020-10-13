@@ -255,7 +255,7 @@ class APIRequest {
             
             $delay = (int) $this->api->client->getOption('http.requestErrorDelay', 30);
             if ($this->retries > 2) {
-                //$delay *= 2; /* https://github.com/valzargaming/Yasmin/issues/7# */
+                $delay *= 2;
             }
             
             $this->api->client->addTimer($delay, function() use (&$ratelimit) {
