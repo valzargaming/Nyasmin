@@ -284,27 +284,34 @@ class APIManager {
 		$limited = false; //assume that we're not limited
 		if ($item instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest){
 			if (array_key_exists($item->getEndpoint(), $this->client->xBuckets)){ //Try to get the bucket header for the item
+				$bucketlist = array();
 				foreach ($this->client->xBuckets[$item->getEndpoint()] as $bucket){
-					if ($this->client->xBuckets[$bucket]['limit'] == 0){	//If any of the buckets has a limit of 0,
+					if ($this->client->xBuckets[$bucket]['limit'] == 0){ //If any of the buckets has a limit of 0,
 						$limited = true; //This bucket was recently limited
+						$bucketlist[] = $bucket;
 					}
 				}
 			}
 		}
 		echo "limited: " . $limited . PHP_EOL;
         if ($limited) { //Check against the bucket to see if the time has elapsed
-            if (\microtime(true) < $this->client->xBuckets[$bucket]['resetTime']) { //If it has not elapsed, put it back in the queue and move on to the next item
-				echo '[PROCESS PUSH]' . PHP_EOL;
-				echo "Not enough time elapsed!" . PHP_EOL;
+			$elapsed = true;
+			foreach ($bucketlist as $bucket){
+				if (\microtime(true) < $this->client->xBuckets[$bucket]['resetTime']) { //If it has not elapsed, put it back in the queue and move on to the next item
+					echo '[PROCESS PUSH] Not enough time elapsed!' . PHP_EOL;
+					$elapsed = false;
+				}
+			}
+			if (!$elapsed){
 				array_push($this->queue, $item); //Put it back because we can't work it yet
 				/*This doesn't make sense, why hold up the entire queue for one item?
-                $this->client->addTimer(($this->resetTime - \microtime(true)), function() {
-                    $this->processnew();
-                });
+				$this->client->addTimer(($this->resetTime - \microtime(true)), function() {
+					$this->processnew();
+				});
 				*/
-                $this->processnew(); //Move on to the next item (Check this, could cause the code to be blocked if there is at least one pending item in the queue. It may be better to futuretick instead
-                return;
-            }
+				$this->processnew(); //Move on to the next item (Check this, could cause the code to be blocked if there is at least one pending item in the queue. It may be better to futuretick instead
+				return;
+			}
             
             $this->limited = false; //Previous time has passed, so we can continue(Why is this here?! Get rid of it or we'll slow down the processing of every item in the queue)
             //$this->remaining = ($this->limit ? $this->limit : \INF);
