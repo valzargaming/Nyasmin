@@ -29,7 +29,7 @@ interface RatelimitBucketInterface {
      * @param string                                   $endpoint
      * @throws \RuntimeException
      */
-    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $endpoint);
+    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $endpoint, ?string $bucketHeader);
     
     /**
      * Destroys the bucket.
@@ -64,6 +64,12 @@ interface RatelimitBucketInterface {
      */
     function getEndpoint(): string;
     
+	/**
+     * Returns the bucket header this bucket is for.
+     * @return string
+     */
+    function getBucketHeader(): string;
+	
     /**
      * Returns the size of the queue.
      * @return int
