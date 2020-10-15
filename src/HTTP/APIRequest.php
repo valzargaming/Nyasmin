@@ -70,13 +70,14 @@ class APIRequest {
      * @param string                                   $endpoint
      * @param array                                    $options
      */
-    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $method, string $endpoint, array $options) {
+    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $method, string $endpoint, array $options, ?string $bucketHeader = null) {
         $this->api = $api;
         $this->url = \CharlotteDunois\Yasmin\HTTP\APIEndpoints::HTTP['url'].'v'.\CharlotteDunois\Yasmin\HTTP\APIEndpoints::HTTP['version'].'/';
         
         $this->method = $method;
         $this->endpoint = \ltrim($endpoint, '/');
         $this->options = $options;
+		$this->bucketHeader = $bucketHeader;
         
         if (self::$jsonOptions === null) {
             self::$jsonOptions = (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0);
@@ -98,6 +99,14 @@ class APIRequest {
      */
     function getEndpoint() {
         return $this->endpoint;
+    }
+	
+	/**
+     * Returns the bucket header.
+     * @return string
+     */
+    function getBucketHeader() {
+        return $this->bucketHeader;
     }
     
     /**
@@ -177,6 +186,10 @@ class APIRequest {
     function execute(?\CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface $ratelimit = null) {
         $request = $this->request();
         
+		/**/
+		//DEBUG TODO?
+		/**/
+		
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return \CharlotteDunois\Yasmin\Utils\URLHelpers::makeRequest($request, $request->requestOptions)
             ->then(function(?\Psr\Http\Message\ResponseInterface $response) use ($ratelimit) {
@@ -185,9 +198,17 @@ class APIRequest {
                 }
                 
                 $status = $response->getStatusCode();
-                $this->api->client->emit('debug', 'Got response for item "'.$this->endpoint.'" with HTTP status code '.$status);
-                
+                $this->api->client->emit('debug', 'Got response for item "'.$this->endpoint.'" on bucket "'.$this->bucketHeader.'" with HTTP status code '.$status);
+				
+				/**/
+				//DEBUG TODO
+				$this->api->client->setLastEndpoint($this->endpoint);
+                $this->api->handleBucketHeaders($response, $ratelimit); //Associate the endpoint with the bucket
+				//$this->api->handleRatelimitNew($response, $ratelimit, $this->isReactionEndpoint());
+				/**/
+				
                 $this->api->handleRatelimit($response, $ratelimit, $this->isReactionEndpoint());
+				
                 
                 if ($status === 204) {
                     return 0;
@@ -198,6 +219,7 @@ class APIRequest {
                 if ($status >= 400) {
                     $error = $this->handleAPIError($response, $body, $ratelimit);
                     if ($error === null) {
+						echo '[STATUS 400] RETURN -1 : ' . __FILE__ . ":" . __LINE__ . PHP_EOL;
                         return -1;
                     }
                     
@@ -269,7 +291,10 @@ class APIRequest {
             return null;
         } elseif ($status === 429) {
             $this->api->client->emit('debug', 'Unshifting item "'.$this->endpoint.'" due to HTTP 429');
-			$this->api->slowDown(); /* https://github.com/valzargaming/Yasmin/issues/7# */			
+			/* https://github.com/valzargaming/Yasmin/issues/7# */
+			$this->api->slowDown();
+			/* https://github.com/valzargaming/Yasmin/issues/7# */
+            echo PHP_EOL . "[RATELIMIT] " . __FILE__ . ":" . __LINE__ .  PHP_EOL;
             if ($ratelimit !== null) {
                 $this->api->unshiftQueue($ratelimit->unshift($this));
             } else {
