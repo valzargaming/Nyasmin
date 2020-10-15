@@ -309,7 +309,9 @@ class APIManager {
 					$this->processnew();
 				});
 				*/
-				$this->processnew(); //Move on to the next item (Check this, could cause the code to be blocked if there is at least one pending item in the queue. It may be better to futuretick instead
+				
+				//$this->processnew(); //Move on to the next item (Check this, could cause the code to be blocked if there is at least one pending item in the queue. It may be better to futuretick instead
+				$this->processFuture();
 				return;
 			}
             
@@ -366,14 +368,14 @@ class APIManager {
                     return;
                 }
                 
-                $this->execute($req);
+                $this->executeNew($req);
             }, array($this->client, 'handlePromiseRejection'));
         } else {
             if (!($item instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
                 return;
             }
             
-            $this->execute($item);
+            $this->executeNew($item);
         }
     }
 	
@@ -414,14 +416,14 @@ class APIManager {
                     return;
                 }
                 
-                $this->execute($req);
+                $this->executeNew($req);
             }, array($this->client, 'handlePromiseRejection'));
         } else {
             if (!($item instanceof \CharlotteDunois\Yasmin\HTTP\APIRequest)) {
                 return;
             }
             
-            $this->execute($item);
+            $this->executeNew($item);
         }
     }
 	/**/
@@ -526,7 +528,7 @@ class APIManager {
 			if ( ($lastpassed < $minpassed) || $skip ){
 				$that = $this;
 				$this->client->addTimer((0.50), function() use ($that, $item) {
-					$that->execute($item);
+					$that->executeNew($item);
 				});
 				return;
 			}
@@ -535,7 +537,7 @@ class APIManager {
 		
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().' on bucket "'.$item->getBucketHeader().'"');
         
-        $item->execute($ratelimit)->then(function($data) use ($item) {
+        $item->executeNew($ratelimit)->then(function($data) use ($item) {
             if ($data === 0) {
                 $item->deferred->resolve();
             } elseif ($data !== -1) {
@@ -631,7 +633,7 @@ class APIManager {
 		
         $this->client->emit('debug', 'Executing item "'.$item->getEndpoint().' on bucket "'.$item->getBucketHeader().'"');
         
-        $item->executeNew($ratelimit)->then(function($data) use ($item) {
+        $item->execute($ratelimit)->then(function($data) use ($item) {
             if ($data === 0) {
                 $item->deferred->resolve();
             } elseif ($data !== -1) {
@@ -757,7 +759,7 @@ class APIManager {
 			$lastEndpoint = $this->client->getLastEndpoint(); echo "handleRatelimit lastEndpoint: " . $lastEndpoint . PHP_EOL;
 			
 			//Associate the bucket header with the endpoint
-			echo "[TEST] " . ($ratelimit->getEndpoint() ?? $lastEndpoint);
+			echo "[TEST] " . ($ratelimit->getEndpoint() ?? $lastEndpoint) . PHP_EOL;
 			if (array_key_exists(($ratelimit->getEndpoint() ?? $lastEndpoint), $this->client->xBuckets)){
 				echo '[EXISTS]' . PHP_EOL;
 				echo '[RATELIMIT ENDPOINT]: ' . ($ratelimit->getEndpoint() ?? $lastEndpoint) . PHP_EOL;
