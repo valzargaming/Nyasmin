@@ -34,7 +34,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * The version of Yasmin.
      * @var string
      */
-    const VERSION = '0.7.0';
+    const VERSION = '0.7.6';
     
     /**
      * WS connection status: Disconnected.
@@ -158,7 +158,7 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
      * @internal
      */
-    protected $api;
+    public $api;
     
     /**
      * The WS manager.
@@ -180,6 +180,18 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
      * @internal
      */
     protected $timers = array();
+	
+	/* https://github.com/valzargaming/Yasmin/issues/7# */
+	public $lastCall;
+	
+	public $lastSlow;
+	public $slowMode = false;
+	public $bypassSlow = false;
+	public $lastBucketCall = array();
+	public $xBuckets = array();
+	public $bucketHeader;
+	public $lastEndpoint;
+	/* https://github.com/valzargaming/Yasmin/issues/7# */
     
     /**
      * Loaded Utils with a loop instance.
@@ -299,6 +311,22 @@ class Client implements \CharlotteDunois\Events\EventEmitterInterface {
         $this->registerUtils();
     }
     
+	function getXBuckets(){
+		return $this->xBuckets;
+	}
+	
+	function getLastEndpoint(){
+		return $this->lastEndpoint;
+	}
+	
+	function setLastEndpoint($endpoint){
+		$this->lastEndpoint = $endpoint;
+	}
+	
+	function pushXBucket($key, $value){
+		$this->xBuckets[$key][] = $value;
+	}
+	
     /**
      * @param string  $name
      * @return bool
