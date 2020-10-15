@@ -13,7 +13,7 @@ namespace CharlotteDunois\Yasmin\HTTP;
  * Manages a route's ratelimit in memory.
  * @internal
  */
-class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
+class RatelimitBucket extends AbstractRatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBucketInterface {
     /**
      * The API manager.
      * @var \CharlotteDunois\Yasmin\HTTP\APIManager
@@ -43,6 +43,12 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      * @var float
      */
     protected $resetTime = 0.0;
+	
+	/**
+     * The bucket header.
+     * @var string
+     */
+	 protected $bucketHeader;
     
     /**
      * The request queue.
@@ -61,10 +67,13 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      * @param \CharlotteDunois\Yasmin\HTTP\APIManager  $api
      * @param string                                   $endpoint
      */
-    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $endpoint) {
+	 /*
+    function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $endpoint, ?string $bucketHeader = null) {
         $this->api = $api;
         $this->endpoint = $endpoint;
+		//$this->bucketHeader = $bucketHeader;
     }
+	*/
     
     /**
      * Destroys the bucket.
@@ -106,20 +115,54 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
         $this->limit = $limit ?? $this->limit;
         $this->remaining = $remaining ?? $this->remaining;
         $this->resetTime = $resetTime ?? $this->resetTime;
+		$this->bucketHeader = $bucketHeader ?? $this->bucketHeader;
         
         if ($this->remaining === 0 && $this->resetTime > \microtime(true)) {
-            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" ratelimit encountered, continueing in '.($this->resetTime - \microtime(true)).' seconds');
+            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" and Bucket "'.$this->bucketHeader.'" ratelimit encountered, continuing in '.($this->resetTime - \microtime(true)).' seconds');
+        }
+    }
+	function handleRatelimitNew(?int $limit, ?int $remaining, ?float $resetTime) {
+        if ($limit === null && $remaining === null && $resetTime === null) {
+            return; // there is no ratelimit...
+        }
+        
+		//There's a ratelimit, so we need to set some time for when to call this again
+		$bucketHeader = $this->client->bucketHeader;
+		//
+		//
+		
+		if ($this->client->xBuckets[$bucketHeader]['remaining'] === 0 && $this->resetTime > \microtime(true)){
+			$this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" and Bucket "'.$bucketHeader.'" ratelimit encountered, continuing in '.($this->resetTime - \microtime(true)).' seconds');
+		}
+		
+		/*
+        $this->limit = $limit ?? $this->limit;
+        $this->remaining = $remaining ?? $this->remaining;
+        $this->resetTime = $resetTime ?? $this->resetTime;
+		*/
+        
+        if ($this->remaining === 0 && $this->resetTime > \microtime(true)) {
+            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" and Bucket "'.$bucketHeader.'" ratelimit encountered, continuing in '.($this->resetTime - \microtime(true)).' seconds');
         }
     }
     
     /**
      * Returns the endpoint this bucket is for.
      * @return string
+	 
      */
     function getEndpoint(): string {
         return $this->endpoint;
     }
     
+	/**
+     * Returns the endpoint this bucket is for.
+     * @return string
+     */
+    function getBucketHeader(): string {
+        return $this->bucketHeader ?? "";
+    }
+	
     /**
      * Returns the size of the queue.
      * @return int
@@ -143,11 +186,11 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
      * @param \CharlotteDunois\Yasmin\HTTP\APIRequest $request
      * @return $this
      */
-    function unshift(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
-        \array_unshift($this->queue, $request);
-        $this->remaining++;
-        return $this;
-    }
+	function unshift(\CharlotteDunois\Yasmin\HTTP\APIRequest $request) {
+		\array_unshift($this->queue, $request);
+		$this->remaining++;
+		return $this;
+	}
     
     /**
      * Retrieves ratelimit meta data.
@@ -172,7 +215,7 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
             $limited = ($this->limit !== 0 && $this->remaining === 0);
         }
         
-        return array('limited' => $limited, 'resetTime' => $this->resetTime);
+        return array('limited' => $limited, 'resetTime' => $this->resetTime, 'bucketHeader' => $this->bucketHeader);
     }
     
     /**
@@ -198,6 +241,30 @@ class RatelimitBucket implements \CharlotteDunois\Yasmin\Interfaces\RatelimitBuc
         $this->remaining = 0;
         while ($item = \array_shift($this->queue)) {
             unset($item);
+        }
+    }
+}
+
+abstract class AbstractRatelimitBucket{
+	function __construct(\CharlotteDunois\Yasmin\HTTP\APIManager $api, string $endpoint, ?string $bucketHeader = null) {
+		$this->api = $api;
+		$this->endpoint = $endpoint;
+		$this->bucketHeader = $bucketHeader;
+	}
+	function handleRatelimit(?int $limit, ?int $remaining, ?float $resetTime) {
+        if ($limit === null && $remaining === null && $resetTime === null) {
+            $this->remaining++; // there is no ratelimit...
+            return;
+        }
+        
+        $this->limit = $limit ?? $this->limit;
+        $this->remaining = $remaining ?? $this->remaining;
+        $this->resetTime = $resetTime ?? $this->resetTime;
+        
+        if ($this->remaining === 0 && $this->resetTime > \microtime(true)) {
+            $this->api->client->emit('debug', 'Endpoint "'.$this->endpoint.'" and Bucket "'.$this->bucketHeader.'" ratelimit encountered, continuing in '.($this->resetTime - \microtime(true)).' seconds');
+			echo '[RATELIMITBUCKET XBUCKETS]: ' . $this->bucketHeader . PHP_EOL;
+			//$this->client->xBuckets[$ratelimit->getEndpoint()][] = $this->bucketHeader;
         }
     }
 }
